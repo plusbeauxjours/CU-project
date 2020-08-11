@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 // import {Header} from 'react-navigation-stack';
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import LogInScreenContainer from './LogInScreenContainer';
-import {useRoute} from '@react-navigation/native';
+import LogInScreenPresenter from './LogInScreenPresenter';
+import {useRoute, useNavigation} from '@react-navigation/native';
 
 ////////////////////////////////////////
 // Redux
@@ -40,9 +40,8 @@ import {useRoute} from '@react-navigation/native';
 //   }
 // }
 
-export default ({
-  route: {params: {appVersion = '', platform = ''} = {}} = {},
-}) => {
+export default () => {
+  const navigateion = useNavigation();
   const [isChangeModalVisible, setIsChangeModalVisible] = useState<boolean>(
     false,
   );
@@ -73,6 +72,10 @@ export default ({
 
   const onChangePassword = (text) => {
     setPassword(text);
+  };
+
+  const gotoFind = () => {
+    navigateion.navigate('FindScreen');
   };
 
   const signUp = async () => {
@@ -157,5 +160,14 @@ export default ({
     // initialize();
   }, []);
 
-  return <LogInScreenContainer />;
+  return (
+    <LogInScreenPresenter
+      gotoFind={gotoFind}
+      onChangeMobileNum={onChangeMobileNum}
+      onChangePassword={onChangePassword}
+      mobileNum={mobileNum}
+      password={password}
+      signUp={signUp}
+    />
+  );
 };

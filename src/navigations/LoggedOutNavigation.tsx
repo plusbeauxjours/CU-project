@@ -11,6 +11,7 @@ import LogInScreen from '../screens/LoggedOutScreen/LogInScreen';
 // import LogInScreen from '../screens/LoggedOutScreen/LogInScreen';
 
 // import FindScreen from '../screens/LoggedOutScreen/FindPasswordScreen';
+import BackBtn from '../components/BackBtn';
 
 // // API: createStackNavigator(RouteConfigs, StackNavigatorConfig);
 // const AppNavigator = createStackNavigator(
@@ -79,7 +80,24 @@ import LogInScreen from '../screens/LoggedOutScreen/LogInScreen';
 
 const LoggedOutNavigation = createStackNavigator();
 export default () => (
-  <LoggedOutNavigation.Navigator>
+  <LoggedOutNavigation.Navigator
+    headerMode={'screen'}
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: '#AACE36',
+        borderColor: '#fff',
+        borderWidth: 0,
+      },
+      headerBackTitleVisible: false,
+      headerBackImage: () => <BackBtn />,
+    }}>
+    <LoggedOutNavigation.Screen
+      name="StartScreen"
+      component={StartScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
     <LoggedOutNavigation.Screen
       name="LogInScreen"
       component={LogInScreen}
@@ -88,14 +106,6 @@ export default () => (
         headerTintColor: '#fff',
       }}
     />
-    <LoggedOutNavigation.Screen
-      name="StartScreen"
-      component={StartScreen}
-      options={{
-        headerShown: false,
-      }}
-    />
-
     {/* <LoggedOutNavigation.Screen
       name="VerificationScreen"
       component={VerificationScreen}
