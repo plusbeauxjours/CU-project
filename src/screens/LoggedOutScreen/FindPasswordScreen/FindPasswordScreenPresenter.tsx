@@ -41,7 +41,7 @@ const CheckPasswordButton = styled.TouchableOpacity`
 `;
 
 const GreyText = styled.Text`
-  font-size: 16;
+  font-size: 12px;
   color: #aaa;
   margin-top: 5px;
 `;
@@ -99,7 +99,9 @@ const TimeText = styled.Text`
 `;
 
 const CountText = styled(TimeText)`
+  align-self: center;
   margin-right: 10px;
+  margin-bottom: 0;
 `;
 
 const VerifyButton = styled.TouchableOpacity<IIsBefore>`
@@ -132,17 +134,19 @@ const VerifyContainer = styled.View`
 `;
 
 export default ({
-  countDownStart,
-  checkAuth,
+  isCountDownStart,
+  isCheckAuth,
   requireAuth,
   auth,
   onChangeAuth,
   isVerify,
   passwordCheck,
-  phone,
+  onChangePasswordCheck,
+  mobileNum,
   regist,
-  phoneCheck,
-  checkTimeOut,
+  isRegist,
+  onChangeMobileNum,
+  isCheckTimeOut,
   onVerifyCode,
   countdown,
   password,
@@ -168,19 +172,19 @@ export default ({
                   placeholderTextColor={'#E5E5E5'}
                   selectionColor={'#642A8C'}
                   onChangeText={(text) => {
-                    phoneCheck(text);
+                    onChangeMobileNum(text);
                   }}
-                  value={phone}
+                  value={mobileNum}
                   keyboardType={'number-pad'}
                   maxLength={11}
                 />
                 <RequestButton
                   onPress={() => requireAuth()}
-                  disabled={checkAuth}>
+                  disabled={isCheckAuth}>
                   <RequestText>인증요청</RequestText>
                 </RequestButton>
               </TextinputCase>
-              <Line isBefore={phone == '' ? true : false} />
+              <Line isBefore={mobileNum == '' ? true : false} />
             </Case>
             <WhiteSpace />
             <Case>
@@ -200,7 +204,7 @@ export default ({
               </TextinputCase>
               <Line isBefore={auth == '' ? true : false} />
               <VerifyContainer>
-                {countDownStart && <CountText>{countdown}초</CountText>}
+                {isCountDownStart && <CountText>{countdown}초</CountText>}
                 <VerifyButton
                   onPress={() => {
                     auth !== onVerifyCode();
@@ -210,7 +214,7 @@ export default ({
                 </VerifyButton>
               </VerifyContainer>
             </Case>
-            {checkTimeOut && (
+            {isCheckTimeOut && (
               <TimeText>
                 인증시간이 초과되었습니다. 인증을 다시 시도해주세요
               </TimeText>
@@ -267,7 +271,7 @@ export default ({
                       placeholder={'새 비밀번호 확인'}
                       placeholderTextColor={'#E5E5E5'}
                       selectionColor={'#642A8C'}
-                      onChangeText={(text) => passwordCheck(text)}
+                      onChangeText={(text) => onChangePasswordCheck(text)}
                       value={passwordCheck}
                       secureTextEntry={isPasswordSeen === true ? false : true}
                       onFocus={() => {
@@ -302,11 +306,11 @@ export default ({
           </Container>
           <ChangeButtonContainer>
             <ChangeButton
-              isBefore={regist === false ? true : false}
+              isBefore={isRegist === false ? true : false}
               onPress={() => {
                 regist();
               }}
-              disabled={!regist}>
+              disabled={!isRegist}>
               <WhiteText>비밀번호 변경</WhiteText>
             </ChangeButton>
           </ChangeButtonContainer>

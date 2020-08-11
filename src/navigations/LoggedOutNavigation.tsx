@@ -2,15 +2,16 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import StartScreen from '../screens/LoggedOutScreen/StartScreen';
+import LogInScreen from '../screens/LoggedOutScreen/LogInScreen';
+import FindPasswordScreen from '../screens/LoggedOutScreen/FindPasswordScreen';
+
 // import VerificationScreen from '../screens/LoggedOutScreen/VerificationScreen';
 // import SignupScreen from '../screens/LoggedOutScreen/SignupScreen';
-import LogInScreen from '../screens/LoggedOutScreen/LogInScreen';
 // import { createAppContainer } from 'react-navigation';
 // import { createStackNavigator } from 'react-navigation-stack';
 // import StartScreen from '../screens/LoggedOutScreen/StartScreen';
 // import LogInScreen from '../screens/LoggedOutScreen/LogInScreen';
 
-// import FindScreen from '../screens/LoggedOutScreen/FindPasswordScreen';
 import BackBtn from '../components/BackBtn';
 
 // // API: createStackNavigator(RouteConfigs, StackNavigatorConfig);
