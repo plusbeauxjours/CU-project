@@ -1,14 +1,15 @@
 // import { Platform } from 'react-native';
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import StartScreen from '../screens/LoggedOutScreen/StartScreen/StartScreenContainer';
-
+import StartScreen from '../screens/LoggedOutScreen/StartScreen';
+// import VerificationScreen from '../screens/LoggedOutScreen/VerificationScreen';
+// import SignupScreen from '../screens/LoggedOutScreen/SignupScreen';
+import LogInScreen from '../screens/LoggedOutScreen/LogInScreen';
 // import { createAppContainer } from 'react-navigation';
 // import { createStackNavigator } from 'react-navigation-stack';
 // import StartScreen from '../screens/LoggedOutScreen/StartScreen';
 // import LogInScreen from '../screens/LoggedOutScreen/LogInScreen';
-// import SignupScreen1 from '../screens/LoggedOutScreen/SignupScreen1';
-// import SignupScreen2 from '../screens/LoggedOutScreen/SignupScreen2';
+
 // import FindScreen from '../screens/LoggedOutScreen/FindPasswordScreen';
 
 // // API: createStackNavigator(RouteConfigs, StackNavigatorConfig);
@@ -40,7 +41,7 @@ import StartScreen from '../screens/LoggedOutScreen/StartScreen/StartScreenConta
 //       },
 //     },
 //     Signup2: {
-//       screen: SignupScreen2,
+//       screen: SignupScreen,
 //       navigationOptions: {
 //         headerTitle: '회원가입',
 //         headerTintColor: '#fff',
@@ -80,11 +81,36 @@ const LoggedOutNavigation = createStackNavigator();
 export default () => (
   <LoggedOutNavigation.Navigator>
     <LoggedOutNavigation.Screen
+      name="LogInScreen"
+      component={LogInScreen}
+      options={{
+        title: '로그인',
+        headerTintColor: '#fff',
+      }}
+    />
+    <LoggedOutNavigation.Screen
       name="StartScreen"
       component={StartScreen}
       options={{
         headerShown: false,
       }}
     />
+
+    {/* <LoggedOutNavigation.Screen
+      name="VerificationScreen"
+      component={VerificationScreen}
+      options={{
+        title: '회원가입',
+        headerTintColor: '#fff',
+      }}
+    />
+    <LoggedOutNavigation.Screen
+      name="SignupScreen"
+      component={SignupScreen}
+      options={{
+        title: '회원가입',
+        headerTintColor: '#fff',
+      }}
+    /> */}
   </LoggedOutNavigation.Navigator>
 );

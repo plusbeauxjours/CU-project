@@ -3,6 +3,7 @@ import {Platform, Linking, BackHandler} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import StartScreenPresenter from './StartScreenPresenter';
 
+////////////////////////////////////////
 // Redux
 // setAlertInfo
 // setAlertVisible
@@ -11,10 +12,11 @@ import StartScreenPresenter from './StartScreenPresenter';
 // expo-analytics
 // analytics
 // willFocusSubscription
+////////////////////////////////////////
 
 export default () => {
   const navigation = useNavigation();
-  const [version, setVersion] = useState<string>('');
+  const [appVersion, setAppVersion] = useState<string>('');
   const [platform, setPlatform] = useState<string>('');
 
   const checkVersion = async () => {
@@ -28,14 +30,14 @@ export default () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            appinfoversion: version,
+            appinfoversion: appVersion,
             Dplatform: platform,
           }),
         },
       );
       const json = await response.json();
       if (json.result == '1') {
-        alertModal2(
+        alertModal(
           '[ 업데이트 알림 ]',
           '새로운 버전이 출시되었습니다. 업데이트를 진행해주세요.\n\n* 이동 후 업데이트 버튼이 없는 경우에는 앱스토어 종료 후 다시 실행해 주세요.',
         );
@@ -59,7 +61,7 @@ export default () => {
     }
   };
 
-  const alertModal2 = (title, text) => {
+  const alertModal = (title, text) => {
     const params = {
       type: 'alert',
       title: title,
@@ -73,16 +75,14 @@ export default () => {
     // this.props.setAlertVisible(true);
   };
 
-  const gotoLogin = () => {
-    navigation.navigate('LogIn', {
-      appVersion: version,
-      platform: platform,
+  const gotoLogin = () =>
+    navigation.navigate('LogInScreen', {
+      appVersion,
+      platform,
     });
-  };
 
-  const gotoSignup = () => {
-    navigation.navigate('Signup1');
-  };
+  const gotoSignup = () => console.log('fjasdkfjlksad');
+  // const gotoSignup = () => navigation.navigate('SignupScreen');
 
   useEffect(() => {
     // analytics
@@ -91,10 +91,10 @@ export default () => {
     //   .catch((e) => console.log(e.message));
     // willFocusSubscription = navigation.addListener('willFocus', () => {
     //   if (Platform.OS === 'ios') {
-    //     setVersion('1.3.6');
+    //     setAppVersion('1.3.6');
     //     setPlatform('ios');
     //   } else {
-    //     setVersion('1.3.6');
+    //     setAppVersion('1.3.6');
     //     setPlatform('android');
     //   }
     // });

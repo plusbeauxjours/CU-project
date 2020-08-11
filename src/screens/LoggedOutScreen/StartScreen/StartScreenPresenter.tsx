@@ -2,7 +2,12 @@ import React, {useRef} from 'react';
 import styled from 'styled-components/native';
 import {ScrollView} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {getText1, getText2, getText3} from './GetText';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+
+import {getText1, getText2, getText3} from './StartScreenText';
 
 const Container = styled.View`
   flex: 1;
@@ -12,19 +17,21 @@ const Container = styled.View`
 
 const AddStoreBox = styled.View`
   align-items: center;
-  margin-top: 40px;
+  width: ${wp('100%')};
+  margin-top: ${hp('10%')};
 `;
 
 const ButtonAfter = styled.TouchableOpacity`
-  height: 50px;
+  height: ${hp('7%')};
+  width: ${wp('100%')};
   align-items: center;
   justify-content: center;
   background-color: #642a8c;
 `;
 
 const AddStoreButton = styled.TouchableOpacity`
-  height: 50px;
-  width: 200px;
+  height: ${hp('7%')};
+  width: ${wp('55%')};
   border-radius: 30;
   border-color: #bbb;
   border-width: 1;
@@ -35,7 +42,8 @@ const AddStoreButton = styled.TouchableOpacity`
 `;
 
 const Logo = styled.View`
-  flex: 1;
+  height: ${hp('70%')};
+  width: ${wp('100%')};
   align-items: center;
   justify-content: center;
 `;
@@ -48,7 +56,8 @@ const TextBox = styled.View`
 `;
 
 const Button = styled.TouchableOpacity`
-  height: 50px;
+  width: ${wp('100%')};
+  height: ${hp('8%')};
   align-items: center;
   justify-content: center;
   background-color: #642a8c;
