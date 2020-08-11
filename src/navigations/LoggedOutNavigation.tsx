@@ -122,5 +122,13 @@ export default () => (
         headerTintColor: '#fff',
       }}
     /> */}
+    <LoggedOutNavigation.Screen
+      name="FindPasswordScreen"
+      component={FindPasswordScreen}
+      options={{
+        title: '비밀번호 찾기',
+        headerTintColor: '#fff',
+      }}
+    />
   </LoggedOutNavigation.Navigator>
 );

@@ -10,7 +10,7 @@ const Container = styled.View`
 const BackBtn: React.FC = () => (
   <Container>
     <Icon
-      name={utils.isAndroid ? 'md-arrow-down' : 'ios-arrow-down'}
+      name={utils.isAndroid ? 'md-chevron-back' : 'ios-chevron-back'}
       size={28}
       color={'white'}
     />

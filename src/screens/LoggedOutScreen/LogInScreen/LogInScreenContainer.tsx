@@ -56,7 +56,6 @@ export default () => {
   const [push, setPush] = useState<string>('');
 
   const alertModal = (text) => {
-    setIsChangeModalVisible(true);
     const params = {type: 'alert', content: text};
     // setAlertInfo(params);
     // setAlertVisible(true);
@@ -75,7 +74,7 @@ export default () => {
   };
 
   const gotoFind = () => {
-    navigateion.navigate('FindScreen');
+    navigateion.navigate('FindPasswordScreen');
   };
 
   const signUp = async () => {
