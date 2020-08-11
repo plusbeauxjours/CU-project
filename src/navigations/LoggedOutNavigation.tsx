@@ -1,4 +1,7 @@
 // import { Platform } from 'react-native';
+import React from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
+import StartScreen from '../screens/LoggedOutScreen/StartScreen/StartScreenContainer';
 
 // import { createAppContainer } from 'react-navigation';
 // import { createStackNavigator } from 'react-navigation-stack';
@@ -75,12 +78,12 @@
 
 const LoggedOutNavigation = createStackNavigator();
 export default () => (
-  <LoggedOutNavigation.Navigator initialRoutename="SelectStore">
+  <LoggedOutNavigation.Navigator>
     <LoggedOutNavigation.Screen
       name="StartScreen"
       component={StartScreen}
       options={{
-        header: null,
+        headerShown: false,
       }}
     />
   </LoggedOutNavigation.Navigator>

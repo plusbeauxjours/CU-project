@@ -4,6 +4,9 @@
 // import {Text, View, Image} from 'react-native';
 // import {FontAwesome} from '@expo/vector-icons';
 // import {createStackNavigator} from 'react-navigation-stack';
+import React from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
+import SelectStore from '../screens/LoggedInScreen/SelectStore';
 
 // import SelectStoreScreen from '../screens/LoggedInMainScreen/SelectStoreScreen';
 // import AddStoreScreen from '../screens/LoggedInScreen/HomeTabScreen/AddStoreScreen';
@@ -195,12 +198,12 @@
 
 const LoggedInNavigation = createStackNavigator();
 export default () => (
-  <LoggedInNavigation.Navigator initialRoutename="SelectStore">
+  <LoggedInNavigation.Navigator>
     <LoggedInNavigation.Screen
       name="SelectStore"
       component={SelectStore}
       options={{
-        headerTitle: '점포선택',
+        title: '점포선택',
         headerTintColor: '#fff',
         // headerLeft: <SettingBtn />,
         // headerRight: <LogOutBtn />,
