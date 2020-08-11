@@ -95,8 +95,8 @@ export default () => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              MobileNo: mobileNum.toString(),
-              SMSNUMBER: auth.toString(),
+              MobileNo: mobileNum,
+              SMSNUMBER: auth,
             }),
           },
         );
@@ -168,7 +168,6 @@ export default () => {
 
   const startCountDown = () => {
     let duration = moment.duration(90000, 'milliseconds');
-    console.log(duration);
     setCountdown(
       '0' +
         duration.minutes().toString() +
@@ -176,7 +175,7 @@ export default () => {
         (duration.seconds() < 10 ? '0' : '') +
         duration.seconds().toString(),
     );
-    timer = setInterval(() => {
+    const timer = setInterval(() => {
       if (duration.asSeconds() <= 0) {
         clearInterval(timer);
         setIsCheckAuth(false);
@@ -205,9 +204,9 @@ export default () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            MobileNo: mobileNum, //.toString(),
+            MobileNo: mobileNum,
             SMSNUMBER: auth,
-            PASSWORD: password, //.toString(),
+            PASSWORD: password,
           }),
         },
       );
