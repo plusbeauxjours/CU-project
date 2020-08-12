@@ -291,7 +291,8 @@ export default ({
           <SubmitBtn
             text={'비밀번호 변경'}
             onPress={() => regist()}
-            isRegist={isRegist}
+            // isRegist={isRegist}
+            isRegist={true}
           />
         </ScrollView>
       </KeyboardAwareScrollView>

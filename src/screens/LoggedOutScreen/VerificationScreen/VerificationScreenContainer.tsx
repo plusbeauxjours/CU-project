@@ -105,7 +105,7 @@ export default () => {
 
   const requireAuth = async () => {
     if (mobileNum.length == 0) {
-      alertModal('찾으실 휴대폰번호를 입력해주세요.');
+      alertModal('휴대폰번호를 입력해주세요.');
       return;
     }
     const regExp_ctn = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
@@ -139,16 +139,10 @@ export default () => {
   };
 
   const gotoSignup = () => {
-    if (isCheckTimeOut) {
-      return;
-    }
-    if (isVerify && !isCheckTimeOut) {
-      navigation.navigate('SignupScreen', {
-        name,
-        mobileNum,
-        authNumber: verifyCode,
-      });
-    }
+    navigation.navigate('SignupScreen', {
+      mobileNum,
+      verifyCode,
+    });
   };
 
   useEffect(() => {
@@ -160,6 +154,7 @@ export default () => {
       clearInterval(timer);
     };
   });
+
   return (
     <VerificationScreenPresenter
       verifyCode={verifyCode}

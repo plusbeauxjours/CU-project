@@ -166,9 +166,7 @@ export default ({
               <VerifyContainer>
                 {isCountDownStart && <CountText>{countdown}초</CountText>}
                 <VerifyButton
-                  onPress={() => {
-                    verifyCode !== onVerifyCode();
-                  }}
+                  onPress={() => onVerifyCode()}
                   isBefore={verifyCode == '' ? true : false}>
                   <VerifyText>인증확인</VerifyText>
                 </VerifyButton>

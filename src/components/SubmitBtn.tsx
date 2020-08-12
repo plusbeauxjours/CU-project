@@ -27,15 +27,15 @@ const WhiteText = styled.Text`
   color: white;
 `;
 
-export default ({text, onPress, isRegist}) => (
-  <SubmitButtonContainer>
-    <SubmitButton
-      isBefore={!isRegist}
-      onPress={() => {
-        onPress;
-      }}
-      disabled={!isRegist}>
-      <WhiteText>{text}</WhiteText>
-    </SubmitButton>
-  </SubmitButtonContainer>
-);
+export default ({text, onPress, isRegist}) => {
+  return (
+    <SubmitButtonContainer>
+      <SubmitButton
+        isBefore={!isRegist}
+        onPress={() => onPress()}
+        disabled={!isRegist}>
+        <WhiteText>{text}</WhiteText>
+      </SubmitButton>
+    </SubmitButtonContainer>
+  );
+};

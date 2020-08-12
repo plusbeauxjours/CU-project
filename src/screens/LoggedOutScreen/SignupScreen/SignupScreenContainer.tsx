@@ -29,8 +29,6 @@ export default ({route: {params}}) => {
 
   const [id, setId] = useState<string>('');
   const [name, setName] = useState<string>('');
-  const [gender, setGender] = useState<string>('남자');
-  const [birth, setBirth] = useState<string>('1990-01-01');
   const [sexTypeCheck, setSexTypeCheck] = useState<[boolean]>([true, false]);
   const [positionTypeCheck, setPositionTypeCheck] = useState<
     [boolean, boolean]
@@ -107,10 +105,8 @@ export default ({route: {params}}) => {
             },
             body: JSON.stringify({
               NAME: name,
-              BIRTHDATE: params?.birth,
-              GENDER: params?.gender,
-              MobileNo: params?.phone,
-              SMSNUMBER: params?.authNumber,
+              MobileNo: params?.mobileNum,
+              SMSNUMBER: params?.verifyCode,
               STORE: type,
               PASSWORD: password,
               DEVICE_TOKEN: '',
