@@ -42,6 +42,7 @@ export default () => {
   const toggleIsPasswordSeen = () => {
     setIsPasswordSeen(!isPasswordSeen);
   };
+
   const onChangeMobileNum = (text) => {
     if (text.length > 11) {
       alertModal('핸드폰번호는 최대 11자리 입력 가능합니다.');

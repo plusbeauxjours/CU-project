@@ -114,7 +114,7 @@ export default () => (
         title: '회원가입',
         headerTintColor: '#fff',
       }}
-    />
+    /> */}
     <LoggedOutNavigation.Screen
       name="SignupScreen"
       component={SignupScreen}
@@ -122,7 +122,7 @@ export default () => (
         title: '회원가입',
         headerTintColor: '#fff',
       }}
-    /> */}
+    />
     <LoggedOutNavigation.Screen
       name="FindPasswordScreen"
       component={FindPasswordScreen}

@@ -40,7 +40,7 @@ import {useRoute, useNavigation} from '@react-navigation/native';
 //   }
 // }
 
-export default () => {
+export default ({{ route: { params } }}) => {
   const navigateion = useNavigation();
   const [isChangeModalVisible, setIsChangeModalVisible] = useState<boolean>(
     false,
@@ -94,9 +94,9 @@ export default () => {
             MobileNo: mobileNum, //.toString(),
             PASSWORD: password, //.toString(),
             Device_Version: deviceVersion.toString(),
-            Device_Platform: platform, //.toString(),
+            Device_Platform: params?.platform, //.toString(),
             // Device_Model: modelId, //.toString(),
-            App_Version: appVersion, //.toString()
+            App_Version: params?.appVersion, //.toString()
             USERID: userID,
             push: push,
           }),

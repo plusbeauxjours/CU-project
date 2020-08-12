@@ -81,8 +81,7 @@ export default () => {
       platform,
     });
 
-  const gotoSignup = () => console.log('fjasdkfjlksad');
-  // const gotoSignup = () => navigation.navigate('SignupScreen');
+  const gotoSignup = () => navigation.navigate('SignupScreen');
 
   useEffect(() => {
     // analytics
