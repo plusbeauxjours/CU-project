@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 
 import {useNavigation} from '@react-navigation/native';
-import SignupScreenPresenter from './SignupScreenPresenter.js';
-import utils from '../../../constants/utils.js';
+import SignupScreenPresenter from './SignupScreenPresenter';
+import utils from '../../../constants/utils';
+import {useDispatch} from 'react-redux';
 
 ////////////////////////////////////////
 // import {Platform} from '@unimodules/core';
@@ -17,15 +18,14 @@ import utils from '../../../constants/utils.js';
 // setAlertInfo
 // setAlertVisible
 // setSplashVisible
+
+// Position Issue
 //
 ////////////////////////////////////////
 
 export default ({route: {params}}) => {
-  let setAlertInfo;
-  let setAlertVisible;
-  let setSplashVisible;
-
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const [id, setId] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -72,8 +72,8 @@ export default ({route: {params}}) => {
       return false;
     }
 
-    var checkNumber = password.search(/[0-9]/g);
-    var checkEnglish = password.search(/[a-z]/gi);
+    const checkNumber = password.search(/[0-9]/g);
+    const checkEnglish = password.search(/[a-z]/gi);
 
     if (checkNumber < 0 || checkEnglish < 0) {
       alertModal('숫자와 영문자를 혼용하여야 합니다.');
@@ -202,20 +202,19 @@ export default ({route: {params}}) => {
     //   .hit(new PageHit('회원가입 정보입력 페이지'))
     //   .then(() => console.log('success'))
     //   .catch((e) => console.log(e.message));
-
     if (utils.isAndroid) {
-      setId(params?.phone);
-      setAppVersion('1.3.6');
       setPlatform('android');
     } else {
-      setId(params?.phone);
-      setAppVersion('1.3.6');
       setPlatform('ios');
     }
+    setId(params?.phone);
+    setAppVersion('1.3.6');
   }, []);
 
   return (
     <SignupScreenPresenter
+      id={id}
+      name={name}
       confirmModal={confirmModal}
       onChangePassword={onChangePassword}
       onChangeName={onChangeName}
@@ -225,6 +224,9 @@ export default ({route: {params}}) => {
       isPasswordSeen={isPasswordSeen}
       password={password}
       passwordCheck={passwordCheck}
+      sexTypeCheck={sexTypeCheck}
+      positionTypeCheck={positionTypeCheck}
+      checkValidationRegistButton={checkValidationRegistButton}
     />
   );
 };

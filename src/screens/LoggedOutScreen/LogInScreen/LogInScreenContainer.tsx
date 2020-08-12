@@ -40,7 +40,7 @@ import {useRoute, useNavigation} from '@react-navigation/native';
 //   }
 // }
 
-export default ({{ route: { params } }}) => {
+export default ({route: {params}}) => {
   const navigateion = useNavigation();
   const [isChangeModalVisible, setIsChangeModalVisible] = useState<boolean>(
     false,

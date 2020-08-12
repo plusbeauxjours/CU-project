@@ -2,7 +2,6 @@ import React from 'react';
 import {Platform} from 'react-native';
 import {Header} from 'react-navigation-stack';
 import {isIphoneX} from 'react-native-iphone-x-helper';
-import styles from './styles.js';
 import moment from 'moment';
 import {Analytics, PageHit} from 'expo-analytics';
 import VerificationScreenPresenter from './VerificationScreenPresenter';
@@ -24,7 +23,7 @@ if (Platform.OS === 'android') {
 
 let timer = null;
 
-class SignupScreen extends React.Component {
+class VerificationScreenContainer extends React.Component {
   state = {
     isChangeModalVisible: false, // 알람 모달 출력 여부
     name: '',
@@ -230,4 +229,4 @@ class SignupScreen extends React.Component {
   }
 }
 
-export default SignupScreen;
+export default VerificationScreenContainer;

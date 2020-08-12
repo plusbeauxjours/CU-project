@@ -73,7 +73,7 @@ const WhiteText = styled.Text`
 `;
 
 const WhiteSpace = styled.View`
-  height: ${hp('3.5%')};
+  height: ${hp('3%')};
 `;
 
 const TextInputContainer = styled.View`

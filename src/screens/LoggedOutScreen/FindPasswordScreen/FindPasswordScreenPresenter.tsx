@@ -8,6 +8,7 @@ import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import utils from '../../../constants/utils';
+import SubmitBtn from '../../../components/SubmitBtn';
 
 interface IIsBefore {
   isBefore: boolean;
@@ -44,10 +45,6 @@ const GreyText = styled.Text`
   font-size: 12px;
   color: #aaa;
   margin-top: 5px;
-`;
-const WhiteText = styled.Text`
-  font-size: 16;
-  color: white;
 `;
 
 const RequestButton = styled.TouchableOpacity`
@@ -110,19 +107,6 @@ const VerifyButton = styled.TouchableOpacity<IIsBefore>`
   align-items: center;
   justify-content: center;
   background-color: ${(props) => (props.isBefore ? '#CCCCCC' : '#642A8C')};
-`;
-
-const ChangeButton = styled.TouchableOpacity<IIsBefore>`
-  width: ${wp('80%')};
-  height: ${hp('7%')};
-  align-items: center;
-  justify-content: center;
-  background-color: ${(props) => (props.isBefore ? '#CCCCCC' : '#642A8C')};
-`;
-
-const ChangeButtonContainer = styled.View`
-  padding-vertical: 50px;
-  align-items: center;
 `;
 
 const VerifyContainer = styled.View`
@@ -304,16 +288,11 @@ export default ({
               </>
             )}
           </Container>
-          <ChangeButtonContainer>
-            <ChangeButton
-              isBefore={isRegist === false ? true : false}
-              onPress={() => {
-                regist();
-              }}
-              disabled={!isRegist}>
-              <WhiteText>비밀번호 변경</WhiteText>
-            </ChangeButton>
-          </ChangeButtonContainer>
+          <SubmitBtn
+            text={'비밀번호 변경'}
+            onPress={() => regist()}
+            isRegist={isRegist}
+          />
         </ScrollView>
       </KeyboardAwareScrollView>
     </BackGround>
