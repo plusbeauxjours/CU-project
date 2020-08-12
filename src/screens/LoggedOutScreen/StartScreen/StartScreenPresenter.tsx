@@ -93,7 +93,7 @@ const Footer = styled.View`
   bottom: 0;
 `;
 
-export default ({gotoLogin, gotoSignup}) => {
+export default ({gotoLogin, gotoVerification}) => {
   const RBSheet1 = useRef(null);
   const RBSheet2 = useRef(null);
   const RBSheet3 = useRef(null);
@@ -160,7 +160,7 @@ export default ({gotoLogin, gotoSignup}) => {
           <Modal sheetRef={RBSheet3} text={'위치정보'} />
           <SmallText>제공에 동의합니다.</SmallText>
         </TextBox>
-        <Button onPress={() => gotoSignup()}>
+        <Button onPress={() => gotoVerification()}>
           <WhiteText>회원가입</WhiteText>
         </Button>
       </Footer>

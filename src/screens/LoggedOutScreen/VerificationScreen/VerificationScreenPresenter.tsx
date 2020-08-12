@@ -1,299 +1,192 @@
 import React from 'react';
-import styled from 'styled-components/native';
-import { 
-  widthPercentageToDP as wp, 
-  heightPercentageToDP as hp 
-} from 'react-native-responsive-screen';
-
+import {ScrollView} from 'react-native';
 import {
-  ScrollView,
-  StatusBar,
-  Keyboard,
-} from 'react-native';
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import styled from 'styled-components/native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import SubmitBtn from '../../../components/SubmitBtn';
 
-const TouchableWithoutFeedback = styled.TouchableWithoutFeedback`
-  flex: 1;
-  background-color: pink;
-`;
+interface IIsBefore {
+  isBefore: boolean;
+}
 
 const Container = styled.View`
+  width: ${wp('80%')};
+  align-items: center;
+  margin-top: ${hp('5%')};
+`;
+
+const BackGround = styled.View`
+  flex: 1;
   background-color: white;
+`;
+
+const RequestText = styled.Text`
+  font-size: 14px;
+  color: #642a8c;
+`;
+
+const VerifyText = styled.Text`
+  font-size: 14px;
+  color: white;
+`;
+
+const RequestButton = styled.TouchableOpacity`
+  padding: 7px 14px;
+  align-items: center;
+  justify-content: center;
+  border-width: 1px;
+  border-color: #642a8c;
+  border-radius: 20px;
+`;
+
+const TextName = styled.Text`
+  font-size: 16px;
+  font-weight: bold;
+`;
+
+const WhiteSpace = styled.View`
+  height: ${hp('3%')};
+`;
+
+const Case = styled.View`
+  width: 100%;
+`;
+
+const TextinputCase = styled.View`
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
+  padding-vertical: 8px;
+`;
+
+const TextInput = styled.TextInput`
+  flex: 1;
+  font-size: 16px;
+  color: black;
+`;
+
+const Line = styled.View<IIsBefore>`
+  height: 2px;
+  background-color: ${(props) => (props.isBefore ? '#CCCCCC' : '#642A8C')};
+`;
+
+const TimeText = styled.Text`
+  font-size: 12px;
+  font-weight: bold;
+  color: #ff3d3d;
+  align-self: flex-start;
+  margin-bottom: 5px;
+`;
+
+const CountText = styled(TimeText)`
+  align-self: center;
+  margin-right: 10px;
+  margin-bottom: 0;
+`;
+
+const VerifyButton = styled.TouchableOpacity<IIsBefore>`
+  padding: 7px 14px;
+  border-radius: 15px;
+  align-items: center;
+  justify-content: center;
+  background-color: ${(props) => (props.isBefore ? '#CCCCCC' : '#642A8C')};
+`;
+
+const VerifyContainer = styled.View`
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  flex-direction: row;
   align-items: center;
 `;
 
-const TopBox = styled.View`
-  margin-top: hp('5%');
-  width: 80%;
-  `;
-
-const Text = styled.Text`
-font-size: 18px;
-`
-const TextInput = styled.TextInput`
-              flex: 1;
-  font-size: 18px;
-`
-
-const InputCase=styled.View`
-  margin-top: 20
-  `;
-
-
-
-        /* textInputCase: {
-          height: hp('5%'), 
-          width: wp('80%'),
-          justifyContent: 'center',
-          // marginTop: 8
-        },
-        textInputCase2: {
-          marginTop: 5,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        },
-  
-            lineNameBefore: {
-              height: 2,
-              width: wp('37%'),
-              backgroundColor:'#E5E5E5',
-              marginTop: 3
-            },
-            lineNameAfter: {
-              height: 2,
-              width: wp('37%'),
-              backgroundColor:'#642A8C',
-              marginTop: 3
-            },
-        genderCheckCase: {
-          flexDirection: 'row', 
-          justifyContent: 'space-around',
-          marginTop: 8
-        }, */
-
-/* 
-authReqBefore: {
-  fontSize: 15,
-  color: '#ddd',
-  padding: 10
-},
-authReqAfter: {
-  fontSize: 15,
-  color: '#642A8C',
-  padding: 10
-},
-timer: {
-  fontSize: 15,
-  color: '#FF3D3D',
-  marginRight: 10, marginTop: 5
-},
-buttonBefore: {
-  // marginTop: hp('5%'),
-  width: wp('80%'),
-  height: hp('7%'),
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: '#CCCCCC'
-},
-buttonAfter: {
-  // marginTop: hp('5%'),
-  width: wp('80%'),
-  height: hp('7%'),
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: '#642A8C'
-},
-lineBefore: {
-  height: 2,
-  width: wp('90%'),
-  backgroundColor:'#E5E5E5',
-  marginTop: 3
-},
-lineAfter: {
-  height: 2,
-  width: wp('90%'),
-  backgroundColor:'#642A8C',
-  marginTop: 3
-},
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~
-// sexType() 
-//~~~~~~~~~~~~~~~~~~~~~~~~~
-sexType: {
-  flexDirection: 'row',
-  alignItems: 'center'
-  // backgroundColor: 'yellow'
-},
-    sexTypeRadioButtonOn: {
-      width: 10,
-      height: 10,
-      borderRadius: 10 / 2,
-      backgroundColor: '#642A8C'
-    },
-    sexTypeRadioButtonOff: {
-      width: 16,
-      height: 16,
-      borderRadius: 16 / 2,
-      borderColor: '#642A8C',
-      borderWidth: 1,
-      backgroundColor: 'white',
-      alignItems: 'center',
-      justifyContent: 'center'
-    } */
-
-export default () => {
+export default ({
+  verifyCode,
+  mobileNum,
+  gotoSignup,
+  onChangeMobileNum,
+  onChangeVerifyNum,
+  requireAuth,
+  onVerifyCode,
+  countdown,
+  isCountDownStart,
+  isCheckAuth,
+  isCheckTimeOut,
+  isVerify,
+}) => {
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={{}}>
-      <StatusBar barStyle={'light-content'} />
-      <Container>
+    <BackGround>
+      <KeyboardAwareScrollView>
         <ScrollView
-          keyboardShouldPersistTaps={'handled'}
-          contentContainerStyle={{flex: 1}}>
-          <TopBox >
-            <InputCase >
-              <Text>휴대폰 번호</Text>
-              <View style={styles.textInputCase2}>
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{flex: 1, alignItems: 'center'}}>
+          <Container>
+            <Case>
+              <TextName>휴대폰 번호</TextName>
+              <TextinputCase>
                 <TextInput
-                  selectionColor={'#642A8C'}
-                  placeholder={'01012345678'}
+                  placeholder={'휴대폰번호를 입력해주세요'}
                   placeholderTextColor={'#E5E5E5'}
+                  selectionColor={'#642A8C'}
                   onChangeText={(text) => {
-                    this.phoneCheck(text);
+                    onChangeMobileNum(text);
                   }}
-                  value={this.state.phone}
+                  value={mobileNum}
                   keyboardType={'number-pad'}
                   maxLength={11}
                 />
-                <TouchableOpacity
-                  onPress={() => this._requireAuth()}
-                  disabled={this.state.checkAuth}>
-                  {this.state.checkAuth === true ? (
-                    <Text style={styles.authReqBefore}>요청완료</Text>
-                  ) : (
-                    <Text
-                      style={
-                        this.state.phone === ''
-                          ? styles.authReqBefore
-                          : styles.authReqAfter
-                      }>
-                      인증요청
-                    </Text>
-                  )}
-                </TouchableOpacity>
-              </View>
-              <View
-                style={
-                  this.state.phone === '' ? styles.lineBefore : styles.lineAfter
-                }
-              />
-            </InputCase>
-            <View style={{marginTop: 5}}>
-              <Text style={{fontSize: 12, color: '#999'}}>
-                * 웹발신 또는 스팸차단서비스 이용시 인증문자를 받지 못할 수
-                있습니다.
-              </Text>
-            </View>
-
-            {/* {this.state.checkAuth === true || this.state.auth != '' ? ( */}
-            {/* <View style={[styles.case, {marginTop: hp('1%')}]}> */}
-            <View style={styles.InputCase}>
-              <Text style={styles.textName}>인증번호 입력</Text>
-              <View style={styles.textInputCase}>
+                <RequestButton
+                  onPress={() => requireAuth()}
+                  disabled={isCheckAuth}>
+                  <RequestText>인증요청</RequestText>
+                </RequestButton>
+              </TextinputCase>
+              <Line isBefore={mobileNum == '' ? true : false} />
+            </Case>
+            <WhiteSpace />
+            <Case>
+              <TextName>인증번호입력</TextName>
+              <TextinputCase>
                 <TextInput
-                  selectionColor={'#642A8C'}
-                  placeholder={'인증번호'}
+                  placeholder={'인증번호를 입력해주세요'}
                   placeholderTextColor={'#E5E5E5'}
+                  selectionColor={'#642A8C'}
                   onChangeText={(text) => {
-                    this.auth(text);
+                    onChangeVerifyNum(text);
                   }}
-                  value={this.state.auth}
+                  value={verifyCode}
                   keyboardType={'number-pad'}
                   maxLength={6}
                 />
-                {/* <Text style={styles.timer}>{this.state.countdown}초</Text> */}
-                <View
-                  style={
-                    this.state.auth == '' ? styles.lineBefore : styles.lineAfter
-                  }
-                />
-                <View
-                  style={{
-                    position: 'absolute',
-                    right: 0,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    top: 0,
-                  }}>
-                  {this.state.countDownStart && (
-                    <Text
-                      style={[
-                        styles.textName,
-                        {marginRight: 10, color: '#FF3D3D', fontSize: 14},
-                      ]}>
-                      {this.state.countdown}초
-                    </Text>
-                  )}
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.state.auth == '' ? {} : this._onVerifyCode();
-                    }}>
-                    <View
-                      style={[
-                        this.state.auth == ''
-                          ? styles.buttonBefore
-                          : styles.buttonAfter,
-                        {
-                          height: 30,
-                          width: 80,
-                          borderRadius: 15,
-                        },
-                      ]}>
-                      <Text style={{fontSize: 14, color: 'white'}}>
-                        인증 확인
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              {this.state.next && !this.state.checkTimeOut && (
-                <View style={{marginTop: 5}}>
-                  <Text style={{color: '#642A8C'}}>
-                    인증완료. 하단의 버튼을 눌러서 다음단계로 이동해 주세요.
-                  </Text>
-                </View>
-              )}
-              {/* <View style={this.state.auth === '' ? styles.lineBefore : styles.lineAfter}/> */}
-            </View>
-            {this.state.checkTimeOut && (
-              <Text
-                style={[
-                  styles.textName,
-                  {
-                    fontSize: 12,
-                    color: '#FF3D3D',
-                    alignSelf: 'flex-start',
-                    marginBottom: 5,
-                  },
-                ]}>
+              </TextinputCase>
+              <Line isBefore={verifyCode == '' ? true : false} />
+              <VerifyContainer>
+                {isCountDownStart && <CountText>{countdown}초</CountText>}
+                <VerifyButton
+                  onPress={() => {
+                    verifyCode !== onVerifyCode();
+                  }}
+                  isBefore={verifyCode == '' ? true : false}>
+                  <VerifyText>인증확인</VerifyText>
+                </VerifyButton>
+              </VerifyContainer>
+            </Case>
+            {isCheckTimeOut && (
+              <TimeText>
                 인증시간이 초과되었습니다. 인증을 다시 시도해주세요
-              </Text>
+              </TimeText>
             )}
-            {/* ) : null} */}
-            {/* <View style={{height: 20}}/> */}
-          </View>
-          <View style={{marginTop: 30}}>
-            <TouchableOpacity
-              style={
-                this.state.next === true && !this.state.checkTimeOut
-                  ? styles.buttonAfter
-                  : styles.buttonBefore
-              }
-              onPress={() => this.check()}>
-              <Text style={{fontSize: 16, color: 'white'}}>다음단계로</Text>
-            </TouchableOpacity>
-          </View>
+          </Container>
+          <SubmitBtn
+            text={'다음단계로'}
+            onPress={() => gotoSignup()}
+            isRegist={isVerify}
+          />
         </ScrollView>
-      </Container>
-    </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView>
+    </BackGround>
   );
 };

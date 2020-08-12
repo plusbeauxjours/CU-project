@@ -81,7 +81,7 @@ export default () => {
       platform,
     });
 
-  const gotoSignup = () => navigation.navigate('SignupScreen');
+  const gotoVerification = () => navigation.navigate('VerificationScreen');
 
   useEffect(() => {
     // analytics
@@ -98,5 +98,10 @@ export default () => {
     //   }
     // });
   }, []);
-  return <StartScreenPresenter gotoLogin={gotoLogin} gotoSignup={gotoSignup} />;
+  return (
+    <StartScreenPresenter
+      gotoLogin={gotoLogin}
+      gotoVerification={gotoVerification}
+    />
+  );
 };
