@@ -97,6 +97,7 @@ export default () => (
         borderColor: '#fff',
         borderWidth: 0,
       },
+      headerTintColor: '#fff',
       headerBackTitleVisible: false,
       headerBackImage: () => <BackBtn />,
       headerRight: () => <HomeBtn />,
@@ -113,7 +114,6 @@ export default () => (
       component={AddStoreScreen}
       options={{
         title: '점포 등록',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -121,7 +121,6 @@ export default () => (
       component={UpdateStoreScreen}
       options={{
         title: '점포 수정',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -129,7 +128,6 @@ export default () => (
       component={SearchAddressScreen}
       options={{
         title: '점포 검색',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -137,7 +135,6 @@ export default () => (
       component={SetEmployeeInfoScreen}
       options={{
         title: '직원정보 입력',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -145,7 +142,6 @@ export default () => (
       component={ElectronicContractsScreen}
       options={{
         title: '전자근로계약서 체결',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -153,7 +149,6 @@ export default () => (
       component={EmployeeScheduleMainScreen}
       options={{
         title: '직원 정보',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -161,7 +156,6 @@ export default () => (
       component={EmployeeScheduleInfoScreen}
       options={{
         title: '직원 정보',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -169,7 +163,6 @@ export default () => (
       component={EmployeeScheduleAddScreen}
       options={{
         title: '일정추가',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -177,7 +170,6 @@ export default () => (
       component={StoreScreen}
       options={{
         title: '점포 현황',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -185,7 +177,6 @@ export default () => (
       component={StoreScreenEmp}
       options={{
         title: '점포 현황',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -193,7 +184,6 @@ export default () => (
       component={InviteEmployeeScreen}
       options={{
         title: '직원 초대',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -201,7 +191,6 @@ export default () => (
       component={EmployeeListScreen}
       options={{
         title: '직원 목록',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -209,7 +198,6 @@ export default () => (
       component={PaymentInfoScreen}
       options={{
         title: '점포급여 정보',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -217,7 +205,6 @@ export default () => (
       component={EmpPaymentInfoScreen}
       options={{
         title: '직원급여 정보',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -225,7 +212,6 @@ export default () => (
       component={ShelfLifeCheckScreen}
       options={{
         title: '유통기한 체크',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -233,7 +219,6 @@ export default () => (
       component={ShelfLifeUpdateScreen}
       options={{
         title: '유통기한 체크 수정',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -241,7 +226,6 @@ export default () => (
       component={AddShelfLifeScreen}
       options={{
         title: '유통기한 체크 등록',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -249,7 +233,6 @@ export default () => (
       component={ManageInviteEmployeeScreen}
       options={{
         title: '직원 초대현황',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -257,7 +240,6 @@ export default () => (
       component={EmployeeInfoScreen}
       options={{
         title: '직원 정보',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -265,7 +247,6 @@ export default () => (
       component={EmployeeInfoEMPScreen}
       options={{
         title: '직원 정보',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -273,7 +254,6 @@ export default () => (
       component={ElectronicContractsScreen2}
       options={{
         title: '전자근로계약서 체결',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -281,7 +261,6 @@ export default () => (
       component={CalendarAddScreen}
       options={{
         title: '일정추가',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -289,7 +268,6 @@ export default () => (
       component={CalendarInfoScreen}
       options={{
         title: '비밀번호 찾기',
-        headerTintColor: '#fff',
         headerRight: () => <CalendarInfoHeader />,
       }}
     />
@@ -298,7 +276,6 @@ export default () => (
       component={WorkTimeScreen}
       options={{
         title: '근무시간 수정하기',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -306,7 +283,6 @@ export default () => (
       component={RealWorkTimeScreen}
       options={{
         title: '출퇴근시간 수정하기',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -314,7 +290,6 @@ export default () => (
       component={WorkDayScreen}
       options={{
         title: '휴무/휴게시간 설정',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -322,7 +297,6 @@ export default () => (
       component={WorkDayRestTypeScreen}
       options={{
         title: '휴무 설정',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -330,7 +304,6 @@ export default () => (
       component={WorkDayRestTimeScreen}
       options={{
         title: '시간 설정',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -338,7 +311,6 @@ export default () => (
       component={ChecklistAddScreen}
       options={{
         title: '체크리스트 입력',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -346,7 +318,6 @@ export default () => (
       component={ChecklistItemsScreen}
       options={{
         title: '체크리스트',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -354,7 +325,6 @@ export default () => (
       component={ChecklistSpecificationScreen}
       options={{
         title: '체크리스트 상세',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -362,7 +332,6 @@ export default () => (
       component={ChecklistDetailScreen}
       options={{
         title: '체크리스트 체크상세',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -370,7 +339,6 @@ export default () => (
       component={ChecklistShareMainScreen}
       options={{
         title: '업무일지',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -378,7 +346,6 @@ export default () => (
       component={ChecklistShareItemScreen}
       options={{
         title: '체크리스트 상세',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -386,7 +353,6 @@ export default () => (
       component={ChecklistShareInsertScreen}
       options={{
         title: '체크리스트 등록',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -394,7 +360,6 @@ export default () => (
       component={ChecklistShareUpdateScreen}
       options={{
         title: '체크리스트 수정',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -402,7 +367,6 @@ export default () => (
       component={MyCuMonthlyListScreen}
       options={{
         title: '노무 월간지',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -410,7 +374,6 @@ export default () => (
       component={MyCuMonthlyDetailScreen}
       options={{
         title: '노무 월간지',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -418,7 +381,6 @@ export default () => (
       component={MyCuVideoListScreen}
       options={{
         title: '노무 교육 콘텐츠',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -426,7 +388,6 @@ export default () => (
       component={MyCuVideoDetailScreen}
       options={{
         title: '노무 교육 콘텐츠',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -434,7 +395,6 @@ export default () => (
       component={EducationVideoListScreen}
       options={{
         title: '교육자료',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -442,7 +402,6 @@ export default () => (
       component={EducationVideoDetailScreen}
       options={{
         title: '교육자료',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -450,7 +409,6 @@ export default () => (
       component={MyPageAlarmSetScreen}
       options={{
         title: '알림설정',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -458,7 +416,6 @@ export default () => (
       component={MyPageAppointmentScreen}
       options={{
         title: '약관보기',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -466,7 +423,6 @@ export default () => (
       component={MyPageMainScreen}
       options={{
         title: '마이페이지',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -474,7 +430,6 @@ export default () => (
       component={MyPagePlaceSetScreen}
       options={{
         title: '점포관리이력',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -482,7 +437,6 @@ export default () => (
       component={MyPageIdSetMainScreen}
       options={{
         title: '마이페이지',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -490,7 +444,6 @@ export default () => (
       component={MyPageDeleteSetScreen}
       options={{
         title: '회원탈퇴',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -498,7 +451,6 @@ export default () => (
       component={MyPageNameSetScreen}
       options={{
         title: '이름 변경',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -506,7 +458,6 @@ export default () => (
       component={MyPagePasswordSetScreen}
       options={{
         title: '비밀번호 재설정',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -514,7 +465,6 @@ export default () => (
       component={MyPagePositionSetScreen}
       options={{
         headerTitle: () => <MyPagePositionHeader />,
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -522,7 +472,6 @@ export default () => (
       component={HealthCertificateTypeScreen}
       options={{
         title: '조기경보시스템 타입선택',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -530,7 +479,6 @@ export default () => (
       component={HealthCertificateEmpListScreen}
       options={{
         title: '보건증 직원 목록',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -538,7 +486,6 @@ export default () => (
       component={HealthCertificateEmpDetailScreen}
       options={{
         title: '보건증 상세',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -546,7 +493,6 @@ export default () => (
       component={HealthCertificateStoreDetailScreen}
       options={{
         title: '위생교육증 상세',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -554,7 +500,6 @@ export default () => (
       component={HealthCertificateEmpUpdateScreen}
       options={{
         title: '보건증 수정',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -562,7 +507,6 @@ export default () => (
       component={HealthCertificateStoreUpdateScreen}
       options={{
         title: '위생교육증 수정',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -570,7 +514,6 @@ export default () => (
       component={HealthCertificateEmpFormScreen}
       options={{
         title: '보건증 입력',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -578,7 +521,6 @@ export default () => (
       component={HealthCertificateStoreFormScreen}
       options={{
         title: '위생교육증 입력',
-        headerTintColor: '#fff',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen
@@ -586,7 +528,6 @@ export default () => (
       component={SetEmployeeInfoScreen}
       options={{
         title: '직원정보 입력',
-        headerTintColor: '#fff',
       }}
     />
   </LoggedInBTN_HomeNavigation.Navigator>
