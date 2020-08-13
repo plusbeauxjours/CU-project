@@ -1,22 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useSelector, useDispatch} from 'react-redux';
-import {ActivityIndicator, TouchableOpacity} from 'react-native';
 
 import CloseBtn from './Header/CloseBtn';
 import LoggedInNavigation from '../navigations/LoggedInNavigation';
 import LoggedOutNavigation from '../navigations/LoggedOutNavigation';
 import HelpModalScreen from '../screens/LoggedInScreen/Home/HelpModalScreen/index';
-import styled from 'styled-components/native';
+import {setAlertVisible} from '../redux/alertSlice';
 
 export default () => {
-  const dispatch = useDispatch();
   const {isLoggedIn} = useSelector((state: any) => state.userReducer);
-
-  const [isReady, setIsReady] = useState<boolean>(false);
-  const [allHelpTextView, setAllHelpTextView] = useState<boolean>(false);
-
   const RootStack = createStackNavigator();
 
   // const loadImagesAsync = async () => {

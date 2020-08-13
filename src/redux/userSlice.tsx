@@ -1,4 +1,3 @@
-import {AsyncStorage} from 'react-native';
 import {createSlice} from '@reduxjs/toolkit';
 
 const userSlice = createSlice({

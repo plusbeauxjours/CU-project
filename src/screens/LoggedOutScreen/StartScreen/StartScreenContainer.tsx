@@ -95,7 +95,18 @@ export default () => {
     });
   };
 
-  const gotoVerification = () => navigation.navigate('VerificationScreen');
+  // const gotoVerification = () => navigation.navigate('VerificationScreen');
+  const gotoVerification = () => {
+    const params = {
+      type: 'alert',
+      title: '테테테테테테스트타이틀',
+      content: '테테테테테테스트컨텐츠',
+      close: '1',
+      cancelButtonText: 'okkk',
+    };
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
+  };
 
   useEffect(() => {
     // analytics
@@ -109,7 +120,6 @@ export default () => {
     }
     setAppVersion('1.3.6');
     checkVersion();
-    alertModal('하이룽', '방가방가');
   }, []);
   return (
     <StartScreenPresenter
