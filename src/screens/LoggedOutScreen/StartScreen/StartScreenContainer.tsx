@@ -1,7 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {Platform, Linking, BackHandler} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+
 import StartScreenPresenter from './StartScreenPresenter';
+import {useDispatch, useSelector} from 'react-redux';
+import {setInfo, setAlertVisible} from '../../../redux/alertSlice';
+import utils from '../../../constants/utils';
 
 ////////////////////////////////////////
 // Redux
@@ -11,11 +15,12 @@ import StartScreenPresenter from './StartScreenPresenter';
 // Library
 // expo-analytics
 // analytics
-// willFocusSubscription
 ////////////////////////////////////////
 
 export default () => {
   const navigation = useNavigation();
+  const {content} = useSelector((state: any) => state.alertReducer);
+  const dispatch = useDispatch();
   const [appVersion, setAppVersion] = useState<string>('');
   const [platform, setPlatform] = useState<string>('');
 
@@ -36,6 +41,7 @@ export default () => {
         },
       );
       const json = await response.json();
+      console.log(json);
       if (json.result == '1') {
         alertModal(
           '[ 업데이트 알림 ]',
@@ -71,8 +77,8 @@ export default () => {
         exitandroid();
       },
     };
-    // this.props.setAlertInfo(params);
-    // this.props.setAlertVisible(true);
+    dispatch(setInfo(params));
+    dispatch(setAlertVisible(true));
   };
 
   const gotoLogin = () =>
@@ -88,15 +94,14 @@ export default () => {
     //   .hit(new PageHit('시작 페이지'))
     //   .then(() => console.log('success'))
     //   .catch((e) => console.log(e.message));
-    // willFocusSubscription = navigation.addListener('willFocus', () => {
-    //   if (Platform.OS === 'ios') {
-    //     setAppVersion('1.3.6');
-    //     setPlatform('ios');
-    //   } else {
-    //     setAppVersion('1.3.6');
-    //     setPlatform('android');
-    //   }
-    // });
+    if (utils.isAndroid) {
+      setPlatform('android');
+    } else {
+      setPlatform('ios');
+    }
+    setAppVersion('1.3.6');
+    checkVersion();
+    alertModal('하이룽', '방가방가');
   }, []);
   return (
     <StartScreenPresenter

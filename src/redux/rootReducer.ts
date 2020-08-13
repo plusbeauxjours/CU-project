@@ -1,6 +1,10 @@
 import { combineReducers } from "redux";
-import usersReducer from "./usersSlice";
+import userReducer from "./userSlice";
+import alertReducer from "./alertSlice";
+import splashReducer from "./splashSlice";
 
 export default combineReducers({
-    usersReducer,
+    userReducer,
+    alertReducer,
+    splashReducer
 });

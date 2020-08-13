@@ -7,7 +7,7 @@ import LoggedOutNavigation from '../../src/navigations/LoggedOutNavigation';
 import {useSelector} from 'react-redux';
 
 export default () => {
-  const {isLoggedIn} = useSelector((state: any) => state.usersReducer);
+  const {isLoggedIn} = useSelector((state: any) => state.userReducer);
   const RootStack = createStackNavigator();
   return (
     <NavigationContainer>

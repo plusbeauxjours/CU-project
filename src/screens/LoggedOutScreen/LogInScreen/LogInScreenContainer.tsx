@@ -51,8 +51,6 @@ export default ({route: {params}}) => {
   const [deviceVersion, setDeviceVersion] = useState<string>('');
   // const [modelId, setModelId] = useState<string>(Device.modelId || '');
   const [userID, setUserID] = useState<string>('');
-  const [idLine, setIdLine] = useState<boolean>(false);
-  const [passLine, setPassLine] = useState<boolean>(false);
   const [push, setPush] = useState<string>('');
 
   const alertModal = (text) => {

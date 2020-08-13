@@ -8,9 +8,6 @@ import FindPasswordScreenPresenter from './FindPasswordScreenPresenter';
 // Redux
 // setAlertInfo
 // setAlertVisible
-
-// startCountDown
-// countdown
 ////////////////////////////////////////
 
 let timer = null;

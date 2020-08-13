@@ -7,7 +7,7 @@ import {useDispatch} from 'react-redux';
 
 ////////////////////////////////////////
 // import {Platform} from '@unimodules/core';
-//
+import {setInfo, setAlertVisible} from '../../../redux/alertSlice');
 // gender
 // birth
 // sexTypeCheck
@@ -15,8 +15,6 @@ import {useDispatch} from 'react-redux';
 // type
 
 // Redux
-// setAlertInfo
-// setAlertVisible
 // setSplashVisible
 
 // Position Issue
@@ -47,8 +45,8 @@ export default ({route: {params}}) => {
 
   const alertModal = (text) => {
     const params = {type: 'alert', content: text};
-    setAlertInfo(params);
-    setAlertVisible(true);
+    dispatch(setInfo(params));
+    dispatch(setAlertVisible(true))
   };
 
   const confirmModal = (title, text) => {
@@ -60,8 +58,8 @@ export default ({route: {params}}) => {
       okButtonText: '예',
       cancelButtonText: '아니요',
     };
-    setAlertInfo(params);
-    setAlertVisible(true);
+    dispatch(setInfo(params));
+    dispatch(setAlertVisible(true))
   };
 
   const checkPassword = (password) => {
@@ -121,8 +119,8 @@ export default ({route: {params}}) => {
             type: 'alert',
             content: '이미 가입한 휴대폰번호입니다.',
           };
-          setAlertInfo(params);
-          setAlertVisible(true);
+          dispatch(setInfo(params));
+          dispatch(setAlertVisible(true))
           navigation.goBack();
         } else if (json.message === 'SMSERROR') {
           setSplashVisible(false);
@@ -130,8 +128,8 @@ export default ({route: {params}}) => {
             type: 'alert',
             content: '인증번호 오류입니다.',
           };
-          setAlertInfo(params);
-          setAlertVisible(true);
+          dispatch(setInfo(params));
+          dispatch(setAlertVisible(true))
           navigation.goBack();
         } else {
           setSplashVisible(false);
@@ -139,8 +137,8 @@ export default ({route: {params}}) => {
             type: 'alert',
             content: '회원가입이 완료되었습니다. 다시 로그인해 주세요.',
           };
-          setAlertInfo(params);
-          setAlertVisible(true);
+          dispatch(setInfo(params));
+          dispatch(setAlertVisible(true))
           navigation.navigate('LogIn', {
             appVersion,
             platform,
