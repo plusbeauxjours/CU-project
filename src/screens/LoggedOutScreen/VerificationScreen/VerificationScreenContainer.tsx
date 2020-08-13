@@ -1,13 +1,16 @@
 import React, {useState, useEffect} from 'react';
-
-import moment from 'moment';
-import VerificationScreenPresenter from './VerificationScreenPresenter';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import moment from 'moment';
+
+import VerificationScreenPresenter from './VerificationScreenPresenter';
+import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
 
 let timer = null;
 
 export default () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const [mobileNum, setMobileNum] = useState<string>('');
   const [verifyCode, setVerifyCode] = useState<string>('');
@@ -22,8 +25,9 @@ export default () => {
       type: 'alert',
       content: text,
     };
-    // setAlertInfo(params);
-    // setAlertVisible(true);
+
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
   };
 
   const startCountDown = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components/native';
-import utils from '../constants/utils';
+import utils from '../../constants/utils';
 
 const CheckPasswordButton = styled.TouchableOpacity`
   padding-horizontal: 10px;

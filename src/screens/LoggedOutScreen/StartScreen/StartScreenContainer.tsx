@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import StartScreenPresenter from './StartScreenPresenter';
 import {useDispatch, useSelector} from 'react-redux';
-import {setInfo, setAlertVisible} from '../../../redux/alertSlice';
+import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
 import utils from '../../../constants/utils';
 
 ////////////////////////////////////////
@@ -77,7 +77,7 @@ export default () => {
         exitandroid();
       },
     };
-    dispatch(setInfo(params));
+    dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
   };
 

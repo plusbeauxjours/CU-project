@@ -5,7 +5,7 @@ import LogInScreen from '../screens/LoggedOutScreen/LogInScreen';
 import SignupScreen from '../screens/LoggedOutScreen/SignupScreen';
 import FindPasswordScreen from '../screens/LoggedOutScreen/FindPasswordScreen';
 import VerificationScreen from '../screens/LoggedOutScreen/VerificationScreen';
-import BackBtn from '../components/BackBtn';
+import BackBtn from '../components/Header/BackBtn';
 
 const LoggedOutNavigation = createStackNavigator();
 export default () => (

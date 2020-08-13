@@ -4,7 +4,8 @@ import {createSlice} from '@reduxjs/toolkit';
 const userSlice = createSlice({
   name: 'users',
   initialState: {
-    isLoggedIn: 'LogOut',
+    // isLoggedIn: 'LogOut',
+    isLoggedIn: true,
     MEMBER_SEQ: '',
     STORE: '',
     mobileNo: '',
@@ -67,7 +68,7 @@ const userSlice = createSlice({
         serviceCode: codes,
       };
     },
-    sogIn(state, action) {
+    setLogIn(state, action) {
       const {payload: check} = action;
       console.log('sogIn', check);
       return {
@@ -135,6 +136,7 @@ export const {
   setUser,
   setUserName,
   setId,
+  setLogIn,
   setLogOut,
   setUserProfile,
   setStoreName,

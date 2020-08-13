@@ -9,12 +9,14 @@ import {useSelector} from 'react-redux';
 export default () => {
   const {isLoggedIn} = useSelector((state: any) => state.userReducer);
   const RootStack = createStackNavigator();
+  console.log(isLoggedIn);
   return (
     <NavigationContainer>
       <RootStack.Navigator
         headerMode="none"
         initialRouteName={
-          isLoggedIn ? 'LoggedInNavigation' : 'LoggedOutNavigation'
+          // isLoggedIn ? 'LoggedInNavigation' : 'LoggedOutNavigation'
+          'LoggedInNavigation'
         }>
         <RootStack.Screen
           name="LoggedInNavigation"

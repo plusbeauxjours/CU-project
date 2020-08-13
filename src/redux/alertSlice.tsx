@@ -23,7 +23,7 @@ const alertSlice = createSlice({
         visible,
       };
     },
-    setInfo(state, action) {
+    setAlertInfo(state, action) {
       const {
         payload: {
           alertType,
@@ -57,6 +57,6 @@ const alertSlice = createSlice({
   },
 });
 
-export const {setAlertVisible, setInfo} = alertSlice.actions;
+export const {setAlertVisible, setAlertInfo} = alertSlice.actions;
 
 export default alertSlice.reducer;

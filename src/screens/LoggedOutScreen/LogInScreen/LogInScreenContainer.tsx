@@ -6,7 +6,10 @@ import PropTypes from 'prop-types';
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LogInScreenPresenter from './LogInScreenPresenter';
-import {useRoute, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {setUser, setId, setVersion, setLogIn} from '../../../redux/userSlice';
+import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
+import {useDispatch} from 'react-redux';
 
 ////////////////////////////////////////
 // Redux
@@ -42,6 +45,8 @@ import {useRoute, useNavigation} from '@react-navigation/native';
 
 export default ({route: {params}}) => {
   const navigateion = useNavigation();
+  const dispatch = useDispatch();
+
   const [isChangeModalVisible, setIsChangeModalVisible] = useState<boolean>(
     false,
   );
@@ -55,8 +60,8 @@ export default ({route: {params}}) => {
 
   const alertModal = (text) => {
     const params = {type: 'alert', content: text};
-    // setAlertInfo(params);
-    // setAlertVisible(true);
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
   };
 
   const onChangeMobileNum = (text) => {
@@ -102,16 +107,16 @@ export default ({route: {params}}) => {
       );
       const json = await response.json();
       console.log(json);
-      // if (json.message == 'FAIL') {
-      //   alertModal('사용자 정보가 맞지 않습니다.');
-      // } else if (json.message == 'MEMBER_ERROR') {
-      //   alertModal('가입된 계정이 없습니다. 회원가입을 진행해주세요.');
-      // } else {
-      //   setUser(json.result);
-      //   setId(mobileNum);
-      //   setVersion(version);
-      //   setLogIn('Login');
-      // }
+      if (json.message == 'FAIL') {
+        alertModal('사용자 정보가 맞지 않습니다.');
+      } else if (json.message == 'MEMBER_ERROR') {
+        alertModal('가입된 계정이 없습니다. 회원가입을 진행해주세요.');
+      } else {
+        dispatch(setUser(json.result));
+        dispatch(setId(mobileNum));
+        dispatch(setVersion(params?.appVersion));
+        dispatch(setLogIn('Login'));
+      }
     } catch (error) {
       console.log(error);
       alertModal('서버 접속이 원할하지 않습니다.');

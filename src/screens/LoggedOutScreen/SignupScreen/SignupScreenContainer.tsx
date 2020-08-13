@@ -2,20 +2,20 @@ import React, {useState, useEffect} from 'react';
 
 import {useNavigation} from '@react-navigation/native';
 import SignupScreenPresenter from './SignupScreenPresenter';
-import utils from '../../../constants/utils';
 import {useDispatch} from 'react-redux';
+
+import utils from '../../../constants/utils';
+import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
+import {setSplashVisible} from '../../../redux/splashSlice';
 
 ////////////////////////////////////////
 // import {Platform} from '@unimodules/core';
-import {setInfo, setAlertVisible} from '../../../redux/alertSlice');
+
 // gender
 // birth
 // sexTypeCheck
 // positionTypeCheck
 // type
-
-// Redux
-// setSplashVisible
 
 // Position Issue
 //
@@ -27,7 +27,10 @@ export default ({route: {params}}) => {
 
   const [id, setId] = useState<string>('');
   const [name, setName] = useState<string>('');
-  const [sexTypeCheck, setSexTypeCheck] = useState<[boolean]>([true, false]);
+  const [sexTypeCheck, setSexTypeCheck] = useState<[boolean, boolean]>([
+    true,
+    false,
+  ]);
   const [positionTypeCheck, setPositionTypeCheck] = useState<
     [boolean, boolean]
   >([false, false]);
@@ -45,8 +48,8 @@ export default ({route: {params}}) => {
 
   const alertModal = (text) => {
     const params = {type: 'alert', content: text};
-    dispatch(setInfo(params));
-    dispatch(setAlertVisible(true))
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
   };
 
   const confirmModal = (title, text) => {
@@ -58,8 +61,8 @@ export default ({route: {params}}) => {
       okButtonText: '예',
       cancelButtonText: '아니요',
     };
-    dispatch(setInfo(params));
-    dispatch(setAlertVisible(true))
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
   };
 
   const checkPassword = (password) => {
@@ -83,13 +86,13 @@ export default ({route: {params}}) => {
   };
 
   const regist = async () => {
-    setSplashVisible(true);
+    dispatch(setSplashVisible(true));
     if (password !== passwordCheck) {
       alertModal('비밀번호가 동일하지 않습니다.');
-      setSplashVisible(false);
+      dispatch(setSplashVisible(false));
     }
     if (checkPassword(password) === false) {
-      setSplashVisible(false);
+      dispatch(setSplashVisible(false));
       return false;
     } else {
       try {
@@ -114,31 +117,31 @@ export default ({route: {params}}) => {
         const json = await response.json();
 
         if (json.message === 'ALREADY_SUCCESS') {
-          setSplashVisible(false);
+          dispatch(setSplashVisible(false));
           const params = {
             type: 'alert',
             content: '이미 가입한 휴대폰번호입니다.',
           };
-          dispatch(setInfo(params));
-          dispatch(setAlertVisible(true))
+          dispatch(setAlertInfo(params));
+          dispatch(setAlertVisible(true));
           navigation.goBack();
         } else if (json.message === 'SMSERROR') {
-          setSplashVisible(false);
+          dispatch(setSplashVisible(false));
           const params = {
             type: 'alert',
             content: '인증번호 오류입니다.',
           };
-          dispatch(setInfo(params));
-          dispatch(setAlertVisible(true))
+          dispatch(setAlertInfo(params));
+          dispatch(setAlertVisible(true));
           navigation.goBack();
         } else {
-          setSplashVisible(false);
+          dispatch(setSplashVisible(false));
           const params = {
             type: 'alert',
             content: '회원가입이 완료되었습니다. 다시 로그인해 주세요.',
           };
-          dispatch(setInfo(params));
-          dispatch(setAlertVisible(true))
+          dispatch(setAlertInfo(params));
+          dispatch(setAlertVisible(true));
           navigation.navigate('LogIn', {
             appVersion,
             platform,
