@@ -77,7 +77,7 @@ export default () => {
           },
         );
         const json = await response.json();
-        console.log(json);
+        console.log(':3003/api/auth/checkSMS 0814TEST', json);
         if (json.message == 'SUCCESS') {
           clearInterval(timer);
           setIsVerify(true);
@@ -136,7 +136,7 @@ export default () => {
         },
       );
       const json = await response.json();
-      console.log(json);
+      console.log(':3003/api/auth/get_appSMS 0814TEST', json);
     } catch (error) {
       console.log(error);
     }

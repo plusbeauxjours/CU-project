@@ -1,6 +1,6 @@
 import React from 'react';
-import SelectStoreScreenContainer from './SelectStoreScreenContainer';
+import SelectStoreScreenPresenter from './SelectStoreScreenPresenter';
 
 export default () => {
-  return <SelectStoreScreenContainer />;
+  return <SelectStoreScreenPresenter />;
 };

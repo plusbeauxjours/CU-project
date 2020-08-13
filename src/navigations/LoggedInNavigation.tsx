@@ -26,6 +26,7 @@ const LoggedInNavigation = createStackNavigator();
 export default () => (
   <LoggedInNavigation.Navigator
     headerMode={'screen'}
+    initialRouteName={'SelectStoreScreen'}
     screenOptions={{
       headerStyle: {
         backgroundColor: '#AACE36',
@@ -45,20 +46,19 @@ export default () => (
       }}
     />
     <LoggedInNavigation.Screen
-      name="AddStoreScreen"
-      component={AddStoreScreen}
-      options={{
-        title: '점포 등록',
-      }}
-    />
-    <LoggedInNavigation.Screen
       name="SearchAddressScreen"
       component={SearchAddressScreen}
       options={{
         title: '점포 검색',
       }}
     />
-
+    <LoggedInNavigation.Screen
+      name="AddStoreScreen"
+      component={AddStoreScreen}
+      options={{
+        title: '점포 등록',
+      }}
+    />
     <LoggedInNavigation.Screen
       name="MyPageMainScreen"
       component={MyPageMainScreen}

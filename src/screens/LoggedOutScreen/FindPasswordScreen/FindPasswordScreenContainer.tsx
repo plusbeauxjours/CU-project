@@ -100,7 +100,7 @@ export default () => {
         );
         const json = await response.json();
         console.log(
-          ':3003/api/auth/checkApp 0813TEST',
+          ':3003/api/auth/checkApp 0814TEST',
           json,
           'MobileNo',
           mobileNum,
@@ -165,7 +165,7 @@ export default () => {
         },
       );
       const json = await response.json();
-      console.log(json);
+      console.log(':3003/api/auth/get_appSMS', json);
     } catch (error) {
       console.log(error);
     }
@@ -216,6 +216,7 @@ export default () => {
         },
       );
       const json = await response.json();
+      console.log(':3003/api/member/changepwd3 0814TEST', json);
       if (json.resultcode == '1') {
         alertModal(json.result);
         navigation.goBack();

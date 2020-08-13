@@ -68,24 +68,14 @@ const userSlice = createSlice({
         serviceCode: codes,
       };
     },
-    setLogIn(state, action) {
-      const {payload: check} = action;
-      console.log('sogIn', check);
-      return {
-        ...state,
-        isLoggedIn: check,
-      };
+    setLogIn(state) {
+      state.isLoggedIn = true;
     },
-    setLogOut(state, action) {
-      const {payload: check} = action;
-      console.log('sogOut', check);
-      return {
-        ...state,
-        isLoggedIn: check,
-        MEMBER_SEQ: '',
-        STORE: '',
-        mobileNo: '',
-      };
+    setLogOut(state) {
+      state.isLoggedIn = false;
+      state.MEMBER_SEQ = '';
+      state.STORE = '';
+      state.mobileNo = '';
     },
     setUserProfile(state, action) {
       const {payload: userProfile} = action;
@@ -145,17 +135,24 @@ export const {
   setStoreEmpSeq,
 } = userSlice.actions;
 
-export const userLogin = (form: {}) => async (dispatch) => {
+export const userLogin = () => async (dispatch) => {
   try {
-    console.log('on going');
+    console.log('userLogin');
+    // const {
+    //   data: { uuid, token },
+    // } = await api.login(form);
+    dispatch(setLogIn());
+    // const { data } = await api.user(uuid);
+    // if (data) {
+    //   dispatch(setMe({ data }));
+    // }
   } catch (e) {
-    alert('Wrong user/password');
+    console.log('Wrong user/password');
   }
 };
-
 export const userLogout = () => async (dispatch) => {
-  console.log('on going');
-  AsyncStorage.clear();
+  console.log('userLogout');
+  dispatch(setLogOut());
 };
 
 export default userSlice.reducer;

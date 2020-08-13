@@ -115,7 +115,7 @@ export default ({route: {params}}) => {
           },
         );
         const json = await response.json();
-
+        console.log(':3003/api/auth/signup3 0814TEST', json);
         if (json.message === 'ALREADY_SUCCESS') {
           dispatch(setSplashVisible(false));
           const params = {

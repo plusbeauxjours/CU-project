@@ -1,15 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Platform} from 'react-native';
 
-import PropTypes from 'prop-types';
-// import {Header} from 'react-navigation-stack';
 import {isIphoneX} from 'react-native-iphone-x-helper';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {useDispatch} from 'react-redux';
 import LogInScreenPresenter from './LogInScreenPresenter';
 import {useNavigation} from '@react-navigation/native';
-import {setUser, setId, setVersion, setLogIn} from '../../../redux/userSlice';
+import {setUser, setId, setVersion, userLogin} from '../../../redux/userSlice';
 import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
-import {useDispatch} from 'react-redux';
+
+import utils from '../../../constants/utils';
 
 ////////////////////////////////////////
 // Redux
@@ -31,25 +29,10 @@ import {useDispatch} from 'react-redux';
 // CHECK PushNotificationPermission
 ////////////////////////////////////////
 
-// let KEYBOARD_VERTICAL_OFFSET = 0;
-
-// if (Platform.OS === 'android') {
-//   KEYBOARD_VERTICAL_OFFSET = -500;
-// } else {
-//   if (isIphoneX()) {
-//     KEYBOARD_VERTICAL_OFFSET = Header.HEIGHT + 24;
-//   } else {
-//     KEYBOARD_VERTICAL_OFFSET = Header.HEIGHT;
-//   }
-// }
-
 export default ({route: {params}}) => {
-  const navigateion = useNavigation();
+  const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const [isChangeModalVisible, setIsChangeModalVisible] = useState<boolean>(
-    false,
-  );
   const [mobileNum, setMobileNum] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -77,7 +60,7 @@ export default ({route: {params}}) => {
   };
 
   const gotoFind = () => {
-    navigateion.navigate('FindPasswordScreen');
+    navigation.navigate('FindPasswordScreen');
   };
 
   const signUp = async () => {
@@ -106,7 +89,7 @@ export default ({route: {params}}) => {
         },
       );
       const json = await response.json();
-      console.log(json);
+      console.log(':3003/auth/signin 0814TEST', json);
       if (json.message == 'FAIL') {
         alertModal('사용자 정보가 맞지 않습니다.');
       } else if (json.message == 'MEMBER_ERROR') {
@@ -115,7 +98,16 @@ export default ({route: {params}}) => {
         dispatch(setUser(json.result));
         dispatch(setId(mobileNum));
         dispatch(setVersion(params?.appVersion));
-        dispatch(setLogIn('Login'));
+        dispatch(userLogin());
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'LoggedInNavigation',
+              state: {routes: [{name: 'SelectStoreScreen'}]},
+            },
+          ],
+        });
       }
     } catch (error) {
       console.log(error);

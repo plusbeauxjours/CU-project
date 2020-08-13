@@ -42,7 +42,7 @@ export default () => {
       );
       const json = await response.json();
       console.log(
-        ':3003/api/auth/checkApp 0813TEST',
+        ':3003/api/auth/checkApp 0814TEST',
         json,
         'VERSION',
         appVersion,
@@ -88,11 +88,12 @@ export default () => {
     dispatch(setAlertVisible(true));
   };
 
-  const gotoLogin = () =>
+  const gotoLogin = () => {
     navigation.navigate('LogInScreen', {
       appVersion,
       platform,
     });
+  };
 
   const gotoVerification = () => navigation.navigate('VerificationScreen');
 
