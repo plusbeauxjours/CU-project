@@ -1,24 +1,24 @@
 import React from 'react';
-import { createAppContainer } from 'react-navigation';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import {createAppContainer} from 'react-navigation';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
 
-import { SimpleLineIcons } from '@expo/vector-icons';
-import { Text, View, Image } from 'react-native';
+import {SimpleLineIcons} from '@expo/vector-icons';
+import {Text, View, Image} from 'react-native';
 import LoggedInBTN_HomeNavigation from './LoggedInBTN_HomeNavigation';
 import LoggedInBTN_CalendarNavigation from './LoggedInBTN_CalendarNavigation';
 import LoggedInBTN_ChecklistNavigation from './LoggedInBTN_ChecklistNavigation';
-import LoggedInBTN_MycuNavigation from './LoggedInBTN_MycuNavigation';
+import LoggedInBTN_MyCuNavigation from './LoggedInBTN_MyCuNavigation';
 // import LoggedInBTN_MypageNavigation from './LoggedInBTN_MypageNavigation';
 
-const getTabBarIcon = ({ navigation, focused, horizontal, tintColor }) => {
-  const { routeName } = navigation.state;
+const getTabBarIcon = ({navigation, focused, horizontal, tintColor}) => {
+  const {routeName} = navigation.state;
 
   if (routeName === 'Home') {
     if (focused === true) {
       return (
-        <View style={{ alignItems: 'center', }}>
+        <View style={{alignItems: 'center'}}>
           <SimpleLineIcons name="home" size={23} color="#642A8C" />
-          <Text style={{ fontSize: 10, color: '#642A8C' }}>사업장관리</Text>
+          <Text style={{fontSize: 10, color: '#642A8C'}}>사업장관리</Text>
         </View>
       );
     } else {
@@ -29,9 +29,9 @@ const getTabBarIcon = ({ navigation, focused, horizontal, tintColor }) => {
   if (routeName === 'Calendar') {
     if (focused === true) {
       return (
-        <View style={{ alignItems: 'center' }}>
+        <View style={{alignItems: 'center'}}>
           <SimpleLineIcons name="event" size={25} color="#642A8C" />
-          <Text style={{ fontSize: 10, color: '#642A8C' }}>일정관리</Text>
+          <Text style={{fontSize: 10, color: '#642A8C'}}>일정관리</Text>
         </View>
       );
     } else {
@@ -42,9 +42,9 @@ const getTabBarIcon = ({ navigation, focused, horizontal, tintColor }) => {
   if (routeName === 'Checklist') {
     if (focused === true) {
       return (
-        <View style={{ alignItems: 'center' }}>
+        <View style={{alignItems: 'center'}}>
           <SimpleLineIcons name="note" size={25} color="#642A8C" />
-          <Text style={{ fontSize: 10, color: '#642A8C' }}>체크리스트</Text>
+          <Text style={{fontSize: 10, color: '#642A8C'}}>체크리스트</Text>
         </View>
       );
     } else {
@@ -52,7 +52,7 @@ const getTabBarIcon = ({ navigation, focused, horizontal, tintColor }) => {
     }
   }
 
-  if (routeName === 'Mycu') {
+  if (routeName === 'MyCu') {
     const imageStyle = {
       width: 43,
       height: 43,
@@ -63,8 +63,13 @@ const getTabBarIcon = ({ navigation, focused, horizontal, tintColor }) => {
     }
 
     return (
-      <View style={{ alignItems: 'center', justifyContent: 'center', paddingTop: 3 }}>
-        <Image source={require('../assets/cu_active_icon.png')} style={imageStyle} resizeMode="stretch" />
+      <View
+        style={{alignItems: 'center', justifyContent: 'center', paddingTop: 3}}>
+        <Image
+          source={require('../assets/cu_active_icon.png')}
+          style={imageStyle}
+          resizeMode="stretch"
+        />
       </View>
     );
     // if (focused === true) {
@@ -82,10 +87,10 @@ const getTabBarIcon = ({ navigation, focused, horizontal, tintColor }) => {
 
 const AppNavigator = createBottomTabNavigator(
   {
-    Home: { screen: LoggedInBTN_HomeNavigation },
-    Calendar: { screen: LoggedInBTN_CalendarNavigation },
-    Checklist: { screen: LoggedInBTN_ChecklistNavigation },
-    Mycu: { screen: LoggedInBTN_MycuNavigation },
+    Home: {screen: LoggedInBTN_HomeNavigation},
+    Calendar: {screen: LoggedInBTN_CalendarNavigation},
+    Checklist: {screen: LoggedInBTN_ChecklistNavigation},
+    MyCu: {screen: LoggedInBTN_MyCuNavigation},
   },
   {
     initialRouteName: 'Home',
@@ -94,8 +99,9 @@ const AppNavigator = createBottomTabNavigator(
       showLabel: false,
       keyboardHidesTabBar: true,
     },
-    defaultNavigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, horizontal, tintColor }) => getTabBarIcon({ navigation, focused, horizontal, tintColor }),
+    defaultNavigationOptions: ({navigation}) => ({
+      tabBarIcon: ({focused, horizontal, tintColor}) =>
+        getTabBarIcon({navigation, focused, horizontal, tintColor}),
     }),
   },
 );

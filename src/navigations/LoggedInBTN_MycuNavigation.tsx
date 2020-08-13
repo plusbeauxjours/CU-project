@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import { FontAwesome } from '@expo/vector-icons';
+import React, {Component} from 'react';
+import {Text, View} from 'react-native';
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
+import {FontAwesome} from '@expo/vector-icons';
 
-import MycuMainScreen from '../screens/LoggedInScreen/MycuScreen/MycuMainScreen';
-import MycuMonthlyListScreen from '../screens/LoggedInScreen/MycuScreen/MycuMonthlyListScreen';
-import MycuMonthlyDetailScreen from '../screens/LoggedInScreen/MycuScreen/MycuMonthlyDetailScreen';
-import MycuVideoListScreen from '../screens/LoggedInScreen/MycuScreen/MycuVideoListScreen';
-import MycuVideoDetailScreen from '../screens/LoggedInScreen/MycuScreen/MycuVideoDetailScreen';
+import MyCuMainScreen from '../screens/LoggedInScreen/MyCuScreen/MyCuMainScreen';
+import MyCuMonthlyListScreen from '../screens/LoggedInScreen/MyCuScreen/MyCuMonthlyListScreen';
+import MyCuMonthlyDetailScreen from '../screens/LoggedInScreen/MyCuScreen/MyCuMonthlyDetailScreen';
+import MyCuVideoListScreen from '../screens/LoggedInScreen/MyCuScreen/MyCuVideoListScreen';
+import MyCuVideoDetailScreen from '../screens/LoggedInScreen/MyCuScreen/MyCuVideoDetailScreen';
 import ElectronicContractsScreen2 from '../screens/LoggedInScreen/HomeTabScreen/ElectronicContractsScreen2';
 
 import UpdateStoreScreen from '../screens/LoggedInScreen/HomeTabScreen/UpdateStoreScreen';
@@ -38,8 +38,8 @@ import HealthCertificateEmpUpdateScreen from '../screens/LoggedInScreen/HealthCe
 // API: createStackNavigator(RouteConfigs, StackNavigatorConfig);
 const AppNavigator = createStackNavigator(
   {
-    MycuMain: {
-      screen: MycuMainScreen,
+    MyCuMain: {
+      screen: MyCuMainScreen,
       navigationOptions: {
         headerTitle: 'My CU',
         headerTintColor: 'white',
@@ -48,8 +48,8 @@ const AppNavigator = createStackNavigator(
         },
       },
     },
-    MycuMonthlyList: {
-      screen: MycuMonthlyListScreen,
+    MyCuMonthlyList: {
+      screen: MyCuMonthlyListScreen,
       navigationOptions: {
         headerTitle: '노무 월간지',
         headerTintColor: 'white',
@@ -58,8 +58,8 @@ const AppNavigator = createStackNavigator(
         },
       },
     },
-    MycuMonthlyDetail: {
-      screen: MycuMonthlyDetailScreen,
+    MyCuMonthlyDetail: {
+      screen: MyCuMonthlyDetailScreen,
       navigationOptions: {
         headerTitle: '노무 월간지',
         headerTintColor: 'white',
@@ -68,8 +68,8 @@ const AppNavigator = createStackNavigator(
         },
       },
     },
-    MycuVideoList: {
-      screen: MycuVideoListScreen,
+    MyCuVideoList: {
+      screen: MyCuVideoListScreen,
       navigationOptions: {
         headerTitle: '노무 교육 콘텐츠',
         headerTintColor: 'white',
@@ -78,8 +78,8 @@ const AppNavigator = createStackNavigator(
         },
       },
     },
-    MycuVideoDetail: {
-      screen: MycuVideoDetailScreen,
+    MyCuVideoDetail: {
+      screen: MyCuVideoDetailScreen,
       navigationOptions: {
         headerTitle: '노무 교육 콘텐츠',
         headerTintColor: 'white',
@@ -216,7 +216,7 @@ const AppNavigator = createStackNavigator(
     // 보건증조기경보시스템 (직원 상세) ${navigation.state.params.type == '0' ? '위생교육증' : '보건증'} ${navigation.state.params.FORM}
     HealthCertificateEmpDetail: {
       screen: HealthCertificateEmpDetailScreen,
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: ({navigation}) => ({
         headerTitle: `조기경보시스템 상세`,
         headerTintColor: 'white',
         headerTitleStyle: {
@@ -227,8 +227,10 @@ const AppNavigator = createStackNavigator(
     },
     HealthCertificateEmpUpdate: {
       screen: HealthCertificateEmpUpdateScreen,
-      navigationOptions: ({ navigation }) => ({
-        headerTitle: `조기경보시스템 ${navigation.state.params.type == '0' ? '위생교육증' : '보건증'} ${navigation.state.params.FORM}`,
+      navigationOptions: ({navigation}) => ({
+        headerTitle: `조기경보시스템 ${
+          navigation.state.params.type == '0' ? '위생교육증' : '보건증'
+        } ${navigation.state.params.FORM}`,
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: '200',
@@ -238,8 +240,10 @@ const AppNavigator = createStackNavigator(
     // 보건증조기경보시스템 (교육 정보입력)
     HealthCertificateEmpForm: {
       screen: HealthCertificateEmpFormScreen,
-      navigationOptions: ({ navigation }) => ({
-        headerTitle: `조기경보시스템 ${navigation.state.params.type == '0' ? '위생교육증' : '보건증'} ${navigation.state.params.FORM}`,
+      navigationOptions: ({navigation}) => ({
+        headerTitle: `조기경보시스템 ${
+          navigation.state.params.type == '0' ? '위생교육증' : '보건증'
+        } ${navigation.state.params.FORM}`,
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: '200',
@@ -258,12 +262,21 @@ const AppNavigator = createStackNavigator(
     },
     MyPagePositionSet: {
       screen: MyPagePositionSetScreen,
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: ({navigation}) => ({
         headerTitle: (
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ fontWeight: '200', color: 'white', fontSize: 16 }}>점주</Text>
-            <FontAwesome name="arrows-h" size={16} color="white" style={{ fontWeight: '200', marginHorizontal: 5 }} />
-            <Text style={{ fontWeight: '200', color: 'white', fontSize: 16 }}>직원</Text>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style={{fontWeight: '200', color: 'white', fontSize: 16}}>
+              점주
+            </Text>
+            <FontAwesome
+              name="arrows-h"
+              size={16}
+              color="white"
+              style={{fontWeight: '200', marginHorizontal: 5}}
+            />
+            <Text style={{fontWeight: '200', color: 'white', fontSize: 16}}>
+              직원
+            </Text>
           </View>
         ),
         // headerTitle: `${navigation.state.params.TITLE}`,
@@ -277,7 +290,7 @@ const AppNavigator = createStackNavigator(
   },
   {
     // initialRouteName: 'MyPageMain',
-    initialRouteName: 'MycuMain',
+    initialRouteName: 'MyCuMain',
     defaultNavigationOptions: {
       headerStyle: {
         //  backgroundColor: 'rgb(88, 135, 249)',
@@ -292,6 +305,6 @@ const AppNavigator = createStackNavigator(
   },
 );
 
-const LoggedInBTN_MycuNavigation = createAppContainer(AppNavigator);
+const LoggedInBTN_MyCuNavigation = createAppContainer(AppNavigator);
 
-export default LoggedInBTN_MycuNavigation;
+export default LoggedInBTN_MyCuNavigation;

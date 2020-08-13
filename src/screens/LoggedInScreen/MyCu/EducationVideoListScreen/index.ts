@@ -1,0 +1,2 @@
+import EducationVideoListScreenContainer from "./EducationVideoListScreenContainer"
+export default EducationVideoListScreenContainer

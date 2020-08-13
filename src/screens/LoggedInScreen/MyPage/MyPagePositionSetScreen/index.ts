@@ -1,0 +1,2 @@
+import MyPagePositionSetScreenContainer from "./MyPagePositionSetScreenContainer"
+export default MyPagePositionSetScreenContainer

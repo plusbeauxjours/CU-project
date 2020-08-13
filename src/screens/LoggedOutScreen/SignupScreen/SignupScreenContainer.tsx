@@ -97,7 +97,7 @@ export default ({route: {params}}) => {
     } else {
       try {
         let response = await fetch(
-          'http://133.186.209.113:80/api/v2/Auth/signup3',
+          'http://133.186.209.113:3003/api/auth/signup3',
           {
             method: 'POST',
             headers: {

@@ -63,7 +63,7 @@ export default () => {
     } else {
       try {
         let response = await fetch(
-          'http://133.186.209.113:80/api/v2/Auth/checkSMS',
+          'http://133.186.209.113:3003/api/auth/checkSMS',
           {
             method: 'POST',
             headers: {
@@ -123,7 +123,7 @@ export default () => {
     startCountDown();
     try {
       let response = await fetch(
-        'http://133.186.209.113:80/api/v2/Auth/get_appSMS',
+        'http://133.186.209.113:3003/api/auth/get_appSMS',
         {
           method: 'POST',
           headers: {

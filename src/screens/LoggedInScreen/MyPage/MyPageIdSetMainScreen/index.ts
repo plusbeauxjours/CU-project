@@ -1,0 +1,2 @@
+import MyPageIdSetMainScreenContainer from "./MyPageIdSetMainScreenContainer"
+export default MyPageIdSetMainScreenContainer

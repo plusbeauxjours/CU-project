@@ -1,0 +1,2 @@
+import StoreScreenEmpContainer from "./StoreScreenEmpContainer"
+export default StoreScreenEmpContainer

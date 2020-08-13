@@ -27,7 +27,7 @@ export default () => {
   const checkVersion = async () => {
     try {
       let response = await fetch(
-        'http://133.186.209.113:80/api/v2/Auth/checkApp',
+        'http://133.186.209.113:3003/api/auth/checkApp',
         {
           method: 'POST',
           headers: {
@@ -35,13 +35,20 @@ export default () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            appinfoversion: appVersion,
-            Dplatform: platform,
+            VERSION: appVersion,
+            PLATFORM: platform,
           }),
         },
       );
       const json = await response.json();
-      console.log(json);
+      console.log(
+        ':3003/api/auth/checkApp 0813TEST',
+        json,
+        'VERSION',
+        appVersion,
+        'PLATFORM',
+        platform,
+      );
       if (json.result == '1') {
         alertModal(
           '[ 업데이트 알림 ]',

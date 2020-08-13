@@ -1,0 +1,2 @@
+import HealthCertificateEmpListScreenContainer from "./HealthCertificateEmpListScreenContainer"
+export default HealthCertificateEmpListScreenContainer
