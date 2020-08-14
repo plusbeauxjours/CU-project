@@ -14,6 +14,20 @@ const callApi = async (method: string, path: string, data?: any, params = {}) =>
     }
 };
 
+const oldApi = async (method: string, path: string, data?: any, params = {}) => {
+    const headers = {
+        Accept: 'application/json',
+        "Content-Type": "application/json",
+    };
+    const baseUrl = "http://133.186.209.113:80/api/v2";
+    const fullUrl = `${baseUrl}${path}`;
+    if (method === "get" || method === "delete") {
+        return axios[method](fullUrl, { headers, params });
+    } else {
+        return axios[method](fullUrl, data, { headers });
+    }
+};
+
 export default {
     checkApp: (data: any) => callApi("post", "/auth/checkApp/", data),
     help: () => callApi("post", "/auth/help/"),
@@ -22,5 +36,7 @@ export default {
     checkSMS: (data: any) => callApi("post", "/auth/checksms/", data),
     getSMS: (data: any) => callApi("post", "/auth/getsms/", data),
     findPwd: (data: any) => callApi("post", "/auth/findPwd/", data),
+    updatePush: (data: any) => oldApi("post", "/Employee/updatePush", data),
+    getPush: (data: any) => oldApi("post", "/Employee/getPush", data),
 }
 
