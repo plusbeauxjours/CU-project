@@ -1,2 +1,2 @@
-import MyPageMainScreenContainer from "./MyPageMainScreenContainer"
-export default MyPageMainScreenContainer
+import MyPageMainScreen from "./MyPageMainScreen"
+export default MyPageMainScreen

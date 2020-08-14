@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import VerificationScreenPresenter from './VerificationScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
-import api from '../../../constants/api';
+import api from '../../../constants/LoggedInApi';
 
 let timer = null;
 
@@ -65,7 +65,7 @@ export default () => {
       try {
         const {data} = await api.checkSMS({
           MOBILENO: mobileNum,
-          PWD_SMS_SEQ: verifyCode,
+          SMSNUMBER: verifyCode,
         });
         if (data.RESULT_CODE == '0') {
           clearInterval(timer);
@@ -130,10 +130,6 @@ export default () => {
   };
 
   useEffect(() => {
-    // analytics
-    //   .hit(new PageHit('비밀번호찾기 페이지'))
-    //   .then(() => console.log('success'))
-    //   .catch((e) => console.log(e.message));
     return () => {
       clearInterval(timer);
     };

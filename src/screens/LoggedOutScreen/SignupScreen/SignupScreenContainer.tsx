@@ -10,7 +10,7 @@ import {setSplashVisible} from '../../../redux/splashSlice';
 
 ////////////////////////////////////////
 // import {Platform} from '@unimodules/core';
-import api from '../../../constants/api';
+import api from '../../../constants/LoggedInApi';
 
 // gender
 // birth
@@ -186,10 +186,6 @@ export default ({route: {params}}) => {
   };
 
   useEffect(() => {
-    // analytics
-    //   .hit(new PageHit('회원가입 정보입력 페이지'))
-    //   .then(() => console.log('success'))
-    //   .catch((e) => console.log(e.message));
     if (utils.isAndroid) {
       setPlatform('android');
     } else {

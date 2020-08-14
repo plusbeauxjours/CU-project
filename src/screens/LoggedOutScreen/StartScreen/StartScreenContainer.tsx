@@ -6,16 +6,12 @@ import StartScreenPresenter from './StartScreenPresenter';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
 import utils from '../../../constants/utils';
-import api from '../../../constants/api';
+import api from '../../../constants/LoggedInApi';
 
 ////////////////////////////////////////
 // Redux
 // setAlertInfo
 // setAlertVisible
-
-// Library
-// expo-analytics
-// analytics
 ////////////////////////////////////////
 
 export default () => {
@@ -100,10 +96,6 @@ export default () => {
   ///////////////////////////////////
 
   useEffect(() => {
-    // analytics
-    //   .hit(new PageHit('시작 페이지'))
-    //   .then(() => console.log('success'))
-    //   .catch((e) => console.log(e.message));
     if (utils.isAndroid) {
       setPlatform('android');
     } else {

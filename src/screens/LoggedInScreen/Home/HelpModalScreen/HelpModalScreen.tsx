@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import {Linking, Image} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {setAlertVisible} from '../../../../redux/alertSlice';
-import api from '../../../../constants/api';
+import api from '../../../../constants/LoggedInApi';
 
 const BackGround = styled.View`
   flex: 1;

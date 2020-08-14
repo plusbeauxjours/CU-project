@@ -103,9 +103,9 @@ export default ({alert}) => {
 
   const TextBox = ({alert}) => (
     <Box>
-      {alert.title && <Title>{alert.title}</Title>}
-      {alert.content && <Content>{alert.content}</Content>}
-      {alert.attach && <Attach>{alert.attach}</Attach>}
+      {alert?.title && <Title>{alert?.title}</Title>}
+      {alert?.content && <Content>{alert?.content}</Content>}
+      {alert?.attach && <Attach>{alert?.attach}</Attach>}
     </Box>
   );
 

@@ -1,17 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 
 import {useDispatch} from 'react-redux';
 import LogInScreenPresenter from './LogInScreenPresenter';
 import {useNavigation} from '@react-navigation/native';
 import {setUser, setId, setVersion, userLogin} from '../../../redux/userSlice';
 import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
-import api from '../../../constants/api';
+import api from '../../../constants/LoggedInApi';
 
 ////////////////////////////////////////
 // Library
 // expo-device
 // expo-constants
-// expo-analytics
 // expo-permissions
 // Notifications
 
@@ -115,14 +114,6 @@ export default ({route: {params}}) => {
   //     // Android: null return: no permission, empty string: unprogrammed or empty SIM1, e.g. "+15555215558": normal return value
   //   });
   // };
-
-  useEffect(() => {
-    // analytics
-    //   .hit(new PageHit('로그인 페이지'))
-    //   .then(() => console.log('success'))
-    //   .catch((e) => console.log(e.message));
-    // initialize();
-  }, []);
 
   return (
     <LogInScreenPresenter
