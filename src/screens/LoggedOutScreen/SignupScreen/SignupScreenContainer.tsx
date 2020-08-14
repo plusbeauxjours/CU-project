@@ -10,6 +10,7 @@ import {setSplashVisible} from '../../../redux/splashSlice';
 
 ////////////////////////////////////////
 // import {Platform} from '@unimodules/core';
+import api from '../../../constants/api';
 
 // gender
 // birth
@@ -36,6 +37,7 @@ export default ({route: {params}}) => {
   >([false, false]);
   const [type, setType] = useState<string>('1');
   const [password, setPassword] = useState<string>('');
+  const [birthDate, setBirthDate] = useState<string>('');
   const [passwordCheck, setPasswordCheck] = useState<string>('');
   const [isPasswordSeen, setIsPasswordSeen] = useState<boolean>(false);
   const [isRegist, setIsRegist] = useState<boolean>(false);
@@ -95,61 +97,50 @@ export default ({route: {params}}) => {
       dispatch(setSplashVisible(false));
       return false;
     } else {
-      try {
-        let response = await fetch(
-          'http://133.186.209.113:3003/api/auth/signup3',
-          {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              NAME: name,
-              MobileNo: params?.mobileNum,
-              SMSNUMBER: params?.verifyCode,
-              STORE: type,
-              PASSWORD: password,
-              DEVICE_TOKEN: '',
-            }),
-          },
-        );
-        const json = await response.json();
-        console.log(':3003/api/auth/signup3 0814TEST', json);
-        if (json.message === 'ALREADY_SUCCESS') {
-          dispatch(setSplashVisible(false));
-          const params = {
-            type: 'alert',
-            content: '이미 가입한 휴대폰번호입니다.',
-          };
-          dispatch(setAlertInfo(params));
-          dispatch(setAlertVisible(true));
-          navigation.goBack();
-        } else if (json.message === 'SMSERROR') {
-          dispatch(setSplashVisible(false));
-          const params = {
-            type: 'alert',
-            content: '인증번호 오류입니다.',
-          };
-          dispatch(setAlertInfo(params));
-          dispatch(setAlertVisible(true));
-          navigation.goBack();
-        } else {
-          dispatch(setSplashVisible(false));
-          const params = {
-            type: 'alert',
-            content: '회원가입이 완료되었습니다. 다시 로그인해 주세요.',
-          };
-          dispatch(setAlertInfo(params));
-          dispatch(setAlertVisible(true));
-          navigation.navigate('LogIn', {
-            appVersion,
-            platform,
-          });
-        }
-      } catch (error) {
-        console.log(error);
-      }
+      // try {
+      //   const {data} = await api.logIn({
+      //     MOBILENO: params?.mobileNum,
+      //     STORE: type,
+      // BIRTHDATE: birthDate,
+      //     NAME: name,
+      //     PASSWORD: password,
+      //   });
+      //   const json = await response.json();
+      //   console.log('auth/signup3 0814TEST', json);
+      //   if (json.message === 'ALREADY_SUCCESS') {
+      //     dispatch(setSplashVisible(false));
+      //     const params = {
+      //       type: 'alert',
+      //       content: '이미 가입한 휴대폰번호입니다.',
+      //     };
+      //     dispatch(setAlertInfo(params));
+      //     dispatch(setAlertVisible(true));
+      //     navigation.goBack();
+      //   } else if (json.message === 'SMSERROR') {
+      //     dispatch(setSplashVisible(false));
+      //     const params = {
+      //       type: 'alert',
+      //       content: '인증번호 오류입니다.',
+      //     };
+      //     dispatch(setAlertInfo(params));
+      //     dispatch(setAlertVisible(true));
+      //     navigation.goBack();
+      //   } else {
+      //     dispatch(setSplashVisible(false));
+      //     const params = {
+      //       type: 'alert',
+      //       content: '회원가입이 완료되었습니다. 다시 로그인해 주세요.',
+      //     };
+      //     dispatch(setAlertInfo(params));
+      //     dispatch(setAlertVisible(true));
+      //     navigation.navigate('LogIn', {
+      //       appVersion,
+      //       platform,
+      //     });
+      //   }
+      // } catch (error) {
+      //   console.log(error);
+      // }
     }
   };
 

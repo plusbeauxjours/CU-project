@@ -36,7 +36,7 @@ const VerifyText = styled.Text`
 `;
 
 const CheckPasswordButton = styled.TouchableOpacity`
-  padding-horizontal: 10px;
+  padding: 0 10px;
   flex-direction: row;
   align-items: center;
 `;
@@ -73,7 +73,7 @@ const TextinputCase = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-vertical: 8px;
+  padding: 8px 0;
 `;
 
 const TextInput = styled.TextInput`
@@ -121,8 +121,8 @@ export default ({
   isCountDownStart,
   isCheckAuth,
   requireAuth,
-  auth,
-  onChangeAuth,
+  verifyCode,
+  onChangeVerifyCode,
   isVerify,
   passwordCheck,
   onChangePasswordCheck,
@@ -179,21 +179,21 @@ export default ({
                   placeholderTextColor={'#E5E5E5'}
                   selectionColor={'#642A8C'}
                   onChangeText={(text) => {
-                    onChangeAuth(text);
+                    onChangeVerifyCode(text);
                   }}
-                  value={auth}
+                  value={verifyCode}
                   keyboardType={'number-pad'}
                   maxLength={6}
                 />
               </TextinputCase>
-              <Line isBefore={auth == '' ? true : false} />
+              <Line isBefore={verifyCode == '' ? true : false} />
               <VerifyContainer>
                 {isCountDownStart && <CountText>{countdown}초</CountText>}
                 <VerifyButton
                   onPress={() => {
-                    auth !== onVerifyCode();
+                    verifyCode !== onVerifyCode();
                   }}
-                  isBefore={auth == '' ? true : false}>
+                  isBefore={verifyCode == '' ? true : false}>
                   <VerifyText>인증확인</VerifyText>
                 </VerifyButton>
               </VerifyContainer>

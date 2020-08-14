@@ -6,6 +6,7 @@ import StartScreenPresenter from './StartScreenPresenter';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
 import utils from '../../../constants/utils';
+import api from '../../../constants/api';
 
 ////////////////////////////////////////
 // Redux
@@ -26,30 +27,11 @@ export default () => {
 
   const checkVersion = async () => {
     try {
-      let response = await fetch(
-        'http://133.186.209.113:3003/api/auth/checkApp',
-        {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            VERSION: appVersion,
-            PLATFORM: platform,
-          }),
-        },
-      );
-      const json = await response.json();
-      console.log(
-        ':3003/api/auth/checkApp 0814TEST',
-        json,
-        'VERSION',
-        appVersion,
-        'PLATFORM',
-        platform,
-      );
-      if (json.result == '1') {
+      const {data} = await api.checkApp({
+        VERSION: appVersion,
+        PLATFORM: platform,
+      });
+      if (data.RESULT_CODE == '1') {
         alertModal(
           '[ 업데이트 알림 ]',
           '새로운 버전이 출시되었습니다. 업데이트를 진행해주세요.\n\n* 이동 후 업데이트 버튼이 없는 경우에는 앱스토어 종료 후 다시 실행해 주세요.',
@@ -95,18 +77,27 @@ export default () => {
     });
   };
 
-  // const gotoVerification = () => navigation.navigate('VerificationScreen');
-  const gotoVerification = () => {
+  const gotoVerification = () => navigation.navigate('VerificationScreen');
+
+  ///////////////////////////////////
+  //            TESTCODE           //
+  ///////////////////////////////////
+
+  const testBtn = () => {
     const params = {
       type: 'alert',
       title: '테테테테테테스트타이틀',
       content: '테테테테테테스트컨텐츠',
       close: '1',
+      alertType: 'explain',
       cancelButtonText: 'okkk',
     };
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
   };
+
+  ///////////////////////////////////
+  ///////////////////////////////////
 
   useEffect(() => {
     // analytics
@@ -125,6 +116,7 @@ export default () => {
     <StartScreenPresenter
       gotoLogin={gotoLogin}
       gotoVerification={gotoVerification}
+      testBtn={testBtn}
     />
   );
 };

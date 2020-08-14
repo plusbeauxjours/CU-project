@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import VerificationScreenPresenter from './VerificationScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
+import api from '../../../constants/api';
 
 let timer = null;
 
@@ -62,23 +63,11 @@ export default () => {
       alertModal('인증번호를 정확히 입력해주세요.');
     } else {
       try {
-        let response = await fetch(
-          'http://133.186.209.113:3003/api/auth/checkSMS',
-          {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              MobileNo: mobileNum,
-              SMSNUMBER: verifyCode,
-            }),
-          },
-        );
-        const json = await response.json();
-        console.log(':3003/api/auth/checkSMS 0814TEST', json);
-        if (json.message == 'SUCCESS') {
+        const {data} = await api.checkSMS({
+          MOBILENO: mobileNum,
+          PWD_SMS_SEQ: verifyCode,
+        });
+        if (data.RESULT_CODE == '0') {
           clearInterval(timer);
           setIsVerify(true);
           setIsCountDownStart(false);
@@ -122,21 +111,12 @@ export default () => {
     setIsCheckTimeOut(false);
     startCountDown();
     try {
-      let response = await fetch(
-        'http://133.186.209.113:3003/api/auth/get_appSMS',
-        {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            PHONENUMBER: mobileNum.toString(),
-          }),
-        },
-      );
-      const json = await response.json();
-      console.log(':3003/api/auth/get_appSMS 0814TEST', json);
+      const {data} = await api.getSMS({
+        MOBILENO: mobileNum,
+      });
+      if (data.RESULT_CODE == '0') {
+        alertModal('인증번호를 발송하였습니다.');
+      }
     } catch (error) {
       console.log(error);
     }

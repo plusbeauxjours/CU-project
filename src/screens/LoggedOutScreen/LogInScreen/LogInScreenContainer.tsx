@@ -1,23 +1,13 @@
 import React, {useEffect, useState} from 'react';
 
-import {isIphoneX} from 'react-native-iphone-x-helper';
 import {useDispatch} from 'react-redux';
 import LogInScreenPresenter from './LogInScreenPresenter';
 import {useNavigation} from '@react-navigation/native';
 import {setUser, setId, setVersion, userLogin} from '../../../redux/userSlice';
 import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
-
-import utils from '../../../constants/utils';
+import api from '../../../constants/api';
 
 ////////////////////////////////////////
-// Redux
-// setAlertInfo
-// setAlertVisible
-// setUser
-// setId
-// setVersion
-// setLogIn
-
 // Library
 // expo-device
 // expo-constants
@@ -35,10 +25,8 @@ export default ({route: {params}}) => {
 
   const [mobileNum, setMobileNum] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
-  const [deviceVersion, setDeviceVersion] = useState<string>('');
+  // const [deviceVersion, setDeviceVersion] = useState<string>('');
   // const [modelId, setModelId] = useState<string>(Device.modelId || '');
-  const [userID, setUserID] = useState<string>('');
   const [push, setPush] = useState<string>('');
 
   const alertModal = (text) => {
@@ -63,51 +51,33 @@ export default ({route: {params}}) => {
     navigation.navigate('FindPasswordScreen');
   };
 
-  const signUp = async () => {
+  const logIn = async () => {
     if (mobileNum.length == 0 || password.length == 0) {
       alertModal('휴대폰번호 또는 비밀번호가 입력되지 않았습니다.');
     }
     try {
-      let response = await fetch(
-        'http://133.186.209.113:3003/api/auth/signin',
-        {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            MobileNo: mobileNum, //.toString(),
-            PASSWORD: password, //.toString(),
-            Device_Version: deviceVersion.toString(),
-            Device_Platform: params?.platform, //.toString(),
-            // Device_Model: modelId, //.toString(),
-            App_Version: params?.appVersion, //.toString()
-            USERID: userID,
-            push: push,
-          }),
-        },
-      );
-      const json = await response.json();
-      console.log(':3003/auth/signin 0814TEST', json);
-      if (json.message == 'FAIL') {
-        alertModal('사용자 정보가 맞지 않습니다.');
-      } else if (json.message == 'MEMBER_ERROR') {
-        alertModal('가입된 계정이 없습니다. 회원가입을 진행해주세요.');
-      } else {
-        dispatch(setUser(json.result));
-        dispatch(setId(mobileNum));
-        dispatch(setVersion(params?.appVersion));
-        dispatch(userLogin());
-        navigation.reset({
-          index: 0,
-          routes: [
-            {
-              name: 'LoggedInNavigation',
-              state: {routes: [{name: 'SelectStoreScreen'}]},
-            },
-          ],
-        });
+      const {data} = await api.logIn({
+        MOBILENO: mobileNum,
+        PALTFORM: params?.platform,
+        VERSION: params?.appVersion,
+        // MODEL: modelId,
+        DEVICE_TOKEN: push,
+        PASSWORD: password,
+      });
+      console.log(':3003/auth/signin 0814TEST', data);
+      switch (data.RESULT_CODE) {
+        case '0':
+          dispatch(setUser(data.RESULT_DATA));
+          dispatch(setId(mobileNum));
+          dispatch(setVersion(params?.appVersion));
+          dispatch(userLogin());
+          return navigation.navigate('LoggedInNavigation');
+        case '1':
+          return alertModal('사용자 정보가 맞지 않습니다.');
+        case '2':
+          return alertModal('가입된 계정이 없습니다. 회원가입을 진행해주세요.');
+        default:
+          break;
       }
     } catch (error) {
       console.log(error);
@@ -161,7 +131,7 @@ export default ({route: {params}}) => {
       onChangePassword={onChangePassword}
       mobileNum={mobileNum}
       password={password}
-      signUp={signUp}
+      logIn={logIn}
     />
   );
 };

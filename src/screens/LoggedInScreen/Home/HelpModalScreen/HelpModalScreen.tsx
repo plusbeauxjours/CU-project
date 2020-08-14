@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import {Linking, Image} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {setAlertVisible} from '../../../../redux/alertSlice';
+import api from '../../../../constants/api';
 
 const BackGround = styled.View`
   flex: 1;
@@ -51,38 +52,10 @@ export default () => {
   const [helpCategory, setHelpCategory] = useState<[]>([]);
 
   const fetchData = async () => {
-    // try {
-    //   let response = await fetch(
-    //     'http://133.186.209.113:3003/api/auth/getAllScreen',
-    //     {
-    //       method: 'POST',
-    //       headers: {
-    //         Accept: 'application/json',
-    //       },
-    //     },
-    //   );
-
-    //   const json = await response.json();
-    //   console.log('codecode============', json);
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
     if (helpCategory.length == 0) {
       try {
-        let response = await fetch(
-          'http://cuapi.shop-sol.com:3003/api/auth/help',
-          {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-          },
-        );
-        const json = await response.json();
-        console.log(':3003/api/auth/help 0814TEST', json);
-        setHelpCategory(json.result);
+        const {data} = await api.help();
+        setHelpCategory(data.result);
       } catch (error) {
         console.log(error);
       }
@@ -111,19 +84,16 @@ export default () => {
           {/* <Icon name="ios-arrow-forward" size={22} color="#bbb" /> */}
         </KakaoBox>
         {helpCategory.length > 0 &&
-          helpCategory.map((data: any, index) => {
-            console.log('=======');
-            return (
-              <AdviceBox
-                key={index}
-                onPress={() => {
-                  Linking.openURL(data?.URL);
-                }}>
-                <AdviceText>{data?.TITLE}</AdviceText>
-                {/* <Icon name="ios-arrow-forward" size={22} color="#bbb" /> */}
-              </AdviceBox>
-            );
-          })}
+          helpCategory.map((data: any, index) => (
+            <AdviceBox
+              key={index}
+              onPress={() => {
+                Linking.openURL(data?.URL);
+              }}>
+              <AdviceText>{data?.TITLE}</AdviceText>
+              {/* <Icon name="ios-arrow-forward" size={22} color="#bbb" /> */}
+            </AdviceBox>
+          ))}
       </ScrollView>
     </BackGround>
   );

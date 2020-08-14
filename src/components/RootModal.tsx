@@ -109,6 +109,11 @@ export default ({alert}) => {
     </Box>
   );
 
+  const onPressExplain = () => {
+    dispatch(setAlertVisible(false));
+    navigation.navigate('HelpModalScreen');
+  };
+
   const onPress = () => {
     dispatch(setAlertVisible(false));
     alert?.okCallback && alert.okCallback();
@@ -128,9 +133,7 @@ export default ({alert}) => {
             <WithHelpBtn color={'#642A8C'} onPress={() => onPress()}>
               <WhiteText>{alert.okButtonText}</WhiteText>
             </WithHelpBtn>
-            <WithHelpBtn
-              color={'#AACE36'}
-              onPress={() => navigation.navigate('HelpModalScreen')}>
+            <WithHelpBtn color={'#AACE36'} onPress={() => onPressExplain()}>
               <WhiteText>도움말</WhiteText>
               <WhiteText>전체보기</WhiteText>
             </WithHelpBtn>

@@ -15,7 +15,7 @@ const BackGround = styled.View`
 
 const Container = styled.View`
   flex: 1;
-  padding-vertical: ${hp('5%')};
+  padding: ${hp('5%')}px 0;
   align-items: center;
   justify-content: center;
 `;
@@ -52,7 +52,7 @@ const UnderLineText = styled.Text`
 `;
 
 const Button = styled.View`
-  padding-vertical: ${hp('2%')};
+  padding: ${hp('2%')}px 0;
   width: ${wp('80%')};
   background-color: #642a8c;
   align-items: center;
@@ -92,7 +92,7 @@ const LogoText = styled.View<ILogoText>`
   margin-bottom: ${hp('6%')};
   align-items: center;
   justify-content: center;
-  margin-vertical: ${(props) => props.isIphoneX && hp('5%')};
+  margin: ${(props) => props.isIphoneX && hp('5%')}px 0;
 `;
 
 interface ILine {
@@ -108,7 +108,7 @@ export default ({
   onChangePassword,
   mobileNum,
   password,
-  signUp,
+  logIn,
 }) => {
   return (
     <BackGround>
@@ -155,7 +155,7 @@ export default ({
           </TextInputBox>
           <WhiteSpace />
           <Login>
-            <Touchable onPress={() => signUp()}>
+            <Touchable onPress={() => logIn()}>
               <Button>
                 <WhiteText>로그인</WhiteText>
               </Button>

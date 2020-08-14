@@ -1,24 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import moment from 'moment';
+import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
 import FindPasswordScreenPresenter from './FindPasswordScreenPresenter';
-
-////////////////////////////////////////
-// Redux
-// setAlertInfo
-// setAlertVisible
-////////////////////////////////////////
+import api from '../../../constants/api';
+import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
 
 let timer = null;
 
 export default () => {
   const navigation = useNavigation();
-
+  const dispatch = useDispatch();
   const [mobileNum, setMobileNum] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordCheck, setPasswordCheck] = useState<string>('');
-  const [auth, setAuth] = useState<string>('');
+  const [verifyCode, setVerifyCode] = useState<string>('');
   const [countdown, setCountdown] = useState<string>('');
   const [isCountDownStart, setIsCountDownStart] = useState<boolean>(false);
   const [isRegist, setIsRegist] = useState<boolean>(false);
@@ -32,8 +29,8 @@ export default () => {
       type: 'alert',
       content: text,
     };
-    // setAlertInfo(params);
-    // setAlertVisible(true);
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
   };
 
   const toggleIsPasswordSeen = () => {
@@ -80,34 +77,15 @@ export default () => {
   };
 
   const onVerifyCode = async () => {
-    if (auth.length != 6) {
+    if (verifyCode.length != 6) {
       alertModal('인증번호를 정확히 입력해주세요.');
     } else {
       try {
-        let response = await fetch(
-          'http://133.186.209.113:3003/api/auth/checkSMS',
-          {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              MobileNo: mobileNum,
-              SMSNUMBER: auth,
-            }),
-          },
-        );
-        const json = await response.json();
-        console.log(
-          ':3003/api/auth/checkApp 0814TEST',
-          json,
-          'MobileNo',
-          mobileNum,
-          'SMSNUMBER',
-          auth,
-        );
-        if (json.message == 'SUCCESS') {
+        const {data} = await api.checkSMS({
+          MOBILENO: mobileNum,
+          PWD_SMS_SEQ: verifyCode,
+        });
+        if (data.RESULT_CODE == '0') {
           clearInterval(timer);
           setIsVerify(true);
           setIsCountDownStart(false);
@@ -132,8 +110,8 @@ export default () => {
     }
   };
 
-  const onChangeAuth = (text) => {
-    setAuth(text);
+  const onChangeVerifyCode = (text) => {
+    setVerifyCode(text);
   };
 
   const requireAuth = async () => {
@@ -151,21 +129,13 @@ export default () => {
     setIsCheckTimeOut(false);
     startCountDown();
     try {
-      let response = await fetch(
-        'http://133.186.209.113:3003/api/auth/get_appSMS',
-        {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            PHONENUMBER: mobileNum.toString(),
-          }),
-        },
-      );
-      const json = await response.json();
-      console.log(':3003/api/auth/get_appSMS', json);
+      const {data} = await api.getSMS({
+        MOBILENO: mobileNum,
+      });
+      if (data.RESULT_CODE == '0') {
+        alertModal('인증번호를 발송하였습니다.');
+      }
+      console.log(':3003/api/auth/getsms', data);
     } catch (error) {
       console.log(error);
     }
@@ -200,30 +170,20 @@ export default () => {
 
   const changePassword = async () => {
     try {
-      let response = await fetch(
-        'http://133.186.209.113:3003/api/member/changepwd3',
-        {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            MobileNo: mobileNum,
-            SMSNUMBER: auth,
-            PASSWORD: password,
-          }),
-        },
-      );
-      const json = await response.json();
-      console.log(':3003/api/member/changepwd3 0814TEST', json);
-      if (json.resultcode == '1') {
-        alertModal(json.result);
-        navigation.goBack();
-      } else if (json.resultcode == '2') {
-        alertModal(json.result);
-      } else {
-        alertModal('정보가 정확하지 않습니다.');
+      const {data} = await api.findPwd({
+        MOBILENO: mobileNum,
+        PWD_SMS_SEQ: verifyCode,
+        PASSWORD: password,
+      });
+      console.log('auth/findPwd 0814TEST', data);
+      switch (data.RESULT_CODE) {
+        case '0':
+          alertModal(data.RESULT_MSG);
+          return navigation.goBack();
+        case '1':
+          alertModal('정보가 정확하지 않습니다.');
+        default:
+          break;
       }
     } catch (error) {
       console.log(error);
@@ -246,9 +206,9 @@ export default () => {
       isCountDownStart={isCountDownStart}
       isCheckAuth={isCheckAuth}
       requireAuth={requireAuth}
-      auth={auth}
+      verifyCode={verifyCode}
       onChangeMobileNum={onChangeMobileNum}
-      onChangeAuth={onChangeAuth}
+      onChangeVerifyCode={onChangeVerifyCode}
       onChangePassword={onChangePassword}
       onChangePasswordCheck={onChangePasswordCheck}
       isVerify={isVerify}
