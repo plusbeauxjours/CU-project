@@ -1,2 +1,2 @@
-import ElectronicContractsScreen2Container from "./ElectronicContractsScreen2Container"
-export default ElectronicContractsScreen2Container
+import ElectronicContractsScreen2 from "./ElectronicContractsScreen2"
+export default ElectronicContractsScreen2

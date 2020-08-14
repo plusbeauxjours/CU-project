@@ -26,6 +26,7 @@ const WhiteBox = styled.View`
   height: 280px;
   background-color: white;
 `;
+
 const Box = styled.View`
   align-items: center;
   justify-content: center;
@@ -128,7 +129,7 @@ export default ({alert}) => {
       isVisible={alert.visible}>
       {alert.alertType == 'explain' ? (
         <WhiteBox>
-          <TextBox alert={alert} />
+          {/* {alert && <TextBox alert={alert} />} */}
           <Row>
             <WithHelpBtn color={'#642A8C'} onPress={() => onPress()}>
               <WhiteText>{alert.okButtonText}</WhiteText>
@@ -141,9 +142,7 @@ export default ({alert}) => {
         </WhiteBox>
       ) : (
         <WhiteBox>
-          <BackGround>
-            <TextBox alert={alert} />
-          </BackGround>
+          {/* <BackGround>{alert && <TextBox alert={alert} />}</BackGround> */}
           <Row>
             {alert.alertType === 'confirm' ? (
               <>

@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import {userLogout} from '../../../../redux/userSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import utils from '../../../../constants/utils';
 
 const BackGround = styled.View`
   flex: 1;
@@ -133,30 +134,21 @@ export default () => {
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
   };
-
-  const Box = ({onPress, title}) => (
-    <BoxContainer onPress={() => onPress()}>
-      <BoxTitle>{title}</BoxTitle>
-      <Arrow>
-        {title === '로그 아웃' ? (
-          <Icon name="logout" size={20} color="#642A8C" />
-        ) : title === '앱버전' ? (
-          <BoxTitle>{version}</BoxTitle>
-        ) : (
-          <Icon name="right" size={16} color="#642A8C" />
-        )}
-      </Arrow>
-    </BoxContainer>
+  const ArrowIcon = () => (
+    <Arrow>
+      <Icon
+        name={utils.isAndroid ? 'md-chevron-back' : 'ios-chevron-back'}
+        size={16}
+        color="#642A8C"
+      />
+    </Arrow>
   );
-
   return (
     <BackGround>
-      <Phone>fsdafsadf</Phone>
-      {/* <ScrollView>
+      <ScrollView>
         <Container>
           <Info>
             <Image source={{uri: `http://133.186.209.113/uploads/3.png`}} />
-
             <PersonInfo>
               <Name>
                 <NameText>{NAME}</NameText>
@@ -167,42 +159,72 @@ export default () => {
                 <PhoneText>{mobileNo}</PhoneText>
               </Phone>
             </PersonInfo>
-          </Info> */}
-      {/* <BoxArea>
-            <Box
-              onPress={navigation.navigate('MyPageAlarmSetScreen')}
-              title={'알림 설정'}
-            />
-            <Box
-              onPress={navigation.navigate('MyPagePlaceSetScreen')}
-              title={STORE == 1 ? '사업장관리 이력' : '근무종료 사업장'}
-            />
-            <Box
-              onPress={navigation.navigate('MyPageAppointmentScreen')}
-              title={'약관보기'}
-            />
-            {STORE == '1' && (
-              <Box
-                onPress={navigation.navigate('ElectronicContractsScreen2')}
-                title={'전자근로계약서'}
-              />
-            )}
-            <Box
-              onPress={navigation.navigate('MyPageIdSetMainScreen', {
-                mobileNo: mobileNo,
-                STORE: STORE,
-              })}
-              title={'계정관리'}
-            />
-            <Box onPress={'MyPageAlarmSet'} title={'알림 설정'} />
-            <Box onPress={() => {}} title={'알림 설정'} />
-            <Box
-              onPress={logOut('', '로그아웃 하시겠습니까?')}
-              title={'로그 아웃'}
-            />
+          </Info>
+          <BoxArea>
+            <BoxContainer
+              onPress={() => {
+                navigation.navigate('MyPageAlarmSetScreen');
+              }}>
+              <BoxTitle>알림 설정</BoxTitle>
+              <ArrowIcon />
+            </BoxContainer>
+            <BoxContainer
+              onPress={() => {
+                navigation.navigate('MyPagePlaceSetScreen');
+              }}>
+              <BoxTitle>
+                {STORE == 1 ? '사업장관리 이력' : '근무종료 사업장'}
+              </BoxTitle>
+              <ArrowIcon />
+            </BoxContainer>
+            <BoxContainer
+              onPress={() => {
+                navigation.navigate('MyPageAppointmentScreen');
+              }}>
+              <BoxTitle>약관보기</BoxTitle>
+              <ArrowIcon />
+            </BoxContainer>
+            <BoxContainer
+              onPress={() => {
+                navigation.navigate('ElectronicContractsScreen2');
+              }}>
+              <BoxTitle>전자근로계약서</BoxTitle>
+              <ArrowIcon />
+            </BoxContainer>
+            <BoxContainer
+              onPress={() => {
+                navigation.navigate('MyPageIdSetMainScreen', {
+                  mobileNo: mobileNo,
+                  STORE: STORE,
+                });
+              }}>
+              <BoxTitle>계정관리</BoxTitle>
+              <ArrowIcon />
+            </BoxContainer>
+            <BoxContainer
+              onPress={() => {
+                navigation.navigate('MyPageIdSetMainScreen', {
+                  mobileNo: mobileNo,
+                  STORE: STORE,
+                });
+              }}>
+              <BoxTitle>앱버전</BoxTitle>
+              <Arrow>
+                <BoxTitle>{version}</BoxTitle>
+              </Arrow>
+            </BoxContainer>
+            <BoxContainer
+              onPress={() => {
+                logOut('', '로그아웃 하시겠습니까?');
+              }}>
+              <BoxTitle>로그 아웃</BoxTitle>
+              <Arrow>
+                <Icon name="logout" size={20} color="#642A8C" />
+              </Arrow>
+            </BoxContainer>
           </BoxArea>
         </Container>
-      </ScrollView> */}
+      </ScrollView>
     </BackGround>
   );
 };
