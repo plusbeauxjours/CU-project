@@ -1,147 +1,180 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {ScrollView, ActivityIndicator} from 'react-native';
+import Modal from 'react-native-modal';
 import styled from 'styled-components/native';
+import {WebView} from 'react-native-webview';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
 
-const Container = styled.View``;
+import utils from '../../../../constants/utils';
+
+const BackGround = styled.View`
+  flex: 1;
+  background-color: white;
+`;
+
 const Text = styled.Text``;
+const ExplainContainer = styled.View``;
+const Touchable = styled.TouchableOpacity`
+  padding: 10px;
+`;
 
-export default () => {
+const ExplainTitle = styled.Text`
+  color: #642a8c;
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+const ExplainText = styled.Text`
+  color: #999;
+`;
+
+const ExplainBox = styled.View`
+  margin-bottom: 15px;
+  width: 100px;
+  justify-content: center;
+`;
+
+const WhiteSpace = styled.View`
+  height: 30px;
+`;
+
+const LinkBtn = styled.TouchableOpacity`
+  margin-top: 20px;
+  height: 70px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-width: 2px;
+  border-color: #642a8c;
+  border-radius: 50px;
+  margin-bottom: 90px;
+`;
+
+const ModalHeader = styled.View`
+  width: 100%;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  background-color: #fff;
+`;
+
+const RedText = styled.Text`
+  color: red;
+`;
+
+const Column = styled.View`
+  flex-direction: column;
+`;
+
+export default ({route: {params}}) => {
+  const navigation = useNavigation();
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isWebviewSpinnerVisible, setIsWebviewSpinnerVisible] = useState<
+    boolean
+  >(false);
+  const onPress = () => {
+    if (params?.hasNextStep) {
+      setIsModalVisible(false);
+      navigation.navigate('SetEmployeeInfo', {
+        ...params,
+        ...{from: 'ElectronicContracts'},
+      });
+    } else {
+      setIsModalVisible(false);
+    }
+  };
   return (
-    <View style={styles.container}>
-      <ScrollView style={styles.inner}>
-        <View style={{...styles.explainList, marginBottom: 30}}>
-          <View style={styles.explainTitle}>
-            <Text style={{color: 'white'}}>근로기준법</Text>
-          </View>
-          <Text style={styles.explainText}>
-            이제는 근로기준법에 맞는 근로계약서를
-          </Text>
-          <Text style={styles.explainText}>자동으로 작성하세요.</Text>
-        </View>
-        <View style={{...styles.explainList, marginBottom: 30}}>
-          <View style={styles.explainTitle}>
-            <Text style={{color: 'white'}}>전자서명</Text>
-          </View>
-          <Text style={styles.explainText}>
+    <BackGround>
+      <ScrollView style={{paddingTop: '15%', paddingHorizontal: 40}}>
+        <ExplainContainer>
+          <ExplainBox>
+            <ExplainTitle>근로기준법</ExplainTitle>
+          </ExplainBox>
+          <ExplainText>이제는 근로기준법에 맞는 근로계약서를</ExplainText>
+          <ExplainText>자동으로 작성하세요.</ExplainText>
+        </ExplainContainer>
+        <WhiteSpace />
+        <ExplainContainer>
+          <ExplainBox>
+            <ExplainTitle>전자서명</ExplainTitle>
+          </ExplainBox>
+          <ExplainText>
             매번 근로자를 직접 만나서 게약을 체결하기 번거롭지
-          </Text>
-          <Text style={styles.explainText}>
-            않으신가요? 이제는 전자서명으로 간편하게
-          </Text>
-          <Text style={styles.explainText}>계약을 체결하세요.</Text>
-        </View>
-        <View style={styles.explainList}>
-          <View style={styles.explainTitle}>
-            <Text style={{color: 'white'}}>저장,관리</Text>
-          </View>
-          <Text style={styles.explainText}>
-            근로게약서 저장관리가 어려우신가요?
-          </Text>
-          <Text style={styles.explainText}>
+          </ExplainText>
+          <ExplainText>않으신가요? 이제는 전자서명으로 간편하게</ExplainText>
+          <ExplainText>계약을 체결하세요.</ExplainText>
+        </ExplainContainer>
+        <WhiteSpace />
+        <ExplainContainer>
+          <ExplainBox>
+            <ExplainTitle>저장,관리</ExplainTitle>
+          </ExplainBox>
+          <ExplainText>근로게약서 저장관리가 어려우신가요?</ExplainText>
+          <ExplainText>
             이제는 근로계약서를 한 곳에서 저장하고 관리하세요.
-          </Text>
-        </View>
-
-        <View style={styles.linkArea}>
-          <Text style={{color: 'red'}}>
+          </ExplainText>
+        </ExplainContainer>
+        <WhiteSpace />
+        <WhiteSpace />
+        <ExplainContainer>
+          <RedText>
             {'     '} *중요 : 아래 사항으로 입력해주시기 바랍니다.
-          </Text>
-          <Text style={styles.explainText}>
-            {'      '} - 회사명 : CU 지점명
-          </Text>
-          <Text style={styles.explainText}>
-            {'      '} - 가입경로 : 자버 담당자 미팅
-          </Text>
+          </RedText>
+          <ExplainText>{'      '} - 회사명 : CU 지점명</ExplainText>
+          <ExplainText>{'      '} - 가입경로 : 자버 담당자 미팅</ExplainText>
 
-          <TouchableOpacity
-            style={styles.linkBtn}
+          <LinkBtn
             onPress={() => {
-              this.setState({isModalVisible: true});
+              setIsModalVisible(true);
             }}>
             <Text style={{color: '#FF3D3D', fontSize: 16}}>(선택)</Text>
             <Text style={{marginLeft: 5, color: '#642A8C', fontSize: 16}}>
               전자근로계약서 작성하기
             </Text>
-          </TouchableOpacity>
-        </View>
+          </LinkBtn>
+        </ExplainContainer>
       </ScrollView>
-      <View style={styles.bottomArea}>
-        <TouchableOpacity
-          style={styles.skip}
-          onPress={() => {
-            this.props.navigation.navigate('SetEmployeeInfo', {
-              ...this.props.navigation.state.params,
-              ...{from: 'ElectronicContracts'},
-            });
-          }}>
-          <Text style={{color: 'white', fontSize: 16}}>다음에 진행하기</Text>
-        </TouchableOpacity>
-      </View>
       <Modal
-        isVisible={this.state.isModalVisible}
-        onBackdropPress={() => this.setState({isModalVisible: false})}
+        isVisible={isModalVisible}
+        onBackdropPress={() => setIsModalVisible(false)}
         style={{flex: 1, margin: 0, justifyContent: 'flex-end'}}
         avoidKeyboard={false}>
-        <View style={{flexDirection: 'column'}}>
-          <View style={styles.modalHeader}>
+        <Column>
+          <ModalHeader>
             <Text style={{paddingBottom: 15, paddingLeft: 10, color: '#aaa'}}>
               * 마이페이지에서 추후에 작성 가능합니다.
             </Text>
-            <TouchableOpacity
-              style={{padding: 10}}
-              onPress={() => {
-                this.setState(
-                  {
-                    isModalVisible: false,
-                  },
-                  () => {
-                    this.props.navigation.navigate('SetEmployeeInfo', {
-                      ...this.props.navigation.state.params,
-                      ...{from: 'ElectronicContracts'},
-                    });
-                  },
-                );
-              }}>
-              <AntDesign
-                name="closecircleo"
-                size={30}
+            <Touchable onPress={() => onPress()}>
+              <Icon
+                name={utils.isAndroid ? 'md-close' : 'ios-close'}
+                size={28}
                 color="#642A8C"
                 style={{marginRight: 5}}
               />
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              backgroundColor: '#FFFFFF',
-              width: '100%',
-              height: isIphoneX()
-                ? hp('82%')
-                : StatusBar.currentHeight > 30
-                ? hp('94%')
-                : hp('90%'),
-              marginBottom: isIphoneX() ? 45 : 0,
-            }}>
-            {this.state.visibleWebviewSpinner ? (
-              <ActivityIndicator
-                color="#009688"
-                size="large"
-                style={{
-                  flex: 1,
-                  marginTop: 200,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              />
-            ) : null}
-            <WebView
-              source={{uri: 'https://bit.ly/2WFaeL4'}}
-              style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
-              onMessage={(event) => {}}
-              onLoadStart={() => this.showSpinner()}
-              onLoad={() => this.hideSpinner()}
+            </Touchable>
+          </ModalHeader>
+          {isWebviewSpinnerVisible && (
+            <ActivityIndicator
+              color="#009688"
+              size="large"
+              style={{
+                flex: 1,
+                marginTop: 200,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
             />
-          </View>
-        </View>
+          )}
+          <WebView
+            source={{uri: 'https://bit.ly/2WFaeL4'}}
+            style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
+            onMessage={(event) => {}}
+            onLoadStart={() => setIsWebviewSpinnerVisible(true)}
+            onLoad={() => setIsWebviewSpinnerVisible(false)}
+          />
+        </Column>
       </Modal>
-    </View>
+    </BackGround>
   );
 };

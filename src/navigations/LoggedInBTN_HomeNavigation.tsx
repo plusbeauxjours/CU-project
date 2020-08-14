@@ -34,7 +34,6 @@ import EmployeeInfoEMPScreen from '../screens/LoggedInScreen/Home/EmployeeInfoEM
 
 // 직원용
 import StoreScreenEmp from '../screens/LoggedInScreen/Home/StoreScreenEmp';
-import ElectronicContractsScreen2 from '../screens/LoggedInScreen/Home/ElectronicContractsScreen2';
 
 // 캘린더============================
 import CalendarAddScreen from '../screens/LoggedInScreen/Calendar/CalendarAddScreen';
@@ -247,13 +246,6 @@ export default () => (
       component={EmployeeInfoEMPScreen}
       options={{
         title: '직원 정보',
-      }}
-    />
-    <LoggedInBTN_HomeNavigation.Screen
-      name="ElectronicContractsScreen2"
-      component={ElectronicContractsScreen2}
-      options={{
-        title: '전자근로계약서 체결',
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen

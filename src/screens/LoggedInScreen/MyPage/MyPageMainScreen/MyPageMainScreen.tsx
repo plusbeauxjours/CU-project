@@ -186,7 +186,7 @@ export default () => {
             </BoxContainer>
             <BoxContainer
               onPress={() => {
-                navigation.navigate('ElectronicContractsScreen2');
+                navigation.navigate('ElectronicContractsScreen');
               }}>
               <BoxTitle>전자근로계약서</BoxTitle>
               <ArrowIcon />

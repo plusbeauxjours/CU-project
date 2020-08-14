@@ -21,7 +21,7 @@ import MyPageIdSetMainScreen from '../screens/LoggedInScreen/MyPage/MyPageIdSetM
 import MyPageDeleteSetScreen from '../screens/LoggedInScreen/MyPage/MyPageDeleteSetScreen';
 import MyPageNameSetScreen from '../screens/LoggedInScreen/MyPage/MyPageNameSetScreen';
 import MyPagePasswordSetScreen from '../screens/LoggedInScreen/MyPage/MyPagePasswordSetScreen';
-import ElectronicContractsScreen2 from '../screens/LoggedInScreen/Home/ElectronicContractsScreen2';
+import ElectronicContractsScreen from '../screens/LoggedInScreen/Home/ElectronicContractsScreen';
 import MyPagePositionSetScreen from '../screens/LoggedInScreen/MyPage/MyPagePositionSetScreen';
 
 const LoggedInNavigation = createStackNavigator();
@@ -121,8 +121,8 @@ export default () => {
           }}
         />
         <LoggedInNavigation.Screen
-          name="ElectronicContractsScreen2"
-          component={ElectronicContractsScreen2}
+          name="ElectronicContractsScreen"
+          component={ElectronicContractsScreen}
           options={{
             title: '전자근로계약서 체결',
           }}

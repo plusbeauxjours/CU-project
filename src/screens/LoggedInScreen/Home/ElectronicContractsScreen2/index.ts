@@ -1,2 +1,0 @@
-import ElectronicContractsScreen2 from "./ElectronicContractsScreen2"
-export default ElectronicContractsScreen2
