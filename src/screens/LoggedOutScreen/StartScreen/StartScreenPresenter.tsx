@@ -7,7 +7,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import {getText1, getText2, getText3} from './StartScreenText';
+import {getText1, getText2, getText3} from '../../../constants/getText';
 
 const Container = styled.View`
   flex: 1;
@@ -64,16 +64,19 @@ const Button = styled.TouchableOpacity`
 `;
 
 const Text = styled.Text`
-  text-decoration-line: underline;
   color: #707070;
   font-size: 15;
+`;
+
+const UnderLineText = styled(Text)`
+  text-decoration-line: underline;
 `;
 
 const SmallText = styled.Text`
   font-size: 9px;
 `;
 
-const UnderLineText = styled.Text`
+const UnderLineSmallText = styled.Text`
   font-size: 10px;
   text-decoration-line: underline;
 `;
@@ -100,12 +103,12 @@ export default ({gotoLogin, gotoVerification, testBtn}) => {
 
   const Comma = () => <SmallText>, </SmallText>;
   const Modal = ({sheetRef, text}) => (
-    <UnderLineText
+    <UnderLineSmallText
       onPress={() => {
         sheetRef.current.open();
       }}>
       {text}
-    </UnderLineText>
+    </UnderLineSmallText>
   );
   const Sheet = ({sheetRef, getText}) => (
     <RBSheet
@@ -141,7 +144,7 @@ export default ({gotoLogin, gotoVerification, testBtn}) => {
           />
           <AddStoreBox>
             <AddStoreButton onPress={() => gotoLogin()}>
-              <Text>회원이신가요?</Text>
+              <UnderLineText>회원이신가요?</UnderLineText>
             </AddStoreButton>
           </AddStoreBox>
         </Logo>

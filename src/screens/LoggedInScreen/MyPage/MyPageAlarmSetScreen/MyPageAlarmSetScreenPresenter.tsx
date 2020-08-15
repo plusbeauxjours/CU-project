@@ -13,7 +13,10 @@ const Box = styled.View`
   align-items: center;
 `;
 
-const Text = styled.Text``;
+const Text = styled.Text`
+  font-size: 16px;
+  font-weight: bold;
+`;
 const Switch = styled.Switch``;
 
 export default ({
@@ -27,76 +30,40 @@ export default ({
   scedulePush,
   toggleAlarm,
 }) => {
+  const SwitchBox = ({value, alarm}) => (
+    <Switch
+      trackColor={{true: '#642A8C', false: '#ddd'}}
+      thumbColor={'#fff'}
+      onValueChange={() => {
+        toggleAlarm(alarm);
+        updateAlarm(value, alarm);
+      }}
+      value={value}
+    />
+  );
   return (
     <BackGround>
       <Box>
-        <Text style={{fontSize: 16, fontWeight: 'bold'}}>푸시 끄기/켜기</Text>
-
-        <Switch
-          trackColor={{true: '#642A8C', false: '#ddd'}}
-          thumbColor={'#fff'}
-          onValueChange={() => {
-            toggleAlarm('allPush');
-            updateAlarm(allPush, 'allPush');
-          }}
-          value={allPush}
-        />
+        <Text>푸시 끄기/켜기</Text>
+        <SwitchBox value={allPush} alarm={'allPush'} />
       </Box>
-      {allPush == true && (
+      {allPush && (
         <>
           <Box>
-            <Text style={{fontSize: 16, fontWeight: 'bold'}}>출퇴근 푸시</Text>
-            <Switch
-              trackColor={{true: '#642A8C', false: '#ddd'}}
-              thumbColor={'#fff'}
-              onValueChange={() => {
-                toggleAlarm('workPush');
-                updateAlarm(workPush, 'workPush');
-              }}
-              value={workPush}
-            />
+            <Text>출퇴근 푸시</Text>
+            <SwitchBox value={workPush} alarm={'workPush'} />
           </Box>
           <Box>
-            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-              근무일정 푸시
-            </Text>
-            <Switch
-              trackColor={{true: '#642A8C', false: '#ddd'}}
-              thumbColor={'#fff'}
-              onValueChange={() => {
-                toggleAlarm('scedulePush');
-                updateAlarm(scedulePush, 'scedulePush');
-              }}
-              value={scedulePush}
-            />
+            <Text>근무일정 푸시</Text>
+            <SwitchBox value={scedulePush} alarm={'scedulePush'} />
           </Box>
           <Box>
-            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-              체크리스트 푸시
-            </Text>
-            <Switch
-              trackColor={{true: '#642A8C', false: '#ddd'}}
-              thumbColor={'#fff'}
-              onValueChange={() => {
-                toggleAlarm('checkPush');
-                updateAlarm(checkPush, 'checkPush');
-              }}
-              value={checkPush}
-            />
+            <Text>체크리스트 푸시</Text>
+            <SwitchBox value={checkPush} alarm={'checkPush'} />
           </Box>
           <Box>
-            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-              업무일지 푸시
-            </Text>
-            <Switch
-              trackColor={{true: '#642A8C', false: '#ddd'}}
-              thumbColor={'#fff'}
-              onValueChange={() => {
-                toggleAlarm('checksharePush');
-                updateAlarm(checksharePush, 'checksharePush');
-              }}
-              value={checksharePush}
-            />
+            <Text>업무일지 푸시</Text>
+            <SwitchBox value={checksharePush} alarm={'checksharePush'} />
           </Box>
         </>
       )}

@@ -43,7 +43,8 @@ export default () => {
     try {
       const {data} = await api.updatePush({
         MEMBER_SEQ,
-        [alarm]: isAlarmOn,
+        // [alarm]: isAlarmOn,
+        CHECK_PUSH: false,
       });
       console.log('data on mypagealarmsetscreen', data);
     } catch (error) {
