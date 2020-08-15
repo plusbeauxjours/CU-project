@@ -64,7 +64,7 @@ const NameText = styled.Text`
 `;
 
 const WhiteSpace = styled.View`
-  height: ${hp('3%')};
+  height: 30px;
 `;
 
 const Case = styled.View`
@@ -117,14 +117,14 @@ const VerifyContainer = styled.View`
 export default ({
   isCountDownStart,
   isCheckVerifyCode,
-  requireAuth,
+  requireVerifyCode,
   verifyCode,
   onChangeVerifyCode,
   isVerify,
   passwordCheck,
   onChangePasswordCheck,
   mobileNo,
-  regist,
+  submit,
   isRegist,
   onChangeMobileNum,
   isCheckTimeOut,
@@ -160,7 +160,7 @@ export default ({
                   maxLength={11}
                 />
                 <RequestButton
-                  onPress={() => requireAuth()}
+                  onPress={() => requireVerifyCode()}
                   disabled={isCheckVerifyCode}>
                   <RequestText>인증요청</RequestText>
                 </RequestButton>
@@ -286,7 +286,7 @@ export default ({
             )}
             <SubmitBtn
               text={'비밀번호 변경'}
-              onPress={() => regist()}
+              onPress={() => submit()}
               // isRegist={isRegist}
               isRegist={true}
             />

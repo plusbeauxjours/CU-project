@@ -1,272 +1,251 @@
-import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  KeyboardAvoidingView,
-  StatusBar,
-  Platform,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import React, {useRef} from 'react';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import Icon from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import utils from '../../../../constants/utils';
+import InputLine from '../../../../components/InputLine';
 
-const Container = styled.View``;
+const BackGround = styled.SafeAreaView`
+  flex: 1;
+  background-color: white;
+`;
 
-export default ({route:{params}}) => {
+const Case = styled.View`
+  width: 100%;
+`;
 
-  password: '',
-  passwordCheck: '',
-  isPasswordSeen: false,
-  checkAuth: false,
-  auth: '',
-  next: false,
-  timer: 100,
-  phone: '',
+const Container = styled.View`
+  width: 100%;
+  padding: 0 20px;
+  align-items: center;
+  margin-top: ${hp('5%')};
+`;
+
+const NameText = styled.Text`
+  font-size: 16px;
+  font-weight: bold;
+`;
+
+const TextinputCase = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+`;
+
+const TextInput = styled.TextInput`
+  flex: 1;
+  font-size: 16px;
+  color: black;
+`;
+
+const CheckPasswordButton = styled.TouchableOpacity`
+  padding: 0 10px;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const TimeText = styled.Text`
+  font-size: 12px;
+  font-weight: bold;
+  color: #ff3d3d;
+  align-self: flex-start;
+  margin-bottom: 5px;
+`;
+const CountText = styled(TimeText)`
+  align-self: center;
+  margin-right: 10px;
+  margin-bottom: 0;
+`;
+
+const GreyText = styled.Text`
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 5px;
+`;
+
+const VerifyContainer = styled.View`
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const WhiteSpace = styled.View`
+  height: 30px;
+`;
+
+const RequestButton = styled.TouchableOpacity`
+  padding: 7px 14px;
+  align-items: center;
+  justify-content: center;
+  border-width: 1px;
+  border-color: #642a8c;
+  border-radius: 20px;
+`;
+
+const RequestText = styled.Text`
+  font-size: 14px;
+  color: #642a8c;
+`;
+
+const MobileNoText = styled.Text`
+  font-size: 16px;
+`;
+
+export default ({
+  alertModal,
+  password,
+  passwordCheck,
+  isPasswordSeen,
+  isCheckVerifyCode,
+  verifyCode,
+  mobileNo,
+  isRegisted,
+  requireVerifyCode,
+  onChangePassword,
+  onChangeVerifyCode,
+  onChangePasswordCheck,
+  submit,
+  toggleIsPasswordSeen,
+  countdown,
+  isCountDownStart,
+  isCheckTimeOut,
+}) => {
+  const passwordCheckRef = useRef(null);
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle={'light-content'} />
+    <BackGround>
       <KeyboardAwareScrollView keyboardShouldPersistTaps="always">
-        <View>
-          <View style={styles.InputCase}>
-            <Text style={styles.textName}>새로운 비밀번호</Text>
-
-            <View style={styles.textInputCase}>
+        <Container>
+          <Case>
+            <NameText>새 비밀번호</NameText>
+            <TextinputCase>
               <TextInput
-                style={styles.textinput}
                 placeholder={'영문, 숫자 조합 6자 이상'}
                 placeholderTextColor={'#E5E5E5'}
-                onFocus={() => {
-                  this.passwordCheck.clear();
-                }}
-                onChangeText={(text) => {
-                  this._password(text);
-                }}
-                value={this.state.password}
-                secureTextEntry={
-                  this.state.passwordSeen === true ? false : true
-                }
                 selectionColor={'#642A8C'}
-              />
-              <TouchableOpacity
-                style={styles.checkPassword}
-                onPress={() => {
-                  this.setState({passwordSeen: !this.state.passwordSeen});
-                }}>
-                {this.state.passwordSeen ? (
-                  <Ionicons name="ios-eye" size={24} color="#aaa" />
-                ) : (
-                  <Ionicons name="ios-eye-off" size={24} color="#ddd" />
-                )}
-              </TouchableOpacity>
-            </View>
-            <View
-              style={
-                this.state.password === ''
-                  ? styles.lineBefore
-                  : styles.lineAfter
-              }
-            />
-          </View>
-
-          <View style={styles.InputCase}>
-            <Text style={styles.textName}>새로운 비밀번호 확인</Text>
-
-            <View style={styles.textInputCase}>
-              <TextInput
-                ref={(ref) => {
-                  this.passwordCheck = ref;
+                onFocus={() => {
+                  passwordCheckRef.current.clear();
                 }}
-                style={styles.textinput}
-                placeholder={'영문, 숫자 조합 6자 이상'}
-                placeholderTextColor={'#E5E5E5'}
                 onChangeText={(text) => {
-                  this._passwordCheck(text);
+                  onChangePassword(text);
                 }}
+                value={password}
+                editable={!isCheckVerifyCode}
+                secureTextEntry={isPasswordSeen === true ? false : true}
+              />
+              <CheckPasswordButton
+                onPress={() => {
+                  toggleIsPasswordSeen();
+                }}>
+                {isPasswordSeen ? (
+                  <Icon
+                    name={utils.isAndroid ? 'md-eye' : 'ios-eye'}
+                    size={24}
+                    color="#aaa"
+                  />
+                ) : (
+                  <Icon
+                    name={utils.isAndroid ? 'md-eye-off' : 'ios-eye-off'}
+                    size={24}
+                    color="#ddd"
+                  />
+                )}
+              </CheckPasswordButton>
+            </TextinputCase>
+            <InputLine isBefore={password == '' ? true : false} />
+            <GreyText>* 영문, 숫자 조합하여 6자 이상 입력해주세요.</GreyText>
+          </Case>
+          <WhiteSpace />
+          <Case>
+            <NameText>새 비밀번호 확인</NameText>
+            <TextinputCase>
+              <TextInput
+                ref={passwordCheckRef}
+                placeholder={'새 비밀번호 확인'}
+                placeholderTextColor={'#E5E5E5'}
+                selectionColor={'#642A8C'}
                 onBlur={() => {
-                  if (
-                    this.state.password !== '' &&
-                    this.state.password.length <= 5
-                  ) {
-                    this._AlertModal('', '비밀번호를 6자리 이상 입력하세요.');
+                  if (password !== '' && password.length <= 5) {
+                    alertModal('비밀번호를 6자리 이상 입력하세요.');
                   }
                 }}
-                value={this.state.passwordCheck}
-                secureTextEntry={
-                  this.state.passwordSeen === true ? false : true
-                }
-                selectionColor={'#642A8C'}
+                onChangeText={(text) => onChangePasswordCheck(text)}
+                value={passwordCheck}
+                editable={!isCheckVerifyCode}
+                secureTextEntry={isPasswordSeen === true ? false : true}
               />
-              <TouchableOpacity
-                style={styles.checkPassword}
-                onPress={() => {
-                  this.setState({passwordSeen: !this.state.passwordSeen});
-                }}>
-                {this.state.passwordSeen ? (
-                  <Ionicons name="ios-eye" size={24} color="#aaa" />
+              <CheckPasswordButton onPress={() => toggleIsPasswordSeen()}>
+                {isPasswordSeen ? (
+                  <Icon
+                    name={utils.isAndroid ? 'md-eye' : 'ios-eye'}
+                    size={24}
+                    color="#aaa"
+                  />
                 ) : (
-                  <Ionicons name="ios-eye-off" size={24} color="#ddd" />
+                  <Icon
+                    name={utils.isAndroid ? 'md-eye-off' : 'ios-eye-off'}
+                    size={24}
+                    color="#ddd"
+                  />
                 )}
-              </TouchableOpacity>
-            </View>
-            <View
-              style={
-                this.state.passwordCheck === ''
-                  ? styles.lineBefore
-                  : styles.lineAfter
-              }
-            />
-          </View>
-
-          <View style={styles.InputCase}>
-            <Text style={styles.textName}>휴대폰 번호</Text>
-
-            <View style={styles.textInputCase2}>
-              <Text style={styles.textinput}>{this.state.phone}</Text>
-              <TouchableOpacity
-                onPress={() => {
-                  this._requireAuth();
-                }}
-                disabled={this.state.checkAuth}>
-                <Text style={styles.authReqBefore}>인증요청</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View
-              style={
-                this.state.phone === '' ? styles.lineBefore : styles.lineAfter
-              }
-            />
-          </View>
-
-          {this.state.checkAuth === true ? (
-            <View style={styles.InputCase}>
-              <Text style={styles.textName}>인증번호 입력</Text>
-
-              <View style={styles.textInputCase2}>
-                <TextInput
-                  style={styles.textinput}
-                  placeholder={'인증번호'}
-                  placeholderTextColor={'#E5E5E5'}
-                  onChangeText={(text) => {
-                    this._auth(text);
-                  }}
-                  value={this.state.auth}
-                  keyboardType={'number-pad'}
-                  maxLength={6}
-                />
-                <Text style={styles.timer}>{this.state.timer}초</Text>
-              </View>
-
-              <View
-                style={
-                  this.state.auth === '' ? styles.lineBefore : styles.lineAfter
-                }
-              />
-            </View>
-          ) : null}
-        </View>
-        <View style={{marginTop: 30, alignItems: 'center'}}>
-          <TouchableOpacity
-            style={
-              this.state.next === true
-                ? styles.buttonAfter
-                : styles.buttonBefore
-            }
-            onPress={() => {
-              this._check();
-            }}>
-            <Text style={{fontSize: 16, color: 'white'}}>설정완료</Text>
-          </TouchableOpacity>
-          <View style={{height: 50}} />
-        </View>
+              </CheckPasswordButton>
+            </TextinputCase>
+            <InputLine isBefore={passwordCheck == '' ? true : false} />
+          </Case>
+          <WhiteSpace />
+          <Case>
+            <NameText>휴대폰 번호</NameText>
+            <TextinputCase>
+              <MobileNoText>{mobileNo}</MobileNoText>
+              <RequestButton
+                onPress={() => requireVerifyCode()}
+                disabled={isCheckVerifyCode}>
+                <RequestText>인증요청</RequestText>
+              </RequestButton>
+            </TextinputCase>
+            <InputLine isBefore={mobileNo == '' ? true : false} />
+          </Case>
+          {isCheckTimeOut && (
+            <TimeText>
+              인증시간이 초과되었습니다. 인증을 다시 시도해주세요
+            </TimeText>
+          )}
+          {isCheckVerifyCode && (
+            <>
+              <WhiteSpace />
+              <Case>
+                <NameText>인증번호입력</NameText>
+                <TextinputCase>
+                  <TextInput
+                    placeholder={'인증번호를 입력해주세요'}
+                    placeholderTextColor={'#E5E5E5'}
+                    selectionColor={'#642A8C'}
+                    onChangeText={(text) => {
+                      onChangeVerifyCode(text);
+                    }}
+                    value={verifyCode}
+                    keyboardType={'number-pad'}
+                    maxLength={6}
+                  />
+                </TextinputCase>
+                <InputLine isBefore={verifyCode == '' ? true : false} />
+                <VerifyContainer>
+                  {isCountDownStart && <CountText>{countdown}초</CountText>}
+                </VerifyContainer>
+              </Case>
+            </>
+          )}
+          <SubmitBtn
+            text={'설정 완료'}
+            onPress={() => submit()}
+            isRegist={isRegisted}
+          />
+        </Container>
       </KeyboardAwareScrollView>
-    </View>
+    </BackGround>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  box: {
-    flex: 1,
-  },
-  InputCase: {
-    marginTop: 30,
-    paddingHorizontal: wp('10%'),
-  },
-  textName: {
-    // marginLeft: 10,
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-  textInputCase: {
-    flexDirection: 'row',
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  textinput: {
-    fontSize: 15,
-    flex: 1,
-  },
-  lineBefore: {
-    height: 2,
-    // width: wp('90%'),
-    marginTop: 5,
-    backgroundColor: '#E5E5E5',
-  },
-  lineAfter: {
-    height: 2,
-    // width: wp('90%'),
-    marginTop: 5,
-    backgroundColor: '#642A8C',
-  },
-  checkPassword: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  checkPasswordText: {
-    marginLeft: 8,
-    color: '#aaa',
-  },
-  textInputCase2: {
-    marginTop: 10,
-    flexDirection: 'row',
-    // justifyContent: 'space-between',
-    // backgroundColor: 'blue'
-  },
-  authReqBefore: {
-    fontSize: 15,
-    color: '#642A8C',
-    // marginRight: 10
-  },
-  timer: {
-    fontSize: 15,
-    color: '#FF3D3D',
-    // marginRight: 10
-  },
-  buttonBefore: {
-    height: hp('7%'),
-    width: wp('80%'),
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#CCCCCC',
-  },
-  buttonAfter: {
-    height: hp('7%'),
-    width: wp('80%'),
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#642A8C',
-  },
-});

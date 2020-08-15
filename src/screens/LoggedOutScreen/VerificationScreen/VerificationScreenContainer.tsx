@@ -26,7 +26,6 @@ export default () => {
       type: 'alert',
       content: text,
     };
-
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
   };
@@ -96,7 +95,7 @@ export default () => {
     }
   };
 
-  const requireAuth = async () => {
+  const requireVerifyCode = async () => {
     if (mobileNo.length == 0) {
       alertModal('휴대폰번호를 입력해주세요.');
       return;
@@ -142,7 +141,7 @@ export default () => {
       gotoSignup={gotoSignup}
       onChangeMobileNum={onChangeMobileNum}
       onChangeVerifyNum={onChangeVerifyNum}
-      requireAuth={requireAuth}
+      requireVerifyCode={requireVerifyCode}
       onVerifyCode={onVerifyCode}
       countdown={countdown}
       isCountDownStart={isCountDownStart}

@@ -105,7 +105,7 @@ export default ({
   gotoSignup,
   onChangeMobileNum,
   onChangeVerifyNum,
-  requireAuth,
+  requireVerifyCode,
   onVerifyCode,
   countdown,
   isCountDownStart,
@@ -132,7 +132,7 @@ export default ({
                 maxLength={11}
               />
               <RequestButton
-                onPress={() => requireAuth()}
+                onPress={() => requireVerifyCode()}
                 disabled={isCheckVerifyCode}>
                 <RequestText>인증요청</RequestText>
               </RequestButton>

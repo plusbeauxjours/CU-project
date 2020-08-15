@@ -64,10 +64,14 @@ export default () => {
       alertModal('444같은 문자를 4번 이상 사용하실 수 없습니다.');
       return false;
     }
+    if (password !== passwordCheck) {
+      alertModal('새로운 비밀번호가 동일하지 않습니다.');
+      return false;
+    }
     return true;
   };
 
-  const regist = () => {
+  const submit = () => {
     if (checkPassword(password) === false) {
       return false;
     } else {
@@ -115,7 +119,7 @@ export default () => {
     setVerifyCode(text);
   };
 
-  const requireAuth = async () => {
+  const requireVerifyCode = async () => {
     if (mobileNo.length == 0) {
       alertModal('찾으실 휴대폰번호를 입력해주세요.');
       return;
@@ -201,7 +205,7 @@ export default () => {
     <FindPasswordScreenPresenter
       isCountDownStart={isCountDownStart}
       isCheckVerifyCode={isCheckVerifyCode}
-      requireAuth={requireAuth}
+      requireVerifyCode={requireVerifyCode}
       verifyCode={verifyCode}
       onChangeMobileNum={onChangeMobileNum}
       onChangeVerifyCode={onChangeVerifyCode}
@@ -210,7 +214,7 @@ export default () => {
       isVerify={isVerify}
       passwordCheck={passwordCheck}
       mobileNo={mobileNo}
-      regist={regist}
+      submit={submit}
       isRegist={isRegist}
       isCheckTimeOut={isCheckTimeOut}
       onVerifyCode={onVerifyCode}

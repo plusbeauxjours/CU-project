@@ -1,16 +1,221 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import moment from 'moment';
 import MyPagePasswordSetScreenPresenter from './MyPagePasswordSetScreenPresenter';
+import {useDispatch, useSelector} from 'react-redux';
+
+import api from '../../../../constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import {userLogout} from '../../../../redux/userSlice';
+import {useNavigation} from '@react-navigation/native';
+
+let timer = null;
 
 export default ({route: {params}}) => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
 
   const [password, setPassword] = useState<string>('');
   const [passwordCheck, setPasswordCheck] = useState<string>('');
   const [isPasswordSeen, setIsPasswordSeen] = useState<boolean>(false);
   const [isCheckVerifyCode, setIsCheckVerifyCode] = useState<boolean>(false);
   const [verifyCode, setVerifyCode] = useState<string>('');
-  next: false,
-  timer: 100,
-  const [mobileNo,setMobileNo] =useState<string>("")
+  const [mobileNo, setMobileNo] = useState<string>(params?.mobileNo || '');
+  const [isRegisted, setIsRegisted] = useState<boolean>(false);
+  const [countdown, setCountdown] = useState<string>('');
+  const [isCountDownStart, setIsCountDownStart] = useState<boolean>(false);
+  const [isCheckTimeOut, setIsCheckTimeOut] = useState<boolean>(false);
 
-  return <MyPagePasswordSetScreenPresenter />;
+  // Notification
+  const alertModal = (text) => {
+    const params = {
+      type: 'alert',
+      title: '',
+      content: text,
+    };
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
+  };
+
+  // onChanges
+  const onChangePassword = (text) => {
+    setPassword(text);
+  };
+
+  const onChangeVerifyCode = (text) => {
+    verifyCode.length > 0 && setIsRegisted(true);
+    setVerifyCode(text);
+  };
+
+  const onChangePasswordCheck = (text) => {
+    if (password.length <= 5) {
+      alertModal('비밀번호를 6자리 이상 입력하세요.');
+    }
+    setPasswordCheck(text);
+    if (password == passwordCheck) {
+      setIsRegisted(true);
+    } else {
+      setIsRegisted(false);
+    }
+  };
+
+  const toggleIsPasswordSeen = () => {
+    setIsPasswordSeen(!isPasswordSeen);
+  };
+
+  const checkPassword = (password) => {
+    if (!/^[a-zA-Z0-9]{6,15}$/.test(password)) {
+      alertModal('숫자와 영문자 조합으로 6~15자리를 사용해야 합니다.');
+      return false;
+    }
+    var checkNumber = password.search(/[0-9]/g);
+    var checkEnglish = password.search(/[a-z]/gi);
+    if (checkNumber < 0 || checkEnglish < 0) {
+      alertModal('숫자와 영문자를 혼용하여야 합니다.');
+      return false;
+    }
+    if (/(\w)\1\1\1/.test(password)) {
+      alertModal('444같은 문자를 4번 이상 사용하실 수 없습니다.');
+      return false;
+    }
+    if (password !== passwordCheck) {
+      alertModal('새로운 비밀번호가 동일하지 않습니다.');
+      return false;
+    }
+    return true;
+  };
+
+  const submit = async () => {
+    if (password == '') {
+      return alertModal('새로운 비밀번호를 입력해주세요.');
+    }
+    if (passwordCheck == '') {
+      return alertModal('새로운 비밀번호 확인을 입력해주세요.');
+    }
+    if (isCheckVerifyCode === false) {
+      return alertModal('휴대폰번호 인증을 해주세요.');
+    }
+    if (isRegisted === false) {
+      return alertModal('휴대폰번호 인증을 해주세요.');
+    }
+    if (isRegisted === true) {
+      if (checkPassword(password) === false) {
+        return false;
+      } else {
+        try {
+          let response = await fetch(
+            'http://133.186.209.113:80/api/v2/Auth/changePwd',
+            {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                MobileNo: mobileNo,
+                MEMBER_SEQ,
+                PASSWORD: password,
+                SMS: verifyCode,
+              }),
+            },
+          );
+          const json = await response.json();
+          console.log(json);
+          if (json.message == 'SMSERROR') {
+            alertModal('인증번호 오류입니다.');
+          } else {
+            alertModal('비밀번호가 변경 되었습니다 다시 로그인해주세요.');
+            setIsCheckVerifyCode(false);
+            dispatch(userLogout());
+            clearInterval(timer);
+            navigation.reset({
+              index: 0,
+              routes: [
+                {
+                  name: 'LoggedOutNavigation',
+                  state: {routes: [{name: 'StartScreen'}]},
+                },
+              ],
+            });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+  };
+
+  const startCountDown = () => {
+    let duration = moment.duration(90000, 'milliseconds');
+    setCountdown(
+      '0' +
+        duration.minutes().toString() +
+        ':' +
+        (duration.seconds() < 10 ? '0' : '') +
+        duration.seconds().toString(),
+    );
+    const timer = setInterval(() => {
+      if (duration.asSeconds() <= 0) {
+        clearInterval(timer);
+        setIsCheckVerifyCode(false);
+        setIsCountDownStart(false);
+        setIsCheckTimeOut(true);
+      }
+      duration = moment.duration(duration.asSeconds() - 1, 'seconds');
+      setCountdown(
+        '0' +
+          duration.minutes().toString() +
+          ':' +
+          (duration.seconds() < 10 ? '0' : '') +
+          duration.seconds().toString(),
+      );
+    }, 1000);
+  };
+
+  const requireVerifyCode = async () => {
+    setVerifyCode('');
+    setIsCheckVerifyCode(true);
+    setIsCountDownStart(true);
+    setIsCheckTimeOut(false);
+    startCountDown();
+    try {
+      const {data} = await api.getSMS({
+        MOBILENO: mobileNo,
+      });
+      if (data.RESULT_CODE == '0') {
+        alertModal('인증번호를 발송하였습니다.');
+      }
+      console.log(':3003/api/auth/getsms', data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      clearInterval(timer);
+    };
+  });
+
+  return (
+    <MyPagePasswordSetScreenPresenter
+      alertModal={alertModal}
+      password={password}
+      passwordCheck={passwordCheck}
+      isPasswordSeen={isPasswordSeen}
+      isCheckVerifyCode={isCheckVerifyCode}
+      verifyCode={verifyCode}
+      mobileNo={mobileNo}
+      isRegisted={isRegisted}
+      requireVerifyCode={requireVerifyCode}
+      onChangePassword={onChangePassword}
+      onChangeVerifyCode={onChangeVerifyCode}
+      onChangePasswordCheck={onChangePasswordCheck}
+      submit={submit}
+      toggleIsPasswordSeen={toggleIsPasswordSeen}
+      countdown={countdown}
+      isCountDownStart={isCountDownStart}
+      isCheckTimeOut={isCheckTimeOut}
+    />
+  );
 };

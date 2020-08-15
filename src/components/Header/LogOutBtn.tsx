@@ -24,16 +24,16 @@ export default () => {
     <Touchable
       onPress={() => {
         console.log('logout');
-        dispatch(userLogout()),
-          navigation.reset({
-            index: 0,
-            routes: [
-              {
-                name: 'LoggedOutNavigation',
-                state: {routes: [{name: 'StartScreen'}]},
-              },
-            ],
-          });
+        dispatch(userLogout());
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'LoggedOutNavigation',
+              state: {routes: [{name: 'StartScreen'}]},
+            },
+          ],
+        });
       }}>
       {/* <Icon name="logout" size={20} color="white" /> */}
       <Text>로그아웃</Text>

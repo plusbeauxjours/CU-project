@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import {useSelector, useDispatch} from 'react-redux';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
 
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import api from '../../../../constants/LoggedInApi';
@@ -65,6 +66,7 @@ interface IIsConfirm {
 
 export default () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const {MEMBER_SEQ, mobileNo} = useSelector((state: any) => state.userReducer);
 
   const confirmModal = () => {
@@ -90,6 +92,15 @@ export default () => {
       });
       console.log(':3003/auth/signin 0814TEST', data);
       dispatch(userLogout());
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: 'LoggedOutNavigation',
+            state: {routes: [{name: 'StartScreen'}]},
+          },
+        ],
+      });
     } catch (error) {
       console.log(error);
     }
