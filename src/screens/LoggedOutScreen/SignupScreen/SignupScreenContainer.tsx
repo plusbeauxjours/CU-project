@@ -99,7 +99,7 @@ export default ({route: {params}}) => {
     } else {
       // try {
       //   const {data} = await api.logIn({
-      //     MOBILENO: params?.mobileNum,
+      //     MOBILENO: params?.mobileNo,
       //     STORE: type,
       // BIRTHDATE: birthDate,
       //     NAME: name,

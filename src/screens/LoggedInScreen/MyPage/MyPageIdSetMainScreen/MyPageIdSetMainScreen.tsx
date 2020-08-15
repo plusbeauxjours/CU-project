@@ -54,7 +54,7 @@ export default ({route: {params}}) => {
       </Card>
       <Card
         onPress={() => {
-          navigation.navigate('MyPagePasswordSetScreen');
+          navigation.navigate('MyPagePasswordSetScreen', {mobileNo: mobileNo});
         }}>
         <CardText>비밀번호 재설정</CardText>
         <ArrowIcon />

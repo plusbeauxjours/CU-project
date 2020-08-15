@@ -123,7 +123,7 @@ export default ({
   isVerify,
   passwordCheck,
   onChangePasswordCheck,
-  mobileNum,
+  mobileNo,
   regist,
   isRegist,
   onChangeMobileNum,
@@ -155,7 +155,7 @@ export default ({
                   onChangeText={(text) => {
                     onChangeMobileNum(text);
                   }}
-                  value={mobileNum}
+                  value={mobileNo}
                   keyboardType={'number-pad'}
                   maxLength={11}
                 />
@@ -165,7 +165,7 @@ export default ({
                   <RequestText>인증요청</RequestText>
                 </RequestButton>
               </TextinputCase>
-              <InputLine isBefore={mobileNum == '' ? true : false} />
+              <InputLine isBefore={mobileNo == '' ? true : false} />
             </Case>
             <WhiteSpace />
             <Case>

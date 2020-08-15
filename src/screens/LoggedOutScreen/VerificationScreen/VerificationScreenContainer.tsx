@@ -13,7 +13,7 @@ export default () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const [mobileNum, setMobileNum] = useState<string>('');
+  const [mobileNo, setMobileNo] = useState<string>('');
   const [verifyCode, setVerifyCode] = useState<string>('');
   const [countdown, setCountdown] = useState<string>('');
   const [isCountDownStart, setIsCountDownStart] = useState<boolean>(false);
@@ -64,7 +64,7 @@ export default () => {
     } else {
       try {
         const {data} = await api.checkSMS({
-          MOBILENO: mobileNum,
+          MOBILENO: mobileNo,
           SMSNUMBER: verifyCode,
         });
         if (data.RESULT_CODE == '0') {
@@ -84,7 +84,7 @@ export default () => {
     if (text.length > 11) {
       alertModal('핸드폰번호는 최대 11자리 입력 가능합니다.');
     } else {
-      setMobileNum(text);
+      setMobileNo(text);
     }
   };
 
@@ -97,12 +97,12 @@ export default () => {
   };
 
   const requireAuth = async () => {
-    if (mobileNum.length == 0) {
+    if (mobileNo.length == 0) {
       alertModal('휴대폰번호를 입력해주세요.');
       return;
     }
     const regExp_ctn = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
-    if (!regExp_ctn.test(mobileNum)) {
+    if (!regExp_ctn.test(mobileNo)) {
       alertModal('올바른 휴대폰번호 11자리를 입력해주세요.');
       return;
     }
@@ -112,7 +112,7 @@ export default () => {
     startCountDown();
     try {
       const {data} = await api.getSMS({
-        MOBILENO: mobileNum,
+        MOBILENO: mobileNo,
       });
       if (data.RESULT_CODE == '0') {
         alertModal('인증번호를 발송하였습니다.');
@@ -124,7 +124,7 @@ export default () => {
 
   const gotoSignup = () => {
     navigation.navigate('SignupScreen', {
-      mobileNum,
+      mobileNo,
       verifyCode,
     });
   };
@@ -138,7 +138,7 @@ export default () => {
   return (
     <VerificationScreenPresenter
       verifyCode={verifyCode}
-      mobileNum={mobileNum}
+      mobileNo={mobileNo}
       gotoSignup={gotoSignup}
       onChangeMobileNum={onChangeMobileNum}
       onChangeVerifyNum={onChangeVerifyNum}

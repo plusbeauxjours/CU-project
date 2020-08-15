@@ -99,7 +99,7 @@ export default ({
   gotoFind,
   onChangeMobileNum,
   onChangePassword,
-  mobileNum,
+  mobileNo,
   password,
   logIn,
 }) => {
@@ -123,13 +123,13 @@ export default ({
                 onChangeText={(text) => {
                   onChangeMobileNum(text);
                 }}
-                value={mobileNum}
+                value={mobileNo}
                 keyboardType={'number-pad'}
                 maxLength={11}
                 clearButtonMode={'always'}
               />
             </TextInputContainer>
-            <InputLine isBefore={mobileNum == '' ? true : false} />
+            <InputLine isBefore={mobileNo == '' ? true : false} />
             <WhiteSpace />
             <TextInputContainer>
               <GreyText>Password</GreyText>

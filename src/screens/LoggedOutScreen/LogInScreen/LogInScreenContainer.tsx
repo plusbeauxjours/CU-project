@@ -22,7 +22,7 @@ export default ({route: {params}}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const [mobileNum, setMobileNum] = useState<string>('');
+  const [mobileNo, setMobileNo] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   // const [deviceVersion, setDeviceVersion] = useState<string>('');
   // const [modelId, setModelId] = useState<string>(Device.modelId || '');
@@ -38,7 +38,7 @@ export default ({route: {params}}) => {
     if (text.length > 11) {
       alertModal('핸드폰번호는 최대 11자리 입력 가능합니다.');
     } else {
-      setMobileNum(text);
+      setMobileNo(text);
     }
   };
 
@@ -51,12 +51,12 @@ export default ({route: {params}}) => {
   };
 
   const logIn = async () => {
-    if (mobileNum.length == 0 || password.length == 0) {
+    if (mobileNo.length == 0 || password.length == 0) {
       alertModal('휴대폰번호 또는 비밀번호가 입력되지 않았습니다.');
     }
     try {
       const {data} = await api.logIn({
-        MOBILENO: mobileNum,
+        MOBILENO: mobileNo,
         PALTFORM: params?.platform,
         VERSION: params?.appVersion,
         // MODEL: modelId,
@@ -67,7 +67,7 @@ export default ({route: {params}}) => {
       switch (data.RESULT_CODE) {
         case '0':
           dispatch(setUser(data.RESULT_DATA));
-          dispatch(setId(mobileNum));
+          dispatch(setId(mobileNo));
           dispatch(setVersion(params?.appVersion));
           dispatch(userLogin());
           return navigation.navigate('LoggedInNavigation');
@@ -120,7 +120,7 @@ export default ({route: {params}}) => {
       gotoFind={gotoFind}
       onChangeMobileNum={onChangeMobileNum}
       onChangePassword={onChangePassword}
-      mobileNum={mobileNum}
+      mobileNo={mobileNo}
       password={password}
       logIn={logIn}
     />
