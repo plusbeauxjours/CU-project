@@ -18,11 +18,6 @@ const BackGround = styled.View`
   background-color: white;
 `;
 
-const Container = styled.View`
-  flex: 1;
-  background-color: #f6f6f6;
-`;
-
 const Info = styled.View`
   height: ${hp('15%')};
   width: ${wp('100%')};
@@ -148,89 +143,85 @@ export default () => {
   return (
     <BackGround>
       <ScrollView>
-        <Container>
-          <Info>
-            <Image source={{uri: `http://133.186.209.113/uploads/3.png`}} />
-            <PersonInfo>
-              <Name>
-                <NameText>{NAME}</NameText>
-                <PositionText>{STORE == 1 ? '[점주]' : '[직원]'}</PositionText>
-              </Name>
+        <Info>
+          <Image source={{uri: `http://133.186.209.113/uploads/3.png`}} />
+          <PersonInfo>
+            <Name>
+              <NameText>{NAME}</NameText>
+              <PositionText>{STORE == 1 ? '[점주]' : '[직원]'}</PositionText>
+            </Name>
 
-              <Phone>
-                <PhoneText>{mobileNo}</PhoneText>
-              </Phone>
-            </PersonInfo>
-          </Info>
-          <BoxArea>
-            <Card
-              onPress={() => {
-                navigation.navigate('MyPageAlarmSetScreen');
-              }}>
-              <CardText>알림 설정</CardText>
-              <ArrowIcon />
-            </Card>
-            <Card
-              onPress={() => {
-                navigation.navigate('MyPagePlaceSetScreen');
-              }}>
-              <CardText>
-                {STORE == 1 ? '사업장관리 이력' : '근무종료 사업장'}
-              </CardText>
-              <ArrowIcon />
-            </Card>
-            <Card
-              onPress={() => {
-                navigation.navigate('MyPageAppointmentScreen');
-              }}>
-              <CardText>약관보기</CardText>
-              <ArrowIcon />
-            </Card>
-            <Card
-              onPress={() => {
-                navigation.navigate('ElectronicContractsScreen');
-              }}>
-              <CardText>전자근로계약서</CardText>
-              <ArrowIcon />
-            </Card>
-            <Card
-              onPress={() => {
-                navigation.navigate('MyPageIdSetMainScreen', {
-                  mobileNo: mobileNo,
-                  STORE: STORE,
-                });
-              }}>
-              <CardText>계정관리</CardText>
-              <ArrowIcon />
-            </Card>
-            <Card>
-              <CardText>앱버전</CardText>
-              <Arrow>
-                <BoxTitle>{version}</BoxTitle>
-              </Arrow>
-            </Card>
-
-            <Card
-              onPress={() => {
-                navigation.navigate('MyPageIdSetMainScreen', {
-                  mobileNo: mobileNo,
-                  STORE: STORE,
-                });
-              }}>
-              <CardText>계정관리</CardText>
-              <ArrowIcon />
-            </Card>
-            <Card
-              onPress={() => {
-                logOut('', '로그아웃 하시겠습니까?');
-              }}>
-              <CardText>로그 아웃</CardText>
-              <Arrow>
-                <Icon name="logout" size={20} color="#642A8C" />
-              </Arrow>
-            </Card>
-          </BoxArea>
-        </Container>
+            <Phone>
+              <PhoneText>{mobileNo}</PhoneText>
+            </Phone>
+          </PersonInfo>
+        </Info>
+        <BoxArea>
+          <Card
+            onPress={() => {
+              navigation.navigate('MyPageAlarmSetScreen');
+            }}>
+            <CardText>알림 설정</CardText>
+            <ArrowIcon />
+          </Card>
+          <Card
+            onPress={() => {
+              navigation.navigate('MyPagePlaceSetScreen');
+            }}>
+            <CardText>
+              {STORE == 1 ? '사업장관리 이력' : '근무종료 사업장'}
+            </CardText>
+            <ArrowIcon />
+          </Card>
+          <Card
+            onPress={() => {
+              navigation.navigate('MyPageAppointmentScreen');
+            }}>
+            <CardText>약관보기</CardText>
+            <ArrowIcon />
+          </Card>
+          <Card
+            onPress={() => {
+              navigation.navigate('ElectronicContractsScreen');
+            }}>
+            <CardText>전자근로계약서</CardText>
+            <ArrowIcon />
+          </Card>
+          <Card
+            onPress={() => {
+              navigation.navigate('MyPageIdSetMainScreen', {
+                mobileNo: mobileNo,
+                STORE: STORE,
+              });
+            }}>
+            <CardText>계정관리</CardText>
+            <ArrowIcon />
+          </Card>
+          <Card>
+            <CardText>앱버전</CardText>
+            <Arrow>
+              <BoxTitle>{version}</BoxTitle>
+            </Arrow>
+          </Card>
+          <Card
+            onPress={() => {
+              navigation.navigate('SearchAddressScreen', {
+                screen: 0,
+              });
+            }}>
+            <CardText>테스트</CardText>
+            <ArrowIcon />
+          </Card>
+          <Card
+            onPress={() => {
+              logOut('', '로그아웃 하시겠습니까?');
+            }}>
+            <CardText>로그 아웃</CardText>
+            <Arrow>
+              <Icon name="logout" size={20} color="#642A8C" />
+            </Arrow>
+          </Card>
+        </BoxArea>
       </ScrollView>
     </BackGround>
   );

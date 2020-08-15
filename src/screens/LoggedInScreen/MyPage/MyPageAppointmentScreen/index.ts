@@ -1,2 +1,2 @@
-import MyPageAppointmentScreenContainer from "./MyPageAppointmentScreenContainer"
-export default MyPageAppointmentScreenContainer
+import MyPageAppointmentScreen from "./MyPageAppointmentScreen"
+export default MyPageAppointmentScreen

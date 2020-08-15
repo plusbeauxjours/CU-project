@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
-  background-color: #fcfcfc;
+  background-color: white;
 `;
 
 const Box = styled.View`

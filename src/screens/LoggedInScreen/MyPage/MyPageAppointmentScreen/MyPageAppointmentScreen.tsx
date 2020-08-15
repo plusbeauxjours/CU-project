@@ -11,6 +11,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {getText1, getText2, getText3} from '../../../../constants/getText';
 import utils from '../../../../constants/utils';
 
+const BackGround = styled.View`
+  flex: 1;
+  background-color: white;
+`;
+
 const Container = styled.View`
   flex: 1;
   justify-content: space-between;
@@ -33,10 +38,6 @@ const Text = styled.Text`
 const WhiteText = styled.Text`
   color: white;
   font-size: 16px;
-`;
-
-const Box = styled.View`
-  color: white;
 `;
 
 const Card = styled.TouchableOpacity`
@@ -95,12 +96,10 @@ export default () => {
     </Arrow>
   );
   return (
-    <Box>
-      <Container>
-        <Sheet sheetRef={RBSheet1} getText={getText1()} />
-        <Sheet sheetRef={RBSheet2} getText={getText2()} />
-        <Sheet sheetRef={RBSheet3} getText={getText3()} />
-      </Container>
+    <BackGround>
+      <Sheet sheetRef={RBSheet1} getText={getText1()} />
+      <Sheet sheetRef={RBSheet2} getText={getText2()} />
+      <Sheet sheetRef={RBSheet3} getText={getText3()} />
       <Card
         onPress={() => {
           RBSheet1.current.open();
@@ -123,6 +122,6 @@ export default () => {
         <CardText>위치정보 수집</CardText>
         <ArrowIcon />
       </Card>
-    </Box>
+    </BackGround>
   );
 };

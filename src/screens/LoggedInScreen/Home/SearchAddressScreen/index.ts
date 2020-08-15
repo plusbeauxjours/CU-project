@@ -1,2 +1,2 @@
-import SearchAddressScreenContainer from "./SearchAddressScreenContainer"
-export default SearchAddressScreenContainer
+import SearchAddressScreen from "./SearchAddressScreen"
+export default SearchAddressScreen
