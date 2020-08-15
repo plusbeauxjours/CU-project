@@ -1,5 +1,4 @@
 import React from 'react';
-import {ScrollView} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -7,13 +6,15 @@ import {
 import styled from 'styled-components/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import SubmitBtn from '../../../components/Btn/SubmitBtn';
+import InputLine from '../../../components/InputLine';
 
 interface IIsBefore {
   isBefore: boolean;
 }
 
 const Container = styled.View`
-  width: ${wp('80%')};
+  width: 100%;
+  padding: 0 20px;
   align-items: center;
   margin-top: ${hp('5%')};
 `;
@@ -42,7 +43,7 @@ const RequestButton = styled.TouchableOpacity`
   border-radius: 20px;
 `;
 
-const TextName = styled.Text`
+const NameText = styled.Text`
   font-size: 16px;
   font-weight: bold;
 `;
@@ -59,18 +60,13 @@ const TextinputCase = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-vertical: 8px;
+  padding: 8px 0;
 `;
 
 const TextInput = styled.TextInput`
   flex: 1;
   font-size: 16px;
   color: black;
-`;
-
-const Line = styled.View<IIsBefore>`
-  height: 2px;
-  background-color: ${(props) => (props.isBefore ? '#CCCCCC' : '#642A8C')};
 `;
 
 const TimeText = styled.Text`
@@ -120,70 +116,66 @@ export default ({
   return (
     <BackGround>
       <KeyboardAwareScrollView>
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{flex: 1, alignItems: 'center'}}>
-          <Container>
-            <Case>
-              <TextName>휴대폰 번호</TextName>
-              <TextinputCase>
-                <TextInput
-                  placeholder={'휴대폰번호를 입력해주세요'}
-                  placeholderTextColor={'#E5E5E5'}
-                  selectionColor={'#642A8C'}
-                  onChangeText={(text) => {
-                    onChangeMobileNum(text);
-                  }}
-                  value={mobileNum}
-                  keyboardType={'number-pad'}
-                  maxLength={11}
-                />
-                <RequestButton
-                  onPress={() => requireAuth()}
-                  disabled={isCheckAuth}>
-                  <RequestText>인증요청</RequestText>
-                </RequestButton>
-              </TextinputCase>
-              <Line isBefore={mobileNum == '' ? true : false} />
-            </Case>
-            <WhiteSpace />
-            <Case>
-              <TextName>인증번호입력</TextName>
-              <TextinputCase>
-                <TextInput
-                  placeholder={'인증번호를 입력해주세요'}
-                  placeholderTextColor={'#E5E5E5'}
-                  selectionColor={'#642A8C'}
-                  onChangeText={(text) => {
-                    onChangeVerifyNum(text);
-                  }}
-                  value={verifyCode}
-                  keyboardType={'number-pad'}
-                  maxLength={6}
-                />
-              </TextinputCase>
-              <Line isBefore={verifyCode == '' ? true : false} />
-              <VerifyContainer>
-                {isCountDownStart && <CountText>{countdown}초</CountText>}
-                <VerifyButton
-                  onPress={() => onVerifyCode()}
-                  isBefore={verifyCode == '' ? true : false}>
-                  <VerifyText>인증확인</VerifyText>
-                </VerifyButton>
-              </VerifyContainer>
-            </Case>
-            {isCheckTimeOut && (
-              <TimeText>
-                인증시간이 초과되었습니다. 인증을 다시 시도해주세요
-              </TimeText>
-            )}
-          </Container>
+        <Container>
+          <Case>
+            <NameText>휴대폰 번호</NameText>
+            <TextinputCase>
+              <TextInput
+                placeholder={'휴대폰번호를 입력해주세요'}
+                placeholderTextColor={'#CCCCCC'}
+                selectionColor={'#642A8C'}
+                onChangeText={(text) => {
+                  onChangeMobileNum(text);
+                }}
+                value={mobileNum}
+                keyboardType={'number-pad'}
+                maxLength={11}
+              />
+              <RequestButton
+                onPress={() => requireAuth()}
+                disabled={isCheckAuth}>
+                <RequestText>인증요청</RequestText>
+              </RequestButton>
+            </TextinputCase>
+            <InputLine isBefore={mobileNum == '' ? true : false} />
+          </Case>
+          <WhiteSpace />
+          <Case>
+            <NameText>인증번호입력</NameText>
+            <TextinputCase>
+              <TextInput
+                placeholder={'인증번호를 입력해주세요'}
+                placeholderTextColor={'#CCCCCC'}
+                selectionColor={'#642A8C'}
+                onChangeText={(text) => {
+                  onChangeVerifyNum(text);
+                }}
+                value={verifyCode}
+                keyboardType={'number-pad'}
+                maxLength={6}
+              />
+            </TextinputCase>
+            <InputLine isBefore={verifyCode == '' ? true : false} />
+            <VerifyContainer>
+              {isCountDownStart && <CountText>{countdown}초</CountText>}
+              <VerifyButton
+                onPress={() => onVerifyCode()}
+                isBefore={verifyCode == '' ? true : false}>
+                <VerifyText>인증확인</VerifyText>
+              </VerifyButton>
+            </VerifyContainer>
+          </Case>
+          {isCheckTimeOut && (
+            <TimeText>
+              인증시간이 초과되었습니다. 인증을 다시 시도해주세요
+            </TimeText>
+          )}
           <SubmitBtn
             text={'다음단계로'}
             onPress={() => gotoSignup()}
             isRegist={isVerify}
           />
-        </ScrollView>
+        </Container>
       </KeyboardAwareScrollView>
     </BackGround>
   );

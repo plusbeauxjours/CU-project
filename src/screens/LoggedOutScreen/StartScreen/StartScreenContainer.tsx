@@ -73,7 +73,8 @@ export default () => {
     });
   };
 
-  const gotoVerification = () => navigation.navigate('VerificationScreen');
+  // const gotoVerification = () => navigation.navigate('VerificationScreen');
+  const gotoVerification = () => navigation.navigate('SignupScreen');
 
   ///////////////////////////////////
   //            TESTCODE           //

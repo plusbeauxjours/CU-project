@@ -1,2 +1,2 @@
-import MyPageNameSetScreenContainer from "./MyPageNameSetScreenContainer"
-export default MyPageNameSetScreenContainer
+import MyPageNameSetScreen from "./MyPageNameSetScreen"
+export default MyPageNameSetScreen

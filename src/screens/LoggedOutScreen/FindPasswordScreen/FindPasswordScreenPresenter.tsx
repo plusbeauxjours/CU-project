@@ -9,20 +9,22 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import utils from '../../../constants/utils';
 import SubmitBtn from '../../../components/Btn/SubmitBtn';
+import InputLine from '../../../components/InputLine';
 
 interface IIsBefore {
   isBefore: boolean;
 }
 
-const Container = styled.View`
-  width: ${wp('80%')};
-  align-items: center;
-  margin-top: ${hp('5%')};
-`;
-
 const BackGround = styled.View`
   flex: 1;
   background-color: white;
+`;
+
+const Container = styled.View`
+  width: 100%;
+  padding: 0 20px;
+  align-items: center;
+  margin-top: ${hp('5%')};
 `;
 
 const RequestText = styled.Text`
@@ -56,7 +58,7 @@ const RequestButton = styled.TouchableOpacity`
   border-radius: 20px;
 `;
 
-const TextName = styled.Text`
+const NameText = styled.Text`
   font-size: 16px;
   font-weight: bold;
 `;
@@ -80,11 +82,6 @@ const TextInput = styled.TextInput`
   flex: 1;
   font-size: 16px;
   color: black;
-`;
-
-const Line = styled.View<IIsBefore>`
-  height: 2px;
-  background-color: ${(props) => (props.isBefore ? '#CCCCCC' : '#642A8C')};
 `;
 
 const TimeText = styled.Text`
@@ -149,7 +146,7 @@ export default ({
           contentContainerStyle={{flex: 1, alignItems: 'center'}}>
           <Container>
             <Case>
-              <TextName>휴대폰 번호</TextName>
+              <NameText>휴대폰 번호</NameText>
               <TextinputCase>
                 <TextInput
                   placeholder={'휴대폰번호를 입력해주세요'}
@@ -168,11 +165,11 @@ export default ({
                   <RequestText>인증요청</RequestText>
                 </RequestButton>
               </TextinputCase>
-              <Line isBefore={mobileNum == '' ? true : false} />
+              <InputLine isBefore={mobileNum == '' ? true : false} />
             </Case>
             <WhiteSpace />
             <Case>
-              <TextName>인증번호입력</TextName>
+              <NameText>인증번호입력</NameText>
               <TextinputCase>
                 <TextInput
                   placeholder={'인증번호를 입력해주세요'}
@@ -186,7 +183,7 @@ export default ({
                   maxLength={6}
                 />
               </TextinputCase>
-              <Line isBefore={verifyCode == '' ? true : false} />
+              <InputLine isBefore={verifyCode == '' ? true : false} />
               <VerifyContainer>
                 {isCountDownStart && <CountText>{countdown}초</CountText>}
                 <VerifyButton
@@ -207,7 +204,7 @@ export default ({
               <>
                 <WhiteSpace />
                 <Case>
-                  <TextName>새 비밀번호</TextName>
+                  <NameText>새 비밀번호</NameText>
                   <TextinputCase>
                     <TextInput
                       placeholder={'영문, 숫자 조합 6자 이상'}
@@ -244,11 +241,11 @@ export default ({
                       )}
                     </CheckPasswordButton>
                   </TextinputCase>
-                  <Line isBefore={password == '' ? true : false} />
+                  <InputLine isBefore={password == '' ? true : false} />
                 </Case>
                 <WhiteSpace />
                 <Case>
-                  <TextName>새 비밀번호 확인</TextName>
+                  <NameText>새 비밀번호 확인</NameText>
                   <TextinputCase>
                     <TextInput
                       ref={passwordCheckRef}
@@ -280,20 +277,20 @@ export default ({
                       )}
                     </CheckPasswordButton>
                   </TextinputCase>
-                  <Line isBefore={password == '' ? true : false} />
+                  <InputLine isBefore={passwordCheck == '' ? true : false} />
                   <GreyText>
                     * 영문, 숫자 조합하여 6자 이상 입력해주세요.
                   </GreyText>
                 </Case>
               </>
             )}
+            <SubmitBtn
+              text={'비밀번호 변경'}
+              onPress={() => regist()}
+              // isRegist={isRegist}
+              isRegist={true}
+            />
           </Container>
-          <SubmitBtn
-            text={'비밀번호 변경'}
-            onPress={() => regist()}
-            // isRegist={isRegist}
-            isRegist={true}
-          />
         </ScrollView>
       </KeyboardAwareScrollView>
     </BackGround>

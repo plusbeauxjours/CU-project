@@ -39,5 +39,6 @@ export default {
     updatePush: (data: any) => oldApi("post", "/Employee/updatePush", data),
     getPush: (data: any) => oldApi("post", "/Employee/getPush", data),
     toggleMember: (data: any) => oldApi("post", "/Auth/toggleMember", data),
+    changeName: (data: any) => oldApi("post", "/Auth/changeName", data),
 }
 

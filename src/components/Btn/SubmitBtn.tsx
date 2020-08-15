@@ -10,15 +10,15 @@ interface IIsBefore {
 }
 
 const SubmitButton = styled.TouchableOpacity<IIsBefore>`
-  width: ${wp('80%')};
-  height: ${hp('7%')};
+  width: ${wp('100%') - 40};
+  height: ${hp('5%')};
   align-items: center;
   justify-content: center;
   background-color: ${(props) => (props.isBefore ? '#CCCCCC' : '#642A8C')};
 `;
 
 const SubmitButtonContainer = styled.View`
-  padding-vertical: 50px;
+  margin-top: 50px;
   align-items: center;
 `;
 

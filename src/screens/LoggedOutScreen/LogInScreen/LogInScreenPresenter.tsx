@@ -7,6 +7,7 @@ import {
 import styled from 'styled-components/native';
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import InputLine from '../../../components/InputLine';
 
 const BackGround = styled.View`
   flex: 1;
@@ -25,11 +26,6 @@ const Space = styled.View`
   align-items: center;
 `;
 const Touchable = styled.TouchableOpacity``;
-
-const Line = styled.View<ILine>`
-  height: 2;
-  background-color: ${(props) => (props.isBefore ? '#CCCCCC' : '#642A8C')};
-`;
 
 const TextInput = styled.TextInput`
   width: 100%;
@@ -52,8 +48,8 @@ const UnderLineText = styled.Text`
 `;
 
 const Button = styled.View`
-  padding: ${hp('2%')}px 0;
-  width: ${wp('80%')};
+  width: ${wp('100%') - 40};
+  height: ${hp('7%')};
   background-color: #642a8c;
   align-items: center;
   justify-content: center;
@@ -95,9 +91,6 @@ const LogoText = styled.View<ILogoText>`
   margin: ${(props) => props.isIphoneX && hp('5%')}px 0;
 `;
 
-interface ILine {
-  isBefore: boolean;
-}
 interface ILogoText {
   isIphoneX: boolean;
 }
@@ -136,7 +129,7 @@ export default ({
                 clearButtonMode={'always'}
               />
             </TextInputContainer>
-            <Line isBefore={mobileNum == '' ? true : false} />
+            <InputLine isBefore={mobileNum == '' ? true : false} />
             <WhiteSpace />
             <TextInputContainer>
               <GreyText>Password</GreyText>
@@ -151,7 +144,7 @@ export default ({
                 clearButtonMode={'always'}
               />
             </TextInputContainer>
-            <Line isBefore={mobileNum == '' ? true : false} />
+            <InputLine isBefore={password == '' ? true : false} />
           </TextInputBox>
           <WhiteSpace />
           <Login>

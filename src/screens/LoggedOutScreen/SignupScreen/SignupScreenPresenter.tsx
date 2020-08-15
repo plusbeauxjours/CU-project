@@ -9,10 +9,8 @@ import styled from 'styled-components/native';
 import {View, ScrollView} from 'react-native';
 import SubmitBtn from '../../../components/Btn/SubmitBtn';
 import CheckPasswordBtn from '../../../components/Btn/CheckPasswordBtn';
+import InputLine from '../../../components/InputLine';
 
-interface IIsBefore {
-  isBefore: boolean;
-}
 interface IPositionTypeRadioButtonOff {
   borderColor: boolean;
 }
@@ -25,11 +23,6 @@ const BackGround = styled.View`
 const TypeContainer = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-`;
-
-const Line = styled.View<IIsBefore>`
-  height: 2px;
-  background-color: ${(props) => (props.isBefore ? '#CCCCCC' : '#642A8C')};
 `;
 
 const PositionTypeRadioButtonOff = styled.View<IPositionTypeRadioButtonOff>`
@@ -56,19 +49,20 @@ const TypeText = styled.Text`
 `;
 
 const Container = styled.View`
-  width: ${wp('80%')};
+  width: 100%;
+  padding: 0 20px;
   align-items: center;
   margin-top: ${hp('5%')};
 `;
 
-const TextName = styled.Text`
+const NameText = styled.Text`
   font-weight: bold;
   font-size: 18px;
 `;
 const TextId = styled.Text`
   flex: 1;
   padding-left: 5px;
-  margin-vertical: 10px;
+  margin: 10px 0;
   font-size: 15px;
   color: #642a8c;
 `;
@@ -76,7 +70,7 @@ const TextId = styled.Text`
 const TextInput = styled.TextInput`
   flex: 1;
   padding-left: 5px;
-  margin-vertical: 10px;
+  margin: 10px 0;
   font-size: 15px;
   color: #642a8c;
 `;
@@ -95,7 +89,7 @@ const Case = styled.View`
 `;
 
 const CheckPasswordButton = styled.TouchableOpacity`
-  padding-horizontal: 10px;
+  padding: 0 10px;
   flex-direction: row;
   align-items: center;
 `;
@@ -104,7 +98,7 @@ const TextinputCase = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-vertical: 8px;
+  padding: 8px 0;
 `;
 
 const GreyText = styled.Text`
@@ -190,15 +184,15 @@ export default ({
           contentContainerStyle={{flex: 1, alignItems: 'center'}}>
           <Container>
             <Case>
-              <TextName>ID</TextName>
+              <NameText>ID</NameText>
               <TextinputCase>
                 <TextId>{id}</TextId>
               </TextinputCase>
-              <Line isBefore={false} />
+              <InputLine isBefore={false} />
             </Case>
             <WhiteSpace />
             <Case>
-              <TextName>이름</TextName>
+              <NameText>이름</NameText>
               <TextinputCase>
                 <TextInput
                   placeholder={'이름'}
@@ -210,11 +204,11 @@ export default ({
                   value={name}
                 />
               </TextinputCase>
-              <Line isBefore={name == '' ? true : false} />
+              <InputLine isBefore={name == '' ? true : false} />
             </Case>
             <WhiteSpace />
             <Case>
-              <TextName>가입유형</TextName>
+              <NameText>가입유형</NameText>
               <TypeCheckCase>
                 <View style={{flex: 1}}>{positionType(1, '점주')}</View>
                 <View style={{flex: 1}}>{positionType(0, '직원')}</View>
@@ -222,7 +216,7 @@ export default ({
             </Case>
             <WhiteSpace />
             <Case>
-              <TextName>비밀번호</TextName>
+              <NameText>비밀번호</NameText>
               <TextinputCase>
                 <TextInput
                   placeholder={'영문, 숫자 조합 6자 이상'}
@@ -242,11 +236,11 @@ export default ({
                   isPasswordSeen={isPasswordSeen}
                 />
               </TextinputCase>
-              <Line isBefore={password == '' ? true : false} />
+              <InputLine isBefore={password == '' ? true : false} />
             </Case>
             <WhiteSpace />
             <Case>
-              <TextName>비밀번호 확인</TextName>
+              <NameText>비밀번호 확인</NameText>
               <TextinputCase>
                 <TextInput
                   placeholder={'새 비밀번호 확인'}
@@ -262,7 +256,7 @@ export default ({
                   isPasswordSeen={isPasswordSeen}
                 />
               </TextinputCase>
-              <Line isBefore={passwordCheck == '' ? true : false} />
+              <InputLine isBefore={passwordCheck == '' ? true : false} />
               <GreyText>* 영문, 숫자 조합하여 6자 이상 입력해주세요.</GreyText>
             </Case>
           </Container>

@@ -11,7 +11,7 @@ import utils from '../../../../constants/utils';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
-  background-color: #e6e6e6;
+  background-color: white;
 `;
 
 const WhiteSpace = styled.View`
@@ -67,7 +67,7 @@ export default () => {
   const dispatch = useDispatch();
   const {MEMBER_SEQ, mobileNo} = useSelector((state: any) => state.userReducer);
 
-  const confirm = () => {
+  const confirmModal = () => {
     const params = {
       type: 'confirm',
       title: '',
@@ -84,7 +84,7 @@ export default () => {
 
   const submit = async () => {
     try {
-      const {data} = await api.logIn({
+      const {data} = await api.toggleMember({
         MobileNo: mobileNo,
         MEMBER_SEQ,
       });
@@ -126,7 +126,7 @@ export default () => {
         <SubmitBtn
           isConfirm={isConfirm}
           onPress={() => {
-            confirm();
+            confirmModal();
           }}
           disabled={!isConfirm}>
           <SubmitBtnText>탈퇴하기</SubmitBtnText>

@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
-  background-color: #e6e6e6;
+  background-color: white;
 `;
 
 export default ({route: {params}}) => {
