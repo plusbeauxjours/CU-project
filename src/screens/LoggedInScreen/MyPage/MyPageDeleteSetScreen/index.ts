@@ -1,2 +1,2 @@
-import MyPageDeleteSetScreenContainer from "./MyPageDeleteSetScreenContainer"
-export default MyPageDeleteSetScreenContainer
+import MyPageDeleteSetScreen from "./MyPageDeleteSetScreen"
+export default MyPageDeleteSetScreen
