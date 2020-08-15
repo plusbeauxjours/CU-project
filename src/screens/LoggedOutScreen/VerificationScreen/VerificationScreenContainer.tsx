@@ -16,10 +16,12 @@ export default () => {
   const [mobileNo, setMobileNo] = useState<string>('');
   const [verifyCode, setVerifyCode] = useState<string>('');
   const [countdown, setCountdown] = useState<string>('');
-  const [isCountDownStart, setIsCountDownStart] = useState<boolean>(false);
-  const [isCheckTimeOut, setIsCheckTimeOut] = useState<boolean>(false);
-  const [isVerify, setIsVerify] = useState<boolean>(false);
-  const [isCheckVerifyCode, setIsCheckVerifyCode] = useState<boolean>(false);
+  const [isCountDownStarted, setIsCountDownStarted] = useState<boolean>(false);
+  const [hasCheckTimeOut, setHasCheckTimeOut] = useState<boolean>(false);
+  const [isVerified, setIsVerified] = useState<boolean>(false);
+  const [hasCheckedVerifyCode, setHasCheckedVerifyCode] = useState<boolean>(
+    false,
+  );
 
   const alertModal = (text) => {
     const params = {
@@ -42,9 +44,9 @@ export default () => {
     const timer = setInterval(() => {
       if (duration.asSeconds() <= 0) {
         clearInterval(timer);
-        setIsCheckVerifyCode(false);
-        setIsCountDownStart(false);
-        setIsCheckTimeOut(true);
+        setHasCheckedVerifyCode(false);
+        setIsCountDownStarted(false);
+        setHasCheckTimeOut(true);
       }
       duration = moment.duration(duration.asSeconds() - 1, 'seconds');
       setCountdown(
@@ -68,8 +70,8 @@ export default () => {
         });
         if (data.RESULT_CODE == '0') {
           clearInterval(timer);
-          setIsVerify(true);
-          setIsCountDownStart(false);
+          setIsVerified(true);
+          setIsCountDownStarted(false);
         } else {
           alertModal('인증번호가 맞지않습니다.');
         }
@@ -105,9 +107,9 @@ export default () => {
       alertModal('올바른 휴대폰번호 11자리를 입력해주세요.');
       return;
     }
-    setIsCheckVerifyCode(true);
-    setIsCountDownStart(true);
-    setIsCheckTimeOut(false);
+    setHasCheckedVerifyCode(true);
+    setIsCountDownStarted(true);
+    setHasCheckTimeOut(false);
     startCountDown();
     try {
       const {data} = await api.getSMS({
@@ -144,10 +146,10 @@ export default () => {
       requireVerifyCode={requireVerifyCode}
       onVerifyCode={onVerifyCode}
       countdown={countdown}
-      isCountDownStart={isCountDownStart}
-      isCheckVerifyCode={isCheckVerifyCode}
-      isCheckTimeOut={isCheckTimeOut}
-      isVerify={isVerify}
+      isCountDownStarted={isCountDownStarted}
+      hasCheckedVerifyCode={hasCheckedVerifyCode}
+      hasCheckTimeOut={hasCheckTimeOut}
+      isVerified={isVerified}
     />
   );
 };

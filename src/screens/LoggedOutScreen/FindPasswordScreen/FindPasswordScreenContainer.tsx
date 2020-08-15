@@ -17,11 +17,13 @@ export default () => {
   const [passwordCheck, setPasswordCheck] = useState<string>('');
   const [verifyCode, setVerifyCode] = useState<string>('');
   const [countdown, setCountdown] = useState<string>('');
-  const [isCountDownStart, setIsCountDownStart] = useState<boolean>(false);
-  const [isRegist, setIsRegist] = useState<boolean>(false);
-  const [isCheckTimeOut, setIsCheckTimeOut] = useState<boolean>(false);
-  const [isVerify, setIsVerify] = useState<boolean>(false);
-  const [isCheckVerifyCode, setIsCheckVerifyCode] = useState<boolean>(false);
+  const [isCountDownStarted, setIsCountDownStarted] = useState<boolean>(false);
+  const [isRegisted, setIsRegisted] = useState<boolean>(false);
+  const [hasCheckedTimeOut, setHasCheckTimeOut] = useState<boolean>(false);
+  const [isVerified, setIsVerified] = useState<boolean>(false);
+  const [hasCheckedVerifyCode, setHasCheckedVerifyCode] = useState<boolean>(
+    false,
+  );
   const [isPasswordSeen, setIsPasswordSeen] = useState<boolean>(false);
 
   const alertModal = (text) => {
@@ -92,8 +94,8 @@ export default () => {
         console.log(data);
         if (data.RESULT_CODE == '0') {
           clearInterval(timer);
-          setIsVerify(true);
-          setIsCountDownStart(false);
+          setIsVerified(true);
+          setIsCountDownStarted(false);
         } else {
           alertModal('인증번호가 맞지않습니다.');
         }
@@ -109,9 +111,9 @@ export default () => {
     }
     setPasswordCheck(text);
     if (password == passwordCheck) {
-      setIsRegist(true);
+      setIsRegisted(true);
     } else {
-      setIsRegist(false);
+      setIsRegisted(false);
     }
   };
 
@@ -129,9 +131,9 @@ export default () => {
       alertModal('올바른 휴대폰번호 11자리를 입력해주세요.');
       return;
     }
-    setIsCheckVerifyCode(true);
-    setIsCountDownStart(true);
-    setIsCheckTimeOut(false);
+    setHasCheckedVerifyCode(true);
+    setIsCountDownStarted(true);
+    setHasCheckTimeOut(false);
     startCountDown();
     try {
       const {data} = await api.getSMS({
@@ -158,9 +160,9 @@ export default () => {
     const timer = setInterval(() => {
       if (duration.asSeconds() <= 0) {
         clearInterval(timer);
-        setIsCheckVerifyCode(false);
-        setIsCountDownStart(false);
-        setIsCheckTimeOut(true);
+        setHasCheckedVerifyCode(false);
+        setIsCountDownStarted(false);
+        setHasCheckTimeOut(true);
       }
       duration = moment.duration(duration.asSeconds() - 1, 'seconds');
       setCountdown(
@@ -203,20 +205,20 @@ export default () => {
 
   return (
     <FindPasswordScreenPresenter
-      isCountDownStart={isCountDownStart}
-      isCheckVerifyCode={isCheckVerifyCode}
+      isCountDownStarted={isCountDownStarted}
+      hasCheckedVerifyCode={hasCheckedVerifyCode}
       requireVerifyCode={requireVerifyCode}
       verifyCode={verifyCode}
       onChangeMobileNum={onChangeMobileNum}
       onChangeVerifyCode={onChangeVerifyCode}
       onChangePassword={onChangePassword}
       onChangePasswordCheck={onChangePasswordCheck}
-      isVerify={isVerify}
+      isVerified={isVerified}
       passwordCheck={passwordCheck}
       mobileNo={mobileNo}
       submit={submit}
-      isRegist={isRegist}
-      isCheckTimeOut={isCheckTimeOut}
+      isRegisted={isRegisted}
+      hasCheckedTimeOut={hasCheckedTimeOut}
       onVerifyCode={onVerifyCode}
       countdown={countdown}
       password={password}

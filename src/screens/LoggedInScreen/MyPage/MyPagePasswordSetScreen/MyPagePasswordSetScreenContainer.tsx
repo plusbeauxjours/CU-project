@@ -18,13 +18,15 @@ export default ({route: {params}}) => {
   const [password, setPassword] = useState<string>('');
   const [passwordCheck, setPasswordCheck] = useState<string>('');
   const [isPasswordSeen, setIsPasswordSeen] = useState<boolean>(false);
-  const [isCheckVerifyCode, setIsCheckVerifyCode] = useState<boolean>(false);
+  const [hasCheckedVerifyCode, setHasCheckedVerifyCode] = useState<boolean>(
+    false,
+  );
   const [verifyCode, setVerifyCode] = useState<string>('');
   const [mobileNo, setMobileNo] = useState<string>(params?.mobileNo || '');
   const [isRegisted, setIsRegisted] = useState<boolean>(false);
   const [countdown, setCountdown] = useState<string>('');
-  const [isCountDownStart, setIsCountDownStart] = useState<boolean>(false);
-  const [isCheckTimeOut, setIsCheckTimeOut] = useState<boolean>(false);
+  const [isCountDownStarted, setIsCountDownStarted] = useState<boolean>(false);
+  const [hasCheckedTimeOut, setHasCheckedTimeOut] = useState<boolean>(false);
 
   // Notification
   const alertModal = (text) => {
@@ -92,7 +94,7 @@ export default ({route: {params}}) => {
     if (passwordCheck == '') {
       return alertModal('새로운 비밀번호 확인을 입력해주세요.');
     }
-    if (isCheckVerifyCode === false) {
+    if (hasCheckedVerifyCode === false) {
       return alertModal('휴대폰번호 인증을 해주세요.');
     }
     if (isRegisted === false) {
@@ -125,7 +127,7 @@ export default ({route: {params}}) => {
             alertModal('인증번호 오류입니다.');
           } else {
             alertModal('비밀번호가 변경 되었습니다 다시 로그인해주세요.');
-            setIsCheckVerifyCode(false);
+            setHasCheckedVerifyCode(false);
             dispatch(userLogout());
             clearInterval(timer);
             navigation.reset({
@@ -157,9 +159,9 @@ export default ({route: {params}}) => {
     const timer = setInterval(() => {
       if (duration.asSeconds() <= 0) {
         clearInterval(timer);
-        setIsCheckVerifyCode(false);
-        setIsCountDownStart(false);
-        setIsCheckTimeOut(true);
+        setHasCheckedVerifyCode(false);
+        setIsCountDownStarted(false);
+        setHasCheckedTimeOut(true);
       }
       duration = moment.duration(duration.asSeconds() - 1, 'seconds');
       setCountdown(
@@ -174,9 +176,9 @@ export default ({route: {params}}) => {
 
   const requireVerifyCode = async () => {
     setVerifyCode('');
-    setIsCheckVerifyCode(true);
-    setIsCountDownStart(true);
-    setIsCheckTimeOut(false);
+    setHasCheckedVerifyCode(true);
+    setIsCountDownStarted(true);
+    setHasCheckedTimeOut(false);
     startCountDown();
     try {
       const {data} = await api.getSMS({
@@ -203,7 +205,7 @@ export default ({route: {params}}) => {
       password={password}
       passwordCheck={passwordCheck}
       isPasswordSeen={isPasswordSeen}
-      isCheckVerifyCode={isCheckVerifyCode}
+      hasCheckedVerifyCode={hasCheckedVerifyCode}
       verifyCode={verifyCode}
       mobileNo={mobileNo}
       isRegisted={isRegisted}
@@ -214,8 +216,8 @@ export default ({route: {params}}) => {
       submit={submit}
       toggleIsPasswordSeen={toggleIsPasswordSeen}
       countdown={countdown}
-      isCountDownStart={isCountDownStart}
-      isCheckTimeOut={isCheckTimeOut}
+      isCountDownStarted={isCountDownStarted}
+      hasCheckedTimeOut={hasCheckedTimeOut}
     />
   );
 };

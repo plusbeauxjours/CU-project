@@ -108,10 +108,10 @@ export default ({
   requireVerifyCode,
   onVerifyCode,
   countdown,
-  isCountDownStart,
-  isCheckVerifyCode,
-  isCheckTimeOut,
-  isVerify,
+  isCountDownStarted,
+  hasCheckedVerifyCode,
+  hasCheckTimeOut,
+  isVerified,
 }) => {
   return (
     <BackGround>
@@ -133,7 +133,7 @@ export default ({
               />
               <RequestButton
                 onPress={() => requireVerifyCode()}
-                disabled={isCheckVerifyCode}>
+                disabled={hasCheckedVerifyCode}>
                 <RequestText>인증요청</RequestText>
               </RequestButton>
             </TextinputCase>
@@ -157,7 +157,7 @@ export default ({
             </TextinputCase>
             <InputLine isBefore={verifyCode == '' ? true : false} />
             <VerifyContainer>
-              {isCountDownStart && <CountText>{countdown}초</CountText>}
+              {isCountDownStarted && <CountText>{countdown}초</CountText>}
               <VerifyButton
                 onPress={() => onVerifyCode()}
                 isBefore={verifyCode == '' ? true : false}>
@@ -165,7 +165,7 @@ export default ({
               </VerifyButton>
             </VerifyContainer>
           </Case>
-          {isCheckTimeOut && (
+          {hasCheckTimeOut && (
             <TimeText>
               인증시간이 초과되었습니다. 인증을 다시 시도해주세요
             </TimeText>
@@ -173,7 +173,7 @@ export default ({
           <SubmitBtn
             text={'다음단계로'}
             onPress={() => gotoSignup()}
-            isRegist={isVerify}
+            isRegisted={isVerified}
           />
         </Container>
       </KeyboardAwareScrollView>

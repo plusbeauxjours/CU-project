@@ -115,24 +115,24 @@ const VerifyContainer = styled.View`
 `;
 
 export default ({
-  isCountDownStart,
-  isCheckVerifyCode,
+  isCountDownStarted,
+  hasCheckedVerifyCode,
   requireVerifyCode,
   verifyCode,
+  onChangeMobileNum,
   onChangeVerifyCode,
-  isVerify,
-  passwordCheck,
+  onChangePassword,
   onChangePasswordCheck,
+  isVerified,
+  passwordCheck,
   mobileNo,
   submit,
-  isRegist,
-  onChangeMobileNum,
-  isCheckTimeOut,
+  isRegisted,
+  hasCheckedTimeOut,
   onVerifyCode,
   countdown,
   password,
   isPasswordSeen,
-  onChangePassword,
   toggleIsPasswordSeen,
 }) => {
   const scrollRef = useRef(null);
@@ -161,7 +161,7 @@ export default ({
                 />
                 <RequestButton
                   onPress={() => requireVerifyCode()}
-                  disabled={isCheckVerifyCode}>
+                  disabled={hasCheckedVerifyCode}>
                   <RequestText>인증요청</RequestText>
                 </RequestButton>
               </TextinputCase>
@@ -185,7 +185,7 @@ export default ({
               </TextinputCase>
               <InputLine isBefore={verifyCode == '' ? true : false} />
               <VerifyContainer>
-                {isCountDownStart && <CountText>{countdown}초</CountText>}
+                {isCountDownStarted && <CountText>{countdown}초</CountText>}
                 <VerifyButton
                   onPress={() => {
                     verifyCode !== onVerifyCode();
@@ -195,12 +195,12 @@ export default ({
                 </VerifyButton>
               </VerifyContainer>
             </Case>
-            {isCheckTimeOut && (
+            {hasCheckedTimeOut && (
               <TimeText>
                 인증시간이 초과되었습니다. 인증을 다시 시도해주세요
               </TimeText>
             )}
-            {isVerify && (
+            {isVerified && (
               <>
                 <WhiteSpace />
                 <Case>
@@ -287,8 +287,8 @@ export default ({
             <SubmitBtn
               text={'비밀번호 변경'}
               onPress={() => submit()}
-              // isRegist={isRegist}
-              isRegist={true}
+              // isRegisted={isRegisted}
+              isRegisted={true}
             />
           </Container>
         </ScrollView>

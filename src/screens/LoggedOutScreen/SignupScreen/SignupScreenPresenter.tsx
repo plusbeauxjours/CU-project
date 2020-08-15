@@ -85,12 +85,6 @@ const Case = styled.View`
   width: 100%;
 `;
 
-const CheckPasswordButton = styled.TouchableOpacity`
-  padding: 0 10px;
-  flex-direction: row;
-  align-items: center;
-`;
-
 const TextinputCase = styled.View`
   flex-direction: row;
   align-items: center;
@@ -112,7 +106,7 @@ export default ({
   onChangeName,
   onBlurPassword,
   toggleIsPasswordSeen,
-  isRegist,
+  isRegisted,
   isPasswordSeen,
   password,
   passwordCheck,
@@ -265,7 +259,7 @@ export default ({
                 '점주 : 점주\n직원 : 점장 또는 스태프',
               )
             }
-            isRegist={isRegist}
+            isRegisted={isRegisted}
           />
         </ScrollView>
       </KeyboardAwareScrollView>

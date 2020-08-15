@@ -101,7 +101,7 @@ export default ({
   password,
   passwordCheck,
   isPasswordSeen,
-  isCheckVerifyCode,
+  hasCheckedVerifyCode,
   verifyCode,
   mobileNo,
   isRegisted,
@@ -112,8 +112,8 @@ export default ({
   submit,
   toggleIsPasswordSeen,
   countdown,
-  isCountDownStart,
-  isCheckTimeOut,
+  isCountDownStarted,
+  hasCheckedTimeOut,
 }) => {
   const passwordCheckRef = useRef(null);
   return (
@@ -134,7 +134,7 @@ export default ({
                   onChangePassword(text);
                 }}
                 value={password}
-                editable={!isCheckVerifyCode}
+                editable={!hasCheckedVerifyCode}
                 secureTextEntry={isPasswordSeen === true ? false : true}
               />
               <CheckPasswordButton
@@ -175,7 +175,7 @@ export default ({
                 }}
                 onChangeText={(text) => onChangePasswordCheck(text)}
                 value={passwordCheck}
-                editable={!isCheckVerifyCode}
+                editable={!hasCheckedVerifyCode}
                 secureTextEntry={isPasswordSeen === true ? false : true}
               />
               <CheckPasswordButton onPress={() => toggleIsPasswordSeen()}>
@@ -203,18 +203,18 @@ export default ({
               <MobileNoText>{mobileNo}</MobileNoText>
               <RequestButton
                 onPress={() => requireVerifyCode()}
-                disabled={isCheckVerifyCode}>
+                disabled={hasCheckedVerifyCode}>
                 <RequestText>인증요청</RequestText>
               </RequestButton>
             </TextinputCase>
             <InputLine isBefore={mobileNo == '' ? true : false} />
           </Case>
-          {isCheckTimeOut && (
+          {hasCheckedTimeOut && (
             <TimeText>
               인증시간이 초과되었습니다. 인증을 다시 시도해주세요
             </TimeText>
           )}
-          {isCheckVerifyCode && (
+          {hasCheckedVerifyCode && (
             <>
               <WhiteSpace />
               <Case>
@@ -234,7 +234,7 @@ export default ({
                 </TextinputCase>
                 <InputLine isBefore={verifyCode == '' ? true : false} />
                 <VerifyContainer>
-                  {isCountDownStart && <CountText>{countdown}초</CountText>}
+                  {isCountDownStarted && <CountText>{countdown}초</CountText>}
                 </VerifyContainer>
               </Case>
             </>
@@ -242,7 +242,7 @@ export default ({
           <SubmitBtn
             text={'설정 완료'}
             onPress={() => submit()}
-            isRegist={isRegisted}
+            isRegisted={isRegisted}
           />
         </Container>
       </KeyboardAwareScrollView>

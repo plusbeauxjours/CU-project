@@ -40,7 +40,7 @@ export default ({route: {params}}) => {
   const [birthDate, setBirthDate] = useState<string>('');
   const [passwordCheck, setPasswordCheck] = useState<string>('');
   const [isPasswordSeen, setIsPasswordSeen] = useState<boolean>(false);
-  const [isRegist, setIsRegist] = useState<boolean>(false);
+  const [isRegisted, setIsRegisted] = useState<boolean>(false);
   const [appVersion, setAppVersion] = useState<string>('');
   const [platform, setPlatform] = useState<string>('');
 
@@ -179,9 +179,9 @@ export default ({route: {params}}) => {
       password.length < 6 ||
       !checkedPositionType
     ) {
-      setIsRegist(false);
+      setIsRegisted(false);
     } else {
-      setIsRegist(true);
+      setIsRegisted(true);
     }
   };
 
@@ -204,7 +204,7 @@ export default ({route: {params}}) => {
       onChangeName={onChangeName}
       onBlurPassword={onBlurPassword}
       toggleIsPasswordSeen={toggleIsPasswordSeen}
-      isRegist={isRegist}
+      isRegisted={isRegisted}
       isPasswordSeen={isPasswordSeen}
       password={password}
       passwordCheck={passwordCheck}

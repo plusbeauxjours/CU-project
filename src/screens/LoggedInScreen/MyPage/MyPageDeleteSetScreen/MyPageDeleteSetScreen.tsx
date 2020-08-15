@@ -48,7 +48,7 @@ const CheckText = styled.Text`
 `;
 const SubmitBtn = styled.TouchableOpacity<IIsConfirm>`
   height: ${hp('5%')};
-  background-color: ${(props) => (props.isConfirm ? '#FF3D3D' : '#FFC7C7')};
+  background-color: ${(props) => (props.isConfirmed ? '#FF3D3D' : '#FFC7C7')};
   justify-content: center;
   align-items: center;
   border-radius: 20px;
@@ -61,7 +61,7 @@ const SubmitBtnText = styled.Text`
 `;
 
 interface IIsConfirm {
-  isConfirm: boolean;
+  isConfirmed: boolean;
 }
 
 export default () => {
@@ -106,7 +106,7 @@ export default () => {
     }
   };
 
-  const [isConfirm, setIsConfirm] = useState<boolean>(false);
+  const [isConfirmed, setIsConfirmed] = useState<boolean>(false);
   return (
     <BackGround>
       <WhiteSpace />
@@ -116,9 +116,9 @@ export default () => {
         </Title>
         <Check
           onPress={() => {
-            setIsConfirm(!isConfirm);
+            setIsConfirmed(!isConfirmed);
           }}>
-          {isConfirm ? (
+          {isConfirmed ? (
             <Icon
               name={utils.isAndroid ? 'md-chevron-back' : 'ios-chevron-back'}
               size={16}
@@ -135,11 +135,11 @@ export default () => {
         </Check>
         <WhiteSpace />
         <SubmitBtn
-          isConfirm={isConfirm}
+          isConfirmed={isConfirmed}
           onPress={() => {
             confirmModal();
           }}
-          disabled={!isConfirm}>
+          disabled={!isConfirmed}>
           <SubmitBtnText>탈퇴하기</SubmitBtnText>
         </SubmitBtn>
       </Container>
