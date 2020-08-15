@@ -19,7 +19,7 @@ export default () => {
   const [isCountDownStart, setIsCountDownStart] = useState<boolean>(false);
   const [isCheckTimeOut, setIsCheckTimeOut] = useState<boolean>(false);
   const [isVerify, setIsVerify] = useState<boolean>(false);
-  const [isCheckAuth, setIsCheckAuth] = useState<boolean>(false);
+  const [isCheckVerifyCode, setIsCheckVerifyCode] = useState<boolean>(false);
 
   const alertModal = (text) => {
     const params = {
@@ -43,7 +43,7 @@ export default () => {
     const timer = setInterval(() => {
       if (duration.asSeconds() <= 0) {
         clearInterval(timer);
-        setIsCheckAuth(false);
+        setIsCheckVerifyCode(false);
         setIsCountDownStart(false);
         setIsCheckTimeOut(true);
       }
@@ -106,7 +106,7 @@ export default () => {
       alertModal('올바른 휴대폰번호 11자리를 입력해주세요.');
       return;
     }
-    setIsCheckAuth(true);
+    setIsCheckVerifyCode(true);
     setIsCountDownStart(true);
     setIsCheckTimeOut(false);
     startCountDown();
@@ -146,7 +146,7 @@ export default () => {
       onVerifyCode={onVerifyCode}
       countdown={countdown}
       isCountDownStart={isCountDownStart}
-      isCheckAuth={isCheckAuth}
+      isCheckVerifyCode={isCheckVerifyCode}
       isCheckTimeOut={isCheckTimeOut}
       isVerify={isVerify}
     />

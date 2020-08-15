@@ -116,7 +116,7 @@ const VerifyContainer = styled.View`
 
 export default ({
   isCountDownStart,
-  isCheckAuth,
+  isCheckVerifyCode,
   requireAuth,
   verifyCode,
   onChangeVerifyCode,
@@ -161,7 +161,7 @@ export default ({
                 />
                 <RequestButton
                   onPress={() => requireAuth()}
-                  disabled={isCheckAuth}>
+                  disabled={isCheckVerifyCode}>
                   <RequestText>인증요청</RequestText>
                 </RequestButton>
               </TextinputCase>

@@ -1,16 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import MyPagePasswordSetScreenPresenter from './MyPagePasswordSetScreenPresenter';
 
 export default ({route: {params}}) => {
 
-  password: '',
-  passwordCheck: '',
-  isPasswordSeen: false,
-  checkAuth: false,
-  auth: '',
+  const [password, setPassword] = useState<string>('');
+  const [passwordCheck, setPasswordCheck] = useState<string>('');
+  const [isPasswordSeen, setIsPasswordSeen] = useState<boolean>(false);
+  const [isCheckVerifyCode, setIsCheckVerifyCode] = useState<boolean>(false);
+  const [verifyCode, setVerifyCode] = useState<string>('');
   next: false,
   timer: 100,
-  phone: '',
-  
+  const [mobileNo,setMobileNo] =useState<string>("")
+
   return <MyPagePasswordSetScreenPresenter />;
 };

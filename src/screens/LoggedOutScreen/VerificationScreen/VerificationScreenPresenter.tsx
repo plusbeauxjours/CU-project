@@ -109,7 +109,7 @@ export default ({
   onVerifyCode,
   countdown,
   isCountDownStart,
-  isCheckAuth,
+  isCheckVerifyCode,
   isCheckTimeOut,
   isVerify,
 }) => {
@@ -133,7 +133,7 @@ export default ({
               />
               <RequestButton
                 onPress={() => requireAuth()}
-                disabled={isCheckAuth}>
+                disabled={isCheckVerifyCode}>
                 <RequestText>인증요청</RequestText>
               </RequestButton>
             </TextinputCase>
