@@ -41,6 +41,7 @@ export default {
     toggleMember: (data: any) => oldApi("post", "/Auth/toggleMember", data),
     changeName: (data: any) => oldApi("post", "/Auth/changeName", data),
     cupdflistcheck: (MEMBER_SEQ: string) => oldApi("get", `/Store/cupdflistcheck?MEMBER_SEQ=${MEMBER_SEQ}`),
+    cuvideolistcheck: (MEMBER_SEQ: string) => oldApi("get", `/Store/cuvideolistcheck?MEMBER_SEQ=${MEMBER_SEQ}`),
     setpdfcheck: (PDF_SEQ: string,
         MEMBER_SEQ: string) => oldApi("get", `/Store/setpdfcheck?PDF_SEQ=${PDF_SEQ}&MEMBER_SEQ${MEMBER_SEQ}`),
 }

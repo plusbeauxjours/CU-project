@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components/native';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {RefreshControl} from 'react-native';
 
 import api from '../../../../constants/LoggedInApi';
-import MyCuMonthlyCard from '../../../../components/MyCuMonthlyCard';
+import MyCuVideoCard from '../../../../components/MyCuVideoCard';
 
 interface ISelected {
   isSelected: boolean;
@@ -38,10 +38,31 @@ const CategoryText = styled.Text<ISelected>`
 export default () => {
   const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
 
+  const categoryList = [
+    {
+      key: '0',
+      text: '전체',
+    },
+    {
+      key: '1',
+      text: '노무',
+    },
+    {
+      key: '2',
+      text: '3분상생',
+    },
+    {
+      key: '3',
+      text: '설명가이드',
+    },
+    {
+      key: '4',
+      text: '기타',
+    },
+  ];
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [dataList, setDataList] = useState<any>([]);
-  const [categoryList, setCategoryList] = useState<any>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>('전체');
+  const [dataList, setDataList] = useState<[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('0');
 
   const onRefresh = async () => {
     try {
@@ -56,34 +77,31 @@ export default () => {
 
   const fetchData = async () => {
     try {
-      const {data} = await api.cupdflistcheck(MEMBER_SEQ);
-      const categoryListArray = ['전체'];
+      const {data} = await api.cuvideolistcheck(MEMBER_SEQ);
       if (data.message === 'SUCCESS') {
         if (Array.isArray(data.result)) {
           for (const i of data.result) {
-            if (!categoryListArray.includes(i.PDF_YEAR)) {
-              categoryListArray.push(i.PDF_YEAR);
-            }
+            const categoryArray = i.CATEGORY.split('@');
+            i.CATEGORY = categoryArray;
           }
         }
       }
       setDataList(data.result);
-      setCategoryList(categoryListArray);
     } catch (error) {
       console.log(error);
     }
   };
 
   const CategoryListRenderItem = (item, index) => {
-    const isSelected = item === selectedCategory;
+    const isSelected = item.key.toString() === selectedCategory;
     return (
       <Category
         key={index}
         isSelected={isSelected}
         onPress={() => {
-          setSelectedCategory(item);
+          setSelectedCategory(item.key.toString());
         }}>
-        <CategoryText isSelected={isSelected}>{item}</CategoryText>
+        <CategoryText isSelected={isSelected}>{item.text}</CategoryText>
       </Category>
     );
   };
@@ -93,7 +111,10 @@ export default () => {
   }, []);
 
   const selectData = dataList.filter((data) => {
-    return selectedCategory === '전체' || selectedCategory === data.PDF_YEAR;
+    return (
+      selectedCategory === categoryList[0].key ||
+      data.CATEGORY.includes(selectedCategory)
+    );
   });
 
   return (
@@ -116,18 +137,17 @@ export default () => {
         contentContainerStyle={{alignItems: 'center', padding: 20}}>
         {selectData?.map((item, index) => {
           return (
-            <MyCuMonthlyCard
+            <MyCuVideoCard
               KEY={index}
-              PDF_URL={item.PDF_URL}
-              PDF_MONTH={item.PDF_MONTH}
+              VIDEO_SEQ={item.VIDEO_SEQ}
+              CATEGORY={item.CATEGORY}
+              VIDEO_URL={item.VIDEO_URL}
               IMG_URL2={item.IMG_URL2}
               CONTENTS2={item.CONTENTS2}
-              PDF_SEQ={item.PDF_SEQ}
               IMG_URL={item.IMG_URL}
-              PDF_YEAR={item.PDF_YEAR}
-              PDFCHECK_SEQ={item.PDFCHECK_SEQ}
+              VIDEOCHECK_SEQ={item.VIDEOCHECK_SEQ}
               CONTENTS={item.CONTENTS}
-              selectedCategory={selectedCategory}
+              categoryList={categoryList}
             />
           );
         })}

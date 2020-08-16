@@ -78,10 +78,10 @@ export default ({route: {params}}) => {
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-  const checkvideo = async () => {
+  const checkPdf = async () => {
     setModalVisible(true);
     const {data} = await api.setpdfcheck(PDF_SEQ, MEMBER_SEQ);
-    console.log('checkvideo', data);
+    console.log('checkPdf', data);
   };
 
   // const screenOrientationChange(event) {
@@ -124,7 +124,7 @@ export default ({route: {params}}) => {
         <PdfButtonWrapper>
           <PdfButton
             onPress={() => {
-              checkvideo();
+              checkPdf();
             }}>
             <PdfButtonText>PDF 보기</PdfButtonText>
           </PdfButton>
@@ -142,7 +142,7 @@ export default ({route: {params}}) => {
           backgroundColor: '#333333',
         }}>
         <ModalContainer>
-          <PDFViewer url={PDF_URL} />
+          {/* <PDFViewer url={PDF_URL} /> */}
           <IconContainer
             onPress={() => {
               setModalVisible(false);

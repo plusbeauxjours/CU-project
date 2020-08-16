@@ -23,8 +23,8 @@ import MyPagePasswordSetScreen from '../screens/LoggedInScreen/MyPage/MyPagePass
 import ElectronicContractsScreen from '../screens/LoggedInScreen/Home/ElectronicContractsScreen';
 import MyCuMonthlyListScreen from '../screens/LoggedInScreen/MyCu/MyCuMonthlyListScreen';
 import MyCuMonthlyDetailScreen from '../screens/LoggedInScreen/MyCu/MyCuMonthlyDetailScreen';
-import MycuVideoListScreen from '../screens/LoggedInScreen/MyCu/MycuVideoListScreen';
-import MycuVideoDetailScreen from '../screens/LoggedInScreen/MyCu/MycuVideoDetailScreen';
+import MyCuVideoListScreen from '../screens/LoggedInScreen/MyCu/MyCuVideoListScreen';
+import MyCuVideoDetailScreen from '../screens/LoggedInScreen/MyCu/MyCuVideoDetailScreen';
 
 const LoggedInNavigation = createStackNavigator();
 export default () => {
@@ -145,20 +145,19 @@ export default () => {
           }}
         />
         <LoggedInNavigation.Screen
-          name="MycuVideoListScreen"
-          component={MycuVideoListScreen}
+          name="MyCuVideoListScreen"
+          component={MyCuVideoListScreen}
           options={{
             title: '노무 월간지',
           }}
         />
         <LoggedInNavigation.Screen
-          name="MycuVideoDetailScreen"
-          component={MycuVideoDetailScreen}
+          name="MyCuVideoDetailScreen"
+          component={MyCuVideoDetailScreen}
           options={{
             title: '노무 월간지',
           }}
         />
-        MycuVideoListScreen
       </LoggedInNavigation.Navigator>
       {alert.visible && <RootModal alert={alert} />}
     </React.Fragment>

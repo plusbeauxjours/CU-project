@@ -11,6 +11,7 @@ const DataListItem = styled.TouchableOpacity`
   border-radius: 20px;
   margin-bottom: 20px;
 `;
+
 const DataListItemWrapper = styled.View`
   flex: 1;
   flex-direction: row;
@@ -69,44 +70,52 @@ const DataListItemInfoBottomText = styled.Text`
 
 export default ({
   KEY,
-  PDF_URL,
-  PDF_MONTH,
+  VIDEO_SEQ,
+  CATEGORY,
+  VIDEO_URL,
   IMG_URL2,
   CONTENTS2,
-  PDF_SEQ,
   IMG_URL,
-  PDF_YEAR,
-  PDFCHECK_SEQ,
+  VIDEOCHECK_SEQ,
   CONTENTS,
-  selectedCategory,
+  categoryList,
 }) => {
   const navigation = useNavigation();
   return (
     <DataListItem
       key={KEY}
       onPress={() => {
-        navigation.navigate('MyCuMonthlyDetailScreen', {
+        navigation.navigate('MycuVideoDetailScreen', {
           selectedCategory,
-          PDF_URL: `http://cuapi.shop-sol.com/uploads/pdf/${PDF_URL}`,
-          PDF_MONTH,
-          IMG_URL2: `http://cuapi.shop-sol.com/uploads/pdf/${IMG_URL2}`,
+          CATEGORY,
+          VIDEO_URL: `http://cuapi.shop-sol.com/uploads/video/${VIDEO_URL}`,
+          IMG_URL2: `http://cuapi.shop-sol.com/uploads/video/${IMG_URL2}`,
           CONTENTS2,
-          PDF_SEQ,
+          VIDEO_SEQ,
         });
       }}>
       <DataListItemWrapper>
         <DataListItemImageWrapper>
           <DataListItemImage
-            source={{uri: `http://cuapi.shop-sol.com/uploads/pdf/${IMG_URL}`}}
+            source={{uri: `http://cuapi.shop-sol.com/uploads/video/${IMG_URL}`}}
             resizeMode="stretch"
           />
         </DataListItemImageWrapper>
         <DataListItemInfoWrapper>
           <DataListItemInfoTopWrapper>
-            <TextBox>
-              <Bold>{PDF_YEAR}</Bold>
-            </TextBox>
-            {PDFCHECK_SEQ && (
+            {CATEGORY?.map((t, i) => {
+              for (const categoryData of categoryList) {
+                if (t === categoryData.key) {
+                  return (
+                    <TextBox>
+                      <Bold>{categoryData.text}</Bold>
+                    </TextBox>
+                  );
+                }
+              }
+              return null;
+            })}
+            {VIDEOCHECK_SEQ && (
               <IconContainer>
                 <Icon name="check" size={12} color={'yellow'} />
               </IconContainer>

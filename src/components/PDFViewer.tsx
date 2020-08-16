@@ -46,7 +46,25 @@ export default ({url}) => {
       };
     }
 
-    return <Pdf ref={pdfRef} source={{uri: url}} style={customStyle} />;
+    return (
+      <Pdf
+        ref={pdfRef}
+        source={{uri: url}}
+        // style={customStyle}
+        onLoadComplete={(numberOfPages, filePath) => {
+          console.log(`number of pages: ${numberOfPages}`);
+        }}
+        onPageChanged={(page, numberOfPages) => {
+          console.log(`current page: ${page}`);
+        }}
+        onError={(error) => {
+          console.log(error);
+        }}
+        onPressLink={(uri) => {
+          console.log(`Link presse: ${uri}`);
+        }}
+      />
+    );
   };
 
   //   const screenOrientationChange = (event, _this) => {
