@@ -1,2 +1,2 @@
-import MyCuMonthlyListScreenContainer from "./MyCuMonthlyListScreenContainer"
-export default MyCuMonthlyListScreenContainer
+import MyCuMonthlyListScreen from "./MyCuMonthlyListScreen"
+export default MyCuMonthlyListScreen

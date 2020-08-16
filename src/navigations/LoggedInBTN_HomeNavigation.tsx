@@ -3,7 +3,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import BackBtn from '../components/Header/BackBtn';
 import HomeBtn from '../components/Header/HomeBtn';
-import MyPagePositionHeader from '../components/Header/MyPagePositionHeader';
 import CalendarInfoHeader from '../components/Header/CalendarInfoHeader';
 
 // 직원관리 ============================
@@ -74,7 +73,6 @@ import MyPageIdSetMainScreen from '../screens/LoggedInScreen/MyPage/MyPageIdSetM
 import MyPageDeleteSetScreen from '../screens/LoggedInScreen/MyPage/MyPageDeleteSetScreen';
 import MyPageNameSetScreen from '../screens/LoggedInScreen/MyPage/MyPageNameSetScreen';
 import MyPagePasswordSetScreen from '../screens/LoggedInScreen/MyPage/MyPagePasswordSetScreen';
-import MyPagePositionSetScreen from '../screens/LoggedInScreen/MyPage/MyPagePositionSetScreen';
 
 // 조기경보============================
 import HealthCertificateTypeScreen from '../screens/LoggedInScreen/HealthCertificate/HealthCertificateTypeScreen';
@@ -90,6 +88,7 @@ const LoggedInBTN_HomeNavigation = createStackNavigator();
 export default () => (
   <LoggedInBTN_HomeNavigation.Navigator
     headerMode={'screen'}
+    initialRouteName={'HomeScreen'}
     screenOptions={{
       headerStyle: {
         backgroundColor: '#AACE36',
@@ -450,13 +449,6 @@ export default () => (
       component={MyPagePasswordSetScreen}
       options={{
         title: '비밀번호 재설정',
-      }}
-    />
-    <LoggedInBTN_HomeNavigation.Screen
-      name="MyPagePositionSetScreen"
-      component={MyPagePositionSetScreen}
-      options={{
-        headerTitle: () => <MyPagePositionHeader />,
       }}
     />
     <LoggedInBTN_HomeNavigation.Screen

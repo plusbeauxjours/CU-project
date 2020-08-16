@@ -5,7 +5,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import RootModal from '../components/RootModal';
 import LogOutBtn from '../components/Header/LogOutBtn';
 import SettingBtn from '../components/Header/SettingBtn';
-import MyPagePositionHeader from '../components/Header/MyPagePositionHeader';
 
 import SelectStoreScreen from '../screens/LoggedInScreen/Home/SelectStoreScreen';
 import AddStoreScreen from '../screens/LoggedInScreen/Home/AddStoreScreen';
@@ -22,7 +21,10 @@ import MyPageDeleteSetScreen from '../screens/LoggedInScreen/MyPage/MyPageDelete
 import MyPageNameSetScreen from '../screens/LoggedInScreen/MyPage/MyPageNameSetScreen';
 import MyPagePasswordSetScreen from '../screens/LoggedInScreen/MyPage/MyPagePasswordSetScreen';
 import ElectronicContractsScreen from '../screens/LoggedInScreen/Home/ElectronicContractsScreen';
-import MyPagePositionSetScreen from '../screens/LoggedInScreen/MyPage/MyPagePositionSetScreen';
+import MyCuMonthlyListScreen from '../screens/LoggedInScreen/MyCu/MyCuMonthlyListScreen';
+import MyCuMonthlyDetailScreen from '../screens/LoggedInScreen/MyCu/MyCuMonthlyDetailScreen';
+import MycuVideoListScreen from '../screens/LoggedInScreen/MyCu/MycuVideoListScreen';
+import MycuVideoDetailScreen from '../screens/LoggedInScreen/MyCu/MycuVideoDetailScreen';
 
 const LoggedInNavigation = createStackNavigator();
 export default () => {
@@ -127,13 +129,36 @@ export default () => {
             title: '전자근로계약서 체결',
           }}
         />
+        {/* /////// TEST /////// */}
         <LoggedInNavigation.Screen
-          name="MyPagePositionSetScreen"
-          component={MyPagePositionSetScreen}
+          name="MyCuMonthlyListScreen"
+          component={MyCuMonthlyListScreen}
           options={{
-            headerTitle: () => <MyPagePositionHeader />,
+            title: '노무 월간지',
           }}
         />
+        <LoggedInNavigation.Screen
+          name="MyCuMonthlyDetailScreen"
+          component={MyCuMonthlyDetailScreen}
+          options={{
+            title: '노무 월간지',
+          }}
+        />
+        <LoggedInNavigation.Screen
+          name="MycuVideoListScreen"
+          component={MycuVideoListScreen}
+          options={{
+            title: '노무 월간지',
+          }}
+        />
+        <LoggedInNavigation.Screen
+          name="MycuVideoDetailScreen"
+          component={MycuVideoDetailScreen}
+          options={{
+            title: '노무 월간지',
+          }}
+        />
+        MycuVideoListScreen
       </LoggedInNavigation.Navigator>
       {alert.visible && <RootModal alert={alert} />}
     </React.Fragment>

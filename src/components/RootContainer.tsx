@@ -21,7 +21,8 @@ export default () => {
       <RootStack.Navigator
         mode="modal"
         initialRouteName={
-          isLoggedIn ? 'LoggedInNavigation' : 'LoggedOutNavigation'
+          // isLoggedIn ? 'LoggedInNavigation' : 'LoggedOutNavigation'
+          isLoggedIn ? 'LoggedInBTN_HomeNavigation' : 'LoggedOutNavigation'
         }>
         <RootStack.Screen
           name="LoggedInNavigation"

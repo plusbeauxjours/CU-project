@@ -205,9 +205,7 @@ export default () => {
           </Card>
           <Card
             onPress={() => {
-              navigation.navigate('SearchAddressScreen', {
-                screen: 0,
-              });
+              navigation.navigate('MyCuMonthlyListScreen');
             }}>
             <CardText>테스트</CardText>
             <ArrowIcon />
