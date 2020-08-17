@@ -1,2 +1,2 @@
-import MyPagePlaceSetScreenContainer from "./MyPagePlaceSetScreenContainer"
-export default MyPagePlaceSetScreenContainer
+import MyPagePlaceSetScreen from "./MyPagePlaceSetScreen"
+export default MyPagePlaceSetScreen

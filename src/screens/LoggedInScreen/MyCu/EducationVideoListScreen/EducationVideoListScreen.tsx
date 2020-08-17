@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import {RefreshControl} from 'react-native';
+import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components/native';
-import {FlatList, ScrollView} from 'react-native-gesture-handler';
-import {RefreshControl} from 'react-native';
 
 import api from '../../../../constants/LoggedInApi';
-import MyCuVideoCard from './MyCuVideoCard';
+import EducationVideoCard from './EducationVideoCard';
 
 interface ISelected {
   isSelected: boolean;
@@ -45,15 +45,15 @@ export default () => {
     },
     {
       key: '1',
-      text: '노무',
+      text: 'POS',
     },
     {
       key: '2',
-      text: '3분상생',
+      text: '점포관리',
     },
     {
       key: '3',
-      text: '설명가이드',
+      text: '법정의무교육',
     },
     {
       key: '4',
@@ -77,7 +77,7 @@ export default () => {
 
   const fetchData = async () => {
     try {
-      const {data} = await api.cuvideolistcheck(MEMBER_SEQ);
+      const {data} = await api.cuedulistcheck(MEMBER_SEQ);
       if (data.message === 'SUCCESS') {
         if (Array.isArray(data.result)) {
           for (const i of data.result) {
@@ -137,16 +137,17 @@ export default () => {
         contentContainerStyle={{alignItems: 'center', padding: 20}}>
         {selectData?.map((item: any, index) => {
           return (
-            <MyCuVideoCard
+            <EducationVideoCard
               KEY={index}
-              VIDEO_SEQ={item.VIDEO_SEQ}
+              EMP_FILE_SEQ={item.EMP_FILE_SEQ}
               CATEGORY={item.CATEGORY}
-              VIDEO_URL={item.VIDEO_URL}
+              FILE_URL={item.FILE_URL}
               IMG_URL2={item.IMG_URL2}
               CONTENTS2={item.CONTENTS2}
               IMG_URL={item.IMG_URL}
-              VIDEOCHECK_SEQ={item.VIDEOCHECK_SEQ}
+              EDUCHECK_SEQ={item.EDUCHECK_SEQ}
               CONTENTS={item.CONTENTS}
+              TYPE={item.TYPE}
               categoryList={categoryList}
             />
           );

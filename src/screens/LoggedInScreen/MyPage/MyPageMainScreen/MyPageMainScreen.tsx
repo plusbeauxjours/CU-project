@@ -219,6 +219,13 @@ export default () => {
           </Card>
           <Card
             onPress={() => {
+              navigation.navigate('EducationVideoListScreen');
+            }}>
+            <CardText>EducationVideo</CardText>
+            {/* <ArrowIcon /> */}
+          </Card>
+          <Card
+            onPress={() => {
               logOut('', '로그아웃 하시겠습니까?');
             }}>
             <CardText>로그 아웃</CardText>

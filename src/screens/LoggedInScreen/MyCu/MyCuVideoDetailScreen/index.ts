@@ -1,2 +1,2 @@
-import MyCuVideoDetailScreenContainer from "./MyCuVideoDetailScreenContainer"
-export default MyCuVideoDetailScreenContainer
+import MyCuVideoDetailScreen from "./MyCuVideoDetailScreen"
+export default MyCuVideoDetailScreen

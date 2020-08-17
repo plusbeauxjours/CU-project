@@ -5,7 +5,7 @@ import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {RefreshControl} from 'react-native';
 
 import api from '../../../../constants/LoggedInApi';
-import MyCuMonthlyCard from '../../../../components/MyCuMonthlyCard';
+import MyCuMonthlyCard from './MyCuMonthlyCard';
 
 interface ISelected {
   isSelected: boolean;
@@ -119,7 +119,6 @@ export default () => {
             <MyCuMonthlyCard
               KEY={index}
               PDF_URL={item.PDF_URL}
-              PDF_MONTH={item.PDF_MONTH}
               IMG_URL2={item.IMG_URL2}
               CONTENTS2={item.CONTENTS2}
               PDF_SEQ={item.PDF_SEQ}
@@ -127,7 +126,6 @@ export default () => {
               PDF_YEAR={item.PDF_YEAR}
               PDFCHECK_SEQ={item.PDFCHECK_SEQ}
               CONTENTS={item.CONTENTS}
-              selectedCategory={selectedCategory}
             />
           );
         })}

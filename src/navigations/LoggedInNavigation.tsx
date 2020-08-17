@@ -25,6 +25,8 @@ import MyCuMonthlyListScreen from '../screens/LoggedInScreen/MyCu/MyCuMonthlyLis
 import MyCuMonthlyDetailScreen from '../screens/LoggedInScreen/MyCu/MyCuMonthlyDetailScreen';
 import MyCuVideoListScreen from '../screens/LoggedInScreen/MyCu/MyCuVideoListScreen';
 import MyCuVideoDetailScreen from '../screens/LoggedInScreen/MyCu/MyCuVideoDetailScreen';
+import EducationVideoListScreen from '../screens/LoggedInScreen/MyCu/EducationVideoListScreen';
+import EducationVideoDetailScreen from '../screens/LoggedInScreen/MyCu/EducationVideoDetailScreen';
 
 const LoggedInNavigation = createStackNavigator();
 export default () => {
@@ -156,6 +158,20 @@ export default () => {
           component={MyCuVideoDetailScreen}
           options={{
             title: '노무 월간지',
+          }}
+        />
+        <LoggedInNavigation.Screen
+          name="EducationVideoListScreen"
+          component={EducationVideoListScreen}
+          options={{
+            title: '교육자료',
+          }}
+        />
+        <LoggedInNavigation.Screen
+          name="EducationVideoDetailScreen"
+          component={EducationVideoDetailScreen}
+          options={{
+            title: '교육자료',
           }}
         />
       </LoggedInNavigation.Navigator>

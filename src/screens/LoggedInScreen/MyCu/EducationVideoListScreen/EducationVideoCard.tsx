@@ -11,6 +11,7 @@ const DataListItem = styled.TouchableOpacity`
   border-radius: 20px;
   margin-bottom: 20px;
 `;
+
 const DataListItemWrapper = styled.View`
   flex: 1;
   flex-direction: row;
@@ -69,48 +70,56 @@ const DataListItemInfoBottomText = styled.Text`
 
 export default ({
   KEY,
-  PDF_URL,
-  PDF_MONTH,
+  EMP_FILE_SEQ,
+  CATEGORY,
+  FILE_URL,
   IMG_URL2,
   CONTENTS2,
-  PDF_SEQ,
   IMG_URL,
-  PDF_YEAR,
-  PDFCHECK_SEQ,
+  EDUCHECK_SEQ,
   CONTENTS,
-  selectedCategory,
+  TYPE,
+  categoryList,
 }) => {
   const navigation = useNavigation();
   return (
     <DataListItem
       key={KEY}
       onPress={() => {
-        navigation.navigate('MyCuMonthlyDetailScreen', {
-          selectedCategory,
-          PDF_URL: `http://cuapi.shop-sol.com/uploads/pdf/${PDF_URL}`,
-          PDF_MONTH,
-          IMG_URL2: `http://cuapi.shop-sol.com/uploads/pdf/${IMG_URL2}`,
-          CONTENTS2,
-          PDF_SEQ,
+        navigation.navigate('MyCuVideoDetailScreen', {
+          FILE_URL: `http://cuapi.shop-sol.com/uploads/edu/${FILE_URL}`,
+          IMG_URL2: `http://cuapi.shop-sol.com/uploads/edu/${IMG_URL2}`,
+          CONTENTS2: CONTENTS2,
+          EMP_FILE_SEQ: EMP_FILE_SEQ,
+          TYPE: TYPE,
         });
       }}>
       <DataListItemWrapper>
         <DataListItemImageWrapper>
           <DataListItemImage
-            source={{uri: `http://cuapi.shop-sol.com/uploads/pdf/${IMG_URL}`}}
+            source={{uri: `http://cuapi.shop-sol.com/uploads/edu/${IMG_URL}`}}
             resizeMode="stretch"
           />
         </DataListItemImageWrapper>
         <DataListItemInfoWrapper>
           <DataListItemInfoTopWrapper>
-            <TextBox>
-              <Bold>{PDF_YEAR}</Bold>
-            </TextBox>
-            {PDFCHECK_SEQ && (
+            {CATEGORY?.map((t, i) => {
+              for (const categoryData of categoryList) {
+                if (t === categoryData.key) {
+                  return (
+                    <TextBox>
+                      <Bold>{categoryData.text}</Bold>
+                    </TextBox>
+                  );
+                }
+              }
+              return null;
+            })}
+            {/* {EDUCHECK_SEQ && (
               <IconContainer>
                 <Icon name="check" size={12} color={'yellow'} />
               </IconContainer>
-            )}
+            )} */}
           </DataListItemInfoTopWrapper>
           <DataListItemInfoBottomWrapper>
             <DataListItemInfoBottomText>{CONTENTS}</DataListItemInfoBottomText>

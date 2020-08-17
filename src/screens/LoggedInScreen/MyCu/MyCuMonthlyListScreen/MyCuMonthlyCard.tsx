@@ -11,7 +11,6 @@ const DataListItem = styled.TouchableOpacity`
   border-radius: 20px;
   margin-bottom: 20px;
 `;
-
 const DataListItemWrapper = styled.View`
   flex: 1;
   flex-direction: row;
@@ -70,56 +69,44 @@ const DataListItemInfoBottomText = styled.Text`
 
 export default ({
   KEY,
-  VIDEO_SEQ,
-  CATEGORY,
-  VIDEO_URL,
+  PDF_URL,
   IMG_URL2,
   CONTENTS2,
+  PDF_SEQ,
   IMG_URL,
-  VIDEOCHECK_SEQ,
+  PDF_YEAR,
+  PDFCHECK_SEQ,
   CONTENTS,
-  categoryList,
 }) => {
   const navigation = useNavigation();
   return (
     <DataListItem
       key={KEY}
       onPress={() => {
-        navigation.navigate('MycuVideoDetailScreen', {
-          selectedCategory,
-          CATEGORY,
-          VIDEO_URL: `http://cuapi.shop-sol.com/uploads/video/${VIDEO_URL}`,
-          IMG_URL2: `http://cuapi.shop-sol.com/uploads/video/${IMG_URL2}`,
+        navigation.navigate('MyCuMonthlyDetailScreen', {
+          PDF_URL: `http://cuapi.shop-sol.com/uploads/pdf/${PDF_URL}`,
+          IMG_URL2: `http://cuapi.shop-sol.com/uploads/pdf/${IMG_URL2}`,
           CONTENTS2,
-          VIDEO_SEQ,
+          PDF_SEQ,
         });
       }}>
       <DataListItemWrapper>
         <DataListItemImageWrapper>
           <DataListItemImage
-            source={{uri: `http://cuapi.shop-sol.com/uploads/video/${IMG_URL}`}}
+            source={{uri: `http://cuapi.shop-sol.com/uploads/pdf/${IMG_URL}`}}
             resizeMode="stretch"
           />
         </DataListItemImageWrapper>
         <DataListItemInfoWrapper>
           <DataListItemInfoTopWrapper>
-            {CATEGORY?.map((t, i) => {
-              for (const categoryData of categoryList) {
-                if (t === categoryData.key) {
-                  return (
-                    <TextBox>
-                      <Bold>{categoryData.text}</Bold>
-                    </TextBox>
-                  );
-                }
-              }
-              return null;
-            })}
-            {VIDEOCHECK_SEQ && (
+            <TextBox>
+              <Bold>{PDF_YEAR}</Bold>
+            </TextBox>
+            {/* {PDFCHECK_SEQ && (
               <IconContainer>
                 <Icon name="check" size={12} color={'yellow'} />
               </IconContainer>
-            )}
+            )} */}
           </DataListItemInfoTopWrapper>
           <DataListItemInfoBottomWrapper>
             <DataListItemInfoBottomText>{CONTENTS}</DataListItemInfoBottomText>

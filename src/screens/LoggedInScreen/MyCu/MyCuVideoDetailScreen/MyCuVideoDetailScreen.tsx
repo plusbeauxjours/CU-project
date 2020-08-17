@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import api from '../../../../constants/LoggedInApi';
 import utils from '../../../../constants/utils';
-import PDFViewer from '../../../../components/PDFViewer';
+import VideoPlayer from '../../../../components/VideoPlayer';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -69,17 +69,20 @@ const IconContainer = styled.TouchableOpacity`
 export default ({route: {params}}) => {
   const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
 
-  const PDF_URL = params?.PDF_URL;
+  const VIDEO_URL = params?.VIDEO_URL;
   const IMG_URL2 = params?.IMG_URL2;
   const CONTENTS2 = params?.CONTENTS2;
-  const PDF_SEQ = params?.PDF_SEQ;
+  const VIDEO_SEQ = params?.VIDEO_SEQ;
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [visibleVideoModalClose, setVisibleVideoModalClose] = useState<boolean>(
+    false,
+  );
 
-  const checkPdf = async () => {
+  const checkVideo = async () => {
     setModalVisible(true);
-    const {data} = await api.setpdfcheck(PDF_SEQ, MEMBER_SEQ);
-    console.log('checkPdf', data);
+    const {data} = await api.setvideocheck(VIDEO_SEQ, MEMBER_SEQ);
+    console.log('checkVideo', data);
   };
 
   // const screenOrientationChange(event) {
@@ -122,9 +125,9 @@ export default ({route: {params}}) => {
         <PdfButtonWrapper>
           <PdfButton
             onPress={() => {
-              checkPdf();
+              checkVideo();
             }}>
-            <PdfButtonText>PDF 보기</PdfButtonText>
+            <PdfButtonText>동영상 보기</PdfButtonText>
           </PdfButton>
         </PdfButtonWrapper>
         <TextBox>
@@ -140,18 +143,29 @@ export default ({route: {params}}) => {
           backgroundColor: '#333333',
         }}>
         <ModalContainer>
-          {/* <PDFViewer url={PDF_URL} /> */}
-          <IconContainer
-            onPress={() => {
-              setModalVisible(false);
-            }}>
-            <Icon
-              name={utils.isAndroid ? 'md-close' : 'ios-close'}
-              size={28}
-              color="#642A8C"
-              style={{marginRight: 5}}
-            />
-          </IconContainer>
+          <VideoPlayer
+            url={VIDEO_URL}
+            landscapeCallback={() => {
+              setVisibleVideoModalClose(false);
+            }}
+            portraitCallback={() => {
+              setVisibleVideoModalClose(true);
+            }}
+          />
+          {visibleVideoModalClose && (
+            <IconContainer
+              onPress={() => {
+                setModalVisible(false);
+              }}>
+              <Text>닫기</Text>
+              {/* <Icon
+                name={utils.isAndroid ? 'md-close' : 'ios-close'}
+                size={28}
+                color="#642A8C"
+                style={{marginRight: 5}}
+              /> */}
+            </IconContainer>
+          )}
         </ModalContainer>
       </Modal>
     </BackGround>
