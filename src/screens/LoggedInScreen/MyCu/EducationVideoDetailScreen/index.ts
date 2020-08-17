@@ -1,2 +1,2 @@
-import EducationVideoDetailScreenContainer from "./EducationVideoDetailScreenContainer"
-export default EducationVideoDetailScreenContainer
+import EducationVideoDetailScreen from "./EducationVideoDetailScreen"
+export default EducationVideoDetailScreen

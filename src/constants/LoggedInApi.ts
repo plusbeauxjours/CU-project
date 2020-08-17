@@ -46,8 +46,9 @@ export default {
         MEMBER_SEQ: string) => oldApi("get", `/Store/setpdfcheck?PDF_SEQ=${PDF_SEQ}&MEMBER_SEQ${MEMBER_SEQ}`),
     setvideocheck: (PDF_SEQ: string,
         MEMBER_SEQ: string) => oldApi("get", `/Store/setvideocheck?PDF_SEQ=${PDF_SEQ}&MEMBER_SEQ${MEMBER_SEQ}`),
+    seteducheck: (EMP_FILE_SEQ: string,
+        MEMBER_SEQ: string) => oldApi("get", `/Store/setvideocheck?EMP_FILE_SEQ=${EMP_FILE_SEQ}&MEMBER_SEQ${MEMBER_SEQ}`),
     closeList: (MEMBER_SEQ: string) => oldApi("get", `/Store/Close_list?MEMBER_SEQ=${MEMBER_SEQ}`),
     endList: (MEMBER_SEQ: string) => oldApi("get", `/Store/Close_list?MEMBER_SEQ=${MEMBER_SEQ}`),
     cuedulistcheck: (MEMBER_SEQ: string) => oldApi("get", `/Store/cuedulistcheck?MEMBER_SEQ=${MEMBER_SEQ}`),
 }
-
