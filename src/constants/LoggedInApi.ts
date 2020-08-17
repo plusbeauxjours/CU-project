@@ -53,4 +53,5 @@ export default {
     cuedulistcheck: (MEMBER_SEQ: string) => oldApi("get", `/Store/cuedulistcheck?MEMBER_SEQ=${MEMBER_SEQ}`),
     storeHealthEmpList: (MEMBER_SEQ: string, STORE_SEQ: string, STORE: string) => oldApi("get", `/Store/store_health_emp_list?STORE_SEQ=${STORE_SEQ}&STORE=${STORE}&MEMBER_SEQ=${MEMBER_SEQ}`),
     getCertificate: (data: any) => callApi("post", "/auth/getCERTIFICATE/", data),
+    storeHealthEmpDetail: (EMP_SEQ: string) => oldApi("get", `/Store/store_health_emp_detail?EMP_SEQ=${EMP_SEQ}`),
 }

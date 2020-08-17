@@ -1,2 +1,2 @@
-import HealthCertificateEmpDetailScreen from "./HealthCertificateEmpDetailScreen"
-export default HealthCertificateEmpDetailScreen
+import HealthCertificateEmpDetailScreenContainer from "./HealthCertificateEmpDetailScreenContainer"
+export default HealthCertificateEmpDetailScreenContainer
