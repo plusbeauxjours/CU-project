@@ -67,7 +67,8 @@ export default ({
   const now = new Date();
   const pushday = new Date(PUSH_DAY);
   let dday = 0;
-  // dday = parseInt((pushday.getTime()-now.getTime())/1000/3600/24)
+  dday = (pushday.getTime() - now.getTime()) / 1000 / 3600 / 24;
+  console.log('dday on HealthCertificateEmpLIst', dday);
   if (TESTING_DATE) {
     return (
       <Touchable

@@ -1,6 +1,7 @@
 import React from 'react';
-import HealthCertificateEmpDetailScreenPresenter from './HealthCertificateEmpDetailScreenPresenter';
+import styled from 'styled-components/native';
 
+const Text = styled.Text``;
 export default () => {
-  return <HealthCertificateEmpDetailScreenPresenter />;
+  return <Text>HealthCertificateEmpDetailScreen</Text>;
 };

@@ -21,12 +21,16 @@ import MyPageDeleteSetScreen from '../screens/LoggedInScreen/MyPage/MyPageDelete
 import MyPageNameSetScreen from '../screens/LoggedInScreen/MyPage/MyPageNameSetScreen';
 import MyPagePasswordSetScreen from '../screens/LoggedInScreen/MyPage/MyPagePasswordSetScreen';
 import ElectronicContractsScreen from '../screens/LoggedInScreen/Home/ElectronicContractsScreen';
+/////// TEST ///////
 import MyCuMonthlyListScreen from '../screens/LoggedInScreen/MyCu/MyCuMonthlyListScreen';
 import MyCuMonthlyDetailScreen from '../screens/LoggedInScreen/MyCu/MyCuMonthlyDetailScreen';
 import MyCuVideoListScreen from '../screens/LoggedInScreen/MyCu/MyCuVideoListScreen';
 import MyCuVideoDetailScreen from '../screens/LoggedInScreen/MyCu/MyCuVideoDetailScreen';
 import EducationVideoListScreen from '../screens/LoggedInScreen/MyCu/EducationVideoListScreen';
 import EducationVideoDetailScreen from '../screens/LoggedInScreen/MyCu/EducationVideoDetailScreen';
+import HealthCertificateEmpDetailScreen from '../screens/LoggedInScreen/HealthCertificate/HealthCertificateEmpDetailScreen';
+import HealthCertificateEmpListScreen from '../screens/LoggedInScreen/HealthCertificate/HealthCertificateEmpListScreen';
+import HealthCertificateTypeScreen from '../screens/LoggedInScreen/HealthCertificate/HealthCertificateTypeScreen';
 
 const LoggedInNavigation = createStackNavigator();
 export default () => {
@@ -170,6 +174,27 @@ export default () => {
         <LoggedInNavigation.Screen
           name="EducationVideoDetailScreen"
           component={EducationVideoDetailScreen}
+          options={{
+            title: '교육자료',
+          }}
+        />
+        <LoggedInNavigation.Screen
+          name="HealthCertificateEmpDetailScreen"
+          component={HealthCertificateEmpDetailScreen}
+          options={{
+            title: '교육자료',
+          }}
+        />
+        <LoggedInNavigation.Screen
+          name="HealthCertificateEmpListScreen"
+          component={HealthCertificateEmpListScreen}
+          options={{
+            title: '교육자료',
+          }}
+        />
+        <LoggedInNavigation.Screen
+          name="HealthCertificateTypeScreen"
+          component={HealthCertificateTypeScreen}
           options={{
             title: '교육자료',
           }}

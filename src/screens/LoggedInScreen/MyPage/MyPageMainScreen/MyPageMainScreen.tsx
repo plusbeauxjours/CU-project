@@ -131,6 +131,7 @@ export default () => {
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
   };
+
   const ArrowIcon = () => (
     <Arrow>
       <Icon
@@ -140,6 +141,7 @@ export default () => {
       />
     </Arrow>
   );
+
   return (
     <BackGround>
       <ScrollView>
@@ -222,6 +224,13 @@ export default () => {
               navigation.navigate('EducationVideoListScreen');
             }}>
             <CardText>EducationVideo</CardText>
+            {/* <ArrowIcon /> */}
+          </Card>
+          <Card
+            onPress={() => {
+              navigation.navigate('HealthCertificateTypeScreen');
+            }}>
+            <CardText>HealthCertificateType</CardText>
             {/* <ArrowIcon /> */}
           </Card>
           <Card
