@@ -17,11 +17,11 @@ const Container = styled.View<IIsStore>`
   background-color: white;
   flex-direction: row;
   border-radius: 30px;
-  elevation: 5;
+  /* elevation: 5;
      shadow-color: #4d4d4d;
      shadow-offset: { width: 8px, height: 8px };
      shadow-opacity: 0.3;
-     shadow-radius: 4px;
+     shadow-radius: 4px; */
   margin-top: ${(props) => (props.isStore ? hp('1%') : hp('3%'))};
   margin-bottom: ${(props) => (props.isStore ? hp('2%') : 0)};
 `;

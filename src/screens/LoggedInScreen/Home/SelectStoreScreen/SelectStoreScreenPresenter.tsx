@@ -8,23 +8,20 @@ import {
 } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import SelectStoreCard from './SelectStoreCard';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
   background-color: #f6f6f6;
 `;
-const ScrollView = styled.ScrollView`
-  align-items: center;
-  justify-content: flex-start;
-  padding-bottom: 20px;
-`;
+const ScrollView = styled.ScrollView``;
 const Container = styled.View`
   flex: 1;
 `;
 
 const EmptyListWrapper = styled.View`
   margin-top: ${hp('10%')};
-  padding: ${hp('5%')} ${wp('5%')};
+  padding: ${hp('5%')}px ${wp('5%')}px;
   width: ${wp('90%')};
   justify-content: center;
   align-items: center;
@@ -50,8 +47,8 @@ const AddStoreBox = styled.View`
   margin: ${hp('2.5%')}px 0;
 `;
 const AddStoreButton = styled.TouchableOpacity`
-  padding: ${hp('1.5%')};
-  width: ${wp('85%')};
+  padding: ${hp('1.5%')}px;
+  width: ${wp('85%')}px;
   border-radius: 30px;
   border-width: 2px;
   border-color: #642a8c;
@@ -75,8 +72,8 @@ const Row = styled.View`
 `;
 
 const ModalNoButton = styled.TouchableOpacity`
-  height: ${hp('7%')};
-  width: ${wp('50%')};
+  height: ${hp('7%')}px;
+  width: ${wp('50%')}px;
   align-items: center;
   justify-content: center;
   background-color: #f8f8f8;
@@ -105,11 +102,11 @@ const WorkingModalText = styled.Text`
 `;
 
 const Work = styled.View`
-  width: ${wp('100%')};
+  width: ${wp('100%')}px;
   flex-direction: row;
 `;
 const GoWork = styled.TouchableOpacity`
-  width: ${wp('100%')};
+  width: ${wp('100%')}px;
   height: 52px;
   justify-content: center;
   align-items: center;
@@ -229,7 +226,7 @@ export default ({
     }
     return myStore.map((data, index) => {
       return (
-        <Card
+        <SelectStoreCard
           key={data.STORE_SEQ}
           data={data}
           name={data.NAME}
@@ -286,7 +283,12 @@ export default ({
           <ScrollView
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }>
+            }
+            contentContainerStyle={{
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              paddingBottom: 20,
+            }}>
             <StoreList />
           </ScrollView>
         </Container>
@@ -295,10 +297,15 @@ export default ({
           <ScrollView
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }>
+            }
+            contentContainerStyle={{
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              paddingBottom: 20,
+            }}>
             {store.map((data, index) => {
               return (
-                <Card
+                <SelectStoreCard
                   key={data.STORE_SEQ}
                   data={data}
                   name={data.NAME}
