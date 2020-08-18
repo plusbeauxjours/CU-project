@@ -17,11 +17,11 @@ const Container = styled.View<IIsStore>`
   background-color: white;
   flex-direction: row;
   border-radius: 30px;
-  /* elevation: 5;
-     shadow-color: #4d4d4d;
-     shadow-offset: { width: 8px, height: 8px };
-     shadow-opacity: 0.3;
-     shadow-radius: 4px; */
+  elevation: 5;
+  shadow-color: #4d4d4d;
+  shadow-offset: { width: 8px, height: 8px };
+  shadow-opacity: 0.3;
+  shadow-radius: 4px;
   margin-top: ${(props) => (props.isStore ? hp('1%') : hp('3%'))};
   margin-bottom: ${(props) => (props.isStore ? hp('2%') : 0)};
 `;
@@ -96,18 +96,18 @@ export default ({
   EMP_SEQ,
   JOIN,
   search,
+  TYPE,
+  MANAGER,
   workinglist,
-  modal,
+  openModal,
+  StoreEmpSeq,
+  setSES,
   setStep,
   setST,
   setCalendarData,
-  setCheckListData,
-  setSES,
-  TYPE,
-  MANAGER,
   CalendarData,
+  setCheckListData,
   CheckListData,
-  StoreEmpSeq,
   setName,
   setAddress,
   alertModal,
@@ -123,7 +123,7 @@ export default ({
           null;
         } else {
           if (STORE == 1) {
-            navigation.navigate('Store', {
+            navigation.navigate('HomeScreen', {
               STORE_SEQ: STORE_SEQ,
               refresh: (obj) => {
                 setName(obj.name);
@@ -136,7 +136,7 @@ export default ({
             setCheckListData(CheckListData);
             setSES(StoreEmpSeq);
           } else if (STORE == 0 && TYPE == '1') {
-            navigation.navigate('Store2', {
+            navigation.navigate('HomeScreen', {
               data: data,
               EMP_SEQ: EMP_SEQ,
               STORE_SEQ: STORE_SEQ,
@@ -162,9 +162,9 @@ export default ({
             </NameText>
           )}
           <AddressBox>
-            <IconContainer>
+            {/* <IconContainer>
               <Icon name="ios-pin" size={17} color="#642A8C" />
-            </IconContainer>
+            </IconContainer> */}
             <AddressText>
               {address1 && address2
                 ? address1.trim() + ' ' + address2.trim()
@@ -174,9 +174,9 @@ export default ({
 
           {STORE == 1 ? (
             <EmployeeBox>
-              <IconContainer>
+              {/* <IconContainer>
                 <Icon name="ios-contact" size={17} color="#642A8C" />
-              </IconContainer>
+              </IconContainer> */}
               <EmployeeText>
                 {employee == 0
                   ? `${employee}명 근무중, 직원을 초대하세요.`
@@ -185,11 +185,11 @@ export default ({
             </EmployeeBox>
           ) : (
             <EmployeeBox>
-              {search !== true && (
+              {/* {search !== true && (
                 <IconContainer>
                   <Icon name="ios-contact" size={17} color="#642A8C" />
                 </IconContainer>
-              )}
+              )} */}
               {search !== true && TYPE == '0' ? (
                 <EmployeeText>합류 대기중</EmployeeText>
               ) : (
@@ -205,7 +205,7 @@ export default ({
           {search == true && JOIN == '0' ? (
             <Askbox
               onPress={() => {
-                modal(name, STORE_SEQ);
+                openModal(name, STORE_SEQ);
               }}>
               <AskText>합류요청</AskText>
             </Askbox>
@@ -216,7 +216,8 @@ export default ({
               ) : TYPE == '0' ? (
                 ''
               ) : (
-                <Icon name="right" size={20} color="#642A8C" />
+                <Arrow>햡류완료</Arrow>
+                // <Icon name="right" size={20} color="#642A8C" />
               )}
             </Arrow>
           )}

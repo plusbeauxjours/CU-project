@@ -89,7 +89,7 @@ export default () => {
           },
         );
       }
-      console.log(data);
+      console.log('data on HomeScreen', data);
       setStoreResult(data);
       setQR(data.resultdata.QR);
       setNotice(data.notice);

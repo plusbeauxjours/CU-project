@@ -3,6 +3,10 @@ import styled from 'styled-components/native';
 import {RefreshControl, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 interface IText {
   color: string;
@@ -24,13 +28,12 @@ const AddressText = styled.Text<IText>`
 
 const ScrollView = styled.ScrollView``;
 const Section = styled.TouchableOpacity`
+  width: ${wp('100%')};
   border-radius: 20px;
   background-color: #fff;
 `;
 const Touchable = styled.TouchableOpacity``;
 const Container = styled.View`
-  width: 100%;
-  padding: 0 20px;
   align-items: center;
 `;
 const Text = styled.Text``;
@@ -84,7 +87,9 @@ const ViewBtnText = styled.Text`
   font-weight: bold;
   padding-right: 3px;
 `;
-
+const WhiteSpace = styled.View`
+  height: 30px;
+`;
 export default ({
   refreshing,
   STORE,
@@ -110,7 +115,7 @@ export default ({
             }>
             <Section
               onPress={() => {
-                navigation.navigate('HealthCertificateEmpList', {
+                navigation.navigate('HealthCertificateEmpListScreen', {
                   STOREDATA,
                   STORE,
                 });
@@ -123,7 +128,7 @@ export default ({
                 </Row>
                 <ViewBtn>
                   <ViewBtnText>등록 및 상세</ViewBtnText>
-                  <Icon name="right" size={14} color="#642A8C" />
+                  {/* <Icon name="right" size={14} color="#642A8C" /> */}
                 </ViewBtn>
               </TypeTitle>
 
@@ -139,7 +144,7 @@ export default ({
                     alignItems: 'flex-start',
                   }}>
                   <IconContainer>
-                    <Icon name={'circle'} size={22} color={'#642A8C'} />
+                    {/* <Icon name={'circle'} size={22} color={'#642A8C'} /> */}
                     <AddressText color={'#642A8C'}>
                       위생교육증 등록완료
                     </AddressText>
@@ -160,6 +165,7 @@ export default ({
                 </AddressBox>
               )}
             </Section>
+            <WhiteSpace />
             <Footer>
               <FooterText>조기경보시스템을 등록하시면</FooterText>
               <FooterText>갱신시점 이전(40일, 14일, 당일)에</FooterText>
@@ -183,7 +189,7 @@ export default ({
               {EDUCATION_CERTIFICATE != 0 ? (
                 <Section
                   onPress={() => {
-                    navigation.navigate('HealthCertificateStoreDetail', {
+                    navigation.navigate('HealthCertificateStoreDetailScreen', {
                       STORE_SEQ,
                     });
                   }}>
@@ -199,12 +205,12 @@ export default ({
                             '위생교육증을 등록하시면 갱신시점 알람 및 기존 교육증 이력관리가 가능합니다.\n(현재는 한국휴게음식업중앙회 발급 수료증에 한하여 등록이 가능합니다. 추후 종류 추가 예정)',
                           );
                         }}>
-                        <Icon name="questioncircle" size={22} color="#bbb" />
+                        {/* <Icon name="questioncircle" size={22} color="#bbb" /> */}
                       </TouchableOpacity>
                     </Row>
                     <ViewBtn>
                       <ViewBtnText>등록 및 상세</ViewBtnText>
-                      <Icon name="right" size={14} color="#642A8C" />
+                      {/* <Icon name="right" size={14} color="#642A8C" /> */}
                     </ViewBtn>
                   </TypeTitle>
 
@@ -214,7 +220,7 @@ export default ({
                       alignItems: 'flex-start',
                     }}>
                     <IconContainer>
-                      <Icon name={'circle'} size={22} color={'#642A8C'} />
+                      {/* <Icon name={'circle'} size={22} color={'#642A8C'} /> */}
                       <AddressText color={'#642A8C'}>
                         위생교육증 등록완료
                       </AddressText>
@@ -237,7 +243,7 @@ export default ({
               ) : (
                 <Section
                   onPress={() => {
-                    navigation.navigate('HealthCertificateStoreForm', {
+                    navigation.navigate('HealthCertificateStoreFormScreen', {
                       count: 3,
                       STORE_SEQ,
                     });
@@ -254,18 +260,18 @@ export default ({
                             '위생교육증을 등록하시면 갱신시점 알람 및 기존 교육증 이력관리가 가능합니다.\n(현재는 한국휴게음식업중앙회 발급 수료증에 한하여 등록이 가능합니다. 추후 종류 추가 예정)',
                           );
                         }}>
-                        <Icon name="questioncircle" size={22} color="#bbb" />
+                        {/* <Icon name="questioncircle" size={22} color="#bbb" /> */}
                       </TouchableOpacity>
                     </Row>
                     <ViewBtn>
                       <ViewBtnText>등록 및 상세</ViewBtnText>
-                      <Icon name="right" size={14} color="#642A8C" />
+                      {/* <Icon name="right" size={14} color="#642A8C" /> */}
                     </ViewBtn>
                   </TypeTitle>
 
                   <AddressBox>
                     <IconContainer>
-                      <Icon name={'circle'} size={22} color={'#CE0505'} />
+                      {/* <Icon name={'circle'} size={22} color={'#CE0505'} /> */}
                       <AddressText color={'#CE0505'}>
                         위생교육증 미등록
                       </AddressText>
@@ -275,7 +281,7 @@ export default ({
               )}
               <Section
                 onPress={() => {
-                  navigation.navigate('HealthCertificateEmpList', {
+                  navigation.navigate('HealthCertificateEmpListScreen', {
                     type: '1', // 보건증
                     STOREDATA: STOREDATA,
                     STORE: STORE,
@@ -293,18 +299,18 @@ export default ({
                           '직원별 보건증 등록이 가능하며, 등록 후 갱신시점 알람 및 보건증 이력관리가 가능합니다.',
                         );
                       }}>
-                      <Icon name="questioncircle" size={22} color="#bbb" />
+                      {/* <Icon name="questioncircle" size={22} color="#bbb" /> */}
                     </Touchable>
                   </Row>
                   <ViewBtn>
                     <ViewBtnText>등록 및 상세</ViewBtnText>
-                    <Icon name="right" size={14} color="#642A8C" />
+                    {/* <Icon name="right" size={14} color="#642A8C" /> */}
                   </ViewBtn>
                 </TypeTitle>
                 {HEALTH_CERTIFICATE_APPLY == 0 ? (
                   <AddressBox>
                     <IconContainer>
-                      <Icon name={'circle'} size={22} color={'#CE0505'} />
+                      {/* <Icon name={'circle'} size={22} color={'#CE0505'} /> */}
                       <AddressText color={'#CE0505'}>미등록</AddressText>
                     </IconContainer>
                   </AddressBox>
@@ -312,7 +318,7 @@ export default ({
                   Number(HEALTH_CERTIFICATE_TARGET) ? (
                   <AddressBox>
                     <IconContainer>
-                      <Icon name={'circle'} size={22} color={'#642A8C'} />
+                      {/* <Icon name={'circle'} size={22} color={'#642A8C'} /> */}
                       <AddressText color={'#642A8C'}>
                         등록 중({HEALTH_CERTIFICATE_TARGET}명 중{' '}
                         {HEALTH_CERTIFICATE_APPLY}명 완료)
@@ -322,7 +328,7 @@ export default ({
                 ) : (
                   <AddressBox>
                     <IconContainer>
-                      <Icon name={'circle'} size={22} color={'#CE0505'} />
+                      {/* <Icon name={'circle'} size={22} color={'#CE0505'} /> */}
                       <AddressText color={'#CE0505'}>
                         등록 중({HEALTH_CERTIFICATE_TARGET}명 중{' '}
                         {HEALTH_CERTIFICATE_APPLY}명 완료)
@@ -338,6 +344,7 @@ export default ({
               </TypeTitleBox>
               <GreyText>* 추후 업데이트 예정입니다.</GreyText>
             </Section>
+            <WhiteSpace />
             <Footer>
               <FooterText>조기경보시스템을 등록하시면</FooterText>
               <FooterText>갱신시점 이전(40일, 14일, 당일)에</FooterText>

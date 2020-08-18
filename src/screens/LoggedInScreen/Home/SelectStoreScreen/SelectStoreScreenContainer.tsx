@@ -28,7 +28,7 @@ export default () => {
 
   const [appVersion, setAppVersion] = useState<string>('');
   const [platform, setPlatform] = useState<string>('');
-  const [store, setStore] = useState<[]>([]);
+  const [storeState, setStoreState] = useState<[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [calendarData, setCalendarData] = useState<[]>([]);
   const [checkListData, setCheckListData] = useState<[]>([]);
@@ -205,6 +205,7 @@ export default () => {
     dispatch(setStoreEmpSeq(Emp));
   };
   const setStoreFn = (step) => {
+    console.log('stepstepstepstepstepstepstepstepstepstepstepstep', step);
     dispatch(setStore(step));
   };
   const setStoreNameFn = (STORE_NAME) => {
@@ -218,14 +219,14 @@ export default () => {
   };
 
   const addStore = () => {
-    navigation.navigate('AddStore', {fetchData});
+    navigation.navigate('AddStoreScreen', {fetchData});
   };
 
   const fetchData = async () => {
     try {
       const {data} = await api.storeList(MEMBER_SEQ, STORE);
       // dispatch(setHomeCard(data.result));
-      setStore(data.result);
+      setStoreState(data.result);
       setMyStore(data.result);
       setRefreshing(false);
     } catch (error) {
@@ -271,7 +272,7 @@ export default () => {
           if (check == undefined) {
             check = null;
           }
-          navigation.navigate('ChecklistSpecification', {
+          navigation.navigate('ChecklistSpecificationScreen', {
             checkID,
             csID,
             checkpoint,
@@ -350,7 +351,7 @@ export default () => {
   return (
     <SelectStoreScreenPresenter
       STORE={STORE}
-      store={store}
+      storeState={storeState}
       myStore={myStore}
       search={search}
       refreshing={refreshing}

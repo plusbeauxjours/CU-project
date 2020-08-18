@@ -10,7 +10,7 @@ export default ({route: {params}}) => {
   const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
 
   const {STOREDATA, STORE} = params;
-  const {STORE_SEQ} = STOREDATA.resultdata;
+  const {STORE_SEQ} = STOREDATA?.resultdata;
 
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [EDUCATION_CERTIFICATE, setEDUCATION_CERTIFICATE] = useState<string>(
@@ -54,12 +54,12 @@ export default ({route: {params}}) => {
         MEMBER_SEQ,
         STORE,
       });
-      setEDUCATION_CERTIFICATE(data.result.EDUCATION_CERTIFICATE);
-      setEDUCATION_DATA(data.result.EDUCATION_DATA);
-      setEDUCATION_DDAY(data.result.EDUCATION_DDAY);
-      setHEALTH_CERTIFICATE_TARGET(data.result.HEALTH_CERTIFICATE_TARGET);
-      setHEALTH_CERTIFICATE_APPLY(data.result.HEALTH_CERTIFICATE_APPLY);
-      setHEALTH_DDAY(data.result.HEALTH_DDAY);
+      setEDUCATION_CERTIFICATE(data?.result.EDUCATION_CERTIFICATE);
+      setEDUCATION_DATA(data?.result.EDUCATION_DATA);
+      setEDUCATION_DDAY(data?.result.EDUCATION_DDAY);
+      setHEALTH_CERTIFICATE_TARGET(data?.result.HEALTH_CERTIFICATE_TARGET);
+      setHEALTH_CERTIFICATE_APPLY(data?.result.HEALTH_CERTIFICATE_APPLY);
+      setHEALTH_DDAY(data?.result.HEALTH_DDAY);
     } catch (error) {
       console.log(error);
     }
@@ -77,6 +77,7 @@ export default ({route: {params}}) => {
 
   useEffect(() => {
     fetchData();
+    console.log('STOREDATA?.resultdata', STOREDATA?.resultdata);
   }, []);
 
   return (

@@ -166,7 +166,7 @@ const BarcodeModalBox = styled.View`
 
 export default ({
   STORE,
-  store,
+  storeState,
   myStore,
   search,
   refreshing,
@@ -227,7 +227,7 @@ export default ({
     return myStore.map((data, index) => {
       return (
         <SelectStoreCard
-          key={data.STORE_SEQ}
+          key={index}
           data={data}
           name={data.NAME}
           address1={data.ADDR1}
@@ -241,7 +241,6 @@ export default ({
           TYPE={data.TYPE}
           MANAGER={data.IS_MANAGER == 1 ? '[점장]' : '[스태프]'}
           workinglist={data.workinglist}
-          handler1={() => {}}
           StoreEmpSeq={data.EMP_SEQ}
           setSES={(num) => {
             setStoreEmpSeqFn(num);
@@ -263,6 +262,7 @@ export default ({
           setName={setName}
           setAddress={setAddress}
           alertModal={alertModal}
+          openModal={openModal}
         />
       );
     });
@@ -274,7 +274,7 @@ export default ({
         <AddStoreBox>
           <AddStoreButton onPress={() => addStore()}>
             <AddStoreButtonText>점포 등록하기</AddStoreButtonText>
-            <Icon name="plus" size={30} color="#642A8C" />
+            {/* <Icon name="plus" size={30} color="#642A8C" /> */}
           </AddStoreButton>
         </AddStoreBox>
       )}
@@ -303,10 +303,10 @@ export default ({
               justifyContent: 'flex-start',
               paddingBottom: 20,
             }}>
-            {store.map((data, index) => {
+            {storeState.map((data, index) => {
               return (
                 <SelectStoreCard
-                  key={data.STORE_SEQ}
+                  key={index}
                   data={data}
                   name={data.NAME}
                   address1={data.ADDR1}
@@ -318,7 +318,7 @@ export default ({
                   JOIN={data.JOIN}
                   search={true}
                   workinglist={data.workinglist}
-                  modal={(a, b) => openModal(a, b)}
+                  openModal={(a, b) => openModal(a, b)}
                   setStep={(num) => setStoreFn(num)}
                   setST={(num) => setStoreNameFn(num)}
                   setName={setName}

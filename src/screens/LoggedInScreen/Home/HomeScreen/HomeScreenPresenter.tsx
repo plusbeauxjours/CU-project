@@ -47,7 +47,7 @@ const IconContainer = styled.TouchableOpacity`
   border-radius: 30px;
 `;
 const Box = styled.View`
-  margin: 20px0 0;
+  margin: 20px 0;
 `;
 const MyPage = styled.View`
   flex-direction: row;
@@ -137,7 +137,7 @@ const NoticeText = styled.Text`
 `;
 const NoticeContainer = styled.View`
   flex: 1;
-  padding: 10;
+  padding: 10px;
 `;
 
 const NoticeArea = styled.View`
@@ -195,7 +195,7 @@ const MenuTitle = styled.Text`
   font-weight: bold;
 `;
 const Bold = styled.Text`
-  font-weight: 400px;
+  font-weight: 400;
 `;
 
 const PurpleBg = styled.View<IIsTrue>`
@@ -240,6 +240,10 @@ export default ({
         if (selection == 'QR보기') {
           setPictureModalOpen(true);
         }
+        console.log(
+          'storeResultstoreResultstoreResultstoreResultstoreResult',
+          storeResult,
+        );
         navigation.navigate(`${paging}`, {
           STOREDATA: storeResult,
           STORE,
@@ -268,43 +272,49 @@ export default ({
 
   const adrChange = (paging) => {
     let source;
-    if (paging == 'Invite') {
+    if (paging == 'InviteEmployeeScreen') {
       source = require(`../../../../assets/main/Invite.png`);
-    } else if (paging == 'EmployeeList') {
+    } else if (paging == 'EmployeeListScreen') {
       source = require(`../../../../assets/main/EmployeeList.png`);
-    } else if (paging == 'ManageInviteEmployee') {
+    } else if (paging == 'ManageInviteEmployeeScreen') {
       source = require(`../../../../assets/main/ManageInviteEmployee.png`);
-    } else if (paging == 'CalendarInfo' && storeResult?.CalendarEdit == 1) {
+    } else if (
+      paging == 'CalendarInfoScreen' &&
+      storeResult?.CalendarEdit == 1
+    ) {
       source = require(`../../../../assets/main/CalendarInfo.png`);
-    } else if (paging == 'CalendarInfo' && storeResult?.CalendarEdit !== 1) {
+    } else if (
+      paging == 'CalendarInfoScreen' &&
+      storeResult?.CalendarEdit !== 1
+    ) {
       source = require(`../../../../assets/main/CalendarInfoEmp.png`);
-    } else if (paging == 'PaymentInfo') {
+    } else if (paging == 'PaymentInfoScreen') {
       source = require(`../../../../assets/main/PaymentInfo.png`);
-    } else if (paging == 'EmpPaymentInfo') {
+    } else if (paging == 'EmpPaymentInfoScreen') {
       source = require(`../../../../assets/main/PaymentInfo.png`);
-    } else if (paging == 'EmployeeInfo_emp') {
+    } else if (paging == 'EmployeeInfoEMPScreen') {
       source = require(`../../../../assets/main/EmployeeInfoEmp.png`);
-    } else if (paging == 'qrView') {
+    } else if (paging == 'qrViewScreen') {
       source = require(`../../../../assets/main/qrView.png`);
-    } else if (paging == 'ChecklistItems') {
+    } else if (paging == 'ChecklistItemsScreen') {
       source = require(`../../../../assets/main/ChecklistItems.png`);
-    } else if (paging == 'ChecklistShareMain') {
+    } else if (paging == 'ChecklistShareMainScreen') {
       source = require(`../../../../assets/main/ChecklistShareMain.png`);
-    } else if (paging == 'shelfLifeCheck') {
+    } else if (paging == 'ShelfLifeCheckScreen') {
       source = require(`../../../../assets/main/shelfLifeCheck.png`);
-    } else if (paging == 'HealthCertificateType') {
+    } else if (paging == 'HealthCertificateTypeScreen') {
       source = require(`../../../../assets/main/HealthCertificateType.png`);
-    } else if (paging == 'MycuMonthlyList') {
+    } else if (paging == 'MyCuMonthlyListScreen') {
       source = require(`../../../../assets/main/MycuMonthlyList.png`);
-    } else if (paging == 'MycuVideoList') {
+    } else if (paging == 'MyCuVideoListScreen') {
       source = require(`../../../../assets/main/MycuVideoList.png`);
-    } else if (paging == 'EducationVideoList') {
+    } else if (paging == 'EducationVideoListScreen') {
       source = require(`../../../../assets/main/EducationVideoList.png`);
     }
     return (
       <Image
         source={source}
-        isCheckListItems={paging == 'ChecklistItems'}
+        isCheckListItems={paging == 'ChecklistItemsScreen'}
         resizeMode="contain"
       />
     );
@@ -319,19 +329,21 @@ export default ({
             resizeMode={'cover'}
             style={{height: hp('30%')}}>
             <MyPage>
-              {STORE == '1' ? (
+              {STORE !== '1' && (
                 <IconContainer
                   onPress={() => {
-                    helpModal();
+                    navigation.navigate('HelpModalScreen');
                   }}>
-                  <Icon name="help" size={20} color="white" />
+                  <StoreText>안</StoreText>
+                  {/* <Icon name="help" size={20} color="white" /> */}
                 </IconContainer>
-              ) : null}
+              )}
               <IconContainer
                 onPress={() => {
                   navigation.navigate('MyPageMainScreen');
                 }}>
-                <Icon name="setting" size={24} color="white" />
+                <StoreText>녕</StoreText>
+                {/* <Icon name="setting" size={24} color="white" /> */}
               </IconContainer>
             </MyPage>
             <StoreName>
@@ -386,7 +398,7 @@ export default ({
                 </StoreUpdateBtn>
                 <StoreUpdateBtn
                   onPress={() => {
-                    navigation.navigate('UpdateStore', {
+                    navigation.navigate('UpdateStoreScreen', {
                       STOREDATA: storeResult,
                     });
                   }}>
@@ -414,18 +426,18 @@ export default ({
                   <Bold> 직원관리</Bold>
                 </MenuTitleArea>
                 <Container>
-                  {menuCnt('직원초대', 'Invite')}
-                  {EMPLOYEE == 0 ? null : menuCnt('직원목록', 'EmployeeList')}
+                  {menuCnt('직원초대', 'InviteEmployeeScreen')}
+                  {EMPLOYEE !== 0 && menuCnt('직원목록', 'EmployeeListScreen')}
                   {menuCnt(
                     '직원합류승인',
-                    'ManageInviteEmployee',
+                    'ManageInviteEmployeeScreen',
                     storeResult?.inviteemp,
                   )}
                 </Container>
                 <Row>
-                  {EMPLOYEE == 0 ? null : menuCnt('캘린더', 'CalendarInfo')}
-                  {EMPLOYEE == 0 ? null : menuCnt('급여정보', 'PaymentInfo')}
-                  {EMPLOYEE == 0 ? null : menuCnt('QR보기', 'qrView')}
+                  {EMPLOYEE !== 0 && menuCnt('캘린더', 'CalendarInfoScreen')}
+                  {EMPLOYEE !== 0 && menuCnt('급여정보', 'PaymentInfoScreen')}
+                  {EMPLOYEE !== 0 && menuCnt('QR보기', 'qrViewScreen')}
                 </Row>
                 <Box>
                   <MenuTitleArea>
@@ -435,20 +447,20 @@ export default ({
                   <Row>
                     {menuCnt(
                       '체크리스트',
-                      'ChecklistItems',
+                      'ChecklistItemsScreen',
                       storeResult?.checklength,
                     )}
                     {menuCnt(
                       '업무일지',
-                      'ChecklistShareMain',
+                      'ChecklistShareMainScreen',
                       storeResult?.noticelength,
                     )}
-                    {menuCnt('유통기한 알리미', 'shelfLifeCheck')}
+                    {menuCnt('유통기한 알리미', 'ShelfLifeCheckScreen')}
                   </Row>
                   <Row>
-                    {menuCnt('조기경보', 'HealthCertificateType')}
-                    {menuCnt('노무월간지', 'MycuMonthlyList')}
-                    {menuCnt('교육영상', 'MycuVideoList')}
+                    {menuCnt('조기경보', 'HealthCertificateTypeScreen')}
+                    {menuCnt('노무월간지', 'MyCuMonthlyListScreen')}
+                    {menuCnt('교육영상', 'MyCuVideoListScreen')}
                   </Row>
                 </Box>
               </>
@@ -461,26 +473,26 @@ export default ({
                       <Bold> 직원관리</Bold>
                     </MenuTitleArea>
                     <Container>
-                      {menuCnt('직원초대', 'Invite')}
+                      {menuCnt('직원초대', 'InviteEmployeeScreen')}
                       {EMPLOYEE == 0
                         ? null
                         : storeResult?.OTHERPAY_SHOW == 1
-                        ? menuCnt('직원목록', 'EmployeeList')
-                        : menuCnt('직원정보', 'EmployeeInfo_emp')}
+                        ? menuCnt('직원목록', 'EmployeeListScreen')
+                        : menuCnt('직원정보', 'EmployeeInfoEMPScreen')}
                       {menuCnt(
                         '직원합류승인',
-                        'ManageInviteEmployee',
+                        'ManageInviteEmployeeScreen',
                         storeResult?.inviteemp,
                       )}
                       {EMPLOYEE == 0
                         ? null
                         : storeResult?.CalendarEdit == 1
-                        ? menuCnt('캘린더', 'CalendarInfo')
-                        : menuCnt('캘린더', 'CalendarInfo')}
+                        ? menuCnt('캘린더', 'CalendarInfoScreen')
+                        : menuCnt('캘린더', 'CalendarInfoScreen')}
                       {EMPLOYEE !== 0 && storeResult?.STOREPAY_SHOW == '1'
-                        ? menuCnt('급여정보', 'PaymentInfo')
+                        ? menuCnt('급여정보', 'PaymentInfoScreen')
                         : storeResult?.PAY_SHOW == 1
-                        ? menuCnt('급여정보', 'EmpPaymentInfo')
+                        ? menuCnt('급여정보', 'EmpPaymentInfoScreen')
                         : null}
                       {EMPLOYEE !== 0 && menuCnt('QR보기', 'qrView')}
                     </Container>
@@ -492,16 +504,16 @@ export default ({
                       <Container>
                         {menuCnt(
                           '체크리스트',
-                          'ChecklistItems',
+                          'ChecklistItemsScreen',
                           storeResult?.checklength,
                         )}
                         {menuCnt(
                           '업무일지',
-                          'ChecklistShareMain',
+                          'ChecklistShareMainScreen',
                           storeResult?.noticelength,
                         )}
-                        {menuCnt('유통기한 알리미', 'shelfLifeCheck')}
-                        {menuCnt('업무영상', 'EducationVideoList')}
+                        {menuCnt('유통기한 알리미', 'ShelfLifeCheckScreen')}
+                        {menuCnt('업무영상', 'EducationVideoListScreen')}
                       </Container>
                     </Box>
                   </>
@@ -513,18 +525,18 @@ export default ({
                       <Bold> 일터관리</Bold>
                     </MenuTitleArea>
                     <Container>
-                      {menuCnt('캘린더', 'CalendarInfo')}
-                      {menuCnt('직원정보', 'EmployeeInfo_emp')}
+                      {menuCnt('캘린더', 'CalendarInfoScreen')}
+                      {menuCnt('직원정보', 'PaymentInfoScreen')}
                       {storeResult?.PAY_SHOW == 1 &&
-                        menuCnt('급여정보', 'EmpPaymentInfo')}
-                      {menuCnt('체크리스트', 'ChecklistItems')}
+                        menuCnt('급여정보', 'EmpPaymentInfoScreen')}
+                      {menuCnt('체크리스트', 'ChecklistItemsScreen')}
                       {menuCnt(
                         '업무일지',
                         'ChecklistShareMain',
                         storeResult?.noticelength,
                       )}
-                      {menuCnt('유통기한 알리미', 'shelfLifeCheck')}
-                      {menuCnt('업무영상', 'EducationVideoList')}
+                      {menuCnt('유통기한 알리미', 'ShelfLifeCheckScreen')}
+                      {menuCnt('업무영상', 'EducationVideoListScreen')}
                     </Container>
                   </>
                 )}
@@ -537,7 +549,7 @@ export default ({
             <NoticeArea>
               <Touchable
                 onPress={() => {
-                  navigation.navigate('ChecklistShareMain', {
+                  navigation.navigate('ChecklistShareMainScreen', {
                     STOREDATA: storeResult,
                     notice: '1',
                   });
