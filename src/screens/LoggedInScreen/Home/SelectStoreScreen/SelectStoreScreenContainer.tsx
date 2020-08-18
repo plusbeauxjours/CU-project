@@ -34,6 +34,8 @@ export default () => {
   const [checkListData, setCheckListData] = useState<[]>([]);
   const [myStore, setMyStore] = useState<[]>([]);
   const [search, setSearch] = useState<boolean>(false);
+  const [name, setName] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
   const [joinModalOpen, setJoinModalOpen] = useState<boolean>(false);
   const [barcodeModalOpen, setBarcodeModalOpen] = useState<boolean>(false);
   const [workingModalOpen, setWorkingModalOpen] = useState<boolean>(false);
@@ -375,6 +377,9 @@ export default () => {
       joinModalOpen={joinModalOpen}
       setJoinModalOpen={setJoinModalOpen}
       submit={submit}
+      setName={setName}
+      setAddress={setAddress}
+      alertModal={alertModal}
     />
   );
 };

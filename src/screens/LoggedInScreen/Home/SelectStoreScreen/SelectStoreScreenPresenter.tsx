@@ -196,6 +196,9 @@ export default ({
   joinModalOpen,
   setJoinModalOpen,
   submit,
+  setName,
+  setAddress,
+  alertModal,
 }) => {
   const StoreList = () => {
     if (myStore.length === 0) {
@@ -260,6 +263,9 @@ export default ({
             setCheckListDataFn(data);
           }}
           CheckListData={checkListData[index]}
+          setName={setName}
+          setAddress={setAddress}
+          alertModal={alertModal}
         />
       );
     });
@@ -308,6 +314,9 @@ export default ({
                   modal={(a, b) => openModal(a, b)}
                   setStep={(num) => setStoreFn(num)}
                   setST={(num) => setStoreNameFn(num)}
+                  setName={setName}
+                  setAddress={setAddress}
+                  alertModal={alertModal}
                 />
               );
             })}
