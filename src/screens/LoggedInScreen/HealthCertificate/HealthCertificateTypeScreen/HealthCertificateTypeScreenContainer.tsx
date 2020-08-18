@@ -63,36 +63,36 @@ export default ({route: {params}}) => {
     } catch (error) {
       console.log(error);
     }
-
-    const now = new Date();
-    let pushday;
-    if (STORE == '1') {
-      pushday = new Date(EDUCATION_DDAY);
-    } else {
-      pushday = new Date(HEALTH_DDAY);
-    }
-    let dday = 0;
-    dday = (pushday.getTime() - now.getTime()) / 1000 / 3600 / 24;
-
-    useEffect(() => {
-      fetchData();
-    }, []);
-
-    return (
-      <HealthCertificateTypeScreenPresenter
-        refreshing={refreshing}
-        STORE={STORE}
-        STORE_SEQ={STORE_SEQ}
-        STOREDATA={STOREDATA}
-        EDUCATION_CERTIFICATE={EDUCATION_CERTIFICATE}
-        HEALTH_CERTIFICATE_TARGET={HEALTH_CERTIFICATE_TARGET}
-        HEALTH_CERTIFICATE_APPLY={HEALTH_CERTIFICATE_APPLY}
-        HEALTH_DDAY={HEALTH_DDAY}
-        EDUCATION_DATA={EDUCATION_DATA}
-        explainModal={explainModal}
-        onRefresh={onRefresh}
-        dday={dday}
-      />
-    );
   };
+
+  const now = new Date();
+  let pushday;
+  if (STORE == '1') {
+    pushday = new Date(EDUCATION_DDAY);
+  } else {
+    pushday = new Date(HEALTH_DDAY);
+  }
+  let dday = 0;
+  dday = (pushday.getTime() - now.getTime()) / 1000 / 3600 / 24;
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return (
+    <HealthCertificateTypeScreenPresenter
+      refreshing={refreshing}
+      STORE={STORE}
+      STORE_SEQ={STORE_SEQ}
+      STOREDATA={STOREDATA}
+      EDUCATION_CERTIFICATE={EDUCATION_CERTIFICATE}
+      HEALTH_CERTIFICATE_TARGET={HEALTH_CERTIFICATE_TARGET}
+      HEALTH_CERTIFICATE_APPLY={HEALTH_CERTIFICATE_APPLY}
+      HEALTH_DDAY={HEALTH_DDAY}
+      EDUCATION_DATA={EDUCATION_DATA}
+      explainModal={explainModal}
+      onRefresh={onRefresh}
+      dday={dday}
+    />
+  );
 };

@@ -6,6 +6,7 @@ const userSlice = createSlice({
     // isLoggedIn: 'LogOut',
     isLoggedIn: true,
     MEMBER_SEQ: '',
+    STORE_SEQ: '',
     STORE: '',
     mobileNo: '',
     serviceCode: '',
@@ -41,6 +42,14 @@ const userSlice = createSlice({
         NAME: userInfo.NAME,
         STORE: userInfo.STORE,
         mobileNo: userInfo.mobileNo,
+      };
+    },
+    setStore(state, action) {
+      const {payload: STORE_SEQ} = action;
+      console.log('setStore', STORE_SEQ);
+      return {
+        ...state,
+        STORE_SEQ: STORE_SEQ,
       };
     },
     setUserName(state, action) {

@@ -36,7 +36,10 @@ export default {
     checkSMS: (data: any) => callApi("post", "/auth/checksms/", data),
     getSMS: (data: any) => callApi("post", "/auth/getsms/", data),
     findPwd: (data: any) => callApi("post", "/auth/findPwd/", data),
-    updatePush: (data: any) => oldApi("post", "/Employee/updatePush", data),
+    updatePush: (data: any) => oldApi("post", "/Employee/updatePush/", data),
+    getstoreinfo: (data: any) => callApi("post", "/auth/getstoreinfo/", data),
+    getCertificate: (data: any) => callApi("post", "/auth/getCERTIFICATE/", data),
+
     getPush: (data: any) => oldApi("post", "/Employee/getPush", data),
     toggleMember: (data: any) => oldApi("post", "/Auth/toggleMember", data),
     changeName: (data: any) => oldApi("post", "/Auth/changeName", data),
@@ -52,6 +55,8 @@ export default {
     endList: (MEMBER_SEQ: string) => oldApi("get", `/Store/Close_list?MEMBER_SEQ=${MEMBER_SEQ}`),
     cuedulistcheck: (MEMBER_SEQ: string) => oldApi("get", `/Store/cuedulistcheck?MEMBER_SEQ=${MEMBER_SEQ}`),
     storeHealthEmpList: (MEMBER_SEQ: string, STORE_SEQ: string, STORE: string) => oldApi("get", `/Store/store_health_emp_list?STORE_SEQ=${STORE_SEQ}&STORE=${STORE}&MEMBER_SEQ=${MEMBER_SEQ}`),
-    getCertificate: (data: any) => callApi("post", "/auth/getCERTIFICATE/", data),
+
     storeHealthEmpDetail: (EMP_SEQ: string) => oldApi("get", `/Store/store_health_emp_detail?EMP_SEQ=${EMP_SEQ}`),
+
 }
+
