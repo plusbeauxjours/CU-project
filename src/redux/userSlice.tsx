@@ -132,6 +132,7 @@ export const {
   setVersion,
   setToken,
   setUser,
+  setStore,
   setUserName,
   setId,
   setLogIn,

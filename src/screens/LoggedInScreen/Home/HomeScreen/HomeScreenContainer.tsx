@@ -128,52 +128,36 @@ export default () => {
     const callback = async () => {
       if (modalRef && !modalRef.current.isVisible) {
         try {
-          let response = await fetch(
-            'http://133.186.209.113:80/api/v2/StoreAuth/attendance_work1',
-            {
-              method: 'POST',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                STORE_ID: STORE_SEQ,
-                LAT: lat,
-                LONG: long,
-                MEMBER_SEQ: MEMBER_SEQ,
-                TYPE: 'qr',
-              }),
-            },
-          );
-
-          let json = await response.json();
-          console.log('jsonjsonjsonjsonjsonjsonjsonjson', json);
-
-          if (json.message === 'CONTRACT_END') {
+          const {data} = await api.attendanceWork({
+            STORE_ID: QR,
+            LAT: lat,
+            LONG: long,
+            MEMBER_SEQ: MEMBER_SEQ,
+            TYPE: 'qr',
+          });
+          if (data.message === 'CONTRACT_END') {
             alertModal('정확한 사업장 QR코드가 아닙니다');
-          } else if (json.message === 'WORK_ON_SUCCESS') {
-            if (json.resultCode == '2') {
-              alertModal('출근하였습니다', json.resultMessage);
+          } else if (data.message === 'WORK_ON_SUCCESS') {
+            if (data.resultCode == '2') {
+              alertModal('출근하였습니다', data.resultMessage);
             } else {
               alertModal('출근하였습니다');
             }
-          } else if (json.message === 'SCHEDULE_EMPTY') {
+          } else if (data.message === 'SCHEDULE_EMPTY') {
             alertModal('오늘은 근무일이 아닙니다');
-          } else if (json.message === 'SCHEDULE_EXIST') {
+          } else if (data.message === 'SCHEDULE_EXIST') {
             alertModal('이미 출근처리를 완료했습니다');
-          } else if (json.message === 'ALREADY_SUCCESS') {
+          } else if (data.message === 'ALREADY_SUCCESS') {
             alertModal('이미 출근처리를 완료했습니다');
-          } else if (json.message === 'FAIL') {
-            alertModal('', json.result);
+          } else if (data.message === 'FAIL') {
+            alertModal(data.result);
           } else {
-            alertModal('', json.result);
+            alertModal(data.result);
           }
         } catch (error) {
           console.log(error);
         }
-
         dispatch(setSplashVisible(false));
-
         if (modalInterval) {
           clearInterval(modalInterval);
           modalInterval = null;
@@ -194,38 +178,24 @@ export default () => {
     const callback = async () => {
       if (modalRef && !modalRef.current.isVisible) {
         try {
-          let response = await fetch(
-            'http://133.186.209.113:80/api/v2/StoreAuth/attendance_offwork1',
-            {
-              method: 'POST',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                STORE_ID: STORE_SEQ,
-                LAT: lat,
-                LONG: long,
-                MEMBER_SEQ: MEMBER_SEQ,
-                TYPE: 'qr',
-              }),
-            },
-          );
-
-          let json = await response.json();
-          // console.log('jsonjsonjsonjsonjsonjson', json);
-
-          if (json.message == 'CONTRACT_END') {
+          const {data} = await api.attendanceOffWork({
+            STORE_ID: QR,
+            LAT: lat,
+            LONG: long,
+            MEMBER_SEQ: MEMBER_SEQ,
+            TYPE: 'qr',
+          });
+          if (data.message == 'CONTRACT_END') {
             alertModal('정확한 사업장 QR코드가 아닙니다');
-          } else if (json.message == 'FAIL') {
-            alertModal(json.result);
-          } else if (json.message == 'SCHEDULE_EMPTY') {
+          } else if (data.message == 'FAIL') {
+            alertModal(data.result);
+          } else if (data.message == 'SCHEDULE_EMPTY') {
             alertModal('일하는 시간이 아닙니다.');
-          } else if (json.message == 'ALREADY_SUCCESS') {
+          } else if (data.message == 'ALREADY_SUCCESS') {
             alertModal('이미 퇴근하였습니다.');
-          } else if (json.message == 'WORK_OFF_SUCCESS') {
+          } else if (data.message == 'WORK_OFF_SUCCESS') {
             alertModal('퇴근하였습니다.');
-          } else if (json.message == 'NOWORK') {
+          } else if (data.message == 'NOWORK') {
             alertModal('출근기록이 없습니다.');
           }
         } catch (error) {
@@ -277,7 +247,6 @@ export default () => {
   };
 
   useEffect(() => {
-    console.log('jfkasjklfjlksa');
     fetchData();
     dispatch(setSplashVisible(false));
     if (utils.isAndroid) {

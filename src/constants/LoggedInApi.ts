@@ -57,6 +57,11 @@ export default {
     storeHealthEmpList: (MEMBER_SEQ: string, STORE_SEQ: string, STORE: string) => oldApi("get", `/Store/store_health_emp_list?STORE_SEQ=${STORE_SEQ}&STORE=${STORE}&MEMBER_SEQ=${MEMBER_SEQ}`),
 
     storeHealthEmpDetail: (EMP_SEQ: string) => oldApi("get", `/Store/store_health_emp_detail?EMP_SEQ=${EMP_SEQ}`),
-
+    attendanceWork: (data: any) => oldApi("post", "/StoreAuth/attendance_work1", data),
+    attendanceOffWork: (data: any) => oldApi("post", "/StoreAuth/attendance_offwork1/", data),
+    requestJoin: (data: any) => oldApi("post", "/Employee/request_join/", data),
+    storeList: (MEMBER_SEQ: string,
+        STORE: string) => oldApi("get", `/Store/store_list?MEMBER_SEQ=${MEMBER_SEQ}&STORE=${STORE}`),
+    checkList: (data: any) => oldApi("post", "/StoreAuth/checklist/", data),
 }
 
