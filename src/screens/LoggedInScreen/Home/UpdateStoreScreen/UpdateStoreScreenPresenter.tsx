@@ -28,24 +28,32 @@ const BackGround = styled.SafeAreaView`
   background-color: white;
   justify-content: center;
 `;
+
 const ScrollView = styled.ScrollView``;
+
 const View = styled.View`
   background-color: white;
 `;
+
 const Text = styled.Text``;
+
 const Row = styled.View`
   flex-direction: row;
 `;
+
 const RowTouchable = styled.TouchableOpacity`
   flex-direction: row;
 `;
+
 const Container = styled.View`
   margin-top: 20px;
   padding: 20px;
 `;
+
 const InputCase = styled.View`
   margin-top: 20px;
 `;
+
 const InputCaseRow = styled.View`
   flex-direction: row;
   justify-content: space-between;
@@ -53,10 +61,12 @@ const InputCaseRow = styled.View`
 `;
 
 const TextInputCase = styled.View``;
+
 const NameText = styled.Text`
   font-size: 15px;
   font-weight: bold;
 `;
+
 const RequestButton = styled.TouchableOpacity`
   padding: 7px 14px;
   align-items: center;
@@ -105,11 +115,13 @@ const GreyText = styled.Text`
   color: #aaa;
   font-size: 11px;
 `;
+
 const DeleteBtn = styled.TouchableOpacity`
   height: ${hp('5%')}px;
   align-items: center;
   justify-content: center;
 `;
+
 const DeleteBtnTExt = styled.Text`
   font-size: 16px;
   font-weight: bold;
@@ -138,6 +150,7 @@ const InputText = styled.Text<IIsBefore>`
   font-size: 15px;
   color: ${(props) => (props.isBefore ? '#b5b5b5' : 'black')};
 `;
+
 const WhiteSpace = styled.View`
   height: 20px;
 `;
@@ -162,6 +175,7 @@ const ModalConfirmArea = styled.View`
   justify-content: space-around;
   background-color: white;
 `;
+
 const ModalConfirm = styled.TouchableOpacity<IColor>`
   height: ${hp('7%')}px;
   width: ${wp('50%')}px;
@@ -169,21 +183,25 @@ const ModalConfirm = styled.TouchableOpacity<IColor>`
   justify-content: center;
   background-color: ${(props) => props.color};
 `;
+
 const ModalConfirmText = styled.Text<IColor>`
   font-size: 18px;
   color: ${(props) => props.color};
 `;
+
 const ModalTitle = styled.Text`
   font-size: 17px;
   color: #642a8c;
   padding: 0 20px;
   margin-top: 20px;
 `;
+
 const ModalInfoText = styled.Text`
   font-size: 13px;
   padding: 0 20px;
   margin-top: 5px;
 `;
+
 const ModalCalendar = styled.View`
   background-color: white;
   border-color: #f2f2f2;
@@ -198,12 +216,14 @@ const SubmitBtnContainer = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
 `;
+
 const SubmitBtnText = styled.Text`
   font-size: 15px;
   color: white;
   margin-left: 10px;
   padding-top: 5px;
 `;
+
 export default ({
   STORE,
   setCU_CODE,
@@ -221,27 +241,17 @@ export default ({
   setAddr2,
   addr1,
   addr2,
-  commuteTypeCheck,
-  setCommuteTypeCheck,
-  setCommuteType,
   sizeTypeCheck,
   setSizeTypeCheck,
   setType,
-  storeCategoryTypeCheck,
-  setStoreCategoryTypeCheck,
-  setStoreCategoryType,
   explainModal,
   gotoSearchAddress,
   submit,
   confirmModal,
-
-  modalVisible1,
   modalVisible2,
   modalVisible3,
-  setModalVisible1,
   setModalVisible2,
   setModalVisible3,
-  onPressDistance,
   onPressLate,
   checkDirectInput,
 }) => {
@@ -268,24 +278,6 @@ export default ({
     return <Row>{renderDayRowData(rowData, rowNum)}</Row>;
   };
 
-  const commuteType = (selection, text) => {
-    let value = JSON.parse(JSON.stringify(commuteTypeCheck));
-    return (
-      <TypeContainer
-        onPress={() => {
-          value[selection] = true;
-          setCommuteTypeCheck(value);
-          setCommuteType(selection);
-        }}>
-        {/* {commuteTypeCheck[selection] ? (
-          <Icon name="circle" size={17} color="#642A8C" />
-        ) : (
-          <Icon name="circle" size={17} color="#F2F2F2" />
-        )} */}
-        <TypeText>{text}</TypeText>
-      </TypeContainer>
-    );
-  };
   const sizeType = (selection, text) => {
     let value = JSON.parse(JSON.stringify(sizeTypeCheck));
     return (
@@ -305,25 +297,6 @@ export default ({
     );
   };
 
-  const storeCategoryType = (selection, text) => {
-    let value = JSON.parse(JSON.stringify(storeCategoryTypeCheck));
-    return (
-      <TypeContainer
-        onPress={() => {
-          value[selection] = true;
-          setStoreCategoryTypeCheck(value);
-          setStoreCategoryType(selection);
-        }}>
-        {/* {storeCategoryTypeCheck[selection] ? (
-          <Icon name="circle" size={17} color="#642A8C" />
-        ) : (
-          <Icon name="circle" size={17} color="#F2F2F2" />
-        )} */}
-        <TypeText>{text}</TypeText>
-      </TypeContainer>
-    );
-  };
-
   return (
     <BackGround>
       <ScrollView
@@ -334,6 +307,7 @@ export default ({
           <InputCase>
             <NameText>점포코드</NameText>
             <TextInput
+              editable={false}
               placeholder={'코드를 입력해주세요.'}
               placeholderTextColor={'#E5E5E5'}
               onChangeText={(text) => {
@@ -352,7 +326,7 @@ export default ({
             <NameText>점포명</NameText>
             <TextInputCase>
               <TextInput
-                placeholder={'위솝 역삼점'}
+                placeholder={'OOO점'}
                 placeholderTextColor={'#E5E5E5'}
                 onChangeText={(text) => {
                   setName(text);
@@ -538,42 +512,6 @@ export default ({
               )}
             </InputCase>
           </Box>
-          {/* <Modal
-            isVisible={modalVisible1}
-            onBackdropPress={() => setModalVisible1(false)}
-            style={{margin: 0, justifyContent: 'flex-end'}}
-            avoidKeyboard={true}>
-            <View style={{backgroundColor: 'white'}}>
-              <ScrollView showsVerticalScrollIndicator={false}>
-                <ModalList onPress={() => onPressDistance('150')}>
-                  <ModalText>150m</ModalText>
-                </ModalList>
-                <ModalList onPress={() => onPressDistance('200')}>
-                  <ModalText>200m</ModalText>
-                </ModalList>
-                <ModalList onPress={() => onPressDistance('500')}>
-                  <ModalText>500m</ModalText>
-                </ModalList>
-                <ModalList onPress={() => onPressDistance('1000')}>
-                  <ModalText>1km</ModalText>
-                </ModalList>
-                <ModalList onPress={() => onPressDistance('1500')}>
-                  <ModalText>1.5km</ModalText>
-                </ModalList>
-                <ModalList onPress={() => onPressDistance('2000')}>
-                  <ModalText>2km</ModalText>
-                </ModalList>
-                <ModalList onPress={() => onPressDistance('4000')}>
-                  <ModalText>4km</ModalText>
-                </ModalList>
-              </ScrollView>
-              <SubmitBtn
-                text={'확인'}
-                onPress={() => setModalVisible1(false)}
-                isRegisted={true}
-              />
-            </View>
-          </Modal> */}
           <Modal
             isVisible={modalVisible2}
             onBackdropPress={() => setModalVisible2(false)}

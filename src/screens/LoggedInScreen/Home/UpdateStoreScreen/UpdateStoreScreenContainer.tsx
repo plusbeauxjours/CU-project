@@ -8,8 +8,6 @@ import {setStore} from '../../../../redux/userSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import api from '../../../../constants/LoggedInApi';
 
-const STORE_CTEGORY_TYPE_ETC = '4'; // 사업장 분류 유형 > 기타
-
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -49,9 +47,6 @@ export default ({route: {params}}) => {
   const [commuteType, setCommuteType] = useState<number>(
     STOREDATA?.resultdata.GPS === '1' ? 1 : 0,
   ); // 출퇴근방법 0: QR코드 출퇴근, 1: GPS 출퇴근
-  const [commuteTypeCheck, setCommuteTypeCheck] = useState<[boolean, boolean]>(
-    STOREDATA?.resultdata.GPS === '1' ? [false, true] : [true, false],
-  );
   const [storeCategoryType, setStoreCategoryType] = useState<number>(
     STOREDATA?.resultdata.CATEGORY || null,
   ); // 사업장 분류 유형, 0: 요식업, 1: 도,소매업, 2: 서비스업, 3: 일반회사, 4: 기타
@@ -59,8 +54,6 @@ export default ({route: {params}}) => {
     [boolean, boolean, boolean, boolean]
   >([false, false, false, false]);
   const [distance, setDistance] = useState<string>(STOREDATA?.distance || null);
-
-  const [distanceCheck, setDistanceCheck] = useState<boolean>(true);
   const [timeCheck, setTimeCheck] = useState<boolean>(true);
   const [day, setDay] = useState<string>('');
   const [days, setDays] = useState<any>(new Array(30));
@@ -114,7 +107,6 @@ export default ({route: {params}}) => {
     if (day > 29) {
       calculateDay = '1';
     }
-    console.log('calculateDay', calculateDay);
     setModalVisible3(false);
     setDayCheck(true);
     setCALCULATE_DAY(calculateDay);
@@ -122,12 +114,6 @@ export default ({route: {params}}) => {
 
   const gotoSearchAddress = () => {
     navigation.navigate('SearchAddressScreen', {screen: 1});
-  };
-
-  const onPressDistance = (distance) => {
-    setModalVisible1(false);
-    setDistance(distance);
-    setDistanceCheck(true);
   };
 
   const onPressLate = (LATE_TIME, LATE_FLAG) => {
@@ -218,26 +204,17 @@ export default ({route: {params}}) => {
       setAddr2={setAddr2}
       addr1={addr1}
       addr2={addr2}
-      commuteTypeCheck={commuteTypeCheck}
-      setCommuteTypeCheck={setCommuteTypeCheck}
-      setCommuteType={setCommuteType}
       sizeTypeCheck={sizeTypeCheck}
       setSizeTypeCheck={setSizeTypeCheck}
       setType={setType}
-      storeCategoryTypeCheck={storeCategoryTypeCheck}
-      setStoreCategoryTypeCheck={setStoreCategoryTypeCheck}
-      setStoreCategoryType={setStoreCategoryType}
       explainModal={explainModal}
       gotoSearchAddress={gotoSearchAddress}
       submit={submit}
       confirmModal={confirmModal}
-      modalVisible1={modalVisible1}
       modalVisible2={modalVisible2}
       modalVisible3={modalVisible3}
-      setModalVisible1={setModalVisible1}
       setModalVisible2={setModalVisible2}
       setModalVisible3={setModalVisible3}
-      onPressDistance={onPressDistance}
       onPressLate={onPressLate}
       checkDirectInput={checkDirectInput}
     />

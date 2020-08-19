@@ -1,2 +1,2 @@
-import UpdateStoreScreenContainer from "./UpdateStoreScreenContainer"
-export default UpdateStoreScreenContainer
+import UpdateStoreScreenContainer from './UpdateStoreScreenContainer';
+export default UpdateStoreScreenContainer;
