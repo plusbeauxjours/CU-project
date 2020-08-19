@@ -8,24 +8,24 @@ import styled from 'styled-components/native';
 
 const Touchable = styled.TouchableOpacity``;
 const Container = styled.View`
-  width: ${wp('90%')};
+  width: ${wp('90%')}px;
   padding: 20px;
   background-color: white;
   flex-direction: column;
   border-radius: 20px;
-  margin-bottom: ${hp('3%')};
+  margin-bottom: ${hp('3%')}px;
 `;
 
 const NameText = styled.Text`
   font-size: 17px;
   font-weight: bold;
-  margin-bottom: ${hp('1.5%')};
+  margin-bottom: ${hp('1.5%')}px;
 `;
 
 const AddressBox = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-bottom: ${hp('0.5%')};
+  margin-bottom: ${hp('0.5%')}px;
 `;
 
 const AddressText = styled.Text`

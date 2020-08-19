@@ -28,7 +28,7 @@ const AddressText = styled.Text<IText>`
 
 const ScrollView = styled.ScrollView``;
 const Section = styled.TouchableOpacity`
-  width: ${wp('100%')};
+  width: ${wp('100%')}px;
   border-radius: 20px;
   background-color: #fff;
 `;

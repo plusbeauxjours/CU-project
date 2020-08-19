@@ -49,7 +49,7 @@ const Container = styled.View`
   width: 100%;
   padding: 0 20px;
   align-items: center;
-  margin-top: ${hp('5%')};
+  margin-top: ${hp('5%')}px;
 `;
 
 const NameText = styled.Text`
@@ -78,7 +78,7 @@ const TypeCheckCase = styled.View`
 `;
 
 const WhiteSpace = styled.View`
-  height: ${hp('3%')};
+  height: ${hp('3%')}px;
 `;
 
 const Case = styled.View`

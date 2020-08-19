@@ -34,7 +34,7 @@ const ContentLabelWrapper = styled.View`
   border-right-width: 1px;
   border-color: #ddd;
   padding: 20px 15px;
-  width: ${wp('28%')};
+  width: ${wp('28%')}px;
 `;
 
 const ContentLabelText = styled.Text`
@@ -71,8 +71,8 @@ const Container = styled.View`
 `;
 
 const HelpWrapper = styled.View`
-  height: ${hp('8%')};
-  width: ${wp('90%')};
+  height: ${hp('8%')}px;
+  width: ${wp('90%')}px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -86,8 +86,8 @@ const HelpText = styled.Text`
 `;
 
 const Box = styled.View`
-  margin: ${hp('3%')} 0;
-  width: ${wp('90%')};
+  margin: ${hp('3%')}px 0;
+  width: ${wp('90%')}px;
   align-items: center;
   padding: 20px 0;
   border-radius: 20px;
@@ -102,8 +102,8 @@ const Date = styled.View`
 `;
 
 const DateArrowLeft = styled.TouchableOpacity`
-  width: ${wp('10%')};
-  height: ${wp('10%')};
+  width: ${wp('10%')}px;
+  height: ${wp('10%')}px;
   align-items: center;
   justify-content: center;
   border-radius: 12px;
@@ -112,14 +112,14 @@ const DateArrowLeft = styled.TouchableOpacity`
 const DateArrowRight = styled(DateArrowLeft)``;
 const DateTextArea = styled.TouchableOpacity`
   flex: 1;
-  height: ${wp('10%')};
+  height: ${wp('10%')}px;
   align-items: center;
   justify-content: center;
 `;
 const DateToday = styled.TouchableOpacity`
   margin-right: 5px;
-  width: ${wp('10%')};
-  height: ${wp('10%')};
+  width: ${wp('10%')}px;
+  height: ${wp('10%')}px;
   align-items: center;
   justify-content: center;
   border-radius: 12px;
@@ -130,15 +130,15 @@ const DateText = styled.Text`
   font-size: 15px;
 `;
 const ContentWrapper = styled.View`
-  width: ${wp('90%')};
-  margin-top: ${hp('3%')};
+  width: ${wp('90%')}px;
+  margin-top: ${hp('3%')}px;
   border-bottom-width: 1px;
   border-color: #ddd;
 `;
 
 const ModifyButton = styled.TouchableOpacity`
-  height: ${hp('8%')};
-  width: ${wp('45%')};
+  height: ${hp('8%')}px;
+  width: ${wp('45%')}px;
   align-items: center;
   justify-content: center;
   background-color: '#AACE36';
@@ -153,14 +153,14 @@ const RegDate = styled.Text`
 `;
 
 const Row = styled.View`
-  width: ${wp('90%')};
+  width: ${wp('90%')}px;
   flex-direction: row;
   justify-content: space-around;
 `;
 
 const RegDateContainer = styled.View`
   margin-top: 10px;
-  width: ${wp('90%')};
+  width: ${wp('90%')}px;
   align-items: flex-end;
 `;
 

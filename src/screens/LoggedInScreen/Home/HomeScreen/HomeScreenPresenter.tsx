@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import utils from '../../../../constants/utils';
-import {ActivityIndicator} from 'react-native';
+import {ActivityIndicato} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -210,6 +210,104 @@ const GreenBg = styled(PurpleBg)<IIsTrue>`
   height: ${(props) => (props.isTrue ? hp('15%') : hp('30%'))};
   background-color: #aace36;
 `;
+
+const ShowPictureModalTouchable = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
+`;
+
+const ShowPictureModalText = styled.Text`
+  padding: 10px 0;
+  font-size: 30px;
+  color: white;
+`;
+
+const ShowPictureModalImage = styled.View`
+  width: ${wp('90%')};
+  height: ${wp('90%')};
+`;
+
+const BarcodeContainer = styled.View`
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+`;
+const BarcodeLayerTop = styled.View`
+  flex: 2;
+  background-color: rgba(0, 0, 0, 0.6);
+`;
+const BarcodeLayerCenter = styled.View`
+  flex: 3;
+  flex-direction: row;
+`;
+const BarcodeLayerLeft = styled.View`
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.6);
+`;
+const Focused = styled.View`
+  flex: 10;
+`;
+const BarcodeLayerRight = styled.View`
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.6);
+`;
+const BarcodeLayerBottom = styled.View`
+  flex: 2;
+  background-color: rgba(0, 0, 0, 0.6);
+`;
+
+const WorkingModalContainer = styled.View`
+  background-color: white;
+`;
+const WorkingModalBox = styled.View`
+  height: ${hp('8%')}px;
+  border-bottom-width: 1px;
+  border-color: #ddd;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Work = styled.View`
+  width: ${wp('100%')}px;
+  flex-direction: row;
+`;
+const GoWork = styled.TouchableOpacity`
+  width: ${wp('100%')}px;
+  height: 52px;
+  justify-content: center;
+  align-items: center;
+  background-color: #642a8c;
+`;
+const WorkText = styled.Text`
+  color: '#FFFFFF';
+  font-size: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+`;
+
+const WorkingModalText = styled.Text`
+  font-size: 22px;
+  color: #333;
+  font-weight: bold;
+`;
+const WorkStartButton = styled.TouchableOpacity`
+  height: ${hp('20%')}px;
+  width: ${wp('50%')}px;
+  align-items: center;
+  justify-content: center;
+`;
+const WorkEndButton = styled(WorkStartButton)`
+  border-left-width: 1px;
+`;
+const WorkStartBtnText = styled.Text`
+  font-size: 24px;
+  color: #642a8c;
+`;
+const WorkEndBtnText = styled(WorkStartBtnText)`
+  color: #aace36;
+`;
+
 export default ({
   notice,
   storeResult,
@@ -220,10 +318,13 @@ export default ({
   STORE_NAME,
   EMPLOYEE,
   WORKINGLIST,
-  pictureModalOpen,
-  setPictureModalOpen,
+  hasCameraPermission,
   barcodeModalOpen,
   setBarcodeModalOpen,
+  pictureModalOpen,
+  setShowPictureModal,
+  showPictureModal,
+  setPictureModalOpen,
   workingModalOpen,
   setWorkingModalOpen,
   modalRef,
@@ -232,6 +333,7 @@ export default ({
   leaveWork,
   handleBarCodeScanned,
   checkPermissions,
+  QR,
 }) => {
   const navigation = useNavigation();
   const menuCnt = (selection, paging, state = 0) => (
@@ -349,7 +451,7 @@ export default ({
             <StoreName>
               <StoreText>안녕하세요.</StoreText>
               <StoreText>{NAME}</StoreText>
-              <StoreSubText style={{}}>님</StoreSubText>
+              <StoreSubText>님</StoreSubText>
             </StoreName>
             <StoreUpdate>
               <Row>
@@ -579,90 +681,87 @@ export default ({
           )}
           <Footer />
         </ScrollView>
-        {/* <Modal
-          ref={ref => (this.modalRef3 = ref)}
-          isVisible={this.state.isModalVisible3}
+        <Modal
+          ref={modalRef}
+          isVisible={workingModalOpen}
           animationOutTiming={1}
-          onBackdropPress={() => this.setState({ isModalVisible3: false })}
-          style={{ margin: 0, justifyContent: 'flex-end' }}>
-          <View style={{ backgroundColor: 'white' }}>
-            <View style={{ height: hp('8%'), borderBottomWidth: 1, borderColor: '#ddd' }}>
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text style={{ fontSize: 22, color: '#333', fontWeight: 'bold' }}>출퇴근하기</Text>
-              </View>
-            </View>
+          onBackdropPress={() => setWorkingModalOpen(false)}
+          style={{margin: 0, justifyContent: 'flex-end'}}>
+          <WorkingModalContainer>
+            <WorkingModalBox
+              style={{
+                height: hp('8%'),
+                borderBottomWidth: 1,
+                borderColor: '#ddd',
+              }}>
+              <WorkingModalText style={{}}>출퇴근하기</WorkingModalText>
+            </WorkingModalBox>
 
-            <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity style={styles.workStartButton} onPress={() => this._goWork()}>
-                <Text style={{ fontSize: 24, color: '#642A8C' }}>출근</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.workEndButton} onPress={() => this._leaveWork()}>
-                <Text style={{ fontSize: 24, color: '#AACE36' }}>퇴근</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+            <Row style={{flexDirection: 'row'}}>
+              <WorkStartButton onPress={() => goWork()}>
+                <WorkStartBtnText>출근</WorkStartBtnText>
+              </WorkStartButton>
+              <WorkEndButton onPress={() => leaveWork()}>
+                <WorkEndBtnText>퇴근</WorkEndBtnText>
+              </WorkEndButton>
+            </Row>
+          </WorkingModalContainer>
         </Modal>
 
         <Modal
-          isVisible={this.state.isModalVisible2 && !!this.state.hasCameraPermission}
-          onBackdropPress={() => this.setState({ isModalVisible2: false })}
-          onBackButtonPress={() => this.setState({ isModalVisible2: false })}
-          style={{ margin: 0, justifyContent: 'flex-end' }}
+          isVisible={barcodeModalOpen && hasCameraPermission}
+          onBackdropPress={() => setBarcodeModalOpen(false)}
+          onBackButtonPress={() => setBarcodeModalOpen(false)}
+          style={{margin: 0, justifyContent: 'flex-end'}}
           avoidKeyboard={true}>
-          <View style={{ flex: 1, backgroundColor: 'white' }}>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'column',
-                justifyContent: 'flex-end',
-              }}>
-              <BarCodeScanner onBarCodeScanned={this.handleBarCodeScanned} style={StyleSheet.absoluteFillObject}>
-                <View style={styles.barcodeLayerTop} />
-                <View style={styles.barcodeLayerCenter}>
-                  <View style={styles.barcodeLayerLeft} />
-                  <View style={styles.focused} />
-                  <View style={styles.barcodeLayerRight} />
-                </View>
-                <View style={styles.barcodeLayerBottom} />
-              </BarCodeScanner>
-            </View>
-
-            <View style={styles.work}>
-              <TouchableOpacity
-                style={styles.goWork}
+          <Container>
+            {/* <BarcodeContainer>
+            <BarCodeScanner onBarCodeScanned={handleBarCodeScanned}>
+              <BarcodeLayerTop />
+              <BarcodeLayerCenter>
+                <BarcodeLayerLeft />
+                <Focused />
+                <BarcodeLayerRight />
+              </BarcodeLayerCenter>
+              <BarcodeLayerBottom />
+            </BarCodeScanner>
+          </BarcodeContainer> */}
+            <Work>
+              <GoWork
                 onPress={() => {
-                  this.setState({ isModalVisible2: false });
+                  setBarcodeModalOpen(false);
                 }}>
-                <Text style={styles.workText}>닫기</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+                <WorkText>닫기</WorkText>
+              </GoWork>
+            </Work>
+          </Container>
         </Modal>
 
         <Modal
           animationIn={'fadeIn'}
           animationOut={'fadeOut'}
-          isVisible={this.state.showPictureModal}
-          style={{ position: 'relative', marginVertical: hp('5%') }}
+          isVisible={showPictureModal}
+          style={{position: 'relative', marginVertical: hp('5%')}}
           onBackdropPress={() => {
-            this.setState({ showPictureModal: false });
+            setShowPictureModal(false);
           }}
           onBackButtonPress={() => {
-            this.setState({ showPictureModal: false });
+            setShowPictureModal(false);
           }}>
-          <TouchableOpacity
-            style={{ alignItems: 'center', justifyContent: 'center' }}
+          <ShowPictureModalTouchable
             onPress={() => {
-              this.setState({ showPictureModal: false });
+              setShowPictureModal(false);
             }}>
-            <View style={{ alignItems: 'center' }}>
-              <Text style={{ paddingVertical: 10, fontSize: 30, color: 'white' }}>출퇴근 QR</Text>
-              <View style={{ width: wp('90%'), height: wp('90%') }}>
-                <Image source={{ uri: 'http://cuapi.shop-sol.com/' + this.state.QR }} style={{ width: '100%', height: '100%' }} resizeMode={'contain'} />
-              </View>
-            </View>
-          </TouchableOpacity>
-        </Modal> */}
+            <ShowPictureModalText>출퇴근 QR</ShowPictureModalText>
+            <ShowPictureModalImage>
+              <Image
+                source={{uri: 'http://cuapi.shop-sol.com/' + QR}}
+                style={{width: '100%', height: '100%'}}
+                resizeMode={'contain'}
+              />
+            </ShowPictureModalImage>
+          </ShowPictureModalTouchable>
+        </Modal>
       </BackGround>
     );
   } else {

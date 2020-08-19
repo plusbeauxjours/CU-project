@@ -12,8 +12,8 @@ interface IIsStore {
   isStore?: boolean;
 }
 const Container = styled.View<IIsStore>`
-  height: ${hp('15%')};
-  width: ${wp('90%')};
+  height: ${hp('15%')}px;
+  width: ${wp('90%')}px;
   background-color: white;
   flex-direction: row;
   border-radius: 30px;
@@ -37,7 +37,7 @@ const EmployeeText = styled.Text`
 const ContentBox = styled.View`
   flex: 1;
   justify-content: center;
-  margin-left: ${wp('5%')};
+  margin-left: ${wp('5%')}px;
 `;
 
 const Touchable = styled.TouchableOpacity``;
@@ -45,11 +45,11 @@ const Touchable = styled.TouchableOpacity``;
 const NameText = styled.Text`
   font-size: 17px;
   font-weight: bold;
-  margin-bottom: ${hp('1.5%')};
+  margin-bottom: ${hp('1.5%')}px;
 `;
 
 const ArrowBox = styled.View`
-  width: ${wp('20%')};
+  width: ${wp('20%')}px;
   align-items: center;
   justify-content: center;
 `;
@@ -78,7 +78,7 @@ const IconContainer = styled.View`
 const AddressBox = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-bottom: ${hp('0.5%')};
+  margin-bottom: ${hp('0.5%')}px;
 `;
 const AddressText = styled.Text`
   font-size: 13px;

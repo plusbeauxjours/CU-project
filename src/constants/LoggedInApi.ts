@@ -63,5 +63,6 @@ export default {
     storeList: (MEMBER_SEQ: string,
         STORE: string) => oldApi("get", `/Store/store_list?MEMBER_SEQ=${MEMBER_SEQ}&STORE=${STORE}`),
     checkList: (data: any) => oldApi("post", "/StoreAuth/checklist/", data),
+    updateStore: (data: any) => oldApi("put", "/Store/update2", data)
 }
 

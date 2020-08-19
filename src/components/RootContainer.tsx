@@ -1,6 +1,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {ActivityIndicator} from 'react-native';
 import {useSelector} from 'react-redux';
 
 import CloseBtn from './Header/CloseBtn';
@@ -9,6 +10,7 @@ import LoggedOutNavigation from '../navigations/LoggedOutNavigation';
 import HelpModalScreen from '../screens/LoggedInScreen/Home/HelpModalScreen/index';
 
 export default () => {
+  const {visible} = useSelector((state: any) => state.splashReducer);
   const {isLoggedIn} = useSelector((state: any) => state.userReducer);
   const RootStack = createStackNavigator();
 
@@ -49,7 +51,7 @@ export default () => {
           }}
         />
       </RootStack.Navigator>
-      {/* {splash.visible && (
+      {visible && (
         <ActivityIndicator
           color="#A0D9E2"
           size="large"
@@ -65,7 +67,7 @@ export default () => {
             backgroundColor: 'rgba(52, 52, 52, 0.8)',
           }}
         />
-      )} */}
+      )}
     </NavigationContainer>
   );
 };

@@ -21,8 +21,8 @@ const Container = styled.View`
 `;
 
 const Box = styled.View`
-  height: ${hp('7%')};
-  width: ${wp('90%')};
+  height: ${hp('7%')}px;
+  width: ${wp('90%')}px;
   background-color: #ffffff;
   justify-content: center;
   align-items: center;

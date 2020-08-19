@@ -28,7 +28,7 @@ const NameText = styled.Text`
 `;
 
 const Container = styled.View`
-  width: ${wp('100%')};
+  width: ${wp('100%')}px;
   padding: 20px 0;
   background-color: white;
   flex-direction: row;

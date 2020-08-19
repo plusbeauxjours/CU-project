@@ -14,7 +14,7 @@ const BackGround = styled.SafeAreaView`
 `;
 
 const ScrollView = styled.ScrollView`
-  width: ${wp('100%')};
+  width: ${wp('100%')}px;
   align-items: center;
   padding-top: 30px;
   margin-bottom: 20px;

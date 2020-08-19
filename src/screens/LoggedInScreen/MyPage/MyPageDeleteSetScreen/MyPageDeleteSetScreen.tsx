@@ -24,7 +24,7 @@ const Container = styled.View`
 `;
 
 const Title = styled.View`
-  height: ${hp('8%')};
+  height: ${hp('8%')}px;
   justify-content: flex-end;
   align-items: center;
   margin-bottom: 15px;
@@ -47,7 +47,7 @@ const CheckText = styled.Text`
   padding-top: 5px;
 `;
 const SubmitBtn = styled.TouchableOpacity<IIsConfirm>`
-  height: ${hp('5%')};
+  height: ${hp('5%')}px;
   background-color: ${(props) => (props.isConfirmed ? '#FF3D3D' : '#FFC7C7')};
   justify-content: center;
   align-items: center;

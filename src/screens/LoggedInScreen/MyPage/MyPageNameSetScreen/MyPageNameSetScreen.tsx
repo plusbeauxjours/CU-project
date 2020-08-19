@@ -81,7 +81,7 @@ export default () => {
         <SubmitBtn
           text={'수정하기'}
           onPress={() => submit()}
-          isRegist={newName !== ''}
+          isRegisted={newName !== ''}
         />
       </Container>
     </BackGround>

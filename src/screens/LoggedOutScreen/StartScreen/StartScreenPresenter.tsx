@@ -17,21 +17,21 @@ const Container = styled.View`
 
 const AddStoreBox = styled.View`
   align-items: center;
-  width: ${wp('100%')};
-  margin-top: ${hp('10%')};
+  width: ${wp('100%')}px;
+  margin-top: ${hp('10%')}px;
 `;
 
 const ButtonAfter = styled.TouchableOpacity`
-  height: ${hp('7%')};
-  width: ${wp('100%')};
+  height: ${hp('7%')}px;
+  width: ${wp('100%')}px;
   align-items: center;
   justify-content: center;
   background-color: #642a8c;
 `;
 
 const AddStoreButton = styled.TouchableOpacity`
-  height: ${hp('7%')};
-  width: ${wp('55%')};
+  height: ${hp('7%')}px;
+  width: ${wp('55%')}px;
   border-radius: 30;
   border-color: #bbb;
   border-width: 1;
@@ -42,8 +42,8 @@ const AddStoreButton = styled.TouchableOpacity`
 `;
 
 const Logo = styled.View`
-  height: ${hp('70%')};
-  width: ${wp('100%')};
+  height: ${hp('70%')}px;
+  width: ${wp('100%')}px;
   align-items: center;
   justify-content: center;
 `;
@@ -56,8 +56,8 @@ const TextBox = styled.View`
 `;
 
 const Button = styled.TouchableOpacity`
-  width: ${wp('100%')};
-  height: ${hp('8%')};
+  width: ${wp('100%')}px;
+  height: ${hp('8%')}px;
   align-items: center;
   justify-content: center;
   background-color: #642a8c;

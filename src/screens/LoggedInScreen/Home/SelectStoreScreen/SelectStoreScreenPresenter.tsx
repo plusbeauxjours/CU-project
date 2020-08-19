@@ -20,9 +20,9 @@ const Container = styled.View`
 `;
 
 const EmptyListWrapper = styled.View`
-  margin-top: ${hp('10%')};
+  margin-top: ${hp('10%')}px;
   padding: ${hp('5%')}px ${wp('5%')}px;
-  width: ${wp('90%')};
+  width: ${wp('90%')}px;
   justify-content: center;
   align-items: center;
   border-width: 1px;
@@ -42,7 +42,7 @@ const EmptyListTitle = styled.Text`
 `;
 
 const AddStoreBox = styled.View`
-  width: ${wp('100%')};
+  width: ${wp('100%')}px;
   align-items: center;
   margin: ${hp('2.5%')}px 0;
 `;

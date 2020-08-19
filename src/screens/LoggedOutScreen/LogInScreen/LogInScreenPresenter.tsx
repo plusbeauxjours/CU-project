@@ -36,8 +36,8 @@ const TextInput = styled.TextInput`
 `;
 
 const Login = styled.View`
-  height: ${hp('7%')};
-  width: ${wp('90%')};
+  height: ${hp('7%')}px;
+  width: ${wp('90%')}px;
   align-items: center;
   justify-content: center;
 `;
@@ -49,7 +49,7 @@ const UnderLineText = styled.Text`
 
 const Button = styled.View`
   width: ${wp('100%') - 40};
-  height: ${hp('7%')};
+  height: ${hp('7%')}px;
   background-color: #642a8c;
   align-items: center;
   justify-content: center;
@@ -69,7 +69,7 @@ const WhiteText = styled.Text`
 `;
 
 const WhiteSpace = styled.View`
-  height: ${hp('3%')};
+  height: ${hp('3%')}px;
 `;
 
 const TextInputContainer = styled.View`
@@ -80,12 +80,12 @@ const TextInputContainer = styled.View`
 `;
 
 const TextInputBox = styled.View`
-  width: ${wp('80%')};
+  width: ${wp('80%')}px;
 `;
 
 const LogoText = styled.View<ILogoText>`
-  width: ${wp('100%')};
-  margin-bottom: ${hp('6%')};
+  width: ${wp('100%')}px;
+  margin-bottom: ${hp('6%')}px;
   align-items: center;
   justify-content: center;
   margin: ${(props) => props.isIphoneX && hp('5%')}px 0;

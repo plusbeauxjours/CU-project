@@ -38,8 +38,8 @@ const PdfButtonWrapper = styled.View`
 `;
 
 const PdfButton = styled.TouchableOpacity`
-  width: ${wp('75%')};
-  height: ${hp('7%')};
+  width: ${wp('75%')}px;
+  height: ${hp('7%')}px;
   border-radius: 35px;
   justify-content: center;
   align-items: center;

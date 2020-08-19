@@ -23,8 +23,8 @@ const Container = styled.View`
 `;
 
 const ButtonAfter = styled.TouchableOpacity`
-  height: ${hp('7%')};
-  width: ${wp('100%')};
+  height: ${hp('7%')}px;
+  width: ${wp('100%')}px;
   align-items: center;
   justify-content: center;
   background-color: #642a8c;

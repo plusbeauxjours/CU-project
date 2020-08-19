@@ -51,7 +51,7 @@ const Attach = styled.Text`
 `;
 
 const WithHelpBtn = styled.TouchableOpacity<IColor>`
-  height: ${hp('7%')};
+  height: ${hp('7%')}px;
   width: ${(props) => (props.color === '#642A8C' ? wp('80%') : wp('20%'))};
   align-items: center;
   justify-content: center;
@@ -59,8 +59,8 @@ const WithHelpBtn = styled.TouchableOpacity<IColor>`
 `;
 
 const HalfBtnLeft = styled.TouchableOpacity<IWarning>`
-  height: ${hp('7%')};
-  width: ${hp('50%')};
+  height: ${hp('7%')}px;
+  width: ${hp('50%')}px;
   align-items: center;
   justify-content: center;
   border-color: #bbb;
@@ -83,8 +83,8 @@ const HalfTextRight = styled.Text<IWarning>`
 `;
 
 const BarBtn = styled.TouchableOpacity`
-  height: ${hp('7%')};
-  width: ${hp('100%')};
+  height: ${hp('7%')}px;
+  width: ${hp('100%')}px;
   align-items: center;
   justify-content: center;
   background-color: #642a8c;

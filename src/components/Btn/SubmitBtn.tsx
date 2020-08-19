@@ -18,7 +18,7 @@ const SubmitButton = styled.TouchableOpacity<IIsBefore>`
 `;
 
 const SubmitButtonContainer = styled.View`
-  margin-top: 50px;
+  margin-top: 30px;
   align-items: center;
 `;
 

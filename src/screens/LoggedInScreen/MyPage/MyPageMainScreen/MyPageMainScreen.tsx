@@ -19,8 +19,8 @@ const BackGround = styled.View`
 `;
 
 const Info = styled.View`
-  height: ${hp('15%')};
-  width: ${wp('100%')};
+  height: ${hp('15%')}px;
+  width: ${wp('100%')}px;
   flex-direction: row;
   align-items: center;
   background-color: white;
