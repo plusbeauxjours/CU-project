@@ -3,8 +3,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components/native';
 import utils from '../../constants/utils';
 
-const CheckPasswordButton = styled.TouchableOpacity`
-  padding-horizontal: 10px;
+const CheckPasswordButton = styled.TouchableWithoutFeedback`
+  padding: 0 10px;
   flex-direction: row;
   align-items: center;
 `;

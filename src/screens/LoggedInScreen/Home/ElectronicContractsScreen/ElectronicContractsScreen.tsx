@@ -86,7 +86,9 @@ export default ({route: {params}}) => {
   };
   return (
     <BackGround>
-      <ScrollView style={{paddingTop: '15%', paddingHorizontal: 40}}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{paddingTop: '15%', paddingHorizontal: 40}}>
         <ExplainContainer>
           <ExplainBox>
             <ExplainTitle>근로기준법</ExplainTitle>
@@ -147,7 +149,7 @@ export default ({route: {params}}) => {
             </Text>
             <Touchable onPress={() => onPress()}>
               <Icon
-                name={utils.isAndroid ? 'md-close' : 'ios-close'}
+                name={'close-sharp'}
                 size={28}
                 color="#642A8C"
                 style={{marginRight: 5}}

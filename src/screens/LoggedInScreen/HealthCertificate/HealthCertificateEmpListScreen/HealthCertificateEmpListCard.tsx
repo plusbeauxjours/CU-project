@@ -105,9 +105,9 @@ export default ({
             <AddressBox>
               <IconContainer>
                 {TESTING_DATE && dday > 0 ? (
-                  <Icon name={'circle'} size={22} color={'#642A8C'} />
+                  <Icon name={'ellipse-sharp'} size={16} color={'#642A8C'} />
                 ) : (
-                  <Icon name={'circle'} size={22} color={'#CE0505'} />
+                  <Icon name={'ellipse-sharp'} size={16} color={'#CE0505'} />
                 )}
               </IconContainer>
               {TESTING_DATE ? (
@@ -162,9 +162,9 @@ export default ({
             <AddressBox>
               <IconContainer>
                 {TESTING_DATE ? (
-                  <Icon name={'circle'} size={22} color={'#642A8C'} />
+                  <Icon name={'ellipse-sharp'} size={16} color={'#642A8C'} />
                 ) : (
-                  <Icon name={'circle'} size={22} color={'#CE0505'} />
+                  <Icon name={'ellipse-sharp'} size={16} color={'#CE0505'} />
                 )}
               </IconContainer>
               {TESTING_DATE ? (

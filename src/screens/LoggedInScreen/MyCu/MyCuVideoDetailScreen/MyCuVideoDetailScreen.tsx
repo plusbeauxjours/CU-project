@@ -116,7 +116,7 @@ export default ({route: {params}}) => {
 
   return (
     <BackGround>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <MainImageWrapper>
           {IMG_URL2 && (
             <MainImage source={{uri: IMG_URL2}} resizeMode="stretch" />
@@ -158,12 +158,7 @@ export default ({route: {params}}) => {
                 setModalVisible(false);
               }}>
               <Text>닫기</Text>
-              {/* <Icon
-                name={utils.isAndroid ? 'md-close' : 'ios-close'}
-                size={28}
-                color="#642A8C"
-                style={{marginRight: 5}}
-              /> */}
+              <Icon name={'close-sharp'} size={24} color="#642A8C" />
             </IconContainer>
           )}
         </ModalContainer>

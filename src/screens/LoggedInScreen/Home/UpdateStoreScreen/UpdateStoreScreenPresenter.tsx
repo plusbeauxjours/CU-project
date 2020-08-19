@@ -287,11 +287,11 @@ export default ({
           setSizeTypeCheck(value);
           setType(selection);
         }}>
-        {/* {sizeTypeCheck[selection] ? (
-          <Icon name="circle" size={17} color="#642A8C" />
+        {sizeTypeCheck[selection] ? (
+          <Icon name="radio-button-on-outline" size={17} color="#642A8C" />
         ) : (
-          <Icon name="circle" size={17} color="#F2F2F2" />
-        )} */}
+          <Icon name="radio-button-off-outline" size={17} color="#F2F2F2" />
+        )}
         <TypeText>{text}</TypeText>
       </TypeContainer>
     );
@@ -347,7 +347,7 @@ export default ({
                   );
                 }}>
                 <NameText>기본주소</NameText>
-                {/* <Icon name="questioncircle" size={18} color="#bbb" /> */}
+                <Icon name="help-circle" size={18} color="#bbb" />
               </RowTouchable>
               <RequestButton onPress={() => gotoSearchAddress()}>
                 <RequestText>주소 검색</RequestText>
@@ -394,7 +394,7 @@ export default ({
                       );
                     }}>
                     <NameText>지각 허용시간</NameText>
-                    {/* <Icon name="questioncircle" size={18} color="#bbb" /> */}
+                    <Icon name="help-circle" size={18} color="#bbb" />
                   </RowTouchable>
                   <Touchable
                     onPress={() => {
@@ -432,7 +432,7 @@ export default ({
                       );
                     }}>
                     <NameText style={{marginRight: 5}}>사업장 규모</NameText>
-                    {/* <Icon name="questioncircle" size={18} color="#bbb" /> */}
+                    <Icon name="help-circle" size={18} color="#bbb" />
                   </TypeContainer>
                   <TypeCheckCase>
                     <View>{sizeType(0, '5인 미만')}</View>
@@ -465,7 +465,7 @@ export default ({
                       );
                     }}>
                     <NameText style={{marginRight: 5}}>급여정산일</NameText>
-                    {/* <Icon name="questioncircle" size={18} color="#bbb" /> */}
+                    <Icon name="help-circle" size={18} color="#bbb" />
                   </TypeContainer>
                   <Touchable
                     onPress={() => {

@@ -1,5 +1,4 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styled from 'styled-components/native';
@@ -171,6 +170,7 @@ export default ({
     <BackGround>
       <KeyboardAwareScrollView>
         <ScrollView
+          showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{flex: 1, alignItems: 'center'}}>
           <Container>

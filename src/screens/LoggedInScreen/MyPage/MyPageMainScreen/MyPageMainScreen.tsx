@@ -148,7 +148,7 @@ export default () => {
 
   return (
     <BackGround>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Info>
           <Image source={{uri: `http://133.186.209.113/uploads/3.png`}} />
           <PersonInfo>
@@ -243,13 +243,7 @@ export default () => {
             }}>
             <CardText>로그 아웃</CardText>
             <Arrow>
-              <Icon
-                name={
-                  utils.isAndroid ? 'md-log-out-sharp' : 'ios-log-out-sharp'
-                }
-                size={20}
-                color="#642A8C"
-              />
+              <Icon name={'log-out-outline'} size={24} color="#642A8C" />
             </Arrow>
           </Card>
         </BoxArea>

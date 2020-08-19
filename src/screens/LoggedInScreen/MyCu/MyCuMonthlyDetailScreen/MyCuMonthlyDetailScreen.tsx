@@ -113,7 +113,7 @@ export default ({route: {params}}) => {
 
   return (
     <BackGround>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <MainImageWrapper>
           {IMG_URL2 && (
             <MainImage source={{uri: IMG_URL2}} resizeMode="stretch" />
@@ -146,7 +146,7 @@ export default ({route: {params}}) => {
               setModalVisible(false);
             }}>
             <Icon
-              name={utils.isAndroid ? 'md-close' : 'ios-close'}
+              name={'close-sharp'}
               size={28}
               color="#642A8C"
               style={{marginRight: 5}}

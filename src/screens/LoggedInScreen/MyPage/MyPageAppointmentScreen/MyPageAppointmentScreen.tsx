@@ -77,7 +77,8 @@ export default () => {
       <ScrollView
         persistentScrollbar={true}
         contentContainerStyle={{alignItems: 'center'}}
-        style={{flex: 1, paddingVertical: 16, paddingHorizontal: 16}}>
+        style={{flex: 1, paddingVertical: 16, paddingHorizontal: 16}}
+        showsVerticalScrollIndicator={false}>
         <Text>{getText}</Text>
       </ScrollView>
 

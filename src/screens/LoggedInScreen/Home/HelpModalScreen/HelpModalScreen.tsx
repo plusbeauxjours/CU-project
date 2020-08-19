@@ -3,8 +3,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components/native';
 import {Linking, Image} from 'react-native';
 import {useDispatch} from 'react-redux';
+
 import {setAlertVisible} from '../../../../redux/alertSlice';
 import api from '../../../../constants/LoggedInApi';
+import utils from '../../../../constants/utils';
 
 const BackGround = styled.View`
   flex: 1;
@@ -22,11 +24,11 @@ const Row = styled.View`
 `;
 
 const KakaoText = styled.Text`
-  font-size: 20px;
+  font-size: 16px;
 `;
 
 const AdviceText = styled.Text`
-  font-size: 20px;
+  font-size: 16px;
   color: #642a8c;
 `;
 
@@ -69,19 +71,27 @@ export default () => {
 
   return (
     <BackGround>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <KakaoBox
           onPress={() => {
             Linking.openURL('http://pf.kakao.com/_kRynxb/chat');
           }}>
           <Row>
-            {/* <Image
-              source={require('../../assets/images/kakaoBtn.png')}
+            <Image
+              source={require('../../../../assets/images/kakaoBtn.png')}
               style={{marginRight: 5}}
-            /> */}
+            />
             <KakaoText>카카오톡 문의</KakaoText>
           </Row>
-          {/* <Icon name="ios-arrow-forward" size={22} color="#bbb" /> */}
+          <Icon
+            name={
+              utils.isAndroid
+                ? 'md-chevron-forward-outline'
+                : 'ios-chevron-forward-outline'
+            }
+            size={22}
+            color="#bbb"
+          />
         </KakaoBox>
         {helpCategory.length > 0 &&
           helpCategory.map((data: any, index) => (
@@ -91,7 +101,15 @@ export default () => {
                 Linking.openURL(data?.URL);
               }}>
               <AdviceText>{data?.TITLE}</AdviceText>
-              {/* <Icon name="ios-arrow-forward" size={22} color="#bbb" /> */}
+              <Icon
+                name={
+                  utils.isAndroid
+                    ? 'md-chevron-forward-outline'
+                    : 'ios-chevron-forward-outline'
+                }
+                size={22}
+                color="#bbb"
+              />
             </AdviceBox>
           ))}
       </ScrollView>

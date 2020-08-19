@@ -8,6 +8,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
+import utils from '../../../../constants/utils';
+
 interface IText {
   color: string;
 }
@@ -110,6 +112,7 @@ export default ({
       <BackGround>
         <Container>
           <ScrollView
+            showsVerticalScrollIndicator={false}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }>
@@ -128,13 +131,21 @@ export default ({
                 </Row>
                 <ViewBtn>
                   <ViewBtnText>등록 및 상세</ViewBtnText>
-                  {/* <Icon name="right" size={14} color="#642A8C" /> */}
+                  <Icon
+                    name={
+                      utils.isAndroid
+                        ? 'md-chevron-forward-outline'
+                        : 'ios-chevron-forward-outline'
+                    }
+                    size={14}
+                    color="#642A8C"
+                  />
                 </ViewBtn>
               </TypeTitle>
 
               {HEALTH_CERTIFICATE_APPLY == 0 ? (
                 <IconContainer>
-                  <Icon name={'circle'} size={22} color={'#CE0505'} />
+                  <Icon name={'ellipse-sharp'} size={22} color={'#CE0505'} />
                   <AddressText color={'#CE0505'}> 미등록</AddressText>
                 </IconContainer>
               ) : (
@@ -144,7 +155,7 @@ export default ({
                     alignItems: 'flex-start',
                   }}>
                   <IconContainer>
-                    {/* <Icon name={'circle'} size={22} color={'#642A8C'} /> */}
+                    <Icon name={'ellipse-sharp'} size={22} color={'#642A8C'} />
                     <AddressText color={'#642A8C'}>
                       위생교육증 등록완료
                     </AddressText>
@@ -182,6 +193,7 @@ export default ({
       <BackGround>
         <Container>
           <ScrollView
+            showsVerticalScrollIndicator={false}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }>
@@ -205,12 +217,20 @@ export default ({
                             '위생교육증을 등록하시면 갱신시점 알람 및 기존 교육증 이력관리가 가능합니다.\n(현재는 한국휴게음식업중앙회 발급 수료증에 한하여 등록이 가능합니다. 추후 종류 추가 예정)',
                           );
                         }}>
-                        {/* <Icon name="questioncircle" size={22} color="#bbb" /> */}
+                        <Icon name="help-circle" size={22} color="#bbb" />
                       </TouchableOpacity>
                     </Row>
                     <ViewBtn>
                       <ViewBtnText>등록 및 상세</ViewBtnText>
-                      {/* <Icon name="right" size={14} color="#642A8C" /> */}
+                      <Icon
+                        name={
+                          utils.isAndroid
+                            ? 'md-chevron-forward-outline'
+                            : 'ios-chevron-forward-outline'
+                        }
+                        size={14}
+                        color="#642A8C"
+                      />
                     </ViewBtn>
                   </TypeTitle>
 
@@ -220,7 +240,11 @@ export default ({
                       alignItems: 'flex-start',
                     }}>
                     <IconContainer>
-                      {/* <Icon name={'circle'} size={22} color={'#642A8C'} /> */}
+                      <Icon
+                        name={'ellipse-sharp'}
+                        size={22}
+                        color={'#642A8C'}
+                      />
                       <AddressText color={'#642A8C'}>
                         위생교육증 등록완료
                       </AddressText>
@@ -260,18 +284,30 @@ export default ({
                             '위생교육증을 등록하시면 갱신시점 알람 및 기존 교육증 이력관리가 가능합니다.\n(현재는 한국휴게음식업중앙회 발급 수료증에 한하여 등록이 가능합니다. 추후 종류 추가 예정)',
                           );
                         }}>
-                        {/* <Icon name="questioncircle" size={22} color="#bbb" /> */}
+                        <Icon name="help-circle" size={22} color="#bbb" />
                       </TouchableOpacity>
                     </Row>
                     <ViewBtn>
                       <ViewBtnText>등록 및 상세</ViewBtnText>
-                      {/* <Icon name="right" size={14} color="#642A8C" /> */}
+                      <Icon
+                        name={
+                          utils.isAndroid
+                            ? 'md-chevron-forward-outline'
+                            : 'ios-chevron-forward-outline'
+                        }
+                        size={14}
+                        color="#642A8C"
+                      />
                     </ViewBtn>
                   </TypeTitle>
 
                   <AddressBox>
                     <IconContainer>
-                      {/* <Icon name={'circle'} size={22} color={'#CE0505'} /> */}
+                      <Icon
+                        name={'ellipse-sharp'}
+                        size={22}
+                        color={'#CE0505'}
+                      />
                       <AddressText color={'#CE0505'}>
                         위생교육증 미등록
                       </AddressText>
@@ -299,18 +335,30 @@ export default ({
                           '직원별 보건증 등록이 가능하며, 등록 후 갱신시점 알람 및 보건증 이력관리가 가능합니다.',
                         );
                       }}>
-                      {/* <Icon name="questioncircle" size={22} color="#bbb" /> */}
+                      <Icon name="help-circle" size={22} color="#bbb" />
                     </Touchable>
                   </Row>
                   <ViewBtn>
                     <ViewBtnText>등록 및 상세</ViewBtnText>
-                    {/* <Icon name="right" size={14} color="#642A8C" /> */}
+                    <Icon
+                      name={
+                        utils.isAndroid
+                          ? 'md-chevron-forward-outline'
+                          : 'ios-chevron-forward-outline'
+                      }
+                      size={14}
+                      color="#642A8C"
+                    />
                   </ViewBtn>
                 </TypeTitle>
                 {HEALTH_CERTIFICATE_APPLY == 0 ? (
                   <AddressBox>
                     <IconContainer>
-                      {/* <Icon name={'circle'} size={22} color={'#CE0505'} /> */}
+                      <Icon
+                        name={'ellipse-sharp'}
+                        size={22}
+                        color={'#CE0505'}
+                      />
                       <AddressText color={'#CE0505'}>미등록</AddressText>
                     </IconContainer>
                   </AddressBox>
@@ -318,7 +366,11 @@ export default ({
                   Number(HEALTH_CERTIFICATE_TARGET) ? (
                   <AddressBox>
                     <IconContainer>
-                      {/* <Icon name={'circle'} size={22} color={'#642A8C'} /> */}
+                      <Icon
+                        name={'ellipse-sharp'}
+                        size={22}
+                        color={'#642A8C'}
+                      />
                       <AddressText color={'#642A8C'}>
                         등록 중({HEALTH_CERTIFICATE_TARGET}명 중{' '}
                         {HEALTH_CERTIFICATE_APPLY}명 완료)
@@ -328,7 +380,11 @@ export default ({
                 ) : (
                   <AddressBox>
                     <IconContainer>
-                      {/* <Icon name={'circle'} size={22} color={'#CE0505'} /> */}
+                      <Icon
+                        name={'ellipse-sharp'}
+                        size={22}
+                        color={'#CE0505'}
+                      />
                       <AddressText color={'#CE0505'}>
                         등록 중({HEALTH_CERTIFICATE_TARGET}명 중{' '}
                         {HEALTH_CERTIFICATE_APPLY}명 완료)

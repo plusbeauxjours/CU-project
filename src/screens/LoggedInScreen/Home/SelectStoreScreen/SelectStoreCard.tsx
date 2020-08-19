@@ -8,6 +8,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
+import utils from '../../../../constants/utils';
+
 interface IIsStore {
   isStore?: boolean;
 }
@@ -162,9 +164,13 @@ export default ({
             </NameText>
           )}
           <AddressBox>
-            {/* <IconContainer>
-              <Icon name="ios-pin" size={17} color="#642A8C" />
-            </IconContainer> */}
+            <IconContainer>
+              <Icon
+                name={utils.isAndroid ? 'md-location' : 'ios-location'}
+                size={17}
+                color="#642A8C"
+              />
+            </IconContainer>
             <AddressText>
               {address1 && address2
                 ? address1.trim() + ' ' + address2.trim()
@@ -174,9 +180,17 @@ export default ({
 
           {STORE == 1 ? (
             <EmployeeBox>
-              {/* <IconContainer>
-                <Icon name="ios-contact" size={17} color="#642A8C" />
-              </IconContainer> */}
+              <IconContainer>
+                <Icon
+                  name={
+                    utils.isAndroid
+                      ? 'md-person-circle-outline'
+                      : 'ios-person-circle-outline'
+                  }
+                  size={17}
+                  color="#642A8C"
+                />
+              </IconContainer>
               <EmployeeText>
                 {employee == 0
                   ? `${employee}명 근무중, 직원을 초대하세요.`
@@ -185,11 +199,19 @@ export default ({
             </EmployeeBox>
           ) : (
             <EmployeeBox>
-              {/* {search !== true && (
+              {search !== true && (
                 <IconContainer>
-                  <Icon name="ios-contact" size={17} color="#642A8C" />
+                  <Icon
+                    name={
+                      utils.isAndroid
+                        ? 'md-person-circle-outline'
+                        : 'ios-person-circle-outline'
+                    }
+                    size={17}
+                    color="#642A8C"
+                  />
                 </IconContainer>
-              )} */}
+              )}
               {search !== true && TYPE == '0' ? (
                 <EmployeeText>합류 대기중</EmployeeText>
               ) : (
@@ -216,8 +238,15 @@ export default ({
               ) : TYPE == '0' ? (
                 ''
               ) : (
-                <Arrow>햡류완료</Arrow>
-                // <Icon name="right" size={20} color="#642A8C" />
+                <Icon
+                  name={
+                    utils.isAndroid
+                      ? 'md-chevron-forward-outline'
+                      : 'ios-chevron-forward-outline'
+                  }
+                  size={20}
+                  color="#642A8C"
+                />
               )}
             </Arrow>
           )}

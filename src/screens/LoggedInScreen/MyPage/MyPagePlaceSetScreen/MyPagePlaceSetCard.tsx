@@ -6,6 +6,8 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components/native';
 
+import utils from '../../../../constants/utils';
+
 const Touchable = styled.TouchableOpacity``;
 const Container = styled.View`
   width: ${wp('90%')}px;
@@ -50,7 +52,11 @@ export default ({key, name, addr, data}) => (
       <NameText>{name}</NameText>
       <AddressBox>
         <IconContainer>
-          <Icon name="ios-pin" size={17} color="#642A8C" />
+          <Icon
+            name={utils.isAndroid ? 'md-location' : 'ios-location'}
+            size={17}
+            color="#642A8C"
+          />
         </IconContainer>
         <AddressText>{addr ? addr : '주소 미등록'}</AddressText>
       </AddressBox>

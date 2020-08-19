@@ -3,6 +3,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
 
+import utils from '../../../../constants/utils';
+
 const DataListItem = styled.TouchableOpacity`
   width: 100%;
   height: 150px;
@@ -102,11 +104,15 @@ export default ({
             <TextBox>
               <Bold>{PDF_YEAR}</Bold>
             </TextBox>
-            {/* {PDFCHECK_SEQ && (
+            {PDFCHECK_SEQ && (
               <IconContainer>
-                <Icon name="check" size={12} color={'yellow'} />
+                <Icon
+                  name={utils.isAndroid ? 'md-checkmark' : 'ios-checkmark;'}
+                  size={12}
+                  color={'yellow'}
+                />
               </IconContainer>
-            )} */}
+            )}
           </DataListItemInfoTopWrapper>
           <DataListItemInfoBottomWrapper>
             <DataListItemInfoBottomText>{CONTENTS}</DataListItemInfoBottomText>

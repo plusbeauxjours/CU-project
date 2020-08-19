@@ -5,11 +5,10 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import utils from '../../../constants/utils';
 import SubmitBtn from '../../../components/Btn/SubmitBtn';
 import InputLine from '../../../components/InputLine';
+import CheckPasswordBtn from '../../../components/Btn/CheckPasswordBtn';
 
 interface IIsBefore {
   isBefore: boolean;
@@ -35,12 +34,6 @@ const RequestText = styled.Text`
 const VerifyText = styled.Text`
   font-size: 14px;
   color: white;
-`;
-
-const CheckPasswordButton = styled.TouchableOpacity`
-  padding: 0 10px;
-  flex-direction: row;
-  align-items: center;
 `;
 
 const GreyText = styled.Text`
@@ -143,7 +136,8 @@ export default ({
         <ScrollView
           ref={scrollRef}
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{flex: 1, alignItems: 'center'}}>
+          contentContainerStyle={{flex: 1, alignItems: 'center'}}
+          showsVerticalScrollIndicator={false}>
           <Container>
             <Case>
               <NameText>휴대폰 번호</NameText>
@@ -222,24 +216,10 @@ export default ({
                       value={password}
                       secureTextEntry={isPasswordSeen === true ? false : true}
                     />
-                    <CheckPasswordButton
-                      onPress={() => {
-                        toggleIsPasswordSeen();
-                      }}>
-                      {isPasswordSeen ? (
-                        <Icon
-                          name={utils.isAndroid ? 'md-eye' : 'ios-eye'}
-                          size={24}
-                          color="#aaa"
-                        />
-                      ) : (
-                        <Icon
-                          name={utils.isAndroid ? 'md-eye-off' : 'ios-eye-off'}
-                          size={24}
-                          color="#ddd"
-                        />
-                      )}
-                    </CheckPasswordButton>
+                    <CheckPasswordBtn
+                      onPress={toggleIsPasswordSeen}
+                      isPasswordSeen={isPasswordSeen}
+                    />
                   </TextinputCase>
                   <InputLine isBefore={password == '' ? true : false} />
                 </Case>
@@ -261,21 +241,10 @@ export default ({
                         }, 200);
                       }}
                     />
-                    <CheckPasswordButton onPress={() => toggleIsPasswordSeen()}>
-                      {isPasswordSeen ? (
-                        <Icon
-                          name={utils.isAndroid ? 'md-eye' : 'ios-eye'}
-                          size={24}
-                          color="#aaa"
-                        />
-                      ) : (
-                        <Icon
-                          name={utils.isAndroid ? 'md-eye-off' : 'ios-eye-off'}
-                          size={24}
-                          color="#ddd"
-                        />
-                      )}
-                    </CheckPasswordButton>
+                    <CheckPasswordBtn
+                      onPress={toggleIsPasswordSeen}
+                      isPasswordSeen={isPasswordSeen}
+                    />
                   </TextinputCase>
                   <InputLine isBefore={passwordCheck == '' ? true : false} />
                   <GreyText>

@@ -202,6 +202,7 @@ export default () => {
           component={InviteEmployeeScreen}
           options={{
             title: '직원 초대',
+            headerRight: () => <CalendarInfoHeader />,
           }}
         />
         <LoggedInNavigation.Screen
@@ -280,7 +281,7 @@ export default () => {
           name="CalendarInfoScreen"
           component={CalendarInfoScreen}
           options={{
-            title: '비밀번호 찾기',
+            title: '일정관리',
             headerRight: () => <CalendarInfoHeader />,
           }}
         />

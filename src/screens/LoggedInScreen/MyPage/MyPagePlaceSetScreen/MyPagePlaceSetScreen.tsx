@@ -76,7 +76,8 @@ export default () => {
         </Box>
 
         <ScrollView
-          contentContainerStyle={{width: wp('100%'), alignItems: 'center'}}>
+          contentContainerStyle={{width: wp('100%'), alignItems: 'center'}}
+          showsVerticalScrollIndicator={false}>
           {store.length === 0 && (
             <BoxText style={{marginTop: 30}}>
               {STORE == '1' ? '폐업 사업장' : '종료 사업장'}이 없습니다

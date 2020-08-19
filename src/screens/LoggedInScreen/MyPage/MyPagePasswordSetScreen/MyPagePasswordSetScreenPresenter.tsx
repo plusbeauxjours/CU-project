@@ -1,11 +1,10 @@
 import React, {useRef} from 'react';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import utils from '../../../../constants/utils';
 import InputLine from '../../../../components/InputLine';
+import CheckPasswordBtn from '../../../../components/Btn/CheckPasswordBtn';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -39,12 +38,6 @@ const TextInput = styled.TextInput`
   flex: 1;
   font-size: 16px;
   color: black;
-`;
-
-const CheckPasswordButton = styled.TouchableOpacity`
-  padding: 0 10px;
-  flex-direction: row;
-  align-items: center;
 `;
 
 const TimeText = styled.Text`
@@ -137,24 +130,10 @@ export default ({
                 editable={!hasCheckedVerifyCode}
                 secureTextEntry={isPasswordSeen === true ? false : true}
               />
-              <CheckPasswordButton
-                onPress={() => {
-                  toggleIsPasswordSeen();
-                }}>
-                {isPasswordSeen ? (
-                  <Icon
-                    name={utils.isAndroid ? 'md-eye' : 'ios-eye'}
-                    size={24}
-                    color="#aaa"
-                  />
-                ) : (
-                  <Icon
-                    name={utils.isAndroid ? 'md-eye-off' : 'ios-eye-off'}
-                    size={24}
-                    color="#ddd"
-                  />
-                )}
-              </CheckPasswordButton>
+              <CheckPasswordBtn
+                onPress={toggleIsPasswordSeen}
+                isPasswordSeen={isPasswordSeen}
+              />
             </TextinputCase>
             <InputLine isBefore={password == '' ? true : false} />
             <GreyText>* 영문, 숫자 조합하여 6자 이상 입력해주세요.</GreyText>
@@ -178,21 +157,10 @@ export default ({
                 editable={!hasCheckedVerifyCode}
                 secureTextEntry={isPasswordSeen === true ? false : true}
               />
-              <CheckPasswordButton onPress={() => toggleIsPasswordSeen()}>
-                {isPasswordSeen ? (
-                  <Icon
-                    name={utils.isAndroid ? 'md-eye' : 'ios-eye'}
-                    size={24}
-                    color="#aaa"
-                  />
-                ) : (
-                  <Icon
-                    name={utils.isAndroid ? 'md-eye-off' : 'ios-eye-off'}
-                    size={24}
-                    color="#ddd"
-                  />
-                )}
-              </CheckPasswordButton>
+              <CheckPasswordBtn
+                onPress={toggleIsPasswordSeen}
+                isPasswordSeen={isPasswordSeen}
+              />
             </TextinputCase>
             <InputLine isBefore={passwordCheck == '' ? true : false} />
           </Case>

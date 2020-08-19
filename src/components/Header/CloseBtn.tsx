@@ -23,8 +23,7 @@ export default () => {
       onPress={() => {
         navigation.goBack();
       }}>
-      <Icon name="home" size={22} color="white" />
-      <Text>HOME</Text>
+      <Icon name="close-sharp" size={24} color="white" />
     </Touchable>
   );
 };

@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import HealthCertificateEmpListCard from './HealthCertificateEmpListCard';
 import api from '../../../../constants/LoggedInApi';
+import utils from '../../../../constants/utils';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -77,17 +78,26 @@ export default ({route: {params}}) => {
   return (
     <BackGround>
       <ScrollView
+        showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
         {STORE == '1' && (
           <Box>
             <Row>
-              <Icon name="check" size={14} color="#642A8C" />
+              <Icon
+                name={utils.isAndroid ? 'md-checkmark' : 'ios-checkmark;'}
+                size={14}
+                color="#642A8C"
+              />
               <Bold>직원이 '조기경보'화면에서 직접 등록이 가능합니다.</Bold>
             </Row>
             <Row>
-              <Icon name="check" size={14} color="#642A8C" />
+              <Icon
+                name={utils.isAndroid ? 'md-checkmark' : 'ios-checkmark;'}
+                size={14}
+                color="#642A8C"
+              />
               <Bold>직원은 본인 보건증만 확인이 가능합니다.</Bold>
             </Row>
           </Box>

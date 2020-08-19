@@ -4,7 +4,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {userLogout} from '../../redux/userSlice';
-import utils from '../../constants/utils';
 
 const Touchable = styled.TouchableOpacity`
   margin-right: 10px;
@@ -36,11 +35,7 @@ export default () => {
           ],
         });
       }}>
-      <Icon
-        name={utils.isAndroid ? 'md-log-out-sharp' : 'ios-log-out-sharp'}
-        size={20}
-        color="white"
-      />
+      <Icon name={'log-out-outline'} size={24} color="white" />
       <Text>로그아웃</Text>
     </Touchable>
   );

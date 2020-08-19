@@ -37,8 +37,12 @@ export default ({route: {params}}) => {
   const ArrowIcon = () => (
     <Arrow>
       <Icon
-        name={utils.isAndroid ? 'md-chevron-back' : 'ios-chevron-back'}
-        size={16}
+        name={
+          utils.isAndroid
+            ? 'md-chevron-forward-outline'
+            : 'ios-chevron-forward-outline'
+        }
+        size={22}
         color="#642A8C"
       />
     </Arrow>

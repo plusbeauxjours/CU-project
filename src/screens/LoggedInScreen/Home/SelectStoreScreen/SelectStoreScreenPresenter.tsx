@@ -274,13 +274,14 @@ export default ({
         <AddStoreBox>
           <AddStoreButton onPress={() => addStore()}>
             <AddStoreButtonText>점포 등록하기</AddStoreButtonText>
-            {/* <Icon name="plus" size={30} color="#642A8C" /> */}
+            <Icon name="add-circle-outline" size={30} color="#642A8C" />
           </AddStoreButton>
         </AddStoreBox>
       )}
       {search == false ? (
         <Container>
           <ScrollView
+            showsVerticalScrollIndicator={false}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
@@ -295,6 +296,7 @@ export default ({
       ) : (
         <Container>
           <ScrollView
+            showsVerticalScrollIndicator={false}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }

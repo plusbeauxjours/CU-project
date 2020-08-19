@@ -29,7 +29,7 @@ export default () => {
         });
       }}>
       <Icon
-        name={utils.isAndroid ? 'md-home' : 'ios-home'}
+        name={utils.isAndroid ? 'md-home-outline' : 'ios-home-outline'}
         size={22}
         color="white"
       />

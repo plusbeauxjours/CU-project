@@ -124,6 +124,7 @@ export default ({gotoLogin, gotoVerification, testBtn}) => {
       }}>
       <ScrollView
         persistentScrollbar={true}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{alignItems: 'center'}}
         style={{flex: 1, paddingVertical: 16, paddingHorizontal: 16}}>
         <Text>{getText}</Text>

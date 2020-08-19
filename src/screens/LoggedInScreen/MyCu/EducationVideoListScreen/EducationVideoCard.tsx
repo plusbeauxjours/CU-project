@@ -115,11 +115,15 @@ export default ({
               }
               return null;
             })}
-            {/* {EDUCHECK_SEQ && (
+            {EDUCHECK_SEQ && (
               <IconContainer>
-                <Icon name="check" size={12} color={'yellow'} />
+                <Icon
+                  name={utils.isAndroid ? 'md-checkmark' : 'ios-checkmark;'}
+                  size={12}
+                  color={'yellow'}
+                />
               </IconContainer>
-            )} */}
+            )}
           </DataListItemInfoTopWrapper>
           <DataListItemInfoBottomWrapper>
             <DataListItemInfoBottomText>{CONTENTS}</DataListItemInfoBottomText>

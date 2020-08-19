@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import ImageView from 'react-native-image-viewing';
+import utils from '../../../../constants/utils';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -219,7 +220,15 @@ export default ({
             setModalVisible(true);
           }}>
           <ImageButton>사진 보기</ImageButton>
-          <Icon name="right" size={16} color="#642A8C" />
+          <Icon
+            name={
+              utils.isAndroid
+                ? 'md-chevron-forward-outline'
+                : 'ios-chevron-forward-outline'
+            }
+            size={22}
+            color="#642A8C"
+          />
         </ImageButtonWrapper>
       )}
     </ContentLine>
@@ -227,7 +236,7 @@ export default ({
 
   return (
     <BackGround>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Container>
           <HelpWrapper>
             <HelpText>보건증 조기경보시스템</HelpText>
@@ -242,7 +251,15 @@ export default ({
                     backdata();
                   }
                 }}>
-                <Icon name="left" size={20} color="#000" />
+                <Icon
+                  name={
+                    utils.isAndroid
+                      ? 'md-chevron-back-outline'
+                      : 'ios-chevron-back-outline'
+                  }
+                  size={22}
+                  color="#000"
+                />
               </DateArrowLeft>
               <DateTextArea
                 onPress={() => {
@@ -254,7 +271,7 @@ export default ({
                 onPress={() => {
                   onRefresh();
                 }}>
-                <Icon name="refresh" size={26} color="#000" />
+                <Icon name="reload-outline" size={22} color="#000" />
               </DateToday>
               <DateArrowRight
                 onPress={() => {
@@ -264,7 +281,15 @@ export default ({
                     nextdata();
                   }
                 }}>
-                <Icon name="right" size={20} color="#000" />
+                <Icon
+                  name={
+                    utils.isAndroid
+                      ? 'md-chevron-forward-outline'
+                      : 'ios-chevron-forward-outline'
+                  }
+                  size={22}
+                  color="#000"
+                />
               </DateArrowRight>
             </Date>
             <ContentWrapper>

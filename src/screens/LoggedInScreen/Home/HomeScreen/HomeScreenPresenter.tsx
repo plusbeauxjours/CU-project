@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import utils from '../../../../constants/utils';
-import {ActivityIndicato} from 'react-native';
+import {ActivityIndicator} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -18,7 +18,7 @@ interface IIsTrue {
   isTrue: boolean;
 }
 
-const BackGround = styled.SafeAreaView`
+const BackGround = styled.View`
   flex: 1;
   background-color: #642a8c;
 `;
@@ -35,7 +35,6 @@ const Text = styled.Text``;
 const Image = styled.Image<IImage>`
   width: 100%;
   height: 100%;
-  margin-left: ${(props) => props.isCheckListItems && '13px'};
 `;
 const IconContainer = styled.TouchableOpacity`
   margin-right: 10px;
@@ -80,10 +79,12 @@ const NewCntText = styled.Text`
 `;
 
 const MenuBox = styled.View`
-  padding: 0 ${wp('3%')}px;
+  padding: 0 10px;
   padding-bottom: 15px;
   border-radius: 10px;
   background-color: white;
+  flex: 1;
+  align-items: center;
 `;
 
 const Qr = styled.TouchableOpacity`
@@ -129,6 +130,7 @@ const NoticeTitle = styled.Text`
 `;
 const Row = styled.View`
   flex-direction: row;
+  align-items: center;
   margin-bottom: 5px;
 `;
 const NoticeText = styled.Text`
@@ -149,9 +151,9 @@ const Footer = styled.View`
   background-color: #642a8c;
 `;
 const StoreName = styled.View`
-  flex-direction: row;
   padding: 0 ${wp('5%')}px;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: flex-start;
 `;
 const StoreText = styled.Text`
   color: white;
@@ -176,6 +178,7 @@ const StoreUpdateBtn = styled.TouchableOpacity`
   border-width: 1px;
   border-color: white;
   border-radius: 20px;
+  margin-left: 10px;
   background-color: rgba(0, 0, 0, 0.4);
 `;
 const WhiteText = styled.Text`
@@ -194,8 +197,9 @@ const MenuTitle = styled.Text`
   color: white;
   font-weight: bold;
 `;
-const Bold = styled.Text`
-  font-weight: 400;
+const Bold = styled(MenuTitle)`
+  color: white;
+  font-weight: 600;
 `;
 
 const PurpleBg = styled.View<IIsTrue>`
@@ -223,8 +227,8 @@ const ShowPictureModalText = styled.Text`
 `;
 
 const ShowPictureModalImage = styled.View`
-  width: ${wp('90%')};
-  height: ${wp('90%')};
+  width: ${wp('90%')}px;
+  height: ${wp('90%')}px;
 `;
 
 const BarcodeContainer = styled.View`
@@ -425,7 +429,7 @@ export default ({
   if (storeResult !== undefined) {
     return (
       <BackGround>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <ImageBackground
             source={require('../../../../assets/main/mainTopBg.png')}
             resizeMode={'cover'}
@@ -436,22 +440,22 @@ export default ({
                   onPress={() => {
                     navigation.navigate('HelpModalScreen');
                   }}>
-                  <StoreText>안</StoreText>
-                  {/* <Icon name="help" size={20} color="white" /> */}
+                  <Icon name="help" size={24} color="white" />
                 </IconContainer>
               )}
               <IconContainer
                 onPress={() => {
                   navigation.navigate('MyPageMainScreen');
                 }}>
-                <StoreText>녕</StoreText>
-                {/* <Icon name="setting" size={24} color="white" /> */}
+                <Icon name="settings-sharp" size={24} color="white" />
               </IconContainer>
             </MyPage>
             <StoreName>
               <StoreText>안녕하세요.</StoreText>
-              <StoreText>{NAME}</StoreText>
-              <StoreSubText>님</StoreSubText>
+              <Row>
+                <StoreText>{NAME}</StoreText>
+                <StoreSubText>님</StoreSubText>
+              </Row>
             </StoreName>
             <StoreUpdate>
               <Row>
@@ -496,7 +500,15 @@ export default ({
                     });
                   }}>
                   <WhiteText>점포전환</WhiteText>
-                  <Icon name="ios-arrow-forward" size={18} color="white" />
+                  <Icon
+                    name={
+                      utils.isAndroid
+                        ? 'md-chevron-forward-outline'
+                        : 'ios-chevron-forward-outline'
+                    }
+                    size={18}
+                    color="white"
+                  />
                 </StoreUpdateBtn>
                 <StoreUpdateBtn
                   onPress={() => {
@@ -505,7 +517,15 @@ export default ({
                     });
                   }}>
                   <WhiteText>점포정보</WhiteText>
-                  <Icon name="ios-arrow-forward" size={18} color="white" />
+                  <Icon
+                    name={
+                      utils.isAndroid
+                        ? 'md-chevron-forward-outline'
+                        : 'ios-chevron-forward-outline'
+                    }
+                    size={18}
+                    color="white"
+                  />
                 </StoreUpdateBtn>
               </Row>
             </StoreUpdate>
