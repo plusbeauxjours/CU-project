@@ -135,8 +135,12 @@ export default () => {
   const ArrowIcon = () => (
     <Arrow>
       <Icon
-        name={utils.isAndroid ? 'md-chevron-back' : 'ios-chevron-back'}
-        size={16}
+        name={
+          utils.isAndroid
+            ? 'md-chevron-forward-outline'
+            : 'ios-chevron-forward-outline'
+        }
+        size={22}
         color="#642A8C"
       />
     </Arrow>
@@ -164,7 +168,7 @@ export default () => {
               navigation.navigate('MyPageAlarmSetScreen');
             }}>
             <CardText>알림 설정</CardText>
-            {/* <ArrowIcon /> */}
+            <ArrowIcon />
           </Card>
           <Card
             onPress={() => {
@@ -173,21 +177,21 @@ export default () => {
             <CardText>
               {STORE == 1 ? '사업장관리 이력' : '근무종료 사업장'}
             </CardText>
-            {/* <ArrowIcon /> */}
+            <ArrowIcon />
           </Card>
           <Card
             onPress={() => {
               navigation.navigate('MyPageAppointmentScreen');
             }}>
             <CardText>약관보기</CardText>
-            {/* <ArrowIcon /> */}
+            <ArrowIcon />
           </Card>
           <Card
             onPress={() => {
               navigation.navigate('ElectronicContractsScreen');
             }}>
             <CardText>전자근로계약서</CardText>
-            {/* <ArrowIcon /> */}
+            <ArrowIcon />
           </Card>
           <Card
             onPress={() => {
@@ -197,7 +201,7 @@ export default () => {
               });
             }}>
             <CardText>계정관리</CardText>
-            {/* <ArrowIcon /> */}
+            <ArrowIcon />
           </Card>
           <Card>
             <CardText>앱버전</CardText>
@@ -210,37 +214,43 @@ export default () => {
               navigation.navigate('MyCuMonthlyListScreen');
             }}>
             <CardText>MyCuMonthlyList</CardText>
-            {/* <ArrowIcon /> */}
+            <ArrowIcon />
           </Card>
           <Card
             onPress={() => {
               navigation.navigate('MyCuVideoListScreen');
             }}>
             <CardText>MyCuVideoList</CardText>
-            {/* <ArrowIcon /> */}
+            <ArrowIcon />
           </Card>
           <Card
             onPress={() => {
               navigation.navigate('EducationVideoListScreen');
             }}>
             <CardText>EducationVideo</CardText>
-            {/* <ArrowIcon /> */}
+            <ArrowIcon />
           </Card>
           <Card
             onPress={() => {
               navigation.navigate('HealthCertificateTypeScreen');
             }}>
             <CardText>HealthCertificateType</CardText>
-            {/* <ArrowIcon /> */}
+            <ArrowIcon />
           </Card>
           <Card
             onPress={() => {
               logOut('', '로그아웃 하시겠습니까?');
             }}>
             <CardText>로그 아웃</CardText>
-            {/* <Arrow>
-              <Icon name="logout" size={20} color="#642A8C" />
-            </Arrow> */}
+            <Arrow>
+              <Icon
+                name={
+                  utils.isAndroid ? 'md-log-out-sharp' : 'ios-log-out-sharp'
+                }
+                size={20}
+                color="#642A8C"
+              />
+            </Arrow>
           </Card>
         </BoxArea>
       </ScrollView>

@@ -19,6 +19,7 @@ const Text = styled.Text`
   font-weight: bold;
 `;
 
+Icon.loadFont();
 export default () => {
   const navigation = useNavigation();
   return (
@@ -27,14 +28,14 @@ export default () => {
         onPress={() => {
           navigation.navigate('HelpModalScreen');
         }}>
-        {/* <Icon name="help" size={20} color="white" /> */}
+        <Icon name="help" size={20} color="white" />
         <Text>도움말</Text>
       </Touchable>
       <Touchable
         onPress={() => {
           navigation.navigate('MyPageMainScreen');
         }}>
-        {/* <Icon name="setting" size={20} color="white" /> */}
+        <Icon name="settings-sharp" size={20} color="white" />
         <Text>설정</Text>
       </Touchable>
     </Container>

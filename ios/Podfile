@@ -15,6 +15,9 @@ target 'Shopsol' do
 
 
 
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'ShopsolTests' do
     inherit! :complete
     # Pods for testing

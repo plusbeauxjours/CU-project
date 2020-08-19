@@ -2,6 +2,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import styled from 'styled-components/native';
+import utils from '../../constants/utils';
 
 const Touchable = styled.TouchableOpacity`
   margin-right: 15px;
@@ -18,8 +19,7 @@ export default () => {
   const navigation = useNavigation();
   const route = useRoute();
   console.log('route on HomeBtn', route);
-  // type은 redux로
-  // if (type !== '합류전') {
+
   return (
     <Touchable
       onPress={() => {
@@ -28,11 +28,12 @@ export default () => {
           routes: [{name: 'HomeScreen'}],
         });
       }}>
-      <Icon name="home" size={22} color="white" />
+      <Icon
+        name={utils.isAndroid ? 'md-home' : 'ios-home'}
+        size={22}
+        color="white"
+      />
       <Text>HOME</Text>
     </Touchable>
   );
-  // } else {
-  //   return null;
-  // }
 };
