@@ -28,6 +28,20 @@ const oldApi = async (method: string, path: string, data?: any, params = {}) => 
     }
 };
 
+const noPortApi = async (method: string, path: string, data?: any, params = {}) => {
+    const headers = {
+        Accept: 'application/json',
+        "Content-Type": "application/json",
+    };
+    const baseUrl = "http://133.186.209.113/api/v2";
+    const fullUrl = `${baseUrl}${path}`;
+    if (method === "get" || method === "delete") {
+        return axios[method](fullUrl, { headers, params });
+    } else {
+        return axios[method](fullUrl, data, { headers });
+    }
+};
+
 export default {
     checkApp: (data: any) => callApi("post", "/auth/checkApp/", data),
     help: () => callApi("post", "/auth/help/"),
@@ -68,5 +82,13 @@ export default {
     getCuCode: (code: string) => oldApi("get", `/Store/getCuCode?code=${code}`),
     getEmpLists: (STORE_SEQ: string) => oldApi("get", `/Store/get_emp_lists?STORE_SEQ=${STORE_SEQ}`),
     getWorkingEmpTotalPay: (YEAR: number, MONTH: number, STORE_SEQ: string) => oldApi("get", `/Store/get_working_emp_totalpay2?YEAR=${YEAR}&MONTH=${MONTH}&STORE_SEQ=${STORE_SEQ}`),
+    cancelJoin: (data: any) => callApi("post", "/auth/canceljoin/", data),
+    getWaitEmpList: (STORE_SEQ: string) => oldApi("get", `/Store/get_wait_emp_list?STORE_SEQ=${STORE_SEQ}`),
+    rejectJoin: (data: any) => oldApi("post", "/Employee/reject_join", data),
+    sendOneEmp: (data: any) => oldApi("post", "/Auth/sendOneEmp", data),
+    monthLists: (STORE_SEQ: string,
+        EMP_SEQ: string,
+        year: number,
+        month: number) => noPortApi("get", `/PayMents/month_lists?STORE_ID=${STORE_SEQ}&EMP_ID=${EMP_SEQ}&YEAR=${year}&MONTH=${month}`)
 }
 

@@ -1,2 +1,2 @@
-import ManageInviteEmployeeScreenContainer from "./ManageInviteEmployeeScreenContainer"
-export default ManageInviteEmployeeScreenContainer
+import ManageInviteEmployeeScreen from "./ManageInviteEmployeeScreen"
+export default ManageInviteEmployeeScreen

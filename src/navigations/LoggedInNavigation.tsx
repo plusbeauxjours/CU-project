@@ -21,7 +21,7 @@ import StoreScreenEmp from '../screens/LoggedInScreen/Home/StoreScreenEmp';
 import InviteEmployeeScreen from '../screens/LoggedInScreen/Home/InviteEmployeeScreen';
 import EmployeeListScreen from '../screens/LoggedInScreen/Home/EmployeeListScreen';
 import PaymentInfoScreen from '../screens/LoggedInScreen/Home/PaymentInfoScreen';
-import EmpPaymentInfoScreen from '../screens/LoggedInScreen/Home/EmpPayInfoScreen';
+import EmpPayInfoScreen from '../screens/LoggedInScreen/Home/EmpPayInfoScreen';
 import ShelfLifeCheckScreen from '../screens/LoggedInScreen/Home/ShelfLifeCheckScreen';
 import ShelfLifeUpdateScreen from '../screens/LoggedInScreen/Home/ShelfLifeUpdateScreen';
 import AddShelfLifeScreen from '../screens/LoggedInScreen/Home/AddShelfLifeScreen';
@@ -220,8 +220,8 @@ export default () => {
           }}
         />
         <LoggedInNavigation.Screen
-          name="EmpPaymentInfoScreen"
-          component={EmpPaymentInfoScreen}
+          name="EmpPayInfoScreen"
+          component={EmpPayInfoScreen}
           options={{
             title: '직원급여 정보',
           }}

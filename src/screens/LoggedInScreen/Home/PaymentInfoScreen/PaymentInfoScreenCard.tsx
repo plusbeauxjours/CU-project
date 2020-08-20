@@ -61,7 +61,7 @@ export default ({
 }) => {
   const navigation = useNavigation();
   const payInfo = () => {
-    navigation.navigate('EmpPaymentInfoScreen', {
+    navigation.navigate('EmpPayInfoScreen', {
       STORE_SEQ,
       EMP_SEQ: data.EMP_SEQ,
       STORE,
