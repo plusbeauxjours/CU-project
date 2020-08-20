@@ -67,5 +67,6 @@ export default {
     addStore: (data: any) => oldApi("post", "/Store/insert22", data),
     getCuCode: (code: string) => oldApi("get", `/Store/getCuCode?code=${code}`),
     getEmpLists: (STORE_SEQ: string) => oldApi("get", `/Store/get_emp_lists?STORE_SEQ=${STORE_SEQ}`),
+    getWorkingEmpTotalPay: (YEAR: number, MONTH: number, STORE_SEQ: string) => oldApi("get", `/Store/get_working_emp_totalpay2?YEAR=${YEAR}&MONTH=${MONTH}&STORE_SEQ=${STORE_SEQ}`),
 }
 
