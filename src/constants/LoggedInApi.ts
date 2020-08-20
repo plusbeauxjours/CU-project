@@ -66,5 +66,6 @@ export default {
     updateStore: (data: any) => oldApi("put", "/Store/update2", data),
     addStore: (data: any) => oldApi("post", "/Store/insert22", data),
     getCuCode: (code: string) => oldApi("get", `/Store/getCuCode?code=${code}`),
+    getEmpLists: (STORE_SEQ: string) => oldApi("get", `/Store/get_emp_lists?STORE_SEQ=${STORE_SEQ}`),
 }
 

@@ -77,7 +77,6 @@ export default ({route: {params}}) => {
 
   useEffect(() => {
     fetchData();
-    console.log('STOREDATA?.resultdata', STOREDATA?.resultdata);
   }, []);
 
   return (

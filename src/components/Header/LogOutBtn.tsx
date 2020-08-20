@@ -23,7 +23,6 @@ export default () => {
   return (
     <Touchable
       onPress={() => {
-        console.log('logout');
         dispatch(userLogout());
         navigation.reset({
           index: 0,

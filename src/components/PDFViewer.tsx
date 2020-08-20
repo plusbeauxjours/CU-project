@@ -1,140 +1,51 @@
-import React, {useEffect, useState, useRef} from 'react';
-import {View, Platform} from 'react-native';
-// import * as ScreenOrientation from 'expo-screen-orientation';
-// import * as FileSystem from 'expo-file-system';
-
-import {isIphoneX} from 'react-native-iphone-x-helper';
-import WebView from 'react-native-webview';
+import React from 'react';
+import {View, ActivityIndicator} from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import Pdf from 'react-native-pdf';
+import Icon from 'react-native-vector-icons/Ionicons';
+import styled from 'styled-components/native';
+import WebView from 'react-native-webview';
 
-export default ({url}) => {
-  const pdfRef = useRef(null);
-  const [status, setStatus] = useState<string>('after');
-  const [screenOrientation, setScreenOrientation] = useState<string>(
-    'PORTRAIT',
-  );
-  const [iosWebViewStyle, setIosWebViewStyle] = useState<{}>({});
-  const [iosPaddingVerticalStyle, setiosPaddingVerticalStyle] = useState<
-    number
-  >(45);
+const IconContainer = styled.TouchableOpacity`
+  z-index: 5;
+  position: absolute;
+  right: 0;
+  top: 25px;
+`;
 
-  const getPDFReader = () => {
-    let customStyle = {
-      readerContainerNavigate: {},
-      readerContainerNavigateArrow: {},
-    };
-
-    if (screenOrientation === 'LANDSCAPE') {
-      customStyle.readerContainerNavigate = {
-        position: 'fixed',
-        right: 15,
-        bottom: 170,
-        backgroundColor: 'grey',
-        height: 100,
-        width: 50,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      };
-      customStyle.readerContainerNavigateArrow = {
-        width: '100%',
-        height: '100%',
-      };
-    } else {
-      customStyle.readerContainerNavigate = {
-        backgroundColor: 'grey',
-      };
-    }
-
-    return (
-      <Pdf
-        ref={pdfRef}
-        source={{uri: url}}
-        // style={customStyle}
-        onLoadComplete={(numberOfPages, filePath) => {
-          console.log(`number of pages: ${numberOfPages}`);
-        }}
-        onPageChanged={(page, numberOfPages) => {
-          console.log(`current page: ${page}`);
-        }}
-        onError={(error) => {
-          console.log(error);
-        }}
-        onPressLink={(uri) => {
-          console.log(`Link presse: ${uri}`);
-        }}
-      />
-    );
-  };
-
-  //   const screenOrientationChange = (event, _this) => {
-  //     const info = event.orientationInfo;
-  //     const state = {
-  //       status: 'before',
-  //     };
-
-  //     if (info) {
-  //       if (info.orientation.startsWith('LANDSCAPE')) {
-  //         state.screenOrientation = 'LANDSCAPE';
-  //         state.iosWebViewStyle = {
-  //           marginVertical: 15,
-  //         };
-  //         state.iosPaddingVerticalStyle = 0;
-  //       } else if (info.orientation.startsWith('PORTRAIT')) {
-  //         state.screenOrientation = 'PORTRAIT';
-  //         state.iosWebViewStyle = {
-  //           marginVertical: 10,
-  //         };
-  //         state.iosPaddingVerticalStyle = 45;
-  //       }
-
-  //       _this.setState(state, async () => {
-  //         if (pdfRef) {
-  //           const cache = pdfRef.current.getWebviewSource();
-
-  //           if (cache.uri) {
-  //             const file = await FileSystem.getInfoAsync(cache.uri);
-
-  //             if (file.exists) {
-  //               await FileSystem.deleteAsync(cache.uri);
-  //             }
-  //           }
-  //         }
-
-  //         _this.setState({
-  //           status: 'after',
-  //         });
-  //       });
-  //     }
-  //   };
-
-  //           useEffect(() => {
-  //             ScreenOrientation.unlockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
-  //     ScreenOrientation.addOrientationChangeListener((event) => {
-  //       screenOrientationChange(event);
-  //     });
-  //   }, []);
-
-  //       useEffect(() => {
-  //     return () => {
-  //         ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
-  //         ScreenOrientation.removeOrientationChangeListeners();
-  //     };
-  //   });
-
+export default ({url, setModalVisible}) => {
   return (
     <View
       style={{
         flex: 1,
-        paddingVertical: isIphoneX() ? iosPaddingVerticalStyle : 0,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
       }}>
-      {Platform.OS === 'android' ? (
-        status === 'after' ? (
-          getPDFReader()
-        ) : null
-      ) : (
-        <WebView style={iosWebViewStyle} source={{uri: url}} />
-      )}
+      <IconContainer
+        onPress={() => {
+          setModalVisible(false);
+        }}>
+        <Icon name={'close-sharp'} size={33} color={'#642ABC'} />
+      </IconContainer>
+      <Pdf
+        source={{uri: url}}
+        onError={(error) => {
+          console.log(error);
+          setModalVisible(false);
+        }}
+        onPressLink={(uri) => {
+          <WebView source={{uri}} />;
+        }}
+        activityIndicator={<ActivityIndicator />}
+        style={{
+          top: -20,
+          width: wp('100%'),
+          height: hp('100%'),
+        }}
+      />
     </View>
   );
 };

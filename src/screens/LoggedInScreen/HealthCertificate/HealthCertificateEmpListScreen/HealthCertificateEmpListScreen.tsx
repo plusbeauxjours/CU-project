@@ -62,10 +62,6 @@ export default ({route: {params}}) => {
   const fetchData = async () => {
     try {
       const {data} = await api.storeHealthEmpList(MEMBER_SEQ, STORE_SEQ, STORE);
-      console.log(
-        'data on healthCertificationEmpLIstScreen====================================================================================',
-        data,
-      );
       setDataList(data.result);
     } catch (error) {
       console.log(error);
