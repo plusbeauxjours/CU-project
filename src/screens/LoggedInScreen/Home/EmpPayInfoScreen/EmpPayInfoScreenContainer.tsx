@@ -126,15 +126,16 @@ export default ({route: {params}}) => {
       MONTH = Number('0' + MONTH);
     }
     try {
-      const {data} = await api.monthLists(STORE_SEQ, EMP_SEQ, year, month);
-      console.log('nextpay', data);
+      const {data} = await api.monthLists(STORE_SEQ, EMP_SEQ, YEAR, MONTH);
       setMaindata(data.message);
-      setYear(year);
-      setMonth(month);
+      setYear(YEAR);
+      setMonth(MONTH);
     } catch (error) {
       console.log(error);
       alertModal('', '통신이 원활하지 않습니다.');
       navigation.goBack();
+    } finally {
+      dispatch(setSplashVisible(false));
     }
   };
 
@@ -150,15 +151,16 @@ export default ({route: {params}}) => {
       MONTH = Number('0' + MONTH);
     }
     try {
-      const {data} = await api.monthLists(STORE_SEQ, EMP_SEQ, year, month);
-      console.log('backpay', data);
+      const {data} = await api.monthLists(STORE_SEQ, EMP_SEQ, YEAR, MONTH);
       setMaindata(data.message);
-      setYear(year);
-      setMonth(month);
+      setYear(YEAR);
+      setMonth(MONTH);
     } catch (error) {
       console.log(error);
       alertModal('', '통신이 원활하지 않습니다.');
       navigation.goBack();
+    } finally {
+      dispatch(setSplashVisible(false));
     }
   };
 
@@ -207,6 +209,17 @@ export default ({route: {params}}) => {
       boxButton2={boxButton2}
       setBoxButton2={setBoxButton2}
       onRefresh={onRefresh}
+      numberComma={numberComma}
+      click1={click1}
+      click2={click2}
+      click3={click3}
+      click4={click4}
+      click5={click5}
+      setClick1={setClick1}
+      setClick2={setClick2}
+      setClick3={setClick3}
+      setClick4={setClick4}
+      setClick5={setClick5}
     />
   );
 };

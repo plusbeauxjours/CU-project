@@ -7,6 +7,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import utils from '../../../../constants/utils';
+import {Keyboard} from 'react-native';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -113,6 +114,16 @@ const BoxTitleText = styled.Text`
   font-size: 20px;
   color: #642a8c;
 `;
+const DetailRowContainer = styled.View`
+  flex-direction: row;
+  padding: 5px 20px;
+  align-items: center;
+  justify-content: space-between;
+`;
+const DetailRowText = styled.Text`
+  font-size: 15px;
+  color: #999;
+`;
 
 const BoxButton = styled.TouchableOpacity`
   width: ${wp('25%')}px;
@@ -125,6 +136,34 @@ const BoxButton = styled.TouchableOpacity`
 
 const BoxButtonText = styled.Text`
   font-size: 15px;
+`;
+
+const PayInfoBox = styled.View`
+  margin: 10px 20px 30px 20px;
+  align-items: center;
+  border-color: #bbb;
+  border-width: 1px;
+`;
+const MainBox = styled.View`
+  padding: 20px;
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+`;
+const MainBoxText = styled.Text`
+  font-size: 23px;
+`;
+
+const DetailBox = styled.View`
+  width: 100%;
+`;
+const Line = styled.View`
+  height: 1px;
+  background-color: #bbb;
+`;
+const ToggleIcon = styled.TouchableOpacity`
+  height: 15px;
 `;
 
 export default ({
@@ -143,14 +182,25 @@ export default ({
   boxButton2,
   setBoxButton2,
   onRefresh,
+  numberComma,
+  click1,
+  click2,
+  click3,
+  click4,
+  click5,
+  setClick1,
+  setClick2,
+  setClick3,
+  setClick4,
+  setClick5,
 }) => {
-  const BoxContainer = ({text, onPress, value}) => (
+  const ToggleBoxContainer = ({text, onPress, boxButton}) => (
     <Box>
       <BoxTitle>
         <BoxTitleText>{text}</BoxTitleText>
       </BoxTitle>
       <BoxButton onPress={onPress}>
-        {value ? (
+        {boxButton ? (
           <BoxButtonText>접기</BoxButtonText>
         ) : (
           <BoxButtonText>자세히보기</BoxButtonText>
@@ -159,11 +209,74 @@ export default ({
     </Box>
   );
 
+  const DetailListRow = ({text, value}) => (
+    <DetailRowContainer>
+      <DetailRowText>{text}</DetailRowText>
+      <DetailRowText>{value} 원</DetailRowText>
+    </DetailRowContainer>
+  );
+
+  const MainInfoOfPay = ({text, value, click, onPress}) => (
+    <DetailRowContainer>
+      <ToggleIcon onPress={onPress}>
+        {click ? (
+          <Icon name="caret-up" size={30} color="#BCC5D3" />
+        ) : (
+          <Icon name="caret-down" size={30} color="#777" />
+        )}
+        <DetailRowText>{text}</DetailRowText>
+      </ToggleIcon>
+      <DetailRowText>{value} 원</DetailRowText>
+    </DetailRowContainer>
+  );
+
+  const TopAreaContainer = () => (
+    <TopArea>
+      <Profile>
+        <NameText>{NAME}</NameText>
+        <GreyText>[{ISMANAGER}]</GreyText>
+        <GreyText>님의 급여정보</GreyText>
+      </Profile>
+      <DateBox>
+        <DateArrow onPress={() => backpay()}>
+          <Icon
+            name={
+              utils.isAndroid
+                ? 'md-chevron-back-outline'
+                : 'ios-chevron-back-outline'
+            }
+            size={22}
+            color="#bbb"
+          />
+        </DateArrow>
+        <Date>
+          <DateText>
+            {replaceAll(maindata.START_DAY)} ~ {replaceAll(maindata.END_DAY)}
+          </DateText>
+        </Date>
+        <DateReload onPress={() => onRefresh()}>
+          <Icon name="reload-outline" size={26} />
+        </DateReload>
+        <DateArrow onPress={() => nextpay()}>
+          <Icon
+            name={
+              utils.isAndroid
+                ? 'md-chevron-forward-outline'
+                : 'ios-chevron-forward-outline'
+            }
+            size={22}
+            color="#bbb"
+          />
+        </DateArrow>
+      </DateBox>
+    </TopArea>
+  );
+
   // if (PAY_TYPE == '2') {
-  //   var totalearned = maindata.earned + maindata.earned2;
-  //   var emptotal = maindata.realtotal - maindata.fourtotal - totalearned;
-  //   var ownertotal =
-  //     emptotal + maindata.fourtotal + totalearned + maindata.ownerfourtotal;
+  const totalearned = maindata.earned + maindata.earned2;
+  const emptotal = maindata.realtotal - maindata.fourtotal - totalearned;
+  const ownertotal =
+    emptotal + maindata.fourtotal + totalearned + maindata.ownerfourtotal;
   return (
     <BackGround>
       <ScrollView
@@ -171,53 +284,50 @@ export default ({
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{alignItems: 'center'}}>
         <Container>
-          <TopArea>
-            <Profile>
-              <NameText>{NAME}</NameText>
-              <GreyText>[{ISMANAGER}]</GreyText>
-              <GreyText>님의 급여정보</GreyText>
-            </Profile>
-            <DateBox>
-              <DateArrow onPress={() => backpay()}>
-                <Icon
-                  name={
-                    utils.isAndroid
-                      ? 'md-chevron-back-outline'
-                      : 'ios-chevron-back-outline'
-                  }
-                  size={22}
-                  color="#bbb"
-                />
-              </DateArrow>
-              <Date>
-                <DateText>
-                  {replaceAll(maindata.START_DAY)} ~{' '}
-                  {replaceAll(maindata.END_DAY)}
-                </DateText>
-              </Date>
-              <DateReload onPress={() => onRefresh()}>
-                <Icon name="reload-outline" size={26} />
-              </DateReload>
-              <DateArrow onPress={() => nextpay()}>
-                <Icon
-                  name={
-                    utils.isAndroid
-                      ? 'md-chevron-forward-outline'
-                      : 'ios-chevron-forward-outline'
-                  }
-                  size={22}
-                  color="#bbb"
-                />
-              </DateArrow>
-            </DateBox>
-          </TopArea>
+          <TopAreaContainer />
+
+          {(STORE == '1' || STOREPAY_SHOW == '1') && (
+            <Section>
+              <ToggleBoxContainer
+                text={'고용주 지출액'}
+                onPress={() => setBoxButton(!boxButton)}
+                boxButton={boxButton}
+              />
+              <PayInfoBox>
+                <MainBox>
+                  <MainBoxText>{numberComma(ownertotal)} 원</MainBoxText>
+                </MainBox>
+                {boxButton && (
+                  <DetailBox>
+                    <Line />
+                    <DetailListRow
+                      text={'급여지급액'}
+                      value={numberComma(emptotal)}
+                    />
+                    <DetailListRow
+                      text={'4대보험 고용주부담금'}
+                      value={`(+) ${numberComma(maindata.ownerfourtotal)}`}
+                    />
+                    <DetailListRow
+                      text={'4대보험 근로자부담금'}
+                      value={`(+) ${numberComma(maindata.fourtotal)}`}
+                    />
+                    <DetailListRow
+                      text={'원천세'}
+                      value={`(+) ${totalearned}`}
+                    />
+                  </DetailBox>
+                )}
+              </PayInfoBox>
+            </Section>
+          )}
 
           <Section>
             {STORE == '1' || STOREPAY_SHOW == '1' ? (
-              <BoxContainer
+              <ToggleBoxContainer
                 text={'근로자 수령액(월급)'}
                 onPress={() => setBoxButton2(!boxButton2)}
-                value={boxButton2}
+                boxButton={boxButton2}
               />
             ) : (
               <Box>
@@ -226,100 +336,64 @@ export default ({
                 </BoxTitle>
               </Box>
             )}
-            {/* 
-              <View style={styles.detailInfoBox}>
-                <View style={styles.boxTitleSet2}>
-                  <Text style={styles.boxTitleText2}>
-                    {this.numberComma(emptotal)} 원
-                  </Text>
-                </View>
-                {boxButton2 === false ? null : (
-                  <View>
-                    <View style={styles.infoOfPay}>
-                      <View style={styles.line} />
-                      <View style={styles.pay}>
-                        <TouchableOpacity
-                          style={styles.pay2}
-                          onPress={() => {
-                            this.setState({click1: !click1});
-                          }}>
-                          {click1 === false ? (
-                            <Entypo
-                              name="triangle-down"
-                              size={30}
-                              color="#777"
-                              style={{paddingBottom: 3}}
-                            />
-                          ) : (
-                            <Entypo
-                              name="triangle-up"
-                              size={30}
-                              color="#BCC5D3"
-                              style={{paddingTop: 3}}
-                            />
-                          )}
-                          <Text style={styles.boxTitleText3}>공제전 금액</Text>
-                        </TouchableOpacity>
-                        <Text style={styles.boxTitleText3}>
-                          {this.numberComma(maindata.realtotal)} 원
-                        </Text>
-                      </View>
-                      {click1 &&
-                        <View style={styles.infoOfPay}>
-                          <View style={styles.pay}>
-                            <Text style={styles.boxTitleText3}>기본급</Text>
-                            <Text style={styles.boxTitleText3}>
-                              {this.numberComma(maindata.PAY)} 원
-                            </Text>
-                          </View>
-                          <View style={styles.pay}>
-                            <Text style={styles.boxTitleText3}>식대</Text>
-                            <Text style={styles.boxTitleText3}>
-                              {this.numberComma(maindata.MEALS)} 원
-                            </Text>
-                          </View>
-                          <View style={styles.pay}>
-                            <Text style={styles.boxTitleText3}>자가운전</Text>
-                            <Text style={styles.boxTitleText3}>
-                              {this.numberComma(maindata.SELF_DRIVING)} 원
-                            </Text>
-                          </View>
-                          <View style={styles.pay}>
-                            <Text style={styles.boxTitleText3}>상여</Text>
-                            <Text style={styles.boxTitleText3}>
-                              {this.numberComma(maindata.BONUS)} 원
-                            </Text>
-                          </View>
-                          <View style={styles.pay}>
-                            <Text style={styles.boxTitleText3}>성과급</Text>
-                            <Text style={styles.boxTitleText3}>
-                              {this.numberComma(maindata.INCENTIVE)} 원
-                            </Text>
-                          </View>
-                        </View>
-                      )}
+            <PayInfoBox>
+              <MainBox>
+                <MainBoxText>{numberComma(emptotal)} 원</MainBoxText>
+              </MainBox>
+              {boxButton2 && (
+                <DetailBox>
+                  <Line />
+                  <MainInfoOfPay
+                    text={'공제전 금액'}
+                    value={numberComma(maindata.realtotal)}
+                    click={click1}
+                    onPress={() => setClick1(!click1)}
+                  />
+                  {click1 && (
+                    <DetailBox>
+                      <DetailListRow
+                        text={'기본급'}
+                        value={numberComma(maindata.PAY)}
+                      />
+                      <DetailListRow
+                        text={'식대'}
+                        value={numberComma(maindata.MEALS)}
+                      />
+                      <DetailListRow
+                        text={'자가운전'}
+                        value={numberComma(maindata.SELF_DRIVING)}
+                      />
+                      <DetailListRow
+                        text={'상여'}
+                        value={numberComma(maindata.BONUS)}
+                      />
+                      <DetailListRow
+                        text={'성과급'}
+                        value={numberComma(maindata.INCENTIVE)}
+                      />
+                    </DetailBox>
+                  )}
 
-                      <View style={styles.pay}>
+                  {/* <View style={styles.pay}>
                         <TouchableOpacity
                           style={styles.pay2}
                           onPress={() => {
                             this.setState({click2: !click2});
                           }}>
-                          {click2 === false ? (
+                          {click2 &&
+                             <Entypo
+                             name="triangle-up"
+                             size={30}
+                             color="#BCC5D3"
+                             style={{paddingTop: 3}}
+                           />:
                             <Entypo
                               name="triangle-down"
                               size={30}
                               color="#777"
                               style={{paddingBottom: 3}}
                             />
-                          ) : (
-                            <Entypo
-                              name="triangle-up"
-                              size={30}
-                              color="#BCC5D3"
-                              style={{paddingTop: 3}}
-                            />
-                          )}
+                          }
                           <Text style={styles.boxTitleText3}>
                             4대보험 근로자부담금
                           </Text>
@@ -327,11 +401,9 @@ export default ({
                         <Text style={styles.boxTitleText3}>
                           (-){this.numberComma(maindata.fourtotal)} 원
                         </Text>
-                      </View>
-                      {click2 == false ? (
-                        <View />
-                      ) : (
-                        <View style={styles.infoOfPay}>
+                      </View> */}
+                  {/* {click2 &&
+                        <DetailBox >
                           <View style={styles.pay}>
                             <Text style={styles.boxTitleText3}>국민연금</Text>
                             <Text style={styles.boxTitleText3}>
@@ -360,39 +432,38 @@ export default ({
                               {this.numberComma(maindata.employment_pay)} 원
                             </Text>
                           </View>
-                        </View>
-                      )}
-                      <View style={styles.pay}>
+                        </DetailBox>
+                      } */}
+                  {/* <View style={styles.pay}>
                         <TouchableOpacity
                           style={styles.pay2}
                           onPress={() => {
                             this.setState({click3: !click3});
                           }}>
-                          {click3 === false ? (
+                          {click3 &&
+                            <Entypo
+                            name="triangle-up"
+                            size={30}
+                            color="#BCC5D3"
+                            style={{paddingTop: 3}}
+                          />:
                             <Entypo
                               name="triangle-down"
                               size={30}
                               color="#777"
                               style={{paddingBottom: 3}}
                             />
-                          ) : (
-                            <Entypo
-                              name="triangle-up"
-                              size={30}
-                              color="#BCC5D3"
-                              style={{paddingTop: 3}}
-                            />
-                          )}
+                          
+                            
+                          }
                           <Text style={styles.boxTitleText3}>원천세</Text>
                         </TouchableOpacity>
                         <Text style={styles.boxTitleText3}>
                           (-){this.numberComma(totalearned)} 원
                         </Text>
-                      </View>
-                      {click3 == false ? (
-                        <View />
-                      ) : (
-                        <View style={styles.infoOfPay}>
+                      </View> */}
+                  {/* {click3 && (
+                        <DetailBox >
                           <View style={styles.pay}>
                             <Text style={styles.boxTitleText3}>소득세</Text>
                             <Text style={styles.boxTitleText3}>
@@ -405,12 +476,11 @@ export default ({
                               (-){this.numberComma(maindata.earned2)} 원
                             </Text>
                           </View>
-                        </View>
-                      )}
-                    </View>
-                  </View>
-                )} 
-              </View>*/}
+                        </DetailBox>
+                      )} */}
+                </DetailBox>
+              )}
+            </PayInfoBox>
           </Section>
         </Container>
       </ScrollView>
@@ -444,53 +514,14 @@ export default ({
   //         showsVerticalScrollIndicator={false}
   //         contentContainerStyle={{alignItems: 'center'}}>
   //         <Container>
-  //           <TopArea>
-  //             <Profile>
-  //               <NameText>{NAME}</NameText>
-  //               <GreyText>[{ISMANAGER}]</GreyText>
-  //               <GreyText>님의 급여정보</GreyText>
-  //             </Profile>
-  //             <DateBox>
-  //               <DateArrow onPress={() => backpay()}>
-  //                 <Icon
-  //                   name={
-  //                     utils.isAndroid
-  //                       ? 'md-chevron-back-outline'
-  //                       : 'ios-chevron-back-outline'
-  //                   }
-  //                   size={22}
-  //                   color="#bbb"
-  //                 />
-  //               </DateArrow>
-  //               <Date>
-  //                 <DateText>
-  //                   {replaceAll(maindata.START_DAY)} ~{' '}
-  //                   {replaceAll(maindata.END_DAY)}
-  //                 </DateText>
-  //               </Date>
-  //               <DateReload onPress={() => onRefresh()}>
-  //                 <Icon name="reload-outline" size={26} />
-  //               </DateReload>
-  //               <DateArrow onPress={() => nextpay()}>
-  //                 <Icon
-  //                   name={
-  //                     utils.isAndroid
-  //                       ? 'md-chevron-forward-outline'
-  //                       : 'ios-chevron-forward-outline'
-  //                   }
-  //                   size={22}
-  //                   color="#bbb"
-  //                 />
-  //               </DateArrow>
-  //             </DateBox>
-  //           </TopArea>
+  //        <TopAreaContainer />
 
   //           {STORE == '1' ||
   //             (STOREPAY_SHOW == '1' && (
   //               <Section>
-  // <BoxContainer text={"고용주 지출액"}
+  // <ToggleBoxContainer text={"고용주 지출액"}
   // onPress={() => setBoxButton(!boxButton)}
-  // value={boxButton}/>
+  // boxButton={boxButton}/>
 
   //                 <View style={styles.detailInfoBox}>
   //                   <View style={styles.boxTitleSet2}>
@@ -543,7 +574,7 @@ export default ({
 
   //           <Section>
   //             {STORE == '1' || STOREPAY_SHOW == '1' ? (
-  // <BoxContainer text={"근로자 수령액(시급)"}
+  // <ToggleBoxContainer text={"근로자 수령액(시급)"}
   // onPress={() => setBoxButton2(!boxButton2)}
   // value={boxButton2}/>
   //
@@ -852,80 +883,7 @@ export default ({
   //         showsVerticalScrollIndicator={false}
   //         contentContainerStyle={{alignItems: 'center'}}>
   //         <Container>
-  //           <TopArea>
-  //             <Profile>
-  //               <NameText>{NAME}</NameText>
-  //               <GreyText>[{ISMANAGER}]</GreyText>
-  //               <GreyText>님의 급여정보</GreyText>
-  //             </Profile>
-  //             <DateBox>
-  //               <DateArrow onPress={() => backpay()}>
-  //                 <Icon
-  //                   name={
-  //                     utils.isAndroid
-  //                       ? 'md-chevron-back-outline'
-  //                       : 'ios-chevron-back-outline'
-  //                   }
-  //                   size={22}
-  //                   color="#bbb"
-  //                 />
-  //               </DateArrow>
-  //               <Date>
-  //                 <DateText>
-  //                   {replaceAll(maindata.START_DAY)} ~{' '}
-  //                   {replaceAll(maindata.END_DAY)}
-  //                 </DateText>
-  //               </Date>
-  //               <DateReload onPress={() => onRefresh()}>
-  //                 <Icon name="reload-outline" size={26} />
-  //               </DateReload>
-  //               <DateArrow onPress={() => nextpay()}>
-  //                 <Icon
-  //                   name={
-  //                     utils.isAndroid
-  //                       ? 'md-chevron-forward-outline'
-  //                       : 'ios-chevron-forward-outline'
-  //                   }
-  //                   size={22}
-  //                   color="#bbb"
-  //                 />
-  //               </DateArrow>
-  //             </DateBox>
-  //             <Date>
-  //               <TouchableOpacity
-  //                 onPress={() => {
-  //                   this.backpay();
-  //                 }}
-  //                 style={styles.dateArrowLeft}>
-  //                 <AntDesign name="left" size={20} style={{paddingTop: 3}} />
-  //               </TouchableOpacity>
-  //               <View style={{flex: 1, alignItems: 'center'}}>
-  //                 <Text style={styles.dateText}>
-  //                   {this._replaceAll(maindata.START_DAY)} ~{' '}
-  //                   {this._replaceAll(maindata.END_DAY)}
-  //                 </Text>
-  //               </View>
-  //               <TouchableOpacity
-  //                 onPress={() => {
-  //                   this.componentDidMount();
-  //                 }}
-  //                 style={styles.dateToday}>
-  //                 <MaterialIcons
-  //                   name="refresh"
-  //                   size={26}
-  //                   style={{paddingTop: 1}}
-  //                 />
-  //               </TouchableOpacity>
-
-  //               <TouchableOpacity
-  //                 onPress={() => {
-  //                   this.nextpay();
-  //                 }}
-  //                 style={styles.dateArrowRight}>
-  //                 <AntDesign name="right" size={20} style={{paddingTop: 3}} />
-  //               </TouchableOpacity>
-  //             </Date>
-  //           </TopArea>
+  // <TopAreaContainer />
 
   //           {STORE == '1' ||
   //             (STOREPAY_SHOW == '1' && (
