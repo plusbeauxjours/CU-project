@@ -27,10 +27,7 @@ export default ({route: {params}}) => {
   const [year, setYear] = useState<number>();
   const [month, setMonth] = useState<number>();
   const [boxButton, setBoxButton] = useState<boolean>(true);
-  const [boxButton2, setBoxButton2] = useState<boolean>(
-    STORE !== '1' || STOREPAY_SHOW !== '1' ? false : true,
-  );
-  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [boxButton2, setBoxButton2] = useState<boolean>(true);
   const [cardShow, setCardShow] = useState<boolean>(false);
   const [click1, setClick1] = useState<boolean>(false);
   const [click2, setClick2] = useState<boolean>(false);
@@ -38,7 +35,6 @@ export default ({route: {params}}) => {
   const [click4, setClick4] = useState<boolean>(false);
   const [click5, setClick5] = useState<boolean>(false);
   const [maindata, setMaindata] = useState<any>({});
-  const [data2, setData2] = useState<any>([]);
   const data = [
     {
       key: 1,
@@ -74,12 +70,12 @@ export default ({route: {params}}) => {
 
   const onRefresh = async () => {
     try {
-      setRefreshing(true);
+      dispatch(setSplashVisible(true));
       await fetchData(year, month);
     } catch (e) {
       console.log(e);
     } finally {
-      setRefreshing(false);
+      dispatch(setSplashVisible(false));
     }
   };
 
@@ -103,13 +99,21 @@ export default ({route: {params}}) => {
     return resultArray.join('.');
   };
 
-  const pressGroup = (locationY) => {
-    const screenHeight = hp('15%');
-  };
-
   const replaceAll = (text) => {
     const RA = text?.split('-').join('.');
     return RA?.slice(5);
+  };
+
+  const onPressFooter = (click) => {
+    if (maindata?.CARDLIST?.length == 0) {
+      alertModal('', '급여현황이 존재하지 않습니다.');
+    }
+    if (click === 'click4') {
+      setClick4(!click4);
+    } else {
+      setClick5(!click5);
+    }
+    setCardShow(!cardShow);
   };
 
   const nextpay = async () => {
@@ -215,11 +219,14 @@ export default ({route: {params}}) => {
       click3={click3}
       click4={click4}
       click5={click5}
+      cardShow={cardShow}
       setClick1={setClick1}
       setClick2={setClick2}
       setClick3={setClick3}
       setClick4={setClick4}
       setClick5={setClick5}
+      setCardShow={setCardShow}
+      onPressFooter={onPressFooter}
     />
   );
 };

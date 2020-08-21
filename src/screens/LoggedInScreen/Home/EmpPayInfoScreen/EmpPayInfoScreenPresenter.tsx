@@ -7,7 +7,8 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import utils from '../../../../constants/utils';
-import {Keyboard} from 'react-native';
+import EmpPayInfoCard1 from './EmpPayInfoCard1';
+import EmpPayInfoCard2 from './EmpPayInfoCard2';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -115,6 +116,7 @@ const BoxTitleText = styled.Text`
   color: #642a8c;
 `;
 const DetailRowContainer = styled.View`
+  flex: 1;
   flex-direction: row;
   padding: 5px 20px;
   align-items: center;
@@ -139,19 +141,19 @@ const BoxButtonText = styled.Text`
 `;
 
 const PayInfoBox = styled.View`
-  margin: 10px 20px 30px 20px;
+  margin-top: 10px;
   align-items: center;
   border-color: #bbb;
   border-width: 1px;
 `;
-const MainBox = styled.View`
+const MainPayBox = styled.View`
   padding: 20px;
   width: 100%;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
 `;
-const MainBoxText = styled.Text`
+const MainPayBoxText = styled.Text`
   font-size: 23px;
 `;
 
@@ -163,7 +165,24 @@ const Line = styled.View`
   background-color: #bbb;
 `;
 const ToggleIcon = styled.TouchableOpacity`
-  height: 15px;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const Footer = styled.View`
+  width: 100%;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+const FooterBtn = styled.TouchableOpacity`
+  width: 100%;
+  flex-direction: row;
+  padding: 15px 10px;
+  border-radius: 10px;
+  border-width: 1px;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
 `;
 
 export default ({
@@ -188,13 +207,16 @@ export default ({
   click3,
   click4,
   click5,
+  cardShow,
   setClick1,
   setClick2,
   setClick3,
   setClick4,
   setClick5,
+  setCardShow,
+  onPressFooter,
 }) => {
-  const ToggleBoxContainer = ({text, onPress, boxButton}) => (
+  const MainBoxContainer = ({text, onPress, boxButton}) => (
     <Box>
       <BoxTitle>
         <BoxTitleText>{text}</BoxTitleText>
@@ -220,9 +242,9 @@ export default ({
     <DetailRowContainer>
       <ToggleIcon onPress={onPress}>
         {click ? (
-          <Icon name="caret-up" size={30} color="#BCC5D3" />
+          <Icon name="caret-up" size={22} color="#BCC5D3" />
         ) : (
-          <Icon name="caret-down" size={30} color="#777" />
+          <Icon name="caret-down" size={22} color="#777" />
         )}
         <DetailRowText>{text}</DetailRowText>
       </ToggleIcon>
@@ -272,935 +294,444 @@ export default ({
     </TopArea>
   );
 
-  // if (PAY_TYPE == '2') {
-  const totalearned = maindata.earned + maindata.earned2;
-  const emptotal = maindata.realtotal - maindata.fourtotal - totalearned;
-  const ownertotal =
-    emptotal + maindata.fourtotal + totalearned + maindata.ownerfourtotal;
-  return (
-    <BackGround>
-      <ScrollView
-        keyboardDismissMode="on-drag"
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{alignItems: 'center'}}>
-        <Container>
-          <TopAreaContainer />
+  const DetailAreaContainer = ({totalearned}) => (
+    <>
+      <MainInfoOfPay
+        text={'4대보험 근로자부담금'}
+        value={`(-)${numberComma(maindata.fourtotal)}`}
+        click={click2}
+        onPress={() => setClick2(!click2)}
+      />
+      {click2 && (
+        <DetailBox>
+          <DetailListRow
+            text={'국민연금'}
+            value={`(-)${numberComma(maindata.pension_pay)}`}
+          />
+          <DetailListRow
+            text={'건강보험'}
+            value={`(-)${numberComma(maindata.health_pay)}`}
+          />
+          <DetailListRow
+            text={'장기요양'}
+            value={`(-)${numberComma(maindata.health2_pay)}`}
+          />
+          <DetailListRow
+            text={'고용보험'}
+            value={`(-)${numberComma(maindata.employment_pay)}`}
+          />
+        </DetailBox>
+      )}
+      <MainInfoOfPay
+        text={'원천세'}
+        value={`(-)${numberComma(totalearned)}`}
+        click={click3}
+        onPress={() => setClick3(!click3)}
+      />
+      {click3 && (
+        <DetailBox>
+          <DetailListRow
+            text={'소득세'}
+            value={`(-)${numberComma(maindata.earned)}`}
+          />
+          <DetailListRow
+            text={'지방소득세'}
+            value={`(-)${numberComma(maindata.earned2)}`}
+          />
+        </DetailBox>
+      )}
+    </>
+  );
 
-          {(STORE == '1' || STOREPAY_SHOW == '1') && (
+  if (PAY_TYPE == '2') {
+    const totalearned = maindata.earned + maindata.earned2;
+    const emptotal = maindata.realtotal - maindata.fourtotal - totalearned;
+    const ownertotal =
+      emptotal + maindata.fourtotal + totalearned + maindata.ownerfourtotal;
+    return (
+      <BackGround>
+        <ScrollView
+          keyboardDismissMode="on-drag"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{alignItems: 'center'}}>
+          <Container>
+            <TopAreaContainer />
+
+            {(STORE == '1' || STOREPAY_SHOW == '1') && (
+              <Section>
+                <MainBoxContainer
+                  text={'고용주 지출액'}
+                  onPress={() => setBoxButton(!boxButton)}
+                  boxButton={boxButton}
+                />
+                <PayInfoBox>
+                  <MainPayBox>
+                    <MainPayBoxText>
+                      {numberComma(ownertotal)} 원
+                    </MainPayBoxText>
+                  </MainPayBox>
+                  {boxButton && (
+                    <DetailBox>
+                      <Line />
+                      <DetailListRow
+                        text={'급여지급액'}
+                        value={numberComma(emptotal)}
+                      />
+                      <DetailListRow
+                        text={'4대보험 고용주부담금'}
+                        value={`(+) ${numberComma(maindata.ownerfourtotal)}`}
+                      />
+                      <DetailListRow
+                        text={'4대보험 근로자부담금'}
+                        value={`(+) ${numberComma(maindata.fourtotal)}`}
+                      />
+                      <DetailListRow
+                        text={'원천세'}
+                        value={`(+) ${numberComma(totalearned)}`}
+                      />
+                    </DetailBox>
+                  )}
+                </PayInfoBox>
+              </Section>
+            )}
+
             <Section>
-              <ToggleBoxContainer
-                text={'고용주 지출액'}
-                onPress={() => setBoxButton(!boxButton)}
-                boxButton={boxButton}
-              />
+              {STORE == '1' || STOREPAY_SHOW == '1' ? (
+                <MainBoxContainer
+                  text={'근로자 수령액(월급)'}
+                  onPress={() => setBoxButton2(!boxButton2)}
+                  boxButton={boxButton2}
+                />
+              ) : (
+                <Box>
+                  <BoxTitle>
+                    <BoxTitleText>근로자 수령액(월급)</BoxTitleText>
+                  </BoxTitle>
+                </Box>
+              )}
               <PayInfoBox>
-                <MainBox>
-                  <MainBoxText>{numberComma(ownertotal)} 원</MainBoxText>
-                </MainBox>
-                {boxButton && (
+                <MainPayBox>
+                  <MainPayBoxText>{numberComma(emptotal)} 원</MainPayBoxText>
+                </MainPayBox>
+                {boxButton2 && (
                   <DetailBox>
                     <Line />
-                    <DetailListRow
-                      text={'급여지급액'}
-                      value={numberComma(emptotal)}
+                    <MainInfoOfPay
+                      text={'공제전 금액'}
+                      value={numberComma(maindata.realtotal)}
+                      click={click1}
+                      onPress={() => setClick1(!click1)}
                     />
-                    <DetailListRow
-                      text={'4대보험 고용주부담금'}
-                      value={`(+) ${numberComma(maindata.ownerfourtotal)}`}
-                    />
-                    <DetailListRow
-                      text={'4대보험 근로자부담금'}
-                      value={`(+) ${numberComma(maindata.fourtotal)}`}
-                    />
-                    <DetailListRow
-                      text={'원천세'}
-                      value={`(+) ${totalearned}`}
-                    />
+                    {click1 && (
+                      <DetailBox>
+                        <DetailListRow
+                          text={'기본급'}
+                          value={numberComma(maindata.PAY)}
+                        />
+                        <DetailListRow
+                          text={'식대'}
+                          value={numberComma(maindata.MEALS)}
+                        />
+                        <DetailListRow
+                          text={'자가운전'}
+                          value={numberComma(maindata.SELF_DRIVING)}
+                        />
+                        <DetailListRow
+                          text={'상여'}
+                          value={numberComma(maindata.BONUS)}
+                        />
+                        <DetailListRow
+                          text={'성과급'}
+                          value={numberComma(maindata.INCENTIVE)}
+                        />
+                      </DetailBox>
+                    )}
+                    <DetailAreaContainer totalearned={totalearned} />
                   </DetailBox>
                 )}
               </PayInfoBox>
             </Section>
-          )}
+          </Container>
+        </ScrollView>
+      </BackGround>
+    );
+  } else if (PAY_TYPE == '0') {
+    const totalearned = maindata.earned + maindata.earned2;
+    const emptotal =
+      maindata.realtotal +
+      maindata.weekpaytotal +
+      maindata.addtotal -
+      maindata.minertotalpay -
+      maindata.noworktotalpay;
+    const realemptotal =
+      maindata.realtotal +
+      maindata.weekpaytotal +
+      maindata.addtotal -
+      maindata.minertotalpay -
+      maindata.noworktotalpay -
+      maindata.fourtotal -
+      totalearned;
+    const ownertotal =
+      realemptotal + maindata.fourtotal + totalearned + maindata.ownerfourtotal;
+    return (
+      <BackGround>
+        <ScrollView
+          keyboardDismissMode="on-drag"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{alignItems: 'center'}}>
+          <Container>
+            <TopAreaContainer />
 
-          <Section>
-            {STORE == '1' || STOREPAY_SHOW == '1' ? (
-              <ToggleBoxContainer
-                text={'근로자 수령액(월급)'}
-                onPress={() => setBoxButton2(!boxButton2)}
-                boxButton={boxButton2}
-              />
-            ) : (
-              <Box>
-                <BoxTitle>
-                  <BoxTitleText>수령액(월급)</BoxTitleText>
-                </BoxTitle>
-              </Box>
-            )}
-            <PayInfoBox>
-              <MainBox>
-                <MainBoxText>{numberComma(emptotal)} 원</MainBoxText>
-              </MainBox>
-              {boxButton2 && (
-                <DetailBox>
-                  <Line />
-                  <MainInfoOfPay
-                    text={'공제전 금액'}
-                    value={numberComma(maindata.realtotal)}
-                    click={click1}
-                    onPress={() => setClick1(!click1)}
-                  />
-                  {click1 && (
+            {(STORE == '1' || STOREPAY_SHOW == '1') && (
+              <Section>
+                <MainBoxContainer
+                  text={'고용주 지출액'}
+                  onPress={() => setBoxButton(!boxButton)}
+                  boxButton={boxButton}
+                />
+                <PayInfoBox>
+                  <MainPayBox>
+                    <MainPayBoxText>
+                      {numberComma(ownertotal)} 원
+                    </MainPayBoxText>
+                  </MainPayBox>
+                  {boxButton && (
                     <DetailBox>
+                      <Line />
                       <DetailListRow
-                        text={'기본급'}
-                        value={numberComma(maindata.PAY)}
+                        text={'급여지급액'}
+                        value={numberComma(realemptotal)}
                       />
                       <DetailListRow
-                        text={'식대'}
-                        value={numberComma(maindata.MEALS)}
+                        text={'4대보험 고용주부담금'}
+                        value={`(+) ${numberComma(maindata.ownerfourtotal)}`}
                       />
                       <DetailListRow
-                        text={'자가운전'}
-                        value={numberComma(maindata.SELF_DRIVING)}
+                        text={'4대보험 근로자부담금'}
+                        value={`(+) ${numberComma(maindata.fourtotal)}`}
                       />
                       <DetailListRow
-                        text={'상여'}
-                        value={numberComma(maindata.BONUS)}
-                      />
-                      <DetailListRow
-                        text={'성과급'}
-                        value={numberComma(maindata.INCENTIVE)}
+                        text={'원천세'}
+                        value={`(+) ${numberComma(totalearned)}`}
                       />
                     </DetailBox>
                   )}
-
-                  {/* <View style={styles.pay}>
-                        <TouchableOpacity
-                          style={styles.pay2}
-                          onPress={() => {
-                            this.setState({click2: !click2});
-                          }}>
-                          {click2 &&
-                             <Entypo
-                             name="triangle-up"
-                             size={30}
-                             color="#BCC5D3"
-                             style={{paddingTop: 3}}
-                           />:
-                            <Entypo
-                              name="triangle-down"
-                              size={30}
-                              color="#777"
-                              style={{paddingBottom: 3}}
-                            />
-                          }
-                          <Text style={styles.boxTitleText3}>
-                            4대보험 근로자부담금
-                          </Text>
-                        </TouchableOpacity>
-                        <Text style={styles.boxTitleText3}>
-                          (-){this.numberComma(maindata.fourtotal)} 원
-                        </Text>
-                      </View> */}
-                  {/* {click2 &&
-                        <DetailBox >
-                          <View style={styles.pay}>
-                            <Text style={styles.boxTitleText3}>국민연금</Text>
-                            <Text style={styles.boxTitleText3}>
-                              (-)
-                              {this.numberComma(maindata.pension_pay)} 원
-                            </Text>
-                          </View>
-                          <View style={styles.pay}>
-                            <Text style={styles.boxTitleText3}>건강보험</Text>
-                            <Text style={styles.boxTitleText3}>
-                              (-)
-                              {this.numberComma(maindata.health_pay)} 원
-                            </Text>
-                          </View>
-                          <View style={styles.pay}>
-                            <Text style={styles.boxTitleText3}>장기요양</Text>
-                            <Text style={styles.boxTitleText3}>
-                              (-)
-                              {this.numberComma(maindata.health2_pay)} 원
-                            </Text>
-                          </View>
-                          <View style={styles.pay}>
-                            <Text style={styles.boxTitleText3}>고용보험</Text>
-                            <Text style={styles.boxTitleText3}>
-                              (-)
-                              {this.numberComma(maindata.employment_pay)} 원
-                            </Text>
-                          </View>
-                        </DetailBox>
-                      } */}
-                  {/* <View style={styles.pay}>
-                        <TouchableOpacity
-                          style={styles.pay2}
-                          onPress={() => {
-                            this.setState({click3: !click3});
-                          }}>
-                          {click3 &&
-                            <Entypo
-                            name="triangle-up"
-                            size={30}
-                            color="#BCC5D3"
-                            style={{paddingTop: 3}}
-                          />:
-                            <Entypo
-                              name="triangle-down"
-                              size={30}
-                              color="#777"
-                              style={{paddingBottom: 3}}
-                            />
-                          
-                            
-                          }
-                          <Text style={styles.boxTitleText3}>원천세</Text>
-                        </TouchableOpacity>
-                        <Text style={styles.boxTitleText3}>
-                          (-){this.numberComma(totalearned)} 원
-                        </Text>
-                      </View> */}
-                  {/* {click3 && (
-                        <DetailBox >
-                          <View style={styles.pay}>
-                            <Text style={styles.boxTitleText3}>소득세</Text>
-                            <Text style={styles.boxTitleText3}>
-                              (-){this.numberComma(maindata.earned)} 원
-                            </Text>
-                          </View>
-                          <View style={styles.pay}>
-                            <Text style={styles.boxTitleText3}>지방소득세</Text>
-                            <Text style={styles.boxTitleText3}>
-                              (-){this.numberComma(maindata.earned2)} 원
-                            </Text>
-                          </View>
-                        </DetailBox>
-                      )} */}
-                </DetailBox>
+                </PayInfoBox>
+              </Section>
+            )}
+            <Section>
+              {STORE == '1' || STOREPAY_SHOW == '1' ? (
+                <MainBoxContainer
+                  text={'근로자 수령액(시급)'}
+                  onPress={() => setBoxButton2(!boxButton2)}
+                  boxButton={boxButton2}
+                />
+              ) : (
+                <Box>
+                  <BoxTitle>
+                    <BoxTitleText>근로자 수령액(월급)</BoxTitleText>
+                  </BoxTitle>
+                </Box>
               )}
-            </PayInfoBox>
-          </Section>
-        </Container>
-      </ScrollView>
-    </BackGround>
-  );
-  // } else if (PAY_TYPE == '0') {
-  //   var totalearned = maindata.earned + maindata.earned2;
-  //   //console.log('totalearned=',totalearned)
-  //   var emptotal =
-  //     maindata.realtotal +
-  //     maindata.weekpaytotal +
-  //     maindata.addtotal -
-  //     maindata.minertotalpay -
-  //     maindata.noworktotalpay;
-  //   var realemptotal =
-  //     maindata.realtotal +
-  //     maindata.weekpaytotal +
-  //     maindata.addtotal -
-  //     maindata.minertotalpay -
-  //     maindata.noworktotalpay -
-  //     maindata.fourtotal -
-  //     totalearned;
+              <PayInfoBox>
+                <MainPayBox>
+                  <MainPayBoxText>
+                    {numberComma(realemptotal)} 원
+                  </MainPayBoxText>
+                </MainPayBox>
+                {boxButton2 && (
+                  <DetailBox>
+                    <Line />
+                    <MainInfoOfPay
+                      text={'공제전 금액'}
+                      value={numberComma(emptotal)}
+                      click={click1}
+                      onPress={() => setClick1(!click1)}
+                    />
+                    {click1 && (
+                      <DetailBox>
+                        <DetailListRow
+                          text={'기본급'}
+                          value={numberComma(maindata.realtotal)}
+                        />
+                        <DetailListRow
+                          text={'주휴수당'}
+                          value={`(+)${numberComma(maindata.weekpaytotal)}`}
+                        />
+                        <DetailListRow
+                          text={'야간/초과/휴일 수당'}
+                          value={`(+)${numberComma(maindata.addtotal)}`}
+                        />
+                        <DetailListRow
+                          text={'지각/조퇴 차감'}
+                          value={`(-)${numberComma(maindata.minertotalpay)}`}
+                        />
+                        <DetailListRow
+                          text={'결근/휴무 차감'}
+                          value={`(-)${numberComma(maindata.noworktotalpay)}`}
+                        />
+                      </DetailBox>
+                    )}
+                    <DetailAreaContainer totalearned={totalearned} />
+                  </DetailBox>
+                )}
+              </PayInfoBox>
+            </Section>
 
-  //   var ownertotal =
-  //     realemptotal + maindata.fourtotal + totalearned + maindata.ownerfourtotal;
-
-  //   return (
-  //     <BackGround>
-  //       <ScrollView
-  //         keyboardDismissMode="on-drag"
-  //         showsVerticalScrollIndicator={false}
-  //         contentContainerStyle={{alignItems: 'center'}}>
-  //         <Container>
-  //        <TopAreaContainer />
-
-  //           {STORE == '1' ||
-  //             (STOREPAY_SHOW == '1' && (
-  //               <Section>
-  // <ToggleBoxContainer text={"고용주 지출액"}
-  // onPress={() => setBoxButton(!boxButton)}
-  // boxButton={boxButton}/>
-
-  //                 <View style={styles.detailInfoBox}>
-  //                   <View style={styles.boxTitleSet2}>
-  //                     <Text style={styles.boxTitleText2}>
-  //                       {this.numberComma(ownertotal)} 원
-  //                     </Text>
-  //                   </View>
-  //                   {boxButton === false ? null : (
-  //                     <View>
-  //                       <View style={styles.infoOfPay}>
-  //                         <View style={styles.line} />
-  //                         <View style={styles.pay}>
-  //                           <Text style={styles.boxTitleText3}>급여지급액</Text>
-  //                           <Text style={styles.boxTitleText3}>
-  //                             {this.numberComma(realemptotal)} 원
-  //                           </Text>
-  //                         </View>
-  //                         <View style={styles.pay}>
-  //                           <Text style={styles.boxTitleText3}>
-  //                             4대보험 고용주부담금
-  //                           </Text>
-
-  //                           <Text style={styles.boxTitleText3}>
-  //                             (+)
-  //                             {this.numberComma(maindata.ownerfourtotal)} 원
-  //                           </Text>
-  //                         </View>
-  //                         <View style={styles.pay}>
-  //                           <Text style={styles.boxTitleText3}>
-  //                             4대보험 근로자부담금
-  //                           </Text>
-
-  //                           <Text style={styles.boxTitleText3}>
-  //                             (+){this.numberComma(maindata.fourtotal)} 원
-  //                           </Text>
-  //                         </View>
-  //                         <View style={styles.pay}>
-  //                           <Text style={styles.boxTitleText3}>원천세</Text>
-  //                           {/* <Text style={styles.boxTitleText3}>(+)</Text> */}
-  //                           <Text style={styles.boxTitleText3}>
-  //                             (+){this.numberComma(totalearned)} 원
-  //                           </Text>
-  //                         </View>
-  //                       </View>
-  //                     </View>
-  //                   )}
-  //                 </View>
-  //               </Section>
-  //             ))}
-
-  //           <Section>
-  //             {STORE == '1' || STOREPAY_SHOW == '1' ? (
-  // <ToggleBoxContainer text={"근로자 수령액(시급)"}
-  // onPress={() => setBoxButton2(!boxButton2)}
-  // value={boxButton2}/>
-  //
-  //             ) : (
-  //               <Box style={styles.boxTitle}>
-  //                 <BoxTitle>
-  //                   <BoxTitleText>수령액(시급)</BoxTitleText>
-  //                 </BoxTitle>
-  //               </Box>
-  //             )}
-
-  //             <View style={styles.detailInfoBox}>
-  //               <View style={styles.boxTitleSet2}>
-  //                 <Text style={styles.boxTitleText2}>
-  //                   {this.numberComma(realemptotal)} 원
-  //                 </Text>
-  //               </View>
-
-  //               {boxButton2 === false ? null : (
-  //                 <View style={styles.infoOfPay}>
-  //                   <View style={styles.line} />
-  //                   {click1 == false ? <View /> : <View />}
-  //                   <View style={styles.pay}>
-  //                     <TouchableOpacity
-  //                       style={styles.pay2}
-  //                       onPress={() => {
-  //                         this.setState({click1: !click1});
-  //                       }}>
-  //                       {click1 === false ? (
-  //                         <Entypo
-  //                           name="triangle-down"
-  //                           size={30}
-  //                           color="#777"
-  //                           style={{paddingBottom: 3}}
-  //                         />
-  //                       ) : (
-  //                         <Entypo
-  //                           name="triangle-up"
-  //                           size={30}
-  //                           color="#BCC5D3"
-  //                           style={{paddingTop: 3}}
-  //                         />
-  //                       )}
-  //                       <Text style={styles.boxTitleText3}>공제전 금액</Text>
-  //                     </TouchableOpacity>
-  //                     <Text style={styles.boxTitleText3}>
-  //                       {this.numberComma(emptotal)} 원
-  //                     </Text>
-  //                   </View>
-  //                   {click1 == false ? (
-  //                     <View />
-  //                   ) : (
-  //                     <View style={styles.infoOfPay}>
-  //                       <View style={styles.pay}>
-  //                         <Text style={styles.boxTitleText3}>기본급여</Text>
-  //                         <Text style={styles.boxTitleText3}>
-  //                           {this.numberComma(maindata.realtotal)} 원
-  //                         </Text>
-  //                       </View>
-  //                       <View style={styles.pay}>
-  //                         <Text style={styles.boxTitleText3}>주휴수당</Text>
-  //                         <Text style={styles.boxTitleText3}>
-  //                           (+)
-  //                           {this.numberComma(maindata.weekpaytotal)} 원
-  //                         </Text>
-  //                       </View>
-  //                       <View style={styles.pay}>
-  //                         <Text style={styles.boxTitleText3}>
-  //                           야간/초과/휴일 수당
-  //                         </Text>
-  //                         <Text style={styles.boxTitleText3}>
-  //                           (+)
-  //                           {this.numberComma(maindata.addtotal)} 원
-  //                         </Text>
-  //                       </View>
-  //                       <View style={styles.pay}>
-  //                         <Text style={styles.boxTitleText3}>
-  //                           지각/조퇴 차감
-  //                         </Text>
-  //                         <Text style={styles.boxTitleText3}>
-  //                           (-)
-  //                           {this.numberComma(maindata.minertotalpay)} 원
-  //                         </Text>
-  //                       </View>
-  //                       <View style={styles.pay}>
-  //                         <Text style={styles.boxTitleText3}>
-  //                           결근/휴무 차감
-  //                         </Text>
-  //                         <Text style={styles.boxTitleText3}>
-  //                           (-)
-  //                           {this.numberComma(maindata.noworktotalpay)} 원
-  //                         </Text>
-  //                       </View>
-  //                     </View>
-  //                   )}
-  //                   <View style={styles.pay}>
-  //                     <TouchableOpacity
-  //                       style={styles.pay2}
-  //                       onPress={() => {
-  //                         this.setState({click2: !click2});
-  //                       }}>
-  //                       {click2 === false ? (
-  //                         <Entypo
-  //                           name="triangle-down"
-  //                           size={30}
-  //                           color="#777"
-  //                           style={{paddingBottom: 3}}
-  //                         />
-  //                       ) : (
-  //                         <Entypo
-  //                           name="triangle-up"
-  //                           size={30}
-  //                           color="#BCC5D3"
-  //                           style={{paddingTop: 3}}
-  //                         />
-  //                       )}
-  //                       <Text style={styles.boxTitleText3}>
-  //                         4대보험 근로자부담금
-  //                       </Text>
-  //                     </TouchableOpacity>
-  //                     <Text style={styles.boxTitleText3}>
-  //                       (-){this.numberComma(maindata.fourtotal)} 원
-  //                     </Text>
-  //                   </View>
-  //                   {click2 == false ? (
-  //                     <View />
-  //                   ) : (
-  //                     <View style={styles.infoOfPay}>
-  //                       <View style={styles.pay}>
-  //                         <Text style={styles.boxTitleText3}>국민연금</Text>
-  //                         <Text style={styles.boxTitleText3}>
-  //                           (-)
-  //                           {this.numberComma(maindata.pension_pay)} 원
-  //                         </Text>
-  //                       </View>
-  //                       <View style={styles.pay}>
-  //                         <Text style={styles.boxTitleText3}>건강보험</Text>
-  //                         <Text style={styles.boxTitleText3}>
-  //                           (-)
-  //                           {this.numberComma(maindata.health_pay)} 원
-  //                         </Text>
-  //                       </View>
-  //                       <View style={styles.pay}>
-  //                         <Text style={styles.boxTitleText3}>장기요양</Text>
-  //                         <Text style={styles.boxTitleText3}>
-  //                           (-)
-  //                           {this.numberComma(maindata.health2_pay)} 원
-  //                         </Text>
-  //                       </View>
-  //                       <View style={styles.pay}>
-  //                         <Text style={styles.boxTitleText3}>고용보험</Text>
-  //                         <Text style={styles.boxTitleText3}>
-  //                           (-)
-  //                           {this.numberComma(maindata.employment_pay)} 원
-  //                         </Text>
-  //                       </View>
-  //                     </View>
-  //                   )}
-  //                   <View style={styles.pay}>
-  //                     <TouchableOpacity
-  //                       style={styles.pay2}
-  //                       onPress={() => {
-  //                         this.setState({click3: !click3});
-  //                       }}>
-  //                       {click3 === false ? (
-  //                         <Entypo
-  //                           name="triangle-down"
-  //                           size={30}
-  //                           color="#777"
-  //                           style={{paddingBottom: 3}}
-  //                         />
-  //                       ) : (
-  //                         <Entypo
-  //                           name="triangle-up"
-  //                           size={30}
-  //                           color="#BCC5D3"
-  //                           style={{paddingTop: 3}}
-  //                         />
-  //                       )}
-  //                       <Text style={styles.boxTitleText3}>원천세</Text>
-  //                     </TouchableOpacity>
-  //                     {/* <Text style={styles.boxTitleText3}>(-)</Text> */}
-  //                     <Text style={styles.boxTitleText3}>
-  //                       (-){this.numberComma(totalearned)} 원
-  //                     </Text>
-  //                   </View>
-  //                   {click3 == false ? (
-  //                     <View />
-  //                   ) : (
-  //                     <View style={styles.infoOfPay}>
-  //                       <View style={styles.pay}>
-  //                         <Text style={styles.boxTitleText3}>소득세</Text>
-  //                         <Text style={styles.boxTitleText3}>
-  //                           (-){this.numberComma(maindata.earned)} 원
-  //                         </Text>
-  //                       </View>
-  //                       <View style={styles.pay}>
-  //                         <Text style={styles.boxTitleText3}>지방소득세</Text>
-  //                         <Text style={styles.boxTitleText3}>
-  //                           (-){this.numberComma(maindata.earned2)} 원
-  //                         </Text>
-  //                       </View>
-  //                     </View>
-  //                   )}
-  //                 </View>
-  //               )}
-  //             </View>
-  //           </Section>
-
-  //           <View
-  //             style={{
-  //               width: wp('100%'),
-  //               alignItems: 'center',
-  //               marginBottom: hp('3%'),
-  //             }}>
-  //             <TouchableOpacity
-  //               ref={(ref) => (this.refCheck1 = ref)}
-  //               style={styles.button}
-  //               onPress={() => {
-  //                 if (maindata.CARDLIST.length == 0) {
-  //                   this._AlertModal('', '급여현황이 존재하지 않습니다.');
-  //                   return false;
-  //                 }
-  //                 this.props.setSplashVisible(true);
-  //                 this.setState(
-  //                   {
-  //                     click4: !click4,
-  //                     cardShow: !cardShow,
-  //                   },
-  //                   () => {
-  //                     if (click4) {
-  //                       if (
-  //                         this.refCheck1 &&
-  //                         this.refCheck1.state.touchable.positionOnActivate
-  //                       ) {
-  //                         this.pressGroup(
-  //                           this.refCheck1.state.touchable.positionOnActivate
-  //                             .top,
-  //                         );
-  //                       }
-  //                     } else {
-  //                       this.props.setSplashVisible(false);
-  //                     }
-  //                   },
-  //                 );
-  //               }}>
-  //               <Text style={{fontSize: 15, fontWeight: 'bold'}}>
-  //                 일별 급여현황
-  //               </Text>
-  //               {cardShow === true ? (
-  //                 <MaterialCommunityIcons
-  //                   name="arrow-collapse-up"
-  //                   size={18}
-  //                   color="black"
-  //                   style={{marginLeft: 5, paddingTop: 2}}
-  //                 />
-  //               ) : (
-  //                 <MaterialCommunityIcons
-  //                   name="arrow-collapse-down"
-  //                   size={18}
-  //                   color="black"
-  //                   style={{marginLeft: 5, paddingTop: 2}}
-  //                 />
-  //               )}
-  //             </TouchableOpacity>
-  //             {cardShow && (
-  //               <CardBox>
-  //                 {maindata.CARDLIST.map((data) => {
-  //                   console.log('data=', data);
-  //                   console.log('data=', maindata.CARDLIST);
-
-  //                   return (
-  //                     <Card
-  //                       key={data.key}
-  //                       day={data.START}
-  //                       yoil={data.DAY}
-  //                       base={data.basic_payment}
-  //                       night={data.night_payment}
-  //                       over={data.day_payment}
-  //                       holi={0}
-  //                       late={data.miner_payment}
-  //                       total={data.payment}
-  //                     />
-  //                   );
-  //                 })}
-  //               </CardBox>
-  //             )}
-  //           </View>
-  //         </Container>
-  //       </ScrollView>
-  //     </BackGround>
-  //   );
-  // } else {
-  //   var totalearned = maindata.earned + maindata.earned2;
-  //   //console.log('totalearned=',totalearned)
-  //   var emptotal = maindata.realtotal;
-  //   var realemptotal = maindata.realtotal - maindata.fourtotal - totalearned;
-
-  //   var ownertotal =
-  //     realemptotal + maindata.fourtotal + totalearned + maindata.ownerfourtotal;
-
-  //   return (
-  //     <BackGround>
-  //       <ScrollView
-  //         keyboardDismissMode="on-drag"
-  //         showsVerticalScrollIndicator={false}
-  //         contentContainerStyle={{alignItems: 'center'}}>
-  //         <Container>
-  // <TopAreaContainer />
-
-  //           {STORE == '1' ||
-  //             (STOREPAY_SHOW == '1' && (
-  //               <Section>
-
-  //                 <Box>
-  //                   <BoxTitle>
-  //                     <BoxTitleText>고용주 지출액</BoxTitleText>
-  //                   </BoxTitle>
-  //                   <BoxButton
-  //                     onPress={() => {
-  //                       this.setState({boxButton: !boxButton});
-  //                     }}>
-  //                     {boxButton  ? (
-  //                       <BoxButtonText >접기</BoxButtonText>
-  //                       ) : (
-  //                       <BoxButtonText >자세히보기</BoxButtonText>
-  //                     )}
-  //                   </BoxButton>
-  //                 </Box>
-
-  //                 <View style={styles.detailInfoBox}>
-  //                   <View style={styles.boxTitleSet2}>
-  //                     <Text style={styles.boxTitleText2}>
-  //                       {this.numberComma(ownertotal)} 원
-  //                     </Text>
-  //                   </View>
-  //                   {boxButton === false ? null : (
-  //                     <View>
-  //                       <View style={styles.infoOfPay}>
-  //                         <View style={styles.line} />
-  //                         <View style={styles.pay}>
-  //                           <Text style={styles.boxTitleText3}>급여지급액</Text>
-  //                           <Text style={styles.boxTitleText3}>
-  //                             {this.numberComma(realemptotal)} 원
-  //                           </Text>
-  //                         </View>
-  //                         <View style={styles.pay}>
-  //                           <Text style={styles.boxTitleText3}>
-  //                             4대보험 고용주부담금
-  //                           </Text>
-
-  //                           <Text style={styles.boxTitleText3}>
-  //                             (+)
-  //                             {this.numberComma(maindata.ownerfourtotal)} 원
-  //                           </Text>
-  //                         </View>
-  //                         <View style={styles.pay}>
-  //                           <Text style={styles.boxTitleText3}>
-  //                             4대보험 근로자부담금
-  //                           </Text>
-
-  //                           <Text style={styles.boxTitleText3}>
-  //                             (+){this.numberComma(maindata.fourtotal)} 원
-  //                           </Text>
-  //                         </View>
-  //                         <View style={styles.pay}>
-  //                           <Text style={styles.boxTitleText3}>원천세</Text>
-  //                           {/* <Text style={styles.boxTitleText3}>(+)</Text> */}
-  //                           <Text style={styles.boxTitleText3}>
-  //                             (+){this.numberComma(totalearned)} 원
-  //                           </Text>
-  //                         </View>
-  //                       </View>
-  //                     </View>
-  //                   )}
-  //                 </View>
-  //               </Section>
-  //             ))}
-
-  //           <Section>
-  //             {STORE == '1' || STOREPAY_SHOW == '1' ? (
-
-  //               <Box>
-  //                 <BoxTitle>
-  //                   <BoxTitleText>근로자 수령액(일급)</BoxTitleText>
-  //                 </BoxTitle>
-
-  //                 <BoxButton
-  //                   onPress={() => {
-  //                     this.setState({boxButton2: !boxButton2});
-  //                   }}>
-  //                   {boxButton2 === false ? (
-  //                     <BoxButtonText >자세히보기</BoxButtonText>
-  //                   ) : (
-  //                     <BoxButtonText >접기</BoxButtonText>
-  //                   )}
-  //                 </BoxButton>
-  //               </Box>
-  //             ) : (
-  //               <Box>
-  //                 <BoxTitle>
-  //                   <BoxTitleText>근로자 수령액(월급)</BoxTitleText>
-  //                 </BoxTitle>
-  //               </Box>
-  //             )}
-
-  //             <View style={styles.detailInfoBox}>
-  //               <View style={styles.boxTitleSet2}>
-  //                 <Text style={styles.boxTitleText2}>
-  //                   {this.numberComma(realemptotal)} 원
-  //                 </Text>
-  //               </View>
-
-  //               {boxButton2 && (
-  //                 <View>
-  //                   <View style={styles.infoOfPay}>
-  //                     <View style={styles.line} />
-  //                     {click1 == false ? <View /> : <View />}
-  //                     <View style={styles.pay}>
-  //                       <BoxButton
-  //                         style={styles.pay2}
-  //                         onPress={() => {
-  //                           this.setState({click1: !click1});
-  //                         }}>
-  //                         {click1 === false ? (
-  //                           <Entypo
-  //                             name="triangle-down"
-  //                             size={30}
-  //                             color="#777"
-  //                             style={{paddingBottom: 3}}
-  //                           />
-  //                         ) : (
-  //                           <Entypo
-  //                             name="triangle-up"
-  //                             size={30}
-  //                             color="#BCC5D3"
-  //                             style={{paddingTop: 3}}
-  //                           />
-  //                         )}
-  //                         <Text style={styles.boxTitleText3}>공제전 금액</Text>
-  //                       </TouchableOpacity>
-  //                       <Text style={styles.boxTitleText3}>
-  //                         {this.numberComma(maindata.realtotal)} 원
-  //                       </Text>
-  //                     </View>
-  //                     {click1 == false ? (
-  //                       <View />
-  //                     ) : (
-  //                       <View style={styles.infoOfPay}>
-  //                         <View style={styles.pay}>
-  //                           <Text style={styles.boxTitleText3}>기본급여</Text>
-  //                           <Text style={styles.boxTitleText3}>
-  //                             {this.numberComma(maindata.realtotal)} 원
-  //                           </Text>
-  //                         </View>
-  //                       </View>
-  //                     )}
-  //                     <View style={styles.pay}>
-  //                       <TouchableOpacity
-  //                         style={styles.pay2}
-  //                         onPress={() => {
-  //                           this.setState({click2: !click2});
-  //                         }}>
-  //                         {click2 === false ? (
-  //                           <Entypo
-  //                             name="triangle-down"
-  //                             size={30}
-  //                             color="#777"
-  //                             style={{paddingBottom: 3}}
-  //                           />
-  //                         ) : (
-  //                           <Entypo
-  //                             name="triangle-up"
-  //                             size={30}
-  //                             color="#BCC5D3"
-  //                             style={{paddingTop: 3}}
-  //                           />
-  //                         )}
-  //                         <Text style={styles.boxTitleText3}>
-  //                           4대보험 근로자부담금
-  //                         </Text>
-  //                       </TouchableOpacity>
-  //                       <Text style={styles.boxTitleText3}>
-  //                         (-){this.numberComma(maindata.fourtotal)} 원
-  //                       </Text>
-  //                     </View>
-  //                     {click2 == false ? (
-  //                       <View />
-  //                     ) : (
-  //                       <View style={styles.infoOfPay}>
-  //                         <View style={styles.pay}>
-  //                           <Text style={styles.boxTitleText3}>국민연금</Text>
-  //                           <Text style={styles.boxTitleText3}>
-  //                             (-)
-  //                             {this.numberComma(maindata.pension_pay)} 원
-  //                           </Text>
-  //                         </View>
-  //                         <View style={styles.pay}>
-  //                           <Text style={styles.boxTitleText3}>건강보험</Text>
-  //                           <Text style={styles.boxTitleText3}>
-  //                             (-)
-  //                             {this.numberComma(maindata.health_pay)} 원
-  //                           </Text>
-  //                         </View>
-  //                         <View style={styles.pay}>
-  //                           <Text style={styles.boxTitleText3}>장기요양</Text>
-  //                           <Text style={styles.boxTitleText3}>
-  //                             (-)
-  //                             {this.numberComma(maindata.health2_pay)} 원
-  //                           </Text>
-  //                         </View>
-  //                         <View style={styles.pay}>
-  //                           <Text style={styles.boxTitleText3}>고용보험</Text>
-  //                           <Text style={styles.boxTitleText3}>
-  //                             (-)
-  //                             {this.numberComma(maindata.employment_pay)} 원
-  //                           </Text>
-  //                         </View>
-  //                       </View>
-  //                     )}
-  //                     <View style={styles.pay}>
-  //                       <TouchableOpacity
-  //                         style={styles.pay2}
-  //                         onPress={() => {
-  //                           this.setState({click3: !click3});
-  //                         }}>
-  //                         {click3 === false ? (
-  //                           <Entypo
-  //                             name="triangle-down"
-  //                             size={30}
-  //                             color="#777"
-  //                             style={{paddingBottom: 3}}
-  //                           />
-  //                         ) : (
-  //                           <Entypo
-  //                             name="triangle-up"
-  //                             size={30}
-  //                             color="#BCC5D3"
-  //                             style={{paddingTop: 3}}
-  //                           />
-  //                         )}
-  //                         <Text style={styles.boxTitleText3}>원천세</Text>
-  //                       </TouchableOpacity>
-  //                       <Text style={styles.boxTitleText3}>
-  //                         (-){this.numberComma(totalearned)} 원
-  //                       </Text>
-  //                     </View>
-  //                     {click3 == false ? (
-  //                       <View />
-  //                     ) : (
-  //                       <View style={styles.infoOfPay}>
-  //                         <View style={styles.pay}>
-  //                           <Text style={styles.boxTitleText3}>소득세</Text>
-  //                           <Text style={styles.boxTitleText3}>
-  //                             (-){this.numberComma(maindata.earned)} 원
-  //                           </Text>
-  //                         </View>
-  //                         <View style={styles.pay}>
-  //                           <Text style={styles.boxTitleText3}>지방소득세</Text>
-  //                           <Text style={styles.boxTitleText3}>
-  //                             (-){this.numberComma(maindata.earned2)} 원
-  //                           </Text>
-  //                         </View>
-  //                       </View>
-  //                     )}
-  //                   </View>
-  //                 </View>
-  //               )}
-  //             </View>
-  //           </Section>
-
-  //           <View
-  //             style={{
-  //               width: wp('100%'),
-  //               alignItems: 'center',
-  //               marginBottom: hp('3%'),
-  //             }}>
-  //             <TouchableOpacity
-  //               ref={(ref) => (this.refCheck2 = ref)}
-  //               style={styles.button}
-  //               onPress={() => {
-  //                 if (maindata.CARDLIST1.length == 0) {
-  //                   this._AlertModal('', '급여현황이 존재하지 않습니다.');
-  //                   return false;
-  //                 }
-  //                 this.setState({
-  //                   click5: !click5,
-  //                   cardShow: !cardShow,
-  //                 });
-  //               }}>
-  //               <Text style={{fontSize: 15, fontWeight: 'bold'}}>
-  //                 일별 급여현황
-  //               </Text>
-  //               {cardShow ? (
-  //                 <MaterialCommunityIcons
-  //                   name="arrow-collapse-up"
-  //                   size={18}
-  //                   color="black"
-  //                   style={{marginLeft: 5, paddingTop: 2}}
-  //                 />
-  //               ) : (
-  //                 <MaterialCommunityIcons
-  //                   name="arrow-collapse-down"
-  //                   size={18}
-  //                   color="black"
-  //                   style={{marginLeft: 5, paddingTop: 2}}
-  //                 />
-  //               )}
-  //             </TouchableOpacity>
-  //             {cardShow && (
-  //               <CardBox>
-  //                 {maindata.CARDLIST1.map((data) => {
-  //                   return (
-  //                     <Card2
-  //                       day={data.START}
-  //                       yoil={data.DAY}
-  //                       total={data.payment}
-  //                     />
-  //                   );
-  //                 })}
-  //               </CardBox>
-  //             )}
-  //           </View>
-  //         </Container>
-  //       </ScrollView>
-  //     </BackGround>
-  // );
-  // }
+            <Footer>
+              <FooterBtn onPress={() => onPressFooter('click4')}>
+                <DateText>일별 급여현황</DateText>
+                {cardShow ? (
+                  <Icon name="caret-up" size={22} color="#BCC5D3" />
+                ) : (
+                  <Icon name="caret-down" size={22} color="#777" />
+                )}
+              </FooterBtn>
+              {cardShow && (
+                <CardBox>
+                  {maindata.CARDLIST.map((data) => {
+                    return (
+                      <EmpPayInfoCard1
+                        key={data.key}
+                        day={data.START}
+                        yoil={data.DAY}
+                        base={data.basic_payment}
+                        night={data.night_payment}
+                        over={data.day_payment}
+                        holi={0}
+                        late={data.miner_payment}
+                        total={data.payment}
+                      />
+                    );
+                  })}
+                </CardBox>
+              )}
+            </Footer>
+          </Container>
+        </ScrollView>
+      </BackGround>
+    );
+  } else {
+    const totalearned = maindata.earned + maindata.earned2;
+    const realemptotal = maindata.realtotal - maindata.fourtotal - totalearned;
+    const ownertotal =
+      realemptotal + maindata.fourtotal + totalearned + maindata.ownerfourtotal;
+    return (
+      <BackGround>
+        <ScrollView
+          keyboardDismissMode="on-drag"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{alignItems: 'center'}}>
+          <Container>
+            <TopAreaContainer />
+            {(STORE == '1' || STOREPAY_SHOW == '1') && (
+              <Section>
+                <MainBoxContainer
+                  text={'고용주 지출액'}
+                  onPress={() => setBoxButton(!boxButton)}
+                  boxButton={boxButton}
+                />
+                <PayInfoBox>
+                  <MainPayBox>
+                    <MainPayBoxText>
+                      {numberComma(ownertotal)} 원
+                    </MainPayBoxText>
+                  </MainPayBox>
+                  {boxButton && (
+                    <DetailBox>
+                      <Line />
+                      <DetailListRow
+                        text={'급여지급액'}
+                        value={numberComma(realemptotal)}
+                      />
+                      <DetailListRow
+                        text={'4대보험 고용주부담금'}
+                        value={`(+) ${numberComma(maindata.ownerfourtotal)}`}
+                      />
+                      <DetailListRow
+                        text={'4대보험 근로자부담금'}
+                        value={`(+) ${numberComma(maindata.fourtotal)}`}
+                      />
+                      <DetailListRow
+                        text={'원천세'}
+                        value={`(+) ${numberComma(totalearned)}`}
+                      />
+                    </DetailBox>
+                  )}
+                </PayInfoBox>
+              </Section>
+            )}
+            <Section>
+              {STORE == '1' || STOREPAY_SHOW == '1' ? (
+                <MainBoxContainer
+                  text={'근로자 수령액(월급)'}
+                  onPress={() => setBoxButton2(!boxButton2)}
+                  boxButton={boxButton2}
+                />
+              ) : (
+                <Box>
+                  <BoxTitle>
+                    <BoxTitleText>근로자 수령액(월급)</BoxTitleText>
+                  </BoxTitle>
+                </Box>
+              )}
+              <PayInfoBox>
+                <MainPayBox>
+                  <MainPayBoxText>
+                    {numberComma(realemptotal)} 원
+                  </MainPayBoxText>
+                </MainPayBox>
+                {boxButton2 && (
+                  <DetailBox>
+                    <Line />
+                    <MainInfoOfPay
+                      text={'공제전 금액'}
+                      value={numberComma(maindata.realtotal)}
+                      click={click1}
+                      onPress={() => setClick1(!click1)}
+                    />
+                    {click1 && (
+                      <DetailBox>
+                        <DetailListRow
+                          text={'기본급'}
+                          value={numberComma(maindata.realtotal)}
+                        />
+                      </DetailBox>
+                    )}
+                    <DetailAreaContainer totalearned={totalearned} />
+                  </DetailBox>
+                )}
+              </PayInfoBox>
+            </Section>
+            <Footer>
+              <FooterBtn
+                onPress={() => {
+                  onPressFooter('click5');
+                }}>
+                <DateText>일별 급여현황</DateText>
+                {cardShow ? (
+                  <Icon name="caret-up" size={22} color="#BCC5D3" />
+                ) : (
+                  <Icon name="caret-down" size={22} color="#777" />
+                )}
+              </FooterBtn>
+              {cardShow && (
+                <CardBox>
+                  {maindata.CARDLIST1.map((data) => {
+                    return (
+                      <EmpPayInfoCard2
+                        day={data.START}
+                        yoil={data.DAY}
+                        total={data.payment}
+                      />
+                    );
+                  })}
+                </CardBox>
+              )}
+            </Footer>
+          </Container>
+        </ScrollView>
+      </BackGround>
+    );
+  }
 };
