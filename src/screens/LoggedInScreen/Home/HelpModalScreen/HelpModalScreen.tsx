@@ -2,11 +2,13 @@ import React, {useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components/native';
 import {Linking, Image} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {setAlertVisible} from '../../../../redux/alertSlice';
 import api from '../../../../constants/LoggedInApi';
 import utils from '../../../../constants/utils';
+import {setHelpCategory} from '../../../../redux/helpSlice';
+import {setSplashVisible} from '../../../../redux/splashSlice';
 
 const BackGround = styled.View`
   flex: 1;
@@ -51,23 +53,23 @@ const AdviceBox = styled(KakaoBox)`
 
 export default () => {
   const dispatch = useDispatch();
-  const [helpCategory, setHelpCategory] = useState<[]>([]);
+  const {helpCategory} = useSelector((state: any) => state.helpReducer);
 
   const fetchData = async () => {
-    if (helpCategory.length == 0) {
-      try {
-        const {data} = await api.help();
-        setHelpCategory(data.result);
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      dispatch(setSplashVisible(true));
+      const {data} = await api.help();
+      dispatch(setHelpCategory(data.result));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(setSplashVisible(false));
     }
-    dispatch(setAlertVisible(false));
   };
 
   useEffect(() => {
-    fetchData();
-  });
+    helpCategory.length === 0 && fetchData();
+  }, []);
 
   return (
     <BackGround>
@@ -93,25 +95,24 @@ export default () => {
             color="#bbb"
           />
         </KakaoBox>
-        {helpCategory.length > 0 &&
-          helpCategory.map((data: any, index) => (
-            <AdviceBox
-              key={index}
-              onPress={() => {
-                Linking.openURL(data?.URL);
-              }}>
-              <AdviceText>{data?.TITLE}</AdviceText>
-              <Icon
-                name={
-                  utils.isAndroid
-                    ? 'md-chevron-forward-outline'
-                    : 'ios-chevron-forward-outline'
-                }
-                size={22}
-                color="#bbb"
-              />
-            </AdviceBox>
-          ))}
+        {helpCategory?.map((data: any, index) => (
+          <AdviceBox
+            key={index}
+            onPress={() => {
+              Linking.openURL(data?.URL);
+            }}>
+            <AdviceText>{data?.TITLE}</AdviceText>
+            <Icon
+              name={
+                utils.isAndroid
+                  ? 'md-chevron-forward-outline'
+                  : 'ios-chevron-forward-outline'
+              }
+              size={22}
+              color="#bbb"
+            />
+          </AdviceBox>
+        ))}
       </ScrollView>
     </BackGround>
   );

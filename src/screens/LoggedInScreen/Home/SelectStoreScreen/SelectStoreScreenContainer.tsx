@@ -205,7 +205,6 @@ export default () => {
     dispatch(setStoreEmpSeq(Emp));
   };
   const setStoreFn = (step) => {
-    console.log('stepstepstepstepstepstepstepstepstepstepstepstep', step);
     dispatch(setStore(step));
   };
   const setStoreNameFn = (STORE_NAME) => {

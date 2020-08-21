@@ -4,12 +4,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import EmpPayInfoScreenPresenter from './EmpPayInfoScreenPresenter.js';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import api from '../../../../constants/LoggedInApi';
+import EmpPayInfoScreenPresenter from './EmpPayInfoScreenPresenter';
 
 export default ({route: {params}}) => {
   const navigation = useNavigation();
@@ -23,13 +23,14 @@ export default ({route: {params}}) => {
     IMAGE,
     ISMANAGER,
   } = params;
-
+  const {NAME: NAMEreducer} = useSelector((state: any) => state.userReducer);
   const [year, setYear] = useState<number>();
   const [month, setMonth] = useState<number>();
   const [boxButton, setBoxButton] = useState<boolean>(true);
   const [boxButton2, setBoxButton2] = useState<boolean>(
     STORE !== '1' || STOREPAY_SHOW !== '1' ? false : true,
   );
+  const [refreshing, setRefreshing] = useState<boolean>(false);
   const [cardShow, setCardShow] = useState<boolean>(false);
   const [click1, setClick1] = useState<boolean>(false);
   const [click2, setClick2] = useState<boolean>(false);
@@ -71,6 +72,17 @@ export default ({route: {params}}) => {
     },
   ];
 
+  const onRefresh = async () => {
+    try {
+      setRefreshing(true);
+      await fetchData(year, month);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
   const alertModal = (title, text) => {
     const params = {
       type: 'alert',
@@ -93,15 +105,11 @@ export default ({route: {params}}) => {
 
   const pressGroup = (locationY) => {
     const screenHeight = hp('15%');
-    const Y = (this.scrollY || 0) + locationY - screenHeight;
-    setTimeout(() => {
-      this.scroll.scrollTo({y: Y, x: 0, animated: true});
-    }, 100);
   };
 
   const replaceAll = (text) => {
-    const RA = text.split('-').join('.');
-    return RA;
+    const RA = text?.split('-').join('.');
+    return RA?.slice(5);
   };
 
   const nextpay = async () => {
@@ -178,8 +186,27 @@ export default ({route: {params}}) => {
     if (MONTH < 10) {
       MONTH = Number('0' + MONTH);
     }
+    console.log(YEAR, MONTH);
     fetchData(YEAR, MONTH);
   }, []);
 
-  return <EmpPayInfoScreenPresenter />;
+  return (
+    <EmpPayInfoScreenPresenter
+      NAME={NAME || NAMEreducer}
+      maindata={maindata}
+      PAY_TYPE={maindata.PAY_TYPE}
+      backpay={backpay}
+      replaceAll={replaceAll}
+      nextpay={nextpay}
+      STORE={STORE}
+      STOREPAY_SHOW={STOREPAY_SHOW}
+      IMAGE={IMAGE}
+      ISMANAGER={ISMANAGER}
+      boxButton={boxButton}
+      setBoxButton={setBoxButton}
+      boxButton2={boxButton2}
+      setBoxButton2={setBoxButton2}
+      onRefresh={onRefresh}
+    />
+  );
 };
