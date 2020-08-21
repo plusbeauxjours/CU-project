@@ -89,6 +89,9 @@ export default {
     monthLists: (STORE_SEQ: string,
         EMP_SEQ: string,
         year: number,
-        month: number) => noPortApi("get", `/PayMents/month_lists?STORE_ID=${STORE_SEQ}&EMP_ID=${EMP_SEQ}&YEAR=${year}&MONTH=${month}`)
+        month: number) => noPortApi("get", `/PayMents/month_lists?STORE_ID=${STORE_SEQ}&EMP_ID=${EMP_SEQ}&YEAR=${year}&MONTH=${month}`),
+    getShelfLifeData: (data: any) => callApi("post", "/auth/getshelfLifeData/", data),
+    checkShelfLifeData: (data: any) => callApi("post", "/auth/checkShelfLifeData/", data),
+    getAllShelfLifeData: (data: any) => callApi("post", "/auth/getAllshelfLifeData/", data),
 }
 

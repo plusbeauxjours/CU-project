@@ -346,10 +346,6 @@ export default ({
         if (selection == 'QR보기') {
           setPictureModalOpen(true);
         }
-        console.log(
-          'storeResultstoreResultstoreResultstoreResultstoreResult',
-          storeResult,
-        );
         navigation.navigate(`${paging}`, {
           STOREDATA: storeResult,
           STORE,

@@ -17,9 +17,6 @@ const Text = styled.Text`
 
 export default () => {
   const navigation = useNavigation();
-  const route = useRoute();
-  console.log('route on HomeBtn', route);
-
   return (
     <Touchable
       onPress={() => {

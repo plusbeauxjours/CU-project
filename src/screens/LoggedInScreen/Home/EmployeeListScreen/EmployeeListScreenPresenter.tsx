@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import EmployeeListCard from './EmployeeListCard';
 
 interface IEmployeeListBox {
-  hasEmployeeNow: boolean;
+  hasEmployeeNow?: boolean;
 }
 
 const BackGround = styled.SafeAreaView`
@@ -101,7 +101,7 @@ export default ({
         }>
         <Container>
           <StoreBox>
-            <StoreBoxText>{STOREDATA.resultdata.NAME}의 직원목록</StoreBoxText>
+            <StoreBoxText>{STOREDATA?.resultdata.NAME}의 직원목록</StoreBoxText>
           </StoreBox>
 
           <Section>

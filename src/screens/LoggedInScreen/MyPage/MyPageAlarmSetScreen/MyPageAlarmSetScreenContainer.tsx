@@ -1,52 +1,52 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import MyPageAlarmSetScreenPresenter from './MyPageAlarmSetScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import {
+  setAllPush,
+  setWorkPush,
+  setCheckPush,
+  setChecksharePush,
+  setScedulePUsh,
+} from '../../../../redux/userAlarmSlice';
 import api from '../../../../constants/LoggedInApi';
 
 export default () => {
-  const dispatche = useDispatch();
+  const dispatch = useDispatch();
   const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
-
-  const [allPush, setAllPush] = useState<boolean>(false); //전체
-  const [workPush, setWorkPush] = useState<boolean>(false); //출퇴근
-  const [checkPush, setCheckPush] = useState<boolean>(false); //체크리스트
-  const [checksharePush, setChecksharePush] = useState<boolean>(false); //업무일지
-  const [shelfPush, setShelfPush] = useState<boolean>(false); //유통기한
-  const [healthPush, setHealthPush] = useState<boolean>(false); //조기경보
-  const [scedulePush, setScedulePUsh] = useState<boolean>(false); //근무일정
+  const {
+    All_PUSH,
+    WORK_PUSH,
+    CHECK_PUSH,
+    CHECKSHARE_PUSH,
+    SCHEDULE_PUSH,
+  } = useSelector((state: any) => state.userAlarmReducer);
 
   const toggleAlarm = (value) => {
     switch (value) {
-      case 'allPush':
-        return setAllPush(!allPush);
-      case 'workPush':
-        return setWorkPush(!workPush);
-      case 'checkPush':
-        return setCheckPush(!checkPush);
-      case 'checksharePush':
-        return setChecksharePush(!checksharePush);
-      case 'shelfPush':
-        return setShelfPush(!shelfPush);
-      case 'healthPush':
-        return setHealthPush(!healthPush);
-      case 'scedulePush':
-        return setScedulePUsh(!scedulePush);
+      case 'All_PUSH':
+        return dispatch(setAllPush(!All_PUSH));
+      case 'WORK_PUSH':
+        return dispatch(setWorkPush(!WORK_PUSH));
+      case 'CHECK_PUSH':
+        return dispatch(setCheckPush(!CHECK_PUSH));
+      case 'CHECKSHARE_PUSH':
+        return dispatch(setChecksharePush(!CHECKSHARE_PUSH));
+      case 'SCHEDULE_PUSH':
+        return dispatch(setScedulePUsh(!SCHEDULE_PUSH));
       default:
         break;
     }
   };
 
   const updateAlarm = async (value: boolean, alarm: string) => {
-    const isAlarmOn = value == true ? 0 : 1;
+    const isAlarmOn = value == true ? '0' : '1';
     try {
       const {data} = await api.updatePush({
         MEMBER_SEQ,
-        // [alarm]: isAlarmOn,
-        CHECK_PUSH: false,
+        [alarm]: isAlarmOn,
       });
-      console.log('data on mypagealarmsetscreen', data);
     } catch (error) {
       console.log(error);
       alertModal('', '통신이 원활하지 않습니다.');
@@ -57,13 +57,11 @@ export default () => {
   const fetch = async () => {
     try {
       const {data} = await api.getPush({MEMBER_SEQ});
-      setAllPush(data.All_Push == '1' ? true : false);
-      setWorkPush(data.WORK_PUSH == '1' ? true : false);
-      setCheckPush(data.CHECK_PUSH == '1' ? true : false);
-      setChecksharePush(data.CHECKSHARE_PUSH == '1' ? true : false);
-      setShelfPush(data.SHELF_PUSH == '1' ? true : false);
-      setHealthPush(data.HEALTH_PUSH == '1' ? true : false);
-      setScedulePUsh(data.SCHEDULE_PUSH == '1' ? true : false);
+      data.All_Push == '1' && dispatch(setAllPush(true));
+      data.WORK_PUSH == '1' && dispatch(setWorkPush(true));
+      data.CHECK_PUSH == '1' && dispatch(setCheckPush(true));
+      data.CHECKSHARE_PUSH == '1' && dispatch(setChecksharePush(true));
+      data.SCHEDULE_PUSH == '1' && dispatch(setScedulePUsh(true));
     } catch (error) {
       console.log(error);
     }
@@ -75,8 +73,8 @@ export default () => {
       title: title,
       content: text,
     };
-    dispatche(setAlertInfo(params));
-    dispatche(setAlertVisible(true));
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
   };
 
   useEffect(() => {
@@ -86,13 +84,11 @@ export default () => {
   return (
     <MyPageAlarmSetScreenPresenter
       updateAlarm={updateAlarm}
-      allPush={allPush}
-      workPush={workPush}
-      checkPush={checkPush}
-      checksharePush={checksharePush}
-      shelfPush={shelfPush}
-      healthPush={healthPush}
-      scedulePush={scedulePush}
+      All_PUSH={All_PUSH}
+      WORK_PUSH={WORK_PUSH}
+      CHECK_PUSH={CHECK_PUSH}
+      CHECKSHARE_PUSH={CHECKSHARE_PUSH}
+      SCHEDULE_PUSH={SCHEDULE_PUSH}
       toggleAlarm={toggleAlarm}
     />
   );
