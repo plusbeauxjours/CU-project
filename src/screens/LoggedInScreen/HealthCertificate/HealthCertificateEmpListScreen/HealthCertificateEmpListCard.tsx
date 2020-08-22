@@ -75,25 +75,18 @@ export default ({
         activeOpacity={1}
         onPress={() => {
           navigation.navigate('HealthCertificateEmpDetailScreen', {
-            STOREDATA: STOREDATA,
             STORE_HEALTH_SEQ,
             STORE_SEQ,
             EMP_SEQ,
             NAME,
-            MANAGER,
-            EDUCATION_DATE,
-            EDUCATION_HOUR,
             EDUCATION_TYPE,
             TESTING_DATE,
             REAL_NAME,
             TESTING_COUNT,
-            TESTING_DAY,
             TESTING_CERTIFICATE,
-            REG_DT,
             SETTIME,
             IMG_LIST,
             type,
-            onRefresh,
           });
         }}>
         <Container>

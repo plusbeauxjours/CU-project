@@ -1,5 +1,4 @@
 import React, {useState, useRef} from 'react';
-import moment from 'moment';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -78,6 +77,9 @@ const InputItem = styled.View`
 const InputItemText = styled.Text`
   font-size: 16px;
 `;
+
+const Touchable = styled.TouchableOpacity``;
+
 export default ({route: {params}}) => {
   const dateRef = useRef(null);
   const dispatch = useDispatch();
@@ -205,48 +207,50 @@ export default ({route: {params}}) => {
                 <InputItemText>기한 </InputItemText>
                 <DeleteBtnText>*</DeleteBtnText>
               </Row>
-              <TextInput
-                isBefore={shelfLifeDate == ''}
-                placeholder="상품명"
-                selectionColor="#6428AC"
-                placeholderTextColor="#CCC"
-                onChangeText={(text) => {
-                  setShelfLifeMemo(text);
-                }}
-                value={shelfLifeDate}
-                editable={false}>
-                <DatePicker
-                  ref={dateRef}
-                  showIcon={false}
-                  style={{
-                    width: '100%',
-                    textAlign: 'center',
-                    justifyContent: 'center',
+              <Touchable onPress={() => setShelfLifeDateModal(true)}>
+                <TextInput
+                  isBefore={shelfLifeDate == ''}
+                  placeholder="상품명"
+                  selectionColor="#6428AC"
+                  placeholderTextColor="#CCC"
+                  onChangeText={(text) => {
+                    setShelfLifeMemo(text);
                   }}
-                  date={shelfLifeDate ?? ''}
-                  placeholder="기한 입력"
-                  mode="date"
-                  format="YYYY-MM-DD"
-                  minDate="1900/01/01"
-                  maxDate="9999/12/31"
-                  confirmBtnText="확인"
-                  cancelBtnText="취소"
-                  locale="ko"
-                  androidMode="spinner"
-                  customStyles={{
-                    dateInput: {
-                      alignItems: 'center',
-                      borderWidth: 0,
-                    },
-                    dateText: {
-                      fontSize: 16,
-                    },
-                  }}
-                  onDateChange={(date) => {
-                    setShelfLifeDate(date);
-                  }}
-                />
-              </TextInput>
+                  value={shelfLifeDate}
+                  editable={false}>
+                  <DatePicker
+                    ref={dateRef}
+                    showIcon={false}
+                    style={{
+                      width: '100%',
+                      textAlign: 'center',
+                      justifyContent: 'center',
+                    }}
+                    date={shelfLifeDate ?? ''}
+                    placeholder="기한 입력"
+                    mode="date"
+                    format="YYYY-MM-DD"
+                    minDate="1900/01/01"
+                    maxDate="9999/12/31"
+                    confirmBtnText="확인"
+                    cancelBtnText="취소"
+                    locale="ko"
+                    androidMode="spinner"
+                    customStyles={{
+                      dateInput: {
+                        alignItems: 'center',
+                        borderWidth: 0,
+                      },
+                      dateText: {
+                        fontSize: 16,
+                      },
+                    }}
+                    onDateChange={(date) => {
+                      setShelfLifeDate(date);
+                    }}
+                  />
+                </TextInput>
+              </Touchable>
             </InputItem>
             <InputItem>
               <InputItemText>메모</InputItemText>

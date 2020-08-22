@@ -49,16 +49,15 @@ export default ({route: {params}}) => {
       console.log(EMP_SEQ);
       const {data} = await api.storeHealthEmpDetail(EMP_SEQ);
       if (data.message === 'SUCCESS') {
-        console.log('fetfdhcaksjfklasdjk11111', data);
+        setAllData(data.result);
+        setSelectindex(0);
+        setSTORE_HEALTH_SEQ(data.result[0].STORE_HEALTH_SEQ);
+        setTESTING_COUNT(data.result[0].RESULT_COUNT);
+        setREAL_NAME(data.result[0].NAME);
+        setTESTING_DATE(data.result[0].RESULT_DATE);
+        setSETTIME(data.result[0].CREATE_TIME);
+        setTESTING_CERTIFICATE(data.result[0].IMG_LIST);
       }
-      setAllData(data.result);
-      setSelectindex(0);
-      setSTORE_HEALTH_SEQ(data.result[0].STORE_HEALTH_SEQ);
-      setTESTING_COUNT(data.result[0].RESULT_COUNT);
-      setREAL_NAME(data.result[0].NAME);
-      setTESTING_DATE(data.result[0].RESULT_DATE);
-      setSETTIME(data.result[0].CREATE_TIME);
-      setTESTING_CERTIFICATE(data.result[0].IMG_LIST);
     } catch (error) {
       console.log(error);
     }

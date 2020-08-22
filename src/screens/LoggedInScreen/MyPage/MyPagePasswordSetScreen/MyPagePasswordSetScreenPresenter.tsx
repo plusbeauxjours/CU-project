@@ -47,6 +47,7 @@ const TimeText = styled.Text`
   align-self: flex-start;
   margin-bottom: 5px;
 `;
+
 const CountText = styled(TimeText)`
   align-self: center;
   margin-right: 10px;
