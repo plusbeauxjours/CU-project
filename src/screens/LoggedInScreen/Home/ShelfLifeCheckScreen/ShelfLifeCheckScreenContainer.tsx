@@ -1,11 +1,11 @@
 import React, {useState, useRef, useEffect} from 'react';
+import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 
 import api from '../../../../constants/LoggedInApi';
 import ShelfLifeCheckScreenPresenter from './ShelfLifeCheckScreenPresenter';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import moment from 'moment';
 
 export default ({route: {params}}) => {
   let _year = moment().format('YYYY');
@@ -17,7 +17,7 @@ export default ({route: {params}}) => {
   const {STORE_SEQ, STORE} = useSelector((state: any) => state.userReducer);
 
   const [items, setItems] = useState<any>({});
-  const [maked, setMaked] = useState<any>({});
+  const [marked, setMarked] = useState<any>({});
   const [selectDay, setSelectDay] = useState<string>(
     moment().format('YYYY-MM-DD'),
   );
@@ -79,7 +79,7 @@ export default ({route: {params}}) => {
       const {data} = await api.getAllShelfLifeData({
         STORE_SEQ: STORE_SEQ,
       });
-      setMaked(data.result);
+      setMarked(data.result);
     } catch (error) {
       console.log(error);
     }
@@ -119,9 +119,7 @@ export default ({route: {params}}) => {
       items={items}
       onDayChange={onDayChange}
       onDayPress={onDayPress}
-      selectDay={selectDay}
-      maked={maked}
-      fetchData={fetchData}
+      marked={marked}
       onRefresh={onRefresh}
       confirmModal={confirmModal}
       alertModal={alertModal}

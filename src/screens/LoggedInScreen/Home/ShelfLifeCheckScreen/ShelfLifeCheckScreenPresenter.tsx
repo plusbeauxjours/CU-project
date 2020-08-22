@@ -100,9 +100,7 @@ export default ({
   items,
   onDayChange,
   onDayPress,
-  selectDay,
-  maked,
-  fetchData,
+  marked,
   onRefresh,
   confirmModal,
   alertModal,
@@ -117,7 +115,7 @@ export default ({
     </KnobIconContainer>
   );
 
-  const renderItem = (item) => {
+  const renderItem = (item: any) => {
     const {
       shelfLife_SEQ,
       shelfLifeName,
@@ -138,35 +136,33 @@ export default ({
             shelfLifeMemo,
           })
         }>
-        <>
-          <Name>
-            <NameText>{shelfLifeName}</NameText>
-            <Touchable
-              onPress={() => {
-                if (checkType == '0') {
-                  confirmModal(shelfLife_SEQ, shelfLifeDate);
-                } else {
-                  alertModal('처리완료된 상품입니다');
-                }
-              }}>
-              <IconContainer isChecked={checkType == '0'}>
-                <Icon
-                  name={utils.isAndroid ? 'md-checkmark' : 'ios-checkmark;'}
-                  size={12}
-                  color={checkType == '0' ? '#bbb' : 'yellow'}
-                />
-              </IconContainer>
-            </Touchable>
-          </Name>
-          <Date>
-            <DateText>
-              {shelfLifeDate.slice(0, 4)}년 {shelfLifeDate.slice(5, 7)}월{' '}
-              {shelfLifeDate.slice(8, 10)}일
-            </DateText>
-          </Date>
-        </>
+        <Name>
+          <NameText>{shelfLifeName}</NameText>
+          <Touchable
+            onPress={() => {
+              if (checkType == '0') {
+                confirmModal(shelfLife_SEQ, shelfLifeDate);
+              } else {
+                alertModal('처리완료된 상품입니다');
+              }
+            }}>
+            <IconContainer isChecked={checkType == '0'}>
+              <Icon
+                name={utils.isAndroid ? 'md-checkmark' : 'ios-checkmark;'}
+                size={12}
+                color={checkType == '0' ? '#bbb' : 'yellow'}
+              />
+            </IconContainer>
+          </Touchable>
+        </Name>
+        <Date>
+          <DateText>
+            {shelfLifeDate.slice(0, 4)}년 {shelfLifeDate.slice(5, 7)}월
+            {shelfLifeDate.slice(8, 10)}일
+          </DateText>
+        </Date>
         {(checkType == '1' || shelfLifeMemo !== '') && <Line />}
-        {shelfLifeMemo && (
+        {shelfLifeMemo !== '0' && (
           <TextContainer>
             <Text>{shelfLifeMemo}</Text>
           </TextContainer>
@@ -196,7 +192,7 @@ export default ({
       renderKnob={renderKnob}
       onDayChange={onDayChange}
       onDayPress={onDayPress}
-      markedDates={maked}
+      markedDates={marked}
       theme={{
         agendaTodayColor: '#AACE36',
         selectedDayBackgroundColor: '#ddd',

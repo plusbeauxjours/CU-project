@@ -68,14 +68,13 @@ export default ({
   const pushday = new Date(PUSH_DAY);
   let dday = 0;
   dday = (pushday.getTime() - now.getTime()) / 1000 / 3600 / 24;
-  console.log('dday on HealthCertificateEmpLIst', dday);
   if (TESTING_DATE) {
     return (
       <Touchable
         key={key}
         activeOpacity={1}
         onPress={() => {
-          navigation.navigate('HealthCertificateEmpDetail', {
+          navigation.navigate('HealthCertificateEmpDetailScreen', {
             STOREDATA: STOREDATA,
             STORE_HEALTH_SEQ,
             STORE_SEQ,
@@ -131,7 +130,7 @@ export default ({
         key={key}
         activeOpacity={1}
         onPress={() => {
-          navigation.navigate('HealthCertificateEmpForm', {
+          navigation.navigate('HealthCertificateEmpFormScreen', {
             STOREDATA: STOREDATA,
             STORE_SEQ,
             EMP_SEQ,

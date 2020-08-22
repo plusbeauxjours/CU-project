@@ -54,10 +54,15 @@ const ImageButtonWrapper = styled.TouchableOpacity`
   align-items: center;
 `;
 
-const ImageButton = styled.Text`
-  flex: 1;
+const ImageButtonText = styled.Text`
+  text-align: center;
+  text-decoration-line: underline;
+`;
+
+const ImageIconContainer = styled.View`
+  position: absolute;
+  right: 10px;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
 `;
 
@@ -142,10 +147,10 @@ const ModifyButton = styled.TouchableOpacity`
   width: ${wp('45%')}px;
   align-items: center;
   justify-content: center;
-  background-color: '#AACE36';
+  background-color: #aace36;
 `;
 const SaveButton = styled(ModifyButton)`
-  background-color: '#642A8C';
+  background-color: #642a8c;
 `;
 
 const RegDate = styled.Text`
@@ -219,16 +224,18 @@ export default ({
           onPress={() => {
             setModalVisible(true);
           }}>
-          <ImageButton>사진 보기</ImageButton>
-          <Icon
-            name={
-              utils.isAndroid
-                ? 'md-chevron-forward-outline'
-                : 'ios-chevron-forward-outline'
-            }
-            size={22}
-            color="#642A8C"
-          />
+          <ImageButtonText>사진 보기</ImageButtonText>
+          <ImageIconContainer>
+            <Icon
+              name={
+                utils.isAndroid
+                  ? 'md-chevron-forward-outline'
+                  : 'ios-chevron-forward-outline'
+              }
+              size={22}
+              color="#642A8C"
+            />
+          </ImageIconContainer>
         </ImageButtonWrapper>
       )}
     </ContentLine>
@@ -307,7 +314,7 @@ export default ({
           <Row>
             <ModifyButton
               onPress={() => {
-                navigation.navigate('HealthCertificateEmpUpdate', {
+                navigation.navigate('HealthCertificateEmpUpdateScreen', {
                   props: params,
                   EDUCATION_TYPE,
                   STORE_HEALTH_SEQ,
@@ -333,7 +340,7 @@ export default ({
             </ModifyButton>
             <SaveButton
               onPress={() => {
-                navigation.navigate('HealthCertificateEmpForm', {
+                navigation.navigate('HealthCertificateEmpFormScreen', {
                   NAME,
                   EMP_SEQ,
                   STORE_SEQ,

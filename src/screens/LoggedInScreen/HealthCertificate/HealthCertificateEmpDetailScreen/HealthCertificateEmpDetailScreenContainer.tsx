@@ -1,89 +1,64 @@
 import React, {useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
 
 import api from '../../../../constants/LoggedInApi';
 import HealthCertificateEmpDetailScreenPresenter from './HealthCertificateEmpDetailScreenPresenter';
-import {useDispatch} from 'react-redux';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import {setSplashVisible} from '../../../../redux/splashSlice';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
 
+  const STORE_SEQ = params?.STORE_SEQ;
+  const EMP_SEQ = params?.EMP_SEQ;
+  const NAME = params?.NAME;
+  const position = params?.position;
+  const businesstype = params?.businesstype;
+  const storename = params?.storename;
+  const owner = params?.owner;
+
+  const [REAL_NAME, setREAL_NAME] = useState<any>(params?.NAME);
+  const [SETTIME, setSETTIME] = useState<any>(params?.CREATE_TIME);
   const [modalVisible, setModalVisible] = useState<any>(false);
-  const [STORE_SEQ, setSTORE_SEQ] = useState<any>(null);
   const [STORE_HEALTH_SEQ, setSTORE_HEALTH_SEQ] = useState<any>(null);
-  const [EMP_SEQ, setEMP_SEQ] = useState<any>(null);
-  const [NAME, setNAME] = useState<any>(null);
-  const [EDUCATION_TYPE, setEDUCATION_TYPE] = useState<any>('online');
   const [TESTING_DATE, setTESTING_DATE] = useState<any>(null);
   const [TESTING_COUNT, setTESTING_COUNT] = useState<any>(null);
-  const [TESTING_CERTIFICATE, setTESTING_CERTIFICATE] = useState<any>(null);
-  const [REAL_NAME, setREAL_NAME] = useState<any>(null);
-  const [position, setPosition] = useState<any>(null);
-  const [businesstype, setBusinesstype] = useState<any>(null);
-  const [storename, setStorename] = useState<any>(null);
-  const [owner, setOwner] = useState<any>(null);
-  const [SETTIME, setSETTIME] = useState<any>(null);
-  const [EDUCATION_CERTIFICATEDATA, setEDUCATION_CERTIFICATEDATA] = useState<
-    any
-  >(null);
+
+  const [TESTING_CERTIFICATE, setTESTING_CERTIFICATE] = useState<any>(
+    params?.IMG_LIST,
+  );
+  const [EDUCATION_TYPE, setEDUCATION_TYPE] = useState<any>(
+    params?.probationTYPE || 'online',
+  );
   const [allData, setAllData] = useState<any>([]);
   const [selectindex, setSelectindex] = useState<any>(0);
-  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const onRefresh = async () => {
     try {
-      setRefreshing(true);
+      dispatch(setSplashVisible(true));
       await fetchData();
     } catch (e) {
       console.log(e);
     } finally {
-      setRefreshing(false);
+      dispatch(setSplashVisible(false));
     }
   };
 
   const fetchData = async () => {
     try {
+      console.log(EMP_SEQ);
       const {data} = await api.storeHealthEmpDetail(EMP_SEQ);
-
-      setREAL_NAME(EDUCATION_CERTIFICATEDATA[0]?.NAME ?? params?.NAME);
-      setPosition(EDUCATION_CERTIFICATEDATA[0]?.position ?? params?.position);
-      setBusinesstype(
-        EDUCATION_CERTIFICATEDATA[0]?.businesstype ?? params?.businesstype,
-      );
-      setStorename(
-        EDUCATION_CERTIFICATEDATA[0]?.storename ?? params?.storename,
-      );
-      setOwner(EDUCATION_CERTIFICATEDATA[0]?.owner ?? params?.owner);
-      setSETTIME(
-        EDUCATION_CERTIFICATEDATA[0]?.CREATE_TIME ?? params?.CREATE_TIME,
-      );
-      setTESTING_CERTIFICATE(
-        EDUCATION_CERTIFICATEDATA[0]?.IMG_LIST ?? params?.IMG_LIST,
-      );
-      setEDUCATION_TYPE(
-        EDUCATION_CERTIFICATEDATA[0]?.probationTYPE ?? params?.probationTYPE,
-      );
-      setSTORE_HEALTH_SEQ;
-      setTESTING_COUNT;
-      setEMP_SEQ;
-      setNAME;
-      setSTORE_SEQ;
-      setTESTING_DATE;
-      setEDUCATION_CERTIFICATEDATA;
-      setSelectindex(0);
+      if (data.message === 'SUCCESS') {
+        console.log('fetfdhcaksjfklasdjk11111', data);
+      }
       setAllData(data.result);
-
-      // this.setState({
-      //   selectindex: 0,
-      //   allData: json.result,
-      //   STORE_HEALTH_SEQ : json.result[0].STORE_HEALTH_SEQ,
-      //   selectindex: 0,
-      //   TESTING_COUNT: json.result[0].RESULT_COUNT,
-      //   REAL_NAME: json.result[0].NAME,
-      //   TESTING_DATE: json.result[0].RESULT_DATE,
-      //   SETTIME: json.result[0].CREATE_TIME,
-      //   TESTING_CERTIFICATE: json.result[0].IMG_LIST,
-      // });
+      setSelectindex(0);
+      setSTORE_HEALTH_SEQ(data.result[0].STORE_HEALTH_SEQ);
+      setTESTING_COUNT(data.result[0].RESULT_COUNT);
+      setREAL_NAME(data.result[0].NAME);
+      setTESTING_DATE(data.result[0].RESULT_DATE);
+      setSETTIME(data.result[0].CREATE_TIME);
+      setTESTING_CERTIFICATE(data.result[0].IMG_LIST);
     } catch (error) {
       console.log(error);
     }
@@ -100,8 +75,8 @@ export default ({route: {params}}) => {
   };
 
   const nextdata = async () => {
-    setSTORE_HEALTH_SEQ(allData[selectindex - 1].STORE_HEALTH_SEQ);
     setSelectindex(selectindex - 1);
+    setSTORE_HEALTH_SEQ(allData[selectindex - 1].STORE_HEALTH_SEQ);
     setTESTING_COUNT(allData[selectindex - 1].RESULT_COUNT);
     setREAL_NAME(allData[selectindex - 1].NAME);
     setTESTING_DATE(allData[selectindex - 1].RESULT_DATE);
@@ -110,8 +85,8 @@ export default ({route: {params}}) => {
   };
 
   const backdata = async () => {
-    setSTORE_HEALTH_SEQ(allData[selectindex + 1].STORE_HEALTH_SEQ);
     setSelectindex(selectindex + 1);
+    setSTORE_HEALTH_SEQ(allData[selectindex + 1].STORE_HEALTH_SEQ);
     setTESTING_COUNT(allData[selectindex + 1].RESULT_COUNT);
     setREAL_NAME(allData[selectindex + 1].NAME);
     setTESTING_DATE(allData[selectindex + 1].RESULT_DATE);
@@ -120,8 +95,10 @@ export default ({route: {params}}) => {
   };
 
   useEffect(() => {
+    console.log(params);
     fetchData();
   }, []);
+
   return (
     <HealthCertificateEmpDetailScreenPresenter
       NAME={NAME}
