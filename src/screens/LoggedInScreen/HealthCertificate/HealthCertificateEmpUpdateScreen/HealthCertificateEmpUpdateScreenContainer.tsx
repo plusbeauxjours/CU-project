@@ -58,6 +58,21 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
+  const confirmModal = (content) => {
+    const params = {
+      type: 'confirm',
+      title: '',
+      content: '등록한 정보를 삭제하시겠습니까?',
+      okCallback: () => {
+        deleteFn('close');
+      },
+      okButtonText: '삭제',
+      cancelButtonText: '취소',
+    };
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
+  };
+
   // const getPermissionsAsync = async () => {
   //   const {status} = await Camera.requestPermissionsAsync();
   //   if (status !== 'granted') {
@@ -150,43 +165,14 @@ export default ({route: {params}}) => {
   };
 
   const checkorc = async () => {
-    // const manipResult = await ImageManipulator.manipulateAsync(
-    //   cameraPicture,
-    //   [],
-    //   {base64: true},
-    // );
-
-    let obj1;
-    obj1.format = 'jpg';
-    obj1.name = 'ocrimg';
-    // obj1.data = manipResult.base64;
-
-    let img;
-    img.push(obj1);
-
-    let obj2;
-    obj2.lang = 'ko';
-    obj2.timestamp = 0;
-    obj2.requestId = '1';
-    obj2.resultType = '1';
-    obj2.version = 'V1';
-    obj2.images = img;
-
     try {
       dispatch(setSplashVisible(true));
-      const req = {
-        url: null,
-        params: null,
-        config: null,
-      };
-      const formData = new FormData();
       const cameraPicture = TESTING_CERTIFICATE;
       const fileInfoArr = cameraPicture.split('/');
       const fileInfo = fileInfoArr[fileInfoArr.length - 1];
       const extensionIndex = fileInfo.indexOf('.');
-
       let fileName;
-      let fileType = '';
+      let fileType;
       if (extensionIndex > -1) {
         fileName = fileInfo;
         fileType = `image/${fileInfo.substring(extensionIndex + 1)}`;
@@ -194,26 +180,18 @@ export default ({route: {params}}) => {
           fileType = 'image/jpeg';
         }
       }
-      // formData.append('image', {
-      //   uri: utils.isAndroid
-      //     ? cameraPicture
-      //     : cameraPicture.replace('file://', ''),
-      //   name: fileName,
-      //   type: fileType,
-      // });
-      req.url = 'http://133.186.209.113:3003/api/auth/checkocr';
-      req.params = formData;
-      req.config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      const {data} = await api.checkOcr({
+        image: {
+          uri: utils.isAndroid
+            ? cameraPicture
+            : cameraPicture.replace('file://', ''),
+          name: fileName,
+          type: fileType,
         },
-      };
-      setModalVisible(false);
-      setCameraPicture(null);
-      setChangeTestingCertificate(true);
-      setTESTING_CERTIFICATE(cameraPicture);
-      const response = await axios.post(req.url, req.params, req.config);
-      if (response.data.result == '0') {
+      });
+      console.log('checkOcr', data);
+      setCameraModalVisible(false);
+      if (data.result == '0') {
         alertModal(
           '인식 실패',
           '촬영 시 라인에 맞춰 정면에서 찍어주세요.\n\n* 인식이 불안정한 경우 직접입력하여 진행해 주세요.',
@@ -221,14 +199,48 @@ export default ({route: {params}}) => {
         return;
       } else {
         alertModal('', '인식 완료');
-        setNAME(response.data.name);
-        setEDUCATION_DATE(response.data.resultdate);
-        setRESULT_COUNT(response.data.count);
+        setNAME(data.name);
+        setEDUCATION_DATE(data.resultdate);
+        setRESULT_COUNT(data.count);
       }
     } catch (error) {
       console.log(error);
     } finally {
       dispatch(setSplashVisible(false));
+      setCameraPicture(null);
+      setChangeTestingCertificate(true);
+      setTESTING_CERTIFICATE(cameraPicture);
+    }
+  };
+
+  const deleteFn = async () => {
+    try {
+      let response = await fetch(
+        'http://133.186.209.113:3003/api/auth/deleteStoreHealth',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            STORE_HEALTH_SEQ: this.state.STORE_HEALTH_SEQ,
+          }),
+        },
+      );
+      let json = await response.json();
+      if (this.state.allData.length == 1) {
+        this.props.navigation.pop(2);
+      } else {
+        this.props.navigation.goBack();
+      }
+      alertModal(
+        '',
+        `${this.state.EDUCATION_DATE.slice(0, 4)}년 보건증을 삭제하였습니다.`,
+      );
+      this.props.navigation.goBack();
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -255,15 +267,24 @@ export default ({route: {params}}) => {
   return (
     <HealthCertificateEmpUpdateScreenPresenter
       submit={submit}
+      cameraPicture={cameraPicture}
+      setCameraPicture={setCameraPicture}
       checkorc={checkorc}
-      modalVisible={modalVisible}
-      setModalVisible={setModalVisible}
+      confirmModal={confirmModal}
+      cameraModalVisible={cameraModalVisible}
+      setCameraModalVisible={setCameraModalVisible}
+      dateModdalVisible={dateModdalVisible}
+      setDateModalVisible={setDateModalVisible}
       NAME={NAME}
       setNAME={setNAME}
       RESULT_COUNT={RESULT_COUNT}
       setRESULT_COUNT={setRESULT_COUNT}
       EDUCATION_DATE={EDUCATION_DATE}
       setEDUCATION_DATE={setEDUCATION_DATE}
+      cameraRatioList={cameraRatioList}
+      setCameraRatioList={setCameraRatioList}
+      cameraPictureFlash={cameraPictureFlash}
+      setCameraPictureFlash={setCameraPictureFlash}
     />
   );
 };

@@ -1,16 +1,19 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
+import styled from 'styled-components/native';
+import DatePickerModal from 'react-native-modal-datetime-picker';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import styled from 'styled-components/native';
-import DatePicker from 'react-native-datepicker';
 
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
 import InputLine from '../../../../components/InputLine';
 
+interface IButton {
+  isRight: boolean;
+}
 const WhiteSpace = styled.View`
   height: 30px;
 `;
@@ -19,16 +22,20 @@ const BackGround = styled.SafeAreaView`
   flex: 1;
   background-color: white;
 `;
+
 const ScrollView = styled.ScrollView``;
+
 const Container = styled.View`
   margin-top: 20px;
   padding: 20px;
 `;
+
 const TitleText = styled.Text`
   margin-bottom: 20px;
   font-weight: bold;
   font-size: 22px;
 `;
+
 const CameraBox = styled.TouchableOpacity`
   margin: 20px;
   width: 300px;
@@ -42,14 +49,23 @@ const CameraBox = styled.TouchableOpacity`
 const TextContainer = styled.View`
   align-items: center;
 `;
+
 const Text = styled.Text``;
-const TextInput = styled.TextInput`
+
+const DateText = styled.Text`
   width: 100%;
   font-size: 17px;
-  color: black;
   margin-left: 5px;
   margin-top: 10px;
 `;
+
+const TextInput = styled.TextInput`
+  width: 100%;
+  font-size: 17px;
+  margin-left: 5px;
+  margin-top: 10px;
+`;
+
 const Bold = styled(Text)``;
 
 const Section = styled.View`
@@ -78,18 +94,101 @@ const GreyText = styled.Text`
   font-weight: bold;
 `;
 
+const PictureSection = styled.View`
+  flex: 1;
+  padding: 30px 16px;
+`;
+
+const Image = styled.Image`
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+`;
+
+const Touchable = styled.TouchableOpacity``;
+
+const Row = styled.View`
+  flex-direction: row;
+`;
+
+const Button = styled.TouchableOpacity<IButton>`
+  width: 50%;
+  height: 50px;
+  background-color: ${(props) => (props.isRight ? '#642A8C' : '#FFF')};
+`;
+
+const BarButton = styled.TouchableOpacity`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  background-color: #642a8c;
+`;
+
+const ButtonText = styled.Text<IButton>`
+  font-size: 16px;
+  color: ${(props) => (props.isRight ? '#FFF' : '#642A8C')};
+`;
+
+const FlashButton = styled.TouchableOpacity`
+  width: 45px;
+  height: 45px;
+  border-radius: 60px;
+  border-color: #642a8c;
+  background-color: rgba(100, 100, 100, 0.5);
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: ${wp('5%')}px;
+  top: 30px;
+`;
+
+const CameraButton = styled.TouchableOpacity`
+  width: 60px;
+  height: 60px;
+  border-radius: 60px;
+  border-color: #642a8c;
+  background-color: #ffffff;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: ${wp('50%') - 50}px;
+  bottom: 90px;
+`;
+
+const CameraGuide = styled.View`
+  position: absolute;
+  top: ${hp('10%')}px;
+  left: ${wp('5%')}px;
+  right: ${wp('5%')}px;
+  bottom: ${hp('20%')}px;
+  align-items: center;
+  justify-content: center;
+`;
+
 export default ({
   submit,
+  cameraPicture,
+  setCameraPicture,
   checkorc,
-  modalVisible,
-  setModalVisible,
+  cameraModalVisible,
+  setCameraModalVisible,
+  dateModdalVisible,
+  setDateModalVisible,
   NAME,
   setNAME,
   RESULT_COUNT,
   setRESULT_COUNT,
   EDUCATION_DATE,
   setEDUCATION_DATE,
+  cameraRatioList,
+  setCameraRatioList,
+  cameraPictureFlash,
+  setCameraPictureFlash,
 }) => {
+  const cameraRef = useRef(null);
   return (
     <BackGround>
       <ScrollView
@@ -103,7 +202,7 @@ export default ({
               <Text>문자인식(OCR) 기술로</Text>
               <Text>정보를 자동으로 입력할 수 있습니다</Text>
             </TextContainer>
-            <CameraBox onPress={() => setModalVisible(true)}>
+            <CameraBox onPress={() => setCameraModalVisible(true)}>
               <Bold style={{color: '#642A8C'}}>촬영하기</Bold>
               <Icon name="camera-outline" size={30} color="#642A8C" />
             </CameraBox>
@@ -135,56 +234,32 @@ export default ({
                 }}
                 value={RESULT_COUNT}
                 maxLength={6}
+                keyboardType={'number-pad'}
               />
             </TextInputContainer>
             <InputLine isBefore={RESULT_COUNT == '' ? true : false} />
             <WhiteSpace />
             <TextInputContainer>
               <GreyText>검진일</GreyText>
-              {console.log(EDUCATION_DATE)}
-              <TextInput
-                placeholder={EDUCATION_DATE}
-                placeholderTextColor={'#999'}
-                onChangeText={(text) => {
-                  setEDUCATION_DATE(text);
-                }}
-                value={EDUCATION_DATE}
-                clearButtonMode={'always'}
-                editable={false}>
-                <DatePicker
-                  showIcon={false}
-                  style={{
-                    width: '100%',
-                    textAlign: 'center',
-                    justifyContent: 'center',
-                  }}
-                  date={EDUCATION_DATE ?? ''}
-                  placeholder="기한 입력"
-                  mode="date"
-                  format="YYYY-MM-DD"
-                  minDate="1900/01/01"
-                  maxDate="9999/12/31"
-                  confirmBtnText="확인"
-                  cancelBtnText="취소"
-                  locale="ko"
-                  androidMode="spinner"
-                  customStyles={{
-                    dateInput: {
-                      alignItems: 'center',
-                      borderWidth: 0,
-                    },
-                    dateText: {
-                      fontSize: 16,
-                    },
-                  }}
-                  onDateChange={(date) => {
-                    setEDUCATION_DATE(date);
-                  }}
-                />
-              </TextInput>
+              <Touchable onPress={() => setDateModalVisible(true)}>
+                <DateText>{EDUCATION_DATE}</DateText>
+              </Touchable>
             </TextInputContainer>
             <InputLine isBefore={EDUCATION_DATE == '' ? true : false} />
           </TextInputBox>
+          <DatePickerModal
+            headerTextIOS={'Choose a Date'}
+            cancelTextIOS={'Cancel'}
+            confirmTextIOS={'Confirm'}
+            isVisible={dateModdalVisible}
+            mode="date"
+            locale="ko_KRus_EN"
+            onConfirm={(date) => {
+              setEDUCATION_DATE(date), setDateModalVisible(false);
+            }}
+            onCancel={() => setDateModalVisible(false)}
+            display="default"
+          />
           <SubmitBtn
             text={'입력완료'}
             onPress={() => submit()}
@@ -193,152 +268,74 @@ export default ({
         </Container>
       </ScrollView>
       {/* <Modal
-        isVisible={this.state.modalVisible}
-        style={{margin: 0}}
+        isVisible={cameraModalVisible}
         onBackButtonPress={() => {
-          this.setState({modalVisible: false});
-        }}>
-        <View style={{flex: 1}}>
-          {this.state.cameraPicture ? (
-            <>
-              <View
-                style={{
-                  flex: 1,
-                  paddingHorizontal: 16,
-                  paddingTop: isIphoneX() ? 50 : 30,
-                }}>
-                <View style={{flex: 1, marginBottom: 22}}>
-                  <Image
-                    source={{uri: this.state.cameraPicture}}
-                    style={{width: '100%', height: '100%', borderRadius: 5}}
+          setCameraModalVisible(false);
+        }}
+        style={{flex: 1}}>
+        {cameraPicture ? (
+          <>
+            <PictureSection>
+              <Image source={{uri: cameraPicture}} />
+            </PictureSection>
+            <Row>
+              <Button isRight={false} onPress={() => setCameraPicture(null)}>
+                <ButtonText isRight={false}>재촬영</ButtonText>
+              </Button>
+              <Button isRight={true} onPress={() => checkorc()}>
+                <ButtonText isRight={true}>선택</ButtonText>
+              </Button>
+            </Row>
+          </>
+        ) : (
+          <Camera
+            ref={cameraRef}
+            ratio={
+              cameraRatioList.length > 0
+                ? cameraRatioList[cameraRatioList.length - 1]
+                : '16:9'
+            }
+            autoFocus={Camera.Constants.AutoFocus.on}
+            style={{flex: 1}}
+            onCameraReady={async () => setCameraRatioList(['16:9'])}
+            flashMode={
+              cameraPictureFlash
+                ? Camera.Constants.FlashMode.torch
+                : Camera.Constants.FlashMode.off
+            }>
+            <CameraGuide>
+              <Image
+                style={{height: '100%', width: '100%', opacity: 0.4}}
+                source={require('../../../../assets/images/camera.png')}
+                resizeMode="contain"
+              />
+            </CameraGuide>
+            <BarButton onPress={() => setCameraModalVisible(false)}>
+              <ButtonText isRight={true}> 닫기 </ButtonText>
+            </BarButton>
+            {cameraRatioList.length > 0 && (
+              <>
+                <CameraButton
+                  onPress={async () => {
+                    const capturedPicture = await cameraRef.current.takePictureAsync();
+                    setCameraPicture(capturedPicture.uri);
+                  }}>
+                  <Icon name="camera-outline" size={32} color="#642A8C" />
+                </CameraButton>
+                <FlashButton
+                  onPress={async () =>
+                    setCameraPictureFlash(!cameraPictureFlash)
+                  }>
+                  <Icon
+                    name={cameraPictureFlash ? 'flash-off' : 'flash'}
+                    size={20}
+                    color="#FFFFFF"
                   />
-                </View>
-              </View>
-              <View style={{flexDirection: 'row'}}>
-                <View
-                  style={{
-                    width: '50%',
-                    flexDirection: 'row',
-                  }}>
-                  <TouchableOpacity
-                    style={styles.cameraPictureRetryButton}
-                    onPress={() => {
-                      this.setState({
-                        cameraPicture: null,
-                      });
-                    }}>
-                    <Text style={{fontSize: 16, color: '#642A8C'}}>
-                      {' '}
-                      재촬영{' '}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                <View
-                  style={{
-                    width: '50%',
-                    flexDirection: 'row',
-                  }}>
-                  <TouchableOpacity
-                    style={{
-                      ...styles.cameraPictureRetryButton,
-                      backgroundColor: '#642A8C',
-                    }}
-                    onPress={async () => {
-                      this.checkorc();
-                    }}>
-                    <Text style={{fontSize: 16, color: '#fff'}}> 선택 </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </>
-          ) : (
-            <Camera
-              ref={(ref) => {
-                this.cameraRef = ref;
-              }}
-              ratio={
-                this.state.cameraRatioList.length > 0
-                  ? this.state.cameraRatioList[
-                      this.state.cameraRatioList.length - 1
-                    ]
-                  : '16:9'
-              }
-              autoFocus={Camera.Constants.AutoFocus.on}
-              style={{flex: 1}}
-              onCameraReady={async () => {
-                this.setState({
-                  cameraRatioList: ['16:9'],
-                });
-              }}
-              flashMode={
-                cameraPictureFlash
-                  ? Camera.Constants.FlashMode.torch
-                  : Camera.Constants.FlashMode.off
-              }>
-              <View style={styles.cameraGuide}>
-                <Image
-                  style={{height: '100%', width: '100%', opacity: 0.4}}
-                  source={require('../../../../assets/images/camera.png')}
-                  resizeMode="contain"
-                />
-              </View>
-
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                }}>
-                <TouchableOpacity
-                  style={styles.cameraPictureCloseButton}
-                  onPress={() => {
-                    this.setState({
-                      modalVisible: false,
-                    });
-                  }}>
-                  <Text style={{fontSize: 16, color: '#FFFFFF'}}> 닫기 </Text>
-                </TouchableOpacity>
-              </View>
-              {this.state.cameraRatioList.length > 0 ? (
-                <>
-                  <TouchableOpacity
-                    style={styles.cameraPictureButton}
-                    onPress={async () => {
-                      const capturedPicture = await this.cameraRef.takePictureAsync();
-
-                      this.setState({
-                        cameraPicture: capturedPicture.uri,
-                      });
-                    }}>
-                    <AntDesign
-                      name="camerao"
-                      size={32}
-                      color="#642A8C"
-                      style={{paddingTop: 3}}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.cameraPictureFlashButton}
-                    onPress={async () => {
-                      this.setState({
-                        cameraPictureFlash: !this.state.cameraPictureFlash,
-                      });
-                    }}>
-                    <Ionicons
-                      name={
-                        this.state.cameraPictureFlash
-                          ? 'ios-flash-off'
-                          : 'ios-flash'
-                      }
-                      size={20}
-                      color="#FFFFFF"
-                      style={{paddingTop: 3}}
-                    />
-                  </TouchableOpacity>
-                </>
-              ) : null}
-            </Camera>
-          )}
-        </View>
+                </FlashButton>
+              </>
+            )}
+          </Camera>
+        )}
       </Modal> */}
     </BackGround>
   );
