@@ -53,6 +53,13 @@ export default ({route: {params}}) => {
   };
 
   const submitFn = async () => {
+    const reg = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
+    if (reg.test(EDUCATION_DATE) === false) {
+      return alertModal(
+        '검진일 날짜형식',
+        '검진일 날짜형식은 "2020-01-01"과 같은 형식이어야 합니다. 사진이 인식되지 않는다면 항목을 눌러 날짜를 직접 선택해주세요.',
+      );
+    }
     if (TESTING_CERTIFICATE == undefined) {
       return alertModal(
         '',
@@ -64,13 +71,6 @@ export default ({route: {params}}) => {
     }
     if (RESULT_COUNT.length === 0 || !RESULT_COUNT) {
       alertModal('', '회차를 입력해주세요.');
-    }
-    const reg = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
-    if (reg.test(EDUCATION_DATE) === false) {
-      return alertModal(
-        '검진일 날짜형식',
-        '검진일 날짜형식은 "2020-01-01"과 같은 형식이어야 합니다. 사진이 인식되지 않는다면 항목을 눌러 날짜를 직접 선택해주세요.',
-      );
     }
     try {
       dispatch(setSplashVisible(true));
@@ -137,8 +137,6 @@ export default ({route: {params}}) => {
           type: fileType,
         },
       });
-      console.log('checkOcr', data);
-      setCameraModalVisible(false);
       if (data.result == '0') {
         alertModal(
           '인식 실패',
@@ -154,6 +152,7 @@ export default ({route: {params}}) => {
     } catch (error) {
       console.log(error);
     } finally {
+      setCameraModalVisible(false);
       dispatch(setSplashVisible(false));
       setCameraPicture(null);
       setTESTING_CERTIFICATE(cameraPicture);

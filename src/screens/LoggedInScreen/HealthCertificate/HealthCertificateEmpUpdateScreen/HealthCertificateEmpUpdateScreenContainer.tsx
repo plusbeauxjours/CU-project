@@ -93,8 +93,6 @@ export default ({route: {params}}) => {
           type: fileType,
         },
       });
-      console.log('checkOcr', data);
-      setCameraModalVisible(false);
       if (data.result == '0') {
         alertModal(
           '인식 실패',
@@ -110,6 +108,7 @@ export default ({route: {params}}) => {
     } catch (error) {
       console.log(error);
     } finally {
+      setCameraModalVisible(false);
       dispatch(setSplashVisible(false));
       setCameraPicture(null);
       setTESTING_CERTIFICATE(cameraPicture);

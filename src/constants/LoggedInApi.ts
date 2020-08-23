@@ -96,7 +96,9 @@ export default {
     deleteShelfLifeData: (data: any) => callApi("post", "/auth/deleteshelfLifeData/", data),
     updateShelfLifeData: (data: any) => callApi("post", "/auth/updateshelfLifeData/", data),
     checkOcr: (data: any) => callApi("post", "/auth/checkocr/", data),
+    checkocr1: (data: any) => callApi("post", "/auth/checkocr1/", data),
     saveOcr: (data: any) => callApi("post", "/auth/saveocr/", data),
+    saveOcr1: (data: any) => callApi("post", "/auth/saveocr1/", data),
     updateOcr: (data: any) => callApi("post", "/auth/updateocr/", data),
     deleteStoreHealth: (data: any) => callApi("post", "/auth/deleteStoreHealth/", data),
 }

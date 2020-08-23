@@ -240,17 +240,17 @@ export default ({
             <InputLine isBefore={RESULT_COUNT == '' ? true : false} />
             <WhiteSpace />
             <TextInputContainer>
-              <GreyText>검진일</GreyText>
               <Touchable onPress={() => setDateModalVisible(true)}>
+                <GreyText>검진일</GreyText>
                 <DateText>{EDUCATION_DATE}</DateText>
               </Touchable>
             </TextInputContainer>
             <InputLine isBefore={EDUCATION_DATE == '' ? true : false} />
           </TextInputBox>
           <DatePickerModal
-            headerTextIOS={'Choose a Date'}
-            cancelTextIOS={'Cancel'}
-            confirmTextIOS={'Confirm'}
+            headerTextIOS={'날짜를 선택하세요.'}
+            cancelTextIOS={'취소'}
+            confirmTextIOS={'선책'}
             isVisible={dateModdalVisible}
             mode="date"
             locale="ko_KRus_EN"
