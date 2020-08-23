@@ -315,25 +315,15 @@ export default ({
             <ModifyButton
               onPress={() => {
                 navigation.navigate('HealthCertificateEmpUpdateScreen', {
-                  props: params,
-                  EDUCATION_TYPE,
-                  STORE_HEALTH_SEQ,
-                  TESTING_CERTIFICATE:
-                    'http://cuapi.shop-sol.com/uploads/ocr/' +
-                    TESTING_CERTIFICATE,
                   NAME: REAL_NAME,
                   EMP_SEQ,
                   STORE_SEQ,
-                  FORM: '수정',
                   RESULT_COUNT: TESTING_COUNT,
-                  onRefresh: onRefreshProps,
-                  count: 2,
-                  position,
-                  owner,
-                  storename,
-                  businesstype,
                   EDUCATION_DATE: TESTING_DATE,
-                  allData,
+                  TESTING_CERTIFICATE:
+                    'http://cuapi.shop-sol.com/uploads/ocr/' +
+                    TESTING_CERTIFICATE,
+                  STORE_HEALTH_SEQ,
                 });
               }}>
               <Text style={{fontSize: 16, color: 'white'}}>수정하기</Text>
@@ -341,12 +331,13 @@ export default ({
             <SaveButton
               onPress={() => {
                 navigation.navigate('HealthCertificateEmpFormScreen', {
-                  NAME,
+                  NAME: REAL_NAME,
                   EMP_SEQ,
                   STORE_SEQ,
-                  FORM: '갱신',
-                  onRefresh: onRefreshProps,
-                  count: 2,
+                  RESULT_COUNT: TESTING_COUNT,
+                  TESTING_CERTIFICATE:
+                    'http://cuapi.shop-sol.com/uploads/ocr/' +
+                    TESTING_CERTIFICATE,
                 });
               }}>
               <Text style={{fontSize: 16, color: 'white'}}>갱신하기</Text>

@@ -169,10 +169,10 @@ const CameraGuide = styled.View`
 `;
 
 export default ({
-  submit,
+  submitFn,
   cameraPicture,
   setCameraPicture,
-  checkorc,
+  checkOrcFn,
   cameraModalVisible,
   setCameraModalVisible,
   dateModdalVisible,
@@ -262,7 +262,7 @@ export default ({
           />
           <SubmitBtn
             text={'입력완료'}
-            onPress={() => submit()}
+            onPress={() => submitFn()}
             isRegisted={true}
           />
         </Container>
@@ -282,7 +282,7 @@ export default ({
               <Button isRight={false} onPress={() => setCameraPicture(null)}>
                 <ButtonText isRight={false}>재촬영</ButtonText>
               </Button>
-              <Button isRight={true} onPress={() => checkorc()}>
+              <Button isRight={true} onPress={() => checkOrcFn()}>
                 <ButtonText isRight={true}>선택</ButtonText>
               </Button>
             </Row>

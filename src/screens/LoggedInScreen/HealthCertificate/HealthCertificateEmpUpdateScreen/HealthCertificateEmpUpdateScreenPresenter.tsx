@@ -10,7 +10,6 @@ import DatePickerModal from 'react-native-modal-datetime-picker';
 
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
 import InputLine from '../../../../components/InputLine';
-import {TouchableOpacity} from 'react-native';
 
 interface IButton {
   isRight: boolean;
@@ -176,10 +175,11 @@ const DeleteButton = styled.TouchableOpacity`
 `;
 
 export default ({
-  submit,
+  submitFn,
   cameraPicture,
   setCameraPicture,
   checkorc,
+  confirmModal,
   cameraModalVisible,
   setCameraModalVisible,
   dateModdalVisible,
@@ -267,8 +267,8 @@ export default ({
             display="default"
           />
           <SubmitBtn
-            text={'입력완료'}
-            onPress={() => submit()}
+            text={'수정완료'}
+            onPress={() => submitFn()}
             isRegisted={true}
           />
           <DeleteButton

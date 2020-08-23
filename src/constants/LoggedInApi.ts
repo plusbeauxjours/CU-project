@@ -97,6 +97,7 @@ export default {
     updateShelfLifeData: (data: any) => callApi("post", "/auth/updateshelfLifeData/", data),
     checkOcr: (data: any) => callApi("post", "/auth/checkocr/", data),
     saveOcr: (data: any) => callApi("post", "/auth/saveocr/", data),
-
+    updateOcr: (data: any) => callApi("post", "/auth/updateocr/", data),
+    deleteStoreHealth: (data: any) => callApi("post", "/auth/deleteStoreHealth/", data),
 }
 

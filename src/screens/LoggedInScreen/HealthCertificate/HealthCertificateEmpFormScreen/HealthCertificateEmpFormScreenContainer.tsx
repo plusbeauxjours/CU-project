@@ -13,45 +13,22 @@ export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  const EMP_SEQ = params?.EMP_SEQ;
+  const STORE_SEQ = params?.STORE_SEQ;
+
   const [cameraModalVisible, setCameraModalVisible] = useState<boolean>(false); // 사진 미리
   const [cameraRatioList, setCameraRatioList] = useState<any>([]);
   const [dateModdalVisible, setDateModalVisible] = useState<boolean>(false);
-  const [markedDate, setMarkedDate] = useState<any>({});
-  const [changeTestingCertificate, setChangeTestingCertificate] = useState<
-    boolean
-  >(false);
   const [cameraPictureFlash, setCameraPictureFlash] = useState<boolean>(false);
   const [cameraPicture, setCameraPicture] = useState<any>(null);
-  const [EMP_SEQ, setEMP_SEQ] = useState<any>(params?.EMP_SEQ);
-  const [NAME, setNAME] = useState<string>(''); // 교육이수자성명 / 성명
   const [EDUCATION_DATE, setEDUCATION_DATE] = useState<any>(
     moment().format('YYYY-MM-DD'),
   ); // 교육일시 / 검진일
-  const [EDUCATION_HOUR, setEDUCATION_HOUR] = useState<any>(
-    params?.EDUCATION_HOUR,
-  ); // 교육시간
-  const [TESTING_DAY, setTESTING_DAY] = useState<any>(params?.TESTING_DAY);
+  const [NAME, setNAME] = useState<string>(params?.NAME || ''); // 교육이수자성명 / 성명
   const [TESTING_CERTIFICATE, setTESTING_CERTIFICATE] = useState<any>(
     params?.TESTING_CERTIFICATE,
   ); // 이미지 저장 유무
-  const [REG_DT, setREG_DT] = useState<any>(params?.REG_DT);
   const [RESULT_COUNT, setRESULT_COUNT] = useState<any>(params?.RESULT_COUNT); // 회차
-  const [STORE_SEQ, setSTORE_SEQ] = useState<any>(params?.STORE_SEQ);
-  const [EMP_NAME, setEMP_NAME] = useState<any>(params?.EMP_NAME);
-  const [STORE_HEALTH_SEQ, setSTORE_HEALTH_SEQ] = useState<any>(
-    params?.STORE_HEALTH_SEQ,
-  );
-  const [date, setDate] = useState<any>(params?.date);
-
-  const alertModal = (title, text) => {
-    const params = {
-      type: 'alert',
-      title,
-      content: text,
-    };
-    dispatch(setAlertInfo(params));
-    dispatch(setAlertVisible(true));
-  };
 
   // const getPermissionsAsync = async () => {
   //   const {status} = await Camera.requestPermissionsAsync();
@@ -65,7 +42,17 @@ export default ({route: {params}}) => {
   //   return true;
   // };
 
-  const submit = async () => {
+  const alertModal = (title, text) => {
+    const params = {
+      type: 'alert',
+      title,
+      content: text,
+    };
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
+  };
+
+  const submitFn = async () => {
     if (TESTING_CERTIFICATE == undefined) {
       return alertModal(
         '',
@@ -73,8 +60,7 @@ export default ({route: {params}}) => {
       );
     }
     if (NAME.length === 0 || !NAME) {
-      alertModal('', '성명을 입력해주세요.');
-      return;
+      return alertModal('', '성명을 입력해주세요.');
     }
     if (RESULT_COUNT.length === 0 || !RESULT_COUNT) {
       alertModal('', '회차를 입력해주세요.');
@@ -103,10 +89,10 @@ export default ({route: {params}}) => {
       }
       const {data} = await api.saveOcr({
         EMP_NAME: NAME,
-        EMP_SEQ: EMP_SEQ,
-        STORE_SEQ: STORE_SEQ,
+        EMP_SEQ,
+        STORE_SEQ,
         RESULT_DATE: EDUCATION_DATE,
-        RESULT_COUNT: RESULT_COUNT,
+        RESULT_COUNT,
         image: {
           uri: utils.isAndroid
             ? cameraPicture
@@ -126,7 +112,7 @@ export default ({route: {params}}) => {
     }
   };
 
-  const checkorc = async () => {
+  const checkOrcFn = async () => {
     try {
       dispatch(setSplashVisible(true));
       const cameraPicture = TESTING_CERTIFICATE;
@@ -170,20 +156,11 @@ export default ({route: {params}}) => {
     } finally {
       dispatch(setSplashVisible(false));
       setCameraPicture(null);
-      setChangeTestingCertificate(true);
       setTESTING_CERTIFICATE(cameraPicture);
     }
   };
 
   useEffect(() => {
-    const markedDate = {};
-    if (params?.EDUCATION_DATE) {
-      markedDate[params?.EDUCATION_DATE.replace(/\./g, '-')] = {
-        selected: true,
-        selectedColor: '#5887F9',
-      };
-    }
-    setMarkedDate(markedDate);
     //     this.defaultPictureUploadPath = FileSystem.documentDirectory + 'picture/';
     //     await FileSystem.makeDirectoryAsync(this.defaultPictureUploadPath, {
     //       intermediates: true,
@@ -195,10 +172,10 @@ export default ({route: {params}}) => {
 
   return (
     <HealthCertificateEmpFormScreenPresenter
-      submit={submit}
+      submitFn={submitFn}
       cameraPicture={cameraPicture}
       setCameraPicture={setCameraPicture}
-      checkorc={checkorc}
+      checkOrcFn={checkOrcFn}
       cameraModalVisible={cameraModalVisible}
       setCameraModalVisible={setCameraModalVisible}
       dateModdalVisible={dateModdalVisible}
