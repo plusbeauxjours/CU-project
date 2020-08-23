@@ -170,6 +170,7 @@ const CameraGuide = styled.View`
 `;
 
 const DeleteButton = styled.TouchableOpacity`
+  margin: 50px 0;
   justify-content: center;
   align-items: center;
 `;

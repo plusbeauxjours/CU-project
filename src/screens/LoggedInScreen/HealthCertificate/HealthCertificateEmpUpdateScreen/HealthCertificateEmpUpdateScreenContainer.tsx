@@ -120,10 +120,12 @@ export default ({route: {params}}) => {
       const {data} = await api.deleteStoreHealth({
         STORE_HEALTH_SEQ,
       });
-      alertModal(
-        '',
-        `${EDUCATION_DATE.slice(0, 4)}년 보건증을 삭제하였습니다.`,
-      );
+      if (data.resultms === '1') {
+        alertModal(
+          '',
+          `${EDUCATION_DATE.slice(0, 4)}년 위생교육증을 삭제하였습니다.`,
+        );
+      }
     } catch (error) {
       console.log(error);
     } finally {

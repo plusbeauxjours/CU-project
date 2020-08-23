@@ -19,14 +19,10 @@ export default ({route: {params}}) => {
   const [position, setPosition] = useState<string>(params?.position);
   const [owner, setOwner] = useState<string>(params?.owner);
   const [storename, setStorename] = useState<string>(params?.storename);
-  const [alldata, setAlldata] = useState<any>();
   const [REAL_NAME, setREAL_NAME] = useState<any>(params?.NAME);
   const [SETTIME, setSETTIME] = useState<any>(params?.CREATE_TIME);
   const [modalVisible, setModalVisible] = useState<any>(false);
-  const [STORE_HEALTH_SEQ, setSTORE_HEALTH_SEQ] = useState<any>(null);
-  const [TESTING_DATE, setTESTING_DATE] = useState<any>(null);
-  const [TESTING_COUNT, setTESTING_COUNT] = useState<any>(null);
-
+  const [CEO_HEALTH_SEQ, setCEO_HEALTH_SEQ] = useState('');
   const [TESTING_CERTIFICATE, setTESTING_CERTIFICATE] = useState<any>(
     params?.IMG_LIST,
   );
@@ -36,7 +32,6 @@ export default ({route: {params}}) => {
   );
   const [allData, setAllData] = useState<any>([]);
   const [selectindex, setSelectindex] = useState<any>(0);
-  const [CEO_HEALTH_SEQ, setCEO_HEALTH_SEQ] = useState<string>('');
 
   const onRefresh = async () => {
     try {
@@ -52,12 +47,10 @@ export default ({route: {params}}) => {
   const fetchData = async () => {
     try {
       const {data} = await api.getAllCeoHealth({STORE_SEQ});
-      console.log('==========================', data);
-
+      console.log(data);
       if (data.resultmsg === '1') {
         setSelectindex(0);
-        setAlldata(data.resultdata);
-        setCEO_HEALTH_SEQ(data.resultdata[0].CEO_HEALTH_SEQ);
+        setAllData(data.resultdata);
         setEDUCATION_DATE(data.resultdata[0].probationDATE);
         setEDUCATION_TYPE(data.resultdata[0].probationTYPE);
         setREAL_NAME(data.resultdata[0].NAME);
@@ -67,6 +60,7 @@ export default ({route: {params}}) => {
         setBusinesstype(data.resultdata[0].businesstype);
         setTESTING_CERTIFICATE(data.resultdata[0].IMG_LIST);
         setSETTIME(data.resultdata[0].CREATE_TIME);
+        setCEO_HEALTH_SEQ(data.resultdata[0].CEO_HEALTH_SEQ);
       }
     } catch (error) {
       console.log(error);
@@ -85,30 +79,30 @@ export default ({route: {params}}) => {
 
   const nextdata = async () => {
     setSelectindex(selectindex - 1);
-    setCEO_HEALTH_SEQ(alldata[selectindex - 1].CEO_HEALTH_SEQ);
-    setEDUCATION_DATE(alldata[selectindex - 1].probationDATE);
-    setEDUCATION_TYPE(alldata[selectindex - 1].probationTYPE);
-    setREAL_NAME(alldata[selectindex - 1].NAME);
-    setStorename(alldata[selectindex - 1].storename);
-    setOwner(alldata[selectindex - 1].owner);
-    setPosition(alldata[selectindex - 1].position);
-    setBusinesstype(alldata[selectindex - 1].businesstype);
-    setTESTING_CERTIFICATE(alldata[selectindex - 1].IMG_LIST);
-    setSETTIME(alldata[selectindex - 1].CREATE_TIME);
+    setEDUCATION_DATE(allData[selectindex - 1].probationDATE);
+    setEDUCATION_TYPE(allData[selectindex - 1].probationTYPE);
+    setREAL_NAME(allData[selectindex - 1].NAME);
+    setStorename(allData[selectindex - 1].storename);
+    setOwner(allData[selectindex - 1].owner);
+    setPosition(allData[selectindex - 1].position);
+    setBusinesstype(allData[selectindex - 1].businesstype);
+    setTESTING_CERTIFICATE(allData[selectindex - 1].IMG_LIST);
+    setSETTIME(allData[selectindex - 1].CREATE_TIME);
+    setCEO_HEALTH_SEQ(allData[selectindex - 1].CEO_HEALTH_SEQ);
   };
 
   const backdata = async () => {
     setSelectindex(selectindex + 1);
-    setCEO_HEALTH_SEQ(alldata[selectindex + 1].CEO_HEALTH_SEQ);
-    setEDUCATION_DATE(alldata[selectindex + 1].probationDATE);
-    setEDUCATION_TYPE(alldata[selectindex + 1].probationTYPE);
-    setREAL_NAME(alldata[selectindex + 1].NAME);
-    setStorename(alldata[selectindex + 1].storename);
-    setOwner(alldata[selectindex + 1].owner);
-    setPosition(alldata[selectindex + 1].position);
-    setBusinesstype(alldata[selectindex + 1].businesstype);
-    setTESTING_CERTIFICATE(alldata[selectindex + 1].IMG_LIST);
-    setSETTIME(alldata[selectindex + 1].CREATE_TIME);
+    setEDUCATION_DATE(allData[selectindex + 1].probationDATE);
+    setEDUCATION_TYPE(allData[selectindex + 1].probationTYPE);
+    setREAL_NAME(allData[selectindex + 1].NAME);
+    setStorename(allData[selectindex + 1].storename);
+    setOwner(allData[selectindex + 1].owner);
+    setPosition(allData[selectindex + 1].position);
+    setBusinesstype(allData[selectindex + 1].businesstype);
+    setTESTING_CERTIFICATE(allData[selectindex + 1].IMG_LIST);
+    setSETTIME(allData[selectindex + 1].CREATE_TIME);
+    setCEO_HEALTH_SEQ(allData[selectindex + 1].CEO_HEALTH_SEQ);
   };
 
   useEffect(() => {
@@ -121,26 +115,21 @@ export default ({route: {params}}) => {
       modalVisible={modalVisible}
       setModalVisible={setModalVisible}
       onRefresh={onRefresh}
-      onRefreshProps={params?.onRefresh}
       nextdata={nextdata}
       backdata={backdata}
       alertModal={alertModal}
       EDUCATION_TYPE={EDUCATION_TYPE}
-      STORE_HEALTH_SEQ={STORE_HEALTH_SEQ}
       TESTING_CERTIFICATE={TESTING_CERTIFICATE}
       REAL_NAME={REAL_NAME}
       EMP_SEQ={EMP_SEQ}
       STORE_SEQ={STORE_SEQ}
-      TESTING_COUNT={TESTING_COUNT}
       position={position}
       owner={owner}
       storename={storename}
       businesstype={businesstype}
-      TESTING_DATE={TESTING_DATE}
       SETTIME={SETTIME}
       selectindex={selectindex}
       allData={allData}
-      params={params}
       EDUCATION_DATE={EDUCATION_DATE}
       CEO_HEALTH_SEQ={CEO_HEALTH_SEQ}
     />

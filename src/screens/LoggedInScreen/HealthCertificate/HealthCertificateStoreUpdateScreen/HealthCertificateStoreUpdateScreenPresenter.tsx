@@ -173,6 +173,7 @@ const CameraGuide = styled.View`
 `;
 
 const DeleteButton = styled.TouchableOpacity`
+  margin: 50px 0;
   justify-content: center;
   align-items: center;
 `;
@@ -205,6 +206,7 @@ export default ({
   dateModdalVisible,
   setDateModalVisible,
   toggleEducationType,
+  confirmModal,
 }) => {
   const cameraRef = useRef(null);
   return (
@@ -240,7 +242,7 @@ export default ({
                 maxLength={6}
               />
             </TextInputContainer>
-            <InputLine isBefore={NAME.length === 0 ? true : false} />
+            <InputLine isBefore={NAME == '' ? true : false} />
             <WhiteSpace />
             <TextInputContainer>
               <GreyText>직책</GreyText>
@@ -254,7 +256,7 @@ export default ({
                 maxLength={6}
               />
             </TextInputContainer>
-            <InputLine isBefore={position.length === 0 ? true : false} />
+            <InputLine isBefore={position == '' ? true : false} />
             <WhiteSpace />
             <TextInputContainer>
               <GreyText>대표자 성명</GreyText>
@@ -268,7 +270,7 @@ export default ({
                 maxLength={6}
               />
             </TextInputContainer>
-            <InputLine isBefore={owner.length === 0 ? true : false} />
+            <InputLine isBefore={owner == '' ? true : false} />
             <WhiteSpace />
             <TextInputContainer>
               <GreyText>영업소 명칭</GreyText>
@@ -282,7 +284,7 @@ export default ({
                 maxLength={6}
               />
             </TextInputContainer>
-            <InputLine isBefore={storename.length === 0 ? true : false} />
+            <InputLine isBefore={storename == '' ? true : false} />
             <WhiteSpace />
             <TextInputContainer>
               <Touchable onPress={() => setDateModalVisible(true)}>
@@ -290,7 +292,7 @@ export default ({
                 <DateText>{EDUCATION_DATE}</DateText>
               </Touchable>
             </TextInputContainer>
-            <InputLine isBefore={EDUCATION_DATE.length === 0 ? true : false} />
+            <InputLine isBefore={EDUCATION_DATE == '' ? true : false} />
             <WhiteSpace />
             <TextInputContainer>
               <GreyText>영업의 종류</GreyText>
@@ -304,7 +306,7 @@ export default ({
                 maxLength={6}
               />
             </TextInputContainer>
-            <InputLine isBefore={businesstype.length === 0 ? true : false} />
+            <InputLine isBefore={businesstype == '' ? true : false} />
             <WhiteSpace />
             <TextInputContainer>
               <GreyText>교육 구분</GreyText>
@@ -355,7 +357,7 @@ export default ({
                 color: '#FF3D3D',
                 textDecorationLine: 'underline',
               }}>
-              보건증 삭제하기
+              위생교육증 삭제하기
             </Text>
           </DeleteButton>
         </Container>

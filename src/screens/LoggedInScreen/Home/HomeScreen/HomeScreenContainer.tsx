@@ -13,31 +13,28 @@ let modalInterval;
 export default () => {
   const modalRef = useRef(null);
   const dispatch = useDispatch();
-  const {STORE, MEMBER_SEQ, STORE_SEQ, STORE_NAME, NAME} = useSelector(
+  const {STORE, MEMBER_SEQ, STORE_SEQ, NAME} = useSelector(
     (state: any) => state.userReducer,
   );
 
   const [appVersion, setAppVersion] = useState<string>('');
   const [platform, setPlatform] = useState<string>('');
-  const [store, setStore] = useState<{}>({});
-  const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [isFetching, setIsFetching] = useState<boolean>(false);
   const [pictureModalOpen, setPictureModalOpen] = useState<boolean>(false);
   const [barcodeModalOpen, setBarcodeModalOpen] = useState<boolean>(false);
   const [workingModalOpen, setWorkingModalOpen] = useState<boolean>(false);
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean>(
     false,
   );
+  const [showPictureModal, setShowPictureModal] = useState<boolean>(false);
   const [isScanned, setIsScanned] = useState<boolean>(false);
   const [lat, setLat] = useState<number>(0);
   const [long, setLong] = useState<number>(0);
-  const [fontsLoaded, setFontsLoaded] = useState<boolean>(true);
-  const [allHelpTextView, setAllHelpTextView] = useState<boolean>(false);
   const [storeResult, setStoreResult] = useState<any>(null);
   const [QR, setQR] = useState<string>('');
   const [notice, setNotice] = useState<{}>({TITLE: '', CONTENTS: ''});
   const [EMPLOYEE, setEMPLOYEE] = useState<any>(null);
   const [WORKINGLIST, setWORKINGLIST] = useState<any>(null);
+  const [STORE_NAME, setSTORE_NAME] = useState<string>('');
 
   const alertModal = (text, title = '', okCallback = () => {}) => {
     const params = {
@@ -45,14 +42,6 @@ export default () => {
       title,
       content: text,
       okCallback,
-    };
-    dispatch(setAlertInfo(params));
-    dispatch(setAlertVisible(true));
-  };
-
-  const helpModal = (title, text) => {
-    const params = {
-      type: 'helpModal',
     };
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
@@ -89,6 +78,7 @@ export default () => {
           },
         );
       }
+      setSTORE_NAME(data.resultdata.NAME);
       setStoreResult(data);
       setQR(data.resultdata.QR);
       setNotice(data.notice);
@@ -272,23 +262,25 @@ export default () => {
       storeResult={storeResult}
       NAME={NAME}
       STORE={STORE}
-      MEMBER_SEQ={MEMBER_SEQ}
       STORE_SEQ={STORE_SEQ}
       STORE_NAME={STORE_NAME}
       EMPLOYEE={EMPLOYEE}
       WORKINGLIST={WORKINGLIST}
-      pictureModalOpen={pictureModalOpen}
-      setPictureModalOpen={setPictureModalOpen}
+      hasCameraPermission={hasCameraPermission}
       barcodeModalOpen={barcodeModalOpen}
       setBarcodeModalOpen={setBarcodeModalOpen}
+      pictureModalOpen={pictureModalOpen}
+      setShowPictureModal={setShowPictureModal}
+      showPictureModal={showPictureModal}
+      setPictureModalOpen={setPictureModalOpen}
       workingModalOpen={workingModalOpen}
       setWorkingModalOpen={setWorkingModalOpen}
       modalRef={modalRef}
-      helpModal={helpModal}
       goWork={goWork}
       leaveWork={leaveWork}
       handleBarCodeScanned={handleBarCodeScanned}
       checkPermissions={checkPermissions}
+      QR={QR}
     />
   );
 };

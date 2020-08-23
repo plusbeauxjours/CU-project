@@ -102,4 +102,5 @@ export default {
     updateOcr: (data: any) => callApi("post", "/auth/updateocr/", data),
     deleteStoreHealth: (data: any) => callApi("post", "/auth/deleteStoreHealth/", data),
     getAllCeoHealth: (data: any) => callApi("post", "/auth/getAllCeoHealth/", data),
+    deleteCeoHealth: (data: any) => callApi("post", "/auth/deleteCeoHealth/", data),
 }

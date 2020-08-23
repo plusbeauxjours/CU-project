@@ -26,17 +26,20 @@ const BackGround = styled.View`
 const Touchable = styled.TouchableOpacity``;
 const ScrollView = styled.ScrollView``;
 const ImageBackground = styled.ImageBackground``;
+const Text = styled.Text``;
+
 const Container = styled.View`
   width: 100%;
   flex-direction: row;
   flex-wrap: wrap;
   padding-top: 10px;
 `;
-const Text = styled.Text``;
+
 const Image = styled.Image<IImage>`
   width: 100%;
   height: 100%;
 `;
+
 const IconContainer = styled.TouchableOpacity`
   margin-right: 10px;
   width: 40px;
@@ -46,9 +49,11 @@ const IconContainer = styled.TouchableOpacity`
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 30px;
 `;
+
 const Box = styled.View`
   margin: 20px 0;
 `;
+
 const MyPage = styled.View`
   flex-direction: row;
   flex: 1;
@@ -74,6 +79,7 @@ const NewCnt = styled.View`
   border-radius: 20px;
   background-color: red;
 `;
+
 const NewCntText = styled.Text`
   color: white;
   font-weight: bold;
@@ -124,20 +130,24 @@ const NoticeCnt = styled.View`
   border-radius: 10px;
   background-color: #3f4450;
 `;
+
 const NoticeTitle = styled.Text`
   font-weight: bold;
   font-size: 16px;
   color: #aace36;
 `;
+
 const Row = styled.View`
   flex-direction: row;
   align-items: center;
   margin-bottom: 5px;
 `;
+
 const NoticeText = styled.Text`
   font-size: 12px;
   color: #ddd;
 `;
+
 const NoticeContainer = styled.View`
   flex: 1;
   padding: 10px;
@@ -147,24 +157,29 @@ const NoticeArea = styled.View`
   padding: 0 ${wp('3%')}px;
   background-color: #642a8c;
 `;
+
 const Footer = styled.View`
   height: 50px;
   background-color: #642a8c;
 `;
+
 const StoreName = styled.View`
   padding: 0 ${wp('5%')}px;
   justify-content: center;
   align-items: flex-start;
 `;
+
 const StoreText = styled.Text`
   color: white;
   font-size: 24px;
   line-height: ${wp('8%')}px;
 `;
+
 const StoreSubText = styled.Text`
   color: #ddd;
   font-size: 22px;
 `;
+
 const StoreUpdate = styled.View`
   flex: 1;
   padding: 0 ${wp('5%')}px 15px ${wp('5%')}px;
@@ -172,6 +187,7 @@ const StoreUpdate = styled.View`
   align-items: flex-end;
   justify-content: flex-end;
 `;
+
 const StoreUpdateBtn = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
@@ -182,9 +198,11 @@ const StoreUpdateBtn = styled.TouchableOpacity`
   margin-left: 10px;
   background-color: rgba(0, 0, 0, 0.4);
 `;
+
 const WhiteText = styled.Text`
   color: white;
 `;
+
 const MenuTitleArea = styled.View`
   flex-direction: row;
   align-self: flex-start;
@@ -193,11 +211,13 @@ const MenuTitleArea = styled.View`
   padding: 10px 20px;
   background-color: #642a8c;
 `;
+
 const MenuTitle = styled.Text`
   font-size: 16px;
   color: white;
   font-weight: bold;
 `;
+
 const Bold = styled(MenuTitle)`
   color: white;
   font-weight: 600;
@@ -211,6 +231,7 @@ const PurpleBg = styled.View<IIsTrue>`
   height: ${(props) => (props.isTrue ? hp('10%') : hp('15%'))};
   background-color: #642a8c;
 `;
+
 const GreenBg = styled(PurpleBg)<IIsTrue>`
   height: ${(props) => (props.isTrue ? hp('15%') : hp('30%'))};
   background-color: #aace36;
@@ -237,25 +258,31 @@ const BarcodeContainer = styled.View`
   flex-direction: column;
   justify-content: flex-end;
 `;
+
 const BarcodeLayerTop = styled.View`
   flex: 2;
   background-color: rgba(0, 0, 0, 0.6);
 `;
+
 const BarcodeLayerCenter = styled.View`
   flex: 3;
   flex-direction: row;
 `;
+
 const BarcodeLayerLeft = styled.View`
   flex: 1;
   background-color: rgba(0, 0, 0, 0.6);
 `;
+
 const Focused = styled.View`
   flex: 10;
 `;
+
 const BarcodeLayerRight = styled.View`
   flex: 1;
   background-color: rgba(0, 0, 0, 0.6);
 `;
+
 const BarcodeLayerBottom = styled.View`
   flex: 2;
   background-color: rgba(0, 0, 0, 0.6);
@@ -264,6 +291,7 @@ const BarcodeLayerBottom = styled.View`
 const WorkingModalContainer = styled.View`
   background-color: white;
 `;
+
 const WorkingModalBox = styled.View`
   height: ${hp('8%')}px;
   border-bottom-width: 1px;
@@ -277,6 +305,7 @@ const Work = styled.View`
   width: ${wp('100%')}px;
   flex-direction: row;
 `;
+
 const GoWork = styled.TouchableOpacity`
   width: ${wp('100%')}px;
   height: 52px;
@@ -284,6 +313,7 @@ const GoWork = styled.TouchableOpacity`
   align-items: center;
   background-color: #642a8c;
 `;
+
 const WorkText = styled.Text`
   color: '#FFFFFF';
   font-size: 15px;
@@ -296,19 +326,23 @@ const WorkingModalText = styled.Text`
   color: #333;
   font-weight: bold;
 `;
+
 const WorkStartButton = styled.TouchableOpacity`
   height: ${hp('20%')}px;
   width: ${wp('50%')}px;
   align-items: center;
   justify-content: center;
 `;
+
 const WorkEndButton = styled(WorkStartButton)`
   border-left-width: 1px;
 `;
+
 const WorkStartBtnText = styled.Text`
   font-size: 24px;
   color: #642a8c;
 `;
+
 const WorkEndBtnText = styled(WorkStartBtnText)`
   color: #aace36;
 `;
@@ -318,7 +352,6 @@ export default ({
   storeResult,
   NAME,
   STORE,
-  MEMBER_SEQ,
   STORE_SEQ,
   STORE_NAME,
   EMPLOYEE,
@@ -333,7 +366,6 @@ export default ({
   workingModalOpen,
   setWorkingModalOpen,
   modalRef,
-  helpModal,
   goWork,
   leaveWork,
   handleBarCodeScanned,
@@ -461,7 +493,7 @@ export default ({
                     color: '#AACE36',
                     fontSize: utils.isAndroid ? 14 : 18,
                   }}>
-                  Nice to CU_
+                  Nice to CU_&nbsp;
                 </Text>
                 <Text
                   style={{

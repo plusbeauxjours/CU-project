@@ -13,20 +13,23 @@ export default ({route: {params}}) => {
   const navigation = useNavigation();
 
   const STORE_SEQ = params?.STORE_SEQ;
+  const CEO_HEALTH_SEQ = params?.CEO_HEALTH_SEQ;
 
   const [dateModdalVisible, setDateModalVisible] = useState<boolean>(false);
   const [cameraModalVisible, setCameraModalVisible] = useState<boolean>(false);
   const [cameraRatioList, setCameraRatioList] = useState<any>([]);
   const [cameraPictureFlash, setCameraPictureFlash] = useState<boolean>(false);
   const [cameraPicture, setCameraPicture] = useState<any>(null);
-  const [NAME, setNAME] = useState<string>(''); // 교육이수자성명 / 성명
-  const [owner, setOwner] = useState<string>(''); // 대표자성명
-  const [storename, setStorename] = useState<string>(''); // 영업소 명칭
-  const [businesstype, setBusinesstype] = useState<string>(''); // 영업의종류
-  const [position, setPosition] = useState<string>(''); // 직책
-  const [EDUCATION_DATE, setEDUCATION_DATE] = useState<any>(''); // 교육일시 / 검진일
+  const [NAME, setNAME] = useState<string>(params?.NAME); // 교육이수자성명 / 성명
+  const [owner, setOwner] = useState<string>(params?.position); // 대표자성명
+  const [storename, setStorename] = useState<string>(params?.owner); // 영업소 명칭
+  const [businesstype, setBusinesstype] = useState<string>(params?.storename); // 영업의종류
+  const [position, setPosition] = useState<string>(params?.EDUCATION_DATE); // 직책
+  const [EDUCATION_DATE, setEDUCATION_DATE] = useState<any>(
+    params?.businesstype,
+  ); // 교육일시 / 검진일
   const [EDUCATION_TYPE, setEDUCATION_TYPE] = useState<'online' | 'offline'>(
-    'online',
+    params?.EDUCATION_TYPE || 'online',
   ); // 교육구분
   const [TESTING_CERTIFICATE, setTESTING_CERTIFICATE] = useState<any>(''); // 이미지 저장 유무
 
@@ -52,11 +55,42 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
+  const confirmModal = (content) => {
+    const params = {
+      type: 'confirm',
+      title: '',
+      content: '등록한 정보를 삭제하시겠습니까?',
+      okCallback: () => {
+        deleteFn();
+      },
+      okButtonText: '삭제',
+      cancelButtonText: '취소',
+    };
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
+  };
+
   const toggleEducationType = () => {
     if (EDUCATION_TYPE === 'online') {
       return setEDUCATION_TYPE('offline');
     } else {
       return setEDUCATION_TYPE('online');
+    }
+  };
+
+  const deleteFn = async () => {
+    try {
+      const {data} = await api.deleteCeoHealth({CEO_HEALTH_SEQ});
+      if (data.resultms === '1') {
+        alertModal(
+          '',
+          `${EDUCATION_DATE.slice(0, 4)}년 위생교육증을 삭제하였습니다.`,
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      navigation.goBack();
     }
   };
 
@@ -210,6 +244,7 @@ export default ({route: {params}}) => {
         selectedColor: '#5887F9',
       };
     }
+    console.log(params);
     //     this.defaultPictureUploadPath = FileSystem.documentDirectory + 'picture/';
     //     await FileSystem.makeDirectoryAsync(this.defaultPictureUploadPath, {
     //       intermediates: true,
@@ -248,6 +283,7 @@ export default ({route: {params}}) => {
       dateModdalVisible={dateModdalVisible}
       setDateModalVisible={setDateModalVisible}
       toggleEducationType={toggleEducationType}
+      confirmModal={confirmModal}
     />
   );
 };

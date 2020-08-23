@@ -176,26 +176,21 @@ export default ({
   modalVisible,
   setModalVisible,
   onRefresh,
-  onRefreshProps,
   nextdata,
   backdata,
   alertModal,
   EDUCATION_TYPE,
-  STORE_HEALTH_SEQ,
   TESTING_CERTIFICATE,
   REAL_NAME,
   EMP_SEQ,
   STORE_SEQ,
-  TESTING_COUNT,
   position,
   owner,
   storename,
   businesstype,
-  TESTING_DATE,
   SETTIME,
   selectindex,
   allData,
-  params,
   EDUCATION_DATE,
   CEO_HEALTH_SEQ,
 }) => {
@@ -294,12 +289,18 @@ export default ({
         </Container>
         <Container style={{marginTop: 20, alignItems: 'center'}}>
           <Row>
-            {console.log('TESTING_DATE', TESTING_DATE)}
-            {console.log('EDUCATION_DATE', EDUCATION_DATE)}
             <ModifyButton
               onPress={() => {
                 navigation.navigate('HealthCertificateStoreUpdateScreen', {
                   STORE_SEQ,
+                  CEO_HEALTH_SEQ,
+                  NAME: REAL_NAME,
+                  position,
+                  owner,
+                  storename,
+                  EDUCATION_DATE,
+                  businesstype,
+                  EDUCATION_TYPE,
                 });
               }}>
               <Text style={{fontSize: 16, color: 'white'}}>수정하기</Text>
@@ -310,7 +311,6 @@ export default ({
                   NAME: REAL_NAME,
                   EMP_SEQ,
                   STORE_SEQ,
-                  RESULT_COUNT: TESTING_COUNT,
                   TESTING_CERTIFICATE:
                     'http://cuapi.shop-sol.com/uploads/ocr/' +
                     TESTING_CERTIFICATE,
