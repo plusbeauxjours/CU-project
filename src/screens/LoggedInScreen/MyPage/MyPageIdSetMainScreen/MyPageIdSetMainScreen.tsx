@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
-import utils from '../../../../constants/utils';
+import {ForwardIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -36,15 +35,7 @@ export default ({route: {params}}) => {
   const navigation = useNavigation();
   const ArrowIcon = () => (
     <Arrow>
-      <Icon
-        name={
-          utils.isAndroid
-            ? 'md-chevron-forward-outline'
-            : 'ios-chevron-forward-outline'
-        }
-        size={22}
-        color="#642A8C"
-      />
+      <ForwardIcon size={22} />
     </Arrow>
   );
   return (

@@ -8,7 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import api from '../../../../constants/LoggedInApi';
 import {userLogout} from '../../../../redux/userSlice';
-import utils from '../../../../constants/utils';
+import {BackIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -119,17 +119,9 @@ export default () => {
             setIsConfirmed(!isConfirmed);
           }}>
           {isConfirmed ? (
-            <Icon
-              name={utils.isAndroid ? 'md-chevron-back' : 'ios-chevron-back'}
-              size={16}
-              color="#642A8C"
-            />
+            <Icon name={'checkbox-outline'} size={22} color={'#642A8C'} />
           ) : (
-            <Icon
-              name={utils.isAndroid ? 'md-chevron-back' : 'ios-chevron-back'}
-              size={16}
-              color="#E5E5E5"
-            />
+            <Icon name={'checkbox-outline'} size={22} color={'#E5E5E5'} />
           )}
           <CheckText>데이터를 모두 삭제하고 탈퇴하겠습니다</CheckText>
         </Check>

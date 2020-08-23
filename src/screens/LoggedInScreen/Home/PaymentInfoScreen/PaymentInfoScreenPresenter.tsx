@@ -7,6 +7,7 @@ import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PaymentInfoScreenCard from './PaymentInfoScreenCard';
 import utils from '../../../../constants/utils';
+import {ForwardIcon, BackIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -120,15 +121,7 @@ export default ({
           <Box>
             <DateBox>
               <DateArrow onPress={() => backpay()}>
-                <Icon
-                  name={
-                    utils.isAndroid
-                      ? 'md-chevron-back-outline'
-                      : 'ios-chevron-back-outline'
-                  }
-                  size={22}
-                  color="#bbb"
-                />
+                <BackIcon size={22} color={'#bbb'} />
               </DateArrow>
               <Date>
                 <DateText>
@@ -139,15 +132,7 @@ export default ({
                 <Icon name="reload-outline" size={26} />
               </DateReload>
               <DateArrow onPress={() => nextpay()}>
-                <Icon
-                  name={
-                    utils.isAndroid
-                      ? 'md-chevron-forward-outline'
-                      : 'ios-chevron-forward-outline'
-                  }
-                  size={22}
-                  color="#bbb"
-                />
+                <ForwardIcon size={22} color={'#bbb'} />
               </DateArrow>
             </DateBox>
             <PayBox>

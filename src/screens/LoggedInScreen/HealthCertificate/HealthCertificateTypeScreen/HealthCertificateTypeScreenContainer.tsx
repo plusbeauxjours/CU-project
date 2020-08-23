@@ -13,16 +13,14 @@ export default ({route: {params}}) => {
   const {STORE_SEQ} = STOREDATA?.resultdata;
 
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [EDUCATION_CERTIFICATE, setEDUCATION_CERTIFICATE] = useState<string>(
-    '',
-  );
+  const [EDUCATION_CERTIFICATE, setEDUCATION_CERTIFICATE] = useState<number>(0);
   const [EDUCATION_DDAY, setEDUCATION_DDAY] = useState<string>('');
   const [HEALTH_CERTIFICATE_TARGET, setHEALTH_CERTIFICATE_TARGET] = useState<
-    string
-  >('');
+    number
+  >(0);
   const [HEALTH_CERTIFICATE_APPLY, setHEALTH_CERTIFICATE_APPLY] = useState<
-    string
-  >('');
+    number
+  >(0);
   const [HEALTH_DDAY, setHEALTH_DDAY] = useState<string>('');
   const [EDUCATION_DATA, setEDUCATION_DATA] = useState<string>('');
 
@@ -54,12 +52,12 @@ export default ({route: {params}}) => {
         MEMBER_SEQ,
         STORE,
       });
-      setEDUCATION_CERTIFICATE(data?.result.EDUCATION_CERTIFICATE);
-      setEDUCATION_DATA(data?.result.EDUCATION_DATA);
-      setEDUCATION_DDAY(data?.result.EDUCATION_DDAY);
-      setHEALTH_CERTIFICATE_TARGET(data?.result.HEALTH_CERTIFICATE_TARGET);
-      setHEALTH_CERTIFICATE_APPLY(data?.result.HEALTH_CERTIFICATE_APPLY);
-      setHEALTH_DDAY(data?.result.HEALTH_DDAY);
+      setEDUCATION_CERTIFICATE(data?.EDUCATION_CERTIFICATE);
+      setEDUCATION_DATA(data?.EDUCATION_DATA);
+      setEDUCATION_DDAY(data?.EDUCATION_DDAY);
+      setHEALTH_CERTIFICATE_TARGET(data?.HEALTH_CERTIFICATE_TARGET);
+      setHEALTH_CERTIFICATE_APPLY(data?.HEALTH_CERTIFICATE_APPLY);
+      setHEALTH_DDAY(data?.HEALTH_DDAY);
     } catch (error) {
       console.log(error);
     }

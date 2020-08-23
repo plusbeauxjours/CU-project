@@ -8,6 +8,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {BackIcon, ForwardIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -171,11 +172,9 @@ const RegDateContainer = styled.View`
 `;
 
 export default ({
-  NAME,
   modalVisible,
   setModalVisible,
   onRefresh,
-  onRefreshProps,
   nextdata,
   backdata,
   alertModal,
@@ -186,15 +185,10 @@ export default ({
   EMP_SEQ,
   STORE_SEQ,
   TESTING_COUNT,
-  position,
-  owner,
-  storename,
-  businesstype,
   TESTING_DATE,
   SETTIME,
-  selectindex,
+  selectIndex,
   allData,
-  params,
 }) => {
   const navigation = useNavigation();
   const GetContent = ({label, data}) => (
@@ -226,15 +220,7 @@ export default ({
           }}>
           <ImageButtonText>사진 보기</ImageButtonText>
           <ImageIconContainer>
-            <Icon
-              name={
-                utils.isAndroid
-                  ? 'md-chevron-forward-outline'
-                  : 'ios-chevron-forward-outline'
-              }
-              size={22}
-              color="#642A8C"
-            />
+            <ForwardIcon size={22} />
           </ImageIconContainer>
         </ImageButtonWrapper>
       )}
@@ -252,21 +238,13 @@ export default ({
             <Date>
               <DateArrowLeft
                 onPress={() => {
-                  if (selectindex == allData.length - 1) {
+                  if (selectIndex == allData.length - 1) {
                     alertModal('', '최초데이터 입니다.');
                   } else {
                     backdata();
                   }
                 }}>
-                <Icon
-                  name={
-                    utils.isAndroid
-                      ? 'md-chevron-back-outline'
-                      : 'ios-chevron-back-outline'
-                  }
-                  size={22}
-                  color="#000"
-                />
+                <BackIcon size={22} color={'#000'} />
               </DateArrowLeft>
               <DateTextArea
                 onPress={() => {
@@ -282,21 +260,13 @@ export default ({
               </DateToday>
               <DateArrowRight
                 onPress={() => {
-                  if (selectindex == 0) {
+                  if (selectIndex == 0) {
                     alertModal('', '최신데이터 입니다.');
                   } else {
                     nextdata();
                   }
                 }}>
-                <Icon
-                  name={
-                    utils.isAndroid
-                      ? 'md-chevron-forward-outline'
-                      : 'ios-chevron-forward-outline'
-                  }
-                  size={22}
-                  color="#000"
-                />
+                <ForwardIcon size={22} color={'#000'} />
               </DateArrowRight>
             </Date>
             <ContentWrapper>

@@ -75,18 +75,12 @@ export default ({
         activeOpacity={1}
         onPress={() => {
           navigation.navigate('HealthCertificateEmpDetailScreen', {
-            STORE_HEALTH_SEQ,
             STORE_SEQ,
             EMP_SEQ,
             NAME,
-            EDUCATION_TYPE,
-            TESTING_DATE,
-            REAL_NAME,
-            TESTING_COUNT,
-            TESTING_CERTIFICATE,
             SETTIME,
             IMG_LIST,
-            type,
+            EDUCATION_TYPE,
           });
         }}>
         <Container>
@@ -107,7 +101,7 @@ export default ({
                   color={dday <= 0 ? '#CE0505' : '#642A8C'}
                   style={dday > 0 && {textDecorationLine: 'underline'}}>
                   검진일 : {TESTING_DATE} (갱신 D{dday <= 0 ? '+' : '-'}
-                  {Math.abs(dday)})
+                  {Math.abs(Math.floor(dday))})
                 </AddressText>
               ) : (
                 <AddressText color={'#CE0505'}>보건증 미등록</AddressText>

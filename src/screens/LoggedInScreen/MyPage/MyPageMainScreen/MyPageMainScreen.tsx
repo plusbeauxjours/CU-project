@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import {userLogout} from '../../../../redux/userSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import utils from '../../../../constants/utils';
+import {ForwardIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.View`
   flex: 1;
@@ -134,15 +134,7 @@ export default () => {
 
   const ArrowIcon = () => (
     <Arrow>
-      <Icon
-        name={
-          utils.isAndroid
-            ? 'md-chevron-forward-outline'
-            : 'ios-chevron-forward-outline'
-        }
-        size={22}
-        color="#642A8C"
-      />
+      <ForwardIcon size={22} />
     </Arrow>
   );
 

@@ -6,8 +6,6 @@ import {WebView} from 'react-native-webview';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 
-import utils from '../../../../constants/utils';
-
 const BackGround = styled.View`
   flex: 1;
   background-color: white;

@@ -4,10 +4,10 @@ import {RefreshControl} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 
-import utils from '../../../../constants/utils';
+import {ForwardIcon} from '../../../../constants/Icons';
 
 interface IText {
-  color?: string;
+  isSubmited?: boolean;
 }
 
 const BackGround = styled.SafeAreaView`
@@ -25,7 +25,7 @@ const Container = styled.View`
 const Text = styled.Text<IText>`
   margin-left: 3px;
   font-size: 13px;
-  color: ${(props) => props.color};
+  color: ${(props) => (props.isSubmited ? '#642A8C' : '#CE0505')};
 `;
 
 const Section = styled.TouchableOpacity`
@@ -120,15 +120,7 @@ export default ({
       </Row>
       <Row>
         <ViewBtnText>등록 및 상세</ViewBtnText>
-        <Icon
-          name={
-            utils.isAndroid
-              ? 'md-chevron-forward-outline'
-              : 'ios-chevron-forward-outline'
-          }
-          size={14}
-          color="#642A8C"
-        />
+        <ForwardIcon />
       </Row>
     </TypeTitle>
   );
@@ -157,21 +149,13 @@ export default ({
                 </Row>
                 <Row>
                   <ViewBtnText>등록 및 상세</ViewBtnText>
-                  <Icon
-                    name={
-                      utils.isAndroid
-                        ? 'md-chevron-forward-outline'
-                        : 'ios-chevron-forward-outline'
-                    }
-                    size={14}
-                    color="#642A8C"
-                  />
+                  <ForwardIcon />
                 </Row>
               </TypeTitle>
               {HEALTH_CERTIFICATE_APPLY == 0 ? (
                 <IconContainer>
                   <Icon name={'ellipse-sharp'} size={22} color={'#CE0505'} />
-                  <Text color={'#CE0505'}> 미등록</Text>
+                  <Text isSubmited={false}> 미등록</Text>
                 </IconContainer>
               ) : (
                 <IconContainer
@@ -181,7 +165,7 @@ export default ({
                   }}>
                   <Row>
                     <Icon name={'ellipse-sharp'} size={22} color={'#642A8C'} />
-                    <Text color={'#642A8C'}>위생교육증 등록완료</Text>
+                    <Text isSubmited={true}>위생교육증 등록완료</Text>
                   </Row>
                   <Row>
                     <Text
@@ -195,7 +179,7 @@ export default ({
                           : {marginTop: 5, color: '#aaa'}
                       }>
                       검진일시: {HEALTH_DDAY} (갱신 D{dday <= 0 ? '+' : '-'}
-                      {Math.abs(dday)})
+                      {Math.abs(Math.floor(dday))})
                     </Text>
                   </Row>
                 </IconContainer>
@@ -235,8 +219,14 @@ export default ({
                       flexDirection: 'column',
                       alignItems: 'flex-start',
                     }}>
-                    <Icon name={'ellipse-sharp'} size={22} color={'#642A8C'} />
-                    <Text color={'#642A8C'}>위생교육증 등록완료</Text>
+                    <Row>
+                      <Icon
+                        name={'ellipse-sharp'}
+                        size={22}
+                        color={'#642A8C'}
+                      />
+                      <Text isSubmited={true}>위생교육증 등록완료</Text>
+                    </Row>
                     <Text
                       style={
                         dday <= 0
@@ -248,7 +238,7 @@ export default ({
                           : {marginTop: 5, color: '#aaa'}
                       }>
                       교육일시: {EDUCATION_DATA} (갱신 D{dday <= 0 ? '+' : '-'}
-                      {Math.abs(dday)})
+                      {Math.abs(Math.floor(dday))})
                     </Text>
                   </IconContainer>
                 </Section>
@@ -263,7 +253,7 @@ export default ({
                   <SanitaryEducation />
                   <IconContainer>
                     <Icon name={'ellipse-sharp'} size={22} color={'#CE0505'} />
-                    <Text color={'#CE0505'}>위생교육증 미등록</Text>
+                    <Text isSubmited={false}>위생교육증 미등록</Text>
                   </IconContainer>
                 </Section>
               )}
@@ -292,27 +282,19 @@ export default ({
                   </Row>
                   <Row>
                     <ViewBtnText>등록 및 상세</ViewBtnText>
-                    <Icon
-                      name={
-                        utils.isAndroid
-                          ? 'md-chevron-forward-outline'
-                          : 'ios-chevron-forward-outline'
-                      }
-                      size={14}
-                      color="#642A8C"
-                    />
+                    <ForwardIcon />
                   </Row>
                 </TypeTitle>
                 {HEALTH_CERTIFICATE_APPLY == 0 ? (
                   <IconContainer>
                     <Icon name={'ellipse-sharp'} size={22} color={'#CE0505'} />
-                    <Text color={'#CE0505'}>미등록</Text>
+                    <Text isSubmited={false}>미등록</Text>
                   </IconContainer>
                 ) : Number(HEALTH_CERTIFICATE_APPLY) ==
                   Number(HEALTH_CERTIFICATE_TARGET) ? (
                   <IconContainer>
                     <Icon name={'ellipse-sharp'} size={22} color={'#642A8C'} />
-                    <Text color={'#642A8C'}>
+                    <Text isSubmited={true}>
                       등록 중({HEALTH_CERTIFICATE_TARGET}명 중&nbsp;
                       {HEALTH_CERTIFICATE_APPLY}명 완료)
                     </Text>
@@ -320,7 +302,7 @@ export default ({
                 ) : (
                   <IconContainer>
                     <Icon name={'ellipse-sharp'} size={22} color={'#CE0505'} />
-                    <Text color={'#CE0505'}>
+                    <Text isSubmited={false}>
                       등록 중({HEALTH_CERTIFICATE_TARGET}명 중&nbsp;
                       {HEALTH_CERTIFICATE_APPLY}명 완료)
                     </Text>

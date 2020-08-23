@@ -9,6 +9,7 @@ import {
 } from 'react-native-responsive-screen';
 
 import utils from '../../../../constants/utils';
+import {ForwardIcon} from '../../../../constants/Icons';
 
 interface IIsStore {
   isStore?: boolean;
@@ -238,15 +239,7 @@ export default ({
               ) : TYPE == '0' ? (
                 ''
               ) : (
-                <Icon
-                  name={
-                    utils.isAndroid
-                      ? 'md-chevron-forward-outline'
-                      : 'ios-chevron-forward-outline'
-                  }
-                  size={20}
-                  color="#642A8C"
-                />
+                <ForwardIcon size={20} />
               )}
             </Arrow>
           )}

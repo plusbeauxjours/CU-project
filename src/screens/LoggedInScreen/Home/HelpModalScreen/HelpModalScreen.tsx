@@ -9,6 +9,7 @@ import api from '../../../../constants/LoggedInApi';
 import utils from '../../../../constants/utils';
 import {setHelpCategory} from '../../../../redux/helpSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
+import {ForwardIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.View`
   flex: 1;
@@ -85,15 +86,7 @@ export default () => {
             />
             <KakaoText>카카오톡 문의</KakaoText>
           </Row>
-          <Icon
-            name={
-              utils.isAndroid
-                ? 'md-chevron-forward-outline'
-                : 'ios-chevron-forward-outline'
-            }
-            size={22}
-            color="#bbb"
-          />
+          <ForwardIcon size={22} color={'#bbb'} />
         </KakaoBox>
         {helpCategory?.map((data: any, index) => (
           <AdviceBox
@@ -102,15 +95,7 @@ export default () => {
               Linking.openURL(data?.URL);
             }}>
             <AdviceText>{data?.TITLE}</AdviceText>
-            <Icon
-              name={
-                utils.isAndroid
-                  ? 'md-chevron-forward-outline'
-                  : 'ios-chevron-forward-outline'
-              }
-              size={22}
-              color="#bbb"
-            />
+            <ForwardIcon size={22} color={'#bbb'} />
           </AdviceBox>
         ))}
       </ScrollView>

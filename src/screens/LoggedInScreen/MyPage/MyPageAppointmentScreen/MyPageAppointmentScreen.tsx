@@ -6,10 +6,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import {getText1, getText2, getText3} from '../../../../constants/getText';
-import utils from '../../../../constants/utils';
+import {ForwardIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.View`
   flex: 1;
@@ -89,11 +88,7 @@ export default () => {
   );
   const ArrowIcon = () => (
     <Arrow>
-      <Icon
-        name={utils.isAndroid ? 'md-chevron-back' : 'ios-chevron-back'}
-        size={16}
-        color="#642A8C"
-      />
+      <ForwardIcon size={16} color={'#642A8C'} />
     </Arrow>
   );
   return (
@@ -115,7 +110,6 @@ export default () => {
         <CardText>개인정보 수집</CardText>
         <ArrowIcon />
       </Card>
-
       <Card
         onPress={() => {
           RBSheet3.current.open();

@@ -309,12 +309,14 @@ export default ({
                   title="온라인 교육"
                   onPress={() => toggleEducationType()}
                   checked={EDUCATION_TYPE === 'online'}
+                  checkedColor={'#642A8C'}
                 />
                 <CheckBox
                   center
                   title="집체 교육"
                   onPress={() => toggleEducationType()}
                   checked={EDUCATION_TYPE === 'offline'}
+                  checkedColor={'#642A8C'}
                 />
               </Row>
             </TextInputContainer>

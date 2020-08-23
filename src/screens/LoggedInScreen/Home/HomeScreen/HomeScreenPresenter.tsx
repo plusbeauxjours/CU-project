@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import utils from '../../../../constants/utils';
 import {ActivityIndicator} from 'react-native';
+import {ForwardIcon} from '../../../../constants/Icons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -496,15 +497,7 @@ export default ({
                     });
                   }}>
                   <WhiteText>점포전환</WhiteText>
-                  <Icon
-                    name={
-                      utils.isAndroid
-                        ? 'md-chevron-forward-outline'
-                        : 'ios-chevron-forward-outline'
-                    }
-                    size={18}
-                    color="white"
-                  />
+                  <ForwardIcon size={18} color={'white'} />
                 </StoreUpdateBtn>
                 <StoreUpdateBtn
                   onPress={() => {
@@ -513,15 +506,7 @@ export default ({
                     });
                   }}>
                   <WhiteText>점포정보</WhiteText>
-                  <Icon
-                    name={
-                      utils.isAndroid
-                        ? 'md-chevron-forward-outline'
-                        : 'ios-chevron-forward-outline'
-                    }
-                    size={18}
-                    color="white"
-                  />
+                  <ForwardIcon size={18} color={'white'} />
                 </StoreUpdateBtn>
               </Row>
             </StoreUpdate>

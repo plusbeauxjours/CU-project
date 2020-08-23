@@ -7,6 +7,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import utils from '../../../../constants/utils';
+import {ForwardIcon} from '../../../../constants/Icons';
 
 interface IEmployeeListBox {
   hasEmployeeNowOn: boolean;
@@ -96,15 +97,7 @@ export default ({
           {startDay} ~ {data.END != null ? data.END : '계속'}
         </DateText>
       </ContentBox>
-      <Icon
-        name={
-          utils.isAndroid
-            ? 'md-chevron-forward-outline'
-            : 'ios-chevron-forward-outline'
-        }
-        size={14}
-        color="#642A8C"
-      />
+      <ForwardIcon />
     </Touchable>
   );
 };

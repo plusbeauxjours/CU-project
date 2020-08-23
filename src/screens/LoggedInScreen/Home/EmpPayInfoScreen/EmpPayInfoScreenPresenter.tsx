@@ -6,9 +6,9 @@ import {
 } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import utils from '../../../../constants/utils';
 import EmpPayInfoCard1 from './EmpPayInfoCard1';
 import EmpPayInfoCard2 from './EmpPayInfoCard2';
+import {ForwardIcon, BackIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -261,15 +261,7 @@ export default ({
       </Profile>
       <DateBox>
         <DateArrow onPress={() => backpay()}>
-          <Icon
-            name={
-              utils.isAndroid
-                ? 'md-chevron-back-outline'
-                : 'ios-chevron-back-outline'
-            }
-            size={22}
-            color="#bbb"
-          />
+          <BackIcon size={22} color={'#bbb'} />
         </DateArrow>
         <Date>
           <DateText>
@@ -280,15 +272,7 @@ export default ({
           <Icon name="reload-outline" size={26} />
         </DateReload>
         <DateArrow onPress={() => nextpay()}>
-          <Icon
-            name={
-              utils.isAndroid
-                ? 'md-chevron-forward-outline'
-                : 'ios-chevron-forward-outline'
-            }
-            size={22}
-            color="#bbb"
-          />
+          <ForwardIcon size={22} color={'#bbb'} />
         </DateArrow>
       </DateBox>
     </TopArea>

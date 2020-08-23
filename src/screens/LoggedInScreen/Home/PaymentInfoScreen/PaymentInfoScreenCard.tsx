@@ -7,6 +7,7 @@ import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import utils from '../../../../constants/utils';
+import {ForwardIcon} from '../../../../constants/Icons';
 
 const Touchable = styled.TouchableOpacity`
   margin-top: 10px;
@@ -84,15 +85,7 @@ export default ({
           <SubText>[{isManager}]</SubText>
         </TitleArea>
       </ImageArea>
-      <Icon
-        name={
-          utils.isAndroid
-            ? 'md-chevron-forward-outline'
-            : 'ios-chevron-forward-outline'
-        }
-        size={22}
-        color="#bbb"
-      />
+      <ForwardIcon size={22} color={'#bbb'} />
     </Touchable>
   );
 };
