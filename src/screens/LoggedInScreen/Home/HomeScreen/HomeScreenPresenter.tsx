@@ -2,10 +2,14 @@ import React from 'react';
 import Modal from 'react-native-modal';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import utils from '../../../../constants/utils';
 import {ActivityIndicator} from 'react-native';
-import {ForwardIcon} from '../../../../constants/Icons';
+import {
+  ForwardIcon,
+  HelpIcon,
+  SettingIcon,
+  QrCodeIcon,
+} from '../../../../constants/Icons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -469,14 +473,14 @@ export default ({
                   onPress={() => {
                     navigation.navigate('HelpModalScreen');
                   }}>
-                  <Icon name="help" size={24} color="white" />
+                  <HelpIcon />
                 </IconContainer>
               )}
               <IconContainer
                 onPress={() => {
                   navigation.navigate('MyPageMainScreen');
                 }}>
-                <Icon name="settings-sharp" size={24} color="white" />
+                <SettingIcon />
               </IconContainer>
             </MyPage>
             <StoreName>
@@ -551,7 +555,7 @@ export default ({
                   await checkPermissions();
                 }}>
                 <QrText>출퇴근하기</QrText>
-                <Icon name="qrcode-scan" size={36} color="#642A8C" />
+                <QrCodeIcon />
               </Qr>
             )}
             {STORE == '1' ? ( // 점주 ============================

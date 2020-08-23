@@ -1,12 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
+import React, {useEffect} from 'react';
 import styled from 'styled-components/native';
 import {Linking, Image} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {setAlertVisible} from '../../../../redux/alertSlice';
 import api from '../../../../constants/LoggedInApi';
-import utils from '../../../../constants/utils';
 import {setHelpCategory} from '../../../../redux/helpSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import {ForwardIcon} from '../../../../constants/Icons';

@@ -3,8 +3,8 @@ import {ScrollView, ActivityIndicator} from 'react-native';
 import Modal from 'react-native-modal';
 import styled from 'styled-components/native';
 import {WebView} from 'react-native-webview';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
+import {CloseIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.View`
   flex: 1;
@@ -146,12 +146,7 @@ export default ({route: {params}}) => {
               * 마이페이지에서 추후에 작성 가능합니다.
             </Text>
             <Touchable onPress={() => onPress()}>
-              <Icon
-                name={'close-sharp'}
-                size={28}
-                color="#642A8C"
-                style={{marginRight: 5}}
-              />
+              <CloseIcon size={28} />
             </Touchable>
           </ModalHeader>
           {isWebviewSpinnerVisible && (

@@ -7,11 +7,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import {userLogout} from '../../../../redux/userSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {ForwardIcon} from '../../../../constants/Icons';
+import {ForwardIcon, LogoutIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.View`
   flex: 1;
@@ -207,7 +206,7 @@ export default () => {
             }}>
             <CardText>로그 아웃</CardText>
             <Arrow>
-              <Icon name={'log-out-outline'} size={24} color="#642A8C" />
+              <LogoutIcon size={24} />
             </Arrow>
           </Card>
         </BoxArea>

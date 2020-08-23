@@ -1,6 +1,5 @@
 import React from 'react';
 import Modal from 'react-native-modal';
-import Icon from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components/native';
 import {
   widthPercentageToDP as wp,
@@ -9,6 +8,11 @@ import {
 
 import InputLine from '../../../../components/InputLine';
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import {
+  RadioBtnOnIcon,
+  RadioBtnOffIcon,
+  HelpCircleIcon,
+} from '../../../../constants/Icons';
 
 interface IIsPerple {
   isPerple: boolean;
@@ -288,9 +292,9 @@ export default ({
           setType(selection);
         }}>
         {sizeTypeCheck[selection] ? (
-          <Icon name="radio-button-on-outline" size={17} color="#642A8C" />
+          <RadioBtnOnIcon size={17} color="#642A8C" />
         ) : (
-          <Icon name="radio-button-off-outline" size={17} color="#F2F2F2" />
+          <RadioBtnOffIcon size={17} color="#F2F2F2" />
         )}
         <TypeText>{text}</TypeText>
       </TypeContainer>
@@ -347,7 +351,7 @@ export default ({
                   );
                 }}>
                 <NameText>기본주소</NameText>
-                <Icon name="help-circle" size={18} color="#bbb" />
+                <HelpCircleIcon />
               </RowTouchable>
               <RequestButton onPress={() => gotoSearchAddress()}>
                 <RequestText>주소 검색</RequestText>
@@ -394,7 +398,7 @@ export default ({
                       );
                     }}>
                     <NameText>지각 허용시간</NameText>
-                    <Icon name="help-circle" size={18} color="#bbb" />
+                    <HelpCircleIcon />
                   </RowTouchable>
                   <Touchable
                     onPress={() => {
@@ -432,7 +436,7 @@ export default ({
                       );
                     }}>
                     <NameText style={{marginRight: 5}}>사업장 규모</NameText>
-                    <Icon name="help-circle" size={18} color="#bbb" />
+                    <HelpCircleIcon />
                   </TypeContainer>
                   <TypeCheckCase>
                     <View>{sizeType(0, '5인 미만')}</View>
@@ -465,7 +469,7 @@ export default ({
                       );
                     }}>
                     <NameText style={{marginRight: 5}}>급여정산일</NameText>
-                    <Icon name="help-circle" size={18} color="#bbb" />
+                    <HelpCircleIcon />
                   </TypeContainer>
                   <Touchable
                     onPress={() => {

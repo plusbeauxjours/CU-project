@@ -5,8 +5,8 @@ import {
 } from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
 import {RefreshControl} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import EmployeeListCard from './EmployeeListCard';
+import {HelpCircleIcon} from '../../../../constants/Icons';
 
 interface IEmployeeListBox {
   hasEmployeeNow?: boolean;
@@ -141,7 +141,7 @@ export default ({
                     );
                   }}>
                   <BoxTitleText>근무종료</BoxTitleText>
-                  <Icon name="help-circle" size={20} color="#bbb" />
+                  <HelpCircleIcon size={20} />
                 </Touchable>
               ) : (
                 <BoxTitleText>근무종료</BoxTitleText>

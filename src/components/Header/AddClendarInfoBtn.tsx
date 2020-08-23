@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
-import utils from '../../constants/utils';
 import {useSelector} from 'react-redux';
+import {CalendarIcon} from '../../constants/Icons';
 
 const Touchable = styled.TouchableOpacity`
   margin-right: 15px;
@@ -33,13 +32,7 @@ export default () => {
               handler,
             });
           }}>
-          <Icon
-            name={
-              utils.isAndroid ? 'md-calendar-outline' : 'ios-calendar-outline'
-            }
-            size={20}
-            color="white"
-          />
+          <CalendarIcon />
           <Text>일정추가</Text>
         </Touchable>
       );

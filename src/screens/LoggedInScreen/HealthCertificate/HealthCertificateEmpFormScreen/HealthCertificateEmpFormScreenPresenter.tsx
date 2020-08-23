@@ -1,6 +1,5 @@
 import React, {useRef} from 'react';
 import Modal from 'react-native-modal';
-import Icon from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components/native';
 import DatePickerModal from 'react-native-modal-datetime-picker';
 import {
@@ -10,6 +9,11 @@ import {
 
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
 import InputLine from '../../../../components/InputLine';
+import {
+  CameraIcon,
+  FlashOffIcon,
+  FlashOnIcon,
+} from '../../../../constants/Icons';
 
 interface IButton {
   isRight: boolean;
@@ -204,7 +208,8 @@ export default ({
             </TextContainer>
             <CameraBox onPress={() => setCameraModalVisible(true)}>
               <Bold style={{color: '#642A8C'}}>촬영하기</Bold>
-              <Icon name="camera-outline" size={30} color="#642A8C" />
+              <CameraIcon />
+              <CameraIcon />
             </CameraBox>
             <Bold>* 인식이 불안정할 경우 직접입력하여 진행해 주세요.</Bold>
           </Section>
@@ -320,17 +325,13 @@ export default ({
                     const capturedPicture = await cameraRef.current.takePictureAsync();
                     setCameraPicture(capturedPicture.uri);
                   }}>
-                  <Icon name="camera-outline" size={32} color="#642A8C" />
+                  <CameraIcon color="#642A8C" />
                 </CameraButton>
                 <FlashButton
                   onPress={async () =>
                     setCameraPictureFlash(!cameraPictureFlash)
                   }>
-                  <Icon
-                    name={cameraPictureFlash ? 'flash-off' : 'flash'}
-                    size={20}
-                    color="#FFFFFF"
-                  />
+                  {cameraPictureFlash ? <FlashOffIcon /> : <FlashOnIcon />}
                 </FlashButton>
               </>
             )}

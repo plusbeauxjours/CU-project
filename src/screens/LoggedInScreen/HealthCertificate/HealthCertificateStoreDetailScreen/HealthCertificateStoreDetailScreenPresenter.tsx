@@ -1,14 +1,16 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import ImageView from 'react-native-image-viewing';
-import utils from '../../../../constants/utils';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {BackIcon, ForwardIcon} from '../../../../constants/Icons';
+import {
+  BackIcon,
+  ForwardIcon,
+  ReloadCircleIcon,
+} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -260,7 +262,7 @@ export default ({
                 onPress={() => {
                   onRefresh();
                 }}>
-                <Icon name="reload-outline" size={22} color="#000" />
+                <ReloadCircleIcon size={22} />
               </DateToday>
               <DateArrowRight
                 onPress={() => {

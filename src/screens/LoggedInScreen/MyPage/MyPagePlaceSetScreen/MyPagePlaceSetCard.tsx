@@ -3,10 +3,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components/native';
 
-import utils from '../../../../constants/utils';
+import {LocationIcon} from '../../../../constants/Icons';
 
 const Touchable = styled.TouchableOpacity``;
 const Container = styled.View`
@@ -42,21 +41,12 @@ const IconContainer = styled.View`
 `;
 
 export default ({key, name, addr, data}) => (
-  <Touchable
-    key={key}
-    disabled={true}
-    //  onPress={() => alert('오픈 준비중입니다.')}
-    //   onPress={()=>{this.props.navigation.navigate('UpdateStore1',{data: this.props.data});}}
-  >
+  <Touchable key={key} disabled={true}>
     <Container>
       <NameText>{name}</NameText>
       <AddressBox>
         <IconContainer>
-          <Icon
-            name={utils.isAndroid ? 'md-location' : 'ios-location'}
-            size={17}
-            color="#642A8C"
-          />
+          <LocationIcon size={17} />
         </IconContainer>
         <AddressText>{addr ? addr : '주소 미등록'}</AddressText>
       </AddressBox>

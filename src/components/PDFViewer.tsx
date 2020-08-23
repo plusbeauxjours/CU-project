@@ -5,9 +5,9 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Pdf from 'react-native-pdf';
-import Icon from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components/native';
 import WebView from 'react-native-webview';
+import {CloseIcon} from '../constants/Icons';
 
 const IconContainer = styled.TouchableOpacity`
   z-index: 5;
@@ -28,7 +28,7 @@ export default ({url, setModalVisible}) => {
         onPress={() => {
           setModalVisible(false);
         }}>
-        <Icon name={'close-sharp'} size={33} color={'#642ABC'} />
+        <CloseIcon size={33} />
       </IconContainer>
       <Pdf
         source={{uri: url}}

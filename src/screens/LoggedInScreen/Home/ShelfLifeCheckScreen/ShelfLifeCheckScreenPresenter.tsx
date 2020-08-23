@@ -1,10 +1,9 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {Agenda} from 'react-native-calendars';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 
-import utils from '../../../../constants/utils';
+import {CheckMarkIcon, DownIcon} from '../../../../constants/Icons';
 
 interface IsChecked {
   isChecked: boolean;
@@ -111,7 +110,7 @@ export default ({
   const rowHasChanged = (r1, r2) => false;
   const renderKnob = () => (
     <KnobIconContainer>
-      <Icon name="caret-down" size={22} color="white" />
+      <DownIcon />
     </KnobIconContainer>
   );
 
@@ -147,8 +146,7 @@ export default ({
               }
             }}>
             <IconContainer isChecked={checkType == '0'}>
-              <Icon
-                name={utils.isAndroid ? 'md-checkmark' : 'ios-checkmark;'}
+              <CheckMarkIcon
                 size={12}
                 color={checkType == '0' ? '#bbb' : 'yellow'}
               />

@@ -2,11 +2,10 @@ import React, {useState, useEffect} from 'react';
 import {RefreshControl} from 'react-native';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import HealthCertificateEmpListCard from './HealthCertificateEmpListCard';
 import api from '../../../../constants/LoggedInApi';
-import utils from '../../../../constants/utils';
+import {CheckMarkIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -79,19 +78,11 @@ export default ({route: {params}}) => {
           {STORE == '1' && (
             <Box>
               <Row>
-                <Icon
-                  name={utils.isAndroid ? 'md-checkmark' : 'ios-checkmark;'}
-                  size={14}
-                  color="#642A8C"
-                />
+                <CheckMarkIcon />
                 <Bold>직원이 '조기경보'화면에서 직접 등록이 가능합니다.</Bold>
               </Row>
               <Row>
-                <Icon
-                  name={utils.isAndroid ? 'md-checkmark' : 'ios-checkmark;'}
-                  size={14}
-                  color="#642A8C"
-                />
+                <CheckMarkIcon />
                 <Bold>직원은 본인 보건증만 확인이 가능합니다.</Bold>
               </Row>
             </Box>

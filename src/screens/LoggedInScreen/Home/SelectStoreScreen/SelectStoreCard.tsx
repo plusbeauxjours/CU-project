@@ -1,6 +1,4 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -9,7 +7,11 @@ import {
 } from 'react-native-responsive-screen';
 
 import utils from '../../../../constants/utils';
-import {ForwardIcon} from '../../../../constants/Icons';
+import {
+  ForwardIcon,
+  LogoutIcon,
+  PersonCircleIcon,
+} from '../../../../constants/Icons';
 
 interface IIsStore {
   isStore?: boolean;
@@ -166,11 +168,7 @@ export default ({
           )}
           <AddressBox>
             <IconContainer>
-              <Icon
-                name={utils.isAndroid ? 'md-location' : 'ios-location'}
-                size={17}
-                color="#642A8C"
-              />
+              <LogoutIcon size={17} />
             </IconContainer>
             <AddressText>
               {address1 && address2
@@ -182,15 +180,7 @@ export default ({
           {STORE == 1 ? (
             <EmployeeBox>
               <IconContainer>
-                <Icon
-                  name={
-                    utils.isAndroid
-                      ? 'md-person-circle-outline'
-                      : 'ios-person-circle-outline'
-                  }
-                  size={17}
-                  color="#642A8C"
-                />
+                <PersonCircleIcon />
               </IconContainer>
               <EmployeeText>
                 {employee == 0
@@ -202,15 +192,7 @@ export default ({
             <EmployeeBox>
               {search !== true && (
                 <IconContainer>
-                  <Icon
-                    name={
-                      utils.isAndroid
-                        ? 'md-person-circle-outline'
-                        : 'ios-person-circle-outline'
-                    }
-                    size={17}
-                    color="#642A8C"
-                  />
+                  <PersonCircleIcon />
                 </IconContainer>
               )}
               {search !== true && TYPE == '0' ? (

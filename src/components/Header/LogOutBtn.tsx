@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {userLogout} from '../../redux/userSlice';
+import {LogoutIcon} from '../../constants/Icons';
 
 const Touchable = styled.TouchableOpacity`
   margin-right: 10px;
@@ -34,7 +34,7 @@ export default () => {
           ],
         });
       }}>
-      <Icon name={'log-out-outline'} size={24} color="white" />
+      <LogoutIcon size={24} color="white" />
       <Text>로그아웃</Text>
     </Touchable>
   );

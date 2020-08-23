@@ -2,13 +2,11 @@ import React, {useState} from 'react';
 import styled from 'styled-components/native';
 import {useSelector, useDispatch} from 'react-redux';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {useNavigation} from '@react-navigation/native';
 
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import api from '../../../../constants/LoggedInApi';
 import {userLogout} from '../../../../redux/userSlice';
-import {BackIcon} from '../../../../constants/Icons';
+import {CheckBoxIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -119,9 +117,9 @@ export default () => {
             setIsConfirmed(!isConfirmed);
           }}>
           {isConfirmed ? (
-            <Icon name={'checkbox-outline'} size={22} color={'#642A8C'} />
+            <CheckBoxIcon size={22} color={'#642A8C'} />
           ) : (
-            <Icon name={'checkbox-outline'} size={22} color={'#E5E5E5'} />
+            <CheckBoxIcon size={22} color={'#E5E5E5'} />
           )}
           <CheckText>데이터를 모두 삭제하고 탈퇴하겠습니다</CheckText>
         </Check>

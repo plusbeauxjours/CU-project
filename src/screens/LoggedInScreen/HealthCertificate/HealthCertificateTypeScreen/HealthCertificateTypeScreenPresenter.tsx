@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import {RefreshControl} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 
-import {ForwardIcon} from '../../../../constants/Icons';
+import {
+  ForwardIcon,
+  EllipseIcon,
+  HelpCircleIcon,
+} from '../../../../constants/Icons';
 
 interface IText {
   isSubmited?: boolean;
@@ -115,7 +118,7 @@ export default ({
               '위생교육증을 등록하시면 갱신시점 알람 및 기존 교육증 이력관리가 가능합니다.\n(현재는 한국휴게음식업중앙회 발급 수료증에 한하여 등록이 가능합니다. 추후 종류 추가 예정)',
             );
           }}>
-          <Icon name="help-circle" size={22} color="#bbb" />
+          <HelpCircleIcon size={22} color="#bbb" />
         </Touchable>
       </Row>
       <Row>
@@ -154,7 +157,7 @@ export default ({
               </TypeTitle>
               {HEALTH_CERTIFICATE_APPLY == 0 ? (
                 <IconContainer>
-                  <Icon name={'ellipse-sharp'} size={22} color={'#CE0505'} />
+                  <EllipseIcon size={22} color={'#CE0505'} />
                   <Text isSubmited={false}> 미등록</Text>
                 </IconContainer>
               ) : (
@@ -164,7 +167,7 @@ export default ({
                     alignItems: 'flex-start',
                   }}>
                   <Row>
-                    <Icon name={'ellipse-sharp'} size={22} color={'#642A8C'} />
+                    <EllipseIcon size={22} color={'#642A8C'} />
                     <Text isSubmited={true}>위생교육증 등록완료</Text>
                   </Row>
                   <Row>
@@ -220,11 +223,7 @@ export default ({
                       alignItems: 'flex-start',
                     }}>
                     <Row>
-                      <Icon
-                        name={'ellipse-sharp'}
-                        size={22}
-                        color={'#642A8C'}
-                      />
+                      <EllipseIcon size={22} color={'#642A8C'} />
                       <Text isSubmited={true}>위생교육증 등록완료</Text>
                     </Row>
                     <Text
@@ -252,7 +251,7 @@ export default ({
                   }}>
                   <SanitaryEducation />
                   <IconContainer>
-                    <Icon name={'ellipse-sharp'} size={22} color={'#CE0505'} />
+                    <EllipseIcon size={22} color={'#CE0505'} />
                     <Text isSubmited={false}>위생교육증 미등록</Text>
                   </IconContainer>
                 </Section>
@@ -277,7 +276,7 @@ export default ({
                           '직원별 보건증 등록이 가능하며, 등록 후 갱신시점 알람 및 보건증 이력관리가 가능합니다.',
                         );
                       }}>
-                      <Icon name="help-circle" size={22} color="#bbb" />
+                      <HelpCircleIcon size={22} color="#bbb" />
                     </Touchable>
                   </Row>
                   <Row>
@@ -287,13 +286,13 @@ export default ({
                 </TypeTitle>
                 {HEALTH_CERTIFICATE_APPLY == 0 ? (
                   <IconContainer>
-                    <Icon name={'ellipse-sharp'} size={22} color={'#CE0505'} />
+                    <EllipseIcon size={22} color={'#CE0505'} />
                     <Text isSubmited={false}>미등록</Text>
                   </IconContainer>
                 ) : Number(HEALTH_CERTIFICATE_APPLY) ==
                   Number(HEALTH_CERTIFICATE_TARGET) ? (
                   <IconContainer>
-                    <Icon name={'ellipse-sharp'} size={22} color={'#642A8C'} />
+                    <EllipseIcon size={22} color={'#642A8C'} />
                     <Text isSubmited={true}>
                       등록 중({HEALTH_CERTIFICATE_TARGET}명 중&nbsp;
                       {HEALTH_CERTIFICATE_APPLY}명 완료)
@@ -301,7 +300,7 @@ export default ({
                   </IconContainer>
                 ) : (
                   <IconContainer>
-                    <Icon name={'ellipse-sharp'} size={22} color={'#CE0505'} />
+                    <EllipseIcon size={22} color={'#CE0505'} />
                     <Text isSubmited={false}>
                       등록 중({HEALTH_CERTIFICATE_TARGET}명 중&nbsp;
                       {HEALTH_CERTIFICATE_APPLY}명 완료)

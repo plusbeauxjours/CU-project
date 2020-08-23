@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import Modal from 'react-native-modal';
 import styled from 'styled-components/native';
 import {useSelector} from 'react-redux';
@@ -6,11 +6,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import api from '../../../../constants/LoggedInApi';
-import utils from '../../../../constants/utils';
 import VideoPlayer from '../../../../components/VideoPlayer';
+import {CloseIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -152,12 +151,7 @@ export default ({route: {params}}) => {
                   setModalVisible(false);
                 }}>
                 <Text>닫기</Text>
-                <Icon
-                  name={'close-sharp'}
-                  size={28}
-                  color="#642A8C"
-                  style={{marginRight: 5}}
-                />
+                <CloseIcon size={28} />
               </IconContainer>
             )}
           </ModalContainer>
@@ -178,12 +172,7 @@ export default ({route: {params}}) => {
                   setModalVisible(false);
                 }}>
                 <Text>닫기</Text>
-                <Icon
-                  name={'close-sharp'}
-                  size={28}
-                  color="#642A8C"
-                  style={{marginRight: 5}}
-                />
+                <CloseIcon size={28} />
               </IconContainer>
             )}
           </ModalContainer>

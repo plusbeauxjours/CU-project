@@ -5,8 +5,6 @@ import {
 } from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import utils from '../../../../constants/utils';
 import {ForwardIcon} from '../../../../constants/Icons';
 
 const Touchable = styled.TouchableOpacity`

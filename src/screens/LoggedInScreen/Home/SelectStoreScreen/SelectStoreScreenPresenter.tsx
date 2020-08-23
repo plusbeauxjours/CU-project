@@ -6,9 +6,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/Ionicons';
+
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
 import SelectStoreCard from './SelectStoreCard';
+import {AddCircleIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -274,7 +275,7 @@ export default ({
         <AddStoreBox>
           <AddStoreButton onPress={() => addStore()}>
             <AddStoreButtonText>점포 등록하기</AddStoreButtonText>
-            <Icon name="add-circle-outline" size={30} color="#642A8C" />
+            <AddCircleIcon />
           </AddStoreButton>
         </AddStoreBox>
       )}

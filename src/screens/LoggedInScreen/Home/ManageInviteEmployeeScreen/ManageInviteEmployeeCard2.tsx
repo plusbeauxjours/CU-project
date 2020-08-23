@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import api from '../../../../constants/LoggedInApi';
+import {CloseCircleIcon} from '../../../../constants/Icons';
 
 const Container = styled.View`
   height: ${hp('10%')}px;
@@ -105,7 +105,7 @@ export default ({
               join_emp_seq,
             );
           }}>
-          <Icon name="close-circle-outline" size={22} color="black" />
+          <CloseCircleIcon />
         </Touchable>
       </Row>
     </Container>

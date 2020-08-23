@@ -1,12 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import utils from '../../../../constants/utils';
 import {ForwardIcon} from '../../../../constants/Icons';
 
 interface IEmployeeListBox {

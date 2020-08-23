@@ -44,3 +44,129 @@ export const HomeIcon: React.FC<IProps> = ({size, color}) => (
     color={color ?? '#642A8C'}
   />
 );
+
+export const CloseIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon name={'close-sharp'} size={size ?? 14} color={color ?? '#642A8C'} />
+);
+
+export const LocationIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon
+    name={utils.isAndroid ? 'md-location' : 'ios-location'}
+    size={size ?? 14}
+    color={color ?? '#642A8C'}
+  />
+);
+
+export const LogoutIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon name={'log-out-outline'} size={size ?? 14} color={color ?? '#642A8C'} />
+);
+
+export const CheckBoxIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon
+    name={'checkbox-outline'}
+    size={size ?? 14}
+    color={color ?? '#642A8C'}
+  />
+);
+
+export const CheckMarkIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon
+    name={utils.isAndroid ? 'md-checkmark' : 'ios-checkmark;'}
+    size={size ?? 14}
+    color={color ?? '#642A8C'}
+  />
+);
+
+export const RadioBtnOnIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon
+    name={'radio-button-on-outline'}
+    size={size ?? 14}
+    color={color ?? '#642A8C'}
+  />
+);
+
+export const RadioBtnOffIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon
+    name={'radio-button-off-outline'}
+    size={size ?? 14}
+    color={color ?? '#642A8C'}
+  />
+);
+
+export const HelpCircleIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon name={'help-circle'} size={size ?? 18} color={color ?? '#bbb'} />
+);
+
+export const AddCircleIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon
+    name="add-circle-outline"
+    size={size ?? 30}
+    color={color ?? '#642A8C'}
+  />
+);
+
+export const PersonCircleIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon
+    name={
+      utils.isAndroid ? 'md-person-circle-outline' : 'ios-person-circle-outline'
+    }
+    size={size ?? 17}
+    color={color ?? '#642A8C'}
+  />
+);
+
+export const ReloadCircleIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon name={'reload-outline'} size={size ?? 26} color={color ?? 'black'} />
+);
+
+export const UpIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon name="caret-up" size={size ?? 22} color={color ?? 'white'} />
+);
+
+export const DownIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon name={'caret-down'} size={size ?? 22} color={color ?? 'white'} />
+);
+
+export const CloseCircleIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon
+    name={'close-circle-outline'}
+    size={size ?? 22}
+    color={color ?? 'black'}
+  />
+);
+
+export const EllipseIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon name={'ellipse-sharp'} size={size ?? 16} color={color ?? 'black'} />
+);
+
+export const HelpIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon name={'help'} size={size ?? 24} color={color ?? 'white'} />
+);
+
+export const SettingIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon name={'settings-sharp'} size={size ?? 24} color={color ?? 'white'} />
+);
+
+export const QrCodeIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon name="qrcode-scan" size={size ?? 36} color={color ?? '#642A8C'} />
+);
+
+export const CalendarIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon
+    name={utils.isAndroid ? 'md-calendar-outline' : 'ios-calendar-outline'}
+    size={size ?? 20}
+    color={color ?? 'white'}
+  />
+);
+
+export const CameraIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon name={'camera-outline'} size={size ?? 30} color={color ?? '#642A8C'} />
+);
+
+export const FlashOnIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon name={'flash'} size={size ?? 20} color={color ?? '#FFF'} />
+);
+
+export const FlashOffIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon name={'flash-off'} size={size ?? 20} color={color ?? '#FFF'} />
+);

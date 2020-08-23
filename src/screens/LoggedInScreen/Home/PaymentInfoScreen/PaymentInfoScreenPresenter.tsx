@@ -4,10 +4,13 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import PaymentInfoScreenCard from './PaymentInfoScreenCard';
-import utils from '../../../../constants/utils';
-import {ForwardIcon, BackIcon} from '../../../../constants/Icons';
+import {
+  ForwardIcon,
+  BackIcon,
+  ReloadCircleIcon,
+  HelpCircleIcon,
+} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -129,7 +132,7 @@ export default ({
                 </DateText>
               </Date>
               <DateReload onPress={() => onRefresh()}>
-                <Icon name="reload-outline" size={26} />
+                <ReloadCircleIcon />
               </DateReload>
               <DateArrow onPress={() => nextpay()}>
                 <ForwardIcon size={22} color={'#bbb'} />
@@ -148,7 +151,7 @@ export default ({
                         '-자율출퇴근 급여\n-근무시간 수정(근무시간 연장시)\n-추가일정 급여\n\n*근무일정 삭제시 과거 예상급여는 차감됩니다',
                       );
                     }}>
-                    <Icon name="help-circle" size={20} color="#bbb" />
+                    <HelpCircleIcon size={20} />
                   </Touchable>
                 </Row>
                 <BoxTitleText3>{maindata.stackedpay}</BoxTitleText3>

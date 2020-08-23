@@ -4,11 +4,16 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import EmpPayInfoCard1 from './EmpPayInfoCard1';
 import EmpPayInfoCard2 from './EmpPayInfoCard2';
-import {ForwardIcon, BackIcon} from '../../../../constants/Icons';
+import {
+  ForwardIcon,
+  BackIcon,
+  ReloadCircleIcon,
+  UpIcon,
+  DownIcon,
+} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -241,11 +246,7 @@ export default ({
   const MainInfoOfPay = ({text, value, click, onPress}) => (
     <DetailRowContainer>
       <ToggleIcon onPress={onPress}>
-        {click ? (
-          <Icon name="caret-up" size={22} color="#BCC5D3" />
-        ) : (
-          <Icon name="caret-down" size={22} color="#777" />
-        )}
+        {click ? <UpIcon color="#BCC5D3" /> : <DownIcon color="#777" />}
         <DetailRowText>{text}</DetailRowText>
       </ToggleIcon>
       <DetailRowText>{value} 원</DetailRowText>
@@ -269,7 +270,7 @@ export default ({
           </DateText>
         </Date>
         <DateReload onPress={() => onRefresh()}>
-          <Icon name="reload-outline" size={26} />
+          <ReloadCircleIcon />
         </DateReload>
         <DateArrow onPress={() => nextpay()}>
           <ForwardIcon size={22} color={'#bbb'} />
@@ -566,9 +567,9 @@ export default ({
               <FooterBtn onPress={() => onPressFooter('click4')}>
                 <DateText>일별 급여현황</DateText>
                 {cardShow ? (
-                  <Icon name="caret-up" size={22} color="#BCC5D3" />
+                  <UpIcon color="#BCC5D3" />
                 ) : (
-                  <Icon name="caret-down" size={22} color="#777" />
+                  <DownIcon color="#777" />
                 )}
               </FooterBtn>
               {cardShow && (
@@ -694,9 +695,9 @@ export default ({
                 }}>
                 <DateText>일별 급여현황</DateText>
                 {cardShow ? (
-                  <Icon name="caret-up" size={22} color="#BCC5D3" />
+                  <UpIcon color="#BCC5D3" />
                 ) : (
-                  <Icon name="caret-down" size={22} color="#777" />
+                  <DownIcon color="#777" />
                 )}
               </FooterBtn>
               {cardShow && (

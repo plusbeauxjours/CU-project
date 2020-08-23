@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
+import {EllipseIcon} from '../../../../constants/Icons';
 
 interface IText {
   color: string;
@@ -91,9 +91,9 @@ export default ({
             <AddressBox>
               <IconContainer>
                 {TESTING_DATE && dday > 0 ? (
-                  <Icon name={'ellipse-sharp'} size={16} color={'#642A8C'} />
+                  <EllipseIcon color={'#642A8C'} />
                 ) : (
-                  <Icon name={'ellipse-sharp'} size={16} color={'#CE0505'} />
+                  <EllipseIcon color={'#CE0505'} />
                 )}
               </IconContainer>
               {TESTING_DATE ? (
@@ -148,9 +148,9 @@ export default ({
             <AddressBox>
               <IconContainer>
                 {TESTING_DATE ? (
-                  <Icon name={'ellipse-sharp'} size={16} color={'#642A8C'} />
+                  <EllipseIcon color={'#642A8C'} />
                 ) : (
-                  <Icon name={'ellipse-sharp'} size={16} color={'#CE0505'} />
+                  <EllipseIcon color={'#CE0505'} />
                 )}
               </IconContainer>
               {TESTING_DATE ? (

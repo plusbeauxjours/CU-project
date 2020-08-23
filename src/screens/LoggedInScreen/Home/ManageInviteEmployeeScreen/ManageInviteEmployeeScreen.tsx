@@ -3,7 +3,6 @@ import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {RefreshControl} from 'react-native';
 import styled from 'styled-components/native';
 import {useDispatch} from 'react-redux';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
@@ -12,6 +11,7 @@ import {setSplashVisible} from '../../../../redux/splashSlice';
 import api from '../../../../constants/LoggedInApi';
 import ManageInviteEmployeeCard1 from './ManageInviteEmployeeCard1';
 import ManageInviteEmployeeCard2 from './ManageInviteEmployeeCard2';
+import {HelpCircleIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -170,13 +170,10 @@ export default ({route: {params}}) => {
               onPress={() =>
                 explainModal('', 'App 설치 및 회원가입이 완료된 직원입니다.')
               }>
-              <BoxTitleText>초대에 응한 직원</BoxTitleText>
-              <Icon
-                name="help-circle"
-                size={22}
-                color="#bbb"
-                style={{paddingLeft: 5}}
-              />
+              <BoxTitleText style={{paddingRight: 5}}>
+                >초대에 응한 직원
+              </BoxTitleText>
+              <HelpCircleIcon size={22} />
             </BoxTitle>
             {responseEmployee.length === 0 && (
               <GreyText>초대에 응한 직원이 없습니다</GreyText>
@@ -208,13 +205,10 @@ export default ({route: {params}}) => {
                   'App 설치가 완료되지 않은 직원입니다. 초대메시지 재전송을 눌러 다시한번 알려주세요.',
                 );
               }}>
-              <BoxTitleText>초대 메시지 미열람 직원</BoxTitleText>
-              <Icon
-                name="help-circle"
-                size={22}
-                color="#bbb"
-                style={{paddingLeft: 5}}
-              />
+              <BoxTitleText style={{paddingRight: 5}}>
+                초대 메시지 미열람 직원
+              </BoxTitleText>
+              <HelpCircleIcon size={22} />
             </BoxTitle>
             {noResponseEmployee.length === 0 && (
               <GreyText>초대 메시지 미열람 직원이 없습니다.</GreyText>

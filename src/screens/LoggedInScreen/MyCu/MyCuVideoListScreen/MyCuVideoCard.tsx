@@ -1,9 +1,8 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
 
-import utils from '../../../../constants/utils';
+import {CheckMarkIcon} from 'src/constants/Icons';
 
 const DataListItem = styled.TouchableOpacity`
   width: 100%;
@@ -117,11 +116,7 @@ export default ({
             })}
             {VIDEOCHECK_SEQ && (
               <IconContainer>
-                <Icon
-                  name={utils.isAndroid ? 'md-checkmark' : 'ios-checkmark;'}
-                  size={12}
-                  color={'yellow'}
-                />
+                <CheckMarkIcon size={12} color={'yellow'} />
               </IconContainer>
             )}
           </DataListItemInfoTopWrapper>
