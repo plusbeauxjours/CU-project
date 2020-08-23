@@ -1,8 +1,7 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
-import utils from '../../constants/utils';
+import {HomeIcon} from '../../constants/Icons';
 
 const Touchable = styled.TouchableOpacity`
   margin-right: 15px;
@@ -25,11 +24,7 @@ export default () => {
           routes: [{name: 'HomeScreen'}],
         });
       }}>
-      <Icon
-        name={utils.isAndroid ? 'md-home-outline' : 'ios-home-outline'}
-        size={22}
-        color="white"
-      />
+      <HomeIcon size={22} color="white" />
       <Text>HOME</Text>
     </Touchable>
   );

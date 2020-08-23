@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {useRoute, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import utils from '../../constants/utils';
+import {useSelector} from 'react-redux';
 
 const Touchable = styled.TouchableOpacity`
   margin-right: 15px;
@@ -18,16 +19,16 @@ const Text = styled.Text`
 
 export default () => {
   const navigation = useNavigation();
-  const route = useRoute();
-  const STOREDATA = route?.params.STOREDATA;
-  const STORE = route?.params.STORE;
-  const handler = route?.params.handler;
+  const {STOREDATA, STORE, handler} = useSelector(
+    (state: any) => state.userReducer,
+  );
+
   if (STOREDATA !== undefined) {
     if (STORE == '1' || STOREDATA.CalendarEdit == '1' || undefined) {
       return (
         <Touchable
           onPress={() => {
-            navigation.navigate('CalendarAdd', {
+            navigation.navigate('CalendarAddScreen', {
               STOREDATA,
               handler,
             });
@@ -43,5 +44,7 @@ export default () => {
         </Touchable>
       );
     }
+  } else {
+    return null;
   }
 };

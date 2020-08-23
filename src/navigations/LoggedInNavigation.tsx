@@ -87,6 +87,7 @@ import RootModal from '../components/RootModal';
 import BackBtn from '../components/Header/BackBtn';
 import HomeBtn from '../components/Header/HomeBtn';
 import CalendarInfoHeader from '../components/Header/CalendarInfoHeader';
+import ShelfLifeCheckHeader from '../components/Header/ShelfLifeCheckHeader';
 
 const LoggedInNavigation = createStackNavigator();
 export default () => {
@@ -231,6 +232,7 @@ export default () => {
           component={ShelfLifeCheckScreen}
           options={{
             title: '유통기한 체크',
+            headerRight: () => <ShelfLifeCheckHeader />,
           }}
         />
         <LoggedInNavigation.Screen
