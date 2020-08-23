@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import moment from 'moment';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
@@ -24,7 +25,9 @@ export default ({route: {params}}) => {
   const [storename, setStorename] = useState<string>(''); // 영업소 명칭
   const [businesstype, setBusinesstype] = useState<string>(''); // 영업의종류
   const [position, setPosition] = useState<string>(''); // 직책
-  const [EDUCATION_DATE, setEDUCATION_DATE] = useState<any>(''); // 교육일시 / 검진일
+  const [EDUCATION_DATE, setEDUCATION_DATE] = useState<any>(
+    moment().format('YYYY-MM-DD'),
+  ); // 교육일시 / 검진일
   const [EDUCATION_TYPE, setEDUCATION_TYPE] = useState<'online' | 'offline'>(
     'online',
   ); // 교육구분

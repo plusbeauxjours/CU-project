@@ -197,6 +197,7 @@ export default ({
   allData,
   params,
   EDUCATION_DATE,
+  CEO_HEALTH_SEQ,
 }) => {
   const navigation = useNavigation();
   const GetContent = ({label, data}) => (
@@ -258,7 +259,7 @@ export default ({
                 onPress={() => {
                   onRefresh();
                 }}>
-                <DateText>{TESTING_COUNT}회차</DateText>
+                <DateText>{EDUCATION_DATE.split('-')[0]}년</DateText>
               </DateTextArea>
               <DateToday
                 onPress={() => {
@@ -293,25 +294,19 @@ export default ({
         </Container>
         <Container style={{marginTop: 20, alignItems: 'center'}}>
           <Row>
+            {console.log('TESTING_DATE', TESTING_DATE)}
+            {console.log('EDUCATION_DATE', EDUCATION_DATE)}
             <ModifyButton
               onPress={() => {
-                navigation.navigate('HealthCertificateEmpUpdateScreen', {
-                  NAME: REAL_NAME,
-                  EMP_SEQ,
+                navigation.navigate('HealthCertificateStoreUpdateScreen', {
                   STORE_SEQ,
-                  RESULT_COUNT: TESTING_COUNT,
-                  EDUCATION_DATE: TESTING_DATE,
-                  TESTING_CERTIFICATE:
-                    'http://cuapi.shop-sol.com/uploads/ocr/' +
-                    TESTING_CERTIFICATE,
-                  STORE_HEALTH_SEQ,
                 });
               }}>
               <Text style={{fontSize: 16, color: 'white'}}>수정하기</Text>
             </ModifyButton>
             <SaveButton
               onPress={() => {
-                navigation.navigate('HealthCertificateEmpFormScreen', {
+                navigation.navigate('HealthCertificateStoreFormScreen', {
                   NAME: REAL_NAME,
                   EMP_SEQ,
                   STORE_SEQ,
