@@ -292,9 +292,9 @@ export default ({
           setType(selection);
         }}>
         {sizeTypeCheck[selection] ? (
-          <RadioBtnOnIcon size={17} color="#642A8C" />
+          <RadioBtnOnIcon size={17} />
         ) : (
-          <RadioBtnOffIcon size={17} color="#F2F2F2" />
+          <RadioBtnOffIcon size={17} />
         )}
         <TypeText>{text}</TypeText>
       </TypeContainer>
