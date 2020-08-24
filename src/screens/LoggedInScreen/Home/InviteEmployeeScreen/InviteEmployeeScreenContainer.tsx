@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import * as Hangul from 'hangul-js';
 
@@ -50,7 +50,7 @@ export default ({route: {parmas}}) => {
   // }
 
   const deleteBuffer = (KEY) => {
-    setChoice((buffer) => buffer.filter((member) => member.key !== KEY));
+    setChoice((buffer) => buffer.filter((item) => item.key !== KEY));
   };
 
   const addFn = () => {
@@ -83,7 +83,7 @@ export default ({route: {parmas}}) => {
 
   const choiseFn = (id, name, phoneNumbers) => {
     let buffer = choice;
-    if (buffer.length !== 0) {
+    if (buffer && buffer.length !== 0) {
       let flag = true;
       for (var i = 0; i < buffer.length; i++) {
         if (buffer[i].key == id) {

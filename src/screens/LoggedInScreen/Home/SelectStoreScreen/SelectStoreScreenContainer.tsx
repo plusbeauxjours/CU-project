@@ -3,13 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import SelectStoreScreenPresenter from './SelectStoreScreenPresenter';
 
 import {setSplashVisible} from '../../../../redux/splashSlice';
-import {
-  setStoreEmpSeq,
-  setStore,
-  setStoreName,
-  setCalendarData,
-  setCheckListData,
-} from '../../../../redux/userSlice';
+import {setStoreEmpSeq, setStore} from '../../../../redux/userSlice';
 import utils from '../../../../constants/utils';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {useNavigation} from '@react-navigation/native';

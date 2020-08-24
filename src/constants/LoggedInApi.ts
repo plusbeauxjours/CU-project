@@ -103,5 +103,6 @@ export default {
     deleteStoreHealth: (data: any) => callApi("post", "/auth/deleteStoreHealth/", data),
     getAllCeoHealth: (data: any) => callApi("post", "/auth/getAllCeoHealth/", data),
     deleteCeoHealth: (data: any) => callApi("post", "/auth/deleteCeoHealth/", data),
+    setShelfLifeData: (data: any) => callApi("post", "/auth/setshelfLifeData/", data),
     sendEmp2: (data: any) => oldApi("post", "/Auth/sendEmp2/", data),
 }

@@ -87,8 +87,8 @@ export default ({route: {params}}) => {
               </Row>
             </Box>
           )}
-          {dataList.length !== 0 ? (
-            dataList.map((data: any, index) => {
+          {dataList && dataList.length !== 0 ? (
+            dataList?.map((data: any, index) => {
               return (
                 <HealthCertificateEmpListCard
                   key={index}
