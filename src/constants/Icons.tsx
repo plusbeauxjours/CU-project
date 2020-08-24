@@ -7,6 +7,8 @@ interface IProps {
   color?: string;
 }
 
+Icon.loadFont();
+
 export const ForwardIcon: React.FC<IProps> = ({size, color}) => (
   <Icon
     name={
@@ -169,4 +171,24 @@ export const FlashOnIcon: React.FC<IProps> = ({size, color}) => (
 
 export const FlashOffIcon: React.FC<IProps> = ({size, color}) => (
   <Icon name={'flash-off'} size={size ?? 20} color={color ?? '#FFF'} />
+);
+
+export const PersonAddIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon
+    name={'person-add-outline'}
+    size={size ?? 22}
+    color={color ?? '#642A8C'}
+  />
+);
+
+export const RemoveCircleIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon
+    name={'remove-circle-outline'}
+    size={size ?? 30}
+    color={color ?? '#B91C1B'}
+  />
+);
+
+export const SearchIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon name={'search-outline'} size={size ?? 28} color={color ?? '#642A8C'} />
 );

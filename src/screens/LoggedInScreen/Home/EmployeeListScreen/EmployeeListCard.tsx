@@ -7,11 +7,7 @@ import {
 } from 'react-native-responsive-screen';
 import {ForwardIcon} from '../../../../constants/Icons';
 
-interface IEmployeeListBox {
-  hasEmployeeNowOn: boolean;
-}
-
-const Touchable = styled.TouchableOpacity<IEmployeeListBox>`
+const Touchable = styled.TouchableOpacity`
   padding: 0 20px;
   height: ${hp('10%')}px;
   width: 100%;

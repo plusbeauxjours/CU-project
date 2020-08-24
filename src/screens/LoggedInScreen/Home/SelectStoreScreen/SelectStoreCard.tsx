@@ -27,8 +27,8 @@ const Container = styled.View<IIsStore>`
   shadow-offset: { width: 8px, height: 8px };
   shadow-opacity: 0.3;
   shadow-radius: 4px;
-  margin-top: ${(props) => (props.isStore ? hp('1%') : hp('3%'))};
-  margin-bottom: ${(props) => (props.isStore ? hp('2%') : 0)};
+  margin-top: 10px;
+  margin-bottom: 20px;
 `;
 
 const EmployeeBox = styled.View`
@@ -50,7 +50,7 @@ const Touchable = styled.TouchableOpacity``;
 const NameText = styled.Text`
   font-size: 17px;
   font-weight: bold;
-  margin-bottom: ${hp('1.5%')}px;
+  margin-bottom: 15px;
 `;
 
 const ArrowBox = styled.View`
@@ -83,7 +83,7 @@ const IconContainer = styled.View`
 const AddressBox = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-bottom: ${hp('0.5%')}px;
+  margin-bottom: 5px;
 `;
 const AddressText = styled.Text`
   font-size: 13px;

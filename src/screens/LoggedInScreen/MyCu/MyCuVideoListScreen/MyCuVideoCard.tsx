@@ -2,7 +2,7 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
 
-import {CheckMarkIcon} from 'src/constants/Icons';
+import {CheckMarkIcon} from '../../../../constants/Icons';
 
 const DataListItem = styled.TouchableOpacity`
   width: 100%;

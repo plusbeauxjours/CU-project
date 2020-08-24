@@ -12,7 +12,7 @@ interface ISelected {
 }
 const BackGround = styled.SafeAreaView`
   flex: 1;
-  background-color: grey;
+  background-color: #f6f6f6;
 `;
 
 const CategoryList = styled.View`
