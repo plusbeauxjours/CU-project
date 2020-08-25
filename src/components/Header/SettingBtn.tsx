@@ -34,6 +34,7 @@ export default () => {
           navigation.navigate('MyPageMainScreen');
         }}>
         <SettingIcon size={20} color="white" />
+        <Text>설정</Text>
       </Touchable>
     </Container>
   );

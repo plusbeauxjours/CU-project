@@ -7,7 +7,7 @@ import {setAlertVisible, setAlertInfo} from '../../../../redux/alertSlice';
 import SetEmployeeInfoScreenPresenter from './SetEmployeeInfoScreenPresenter';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 
-export default ({routh: {params}}) => {
+export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -569,7 +569,7 @@ export default ({routh: {params}}) => {
   };
 
   useEffect(() => {
-    // fetchData();
+    fetchData();
   }, []);
 
   return (
@@ -579,9 +579,7 @@ export default ({routh: {params}}) => {
       payMonth={payMonth}
       payYear={payYear}
       startDay={startDay}
-      setStartDay={setStartDay}
       endDay={endDay}
-      setEndDay={setEndDay}
       endDayCheck={endDayCheck}
       setEndDayCheck={setEndDayCheck}
       setPayDay={setPayDay}

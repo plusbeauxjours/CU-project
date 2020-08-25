@@ -105,4 +105,11 @@ export default {
     deleteCeoHealth: (data: any) => callApi("post", "/auth/deleteCeoHealth/", data),
     setShelfLifeData: (data: any) => callApi("post", "/auth/setshelfLifeData/", data),
     sendEmp2: (data: any) => oldApi("post", "/Auth/sendEmp2/", data),
+    toggleCalendar: (data: any) => oldApi("post", "/Employee/toggleCalendar/", data),
+    getEmpPay: (data: any) => oldApi("post", "/Employee/getEmpPay/", data),
+    updateEmpSchedules3: (data: any) => oldApi("post", "/Employee/update_emp_schedules3/", data),
+    getEmp: (EMP_SEQ: string) => oldApi("get", `/Employee/get?EMP_SEQ=${EMP_SEQ}`),
+    getSchedules: (EMP_SEQ: string,
+        year: string,
+        month: string) => oldApi("get", `/Employee/get_schedules?EMP_SEQ=${EMP_SEQ}&YEAR=${year}&MONTH=${month}`)
 }

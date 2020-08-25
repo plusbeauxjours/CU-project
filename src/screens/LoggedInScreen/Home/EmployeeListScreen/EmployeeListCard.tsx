@@ -71,7 +71,6 @@ export default ({
           STORE: STORE,
           STORE_SEQ: STOREDATA.resultdata.STORE_SEQ,
           CALCULATE_DAY: STOREDATA.resultdata.CALCULATE_DAY,
-          STOREDATA: STOREDATA,
           onRefresh,
         });
       }}>
