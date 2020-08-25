@@ -76,7 +76,7 @@ const SalarySystemSettingText = styled.Text`
   font-size: 15px;
 `;
 
-export const authority = ({
+export const Authority = ({
   selection,
   text,
   authorityCheck,

@@ -190,7 +190,7 @@ export const RestType = ({
   );
 };
 
-export const positionType = ({
+export const PositionType = ({
   selection,
   text,
   positionCheck,

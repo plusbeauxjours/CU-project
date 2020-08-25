@@ -167,7 +167,7 @@ export default ({
                 {/* <DatePickerModal
                   headerTextIOS={'날짜를 선택하세요.'}
                   cancelTextIOS={'취소'}
-                  confirmTextIOS={'선책'}
+                  confirmTextIOS={'선택'}
                   isVisible={isDateModalVisible}
                   mode="date"
                   locale="ko_KRus_EN"

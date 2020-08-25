@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import {setAlertVisible, setAlertInfo} from '../../../../redux/alertSlice';
 import SetEmployeeInfoScreenPresenter from './SetEmployeeInfoScreenPresenter';
-import {setSplashVisible} from 'src/redux/splashSlice';
+import {setSplashVisible} from '../../../../redux/splashSlice';
 
 export default ({routh: {params}}) => {
   const dispatch = useDispatch();
@@ -22,9 +22,6 @@ export default ({routh: {params}}) => {
   } = params;
 
   const [START_TYPE, setSTART_TYPE] = useState<string>('0');
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [isModalVisible2, setIsModalVisible2] = useState<boolean>(false);
-  const [isModalVisible3, setIsModalVisible3] = useState<boolean>(false);
   const [isSalaryModalVisible1, setIsSalaryModalVisible1] = useState<boolean>(
     false,
   );
@@ -32,6 +29,16 @@ export default ({routh: {params}}) => {
     false,
   );
   const [isHelpModalVisible, setIsHelpModalVisible] = useState<boolean>(false);
+  const [isStartDayModalVisible, setIsStartDayModalVisible] = useState<boolean>(
+    false,
+  );
+  const [isEndDayModalVisible, setIsEndDayModalVisible] = useState<boolean>(
+    false,
+  );
+  const [
+    isProbationPeriodModalVisible,
+    setIsProbationPeriodModalVisible,
+  ] = useState<boolean>(false);
 
   ///// STEP 1 /////
   const [click1, setClick1] = useState<boolean>(false);
@@ -53,9 +60,9 @@ export default ({routh: {params}}) => {
     false,
   ]); //  [시급,일급,월급 ]
   const [payDayCheck, setPayDayCheck] = useState<boolean>(false);
-  const [payYear, setPayYear] = useState<string>(moment().format('YYYY-MM-DD')); //  급여 적용 시작 연도
+  const [payYear, setPayYear] = useState<string>(moment().format('YY')); //  급여 적용 시작 연도
   const [payMonth, setPayMonth] = useState<string>(moment().format('MM')); //  급여 적용 시작 월
-  const [payDay, setPayDay] = useState<string>(moment().format('YY')); //  급여 적용 시작 년월
+  const [payDay, setPayDay] = useState<string>(moment().format('YYYY-MM-DD')); //  급여 적용 시작 년월
   const [payYearModal, setPayYearModal] = useState<boolean>(false);
   const [payMonthModal, setPayMonthModal] = useState<boolean>(false);
   const [payYearCheck, setPayYearCheck] = useState<any>(new Array(4));
@@ -78,12 +85,8 @@ export default ({routh: {params}}) => {
   const [probationPeriod, setProbationPeriod] = useState<string>('');
   const [probationPercent, setProbationPercent] = useState<string>('');
   const [
-    probationPeriodModalVisible,
-    setProbationPeriodModalVisible,
-  ] = useState<boolean>(false);
-  const [
-    probationPercentModalVisible,
-    setProbationPercentModalVisible,
+    isProbationPercentModalVisible,
+    setIsProbationPercentModalVisible,
   ] = useState<boolean>(false);
   const [periodCheck, setPeriodCheck] = useState<any>(new Array(4));
   const [percentCheck, setPercentCheck] = useState<any>(new Array(4));
@@ -115,23 +118,21 @@ export default ({routh: {params}}) => {
   const [HELPMODALTEXT, setHELPMODALTEXT] = useState<string>('');
 
   ///// STEP 5 /////
-  const [click5, setclick5] = useState<boolean>(false);
-  const [positionCheck, setpositionCheck] = useState<[boolean, boolean]>([
+  const [click5, setClick5] = useState<boolean>(false);
+  const [positionCheck, setPositionCheck] = useState<[boolean, boolean]>([
     true,
     false,
   ]); //  [직원, 점장]
-  const [authorityCheck, setauthorityCheck] = useState<
+  const [authorityCheck, setAuthorityCheck] = useState<
     [boolean, boolean, boolean, boolean, boolean]
   >([false, false, false, false, false]); //  [선택 시 본인급여 확인 가능, [점장] 타 직원급여 확인 및 수정 가능, [점장] 직원 일정 수정 가능, [점장] 타 직원 출퇴근 알람 받기]
   const [CALCULATE_DAY, setCALCULATE_DAY] = useState<string>('1');
 
-  const alertModal = (title, text, attach?, height?) => {
+  const alertModal = (text) => {
     const params = {
       type: 'alert',
-      height: height,
-      title: title,
+      title: '',
       content: text,
-      attach: attach,
     };
 
     dispatch(setAlertInfo(params));
@@ -152,14 +153,14 @@ export default ({routh: {params}}) => {
     let value = JSON.parse(JSON.stringify(percentCheck));
     value.fill(false);
     if (!percentCheck.includes(true)) {
-      return alertModal('', '시간을 선택해주세요.');
+      return alertModal('시간을 선택해주세요.');
     }
 
     if (
       percentCheck[6] === true &&
       (Number(percentDirectInput) < 1 || Number(percentDirectInput) > 100)
     ) {
-      return alertModal('', '0 ~ 60 사이의 수를 적어주세요.');
+      return alertModal('0 ~ 60 사이의 수를 적어주세요.');
     }
     let percent = percentCheck.indexOf(true) + 1;
     if (percent == 1) {
@@ -178,7 +179,7 @@ export default ({routh: {params}}) => {
     if (percentCheck[6] === true) {
       percent = percentDirectInput;
     }
-    setProbationPercentModalVisible(false);
+    setIsProbationPercentModalVisible(false);
     setProbationPercent(percent);
     setPercentCheck(value);
     setPercentDirectInput('');
@@ -231,7 +232,7 @@ export default ({routh: {params}}) => {
       payYearCheck[6] === true &&
       (Number(payYearDirectInput) < 1 || Number(payYearDirectInput) > 99)
     ) {
-      return alertModal('', '0 ~ 60 사이의 수를 적어주세요.');
+      return alertModal('0 ~ 60 사이의 수를 적어주세요.');
     }
     let payYeared = payYearCheck.indexOf(true) + 1;
     if (payYeared == 1) {
@@ -257,7 +258,7 @@ export default ({routh: {params}}) => {
     setPayYearDirectInput('');
   };
 
-  const submit = async () => {
+  const submitFn = async () => {
     let payChecked = payCheck.indexOf(true);
     let positionChecked = positionCheck.indexOf(true);
     let deductionTypeChecked = deductionTypeCheck.indexOf(true);
@@ -275,50 +276,50 @@ export default ({routh: {params}}) => {
     // STEP 1 에러 체크
     //~~~~~~~~~~~~~~~~~~~~
     if (startDay === '') {
-      return alertModal('', '입사일을 입력해주세요.');
+      return alertModal('입사일을 입력해주세요.');
     } else if (endDay === '' && endDayCheck === false) {
-      return alertModal('', '퇴사일을 입력해주세요');
+      return alertModal('퇴사일을 입력해주세요');
     }
     //~~~~~~~~~~~~~~~~~~~~
     // STEP 2 에러 체크
     //~~~~~~~~~~~~~~~~~~~~
     if (payChecked === -1) {
-      return alertModal('', '급여유형을 선택해주세요.');
+      return alertModal('급여유형을 선택해주세요.');
     } else if (payChecked !== 2 && pay === '') {
-      return alertModal('', '급여를 입력해주세요.');
+      return alertModal('급여를 입력해주세요.');
     } else if (payChecked === 2) {
       if (pay1 === '') {
-        return alertModal('', '기본급을 입력해주세요.');
+        return alertModal('기본급을 입력해주세요.');
       } else if (pay2 === '') {
-        return alertModal('', '식대금액을 입력해주세요.');
+        return alertModal('식대금액을 입력해주세요.');
       } else if (pay3 === '') {
-        return alertModal('', '자가운전금액을 입력해주세요.');
+        return alertModal('자가운전금액을 입력해주세요.');
       } else if (pay4 === '') {
-        return alertModal('', '상여금액을 입력해주세요.');
+        return alertModal('상여금액을 입력해주세요.');
       } else if (pay5 === '') {
-        return alertModal('', '성과급금액을 입력해주세요.');
+        return alertModal('성과급금액을 입력해주세요.');
       }
     }
     if ((probation && probationPeriod == '') || undefined) {
-      return alertModal('', '수습기간의 종료일을 설정해주세요.');
+      return alertModal('수습기간의 종료일을 설정해주세요.');
     }
     if ((probation && probationPercent == '') || undefined) {
-      return alertModal('', '수습기간의 급여비율을 설정해주세요.');
+      return alertModal('수습기간의 급여비율을 설정해주세요.');
     }
     if (salarySystemCheck[1] === true && weekTypeChecked == -1) {
-      return alertModal('', '주휴수당 계산 방법 선택을 체크해주세요.');
+      return alertModal('주휴수당 계산 방법 선택을 체크해주세요.');
     }
     if (salarySystemCheck[2] === true && restTypeChecked == -1) {
-      return alertModal('', '휴게시간 계산 방법 선택을 체크해주세요.');
+      return alertModal('휴게시간 계산 방법 선택을 체크해주세요.');
     }
     if (deductionTypeChecked === -1) {
-      return alertModal('급여정보 입력', '공제유형을 선택해주세요.');
+      return alertModal('급여정보 입력\n공제유형을 선택해주세요.');
     }
     if (payDay === '') {
-      return alertModal('급여정보 입력', '적용 시작 년,월을 입력해주세요.');
+      return alertModal('급여정보 입력\n적용 시작 년,월을 입력해주세요.');
     }
     if (positionChecked === -1) {
-      return alertModal('직책/권한 설정', '직원의 직책을 선택해주세요.');
+      return alertModal('직책/권한 설정\n직원의 직책을 선택해주세요.');
     }
     try {
       dispatch(setSplashVisible(true));
@@ -389,7 +390,7 @@ export default ({routh: {params}}) => {
       const json = await response.json();
       if (json.message == 'SUCCESS') {
         if (from === 'EmployeeInfoScreen') {
-          alertModal('완료', '직원정보가 수정되었습니다.');
+          alertModal('직원정보가 수정되었습니다.');
           navigation.goBack();
           onRefresh();
         } else if (from === 'ElectronicContracts') {
@@ -418,7 +419,7 @@ export default ({routh: {params}}) => {
         }
       }
     } catch (error) {
-      alertModal('', '통신이 원활하지 않습니다.');
+      alertModal('통신이 원활하지 않습니다.');
       console.log(error);
       return;
     } finally {
@@ -551,8 +552,8 @@ export default ({routh: {params}}) => {
           setMINPAY(json.resultdata.MINPAY); // 최저시급
 
           // ↓ STEP 5(직책/권한 설정)
-          setpositionCheck(positionCheck);
-          setauthorityCheck(authorityCheck);
+          setPositionCheck(positionCheck);
+          setAuthorityCheck(authorityCheck);
         } else {
           setSTART_TYPE('1');
           setMODIFYCOUNT('1'); // 첫번째 적용 확인 구분값
@@ -562,27 +563,49 @@ export default ({routh: {params}}) => {
       }
     } catch (error) {
       console.log(error);
-      alertModal('', '통신이 원활하지 않습니다.');
+      alertModal('통신이 원활하지 않습니다.');
       navigation.goBack();
     }
   };
 
   useEffect(() => {
-    fetchData();
+    // fetchData();
   }, []);
 
   return (
     <SetEmployeeInfoScreenPresenter
+      submitFn={submitFn}
       payDay={payDay}
       payMonth={payMonth}
       payYear={payYear}
       startDay={startDay}
+      setStartDay={setStartDay}
+      endDay={endDay}
+      setEndDay={setEndDay}
+      endDayCheck={endDayCheck}
+      setEndDayCheck={setEndDayCheck}
       setPayDay={setPayDay}
       setPayMonth={setPayMonth}
       setPayYear={setPayYear}
-      setStartDay={setStartDay}
       empImage={empImage}
       empName={empName}
+      click1={click1}
+      setClick1={setClick1}
+      click2={click2}
+      setClick2={setClick2}
+      click5={click5}
+      setClick5={setClick5}
+      authorityCheck={authorityCheck}
+      setAuthorityCheck={setAuthorityCheck}
+      alertModal={alertModal}
+      explainModal={explainModal}
+      positionCheck={positionCheck}
+      setPositionCheck={setPositionCheck}
+      restTypeCheck={restTypeCheck}
+      setRestTypeCheck={setRestTypeCheck}
+      restTime={restTime}
+      setRestTime={setRestTime}
+      setMarkedDatesE={setMarkedDatesE}
     />
   );
 };
