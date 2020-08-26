@@ -399,7 +399,7 @@ export default ({route: {params}}) => {
 
           let payChecked = payCheck.indexOf(true);
 
-          navigation.navigate('EmployeeScheduleMain', {
+          navigation.navigate('EmployeeScheduleMainScreen', {
             CALCULATE_DAY,
             image,
             name,

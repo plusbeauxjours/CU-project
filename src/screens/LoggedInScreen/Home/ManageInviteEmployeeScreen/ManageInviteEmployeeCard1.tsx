@@ -73,7 +73,7 @@ export default ({
   const [wording, setWording] = useState<string>('');
 
   const admit = () => {
-    navigation.navigate('ElectronicContracts', {
+    navigation.navigate('ElectronicContractsScreen', {
       image,
       name,
       STORE_SEQ,
@@ -112,16 +112,7 @@ export default ({
         <RefuseText>{wording}</RefuseText>
       ) : (
         <ButtonBox>
-          <TextBox
-            onPress={() => {
-              confirmModal(
-                '',
-                `[${name}]직원을 [${STORE_NAME}]에 합류시키겠습니까?\n\n합류 후 일정입력 단계가 진행됩니다.`,
-                '취소',
-                '승인',
-                () => admit(),
-              );
-            }}>
+          <TextBox onPress={() => admit()}>
             <AdmitText>승인</AdmitText>
           </TextBox>
           <TextBox

@@ -1,2 +1,2 @@
-import EmployeeScheduleMainScreenContainer from "./EmployeeScheduleMainScreenContainer"
-export default EmployeeScheduleMainScreenContainer
+import EmployeeScheduleMainScreen from "./EmployeeScheduleMainScreen"
+export default EmployeeScheduleMainScreen

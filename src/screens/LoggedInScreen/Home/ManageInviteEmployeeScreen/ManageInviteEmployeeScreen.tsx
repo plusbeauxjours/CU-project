@@ -171,7 +171,7 @@ export default ({route: {params}}) => {
                 explainModal('', 'App 설치 및 회원가입이 완료된 직원입니다.')
               }>
               <BoxTitleText style={{paddingRight: 5}}>
-                >초대에 응한 직원
+                초대에 응한 직원
               </BoxTitleText>
               <HelpCircleIcon />
             </BoxTitle>

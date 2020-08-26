@@ -3,7 +3,9 @@ import {ScrollView, ActivityIndicator} from 'react-native';
 import Modal from 'react-native-modal';
 import styled from 'styled-components/native';
 import {WebView} from 'react-native-webview';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
+
 import {CloseIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.View`
@@ -65,6 +67,14 @@ const Column = styled.View`
   flex-direction: column;
 `;
 
+const SkipTouchable = styled.TouchableOpacity`
+  height: 60px;
+  width: ${wp('100%')}px;
+  align-items: center;
+  justify-content: center;
+  background-color: #642a8c;
+`;
+
 export default ({route: {params}}) => {
   const navigation = useNavigation();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -72,9 +82,9 @@ export default ({route: {params}}) => {
     boolean
   >(false);
   const onPress = () => {
-    if (params?.hasNextStep) {
+    if (params?.from === 'ManageInviteEmployeeScreen') {
       setIsModalVisible(false);
-      navigation.navigate('SetEmployeeInfo', {
+      navigation.navigate('SetEmployeeInfoScreen', {
         ...params,
         ...{from: 'ElectronicContracts'},
       });
@@ -123,7 +133,6 @@ export default ({route: {params}}) => {
           </RedText>
           <ExplainText>{'      '} - 회사명 : CU 지점명</ExplainText>
           <ExplainText>{'      '} - 가입경로 : 자버 담당자 미팅</ExplainText>
-
           <LinkBtn
             onPress={() => {
               setIsModalVisible(true);
@@ -135,6 +144,17 @@ export default ({route: {params}}) => {
           </LinkBtn>
         </ExplainContainer>
       </ScrollView>
+      {params?.from === 'ManageInviteEmployeeScreen' && (
+        <SkipTouchable
+          onPress={() => {
+            navigation.navigate('SetEmployeeInfoScreen', {
+              ...params,
+              ...{from: 'ElectronicContracts'},
+            });
+          }}>
+          <Text style={{color: 'white', fontSize: 16}}>다음에 진행하기</Text>
+        </SkipTouchable>
+      )}
       <Modal
         isVisible={isModalVisible}
         onBackdropPress={() => setIsModalVisible(false)}
@@ -142,9 +162,11 @@ export default ({route: {params}}) => {
         avoidKeyboard={false}>
         <Column>
           <ModalHeader>
-            <Text style={{paddingBottom: 15, paddingLeft: 10, color: '#aaa'}}>
-              * 마이페이지에서 추후에 작성 가능합니다.
-            </Text>
+            {params?.from === 'ManageInviteEmployeeScreen' && (
+              <Text style={{paddingBottom: 15, paddingLeft: 10, color: '#aaa'}}>
+                * 마이페이지에서 추후에 작성 가능합니다.
+              </Text>
+            )}
             <Touchable onPress={() => onPress()}>
               <CloseIcon size={28} />
             </Touchable>

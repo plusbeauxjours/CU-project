@@ -66,6 +66,7 @@ const Image = styled.Image`
   border-width: 1px;
   margin: 0 5px;
 `;
+
 const Container = styled.View`
   margin-top: 20px;
   padding: 0 20px;
