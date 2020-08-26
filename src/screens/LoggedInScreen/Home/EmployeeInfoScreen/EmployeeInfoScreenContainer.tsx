@@ -220,10 +220,10 @@ export default ({route: {params}}) => {
     - 기본은 근무 종료일이 가장 큰 값을 뒤에 배치
   */
     rawTimeList.sort((prev, next) => {
-      const numPrevStart = Number(prev.START.replace(/-/g, ''));
-      const numPrevEnd = Number(prev.END.replace(/-/g, ''));
-      const numNextStart = Number(next.START.replace(/-/g, ''));
-      const numNextEnd = Number(next.END.replace(/-/g, ''));
+      const numPrevStart = Number(prev.START?.replace(/-/g, ''));
+      const numPrevEnd = Number(prev.END?.replace(/-/g, ''));
+      const numNextStart = Number(next.START?.replace(/-/g, ''));
+      const numNextEnd = Number(next.END?.replace(/-/g, ''));
       if (!prev.END || !next.END) {
         if (numPrevStart === numNextStart && numPrevEnd === numNextEnd) {
           return 1;

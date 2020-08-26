@@ -665,13 +665,13 @@ export default ({
                     </MenuTitleArea>
                     <Container>
                       {menuCnt('캘린더', 'CalendarInfoScreen')}
-                      {menuCnt('직원정보', 'PaymentInfoScreen')}
+                      {menuCnt('직원정보', 'EmployeeInfoEMPScreen')}
                       {storeResult?.PAY_SHOW == 1 &&
                         menuCnt('급여정보', 'EmpPaymentInfoScreen')}
                       {menuCnt('체크리스트', 'ChecklistItemsScreen')}
                       {menuCnt(
                         '업무일지',
-                        'ChecklistShareMain',
+                        'ChecklistShareMainScreen',
                         storeResult?.noticelength,
                       )}
                       {menuCnt('유통기한 알리미', 'ShelfLifeCheckScreen')}
