@@ -26,8 +26,7 @@ const constant = {
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
-  const {STOREDATA, STORE, STORE_SEQ, EMP_SEQ} = params;
+  const {STOREDATA, STORE, EMP_SEQ} = params;
   const {CALCULATE_DAY} = STOREDATA?.resultdata;
 
   const [workTypeCheck, setWorkTypeCheck] = useState<boolean>(true); // true: 자율출퇴근 직원, false: 일정이 있는 직원
@@ -84,14 +83,6 @@ export default ({route: {params}}) => {
     }
   };
 
-  const gotoPayInfo = () => {
-    navigation.navigate('EmpPaymentInfo', {
-      STORE_SEQ,
-      EMP_SEQ,
-      STORE,
-    });
-  };
-
   const numberFormatPadding = (num) => {
     const _num = Number(num);
     if (_num < 10) {
@@ -107,7 +98,6 @@ export default ({route: {params}}) => {
         moment().format('YYYY'),
         moment().format('MM'),
       );
-      console.log('fetchSchedule=======================', data.result);
       if (data.message === 'SUCCESS') {
         initTimeTable(data.result);
       } else if (data.message === 'LIST_EMPTY') {
@@ -125,7 +115,6 @@ export default ({route: {params}}) => {
     try {
       dispatch(setSplashVisible(true));
       const {data} = await api.getEmp(EMP_SEQ);
-      console.log('fetchData=======================', data);
       const today = new Date();
       setData(data.result);
       if (data.result.CALENDAR === '1') {
@@ -337,14 +326,11 @@ export default ({route: {params}}) => {
       timeList={timeList}
       refreshing={refreshing}
       onRefresh={onRefresh}
-      gotoPayInfo={gotoPayInfo}
-      EMP_SEQ={EMP_SEQ}
       data={data}
       getPeriod={getPeriod}
       numberComma={numberComma}
       workTypeCheck={workTypeCheck}
       timeTable={timeTable}
-      explainModal={explainModal}
       setTimeTableIndex={setTimeTableIndex}
       setTimeListIndex={setTimeListIndex}
       setTimeList={setTimeList}

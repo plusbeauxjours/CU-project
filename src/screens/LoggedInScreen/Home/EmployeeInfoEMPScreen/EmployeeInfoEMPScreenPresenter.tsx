@@ -218,14 +218,11 @@ export default ({
   timeList,
   refreshing,
   onRefresh,
-  gotoPayInfo,
-  EMP_SEQ,
   data,
   getPeriod,
   numberComma,
   workTypeCheck,
   timeTable,
-  explainModal,
   setTimeTableIndex,
   setTimeListIndex,
   setTimeList,
@@ -428,10 +425,12 @@ export default ({
                       {data.IS_MANAGER === '1' ? '[점장]' : '[스태프]'}
                     </DateText>
                   </Row>
-                  <DateText>근무기간</DateText>
-                  <DateText>
-                    {data.START} ~ {data.END ? data.END : '계속'}
-                  </DateText>
+                  <Row>
+                    <DateText>근무기간&nbsp;</DateText>
+                    <DateText>
+                      {data.START} ~ {data.END ? data.END : '계속'}
+                    </DateText>
+                  </Row>
                 </NameBox>
               </EmployeeBox>
             </Section>

@@ -349,7 +349,7 @@ export default ({route: {params}}) => {
       });
       if (data.message === 'SUCCESS') {
         setWorkTypeCheck(!workTypeCheck);
-        onRefresh();
+        await fetchData();
       }
     } catch (error) {
       console.log(error);

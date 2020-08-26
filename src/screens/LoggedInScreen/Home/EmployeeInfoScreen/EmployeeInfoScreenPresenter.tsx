@@ -494,9 +494,6 @@ export default ({
                     {data.START} ~ {data.END ? data.END : '계속'}
                   </DateText>
                 </NameBox>
-                <NavigationButton onPress={() => gotoSetInfo()}>
-                  <Bold>정보수정</Bold>
-                </NavigationButton>
               </EmployeeBox>
             </Section>
             <Section>
@@ -589,10 +586,10 @@ export default ({
                 timeTable.length == 0 && ( // 자율출퇴근★
                     <FixTypeDayChangeBox>
                       <FixTypeDayChangeButton
-                        style={{borderColor: '#642A8C'}}
+                        style={{borderColor: '#642A8C', width: '100%'}}
                         onPress={() => registerSchedule()}>
                         <FixTypeDayChangeButtonText style={{color: '#642A8C'}}>
-                          추가
+                          일정 추가
                         </FixTypeDayChangeButtonText>
                       </FixTypeDayChangeButton>
                     </FixTypeDayChangeBox>
