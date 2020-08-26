@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
 
 import EmployeeInfoEMPScreenPresenter from './EmployeeInfoEMPScreenPresenter';
 import {setSplashVisible} from '../../../../redux/splashSlice';
@@ -44,29 +43,6 @@ export default ({route: {params}}) => {
       type: 'alert',
       title: title || '',
       content: text || '',
-    };
-    dispatch(setAlertInfo(params));
-    dispatch(setAlertVisible(true));
-  };
-
-  const explainModal = (title, text) => {
-    const params = {
-      type: 'explain',
-      title: title,
-      content: text,
-    };
-    dispatch(setAlertInfo(params));
-    dispatch(setAlertVisible(true));
-  };
-
-  const confirmModal = (title, text, okCallback) => {
-    const params = {
-      type: 'confirm',
-      title: title || '',
-      content: text || '',
-      okButtonText: '삭제',
-      okCallback: okCallback,
-      warning: 'yes',
     };
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));

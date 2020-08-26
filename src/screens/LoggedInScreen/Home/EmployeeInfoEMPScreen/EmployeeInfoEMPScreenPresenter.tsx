@@ -10,7 +10,6 @@ import {
   Keyboard,
   TouchableHighlight,
 } from 'react-native';
-import moment from 'moment';
 
 import {BackIcon, ForwardIcon} from '../../../../constants/Icons';
 
@@ -26,11 +25,6 @@ const BackGround = styled.SafeAreaView`
 `;
 
 const ScrollView = styled.ScrollView``;
-
-const Touchable = styled.TouchableOpacity`
-  flex-direction: row;
-  align-items: center;
-`;
 
 const Container = styled.View`
   margin-top: 20px;
@@ -76,21 +70,6 @@ const DateText = styled.Text`
   font-size: 12px;
 `;
 
-const Bold = styled.Text`
-  color: #642a8c;
-  font-weight: bold;
-`;
-const NavigationButton = styled.TouchableOpacity`
-  position: absolute;
-  right: 10px;
-  height: 60px;
-  width: 60px;
-  align-items: center;
-  justify-content: center;
-  border-width: 1px;
-  border-color: #642a8c;
-  border-radius: 6px;
-`;
 const Row = styled.View`
   flex-direction: row;
   justify-content: center;
@@ -123,16 +102,6 @@ const WorkTypeAndSalaryBoxTitle = styled.Text`
 `;
 const WorkTypeCheckSection = styled.View`
   padding: 0 20px;
-`;
-
-const DateArrowLeft = styled.TouchableOpacity`
-  margin-left: 5px;
-  width: ${wp('10%')}px;
-  height: ${wp('10%')}px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background-color: #eee;
 `;
 
 const GreyText = styled.Text`

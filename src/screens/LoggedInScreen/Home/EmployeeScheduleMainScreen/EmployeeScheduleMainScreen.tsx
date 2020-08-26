@@ -2,10 +2,7 @@ import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 import api from '../../../../constants/LoggedInApi';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';

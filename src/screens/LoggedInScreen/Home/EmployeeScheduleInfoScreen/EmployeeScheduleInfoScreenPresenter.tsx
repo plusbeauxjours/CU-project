@@ -42,7 +42,6 @@ const Container = styled.View`
 
 const RenderDayListContainer = styled.View``;
 
-const DayBoxOn = styled.View``;
 const WhiteText = styled.Text`
   font-size: 12px;
   color: white;
@@ -83,21 +82,6 @@ const DateText = styled.Text`
   font-size: 12px;
 `;
 
-const Bold = styled.Text`
-  color: #642a8c;
-  font-weight: bold;
-`;
-const NavigationButton = styled.TouchableOpacity`
-  position: absolute;
-  right: 10px;
-  height: 60px;
-  width: 60px;
-  align-items: center;
-  justify-content: center;
-  border-width: 1px;
-  border-color: #642a8c;
-  border-radius: 6px;
-`;
 const Row = styled.View`
   flex-direction: row;
   justify-content: center;
@@ -154,14 +138,7 @@ const FixedGreyText = styled(GreyText)`
   position: absolute;
   right: 100px;
 `;
-const FreeTypeInfoBox = styled.View`
-  margin: 10px 20px;
-  padding: 20px 0;
-  align-items: center;
-  justify-content: center;
-  border-color: #e5e5e5;
-  border-width: 1px;
-`;
+
 const FixTypeDayChangeBox = styled.View`
   width: 100%;
   margin-top: 20px;

@@ -426,6 +426,10 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <EmployeeScheduleInfoScreenPresenter
       originalDayList={originalDayList}

@@ -40,7 +40,6 @@ export default ({route: {params}}) => {
   const [empdata, setEmpdata] = useState<any>({});
   const [year, setYear] = useState<string>(moment().format('YYYY'));
   const [month, setMonth] = useState<string>(moment().format('MM'));
-  const [day, setDay] = useState<string>(moment().format('DD'));
   const [dates, setDates] = useState<string>(moment().format('YYYY-MM-DD'));
   const [PAY, setPAY] = useState<number>(0);
   const [PAY_TYPE, setPAY_TYPE] = useState<string>('0');
@@ -86,18 +85,6 @@ export default ({route: {params}}) => {
     let resultArray = result.toString().split('.');
     resultArray[0] = resultArray[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     return resultArray.join('.');
-  };
-
-  const gotoSetInfo = () => {
-    navigation.navigate('SetEmployeeInfoScreen', {
-      from: 'EmployeeInfoScreen',
-      STORE_SEQ: data.STORE_SEQ,
-      EMP_SEQ: data.EMP_SEQ,
-      image: data.images[0].IMAGE,
-      name: data.EMP_NAME,
-      TITLE: '직원정보 수정',
-      onRefresh: () => onRefresh(),
-    });
   };
 
   const CALCULATE = async (EMP_SEQ, DATE) => {
@@ -448,7 +435,6 @@ export default ({route: {params}}) => {
       timeList={timeList}
       refreshing={refreshing}
       onRefresh={onRefresh}
-      gotoSetInfo={gotoSetInfo}
       setDates={setDates}
       CALCULATE={CALCULATE}
       EMP_SEQ={EMP_SEQ}
