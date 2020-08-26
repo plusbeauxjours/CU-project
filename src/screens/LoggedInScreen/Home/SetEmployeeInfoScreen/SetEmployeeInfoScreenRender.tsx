@@ -161,13 +161,13 @@ export const RenderPayYearData = ({
         </TextInputContainer>
       );
     }
-
     return (
       <Box
         isBefore={value[index]}
         onPress={() => {
           value.fill(false); // ES6
           value[index] = true;
+          console.log('value', value);
           setPayYearCheck(value);
         }}
         key={index}>

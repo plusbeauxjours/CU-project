@@ -198,7 +198,7 @@ export default ({
                   );
                 }}>
                 <BoxText>(방법1) 연락처로 추가하기</BoxText>
-                <HelpCircleIcon size={22} />
+                <HelpCircleIcon />
               </Row>
               <ContactIconContainer onPress={() => getContacts()}>
                 <PersonAddIcon />

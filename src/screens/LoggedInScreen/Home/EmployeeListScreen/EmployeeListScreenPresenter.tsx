@@ -141,7 +141,7 @@ export default ({
                     );
                   }}>
                   <BoxTitleText>근무종료</BoxTitleText>
-                  <HelpCircleIcon size={20} />
+                  <HelpCircleIcon />
                 </Touchable>
               ) : (
                 <BoxTitleText>근무종료</BoxTitleText>

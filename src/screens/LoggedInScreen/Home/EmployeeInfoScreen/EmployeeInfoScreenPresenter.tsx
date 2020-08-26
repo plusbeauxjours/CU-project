@@ -567,7 +567,7 @@ export default ({
                           );
                         }
                       }}>
-                      <HelpCircleIcon size={28} />
+                      <HelpCircleIcon />
                     </Touchable>
                   )}
                   <WorkScheduleBox onPress={() => toggleWorkSchedule()}>

@@ -52,25 +52,23 @@ const BackGround = styled.SafeAreaView`
 `;
 
 const ScrollView = styled.ScrollView``;
-const Text = styled.Text`
-  font-size: 16px;
-`;
+const Text = styled.Text``;
 const Touchable = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
 `;
 
 const Image = styled.Image`
-  width: 25px;
-  height: 25px;
-  border-radius: 50px;
+  width: 70px;
+  height: 70px;
+  border-radius: 35px;
   border-color: #ccc;
   border-width: 1px;
   margin: 0 5px;
 `;
 const Container = styled.View`
   margin-top: 20px;
-  padding: 20px;
+  padding: 0 20px;
   align-items: center;
 `;
 
@@ -80,9 +78,12 @@ const WhiteSpace = styled.View`
 
 const Line = styled.View`
   width: ${wp('90%') - 60}px;
-  border-bottom-width: 2ㅔㅌ;
+  border-bottom-width: 2px;
   border-color: #e5e5e5;
-  margin: 10px 0;
+  margin: 20px 0;
+`;
+const DivideLine = styled(Line)`
+  width: 100%;
 `;
 
 const TextInput = styled.TextInput`
@@ -95,10 +96,10 @@ const TextInput = styled.TextInput`
 
 const EmployeeBox = styled.View`
   width: 100%;
-  height: 30px;
+  height: 100px;
+  flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  flex-direction: row;
 `;
 
 const EmployeeText = styled.Text`
@@ -118,34 +119,48 @@ const GreyText = styled.Text`
 
 const Box = styled.TouchableOpacity<IBox>`
   width: 100%;
-  height: 20px;
+  height: 60px;
+  margin: 10px 0;
   border-width: ${(props) => (props.isBold ? 2 : 1)};
   border-color: #642a8c;
+  border-radius: 10px;
   background-color: #f3eff5;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
   flex-direction: row;
-  border-radius: 10px;
 `;
 
 const BoxTitle = styled.View`
+  width: 100%;
+  padding: 0 20px;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  flex-direction: row;
 `;
+const WorkTypeRow = styled(BoxTitle)`
+  margin-top: 20px;
+  padding: 0;
+`;
+
 const InsuranceBox = styled.View`
-    border-width: 1px
-    border-radius: 10px
-    border-color: #CCCCCC
-    align-items: flex-start
-    justify-content: center
-    margin: 10px;
+  margin-top: 20px;
+  border-width: 1px;
+  border-radius: 10px;
+  border-color: #cccccc;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px;
 `;
 
 const TitleText = styled.Text`
   font-size: 15px;
   color: #642a8c;
+`;
+
+const DateTouchable = styled.TouchableOpacity`
+  justify-content: flex-end;
+  padding-bottom: 5px;
+  height: 40px;
 `;
 
 const AuthorityBox = styled.View`
@@ -154,10 +169,11 @@ const AuthorityBox = styled.View`
   border-radius: 10px;
   border-color: #e5e5e5;
   border-width: 2px;
+  align-items: flex-start;
 `;
 
 const BigText = styled.Text`
-  font-size: 30px;
+  font-size: 24px;
   color: #642a8c;
 `;
 
@@ -168,16 +184,20 @@ const WhiteText = styled.Text`
 const Row = styled.View`
   flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
+`;
+const ModalContainerRow = styled(Row)`
   justify-content: center;
 `;
-
 const NameText = styled.Text`
   font-size: 18px;
 `;
 const Bold = styled(NameText)`
   font-weight: bold;
 `;
-
+const SmallBold = styled(Text)`
+  font-weight: bold;
+`;
 const SideBox = styled.View`
   flex-direction: row;
   justify-content: flex-start;
@@ -185,11 +205,12 @@ const SideBox = styled.View`
 `;
 
 const InputCase = styled.View`
-  margin: 20px;
+  margin: 10px;
 `;
 
 const ContentsBox = styled.View`
   width: 100%;
+  padding-bottom: 20px;
   justify-content: space-around;
 `;
 
@@ -207,7 +228,7 @@ const ProbationBox = styled.View`
 
 const PayBox = styled.View`
   width: 100%;
-  padding: 30px 0;
+  padding: 30px 50px;
   border-width: 1px;
   border-radius: 20px;
   border-color: #cccccc;
@@ -229,6 +250,8 @@ const ProbationText = styled.Text`
 `;
 
 const ModalContainer = styled.View`
+  height: 200px;
+  padding: 40px;
   background-color: white;
 `;
 
@@ -245,11 +268,10 @@ const SelectArea = styled.View`
 
 const ModalFooter = styled(SelectArea)`
   width: ${wp('100%')}px;
-  margin-top: 20px;
 `;
 
 const ModalBarButton = styled.TouchableOpacity`
-  height: 20px;
+  height: 60px;
   width: ${wp('100%')}px;
   align-items: center;
   justify-content: center;
@@ -261,9 +283,10 @@ const ModalButton = styled(ModalBarButton)`
   border-color: #642a8c;
   background-color: white;
 `;
+
 const SalarySystemBox = styled.View`
   margin-bottom: 10px;
-  padding: 0 10px;
+  align-items: flex-start;
 `;
 
 const DateInputCase = styled.TouchableOpacity<IsBefore>`
@@ -273,8 +296,24 @@ const DateInputCase = styled.TouchableOpacity<IsBefore>`
   height: 30px;
   border-color: ${(props) => (props.isBefore ? '#E5E5E5' : '#642a8c')};
   border-width: 2px;
+  margin-left: 20px;
 `;
 
+const ModalSelectBox = styled.View`
+  height: 100%;
+  justify-content: center;
+  align-items: flex-start;
+`;
+
+const ProbationTouchable = styled(Touchable)`
+  width: 120px;
+  height: 30px;
+  border-width: 1px;
+  border-color: #999;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+`;
 export default ({
   submitFn,
   payDay,
@@ -290,8 +329,8 @@ export default ({
   setEndDayCheck,
   setPayDay,
   setPayMonth,
-  empImage,
-  empName,
+  image,
+  name,
   click1,
   setClick1,
   click2,
@@ -360,7 +399,6 @@ export default ({
   setIsHelpModalVisible,
   deductionTypeCheck,
   setDeductionTypeCheck,
-  DEDUCTION_TYPE_INDEX_INSURANCE,
   insuranceCheck,
   setInsuranceCheck,
   getPeriod,
@@ -375,6 +413,7 @@ export default ({
   weekTypeCheck,
   weekTime,
 }) => {
+  const DEDUCTION_TYPE_INDEX_INSURANCE = 0;
   const py = Number(moment().format('YY'));
   return (
     <BackGround>
@@ -387,17 +426,17 @@ export default ({
             <EmployeeBox>
               <Image
                 source={{
-                  uri: `http://133.186.209.113/uploads/${empImage}`,
+                  uri: `http://133.186.209.113/uploads/${image}`,
                 }}
               />
-              <EmployeeText>{empName}</EmployeeText>
+              <EmployeeText>{name}</EmployeeText>
             </EmployeeBox>
             <Box isBold={click1} onPress={() => setClick1(!click1)}>
               <BoxTitle>
-                <>
+                <TitleText>
                   <RedText>(필수) </RedText>
-                  <TitleText>출퇴근정보 입력</TitleText>
-                </>
+                  출퇴근정보 입력
+                </TitleText>
                 {click1 ? (
                   <UpIcon color="#642A8C" />
                 ) : (
@@ -437,9 +476,10 @@ export default ({
                     }}
                     display="default"
                   />
-                  <Touchable onPress={() => setIsStartDayModalVisible(true)}>
+                  <DateTouchable
+                    onPress={() => setIsStartDayModalVisible(true)}>
                     <Text>{startDay ?? ''}</Text>
-                  </Touchable>
+                  </DateTouchable>
                   <InputLine isBefore={startDay === ''} />
                 </InputCase>
                 <InputCase>
@@ -473,11 +513,12 @@ export default ({
                     }}
                     display="default"
                   />
-                  <Touchable onPress={() => setIsEndDayModalVisible(true)}>
+                  <DateTouchable onPress={() => setIsEndDayModalVisible(true)}>
                     <Text>{endDay ?? ''}</Text>
-                  </Touchable>
+                  </DateTouchable>
                   <InputLine isBefore={endDay === ''} />
                   <Touchable
+                    style={{marginTop: 20}}
                     onPress={() => {
                       setEndDayCheck(!endDayCheck);
                       setMarkedDatesE({});
@@ -500,10 +541,10 @@ export default ({
                 setClick2(!click2), setPayMonth(payDay.format('MM'));
               }}>
               <BoxTitle>
-                <>
+                <TitleText>
                   <RedText>(필수) </RedText>
-                  <TitleText>급여정보 입력</TitleText>
-                </>
+                  급여정보 입력
+                </TitleText>
                 {click2 ? (
                   <UpIcon color="#642A8C" />
                 ) : (
@@ -513,53 +554,75 @@ export default ({
             </Box>
             {click2 && (
               <ContentsBox>
-                <Row>
-                  <NameText>급여 유형&nbsp;</NameText>
-                  <RedText>*</RedText>
-                </Row>
-                <Line />
-                <Row>
-                  <PayCheck
-                    selection={0}
-                    text={'시급'}
-                    payCheck={payCheck}
-                    setPay={setPay}
-                    setPay1={setPay1}
-                    setPay2={setPay2}
-                    setPay3={setPay3}
-                    setPay4={setPay4}
-                    setPay5={setPay5}
-                    setPayCheck={setPayCheck}
-                  />
-                  <PayCheck
-                    selection={1}
-                    text={'일급'}
-                    payCheck={payCheck}
-                    setPay={setPay}
-                    setPay1={setPay1}
-                    setPay2={setPay2}
-                    setPay3={setPay3}
-                    setPay4={setPay4}
-                    setPay5={setPay5}
-                    setPayCheck={setPayCheck}
-                  />
-                  <PayCheck
-                    selection={2}
-                    text={'월급'}
-                    payCheck={payCheck}
-                    setPay={setPay}
-                    setPay1={setPay1}
-                    setPay2={setPay2}
-                    setPay3={setPay3}
-                    setPay4={setPay4}
-                    setPay5={setPay5}
-                    setPayCheck={setPayCheck}
-                  />
-                </Row>
-                {payCheck[0] && (
-                  <>
+                <InputCase>
+                  <Row>
+                    <NameText>급여 유형&nbsp;</NameText>
+                    <RedText>*</RedText>
+                  </Row>
+                  <Line />
+                  <SelectArea>
+                    <PayCheck
+                      selection={0}
+                      text={'시급'}
+                      payCheck={payCheck}
+                      setPay={setPay}
+                      setPay1={setPay1}
+                      setPay2={setPay2}
+                      setPay3={setPay3}
+                      setPay4={setPay4}
+                      setPay5={setPay5}
+                      setPayCheck={setPayCheck}
+                    />
+                    <PayCheck
+                      selection={1}
+                      text={'일급'}
+                      payCheck={payCheck}
+                      setPay={setPay}
+                      setPay1={setPay1}
+                      setPay2={setPay2}
+                      setPay3={setPay3}
+                      setPay4={setPay4}
+                      setPay5={setPay5}
+                      setPayCheck={setPayCheck}
+                    />
+                    <PayCheck
+                      selection={2}
+                      text={'월급'}
+                      payCheck={payCheck}
+                      setPay={setPay}
+                      setPay1={setPay1}
+                      setPay2={setPay2}
+                      setPay3={setPay3}
+                      setPay4={setPay4}
+                      setPay5={setPay5}
+                      setPayCheck={setPayCheck}
+                    />
+                  </SelectArea>
+                  {payCheck[0] && (
+                    <>
+                      <PayBox>
+                        <Text>시급</Text>
+                        <TextInput
+                          placeholder={'금액을 입력해주세요.'}
+                          placeholderTextColor={'#E5E5E5'}
+                          onChangeText={(text) => {
+                            setPay(text.replace(/,/g, ''));
+                          }}
+                          value={pay
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                          keyboardType={'number-pad'}
+                        />
+                        <Text>원</Text>
+                      </PayBox>
+                      <GreyText>
+                        *2020년 최저 시급은 {MINPAY}원 입니다.
+                      </GreyText>
+                    </>
+                  )}
+                  {payCheck[1] && (
                     <PayBox>
-                      <Text>시급</Text>
+                      <Text>일급</Text>
                       <TextInput
                         placeholder={'금액을 입력해주세요.'}
                         placeholderTextColor={'#E5E5E5'}
@@ -573,268 +636,239 @@ export default ({
                       />
                       <Text>원</Text>
                     </PayBox>
-                    <GreyText>*2020년 최저 시급은 {MINPAY}원 입니다.</GreyText>
-                  </>
-                )}
-                {payCheck[1] && (
-                  <PayBox>
-                    <Text>일급</Text>
-                    <TextInput
-                      placeholder={'금액을 입력해주세요.'}
-                      placeholderTextColor={'#E5E5E5'}
-                      onChangeText={(text) => {
-                        setPay(text.replace(/,/g, ''));
-                      }}
-                      value={pay
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                      keyboardType={'number-pad'}
-                    />
-                    <Text>원</Text>
-                  </PayBox>
-                )}
-                {payCheck[2] && (
-                  <PayBox>
-                    <BoxTitle>
-                      <Text>기본급</Text>
-                      <TextInput
-                        placeholder={'금액을 입력해주세요.'}
-                        placeholderTextColor={'#E5E5E5'}
-                        onChangeText={(text) => {
-                          setPay1(text.replace(/,/g, ''));
-                        }}
-                        value={pay1
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        keyboardType={'number-pad'}
-                      />
-                      <Text>원</Text>
-                    </BoxTitle>
-                    <BoxTitle>
-                      <Text>식대</Text>
-                      <TextInput
-                        placeholder={'금액을 입력해주세요.'}
-                        placeholderTextColor={'#E5E5E5'}
-                        onChangeText={(text) => {
-                          setPay3(text.replace(/,/g, ''));
-                        }}
-                        value={pay2
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        keyboardType={'number-pad'}
-                      />
-                      <Text>원</Text>
-                    </BoxTitle>
-                    <BoxTitle>
-                      <Text>자가운전</Text>
-                      <TextInput
-                        placeholder={'금액을 입력해주세요.'}
-                        placeholderTextColor={'#E5E5E5'}
-                        onChangeText={(text) => {
-                          setPay3(text.replace(/,/g, ''));
-                        }}
-                        value={pay3
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        keyboardType={'number-pad'}
-                      />
-                      <Text>원</Text>
-                    </BoxTitle>
-                    <BoxTitle>
-                      <Text>상여</Text>
-                      <TextInput
-                        placeholder={'금액을 입력해주세요.'}
-                        placeholderTextColor={'#E5E5E5'}
-                        onChangeText={(text) => {
-                          setPay4(text.replace(/,/g, ''));
-                        }}
-                        value={pay4
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        keyboardType={'number-pad'}
-                      />
-                      <Text>원</Text>
-                    </BoxTitle>
-                    <BoxTitle>
-                      <Text>성과급</Text>
-                      <TextInput
-                        placeholder={'금액을 입력해주세요.'}
-                        placeholderTextColor={'#E5E5E5'}
-                        onChangeText={(text) => {
-                          setPay5(text.replace(/,/g, ''));
-                        }}
-                        value={pay5
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        keyboardType={'number-pad'}
-                      />
-                      <Text>원</Text>
-                    </BoxTitle>
-                    <Line />
-                    <BoxTitle>
-                      <Text>합계</Text>
-                      <TextInput editable={false}>{total()}</TextInput>
-                      <Text>원</Text>
-                    </BoxTitle>
-                  </PayBox>
-                )}
-                {payCheck[0] && (
-                  <ProbationBox>
-                    <BoxTitle>
-                      <Row>
-                        <NameText>수습기간 설정</NameText>
+                  )}
+                  {payCheck[2] && (
+                    <PayBox>
+                      <BoxTitle>
+                        <Text>기본급</Text>
+                        <TextInput
+                          placeholder={'금액을 입력해주세요.'}
+                          placeholderTextColor={'#E5E5E5'}
+                          onChangeText={(text) => {
+                            setPay1(text.replace(/,/g, ''));
+                          }}
+                          value={pay1
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                          keyboardType={'number-pad'}
+                        />
+                        <Text>원</Text>
+                      </BoxTitle>
+                      <BoxTitle>
+                        <Text>식대</Text>
+                        <TextInput
+                          placeholder={'금액을 입력해주세요.'}
+                          placeholderTextColor={'#E5E5E5'}
+                          onChangeText={(text) => {
+                            setPay3(text.replace(/,/g, ''));
+                          }}
+                          value={pay2
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                          keyboardType={'number-pad'}
+                        />
+                        <Text>원</Text>
+                      </BoxTitle>
+                      <BoxTitle>
+                        <Text>자가운전</Text>
+                        <TextInput
+                          placeholder={'금액을 입력해주세요.'}
+                          placeholderTextColor={'#E5E5E5'}
+                          onChangeText={(text) => {
+                            setPay3(text.replace(/,/g, ''));
+                          }}
+                          value={pay3
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                          keyboardType={'number-pad'}
+                        />
+                        <Text>원</Text>
+                      </BoxTitle>
+                      <BoxTitle>
+                        <Text>상여</Text>
+                        <TextInput
+                          placeholder={'금액을 입력해주세요.'}
+                          placeholderTextColor={'#E5E5E5'}
+                          onChangeText={(text) => {
+                            setPay4(text.replace(/,/g, ''));
+                          }}
+                          value={pay4
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                          keyboardType={'number-pad'}
+                        />
+                        <Text>원</Text>
+                      </BoxTitle>
+                      <BoxTitle>
+                        <Text>성과급</Text>
+                        <TextInput
+                          placeholder={'금액을 입력해주세요.'}
+                          placeholderTextColor={'#E5E5E5'}
+                          onChangeText={(text) => {
+                            setPay5(text.replace(/,/g, ''));
+                          }}
+                          value={pay5
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                          keyboardType={'number-pad'}
+                        />
+                        <Text>원</Text>
+                      </BoxTitle>
+                      <Line />
+                      <BoxTitle>
+                        <Text>합계</Text>
+                        <TextInput editable={false}>{total()}</TextInput>
+                        <Text>원</Text>
+                      </BoxTitle>
+                    </PayBox>
+                  )}
+                  {payCheck[0] && (
+                    <>
+                      <WorkTypeRow>
+                        <Row>
+                          <NameText>수습기간 설정</NameText>
+                          <Touchable
+                            onPress={() =>
+                              explainModal(
+                                "급여계산 : 입력하신 '입사일'부터 '수습종료일'까지의 기간동안 '급여비율'에 따라 일할계산 됩니다.",
+                              )
+                            }>
+                            <HelpCircleIcon />
+                          </Touchable>
+                        </Row>
                         <Touchable
-                          onPress={() =>
-                            explainModal(
-                              "급여계산 : 입력하신 '입사일'부터 '수습종료일'까지의 기간동안 '급여비율'에 따라 일할계산 됩니다.",
-                            )
-                          }>
-                          <HelpCircleIcon />
-                        </Touchable>
-                      </Row>
-                      <Touchable
-                        onPress={() => {
-                          if (probation) {
-                            let periodvalue = JSON.parse(
-                              JSON.stringify(periodCheck),
-                            ).fill(false);
-                            let percentvalue = JSON.parse(
-                              JSON.stringify(percentCheck),
-                            ).fill(false);
-                            setProbationPeriod('');
-                            setProbationPercent('');
-                            setPeriodCheck(periodvalue);
-                            setPercentCheck(percentvalue);
-                            setPeriodDirectInput('');
-                            setPercentDirectInput('');
-                          }
-                          setProbation(!probation);
-                        }}>
-                        {probation ? (
-                          <CheckBoxIcon size={25} color="#642A8C" />
-                        ) : (
-                          <CheckBoxIcon size={25} color="#CCCCCC" />
-                        )}
-                      </Touchable>
-                    </BoxTitle>
-                    <Line />
-                    {probation && (
-                      <>
-                        <GreyText>
-                          * 수습기간은 [입사일]인&nbsp;
-                          {startDay.substr(0, 4)}년&nbsp;
-                          {startDay.substr(5, 2)}월&nbsp;
-                          {startDay.substr(8, 2)}일부터 [수습종료일]까지
-                          적용됩니다.
-                        </GreyText>
-                        <FlexEndBox>
-                          <Row>
-                            <ProbationText>수습종료일</ProbationText>
-                            <Touchable
-                              onPress={() =>
-                                setIsProbationPeriodModalVisible(true)
-                              }>
-                              <Text>{probationPeriod}</Text>
-                            </Touchable>
-                            <DatePickerModal
-                              headerTextIOS={'종료일을 선택하세요.'}
-                              cancelTextIOS={'취소'}
-                              confirmTextIOS={'확인'}
-                              isVisible={isProbationPeriodModalVisible}
-                              mode="date"
-                              locale="ko_KRus_EN"
-                              onConfirm={(date) => {
-                                setProbationPeriod(date);
-                              }}
-                              onCancel={() => {
-                                setIsProbationPeriodModalVisible(false);
-                              }}
-                              display="default"
-                            />
-                          </Row>
-                          <Row>
-                            <ProbationText>급여비율</ProbationText>
-                            <Touchable
-                              onPress={() => {
-                                setIsProbationPercentModalVisible(true);
-                              }}>
-                              <Text>{probationPercent}</Text>
-                            </Touchable>
-                            <TitleText>%</TitleText>
-                          </Row>
-                        </FlexEndBox>
-                      </>
-                    )}
-                    <Modal
-                      onBackdropPress={() => {
-                        let value = JSON.parse(JSON.stringify(percentCheck));
-                        value.fill(false);
-                        setIsProbationPercentModalVisible(false);
-                        setPercentCheck(value);
-                        setPercentDirectInput('');
-                      }}
-                      isVisible={isProbationPercentModalVisible}
-                      style={{margin: 0, justifyContent: 'flex-end'}}
-                      avoidKeyboard={true}>
-                      <ModalContainer>
-                        <Text
-                          style={{
-                            fontSize: 17,
-                            color: '#642A8C',
-                            paddingHorizontal: 20,
-                            marginTop: 20,
+                          onPress={() => {
+                            if (probation) {
+                              let periodvalue = JSON.parse(
+                                JSON.stringify(periodCheck),
+                              ).fill(false);
+                              let percentvalue = JSON.parse(
+                                JSON.stringify(percentCheck),
+                              ).fill(false);
+                              setProbationPeriod('');
+                              setProbationPercent('');
+                              setPeriodCheck(periodvalue);
+                              setPercentCheck(percentvalue);
+                              setPeriodDirectInput('');
+                              setPercentDirectInput('');
+                            }
+                            setProbation(!probation);
                           }}>
-                          급여비율 선택(%)
-                        </Text>
-                        <ModalBox>
-                          <RenderProbation2
-                            rowData={[100, 90, 80, 70]}
-                            rowNum={1}
-                            percentCheck={percentCheck}
-                            setPercentCheck={setPercentCheck}
-                            percentDirectInput={percentDirectInput}
-                            setPercentDirectInput={setPercentDirectInput}
-                          />
-                          <RenderProbation2
-                            rowData={[60, 50, 'directInput']}
-                            rowNum={2}
-                            percentCheck={percentCheck}
-                            setPercentCheck={setPercentCheck}
-                            percentDirectInput={percentDirectInput}
-                            setPercentDirectInput={setPercentDirectInput}
-                          />
-                        </ModalBox>
-                        <KeyboardAvoidingView behavior="padding" enabled>
-                          <ModalFooter>
-                            <ModalButton
-                              style={{backgroundColor: '#642a8c'}}
-                              onPress={() => {
-                                let value = JSON.parse(
-                                  JSON.stringify(percentCheck),
-                                );
-                                value.fill(false);
-                                setIsProbationPercentModalVisible(false);
-                                setPercentCheck(value);
-                                setPercentDirectInput('');
-                              }}>
-                              <NameText style={{color: '#642a8c'}}>
-                                닫기
-                              </NameText>
-                            </ModalButton>
-                            <ModalButton onPress={() => checkDirectInput2()}>
-                              <NameText style={{color: 'white'}}>확인</NameText>
-                            </ModalButton>
-                          </ModalFooter>
-                        </KeyboardAvoidingView>
-                      </ModalContainer>
-                    </Modal>
-                  </ProbationBox>
-                )}
-                <ContentsBox>
+                          {probation ? (
+                            <CheckBoxIcon size={25} color="#642A8C" />
+                          ) : (
+                            <CheckBoxIcon size={25} color="#CCCCCC" />
+                          )}
+                        </Touchable>
+                      </WorkTypeRow>
+                      <DivideLine />
+                      {probation && (
+                        <>
+                          <GreyText>
+                            * 수습기간은 [입사일]인&nbsp;
+                            {startDay.substr(0, 4)}년&nbsp;
+                            {startDay.substr(5, 2)}월&nbsp;
+                            {startDay.substr(8, 2)}일부터 [수습종료일]까지
+                            적용됩니다.
+                          </GreyText>
+                          <FlexEndBox>
+                            <Row>
+                              <ProbationText>수습종료일</ProbationText>
+                              <ProbationTouchable
+                                onPress={() =>
+                                  setIsProbationPeriodModalVisible(true)
+                                }>
+                                <Text>{probationPeriod}</Text>
+                              </ProbationTouchable>
+                              <DatePickerModal
+                                headerTextIOS={'종료일을 선택하세요.'}
+                                cancelTextIOS={'취소'}
+                                confirmTextIOS={'확인'}
+                                isVisible={isProbationPeriodModalVisible}
+                                mode="date"
+                                locale="ko_KRus_EN"
+                                onConfirm={(date) => {
+                                  setProbationPeriod(date);
+                                }}
+                                onCancel={() => {
+                                  setIsProbationPeriodModalVisible(false);
+                                }}
+                                display="default"
+                              />
+                            </Row>
+                            <Row>
+                              <ProbationText>급여비율</ProbationText>
+                              <ProbationTouchable
+                                onPress={() => {
+                                  setIsProbationPercentModalVisible(true);
+                                }}>
+                                <Text>
+                                  {probationPercent}
+                                  {probationPercent && '%'}
+                                </Text>
+                              </ProbationTouchable>
+                            </Row>
+                          </FlexEndBox>
+                        </>
+                      )}
+                      <Modal
+                        onBackdropPress={() => {
+                          let value = JSON.parse(JSON.stringify(percentCheck));
+                          value.fill(false);
+                          setIsProbationPercentModalVisible(false);
+                          setPercentCheck(value);
+                          setPercentDirectInput('');
+                        }}
+                        isVisible={isProbationPercentModalVisible}
+                        style={{margin: 0, justifyContent: 'flex-end'}}
+                        avoidKeyboard={true}>
+                        <ModalContainer>
+                          <TitleText>급여비율 선택(%)</TitleText>
+                          <ModalBox>
+                            <RenderProbation2
+                              rowData={[100, 90, 80, 70]}
+                              rowNum={1}
+                              percentCheck={percentCheck}
+                              setPercentCheck={setPercentCheck}
+                              percentDirectInput={percentDirectInput}
+                              setPercentDirectInput={setPercentDirectInput}
+                            />
+                            <RenderProbation2
+                              rowData={[60, 50, 'directInput']}
+                              rowNum={2}
+                              percentCheck={percentCheck}
+                              setPercentCheck={setPercentCheck}
+                              percentDirectInput={percentDirectInput}
+                              setPercentDirectInput={setPercentDirectInput}
+                            />
+                          </ModalBox>
+                        </ModalContainer>
+                        <ModalFooter>
+                          <ModalButton
+                            onPress={() => {
+                              let value = JSON.parse(
+                                JSON.stringify(percentCheck),
+                              );
+                              value.fill(false);
+                              setIsProbationPercentModalVisible(false);
+                              setPercentCheck(value);
+                              setPercentDirectInput('');
+                            }}>
+                            <NameText style={{color: '#642a8c'}}>닫기</NameText>
+                          </ModalButton>
+                          <ModalButton
+                            style={{backgroundColor: '#642a8c'}}
+                            onPress={() => checkDirectInput2()}>
+                            <NameText style={{color: 'white'}}>확인</NameText>
+                          </ModalButton>
+                        </ModalFooter>
+                      </Modal>
+                    </>
+                  )}
                   {!payCheck[2] && (
                     <SalarySystemBox>
                       <NameText>항목 선택</NameText>
-                      <Line />
+                      <DivideLine />
                       <SalarySystem
                         selection={1}
                         text={'주휴수당 자동 가산'}
@@ -946,8 +980,6 @@ export default ({
                       </InsuranceBox>
                     )}
                   </ContentsBox>
-                </ContentsBox>
-                <InputCase>
                   <Row>
                     <NameText>적용 시작 월 설정</NameText>
                     <RedText>*</RedText>
@@ -961,8 +993,8 @@ export default ({
                     </Touchable>
                   </Row>
                   <Line />
-                  <Row>
-                    <Bold>급여정산일:&nbsp;</Bold>
+                  <Row style={{marginBottom: 5}}>
+                    <SmallBold>급여정산일:&nbsp;</SmallBold>
                     <Text>
                       {CALCULATE_DAY == '1'
                         ? '매월 말일'
@@ -970,7 +1002,7 @@ export default ({
                     </Text>
                   </Row>
                   <Row>
-                    <Bold>{getPeriod(CALCULATE_DAY)}</Bold>
+                    <SmallBold>{getPeriod(CALCULATE_DAY)}</SmallBold>
                     <Text>부터 급여에 적용됩니다</Text>
                   </Row>
                   <WhiteSpace />
@@ -978,20 +1010,18 @@ export default ({
                     <Row>
                       <NameText>20</NameText>
                       <DateInputCase
+                        style={{marginLeft: 5}}
                         onPress={() => setPayYearModal(true)}
                         isBefore={payMonth === ''}>
                         <Bold>{payYear}</Bold>
                       </DateInputCase>
                       <NameText>&nbsp;년</NameText>
-                    </Row>
-                    <WhiteSpace />
-                    <Row>
                       <DateInputCase
                         onPress={() => setPayMonthModal(true)}
                         isBefore={payMonth === ''}>
                         <Bold>{payMonth}</Bold>
                       </DateInputCase>
-                      <NameText style={{fontSize: 18}}>&nbsp;월</NameText>
+                      <NameText>&nbsp;월</NameText>
                     </Row>
                   </FlexEndBox>
                 </InputCase>
@@ -1027,26 +1057,25 @@ export default ({
                     setPayYearDirectInput={setPayYearDirectInput}
                   />
                 </ModalBox>
-                <KeyboardAvoidingView behavior="padding" enabled>
-                  <ModalFooter>
-                    <ModalButton
-                      onPress={() => {
-                        let value = JSON.parse(JSON.stringify(payYearCheck));
-                        value.fill(false);
-                        setPayYearModal(false);
-                        setPayYearCheck(value);
-                      }}>
-                      <NameText style={{color: '#642a8c'}}>닫기</NameText>
-                    </ModalButton>
-                    <ModalButton
-                      onPress={() => {
-                        PYcheckDirectInput();
-                      }}>
-                      <NameText style={{color: 'white'}}>확인</NameText>
-                    </ModalButton>
-                  </ModalFooter>
-                </KeyboardAvoidingView>
               </ModalContainer>
+              <ModalFooter>
+                <ModalButton
+                  onPress={() => {
+                    let value = JSON.parse(JSON.stringify(payYearCheck));
+                    value.fill(false);
+                    setPayYearModal(false);
+                    setPayYearCheck(value);
+                  }}>
+                  <NameText style={{color: '#642a8c'}}>닫기</NameText>
+                </ModalButton>
+                <ModalButton
+                  style={{backgroundColor: '#642a8c'}}
+                  onPress={() => {
+                    PYcheckDirectInput();
+                  }}>
+                  <NameText style={{color: 'white'}}>확인</NameText>
+                </ModalButton>
+              </ModalFooter>
             </Modal>
             <Modal
               onBackdropPress={() => {
@@ -1058,7 +1087,7 @@ export default ({
               isVisible={payMonthModal}
               style={{margin: 0, justifyContent: 'flex-end'}}
               avoidKeyboard={true}>
-              <ModalBox>
+              <ModalContainer style={{height: 250}}>
                 <TitleText>월 선택</TitleText>
                 <ModalBox>
                   <RenderPayMonth
@@ -1080,40 +1109,38 @@ export default ({
                     setPayMonthCheck={setPayMonthCheck}
                   />
                 </ModalBox>
-                <KeyboardAvoidingView behavior="padding" enabled>
-                  <ModalFooter>
-                    <ModalButton
-                      style={{backgroundColor: '#642a8c'}}
-                      onPress={() => {
-                        let value = JSON.parse(JSON.stringify(payMonthCheck));
-                        value.fill(false);
-                        setPayMonthModal(false);
-                        setPayMonthCheck(value);
-                      }}>
-                      <NameText style={{color: '#642a8c'}}>닫기</NameText>
-                    </ModalButton>
-                    <ModalButton
-                      onPress={() => {
-                        let value = JSON.parse(JSON.stringify(payMonthCheck));
-                        value.fill(false);
-                        if (!payMonthCheck.includes(true)) {
-                          return;
-                        }
-                        let payMonth = payMonthCheck.indexOf(true) + 1;
-                        let payMonthFormat = payMonth;
-                        payMonthFormat < 10
-                          ? (payMonthFormat = '0' + payMonthFormat)
-                          : payMonthFormat;
-                        setPayMonthModal(false);
-                        setPayMonth(payMonth);
-                        setPayDay(`20${payYear}-${payMonthFormat}-01`);
-                        setPayMonthCheck(value);
-                      }}>
-                      <NameText style={{color: 'white'}}>확인</NameText>
-                    </ModalButton>
-                  </ModalFooter>
-                </KeyboardAvoidingView>
-              </ModalBox>
+              </ModalContainer>
+              <ModalFooter>
+                <ModalButton
+                  onPress={() => {
+                    let value = JSON.parse(JSON.stringify(payMonthCheck));
+                    value.fill(false);
+                    setPayMonthModal(false);
+                    setPayMonthCheck(value);
+                  }}>
+                  <NameText style={{color: '#642a8c'}}>닫기</NameText>
+                </ModalButton>
+                <ModalButton
+                  style={{backgroundColor: '#642a8c'}}
+                  onPress={() => {
+                    let value = JSON.parse(JSON.stringify(payMonthCheck));
+                    value.fill(false);
+                    if (!payMonthCheck.includes(true)) {
+                      return;
+                    }
+                    let payMonth = payMonthCheck.indexOf(true) + 1;
+                    let payMonthFormat = payMonth;
+                    payMonthFormat < 10
+                      ? (payMonthFormat = '0' + payMonthFormat)
+                      : payMonthFormat;
+                    setPayMonthModal(false);
+                    setPayMonth(payMonth);
+                    setPayDay(`20${payYear}-${payMonthFormat}-01`);
+                    setPayMonthCheck(value);
+                  }}>
+                  <NameText style={{color: 'white'}}>확인</NameText>
+                </ModalButton>
+              </ModalFooter>
             </Modal>
             <Modal
               isVisible={isSalaryModalVisible1}
@@ -1121,10 +1148,10 @@ export default ({
               style={{margin: 0, justifyContent: 'flex-end'}}
               avoidKeyboard={true}>
               <ModalContainer>
-                <Row>
+                <ModalContainerRow>
                   <BigText>주휴수당 계산 방법 선택</BigText>
-                </Row>
-                <SelectArea>
+                </ModalContainerRow>
+                <ModalSelectBox>
                   <WeekType
                     selection={1}
                     text={'(자동) 근로기준법 기준'}
@@ -1142,28 +1169,28 @@ export default ({
                     weekTime={weekTime}
                     setWeekTime={setWeekTime}
                   />
-                </SelectArea>
-                <ModalBarButton
-                  onPress={() => {
-                    if (weekTypeCheck[0]) {
-                      if (weekTime === '') {
-                        alertModal(
-                          '수동 선택시 월 근무시간을 반드시 입력해주세요',
-                        );
-                        return;
-                      } else if (isNaN(Number(weekTime))) {
-                        alertModal('근무시간에 숫자만 입력 가능합니다.');
-                        return;
-                      } else if (Number(weekTime) < 0) {
-                        alertModal('근무시간에 음수를 입력할 수 없습니다');
-                        return;
-                      }
-                    }
-                    setIsSalaryModalVisible1(false);
-                  }}>
-                  <WhiteText>확인</WhiteText>
-                </ModalBarButton>
+                </ModalSelectBox>
               </ModalContainer>
+              <ModalBarButton
+                onPress={() => {
+                  if (weekTypeCheck[0]) {
+                    if (weekTime === '') {
+                      alertModal(
+                        '수동 선택시 월 근무시간을 반드시 입력해주세요',
+                      );
+                      return;
+                    } else if (isNaN(Number(weekTime))) {
+                      alertModal('근무시간에 숫자만 입력 가능합니다.');
+                      return;
+                    } else if (Number(weekTime) < 0) {
+                      alertModal('근무시간에 음수를 입력할 수 없습니다');
+                      return;
+                    }
+                  }
+                  setIsSalaryModalVisible1(false);
+                }}>
+                <WhiteText>확인</WhiteText>
+              </ModalBarButton>
             </Modal>
             <Modal
               isVisible={isSalaryModalVisible2}
@@ -1171,10 +1198,10 @@ export default ({
               style={{margin: 0, justifyContent: 'flex-end'}}
               avoidKeyboard={true}>
               <ModalContainer>
-                <Row>
+                <ModalContainerRow>
                   <BigText>휴게시간 계산 방법 선택</BigText>
-                </Row>
-                <Container>
+                </ModalContainerRow>
+                <ModalSelectBox>
                   <RestType
                     selection={1}
                     text={'(자동) 근로기준법 기준'}
@@ -1192,27 +1219,25 @@ export default ({
                     restTime={restTime}
                     setRestTime={setRestTime}
                   />
-                </Container>
-                <ModalBarButton
-                  onPress={() => {
-                    if (restTypeCheck[0]) {
-                      if (restTime === '') {
-                        return alertModal(
-                          '수동 선택시 일 휴게시간을 반드시 입력해주세요',
-                        );
-                      } else if (isNaN(Number(restTime))) {
-                        return alertModal('휴게시간에 숫자만 입력 가능합니다.');
-                      } else if (Number(restTime) < 0) {
-                        return alertModal(
-                          '휴게시간에 음수를 입력할 수 없습니다',
-                        );
-                      }
-                    }
-                    setIsSalaryModalVisible2(false);
-                  }}>
-                  <Text style={{fontSize: 16, color: 'white'}}>확인</Text>
-                </ModalBarButton>
+                </ModalSelectBox>
               </ModalContainer>
+              <ModalBarButton
+                onPress={() => {
+                  if (restTypeCheck[0]) {
+                    if (restTime === '') {
+                      return alertModal(
+                        '수동 선택시 일 휴게시간을 반드시 입력해주세요',
+                      );
+                    } else if (isNaN(Number(restTime))) {
+                      return alertModal('휴게시간에 숫자만 입력 가능합니다.');
+                    } else if (Number(restTime) < 0) {
+                      return alertModal('휴게시간에 음수를 입력할 수 없습니다');
+                    }
+                  }
+                  setIsSalaryModalVisible2(false);
+                }}>
+                <Text style={{fontSize: 16, color: 'white'}}>확인</Text>
+              </ModalBarButton>
             </Modal>
             <Box isBold={click5} onPress={() => setClick5(!click5)}>
               <BoxTitle>
@@ -1265,6 +1290,7 @@ export default ({
                     />
                     {positionCheck[1] && (
                       <>
+                        <WhiteSpace />
                         <Authority
                           selection={4}
                           text={'선택 시 사업장 급여 확인 가능'}

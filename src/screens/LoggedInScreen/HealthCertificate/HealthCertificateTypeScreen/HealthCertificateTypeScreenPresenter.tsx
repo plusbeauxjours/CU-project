@@ -118,7 +118,7 @@ export default ({
               '위생교육증을 등록하시면 갱신시점 알람 및 기존 교육증 이력관리가 가능합니다.\n(현재는 한국휴게음식업중앙회 발급 수료증에 한하여 등록이 가능합니다. 추후 종류 추가 예정)',
             );
           }}>
-          <HelpCircleIcon size={22} color="#bbb" />
+          <HelpCircleIcon color="#bbb" />
         </Touchable>
       </Row>
       <Row>
@@ -276,7 +276,7 @@ export default ({
                           '직원별 보건증 등록이 가능하며, 등록 후 갱신시점 알람 및 보건증 이력관리가 가능합니다.',
                         );
                       }}>
-                      <HelpCircleIcon size={22} color="#bbb" />
+                      <HelpCircleIcon color="#bbb" />
                     </Touchable>
                   </Row>
                   <Row>

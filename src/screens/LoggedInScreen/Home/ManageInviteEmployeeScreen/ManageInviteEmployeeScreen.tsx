@@ -173,7 +173,7 @@ export default ({route: {params}}) => {
               <BoxTitleText style={{paddingRight: 5}}>
                 >초대에 응한 직원
               </BoxTitleText>
-              <HelpCircleIcon size={22} />
+              <HelpCircleIcon />
             </BoxTitle>
             {responseEmployee.length === 0 && (
               <GreyText>초대에 응한 직원이 없습니다</GreyText>
@@ -208,7 +208,7 @@ export default ({route: {params}}) => {
               <BoxTitleText style={{paddingRight: 5}}>
                 초대 메시지 미열람 직원
               </BoxTitleText>
-              <HelpCircleIcon size={22} />
+              <HelpCircleIcon />
             </BoxTitle>
             {noResponseEmployee.length === 0 && (
               <GreyText>초대 메시지 미열람 직원이 없습니다.</GreyText>

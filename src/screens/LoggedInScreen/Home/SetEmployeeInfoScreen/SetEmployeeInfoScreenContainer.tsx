@@ -11,15 +11,7 @@ export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const {
-    empImage,
-    empName,
-    from,
-    depth,
-    STORE_SEQ,
-    EMP_SEQ,
-    onRefresh,
-  } = params;
+  const {image, name, from, depth, STORE_SEQ, EMP_SEQ, onRefresh} = params;
 
   const [START_TYPE, setSTART_TYPE] = useState<string>('0');
   const [isSalaryModalVisible1, setIsSalaryModalVisible1] = useState<boolean>(
@@ -155,7 +147,6 @@ export default ({route: {params}}) => {
     if (!percentCheck.includes(true)) {
       return alertModal('시간을 선택해주세요.');
     }
-
     if (
       percentCheck[6] === true &&
       (Number(percentDirectInput) < 1 || Number(percentDirectInput) > 100)
@@ -237,23 +228,28 @@ export default ({route: {params}}) => {
     let payYeared = payYearCheck.indexOf(true) + 1;
     if (payYeared == 1) {
       payYeared = Number(payYear) - 3;
-    } else if (Number(payYear) == 2) {
+    } else if (Number(payYeared) == 2) {
+      console.log('payYear', payYear, 'payYeared', payYeared);
       payYeared = Number(payYear) - 2;
-    } else if (Number(payYear) == 3) {
+    } else if (Number(payYeared) == 3) {
+      console.log('payYear', payYear, 'payYeared', payYeared);
       payYeared = Number(payYear) - 1;
-    } else if (Number(payYear) == 4) {
+    } else if (Number(payYeared) == 4) {
+      console.log('payYear', payYear, 'payYeared', payYeared);
       payYeared = Number(payYear);
-    } else if (Number(payYear) == 5) {
+    } else if (Number(payYeared) == 5) {
+      console.log('payYear', payYear, 'payYeared', payYeared);
       payYeared = Number(payYear) + 1;
-    } else if (Number(payYear) == 6) {
+    } else if (Number(payYeared) == 6) {
+      console.log('payYear', payYear, 'payYeared', payYeared);
       payYeared = Number(payYear) + 2;
     }
     if (payYearCheck[6] === true) {
       payYeared = payYearDirectInput;
     }
     setPayYearModal(false);
-    setPayYear(payYear);
-    setPayDay(`20${payYear}-${payDay.substr(5, 5)}`);
+    setPayYear(payYeared);
+    setPayDay(`20${payYeared}-${payDay.substr(5, 5)}`);
     setPayYearCheck(value);
     setPayYearDirectInput('');
   };
@@ -578,15 +574,18 @@ export default ({route: {params}}) => {
       payDay={payDay}
       payMonth={payMonth}
       payYear={payYear}
+      payYearModal={payYearModal}
+      setPayYearModal={setPayYearModal}
+      payMonthModal={payMonthModal}
+      setPayMonthModal={setPayMonthModal}
       startDay={startDay}
       endDay={endDay}
       endDayCheck={endDayCheck}
       setEndDayCheck={setEndDayCheck}
       setPayDay={setPayDay}
       setPayMonth={setPayMonth}
-      setPayYear={setPayYear}
-      empImage={empImage}
-      empName={empName}
+      image={image}
+      name={name}
       click1={click1}
       setClick1={setClick1}
       click2={click2}
@@ -604,6 +603,70 @@ export default ({route: {params}}) => {
       restTime={restTime}
       setRestTime={setRestTime}
       setMarkedDatesE={setMarkedDatesE}
+      isStartDayModalVisible={isStartDayModalVisible}
+      setIsStartDayModalVisible={setIsStartDayModalVisible}
+      isEndDayModalVisible={isEndDayModalVisible}
+      setIsEndDayModalVisible={setIsEndDayModalVisible}
+      isProbationPeriodModalVisible={isProbationPeriodModalVisible}
+      setIsProbationPeriodModalVisible={setIsProbationPeriodModalVisible}
+      isProbationPercentModalVisible={isProbationPercentModalVisible}
+      setIsProbationPercentModalVisible={setIsProbationPercentModalVisible}
+      isSalaryModalVisible2={isSalaryModalVisible2}
+      setIsSalaryModalVisible2={setIsSalaryModalVisible2}
+      payCheck={payCheck}
+      MINPAY={MINPAY}
+      pay={pay}
+      setPay={setPay}
+      pay1={pay1}
+      setPay1={setPay1}
+      pay2={pay2}
+      setPay2={setPay2}
+      pay3={pay3}
+      setPay3={setPay3}
+      pay4={pay4}
+      setPay4={setPay4}
+      pay5={pay5}
+      setPay5={setPay5}
+      setPayCheck={setPayCheck}
+      total={total}
+      probation={probation}
+      setProbation={setProbation}
+      probationPeriod={probationPeriod}
+      setProbationPeriod={setProbationPeriod}
+      probationPercent={probationPercent}
+      setProbationPercent={setProbationPercent}
+      periodCheck={periodCheck}
+      setPeriodCheck={setPeriodCheck}
+      percentCheck={percentCheck}
+      setPercentCheck={setPercentCheck}
+      periodDirectInput={periodDirectInput}
+      setPeriodDirectInput={setPeriodDirectInput}
+      percentDirectInput={percentDirectInput}
+      setPercentDirectInput={setPercentDirectInput}
+      checkDirectInput2={checkDirectInput2}
+      setWeekTypeCheck={setWeekTypeCheck}
+      setWeekTime={setWeekTime}
+      salarySystemCheck={salarySystemCheck}
+      setSalarySystemCheck={setSalarySystemCheck}
+      isSalaryModalVisible1={isSalaryModalVisible1}
+      setIsSalaryModalVisible1={setIsSalaryModalVisible1}
+      isHelpModalVisible={isHelpModalVisible}
+      setIsHelpModalVisible={setIsHelpModalVisible}
+      deductionTypeCheck={deductionTypeCheck}
+      setDeductionTypeCheck={setDeductionTypeCheck}
+      insuranceCheck={insuranceCheck}
+      setInsuranceCheck={setInsuranceCheck}
+      getPeriod={getPeriod}
+      CALCULATE_DAY={CALCULATE_DAY}
+      payYearCheck={payYearCheck}
+      setPayYearCheck={setPayYearCheck}
+      payMonthCheck={payMonthCheck}
+      setPayMonthCheck={setPayMonthCheck}
+      payYearDirectInput={payYearDirectInput}
+      setPayYearDirectInput={setPayYearDirectInput}
+      PYcheckDirectInput={PYcheckDirectInput}
+      weekTypeCheck={weekTypeCheck}
+      weekTime={weekTime}
     />
   );
 };

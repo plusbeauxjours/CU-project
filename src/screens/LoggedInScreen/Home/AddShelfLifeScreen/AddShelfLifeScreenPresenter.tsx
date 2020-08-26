@@ -134,7 +134,7 @@ export default ({
                   );
                 }}>
                 <TitleText>상품정보</TitleText>
-                <HelpCircleIcon size={22} />
+                <HelpCircleIcon />
               </Row>
             </TextContainer>
             <TextInputBox>

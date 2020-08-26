@@ -15,9 +15,10 @@ import {
 } from '../../../../constants/Icons';
 
 const Row = styled.View`
+  width: 100%;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 `;
 
 const TypeContainer = styled.TouchableOpacity`
@@ -48,7 +49,7 @@ const WhiteSpace = styled.View`
 `;
 
 const ModalContainer = styled.View`
-  height: 280px;
+  height: ${hp('20%')}px;
   background-color: white;
 `;
 
@@ -61,19 +62,23 @@ const ModalButton = styled.TouchableOpacity`
 `;
 
 const SalarySystemSettingButton = styled.TouchableOpacity`
-  width: ${wp('12%')}px;
-  height: ${hp('3%')}px;
+  position: absolute;
+  right: 0;
+  width: 50px;
+  height: 20px;
   border-radius: 20px;
   background-color: #642a8c;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  right: 0;
 `;
 
 const SalarySystemSettingText = styled.Text`
   color: white;
   font-size: 15px;
+`;
+
+const SalarySystemText = styled.Text`
+  margin-left: 10px;
 `;
 
 export const Authority = ({
@@ -116,31 +121,31 @@ export const Authority = ({
           <CheckBoxIcon size={25} color="#CCCCCC" />
         )}
         <Text>{text}</Text>
+        {STORE == '1' && selection !== 4 && (
+          <TypeContainer
+            onPress={() => {
+              if (selection == 0) {
+                explainModal(
+                  '선택여부에 따라 직원앱에서 보여지는 화면이 다릅니다.\n(선택시) 직원이 급여정보 화면에서 누적급여 등을 확인할수 있습니다.\n(선택해제) 직원에게는 급여정보 화면이 보이지 않습니다.',
+                );
+              } else if (selection == 1) {
+                explainModal(
+                  '직원의 정보수정(급여, 수당, 공제유형 등) 및 근무일정 수정이 가능합니다.',
+                );
+              } else if (selection == 2) {
+                explainModal(
+                  '직원의 일정관리(일별 근무시간, 출퇴근시간, 휴무설정 등) 수정이 가능합니다.',
+                );
+              } else if (selection == 3) {
+                explainModal(
+                  '직원의 출퇴근, 체크리스트 알람을 받아보실 수 있습니다.',
+                );
+              } else return;
+            }}>
+            <HelpCircleIcon />
+          </TypeContainer>
+        )}
       </TypeContainer>
-      {STORE == '1' && selection !== 4 && (
-        <TypeContainer
-          onPress={() => {
-            if (selection == 0) {
-              explainModal(
-                '선택여부에 따라 직원앱에서 보여지는 화면이 다릅니다.\n(선택시) 직원이 급여정보 화면에서 누적급여 등을 확인할수 있습니다.\n(선택해제) 직원에게는 급여정보 화면이 보이지 않습니다.',
-              );
-            } else if (selection == 1) {
-              explainModal(
-                '직원의 정보수정(급여, 수당, 공제유형 등) 및 근무일정 수정이 가능합니다.',
-              );
-            } else if (selection == 2) {
-              explainModal(
-                '직원의 일정관리(일별 근무시간, 출퇴근시간, 휴무설정 등) 수정이 가능합니다.',
-              );
-            } else if (selection == 3) {
-              explainModal(
-                '직원의 출퇴근, 체크리스트 알람을 받아보실 수 있습니다.',
-              );
-            } else return;
-          }}>
-          <HelpCircleIcon />
-        </TypeContainer>
-      )}
     </Row>
   );
 };
@@ -165,7 +170,7 @@ export const SalarySystem = ({
   let value = JSON.parse(JSON.stringify(salarySystemCheck));
   const {STORE} = useSelector((state: any) => state.userReducer);
   return (
-    <Row style={{marginTop: 25}}>
+    <Row style={{marginBottom: 25}}>
       <TypeContainer
         onPress={() => {
           value[selection] = !value[selection];
@@ -185,44 +190,44 @@ export const SalarySystem = ({
           <CheckBoxIcon size={25} color="#CCCCCC" />
         )}
         {selection === 0 && (
-          <>
+          <SalarySystemText>
             <SkyblueText>(+) </SkyblueText>
             <Text>{text}</Text>
-          </>
+          </SalarySystemText>
         )}
         {selection === 1 && (
-          <>
+          <SalarySystemText>
             <SkyblueText>(+) </SkyblueText>
             <Text>{text}</Text>
-          </>
+          </SalarySystemText>
         )}
         {selection === 2 && (
-          <>
+          <SalarySystemText>
             <RedText>(-) </RedText>
             <Text>{text}</Text>
-          </>
+          </SalarySystemText>
+        )}
+        {STORE == '1' && (
+          <TypeContainer
+            onPress={() => {
+              if (selection === 0) {
+                explainModal(
+                  '선택 시 근무일정에 맞춰 자동으로 수당이 가산되어 급여가 산출됩니다.\n\n자세한 설명은 [도움말 전체보기]에서 확인하세요.',
+                );
+              } else if (selection === 1) {
+                explainModal(
+                  '선택 시 설정사항에 따라 계산법 변경이 가능합니다.\n\n근로기준법 기준 : 주 15시간 이상 개근할 경우 지급되는 유급휴일수당\n\n월 근무시간 : 결근 발생 유무와 상관없이 입력한 월 근무시간만큼 계산됩니다.',
+                );
+              } else {
+                explainModal(
+                  '선택 시 설정사항에 따라 계산법 변경이 가능합니다.\n\n근로기준법 기준 :\n- 4시간 30분 근무 시 : 4시간 급여계산\n- 9시간 근무 시 : 8시간 급여계산\n\n일 휴게시간 : 분단위로 직접 입력이 가능합니다.',
+                );
+              }
+            }}>
+            <HelpCircleIcon />
+          </TypeContainer>
         )}
       </TypeContainer>
-      {STORE == '1' && (
-        <TypeContainer
-          onPress={() => {
-            if (selection === 0) {
-              explainModal(
-                '선택 시 근무일정에 맞춰 자동으로 수당이 가산되어 급여가 산출됩니다.\n\n자세한 설명은 [도움말 전체보기]에서 확인하세요.',
-              );
-            } else if (selection === 1) {
-              explainModal(
-                '선택 시 설정사항에 따라 계산법 변경이 가능합니다.\n\n근로기준법 기준 : 주 15시간 이상 개근할 경우 지급되는 유급휴일수당\n\n월 근무시간 : 결근 발생 유무와 상관없이 입력한 월 근무시간만큼 계산됩니다.',
-              );
-            } else {
-              explainModal(
-                '선택 시 설정사항에 따라 계산법 변경이 가능합니다.\n\n근로기준법 기준 :\n- 4시간 30분 근무 시 : 4시간 급여계산\n- 9시간 근무 시 : 8시간 급여계산\n\n일 휴게시간 : 분단위로 직접 입력이 가능합니다.',
-              );
-            }
-          }}>
-          <HelpCircleIcon />
-        </TypeContainer>
-      )}
       {isHelpModalVisible && (
         <Modal
           onBackdropPress={() => setIsHelpModalVisible(false)}

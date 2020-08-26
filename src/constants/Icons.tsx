@@ -96,7 +96,12 @@ export const RadioBtnOffIcon: React.FC<IProps> = ({size, color}) => (
 );
 
 export const HelpCircleIcon: React.FC<IProps> = ({size, color}) => (
-  <Icon name={'help-circle'} size={size ?? 18} color={color ?? '#bbb'} />
+  <Icon
+    name={'help-circle'}
+    size={size ?? 22}
+    color={color ?? '#bbb'}
+    style={{marginLeft: 5}}
+  />
 );
 
 export const AddCircleIcon: React.FC<IProps> = ({size, color}) => (
