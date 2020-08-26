@@ -196,18 +196,11 @@ export default ({route: {params}}) => {
         onPress={() => {
           changeModeFn(workTypeCheck[0] === true ? '1' : '0');
           navigation.navigate('EmployeeScheduleInfoScreen', {
-            workTypeCheck: workTypeCheck[0] === true ? '1' : '0',
             CALCULATE_DAY,
-            image,
-            name,
             EMP_SEQ,
             STORE_SEQ,
-            STORE_NAME,
-            START,
-            END,
-            POSITION,
-            PAY_TYPE,
             PAY,
+            PAY_TYPE,
           });
         }}
         isRegisted={regist}

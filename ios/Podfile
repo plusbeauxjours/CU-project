@@ -17,9 +17,7 @@ target 'Shopsol' do
 
 
 
-  pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   target 'ShopsolTests' do
     inherit! :complete
