@@ -28,12 +28,12 @@ export default () => {
         <RootStack.Screen
           name="LoggedInNavigation"
           component={LoggedInNavigation}
-          options={{headerShown: false}}
+          options={{headerShown: false, gestureEnabled: false}}
         />
         <RootStack.Screen
           name="LoggedOutNavigation"
           component={LoggedOutNavigation}
-          options={{headerShown: false}}
+          options={{headerShown: false, gestureEnabled: false}}
         />
         <RootStack.Screen
           name="HelpModalScreen"

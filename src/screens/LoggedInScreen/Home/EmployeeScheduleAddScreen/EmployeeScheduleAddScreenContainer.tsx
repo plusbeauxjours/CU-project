@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react';
 import EmployeeScheduleAddScreenPresenter from './EmployeeScheduleAddScreenPresenter';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {setAlertInfo, setAlertVisible} from 'src/redux/alertSlice';
 import moment from 'moment';
-import {setSplashVisible} from 'src/redux/splashSlice';
+import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import {setSplashVisible} from '../../../../redux/splashSlice';
 
 const constant = {
   WORK_TYPE: {
@@ -27,7 +27,7 @@ export default ({route: {params}}) => {
   const navigate = useNavigation();
   const {type: TYPE, handler} = params;
 
-  const [updateMode, setUpdateMode] = useState<boolean>(false); // INSERT 또는 UPDATE 상태값
+  const [isUpdateMode, setIsUpdateMode] = useState<boolean>(false); // INSERT 또는 UPDATE 상태값
   const [empSeq, setEmpSeq] = useState<any>(params?.EMP_SEQ || null); // 직원 번호
   const [workType, setWorkType] = useState<any>(params?.workTypeCheck || null); // 근무 유형 (fix: 일정이 있는 직원, free: 자율 출퇴근 직원)
   const [timeList, setTimeList] = useState<any>(params?.timeList || []); // 저장된 근무 시간 목록
@@ -39,7 +39,7 @@ export default ({route: {params}}) => {
   const [startTime, setStartTime] = useState<any>(null); // 화면에서 선택된 출근시간
   const [endTime, setEndTime] = useState<any>(null); // 화면에서 선택된 퇴근시간
   const [timeListIndex, setTimeListIndex] = useState<any>(null); // 저장된 근무 시간 목록 중 선택된 항목의 인덱스
-  const [hourModalVisible, setHourModalVisible] = useState<boolean>(false); // 시간/분 입력 모달 활성화 여부
+  const [isHourModalVisible, setIsHourModalVisible] = useState<boolean>(false); // 시간/분 입력 모달 활성화 여부
   const [hourModalType, setHourModalType] = useState<any>(null); // 모달의 종류 (start: 출근시간, end: 퇴근시간)
   const [originalDayList, setOriginalDayList] = useState<any>([]); // dayList 원본 값
   const [dayList, setDayList] = useState<any>([]); // 일요일 ~ 토요일까지 화면에 보여질 요일 배열
@@ -47,7 +47,9 @@ export default ({route: {params}}) => {
   const [hourList, setHourList] = useState<any>([]); // 화면에 보여지는 시간 테이블
   const [minute, setMinute] = useState<any>(null); // 화면에 선택된 분
   const [minuteList, setMinuteList] = useState<any>([]); // 화면에 보여지는 분 테이블
-  const [minuteInputFocused, setMinuteInputFocused] = useState<boolean>(false); // 분 직접 입력 포커싱 여부
+  const [isMinuteInputFocused, setIsMinuteInputFocused] = useState<boolean>(
+    false,
+  ); // 분 직접 입력 포커싱 여부
   const [workDayExpand, setWorkDayExpand] = useState<boolean>(false); // 최하단 출퇴근정보 입력 화면 활성화 여부
   const [isCalendarModalVisible, setIsCalendarModalVisible] = useState<boolean>(
     false,
@@ -59,7 +61,12 @@ export default ({route: {params}}) => {
   const [checkNoEndDate, setCheckNoEndDate] = useState<>(true); // 일정 종료일 없음 체크
   const [step3Visible, setStep3Visible] = useState<boolean>(false); // STEP 3 활성화 여부
   const [deleteList, setDeleteList] = useState<any>([]); // 삭제 대상 목록
-
+  const [isStartDayModalVisible, setIsStartDayModalVisible] = useState<boolean>(
+    false,
+  );
+  const [isEndDayModalVisible, setIsEndDayModalVisible] = useState<boolean>(
+    false,
+  );
   const alertModal = (text) => {
     const params = {
       type: 'alert',
@@ -70,10 +77,10 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
-  const explainModal = (title, text) => {
+  const explainModal = (text) => {
     const params = {
       type: 'explain',
-      title: title,
+      title: '',
       content: text,
     };
     dispatch(setAlertInfo(params));
@@ -157,7 +164,7 @@ export default ({route: {params}}) => {
           }
         }
       }
-      setUpdateMode(true);
+      setIsUpdateMode(true);
       setTimeList(setTimeList);
       setDeleteList(deleteListed);
       setStartDate(startDateed);
@@ -174,7 +181,7 @@ export default ({route: {params}}) => {
     }
   };
 
-  const checkAddTime = () => {
+  const checkAddTimeFn = () => {
     let validDay = false;
     for (const day of dayList) {
       if (day.isChecked) {
@@ -205,7 +212,7 @@ export default ({route: {params}}) => {
   };
 
   const setTime = () => {
-    setHourModalVisible(false);
+    setIsHourModalVisible(false);
     let houred = hour;
     let minuted = minute;
 
@@ -219,10 +226,10 @@ export default ({route: {params}}) => {
       houred = numberFormatPadding(houred);
       minuted = numberFormatPadding(minuted);
       const time = `${hour}:${minute}`;
-      setHourModalVisible(false);
+      setIsHourModalVisible(false);
       setHour(null);
       setMinute(null);
-      setMinuteInputFocused(false);
+      setIsMinuteInputFocused(false);
 
       if (hourModalType === 'start') {
         setStartTime(time);
@@ -275,7 +282,7 @@ export default ({route: {params}}) => {
     }
   };
 
-  const register = async () => {
+  const submitFn = async () => {
     dispatch(setSplashVisible(true));
     const params = {
       EMP_SEQ: empSeq,
@@ -303,7 +310,7 @@ export default ({route: {params}}) => {
         }
       }
     }
-    if (updateMode) {
+    if (isUpdateMode) {
       const response = await fetch(
         'http://133.186.209.113:80/api/v2/Employee/update_emp_schedules3',
         {
@@ -345,5 +352,46 @@ export default ({route: {params}}) => {
     initialize();
   }, []);
 
-  return <EmployeeScheduleAddScreenPresenter />;
+  return (
+    <EmployeeScheduleAddScreenPresenter
+      timeList={timeList}
+      timeListIndex={timeListIndex}
+      setTimeListIndex={setTimeListIndex}
+      originalDayList={originalDayList}
+      removeDay={removeDay}
+      dayList={dayList}
+      setDayList={setDayList}
+      startTime={startTime}
+      endTime={endTime}
+      alertModal={alertModal}
+      hourList={hourList}
+      numberFormatPadding={numberFormatPadding}
+      hour={hour}
+      setHour={setHour}
+      minuteList={minuteList}
+      minute={minute}
+      setMinute={setMinute}
+      isMinuteInputFocused={isMinuteInputFocused}
+      setIsMinuteInputFocused={setIsMinuteInputFocused}
+      isHourModalVisible={isHourModalVisible}
+      setIsHourModalVisible={setIsHourModalVisible}
+      submitFn={submitFn}
+      TYPE={TYPE}
+      checkAddTimeFn={checkAddTimeFn}
+      explainModal={explainModal}
+      startDate={startDate}
+      setStartDate={setStartDate}
+      isStartDayModalVisible={isStartDayModalVisible}
+      setIsStartDayModalVisible={setIsStartDayModalVisible}
+      endDate={endDate}
+      setEndDate={setEndDate}
+      isEndDayModalVisible={isEndDayModalVisible}
+      setIsEndDayModalVisible={setIsEndDayModalVisible}
+      setCheckNoEndDate={setCheckNoEndDate}
+      checkNoEndDate={checkNoEndDate}
+      setMarkedEndDate={setMarkedEndDate}
+      setHourModalType={setHourModalType}
+      setTime={setTime}
+    />
+  );
 };

@@ -461,7 +461,7 @@ export default ({
                     </Touchable>
                   </Row>
                   <DatePickerModal
-                    headerTextIOS={'종료일을 선택하세요.'}
+                    headerTextIOS={'시작일을 선택하세요.'}
                     cancelTextIOS={'취소'}
                     confirmTextIOS={'확인'}
                     isVisible={isStartDayModalVisible}
