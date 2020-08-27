@@ -32,8 +32,12 @@ export default ({route: {params}}) => {
     selectedDotColor: '#984B19',
   }; // 체크 이상
 
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [isModalVisible4, setIsModalVisible4] = useState<boolean>(false);
+  const [isCalendarModalVisible, setIsCalendarModalVisible] = useState<boolean>(
+    false,
+  );
+  const [isChecklistModalVisible, setIsChecklistModalVisible] = useState<
+    boolean
+  >(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [storeID, setStoreID] = useState<string>(STORE_SEQ || '');
   const [checklist, setChecklist] = useState<any>([]);
@@ -109,7 +113,7 @@ export default ({route: {params}}) => {
     }
   };
 
-  const selectCheckList = async () => {
+  const selectCheckListFn = async () => {
     try {
       dispatch(setSplashVisible(true));
       const {data} = await api.getChecklist(
@@ -117,7 +121,7 @@ export default ({route: {params}}) => {
         moment().format('YYYY-MM-DD'),
       );
       console.log('2', data);
-      setIsModalVisible4(true);
+      setIsChecklistModalVisible(true);
       setSelectChecklist(data.result);
       setScanstore(data);
     } catch (error) {
@@ -203,24 +207,24 @@ export default ({route: {params}}) => {
     }
     let m = month;
     let d = day;
-    m < 10 ? (m = '0' + m) : m;
-    d < 10 ? (d = '0' + d) : d;
     markedDates[year + '-' + m + '-' + d] = {
       ...markedDates[year + '-' + m + '-' + d],
       selected: true,
       selectedColor: '#ccc',
     };
     fetchData(year + '-' + m + '-' + d);
-    setIsModalVisible(false);
+    setIsCalendarModalVisible(false);
     setMarkedDates(markedDates);
     setDate(year + '-' + m + '-' + d);
     setDefaultMonth(year + '-' + m + '-' + d);
-    setYear(year), setMonth(month);
-    setDay(day);
   };
 
   const onDayPress = (data) => {
-    select(data.year, data.month, data.day);
+    select(
+      moment(data.dateString).format('YYYY'),
+      moment(data.dateString).format('MM'),
+      moment(data.dateString).format('DD'),
+    );
   };
 
   const checkdata = async (storeid, list) => {
@@ -235,11 +239,10 @@ export default ({route: {params}}) => {
         }
       }
     }
-
     setIsScanned(false);
-    setIsModalVisible4(false);
-
+    setIsChecklistModalVisible(false);
     try {
+      dispatch(setSplashVisible(true));
       const {data} = await api.getCheckList({
         STORE_ID: STORE_SEQ,
         LAT: lat,
@@ -286,9 +289,76 @@ export default ({route: {params}}) => {
     }
   };
 
+  const onPressAddChecklist = () => {
+    if (
+      Number(STOREDATA.resultdata.CHECK_COUNT) <= Number(STOREDATA.check_count)
+    ) {
+      alertModal(
+        '체크리스트는 ' +
+          STOREDATA.resultdata.CHECK_COUNT +
+          '개까지만 등록가능합니다.',
+      );
+    } else {
+      navigation.navigate('ChecklistAddScreen', {
+        STOREDATA,
+        storeID,
+        TITLE: '체크리스트 등록',
+        type: '등록',
+        onRefresh: () => onRefresh(),
+      });
+    }
+  };
+
+  const gotoChecklistAdd = () => {
+    navigation.navigate('ChecklistAddScreen', {
+      STOREDATA,
+      storeID,
+      TITLE: '체크리스트 등록',
+      type: '등록',
+      onRefresh: () => onRefresh(),
+    });
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
 
-  return <ChecklistItemsScreenPresenter />;
+  useEffect(() => {
+    setYear(moment(date).format('YYYY'));
+    setMonth(moment(date).format('MM'));
+    setDay(moment(date).format('DD'));
+  }, [date]);
+
+  return (
+    <ChecklistItemsScreenPresenter
+      STORE={STORE}
+      date={date}
+      fetchData={fetchData}
+      refreshing={refreshing}
+      onRefresh={onRefresh}
+      year={year}
+      month={month}
+      day={day}
+      select={select}
+      marking={marking}
+      isCalendarModalVisible={isCalendarModalVisible}
+      setIsCalendarModalVisible={setIsCalendarModalVisible}
+      isChecklistModalVisible={isChecklistModalVisible}
+      setIsChecklistModalVisible={setIsChecklistModalVisible}
+      setDefaultMonth={setDefaultMonth}
+      onPressAddChecklist={onPressAddChecklist}
+      defaultMonth={defaultMonth}
+      markedDates={markedDates}
+      onDayPress={onDayPress}
+      monthChange={monthChange}
+      checklist={checklist}
+      STORE_SEQ={STORE_SEQ}
+      adviceModal={adviceModal}
+      gotoChecklistAdd={gotoChecklistAdd}
+      selectCheckListFn={selectCheckListFn}
+      selectChecklist={selectChecklist}
+      checkdata={checkdata}
+      scanstore={scanstore}
+    />
+  );
 };

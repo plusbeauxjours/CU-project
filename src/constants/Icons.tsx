@@ -197,3 +197,6 @@ export const RemoveCircleIcon: React.FC<IProps> = ({size, color}) => (
 export const SearchIcon: React.FC<IProps> = ({size, color}) => (
   <Icon name={'search-outline'} size={size ?? 28} color={color ?? '#642A8C'} />
 );
+export const CreateIcon: React.FC<IProps> = ({size, color}) => (
+  <Icon name={'create-outline'} size={size ?? 28} color={color ?? '#642A8C'} />
+);

@@ -76,7 +76,7 @@ export default {
     requestJoin: (data: any) => oldApi("post", "/Employee/request_join/", data),
     storeList: (MEMBER_SEQ: string,
         STORE: string) => oldApi("get", `/Store/store_list?MEMBER_SEQ=${MEMBER_SEQ}&STORE=${STORE}`),
-    checkList: (data: any) => oldApi("post", "/StoreAuth/checklist/", data),
+    getCheckList: (data: any) => oldApi("post", "/StoreAuth/checklist/", data),
     updateStore: (data: any) => oldApi("put", "/Store/update2", data),
     addStore: (data: any) => oldApi("post", "/Store/insert22", data),
     getCuCode: (code: string) => oldApi("get", `/Store/getCuCode?code=${code}`),

@@ -245,7 +245,7 @@ export default () => {
     setIsScanned(false);
     setBarcodeModalOpen(false);
     try {
-      const {data} = await api.checkList({
+      const {data} = await api.getCheckList({
         STORE_ID: QR,
         LAT: lat,
         LONG: long,
