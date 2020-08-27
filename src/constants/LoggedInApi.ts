@@ -111,5 +111,14 @@ export default {
     getEmp: (EMP_SEQ: string) => oldApi("get", `/Employee/get?EMP_SEQ=${EMP_SEQ}`),
     getSchedules: (EMP_SEQ: string,
         year: string,
-        month: string) => oldApi("get", `/Employee/get_schedules?EMP_SEQ=${EMP_SEQ}&YEAR=${year}&MONTH=${month}`)
+        month: string) => oldApi("get", `/Employee/get_schedules?EMP_SEQ=${EMP_SEQ}&YEAR=${year}&MONTH=${month}`),
+    //Checklists
+    getChecklist2: (storeID: string,
+        date: string) => oldApi("get", `/Store/Checklist2?STORE=${storeID}&DATE=${date}`),
+    getChecklist: (storeID: string,
+        date: string) => oldApi("get", `/Store/Checklist?STORE=${storeID}&DATE=${date}`),
+    getChecklistAll: (storeID: string,
+        year: string,
+        month: string
+    ) => oldApi("get", `/Store/ChecklistAll?STORE=${storeID}&YEAR=${year}&MONTH=${month}`),
 }

@@ -49,7 +49,6 @@ const Section = styled.View`
   border-radius: 20px;
   padding: 20px;
   background-color: white;
-  background-color: red;
 `;
 
 const Row = styled.View`
