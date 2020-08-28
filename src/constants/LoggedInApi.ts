@@ -124,4 +124,6 @@ export default {
     checkUpdate: (data: any) => oldApi("post", "/Store/CheckUpdate/", data),
     getEmployeeList: (data: any) => oldApi("post", "/Employee/getEmpList/", data),
     getAllCheckSchedules: (data: any) => callApi("post", "/auth/getAllCheckSchedules/", data),
+    setCheckListImg2: (data: any) => callApi("post", "/auth/setCheckListImg2/", data),
+    setCheckList2: (data: any) => callApi("post", "/auth/setCheckList2/", data),
 }
