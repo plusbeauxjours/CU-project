@@ -123,4 +123,5 @@ export default {
     checkRegister: (data: any) => oldApi("post", "/Store/CheckRegister/", data),
     checkUpdate: (data: any) => oldApi("post", "/Store/CheckUpdate/", data),
     getEmployeeList: (data: any) => oldApi("post", "/Employee/getEmpList/", data),
+    getAllCheckSchedules: (data: any) => callApi("post", "/auth/getAllCheckSchedules/", data),
 }

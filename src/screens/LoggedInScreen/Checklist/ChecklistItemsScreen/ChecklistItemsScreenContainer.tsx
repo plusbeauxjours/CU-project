@@ -233,7 +233,7 @@ export default ({route: {params}}) => {
       flag = false;
       let emparr = list.EMP_SEQ.split('@');
       for (let index = 0; index < emparr.length; index++) {
-        if (emparr[index] == STOREDATA.EMP_SEQ) {
+        if (emparr[index] == STOREDATA?.EMP_SEQ) {
           flag = true;
           break;
         }
@@ -291,11 +291,12 @@ export default ({route: {params}}) => {
 
   const onPressAddChecklist = () => {
     if (
-      Number(STOREDATA.resultdata.CHECK_COUNT) <= Number(STOREDATA.check_count)
+      Number(STOREDATA?.resultdata.CHECK_COUNT) <=
+      Number(STOREDATA?.check_count)
     ) {
       alertModal(
         '체크리스트는 ' +
-          STOREDATA.resultdata.CHECK_COUNT +
+          STOREDATA?.resultdata.CHECK_COUNT +
           '개까지만 등록가능합니다.',
       );
     } else {
