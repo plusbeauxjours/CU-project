@@ -431,6 +431,7 @@ export default ({
                       PHOTO_CHECK={data.PHOTO_CHECK}
                       IMAGE_LIST={data.IMAGE_LIST}
                       DATE={date}
+                      onRefresh={onRefresh}
                     />
                   );
                 })}
@@ -471,6 +472,7 @@ export default ({
                       PHOTO_CHECK={data.PHOTO_CHECK}
                       IMAGE_LIST={data.IMAGE_LIST}
                       DATE={date}
+                      onRefresh={onRefresh}
                     />
                   );
                 })}

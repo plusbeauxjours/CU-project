@@ -78,6 +78,7 @@ export default ({
   PHOTO_CHECK,
   IMAGE_LIST,
   DATE,
+  onRefresh,
 }) => {
   const navigation = useNavigation();
   const [willCheck, setWillCheck] = useState<boolean>(false);
@@ -100,6 +101,7 @@ export default ({
         checkType: '0', // 미체크
         checkID,
         DATE,
+        onRefresh,
       });
     } else {
       return navigation.navigate('ChecklistSpecificationScreen', {
@@ -122,6 +124,7 @@ export default ({
         checkSelectedEmpName,
         register: false,
         DATE,
+        onRefresh,
       });
     }
   };

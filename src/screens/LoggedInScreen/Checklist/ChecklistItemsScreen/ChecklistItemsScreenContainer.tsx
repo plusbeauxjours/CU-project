@@ -299,13 +299,7 @@ export default ({route: {params}}) => {
           '개까지만 등록가능합니다.',
       );
     } else {
-      navigation.navigate('ChecklistAddScreen', {
-        STOREDATA,
-        storeID,
-        TITLE: '체크리스트 등록',
-        type: '등록',
-        onRefresh: () => onRefresh(),
-      });
+      gotoChecklistAdd();
     }
   };
 
