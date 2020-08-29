@@ -106,7 +106,7 @@ export default ({
   checkEMPTime,
   checkpoint,
   checktime,
-  checklist,
+  checklistData,
   checkEMP,
   checkData,
   checklistGoodState,
@@ -251,7 +251,6 @@ export default ({
           <Section>
             <RowSpace>
               <SectionText>체크항목</SectionText>
-              {console.log(checkpoint)}
               <Text>{checkpoint}</Text>
             </RowSpace>
             <WhiteSpace />
@@ -282,7 +281,7 @@ export default ({
             <WhiteSpace />
             <Box>
               <ChecklistTitle>
-                {checklist?.length === 0 ? (
+                {checklistData?.length === 0 ? (
                   <ChecklistItem>
                     <ChecklistText>ex. 가스벨브 잠그기</ChecklistText>
                   </ChecklistItem>
@@ -294,7 +293,7 @@ export default ({
                 )}
               </ChecklistTitle>
 
-              {checklist?.map((data, index) => (
+              {checklistData?.map((data, index) => (
                 <ChecklistItem key={index}>
                   <ChecklistText>{data}</ChecklistText>
                   <CheckBoxIconContainer>
@@ -345,21 +344,14 @@ export default ({
             </Box>
           </Section>
 
-          {checkType == '1' && memoInput !== '' && memoView()}
+          {/* {checkType == '1' && memoInput !== '' && memoView()}
           {checkType == '2' && memoView()}
 
-          {_getPhotoZone(scan)}
+          {_getPhotoZone(scan)} */}
 
-          {scan === '1' && STORE == '0' && (
-            <SubmitBtn
-              text={'체크완료'}
-              onPress={() => navigation.setParams({register: true})}
-              isRegisted={true}
-            />
-          )}
           {STORE == '1' && (
             <SubmitBtn
-              text={'수정완료'}
+              text={'수정하기'}
               onPress={() => gotoChecklistAdd()}
               isRegisted={true}
             />

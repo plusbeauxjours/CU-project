@@ -187,7 +187,6 @@ export default ({route: {params}}) => {
       if (data.RESULT_CODE == '0') {
         alertModal('인증번호를 발송하였습니다.');
       }
-      console.log(':3003/api/auth/getsms', data);
     } catch (error) {
       console.log(error);
     }

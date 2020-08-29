@@ -157,7 +157,6 @@ export default ({
           }
           checkValidationRegistButton();
         }}>
-        {console.log(selection)}
         <PositionTypeRadioButtonOff borderColor={sexTypeCheck[selection]}>
           {positionTypeCheck[selection] && <PositionTypeRadioButtonOn />}
         </PositionTypeRadioButtonOff>

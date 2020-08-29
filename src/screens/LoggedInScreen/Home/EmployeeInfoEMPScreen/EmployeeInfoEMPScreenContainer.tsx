@@ -134,7 +134,6 @@ export default ({route: {params}}) => {
   const initTimeTable = (rawTimeList) => {
     const objTimeTable = {};
     const numberToday = getNumberToday();
-    console.log(rawTimeList);
     /*
     - 종료일이 없는 경우 가장 배열의 가장 뒤에 배치
     - 오늘이 근무 시작일과 종료일 사이에 걸쳐 있는 경우 근무 종료일이 가장 큰 값을 뒤에 배치
@@ -290,7 +289,6 @@ export default ({route: {params}}) => {
 
   useEffect(() => {
     fetchData();
-    console.log(params);
   }, []);
 
   return (

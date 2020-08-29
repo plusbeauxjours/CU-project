@@ -206,6 +206,7 @@ const ChecklistItem = styled.View`
 `;
 
 const GreyText = styled.Text`
+  max-width: 230px;
   font-size: 15px;
   color: #999;
 `;

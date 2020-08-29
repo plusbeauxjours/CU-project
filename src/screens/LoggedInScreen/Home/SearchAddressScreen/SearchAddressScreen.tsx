@@ -9,13 +9,9 @@ const BackGround = styled.SafeAreaView`
 `;
 
 export default ({route: {params}}) => {
-  console.log('params on searchAddressScreen', params);
   const navigation = useNavigation();
-
   const choseAddress = (data) => {
-    console.log(data);
     const {addr, lat, long} = JSON.parse(data.data);
-    console.log(addr, lat, long);
     navigation.navigate(
       params?.screen == 0 ? 'AddStoreScren' : 'UpdateStoreScreen',
       {

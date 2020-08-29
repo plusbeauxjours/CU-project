@@ -90,7 +90,6 @@ export default ({route: {params}}) => {
   const CALCULATE = async (EMP_SEQ, DATE) => {
     let YEAR = DATE.getFullYear();
     let MONTH = DATE.getMonth() + 1;
-    console.log('CALCULATE', DATE);
     MONTH < 10 ? (MONTH = '0' + MONTH) : MONTH;
     try {
       const {data} = await api.getEmpPay({

@@ -88,7 +88,6 @@ export default ({route: {params}}) => {
   };
 
   useEffect(() => {
-    console.log(params);
     fetchData();
   }, []);
 

@@ -244,7 +244,6 @@ export default ({route: {params}}) => {
         selectedColor: '#5887F9',
       };
     }
-    console.log(params);
     //     this.defaultPictureUploadPath = FileSystem.documentDirectory + 'picture/';
     //     await FileSystem.makeDirectoryAsync(this.defaultPictureUploadPath, {
     //       intermediates: true,

@@ -63,7 +63,6 @@ export default ({route: {params}}) => {
         DEVICE_TOKEN: push,
         PASSWORD: password,
       });
-      console.log(':3003/auth/signin 0814TEST', data);
       switch (data.RESULT_CODE) {
         case '0':
           dispatch(setUser(data.RESULT_DATA));
@@ -110,7 +109,6 @@ export default ({route: {params}}) => {
   //   }
 
   //   DeviceInfo.getPhoneNumber().then((phoneNumber) => {
-  //     console.log(phoneNumber);
   //     // Android: null return: no permission, empty string: unprogrammed or empty SIM1, e.g. "+15555215558": normal return value
   //   });
   // };

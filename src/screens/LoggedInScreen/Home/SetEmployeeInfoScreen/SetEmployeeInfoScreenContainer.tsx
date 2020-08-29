@@ -229,19 +229,14 @@ export default ({route: {params}}) => {
     if (payYeared == 1) {
       payYeared = Number(payYear) - 3;
     } else if (Number(payYeared) == 2) {
-      console.log('payYear', payYear, 'payYeared', payYeared);
       payYeared = Number(payYear) - 2;
     } else if (Number(payYeared) == 3) {
-      console.log('payYear', payYear, 'payYeared', payYeared);
       payYeared = Number(payYear) - 1;
     } else if (Number(payYeared) == 4) {
-      console.log('payYear', payYear, 'payYeared', payYeared);
       payYeared = Number(payYear);
     } else if (Number(payYeared) == 5) {
-      console.log('payYear', payYear, 'payYeared', payYeared);
       payYeared = Number(payYear) + 1;
     } else if (Number(payYeared) == 6) {
-      console.log('payYear', payYear, 'payYeared', payYeared);
       payYeared = Number(payYear) + 2;
     }
     if (payYearCheck[6] === true) {

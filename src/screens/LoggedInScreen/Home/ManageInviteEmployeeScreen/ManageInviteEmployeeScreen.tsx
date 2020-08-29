@@ -140,7 +140,6 @@ export default ({route: {params}}) => {
 
   const fetchData = async () => {
     try {
-      console.log(STORE_SEQ);
       const {data} = await api.getWaitEmpList(STORE_SEQ);
       if (data.message === 'SUCCESS') {
         setResponseEmployee(data.result);

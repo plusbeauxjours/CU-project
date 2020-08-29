@@ -57,7 +57,6 @@ export default ({route: {params}}) => {
   };
 
   const onRefresh = () => {
-    console.log(_year, _month, _day, 'markCheck');
     fetchData(_year, _month, _day, 'markCheck');
   };
 

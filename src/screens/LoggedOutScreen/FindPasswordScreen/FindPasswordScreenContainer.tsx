@@ -142,7 +142,6 @@ export default () => {
       if (data.RESULT_CODE == '0') {
         alertModal('인증번호를 발송하였습니다.');
       }
-      console.log(':3003/api/auth/getsms', data);
     } catch (error) {
       console.log(error);
     }
@@ -181,7 +180,6 @@ export default () => {
         MOBILENO: mobileNo,
         PASSWORD: password,
       });
-      console.log('auth/findPwd 0814TEST', data);
       switch (data.RESULT_CODE) {
         case '0':
           alertModal(data.RESULT_MSG);

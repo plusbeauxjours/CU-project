@@ -292,7 +292,6 @@ export default ({
   };
 
   const RenderScheduleList = () => {
-    console.log(timeTable);
     if (timeTable.length == 0) {
       return (
         <RenderScheduleTitle style={{alignItems: 'center', marginTop: 20}}>

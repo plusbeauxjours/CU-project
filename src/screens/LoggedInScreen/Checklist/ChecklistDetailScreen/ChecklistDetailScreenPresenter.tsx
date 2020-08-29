@@ -268,7 +268,6 @@ export default ({
           <Section>
             <RowSpace>
               <SectionText>체크항목</SectionText>
-              {console.log(checkpoint)}
               <Text>{checkpoint}</Text>
             </RowSpace>
             <WhiteSpace />

@@ -134,7 +134,7 @@ export default ({route: {params}}) => {
         alertModal('', '상품을 삭제하였습니다.');
       }
     } catch (error) {
-      console.log('error', error);
+      console.log(error);
     } finally {
       dispatch(setSplashVisible(false));
     }

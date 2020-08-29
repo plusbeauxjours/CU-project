@@ -88,7 +88,6 @@ export default () => {
         MobileNo: mobileNo,
         MEMBER_SEQ,
       });
-      console.log(':3003/auth/signin 0814TEST', data);
       dispatch(userLogout());
       navigation.reset({
         index: 0,

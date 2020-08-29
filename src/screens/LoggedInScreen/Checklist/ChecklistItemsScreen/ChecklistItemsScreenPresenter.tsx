@@ -350,7 +350,6 @@ export default ({
               </DateToday>
               <CalendarOpenBtn
                 onPress={() => {
-                  console.log(month, day);
                   marking(year, month, day);
                   setIsCalendarModalVisible(true);
                   setDefaultMonth(date);
@@ -409,7 +408,6 @@ export default ({
               {checklist
                 .filter((info) => info.CHECK_TYPE == '0')
                 .map((data, index) => {
-                  console.log('datadatadata', data);
                   return (
                     <ChecklistItemsScreenCard
                       key={index}
@@ -450,7 +448,6 @@ export default ({
               {checklist
                 .filter((info) => info.CHECK_TYPE == '1')
                 .map((data, index) => {
-                  console.log('datadatadata', data);
                   return (
                     <ChecklistItemsScreenCard
                       key={index}

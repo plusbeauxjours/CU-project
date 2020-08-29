@@ -39,14 +39,12 @@ export default ({route: {params}}) => {
   const [isCheckedEmpChoise, setIsCheckedEmpChoise] = useState<boolean>(false);
   const [emplist, setEmplist] = useState<any>([]);
   const [CLOSE_FLAG, setCLOSE_FLAG] = useState<boolean>(false);
-  const [isFetching, setIsFetching] = useState<boolean>(false);
   const [checkpointInput, setCheckpointInput] = useState<string>('');
   const [checklistInput, setChecklistInput] = useState<string>('');
   const [checklistState, setChecklistState] = useState<any>([]);
   const [isNoCheckedtime, setIsNoCheckedtime] = useState<boolean>(false);
   const [isCheckedCamera, setIsCheckedCamera] = useState<boolean>(false);
   const [customChecktime, setCustomChecktime] = useState<string>('');
-  const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isRegisterModalVisible, setIsRegisterModalVisible] = useState<boolean>(
     false,
   );

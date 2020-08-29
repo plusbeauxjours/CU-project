@@ -104,7 +104,6 @@ export default ({route: {params}}) => {
     try {
       dispatch(setSplashVisible(true));
       const {data} = await api.getChecklist2(STORE_SEQ, date);
-      console.log('1', data);
       setChecklist(data.result);
     } catch (error) {
       console.log('error', error);
@@ -120,7 +119,6 @@ export default ({route: {params}}) => {
         STORE_SEQ,
         moment().format('YYYY-MM-DD'),
       );
-      console.log('2', data);
       setIsChecklistModalVisible(true);
       setSelectChecklist(data.result);
       setScanstore(data);

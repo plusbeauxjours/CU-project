@@ -31,7 +31,6 @@ const CardText = styled.Text`
 
 export default ({route: {params}}) => {
   const {mobileNo, STORE} = params;
-  console.log(mobileNo, STORE);
   const navigation = useNavigation();
   const ArrowIcon = () => (
     <Arrow>

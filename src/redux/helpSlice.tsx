@@ -7,7 +7,6 @@ const helpSlice = createSlice({
   },
   reducers: {
     setHelpCategory(state, action) {
-      console.log('ananannai');
       const {payload: helpCategory} = action;
       return {
         ...state,

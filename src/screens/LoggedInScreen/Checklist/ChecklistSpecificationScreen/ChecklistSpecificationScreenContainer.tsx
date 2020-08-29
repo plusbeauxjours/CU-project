@@ -47,8 +47,8 @@ export default ({route: {params}}) => {
   const [cameraRatioList, setCameraRatioList] = useState<any>([]);
   const [cameraPictureList, setCameraPictureList] = useState<any>([]);
   const [cameraPictureLast, setCameraPictureLast] = useState<any>(null);
-  const [check, setCheck] = useState<string>('');
-  const [checklist, setChecklist] = useState<any>([]);
+  const [checkData, setCheckData] = useState<string>('');
+  const [checklistData, setChecklistData] = useState<any>([]);
   const [checklistGoodState, setChecklistGoodState] = useState<any>([]);
   const [checklistBadState, setChecklistBadState] = useState<any>([]);
   const [memoInput, setMemoInput] = useState<string>(memo || '');
@@ -113,37 +113,39 @@ export default ({route: {params}}) => {
   const initialize = async () => {
     let checklistGoodStated = new Array(checklist.length);
     let checklistBadStated = new Array(checklist.length);
+    let checked;
+    let checklisted;
     checklistGoodStated.fill(false);
     checklistBadStated.fill(false);
 
-    // if (check) {
-    //   checklist = check.split('@');
+    if (check) {
+      checklisted = check.split('@');
 
-    //   const size = checklist.length / 2;
-    //   checklist = new Array();
-    //   check = check.split('@');
+      const size = checklist.length / 2;
+      checklisted = new Array();
+      checked = check.split('@');
 
-    //   for (var i = 0; i < size; i++) {
-    //     var checktemp = 2 * i;
-    //     checklist[i] = check[checktemp];
+      for (var i = 0; i < size; i++) {
+        var checktemp = 2 * i;
+        checklisted[i] = checked[checktemp];
 
-    //     var temp = 2 * i + 1;
+        var temp = 2 * i + 1;
 
-    //     if (check[temp] === '1') {
-    //       checklistGoodStated[i] = true;
-    //     }
+        if (checked[temp] === '1') {
+          checklistGoodStated[i] = true;
+        }
 
-    //     if (check[temp] === '2') {
-    //       checklistBadStated[i] = true;
-    //     }
-    //   }
-    // } else {
-    //   checklist = checklist.split('@@');
-    //   checklist[checklist.length - 1] = checklist[checklist.length - 1].replace(
-    //     '@',
-    //     '',
-    //   );
-    // }
+        if (checked[temp] === '2') {
+          checklistBadStated[i] = true;
+        }
+      }
+    } else {
+      checklisted = checklist.split('@@');
+      checklisted[checklisted.length - 1] = checklisted[
+        checklisted.length - 1
+      ].replace('@', '');
+      console.log(checklisted);
+    }
 
     setChecklistGoodState(checklistGoodStated);
     setChecklistBadState(checklistBadStated);
@@ -161,8 +163,8 @@ export default ({route: {params}}) => {
         });
       }
     }
-    setCheck(check);
-    setChecklist(checklist);
+    setCheckData(checked);
+    setChecklistData(checklisted);
     setModalImgarr(modalImgarred);
     setCameraPictureList(cameraPictureListed);
   };
@@ -236,7 +238,6 @@ export default ({route: {params}}) => {
           // for (const cameraPicture of this.state.cameraPictureList) {
           //   if (!cameraPicture.startsWith('http')) {
           //     const info = await FileSystem.getInfoAsync(cameraPicture);
-
           //     if (info && info.exists) {
           //       await FileSystem.deleteAsync(cameraPicture);
           //     }
@@ -267,7 +268,6 @@ export default ({route: {params}}) => {
           // for (const cameraPicture of this.state.cameraPictureList) {
           //   if (!cameraPicture.startsWith('http')) {
           //     const info = await FileSystem.getInfoAsync(cameraPicture);
-
           //     if (info && info.exists) {
           //       await FileSystem.deleteAsync(cameraPicture);
           //     }
@@ -286,6 +286,8 @@ export default ({route: {params}}) => {
   };
 
   useEffect(() => {
+    console.log('checklist', checklist);
+    console.log('check', check);
     initialize();
     //     this.defaultPictureUploadPath = FileSystem.documentDirectory + 'picture/';
     //     await FileSystem.makeDirectoryAsync(this.defaultPictureUploadPath, {
@@ -313,9 +315,9 @@ export default ({route: {params}}) => {
       checkEMPTime={checkEMPTime}
       checkpoint={checkpoint}
       checktime={checktime}
-      checklist={checklist}
+      checklistData={checklistData}
       checkEMP={checkEMP}
-      checkData={check}
+      checkData={checkData}
       checklistGoodState={checklistGoodState}
       setChecklistGoodState={setChecklistGoodState}
       checklistBadState={checklistBadState}
