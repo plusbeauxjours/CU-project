@@ -246,3 +246,11 @@ export const PinIcon: React.FC<IProps> = ({size, color}) => (
     color={color ?? 'yellow'}
   />
 );
+
+export const DeleteIcon: React.FC<IProps> = ({size, color}) => (
+  <MaterialCommunityIcons
+    name={'delete-empty'}
+    size={size ?? 14}
+    color={color ?? '#B91C1B'}
+  />
+);
