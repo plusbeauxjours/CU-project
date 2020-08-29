@@ -140,4 +140,19 @@ export default {
         MEMBER_SEQ: string, date: string) => oldApi("get", `/Employee/getNotice3?STORE_SEQ=${STORE_SEQ}&MEMBER_SEQ=${MEMBER_SEQ}&STORE=0&DATE=${date}`),
     getCuNotice: (STORE_SEQ: string,
         MEMBER_SEQ: string) => oldApi("get", `/Employee/getCuNotice?STORE_SEQ=${STORE_SEQ}&MEMBER_SEQ=${MEMBER_SEQ}`),
+    editNoticeComment: (selectedCOM_SEQ: string,
+        memoUpdate: string) => oldApi("get", `/Employee/editNoticeComment?COM_SEQ=${selectedCOM_SEQ}&CONTENTS=${memoUpdate}`),
+    delNoticeComment: (COM_SEQ: string) => oldApi("get", `/Employee/delNoticeComment?COM_SEQ=${COM_SEQ}`),
+    setNoticeComment: (
+        NOTICE_SEQ: string,
+        EMP_NAME: string,
+        MEMBER_SEQ: string,
+        memoInput: string,) => oldApi("get", `/Employee/setNoticeComment?NOTICE_SEQ=${NOTICE_SEQ}&EMP_NAME=${EMP_NAME}&MEMBER_SEQ=${MEMBER_SEQ}&CONTENTS=${memoInput}&STORE=${STORE}`),
+    getNoticeComment: (
+        NOTICE_SEQ: string,
+        MEMBER_SEQ: string,
+        STORE_SEQ: string,
+        title: string,
+    ) => oldApi("get", `/Employee/getNoticeComment?NOTICE_SEQ=${NOTICE_SEQ}&MEMBER_SEQ=${MEMBER_SEQ}&STORE_SEQ=${STORE_SEQ}&TITLE=${title}`),
+
 }
