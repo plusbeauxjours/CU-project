@@ -126,4 +126,18 @@ export default {
     getAllCheckSchedules: (data: any) => callApi("post", "/auth/getAllCheckSchedules/", data),
     setCheckListImg2: (data: any) => callApi("post", "/auth/setCheckListImg2/", data),
     setCheckList2: (data: any) => callApi("post", "/auth/setCheckList2/", data),
+    setNoticeFavorite: (data: any) => callApi("post", "/auth/setNoticeFavorite/", data),
+    getNoticeAll: (
+        STORE_SEQ: string,
+        year: string,
+        month: number,
+        MEMBER_SEQ: string,
+        index: string
+    ) => oldApi("get", `/Store/noticeAll?STORE_SEQ=${STORE_SEQ}&YEAR=${year}&MONTH=${month}&MEMBER_SEQ=${MEMBER_SEQ}&TYPE=${index}`),
+    getNotice31: (STORE_SEQ: string,
+        MEMBER_SEQ: string, date: string) => oldApi("get", `/Employee/getNotice3?STORE_SEQ=${STORE_SEQ}&MEMBER_SEQ=${MEMBER_SEQ}&STORE=1&DATE=${date}`),
+    getNotice30: (STORE_SEQ: string,
+        MEMBER_SEQ: string, date: string) => oldApi("get", `/Employee/getNotice3?STORE_SEQ=${STORE_SEQ}&MEMBER_SEQ=${MEMBER_SEQ}&STORE=0&DATE=${date}`),
+    getCuNotice: (STORE_SEQ: string,
+        MEMBER_SEQ: string) => oldApi("get", `/Employee/getCuNotice?STORE_SEQ=${STORE_SEQ}&MEMBER_SEQ=${MEMBER_SEQ}`),
 }

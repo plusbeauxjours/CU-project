@@ -1,13 +1,667 @@
 import React from 'react';
+import moment from 'moment';
 import styled from 'styled-components/native';
+import Modal from 'react-native-modal';
+import {Calendar} from 'react-native-calendars';
+import DatePicker from 'react-native-datepicker';
+import {RefreshControl} from 'react-native';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
-const Container = styled.View``;
+import utils from '../../../../constants/utils';
+
+import {
+  AddIcon,
+  BackIcon,
+  ReloadCircleIcon,
+  CalendarIcon,
+  ForwardIcon,
+  CreateIcon,
+} from '../../../../constants/Icons';
+import ChecklistShareMainScreenCard from './ChecklistShareMainScreenCard';
+import {useNavigation} from '@react-navigation/native';
+
+const BackGround = styled.SafeAreaView`
+  flex: 1;
+  background-color: #f6f6f6;
+`;
+
+const ScrollView = styled.ScrollView``;
 const Text = styled.Text``;
+const Touchable = styled.TouchableOpacity``;
+const Container = styled.View`
+  width: 100%;
+  padding: 20px;
+  align-items: center;
+`;
+const Row = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+const RowSpace = styled.View`
+  justify-content: space-between;
+`;
+const NewCntViewContainer = styled.View`
+  position: absolute;
+  top: ${utils.isAndroid ? 0 : -3};
+  right: -25px;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background-color: red;
+`;
 
-export default () => {
+const NewCntViewText = styled.Text`
+  font-size: 10px;
+  color: white;
+  font-weight: bold;
+`;
+
+const DateArrowLeft = styled.TouchableOpacity`
+  width: ${wp('10%')}px;
+  height: ${wp('10%')}px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background-color: #eee;
+`;
+
+const DateArrowRight = styled(DateArrowLeft)``;
+const CalendarOpenBtn = styled(DateArrowLeft)`
+  margin-right: 5px;
+`;
+
+const DateToday = styled(DateArrowLeft)`
+  margin-right: 5px;
+`;
+
+const Section = styled.View`
+  width: ${wp('100%') - 40}px;
+  border-radius: 20px;
+  padding: 20px;
+  background-color: white;
+  background-color: red;
+  margin-bottom: 20px;
+`;
+
+const Date = styled.View`
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+const DateTextArea = styled.TouchableOpacity`
+  flex: 1;
+  height: ${wp('10%')}px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const DateText = styled.Text`
+  font-weight: bold;
+  font-size: 15px;
+`;
+const GreyText = styled.Text`
+  color: #999;
+`;
+
+const AddChecklistBox = styled.View`
+  width: 100%;
+  align-items: center;
+`;
+
+const AddCheckilistButton = styled.TouchableOpacity`
+  width: 100%;
+  padding: 15px;
+  border-radius: 30px;
+  border-width: 2px;
+  border-color: #642a8c;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 20px;
+`;
+const WhiteSpace = styled.View`
+  height: 30px;
+`;
+const AddChecklistButtonText = styled.Text`
+  color: #642a8c;
+  font-weight: bold;
+`;
+
+const CalendarTitle = styled.View`
+  flex-direction: row;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #642a8c;
+`;
+
+const CalendarTextBox = styled.View`
+  padding: 10px 20px;
+  background-color: white;
+`;
+
+const CalendarTitleText = styled.Text``;
+
+const CalendarTitleBox = styled.View`
+  align-items: flex-end;
+`;
+
+const CalendarTitleText1 = styled.Text`
+  color: white;
+  font-size: 18px;
+`;
+
+const CalendarTitleText2 = styled.Text`
+  margin-left: 10px;
+  color: white;
+  font-size: 30px;
+`;
+
+const CheckPoint = styled.View`
+  width: 4px;
+  height: 4px;
+  border-radius: 10px;
+  background-color: #000;
+`;
+
+const NewPoint = styled.View`
+  margin-left: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+`;
+
+const AddButtonContainer = styled.View`
+  position: absolute;
+  z-index: 2;
+  right: ${wp('5%')}px;
+  bottom: ${hp('5%')}px;
+`;
+
+const AddButton = styled.TouchableOpacity`
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  align-items: center;
+  justify-content: center;
+  background-color: #642a8c;
+`;
+
+const EmptyListContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+const EmptyTitle = styled.View`
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: ${wp('5%')}px;
+`;
+
+const EmptyBox = styled.View`
+  width: ${wp('80%')};
+  align-items: center;
+  padding: ${wp('10%')}px ${wp('5%')}px;
+  border-width: 1px;
+  border-color: #ccc;
+  border-radius: 20px;
+`;
+
+export default ({
+  refreshing,
+  onRefresh,
+  STORE,
+  onDayPress,
+  onMonthChange,
+  onPressAddButtonFn,
+  markedDates,
+  date,
+  setDate,
+  date1,
+  setDate1,
+  ShareList,
+  ShareList2,
+  ShareList3,
+  markingFn,
+  fixControlFn,
+  fetchData,
+  index,
+  MEMBER_SEQ,
+  year,
+  month,
+  day,
+  isCalendarModalVisible,
+  setIsCalendarModalVisible,
+}) => {
+  const navigation = useNavigation();
+  const Tab = createMaterialTopTabNavigator();
+
+  const NewCntView = ({route}) => {
+    if (route.title == '지시사항' && route.newCnt1 !== 0) {
+      return (
+        <NewCntViewContainer>
+          <NewCntViewText>
+            {route.newCnt1 < 10 ? route.newCnt1 : '9+'}
+          </NewCntViewText>
+        </NewCntViewContainer>
+      );
+    } else if (route.title == '특이사항' && route.newCnt2 !== 0) {
+      return (
+        <NewCntViewContainer>
+          <NewCntViewText>
+            {route.newCnt2 < 10 ? route.newCnt2 : '9+'}
+          </NewCntViewText>
+        </NewCntViewContainer>
+      );
+    } else if (route.title == 'CU소식' && route.newCnt3 !== 0) {
+      return (
+        <NewCntViewContainer>
+          <NewCntViewText>
+            {route.newCnt3 < 10 ? route.newCnt3 : '9+'}
+          </NewCntViewText>
+        </NewCntViewContainer>
+      );
+    } else {
+      return null;
+    }
+  };
+
+  const DateController = ({text}) => {
+    const yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
+    const tomorrow = moment().add(1, 'days').format('YYYY-MM-DD');
+    return (
+      <Section>
+        <Date>
+          <DateArrowLeft
+            onPress={() => {
+              setDate(yesterday);
+              fetchData(index, yesterday);
+            }}>
+            <BackIcon size={22} color={'#000'} />
+          </DateArrowLeft>
+          <DateTextArea>
+            <DateText>{date}</DateText>
+          </DateTextArea>
+          <DateToday
+            onPress={() => {
+              setDate(moment().format('YYYY-MM-DD'));
+              fetchData();
+            }}>
+            <ReloadCircleIcon size={22} />
+          </DateToday>
+          <CalendarOpenBtn
+            onPress={() => {
+              markingFn(year, month);
+              setIsCalendarModalVisible(true);
+            }}>
+            <CalendarIcon size={22} color={'black'} />
+          </CalendarOpenBtn>
+          <DateArrowRight
+            onPress={() => {
+              setDate(tomorrow);
+              fetchData(index, yesterday);
+            }}>
+            <ForwardIcon size={22} color={'#000'} />
+          </DateArrowRight>
+        </Date>
+        <AddChecklistBox>
+          <AddCheckilistButton disabled={true}>
+            <AddChecklistButtonText>{text}</AddChecklistButtonText>
+          </AddCheckilistButton>
+        </AddChecklistBox>
+      </Section>
+    );
+  };
+
+  const FirstRoute = () => (
+    <BackGround>
+      <Container>
+        <DateController text={'점주가 직원들에게 전달하는 내용입니다.'} />
+        {console.log(ShareList)}
+        {ShareList?.basic?.length == 0 && ShareList?.favorite?.length == 0 ? (
+          <EmptyList TITLE={'지시사항'} />
+        ) : (
+          <ScrollView
+            keyboardDismissMode="on-drag"
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{alignItems: 'center'}}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={() => onRefresh(index)}
+              />
+            }>
+            {console.log(ShareList)}
+            {ShareList?.favorite?.map((data, index) => (
+              <ChecklistShareMainScreenCard
+                key={index}
+                COM_SEQ={data.COM_SEQ}
+                MEMBER_SEQ={data.MEMBER_SEQ}
+                ME={MEMBER_SEQ}
+                STORE={STORE}
+                NOTICE_SEQ={data.NOTICE_SEQ}
+                NOTI_TITLE={data.TITLE}
+                CONTENTS={data.CONTENTS}
+                CREATE_TIME={data.CREATE_TIME}
+                EMP_NAME={data.EMP_NAME}
+                IMG_LIST={data.IMG_LIST}
+                type={'지시사항'}
+                favorite={data.favorite}
+                confirmModal={(noticeSeq) => fixControlFn(noticeSeq, 'unFix')}
+                NoticeCheck_SEQ={data.NoticeCheck_SEQ}
+              />
+            ))}
+            {ShareList?.basic?.map((data, index) => {
+              return (
+                <ChecklistShareMainScreenCard
+                  key={index}
+                  COM_SEQ={data.COM_SEQ}
+                  MEMBER_SEQ={data.MEMBER_SEQ}
+                  ME={MEMBER_SEQ}
+                  STORE={STORE}
+                  NOTICE_SEQ={data.NOTICE_SEQ}
+                  NOTI_TITLE={data.TITLE}
+                  CONTENTS={data.CONTENTS}
+                  CREATE_TIME={data.CREATE_TIME}
+                  EMP_NAME={data.EMP_NAME}
+                  IMG_LIST={data.IMG_LIST}
+                  type={'지시사항'}
+                  favorite={data.favorite}
+                  confirmModal={(noticeSeq) => fixControlFn(noticeSeq, 'fix')}
+                  NoticeCheck_SEQ={data.NoticeCheck_SEQ}
+                />
+              );
+            })}
+          </ScrollView>
+        )}
+      </Container>
+      {STORE == '1' && (
+        <AddButtonContainer>
+          <AddButton onPress={() => onPressAddButtonFn('지시사항')}>
+            <AddIcon />
+          </AddButton>
+        </AddButtonContainer>
+      )}
+    </BackGround>
+  );
+
+  const SecondRoute = () => (
+    <BackGround>
+      <Container>
+        <ScrollView
+          keyboardDismissMode="on-drag"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{alignItems: 'center'}}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => onRefresh(index)}
+            />
+          }>
+          <DateController
+            text={'직원이 점포 운영현황을 점주에게 전달합니다.'}
+          />
+          {ShareList2.basic?.length == 0 && ShareList2.favorite?.length == 0 ? (
+            <EmptyList TITLE={'특이사항'} />
+          ) : (
+            <>
+              {ShareList2?.favorite?.map((data, index) => (
+                <ChecklistShareMainScreenCard
+                  key={index}
+                  COM_SEQ={data.COM_SEQ}
+                  MEMBER_SEQ={data.MEMBER_SEQ}
+                  ME={MEMBER_SEQ}
+                  STORE={STORE}
+                  NOTICE_SEQ={data.NOTICE_SEQ}
+                  NOTI_TITLE={data.TITLE}
+                  CONTENTS={data.CONTENTS}
+                  CREATE_TIME={data.CREATE_TIME}
+                  EMP_NAME={data.EMP_NAME}
+                  IMG_LIST={data.IMG_LIST}
+                  type={'특이사항'}
+                  favorite={data.favorite}
+                  confirmModal={(noticeSeq) => fixControlFn(noticeSeq, 'unFix')}
+                  NoticeCheck_SEQ={data.NoticeCheck_SEQ}
+                />
+              ))}
+              {ShareList2?.basic?.map((data, index) => {
+                return (
+                  <ChecklistShareMainScreenCard
+                    key={index}
+                    COM_SEQ={data.COM_SEQ}
+                    MEMBER_SEQ={data.MEMBER_SEQ}
+                    ME={MEMBER_SEQ}
+                    STORE={STORE}
+                    NOTICE_SEQ={data.NOTICE_SEQ}
+                    NOTI_TITLE={data.TITLE}
+                    CONTENTS={data.CONTENTS}
+                    CREATE_TIME={data.CREATE_TIME}
+                    EMP_NAME={data.EMP_NAME}
+                    IMG_LIST={data.IMG_LIST}
+                    type={'특이사항'}
+                    favorite={data.favorite}
+                    confirmModal={(noticeSeq) => fixControlFn(noticeSeq, 'fix')}
+                    NoticeCheck_SEQ={data.NoticeCheck_SEQ}
+                  />
+                );
+              })}
+            </>
+          )}
+        </ScrollView>
+      </Container>
+      {STORE == '0' && (
+        <AddButtonContainer>
+          <AddButton onPress={() => onPressAddButtonFn('특이사항')}>
+            <AddIcon />
+          </AddButton>
+        </AddButtonContainer>
+      )}
+    </BackGround>
+  );
+
+  const ThirdRoute = () => (
+    <BackGround>
+      <Container>
+        <NewCntViewText>ThirdRoute</NewCntViewText>
+        {ShareList3?.message?.length == 0 ? (
+          <EmptyList TITLE={'CU소식'} />
+        ) : (
+          <>
+            <AddCheckilistButton disabled={true}>
+              <AddChecklistButtonText>
+                CU본사 소식으로 점주님께만 보이는 내용입니다.
+              </AddChecklistButtonText>
+            </AddCheckilistButton>
+            <ScrollView
+              keyboardDismissMode="on-drag"
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{alignItems: 'center', width: '100%'}}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={() => onRefresh(index)}
+                />
+              }>
+              <WhiteSpace />
+              {ShareList3?.message?.map((data, index) => {
+                return (
+                  <ChecklistShareMainScreenCard
+                    key={index}
+                    COM_SEQ={data.COM_SEQ}
+                    MEMBER_SEQ={data.MEMBER_SEQ}
+                    ME={MEMBER_SEQ}
+                    STORE={STORE}
+                    NOTICE_SEQ={data.CU_NOTICE_SEQ}
+                    NOTI_TITLE={data.TITLE}
+                    CONTENTS={data.CONTENTS}
+                    CREATE_TIME={data.CREATE_TIME}
+                    EMP_NAME={data.EMP_NAME}
+                    IMG_LIST={data.IMG_LIST}
+                    type={'CU소식'}
+                    favorite={''}
+                    confirmModal={() => {}}
+                    NoticeCheck_SEQ={data.cu_notice_check_SEQ}
+                  />
+                );
+              })}
+            </ScrollView>
+          </>
+        )}
+      </Container>
+    </BackGround>
+  );
+
+  const EmptyList = ({TITLE}) => (
+    <EmptyListContainer>
+      {STORE === '0' && TITLE == '특이사항' && (
+        <Touchable onPress={() => onPressAddButtonFn(TITLE)}>
+          <EmptyBox>
+            <EmptyTitle>
+              <CreateIcon size={22} color={'#999'} />
+              <Text style={{marginLeft: 10}}>{TITLE}을 등록해주세요.</Text>
+            </EmptyTitle>
+            <GreyText>
+              점포업무에 관련된 지침 등을 작성하는 업무일지로 직원이 작성하여
+              공유합니다.
+            </GreyText>
+          </EmptyBox>
+        </Touchable>
+      )}
+      {STORE === '1' && TITLE == '특이사항' && (
+        <EmptyBox>
+          <EmptyTitle>
+            <CreateIcon size={22} color={'#999'} />
+            <Text style={{marginLeft: 10}}>{TITLE}이 없습니다.</Text>
+          </EmptyTitle>
+          <GreyText>
+            점포업무에 관련된 사항을 작성하는 업무일지로 직원이 작성하여
+            공유합니다.
+          </GreyText>
+        </EmptyBox>
+      )}
+
+      {STORE === '0' && TITLE == '지시사항' && (
+        <EmptyBox>
+          <EmptyTitle>
+            <CreateIcon size={22} color={'#999'} />
+            <Text style={{marginLeft: 10}}>{TITLE}이 없습니다.</Text>
+          </EmptyTitle>
+          <GreyText>
+            점포운영에 관련된 사항을 작성하는 업무일지로 점주가 작성하여
+            공유합니다.
+          </GreyText>
+        </EmptyBox>
+      )}
+
+      {STORE === '1' && TITLE == '지시사항' && (
+        <Touchable onPress={() => onPressAddButtonFn(TITLE)}>
+          <EmptyBox>
+            <EmptyTitle>
+              <CreateIcon size={22} color={'#999'} />
+              <Text style={{marginLeft: 10}}>{TITLE}을 등록해주세요.</Text>
+            </EmptyTitle>
+            <GreyText>
+              점포운영에 관련된 지침 등을 작성하는 업무일지로 점주님이 작성하여
+              공유합니다.
+            </GreyText>
+          </EmptyBox>
+        </Touchable>
+      )}
+
+      {TITLE == 'CU소식' && (
+        <EmptyBox>
+          <CreateIcon size={22} color={'#999'} />
+          <GreyText>{TITLE}이 없습니다.</GreyText>
+        </EmptyBox>
+      )}
+    </EmptyListContainer>
+  );
+
   return (
-    <Container>
-      <Text>ChecklistShareMainScreen</Text>
-    </Container>
+    <>
+      <Tab.Navigator
+        tabBarOptions={{
+          labelStyle: {fontSize: 14},
+          indicatorStyle: {
+            height: 4,
+            borderRadius: 10,
+            backgroundColor: '#AACE36',
+          },
+          style: {backgroundColor: '#fff'},
+        }}>
+        <Tab.Screen name="지시사항" component={FirstRoute} />
+        <Tab.Screen name="특이사항" component={SecondRoute} />
+        <Tab.Screen name="CU소식" component={ThirdRoute} />
+      </Tab.Navigator>
+      <Modal
+        isVisible={isCalendarModalVisible}
+        onBackdropPress={() => {
+          setIsCalendarModalVisible(false);
+          setDate1(date);
+        }}>
+        <CalendarTitle>
+          <CalendarTextBox>
+            <RowSpace>
+              <CalendarTitleText>게시글 표시</CalendarTitleText>
+              <NewPoint
+                style={{
+                  backgroundColor: 'transparent',
+                }}>
+                <CalendarTitleText>1</CalendarTitleText>
+                <CheckPoint />
+              </NewPoint>
+            </RowSpace>
+            <RowSpace>
+              <CalendarTitleText>읽지않은 게시글</CalendarTitleText>
+              <NewPoint>
+                <CalendarTitleText style={{color: 'white'}}>
+                  1
+                </CalendarTitleText>
+              </NewPoint>
+            </RowSpace>
+          </CalendarTextBox>
+          <CalendarTitleBox>
+            <CalendarTitleText1>{year}년</CalendarTitleText1>
+            <CalendarTitleText2>
+              {month}월 {day}일
+            </CalendarTitleText2>
+          </CalendarTitleBox>
+        </CalendarTitle>
+        <Calendar
+          style={{
+            borderWidth: 1,
+            borderColor: '#ccc',
+            paddingVertical: 10,
+          }}
+          theme={{
+            arrowColor: '#000',
+            todayTextColor: '#AACE36',
+          }}
+          markingType={'multi-dot'}
+          hideExtraDays={true}
+          monthFormat={'yyyy년 M월'}
+          current={date1}
+          markedDates={markedDates}
+          onDayPress={(date) => {
+            onDayPress(date);
+          }}
+          onMonthChange={(date) => {
+            onMonthChange(date);
+          }}
+        />
+      </Modal>
+    </>
   );
 };
