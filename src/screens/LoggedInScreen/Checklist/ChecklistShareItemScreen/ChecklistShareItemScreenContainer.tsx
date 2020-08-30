@@ -162,7 +162,7 @@ export default ({route: {params}}) => {
       setSelectedCOM_SEQ={setSelectedCOM_SEQ}
       COM_SEQ={COM_SEQ}
       IMG_LIST={IMG_LIST}
-      MEMBER_SEQ={MEMBER_SEQ}
+      NOTICE_SEQ={NOTICE_SEQ}
     />
   );
 };

@@ -158,4 +158,10 @@ export default {
     setNotice2: (data: any) => callApi("post", "/auth/setNotice2/", data),
     updateNotice: (data: any) => callApi("post", "/auth/updateNotice/", data),
     updateNoticeImg: (data: any) => callApi("post", "/auth/updateNoticeImg/", data),
+    getAllSchedules: (
+        STORE_SEQ: string,
+        year: string,
+        month: string,
+    ) => oldApi("get", `/Store/getAllSchedules?STORE_SEQ=${STORE_SEQ}&YEAR=${year}&MONTH=${month}`),
+    cancelScheduleVacation: (data: any) => callApi("post", "/Management/cancelScheduleVacation/", data),
 }
