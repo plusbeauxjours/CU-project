@@ -164,4 +164,6 @@ export default {
         month: string,
     ) => oldApi("get", `/Store/getAllSchedules?STORE_SEQ=${STORE_SEQ}&YEAR=${year}&MONTH=${month}`),
     cancelScheduleVacation: (data: any) => callApi("post", "/Management/cancelScheduleVacation/", data),
+    getScheduleRestTImeUpdate: (data: any) => oldApi("post", "/Management/schedule_Rest_TIme_update/", data),
+    getScheduleRestTImeCreate: (data: any) => oldApi("post", "/Management/schedule_Rest_TIme_create/", data),
 }

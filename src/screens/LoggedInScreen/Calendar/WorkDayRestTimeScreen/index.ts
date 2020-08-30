@@ -1,2 +1,2 @@
-import WorkDayRestTimeScreenContainer from "./WorkDayRestTimeScreenContainer"
-export default WorkDayRestTimeScreenContainer
+import WorkDayRestTimeScreen from "./WorkDayRestTimeScreen"
+export default WorkDayRestTimeScreen
