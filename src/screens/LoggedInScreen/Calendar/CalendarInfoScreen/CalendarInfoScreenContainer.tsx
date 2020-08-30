@@ -21,7 +21,6 @@ export default ({route: {params}}) => {
   const {STORE_SEQ} = useSelector((state: any) => state.userReducer);
 
   const [buffer, setBuffer] = useState<any>({});
-  const [refreshing, setRefreshing] = useState<boolean>(false);
   const [markedDates, setMarkedDates] = useState<any>({});
   const [staticmarkedDates, setStaticmarkedDates] = useState<any>({});
   const [employee, setEmployee] = useState<any>([]);
@@ -33,7 +32,6 @@ export default ({route: {params}}) => {
   const [visibleSpinner, setVisibleSpinner] = useState<boolean>(false);
 
   const onChangeMonth = async (item) => {
-    console.log('onChangeMonth', item);
     try {
       const {data} = await api.getAllSchedules(
         STORE_SEQ,
@@ -52,9 +50,8 @@ export default ({route: {params}}) => {
       const {data} = await api.getAllSchedules(
         STORE_SEQ,
         moment(date).format('YYYY'),
-        moment(date).format('MM'),
+        moment(date).format('M'),
       );
-      console.log(data);
       let buffer = {};
       const iterator = Object.keys(data.result);
       for (const key of iterator) {
@@ -83,8 +80,8 @@ export default ({route: {params}}) => {
   };
 
   const setMarkFn = (data) => {
-    let staticmarkedDates = {};
-    let markedDates = {};
+    let staticmarkedDated = {};
+    let markedDated = {};
 
     const iterator = Object.keys(data.result);
     for (const key of iterator) {
@@ -95,23 +92,18 @@ export default ({route: {params}}) => {
       if (STORE == '1' || STOREDATA.CalendarEdit == '1') {
         data.result[key]['EMP_LIST'].map((data) => {
           if (data.nowork == '1') {
-            //  console.log('휴무')
             nowork1 = true;
           }
           if (data.jigark == '1') {
-            //  console.log('휴무')
             jigark1 = true;
           }
           if (data.alear == '1') {
-            //  console.log('휴무')
             jigark1 = true;
           }
           if (data.VACATION == '1') {
-            //  console.log('휴무')
             vacation1 = true;
           }
           if (data.TYPE == '3') {
-            //  console.log('휴무')
             vacation1 = true;
           }
         });
@@ -119,44 +111,34 @@ export default ({route: {params}}) => {
         data.result[key]['EMP_LIST'].map((data) => {
           if (STOREDATA.EMP_SEQ == data.EMP_ID) {
             if (data.nowork == '1') {
-              //  console.log('휴무')
               nowork1 = true;
             }
             if (data.jigark == '1') {
-              //  console.log('휴무')
               jigark1 = true;
             }
             if (data.alear == '1') {
-              //  console.log('조퇴')
               jigark1 = true;
             }
             if (data.VACATION == '1') {
-              //  console.log('휴무')
               vacation1 = true;
             }
             if (data.TYPE == '3') {
-              //  console.log('휴무')
               vacation1 = true;
             }
           } else {
             if (data.nowork == '1') {
-              //  console.log('휴무')
               nowork1 = true;
             }
             if (data.jigark == '1') {
-              //  console.log('휴무')
               jigark1 = true;
             }
             if (data.alear == '1') {
-              //  console.log('조퇴')
               jigark1 = true;
             }
             if (data.VACATION == '1') {
-              //  console.log('휴무')
               vacation1 = true;
             }
             if (data.TYPE == '3') {
-              //  console.log('휴무')
               vacation1 = true;
             }
           }
@@ -164,31 +146,31 @@ export default ({route: {params}}) => {
       }
 
       if (vacation1 == true && nowork1 == true && jigark1 == true) {
-        staticmarkedDates[key] = {dots: [vacation, nowork, jigark]};
+        staticmarkedDated[key] = {dots: [vacation, nowork, jigark]};
       } else {
         if (vacation1 == true) {
-          staticmarkedDates[key] = {dots: [vacation]};
+          staticmarkedDated[key] = {dots: [vacation]};
         }
         if (nowork1 == true) {
-          staticmarkedDates[key] = {dots: [nowork]};
+          staticmarkedDated[key] = {dots: [nowork]};
         }
         if (jigark1 == true) {
-          staticmarkedDates[key] = {dots: [jigark]};
+          staticmarkedDated[key] = {dots: [jigark]};
         }
         if (vacation1 == true && nowork1 == true) {
-          staticmarkedDates[key] = {dots: [vacation, nowork]};
+          staticmarkedDated[key] = {dots: [vacation, nowork]};
         }
         if (vacation1 == true && jigark1 == true) {
-          staticmarkedDates[key] = {dots: [vacation, jigark]};
+          staticmarkedDated[key] = {dots: [vacation, jigark]};
         }
         if (nowork1 == true && jigark1 == true) {
-          staticmarkedDates[key] = {dots: [nowork, jigark]};
+          staticmarkedDated[key] = {dots: [nowork, jigark]};
         }
       }
-      markedDates = staticmarkedDates;
+      markedDated = staticmarkedDated;
     }
-    setStaticmarkedDates(staticmarkedDates);
-    setMarkedDates(Object.assign(markedDates, markedDates));
+    setStaticmarkedDates(staticmarkedDated);
+    setMarkedDates(Object.assign(markedDated, markedDates));
   };
 
   const showalert = (params) => {
@@ -206,7 +188,6 @@ export default ({route: {params}}) => {
 
   useEffect(() => {
     fetchData(date);
-    console.log(markedDates);
   }, []);
 
   useEffect(() => {

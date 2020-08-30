@@ -65,6 +65,7 @@ export default ({
   markedDates,
   buffer,
 }) => {
+  const rowHasChanged = (r1, r2) => false;
   const renderKnob = () => (
     <KnobIconContainer>
       <DownIcon />
@@ -72,27 +73,39 @@ export default ({
   );
 
   const renderItem = (data, index) => (
-    <CalendarInfoScreenCard
-      index={index}
-      SCH_ID={data.WORKDATE}
-      VACATION={data.VACATION}
-      TYPE={data.TYPE}
-      STORE_SEQ={STORE_SEQ}
-      NAME={data.NAME}
-      date={data.WORKDATE}
-      image={data.IMAGE}
-      ICON={data.ICON}
-      nowork={data.nowork}
-      workoff={data.workoff}
-      working={data.working}
-      alear={data.alear}
-      jigark={data.jigark}
-    />
+    <>
+      <CalendarInfoScreenCard
+        index={index}
+        SCH_ID={data.WORKDATE}
+        VACATION={data.VACATION}
+        TYPE={data.TYPE}
+        STORE_SEQ={STORE_SEQ}
+        NAME={data.NAME}
+        date={data.WORKDATE}
+        image={data.IMAGE}
+        ICON={data.ICON}
+        nowork={data.nowork}
+        workoff={data.workoff}
+        working={data.working}
+        alear={data.alear}
+        jigark={data.jigark}
+        CHANGE_START={data.CHANGE_START}
+        CHANGE_END={data.CHANGE_END}
+        ATTENDANCE_TIME={data.ATTENDANCE_TIME}
+        START={data.START}
+        WORK_OFF_TIME={data.WORK_OFF_TIME}
+        END={data.END}
+        UPDATED_START={data.UPDATED_START}
+        UPDATED_END={data.UPDATED_END}
+        START_TIME={data.START_TIME}
+        END_TIME={data.END_TIME}
+        REST_TIME={data.REST_TIME}
+      />
+    </>
   );
 
   const renderEmptyDate = () => (
     <View>
-      {console.log('renderEmptyDate')}
       <GreyText>
         {STORE == '1' || (STORE == '0' && STOREDATA.CalendarEdit)
           ? '일정근무 직원이 없습니다.'
@@ -100,8 +113,6 @@ export default ({
       </GreyText>
     </View>
   );
-  console.log('buffer', buffer);
-  console.log('markedDates', markedDates);
   return (
     <Agenda
       items={buffer}
@@ -121,6 +132,7 @@ export default ({
         },
       }}
       refreshControl={null}
+      refreshing={false}
       monthFormat={'yyyy년 M월'}
       renderDay={(day, item) => {
         if (day !== undefined) {
@@ -161,7 +173,9 @@ export default ({
           }
         }
       }}
+      rowHasChanged={rowHasChanged}
       loadItemsForMonth={(month) => onChangeMonth(month)}
+      markingType={'multi-dot'}
     />
   );
 };

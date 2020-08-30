@@ -22,6 +22,7 @@ const Text = styled.Text``;
 const NameText = styled.Text`
   font-size: 15px;
   color: #333;
+  margin-bottom: 5px;
 `;
 
 const RowFlexEnd = styled(Row)`
@@ -36,6 +37,7 @@ const RowSpace = styled(Row)`
 const SelectBox = styled(RowSpace)`
   margin-top: 10;
   margin-bottom: 20px;
+  padding: 0 20px;
 `;
 
 const SelectBoxTouchable = styled.TouchableOpacity`
@@ -62,8 +64,8 @@ const Container = styled.View`
 `;
 
 const Image = styled.Image`
-  height: 30px;
-  width: 30px;
+  height: 60px;
+  width: 60px;
   border-radius: 50px;
   border-width: 1px;
   border-color: #ccc;
@@ -73,6 +75,29 @@ const ContentBox = styled.View`
   width: 100%;
   padding: 0 20px;
   align-items: stretch;
+`;
+
+const WorkTime = styled.View`
+  height: ${hp('2.5%')};
+  flex-direction: row;
+  justify-content: flex-start;
+`;
+
+const WorkTitleText = styled.Text`
+  color: #999;
+  font-size: 11px;
+  margin-left: 5px;
+  width: 60px;
+`;
+
+const WorkTimeText = styled.Text`
+  color: #999;
+  font-size: 11px;
+`;
+
+const CntArea = styled.View`
+  flex: 1;
+  padding-left: 15px;
 `;
 
 export default ({
@@ -90,6 +115,17 @@ export default ({
   working,
   alear,
   jigark,
+  CHANGE_START,
+  CHANGE_END,
+  ATTENDANCE_TIME,
+  START,
+  WORK_OFF_TIME,
+  END,
+  UPDATED_START,
+  UPDATED_END,
+  START_TIME,
+  END_TIME,
+  REST_TIME,
 }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -179,7 +215,7 @@ export default ({
   };
 
   return (
-    <Container index={index}>
+    <Container key={index}>
       <ContentBox>
         <RowSpace>
           <NameText>{NAME}</NameText>
@@ -238,53 +274,54 @@ export default ({
               uri: `${'http://133.186.209.113/uploads/' + image}`,
             }}
           />
-
-          {/* <View style={styles.cntArea}>
+          <CntArea>
             {CHANGE_START == null && CHANGE_END == null ? (
-              <View style={styles.workTime}>
-                <Text style={styles.workTitleText}>근무시간 </Text>
-                <Text style={styles.workTimeText}>
-                  {(ATTENDANCE_TIME || START).substring(0, 5)} ~{' '}
-                  {(WORK_OFF_TIME || END).substring(0, 5)}
-                </Text>
-              </View>
+              <WorkTime>
+                <WorkTitleText>근무시간 </WorkTitleText>
+                <WorkTimeText>
+                  {(ATTENDANCE_TIME || START)?.substring(0, 5)} ~&nbsp;
+                  {(WORK_OFF_TIME || END)?.substring(0, 5)}
+                </WorkTimeText>
+              </WorkTime>
             ) : (
-              <View style={styles.workTime}>
-                <Text style={styles.workTitleText}>근무시간 </Text>
-                <Text style={styles.workTimeText}>
-                  {(ATTENDANCE_TIME || START).substring(0, 5)} ~{' '}
-                  {(WORK_OFF_TIME || END).substring(0, 5)} >{' '}
-                  {CHANGE_START == null ? '' : CHANGE_START.substring(0, 5)} ~
-                  {CHANGE_END == null ? '' : CHANGE_END.substring(0, 5)}
-                </Text>
-              </View>
+              <WorkTime>
+                <WorkTitleText>근무시간 </WorkTitleText>
+                <WorkTimeText>
+                  {(ATTENDANCE_TIME || START)?.substring(0, 5)} ~&nbsp;
+                  {(WORK_OFF_TIME || END)?.substring(0, 5)} >&nbsp;
+                  {CHANGE_START == null
+                    ? ''
+                    : CHANGE_START?.substring(0, 5)}{' '}
+                  ~&nbsp;
+                  {CHANGE_END == null ? '' : CHANGE_END?.substring(0, 5)}
+                </WorkTimeText>
+              </WorkTime>
             )}
-
             {UPDATED_START == null && UPDATED_END == null ? (
-              <View style={styles.realWorkTime}>
-                <Text style={styles.workTitleText}>출퇴근시간 </Text>
-                <Text style={styles.workTimeText}>
-                  {(START_TIME || '미출근').substring(0, 5)} ~{' '}
-                  {(END_TIME || '미퇴근').substring(0, 5)}
-                </Text>
-              </View>
+              <WorkTime>
+                <WorkTitleText>출퇴근시간 </WorkTitleText>
+                <WorkTimeText>
+                  {(START_TIME || '미출근')?.substring(0, 5)} ~&nbsp;
+                  {(END_TIME || '미퇴근')?.substring(0, 5)}
+                </WorkTimeText>
+              </WorkTime>
             ) : (
-              <View style={styles.realWorkTime}>
-                <Text style={styles.workTitleText}>출퇴근시간 </Text>
-                <Text style={styles.workTimeText}>
-                  {(START_TIME || '미출근').substring(0, 5)} ~{' '}
-                  {(END_TIME || '미퇴근').substring(0, 5)} >{' '}
-                  {(UPDATED_START || '미출근').substring(0, 5)} ~{' '}
-                  {(UPDATED_END || '미퇴근').substring(0, 5)}
-                </Text>
-              </View>
+              <WorkTime>
+                <WorkTitleText>출퇴근시간 </WorkTitleText>
+                <WorkTimeText>
+                  {(START_TIME || '미출근')?.substring(0, 5)} ~&nbsp;
+                  {(END_TIME || '미퇴근')?.substring(0, 5)} >&nbsp;
+                  {(UPDATED_START || '미출근')?.substring(0, 5)} ~&nbsp;
+                  {(UPDATED_END || '미퇴근')?.substring(0, 5)}
+                </WorkTimeText>
+              </WorkTime>
             )}
 
-            <View style={styles.realWorkTime}>
-              <Text style={styles.workTitleText}>휴게시간 </Text>
-              <Text style={styles.workTimeText}>{REST_TIME}분</Text>
-            </View>
-          </View> */}
+            <WorkTime>
+              <WorkTitleText>휴게시간 </WorkTitleText>
+              <WorkTitleText>{REST_TIME}분</WorkTitleText>
+            </WorkTime>
+          </CntArea>
         </Row>
       </ContentBox>
 

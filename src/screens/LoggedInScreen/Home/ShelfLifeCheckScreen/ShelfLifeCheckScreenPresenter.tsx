@@ -180,7 +180,6 @@ export default ({
       </Item>
     );
   };
-
   return (
     <Agenda
       ref={agendaRef}
