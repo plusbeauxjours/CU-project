@@ -166,4 +166,6 @@ export default {
     cancelScheduleVacation: (data: any) => callApi("post", "/Management/cancelScheduleVacation/", data),
     getScheduleRestTImeUpdate: (data: any) => oldApi("post", "/Management/schedule_Rest_TIme_update/", data),
     getScheduleRestTImeCreate: (data: any) => oldApi("post", "/Management/schedule_Rest_TIme_create/", data),
+    getEmpAnnual: (EMP_ID: string, YEAR: string) => oldApi("get", `/Employee/getEmpAnnual?EMP_SEQ=${EMP_ID}&YEAR=${YEAR}`),
+    createScheduleVacation2: (data: any) => oldApi("post", '/Management/createScheduleVacation2', data),
 }
