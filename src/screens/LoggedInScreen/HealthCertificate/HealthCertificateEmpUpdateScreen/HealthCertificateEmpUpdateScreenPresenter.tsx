@@ -187,7 +187,7 @@ export default ({
   confirmModal,
   cameraModalVisible,
   setCameraModalVisible,
-  dateModdalVisible,
+  dateModalVisible,
   setDateModalVisible,
   NAME,
   setNAME,
@@ -262,7 +262,7 @@ export default ({
             headerTextIOS={'Choose a Date'}
             cancelTextIOS={'Cancel'}
             confirmTextIOS={'Confirm'}
-            isVisible={dateModdalVisible}
+            isVisible={dateModalVisible}
             mode="date"
             locale="ko_KRus_EN"
             onConfirm={(date) => {

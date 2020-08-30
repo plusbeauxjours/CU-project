@@ -18,7 +18,7 @@ export default ({route: {params}}) => {
 
   const [cameraModalVisible, setCameraModalVisible] = useState<boolean>(false); // 사진 미리
   const [cameraRatioList, setCameraRatioList] = useState<any>([]);
-  const [dateModdalVisible, setDateModalVisible] = useState<boolean>(false);
+  const [dateModalVisible, setDateModalVisible] = useState<boolean>(false);
   const [cameraPictureFlash, setCameraPictureFlash] = useState<boolean>(false);
   const [cameraPicture, setCameraPicture] = useState<any>(null);
 
@@ -206,7 +206,7 @@ export default ({route: {params}}) => {
       confirmModal={confirmModal}
       cameraModalVisible={cameraModalVisible}
       setCameraModalVisible={setCameraModalVisible}
-      dateModdalVisible={dateModdalVisible}
+      dateModalVisible={dateModalVisible}
       setDateModalVisible={setDateModalVisible}
       submitFn={submitFn}
       NAME={NAME}

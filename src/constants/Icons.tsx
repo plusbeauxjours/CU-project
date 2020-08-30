@@ -254,3 +254,11 @@ export const DeleteIcon: React.FC<IProps> = ({size, color}) => (
     color={color ?? '#B91C1B'}
   />
 );
+
+export const PictureIcon: React.FC<IProps> = ({size, color}) => (
+  <Ionicons
+    name={'image-outline'}
+    size={size ?? 40}
+    color={color ?? '#642A8C'}
+  />
+);

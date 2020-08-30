@@ -18,7 +18,6 @@ const Section = styled.View`
   padding: 20px;
   flex-direction: row;
   background-color: white;
-  background-color: green;
   margin-bottom: 20px;
   min-height: 100px;
 `;

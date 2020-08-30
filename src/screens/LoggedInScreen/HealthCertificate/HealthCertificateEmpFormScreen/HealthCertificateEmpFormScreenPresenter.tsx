@@ -179,7 +179,7 @@ export default ({
   checkOrcFn,
   cameraModalVisible,
   setCameraModalVisible,
-  dateModdalVisible,
+  dateModalVisible,
   setDateModalVisible,
   NAME,
   setNAME,
@@ -256,7 +256,7 @@ export default ({
             headerTextIOS={'날짜를 선택하세요.'}
             cancelTextIOS={'취소'}
             confirmTextIOS={'선택'}
-            isVisible={dateModdalVisible}
+            isVisible={dateModalVisible}
             mode="date"
             locale="ko_KRus_EN"
             onConfirm={(date) => {

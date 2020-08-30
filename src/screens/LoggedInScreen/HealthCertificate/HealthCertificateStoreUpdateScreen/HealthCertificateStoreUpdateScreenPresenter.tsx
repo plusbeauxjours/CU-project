@@ -206,7 +206,7 @@ export default ({
   setEDUCATION_TYPE,
   setBusinesstype,
   businesstype,
-  dateModdalVisible,
+  dateModalVisible,
   setDateModalVisible,
   toggleEducationType,
   confirmModal,
@@ -335,7 +335,7 @@ export default ({
             headerTextIOS={'날짜를 선택하세요.'}
             cancelTextIOS={'취소'}
             confirmTextIOS={'선택'}
-            isVisible={dateModdalVisible}
+            isVisible={dateModalVisible}
             mode="date"
             locale="ko_KRus_EN"
             onConfirm={(date) => {

@@ -320,7 +320,7 @@ export default ({
             Keyboard.dismiss();
             value.fill(false); // ES6
             value[index] = true;
-            setHourCheck(value);
+            setMinuteCheck(value);
             setMinuteDirectInput('');
           }}
           key={index}>

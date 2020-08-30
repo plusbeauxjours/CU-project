@@ -15,7 +15,7 @@ export default ({route: {params}}) => {
 
   const STORE_SEQ = params?.STORE_SEQ;
 
-  const [dateModdalVisible, setDateModalVisible] = useState<boolean>(false);
+  const [dateModalVisible, setDateModalVisible] = useState<boolean>(false);
   const [cameraModalVisible, setCameraModalVisible] = useState<boolean>(false);
   const [cameraRatioList, setCameraRatioList] = useState<any>([]);
   const [cameraPictureFlash, setCameraPictureFlash] = useState<boolean>(false);
@@ -248,7 +248,7 @@ export default ({route: {params}}) => {
       setEDUCATION_TYPE={setEDUCATION_TYPE}
       setBusinesstype={setBusinesstype}
       businesstype={businesstype}
-      dateModdalVisible={dateModdalVisible}
+      dateModalVisible={dateModalVisible}
       setDateModalVisible={setDateModalVisible}
       toggleEducationType={toggleEducationType}
     />

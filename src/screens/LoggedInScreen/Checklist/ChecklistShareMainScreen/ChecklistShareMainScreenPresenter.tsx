@@ -41,8 +41,11 @@ const Row = styled.View`
   flex-direction: row;
   align-items: center;
 `;
-const RowSpace = styled.View`
+const RowSpace = styled(Row)`
   justify-content: space-between;
+`;
+const SmallWhiteSpace = styled.View`
+  height: 10px;
 `;
 const NewCntViewContainer = styled.View`
   position: absolute;
@@ -277,8 +280,8 @@ export default ({
   };
 
   const DateController = ({text}) => {
-    const yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
-    const tomorrow = moment().add(1, 'days').format('YYYY-MM-DD');
+    const yesterday = moment(date).subtract(1, 'days').format('YYYY-MM-DD');
+    const tomorrow = moment(date).add(1, 'days').format('YYYY-MM-DD');
     return (
       <Section>
         <Date>
@@ -492,12 +495,11 @@ export default ({
               }>
               <WhiteSpace />
               {ShareList3?.message?.map((data, index) => {
-                console.log('datadatadatadatadatadatadata', data);
                 return (
                   <ChecklistShareMainScreenCard
                     key={index}
                     COM_SEQ={data.COM_SEQ}
-                    MEMBER_SEQ={data?.MEMBER_SEQ}
+                    MEMBER_SEQ={data.MEMBER_SEQ}
                     ME={MEMBER_SEQ}
                     STORE={STORE}
                     NOTICE_SEQ={data.CU_NOTICE_SEQ}
@@ -620,6 +622,7 @@ export default ({
                 <CheckPoint />
               </NewPoint>
             </RowSpace>
+            <SmallWhiteSpace />
             <RowSpace>
               <CalendarTitleText>읽지않은 게시글</CalendarTitleText>
               <NewPoint>
