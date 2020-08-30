@@ -161,6 +161,8 @@ export default ({route: {params}}) => {
       setMemoUpdate={setMemoUpdate}
       setSelectedCOM_SEQ={setSelectedCOM_SEQ}
       COM_SEQ={COM_SEQ}
+      IMG_LIST={IMG_LIST}
+      MEMBER_SEQ={MEMBER_SEQ}
     />
   );
 };

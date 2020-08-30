@@ -156,4 +156,6 @@ export default {
     ) => oldApi("get", `/Employee/getNoticeComment?NOTICE_SEQ=${NOTICE_SEQ}&MEMBER_SEQ=${MEMBER_SEQ}&STORE_SEQ=${STORE_SEQ}&TITLE=${title}`),
     setNoticeImg2: (data: any) => callApi("post", "/auth/setNoticeImg2/", data),
     setNotice2: (data: any) => callApi("post", "/auth/setNotice2/", data),
+    updateNotice: (data: any) => callApi("post", "/auth/updateNotice/", data),
+    updateNoticeImg: (data: any) => callApi("post", "/auth/updateNoticeImg/", data),
 }

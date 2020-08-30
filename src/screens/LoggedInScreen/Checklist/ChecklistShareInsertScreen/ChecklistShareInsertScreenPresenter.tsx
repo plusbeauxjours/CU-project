@@ -37,7 +37,6 @@ const Section = styled.View`
   margin-top: 20px;
   padding: 20px;
   background-color: white;
-  background-color: red;
 `;
 
 const Row = styled.View`
@@ -46,35 +45,6 @@ const Row = styled.View`
 `;
 const RowCenter = styled(Row)`
   justify-content: center;
-`;
-const CheckTouchable = styled.TouchableOpacity<IsSelected>`
-  width: 25%;
-  height: 40px;
-  border-width: 1px;
-  border-color: ${(props) => (props.isSelected ? '#642a8c' : '#F2F2F2')};
-  align-items: center;
-  justify-content: center;
-`;
-
-const CheckTouchableText = styled.Text<IsSelected>`
-  font-size: 15px;
-  font-weight: bold;
-  color: ${(props) => (props.isSelected ? '#642a8c' : '#CCC')};
-`;
-
-const MinuteCheckTextInputContainer = styled.View<IsSelected>`
-  width: 50%;
-  height: 40px;
-  border-width: 1px;
-  border-color: ${(props) => (props.isSelected ? '#642a8c' : '#F2F2F2')};
-  align-items: center;
-  justify-content: center;
-`;
-
-const MinuteCheckTextInput = styled.TextInput`
-  font-size: 15px;
-  font-weight: bold;
-  color: #642a8c;
 `;
 
 const TitleText = styled.Text`
@@ -147,12 +117,6 @@ const IconBox = styled.View`
 `;
 
 export default ({
-  hourCheck,
-  setHourCheck,
-  minuteCheck,
-  setMinuteCheck,
-  minuteDirectInput,
-  setMinuteDirectInput,
   isDateModalVisible,
   setIsDateModalVisible,
   addDate,
@@ -169,82 +133,6 @@ export default ({
   registerFn,
   openImagePickerFn,
 }) => {
-  const RenderHourRow = (rowData, rowNum) => (
-    <Row>
-      <RenderHourRowData rowData={rowData} rowNum={rowNum} />
-    </Row>
-  );
-
-  const RenderHourRowData = ({rowData, rowNum}) => {
-    let value = JSON.parse(JSON.stringify(hourCheck));
-    return rowData?.map((data, index) => {
-      index = index + 4 * (rowNum - 1);
-      return (
-        <CheckTouchable
-          key={index}
-          isSelected={value[index]}
-          onPress={() => {
-            value.fill(false); // ES6
-            value[index] = true;
-            setHourCheck(value);
-          }}>
-          <CheckTouchableText isSelected={value[index]}>
-            {data < 10 ? `0${data}` : data}
-          </CheckTouchableText>
-        </CheckTouchable>
-      );
-    });
-  };
-
-  const RenderMinuteRow = (rowData, rowNum) => (
-    <Row>
-      <RenderMinuteRowData rowData={rowData} rowNum={rowNum} />
-    </Row>
-  );
-
-  const RenderMinuteRowData = ({rowData, rowNum}) => {
-    let value = JSON.parse(JSON.stringify(minuteCheck));
-    return rowData?.map((data, index) => {
-      index = index + 4 * (rowNum - 1);
-      if (data === 'directInput') {
-        return (
-          <MinuteCheckTextInputContainer isSelected={value[index]} key={index}>
-            <MinuteCheckTextInput
-              selectionColor={'#642A8C'}
-              onChangeText={(text) => setMinuteDirectInput(text)}
-              value={minuteDirectInput}
-              placeholder={'직접 입력'}
-              placeholderTextColor={'#CCCCCC'}
-              keyboardType={'number-pad'}
-              maxLength={2}
-              onFocus={() => {
-                value.fill(false);
-                value[index] = true;
-                setMinuteCheck(value);
-              }}
-            />
-          </MinuteCheckTextInputContainer>
-        );
-      }
-      return (
-        <CheckTouchable
-          isSelected={value[index]}
-          onPress={() => {
-            Keyboard.dismiss();
-            value.fill(false);
-            value[index] = true;
-            setMinuteCheck(value);
-            setMinuteDirectInput('');
-          }}
-          key={index}>
-          <CheckTouchableText isSelected={value[index]}>
-            {data < 10 ? `0${data}` : data}
-          </CheckTouchableText>
-        </CheckTouchable>
-      );
-    });
-  };
-
   return (
     <>
       <BackGround>

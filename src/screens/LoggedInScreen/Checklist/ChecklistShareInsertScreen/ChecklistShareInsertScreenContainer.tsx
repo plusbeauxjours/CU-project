@@ -1,59 +1,25 @@
 import React, {useState, useEffect} from 'react';
-import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
 import ChecklistShareInsertScreenPresenter from './ChecklistShareInsertScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import utils from '../../../../constants/utils';
 import api from '../../../../constants/LoggedInApi';
-import {useNavigation} from '@react-navigation/native';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const {
-    ADDDATE,
-    checkpoint,
-    checklist,
-    checktime,
-    PHOTO_CHECK,
-    TITLE,
-    STORE_SEQ,
-    STORE,
-    NAME,
-  } = params;
-  const [cameraRatioList, setCameraRatioList] = useState<any>([]);
+  const {ADDDATE, checkpoint, TITLE, STORE_SEQ, STORE, NAME} = params;
   const [cameraPictureList, setCameraPictureList] = useState<any>([]);
-  const [cameraPictureLast, setCameraPictureLast] = useState<any>(null);
-  const [cameraPictureFlash, setCameraPictureFlash] = useState<boolean>(false);
   const [isCameraModalVisible, setIsCameraModalVisible] = useState<boolean>(
     false,
   );
-  const [isFetching, setIsFetching] = useState<boolean>(false);
   const [checkpointInput, setCheckpointInput] = useState<any>(checkpoint);
   const [checkpointInput1, setCheckpointInput1] = useState<string>('');
-  const [checklistInput, setChecklistInput] = useState<string>('');
-  const [checklistData, setChecklistData] = useState<any>([]);
-  const [noChecktime, setNoChecktime] = useState<boolean>(false);
-  const [checkCamera, setCheckCamera] = useState<boolean>(false);
-  const [customChecktime, setCustomChecktime] = useState<string>('');
-  const [isRegisterModalVisible, setIsRegisterModalVisible] = useState<boolean>(
-    false,
-  );
-  const [isTimeCheckModalVisible, setIsTimeCheckModalVisible] = useState<
-    boolean
-  >(false);
-  const [hourCheck, setHourCheck] = useState<any>(new Array(24));
-  const [minuteCheck, setMinuteCheck] = useState<
-    [boolean, boolean, boolean, boolean, boolean, boolean, boolean]
-  >([false, false, false, false, false, false, false]);
-  const [minuteDirectInput, setMinuteDirectInput] = useState<any>(null);
   const [addDate, setAddDate] = useState<string>(ADDDATE);
-  const [hasCameraPermission, setHasCameraPermission] = useState<boolean>(
-    false,
-  );
   const [isDateModalVisible, setIsDateModalVisible] = useState<boolean>(false);
 
   const alertModal = (text) => {
@@ -98,40 +64,6 @@ export default ({route: {params}}) => {
     //   cameraPictureList.push(pickerResult.uri);
     //   setCameraPictureList(cameraPictureListed);
     // }
-  };
-
-  const checkDirectInput = () => {
-    let valueH = JSON.parse(JSON.stringify(hourCheck));
-    let valueM = JSON.parse(JSON.stringify(minuteCheck));
-    if (
-      minuteCheck[6] === true &&
-      (minuteDirectInput < 0 || minuteDirectInput > 59)
-    ) {
-      return alertModal('0 ~ 59 사이의 수를 적어주세요.');
-    }
-
-    let hour = hourCheck.indexOf(true) + 0;
-    if (hour < 10) {
-      hour = `0${hour}`;
-    }
-
-    let minuteProps = '0';
-    if (minuteCheck[6] === true) {
-      minuteProps = minuteDirectInput;
-      if (Number(minuteProps) < 10) {
-        minuteProps = `0${minuteProps}`;
-      }
-    } else {
-      minuteProps = (minuteCheck.indexOf(true) * 10).toString();
-      if (Number(minuteProps) < 10) {
-        minuteProps = `0${minuteProps}`;
-      }
-    }
-    setIsTimeCheckModalVisible(false);
-    setCustomChecktime(`${hour}:${minuteProps}`);
-    setHourCheck(valueH);
-    setMinuteCheck(valueM);
-    setMinuteDirectInput('');
   };
 
   const registerFn = async () => {
@@ -212,26 +144,6 @@ export default ({route: {params}}) => {
   };
 
   useEffect(() => {
-    if (checktime == '' || checktime == undefined) {
-      var noChecktime = true;
-    } else {
-      var noChecktime = false;
-      var customChecktime = checktime;
-    }
-    if (checklist != undefined) {
-      var newchecklist = checklist.split('@@');
-      newchecklist[newchecklist.length - 1] = newchecklist[
-        newchecklist.length - 1
-      ].replace('@', '');
-      var newlist = [];
-      for (var i = 0; i < newchecklist.length; i++) {
-        newlist.push(newchecklist[i]);
-      }
-      setChecklistData(newlist);
-      setCustomChecktime(customChecktime);
-      setNoChecktime(noChecktime);
-      setCheckCamera(Number(PHOTO_CHECK || 0) === 1 ? true : false);
-    }
     //     this.defaultPictureUploadPath = FileSystem.documentDirectory + 'picture/';
     //     await FileSystem.makeDirectoryAsync(this.defaultPictureUploadPath, {
     //       intermediates: true,
@@ -243,12 +155,6 @@ export default ({route: {params}}) => {
 
   return (
     <ChecklistShareInsertScreenPresenter
-      hourCheck={hourCheck}
-      setHourCheck={setHourCheck}
-      minuteCheck={minuteCheck}
-      setMinuteCheck={setMinuteCheck}
-      minuteDirectInput={minuteDirectInput}
-      setMinuteDirectInput={setMinuteDirectInput}
       isDateModalVisible={isDateModalVisible}
       setIsDateModalVisible={setIsDateModalVisible}
       addDate={addDate}

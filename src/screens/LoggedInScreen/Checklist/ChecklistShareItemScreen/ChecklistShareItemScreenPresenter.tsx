@@ -174,15 +174,19 @@ export default ({
   setMemoUpdate,
   setSelectedCOM_SEQ,
   COM_SEQ,
+  IMG_LIST,
+  NOTICE_SEQ,
 }) => {
   const navigation = useNavigation();
-  const RenderImage = (item, index) => (
+  const renderImage = (item, index) => (
     <ImageTouchable
       onPress={() => {
         setIsImageViewVisible(true);
         setImgModalIdx(item.index);
       }}
       key={index}>
+      {console.log(item, index)}
+
       <Image
         source={{
           uri: 'http://cuapi.shop-sol.com/uploads/' + item.item,
@@ -221,7 +225,7 @@ export default ({
                 keyExtractor={(_, index) => index.toString()}
                 style={{flexDirection: 'row'}}
                 data={imgarr}
-                renderItem={({item, index}) => RenderImage(item, index)}
+                renderItem={({item, index}) => renderImage(item, index)}
               />
             </Section>
           )}
@@ -272,18 +276,18 @@ export default ({
                               fontSize: 13,
                               marginRight: 15,
                             }}>
-                            {EMP_NAME} [{IS_MANAGER}]
+                            {data.EMP_NAME} [{data.IS_MANAGER}]
                           </Text>
                           <EllipseIcon color={'#999'} size={5} />
                           <Bold style={{color: '#C8C8C8', marginLeft: 5}}>
-                            {moment(CREATE_TIME).format('YYYY.MM.DD')}
+                            {moment(data.CREATE_TIME).format('YYYY.MM.DD')}
                           </Bold>
                         </Row>
                         <Text
                           ellipsizeMode={'tail'}
                           numberOfLines={100}
                           style={{flexWrap: 'wrap', marginTop: 5}}>
-                          {CONTENTS}
+                          {data.CONTENTS}
                         </Text>
                       </Column>
                     </Row>
@@ -292,13 +296,13 @@ export default ({
                         <RowTouchable
                           onPress={() => {
                             setClickCommentUpdate(true);
-                            setMemoUpdate(CONTENTS);
-                            setSelectedCOM_SEQ(COM_SEQ);
+                            setMemoUpdate(data.CONTENTS);
+                            setSelectedCOM_SEQ(data.COM_SEQ);
                           }}>
                           <SettingIcon color={'#AACE36'} size={20} />
                           <Text style={{color: '#AACE36'}}>수정</Text>
                         </RowTouchable>
-                        <RowTouchable onPress={() => deleteFn(COM_SEQ)}>
+                        <RowTouchable onPress={() => deleteFn(data.COM_SEQ)}>
                           <DeleteIcon />
                           <Text style={{color: '#B91C1B'}}>삭제</Text>
                         </RowTouchable>
@@ -309,13 +313,17 @@ export default ({
               </Comment>
             </Section>
           )}
-          {console.log(ME)}
           {MEMBER_SEQ && ME == MEMBER_SEQ && (
             <SubmitBtn
               text={`${TITLE} 수정하기`}
               onPress={() =>
                 navigation.navigate('ChecklistShareUpdateScreen', {
                   TITLE,
+                  ADDDATE: CREATE_TIME,
+                  IMG_LIST,
+                  NOTICE_SEQ,
+                  CONTENTS,
+                  NOTI_TITLE,
                 })
               }
               isRegisted={true}
