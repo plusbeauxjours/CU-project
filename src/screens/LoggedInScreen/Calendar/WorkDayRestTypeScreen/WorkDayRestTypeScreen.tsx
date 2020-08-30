@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
+import Modal from 'react-native-modal';
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -11,7 +13,6 @@ import {setSplashVisible} from '../../../../redux/splashSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import api from '../../../../constants/LoggedInApi';
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import Modal from 'react-native-modal';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -263,8 +264,8 @@ export default ({route: {params}}) => {
                   fontWeight: 'bold',
                   fontSize: 30,
                 }}>
-                {data.NAME}{' '}
-              </Text>{' '}
+                {data.NAME}
+              </Text>
               직원의 근무를
             </BigText>
             <RestType selection={0} text={'무급휴무로 진행합니다.'} />

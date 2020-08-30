@@ -1,6 +1,7 @@
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import utils from './utils';
 
 interface IProps {
@@ -8,6 +9,7 @@ interface IProps {
   color?: string;
 }
 
+FontAwesome.loadFont();
 Ionicons.loadFont();
 MaterialCommunityIcons.loadFont();
 
@@ -255,10 +257,26 @@ export const DeleteIcon: React.FC<IProps> = ({size, color}) => (
   />
 );
 
+export const TimerIcon: React.FC<IProps> = ({size, color}) => (
+  <MaterialCommunityIcons
+    name={'timer-outline'}
+    size={size ?? 22}
+    color={color ?? 'black'}
+  />
+);
+
 export const PictureIcon: React.FC<IProps> = ({size, color}) => (
   <Ionicons
     name={'image-outline'}
     size={size ?? 40}
     color={color ?? '#642A8C'}
+  />
+);
+
+export const CalendarTimesIcon: React.FC<IProps> = ({size, color}) => (
+  <FontAwesome
+    name={'calendar-times-o'}
+    size={size ?? 20}
+    color={color ?? 'black'}
   />
 );

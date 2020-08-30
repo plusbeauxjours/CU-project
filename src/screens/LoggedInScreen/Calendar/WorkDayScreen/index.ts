@@ -1,2 +1,2 @@
-import WorkDayScreenContainer from "./WorkDayScreenContainer"
-export default WorkDayScreenContainer
+import WorkDayScreen from "./WorkDayScreen"
+export default WorkDayScreen
