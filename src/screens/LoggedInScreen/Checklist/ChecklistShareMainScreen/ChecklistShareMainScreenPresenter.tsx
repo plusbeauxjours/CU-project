@@ -53,7 +53,6 @@ const NewCntViewContainer = styled.View`
   align-items: center;
   justify-content: center;
   border-radius: 20px;
-  background-color: red;
 `;
 
 const NewCntViewText = styled.Text`
@@ -85,7 +84,6 @@ const Section = styled.View`
   border-radius: 20px;
   padding: 20px;
   background-color: white;
-  background-color: red;
   margin-bottom: 20px;
 `;
 
@@ -329,7 +327,6 @@ export default ({
     <BackGround>
       <Container>
         <DateController text={'점주가 직원들에게 전달하는 내용입니다.'} />
-        {console.log(ShareList)}
         {ShareList?.basic?.length == 0 && ShareList?.favorite?.length == 0 ? (
           <EmptyList TITLE={'지시사항'} />
         ) : (
@@ -343,7 +340,6 @@ export default ({
                 onRefresh={() => onRefresh(index)}
               />
             }>
-            {console.log(ShareList)}
             {ShareList?.favorite?.map((data, index) => (
               <ChecklistShareMainScreenCard
                 key={index}
@@ -399,17 +395,17 @@ export default ({
 
   const SecondRoute = () => (
     <BackGround>
-      <Container>
-        <ScrollView
-          keyboardDismissMode="on-drag"
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{alignItems: 'center'}}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={() => onRefresh(index)}
-            />
-          }>
+      <ScrollView
+        keyboardDismissMode="on-drag"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{alignItems: 'center'}}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => onRefresh(index)}
+          />
+        }>
+        <Container>
           <DateController
             text={'직원이 점포 운영현황을 점주에게 전달합니다.'}
           />
@@ -459,15 +455,15 @@ export default ({
               })}
             </>
           )}
-        </ScrollView>
-      </Container>
-      {STORE == '0' && (
-        <AddButtonContainer>
-          <AddButton onPress={() => onPressAddButtonFn('특이사항')}>
-            <AddIcon />
-          </AddButton>
-        </AddButtonContainer>
-      )}
+          {STORE == '0' && (
+            <AddButtonContainer>
+              <AddButton onPress={() => onPressAddButtonFn('특이사항')}>
+                <AddIcon />
+              </AddButton>
+            </AddButtonContainer>
+          )}
+        </Container>
+      </ScrollView>
     </BackGround>
   );
 
@@ -496,11 +492,12 @@ export default ({
               }>
               <WhiteSpace />
               {ShareList3?.message?.map((data, index) => {
+                console.log('datadatadatadatadatadatadata', data);
                 return (
                   <ChecklistShareMainScreenCard
                     key={index}
                     COM_SEQ={data.COM_SEQ}
-                    MEMBER_SEQ={data.MEMBER_SEQ}
+                    MEMBER_SEQ={data?.MEMBER_SEQ}
                     ME={MEMBER_SEQ}
                     STORE={STORE}
                     NOTICE_SEQ={data.CU_NOTICE_SEQ}

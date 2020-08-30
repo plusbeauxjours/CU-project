@@ -54,7 +54,6 @@ export default ({route: {parmas}}) => {
   };
 
   const addFn = () => {
-    console.log(choice);
     if (phone == '' || name == '') {
       return alertModal('', '초대할 직원의 연락처를 입력하세요');
     }

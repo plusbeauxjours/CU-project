@@ -33,6 +33,7 @@ const Row = styled.View`
   align-items: center;
 `;
 const RowTouchable = styled.TouchableOpacity`
+  margin-right: 10px;
   flex-direction: row;
   align-items: center;
 `;
@@ -65,8 +66,8 @@ const Image = styled.Image`
 `;
 
 const ImageTouchable = styled.TouchableOpacity`
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
   margin-right: 20px;
 `;
 
@@ -111,7 +112,6 @@ const MemoText = styled.Text`
 const MemoContainer = styled.View`
   border-bottom-width: 1px;
   border-color: #aaa;
-  margin: 0 20px;
 `;
 
 const CommentTitleText = styled.Text`
@@ -119,7 +119,7 @@ const CommentTitleText = styled.Text`
   color: #642a8c;
 `;
 
-const MemoBox = styled.View`
+const MemoBox = styled.TouchableOpacity`
   margin-top: 10px;
   padding: 7px 0;
   flex-direction: row;
@@ -129,17 +129,21 @@ const MemoBox = styled.View`
 const Comment = styled.View`
   flex: 1;
   margin: 20px 0;
-  border-top-width: 0.7px;
   border-bottom-width: 0.7px;
   border-color: #ddd;
-  background-color: white;
 `;
 
 const CommentBox = styled.View`
   padding: 5px 0;
-  margin: 0 10px;
   border-top-width: 0.7px;
   border-color: #ddd;
+  min-height: 100px;
+  justify-content: center;
+`;
+
+const Column = styled.View`
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export default ({
@@ -165,6 +169,7 @@ export default ({
   setMemoInput,
   registFn,
   deleteFn,
+  editFn,
   comment,
   setMemoUpdate,
   setSelectedCOM_SEQ,
@@ -177,7 +182,7 @@ export default ({
         setIsImageViewVisible(true);
         setImgModalIdx(item.index);
       }}
-      key={item.index.toString()}>
+      key={index}>
       <Image
         source={{
           uri: 'http://cuapi.shop-sol.com/uploads/' + item.item,
@@ -194,10 +199,10 @@ export default ({
         contentContainerStyle={{alignItems: 'center'}}>
         <Container>
           <Section>
-            <Row>
+            <Row style={{justifyContent: 'center', marginBottom: 5}}>
               <Bold style={{fontSize: 18}}>{NOTI_TITLE}</Bold>
             </Row>
-            <Row>
+            <Row style={{justifyContent: 'center'}}>
               <Bold style={{color: '#C8C8C8'}}>
                 {moment(CREATE_TIME).format('YYYY.MM.DD')}
               </Bold>
@@ -210,10 +215,10 @@ export default ({
             <Text>{CONTENTS}</Text>
           </Section>
           {imgarr?.length > 0 && (
-            <Section>
+            <Section style={{alignItems: 'center'}}>
               <FlatList
                 horizontal
-                keyExtractor={(item, index) => index.toString()}
+                keyExtractor={(_, index) => index.toString()}
                 style={{flexDirection: 'row'}}
                 data={imgarr}
                 renderItem={({item, index}) => RenderImage(item, index)}
@@ -247,26 +252,42 @@ export default ({
                   <CommentBox key={index}>
                     <Row>
                       <Image
+                        style={{
+                          height: 50,
+                          width: 50,
+                          borderWidth: 1,
+                          borderRadius: 25,
+                          borderColor: '#ccc',
+                          marginRight: 10,
+                        }}
                         source={{
                           uri: `http://133.186.209.113/uploads/3.png`,
                         }}
                       />
-                      <Text
-                        style={{color: '#aaa', fontSize: 13, marginRight: 15}}>
-                        {EMP_NAME} [{IS_MANAGER}]
-                      </Text>
-                      <EllipseIcon color={'#999'} />
-                      <Bold style={{color: '#C8C8C8'}}>
-                        {moment(CREATE_TIME).format('YYYY.MM.DD')}
-                      </Bold>
-                      <Text
-                        ellipsizeMode={'tail'}
-                        numberOfLines={100}
-                        style={{flexWrap: 'wrap', marginTop: 5}}>
-                        {CONTENTS}
-                      </Text>
+                      <Column>
+                        <Row>
+                          <Text
+                            style={{
+                              color: '#aaa',
+                              fontSize: 13,
+                              marginRight: 15,
+                            }}>
+                            {EMP_NAME} [{IS_MANAGER}]
+                          </Text>
+                          <EllipseIcon color={'#999'} size={5} />
+                          <Bold style={{color: '#C8C8C8', marginLeft: 5}}>
+                            {moment(CREATE_TIME).format('YYYY.MM.DD')}
+                          </Bold>
+                        </Row>
+                        <Text
+                          ellipsizeMode={'tail'}
+                          numberOfLines={100}
+                          style={{flexWrap: 'wrap', marginTop: 5}}>
+                          {CONTENTS}
+                        </Text>
+                      </Column>
                     </Row>
-                    {Number(data.MEMBER_SEQ) == Number(MEMBER_SEQ) && (
+                    {data.MEMBER_SEQ == MEMBER_SEQ && (
                       <Row style={{justifyContent: 'flex-end'}}>
                         <RowTouchable
                           onPress={() => {
@@ -274,7 +295,7 @@ export default ({
                             setMemoUpdate(CONTENTS);
                             setSelectedCOM_SEQ(COM_SEQ);
                           }}>
-                          <SettingIcon color={'#AACE36'} />
+                          <SettingIcon color={'#AACE36'} size={20} />
                           <Text style={{color: '#AACE36'}}>수정</Text>
                         </RowTouchable>
                         <RowTouchable onPress={() => deleteFn(COM_SEQ)}>
@@ -288,48 +309,20 @@ export default ({
               </Comment>
             </Section>
           )}
-
-          {Number(ME) == Number(MEMBER_SEQ) && (
+          {console.log(ME)}
+          {MEMBER_SEQ && ME == MEMBER_SEQ && (
             <SubmitBtn
               text={`${TITLE} 수정하기`}
-              onPress={navigation.navigate('ChecklistShareUpdateScreen', {
-                TITLE,
-              })}
+              onPress={() =>
+                navigation.navigate('ChecklistShareUpdateScreen', {
+                  TITLE,
+                })
+              }
               isRegisted={true}
             />
           )}
         </Container>
       </ScrollView>
-
-      {clickComment && ( // 등록
-        <KeyboardAvoidingView
-          behavior={utils.isAndroid ? 'height' : 'padding'}
-          keyboardVerticalOffset={0}
-          style={
-            utils.isAndroid
-              ? {backgroundColor: '#dddee2'}
-              : {backgroundColor: '#cfd3d6'}
-          }
-          enabled>
-          <CommentTextInputContainer>
-            <TextInput
-              autoFocus={true}
-              onChangeText={(text) => setMemoInput(text)}
-              value={memoInput}
-              placeholder={'댓글을 입력하세요.'}
-              placeholderTextColor={'#CCCCCC'}
-              onBlur={() => {
-                setMemoInput('');
-                setClickComment(false);
-              }}
-              multiline={true}
-            />
-            <ForwardIconContainer onPress={() => registFn()}>
-              <ForwardIcon color={'white'} />
-            </ForwardIconContainer>
-          </CommentTextInputContainer>
-        </KeyboardAvoidingView>
-      )}
 
       {clickComment && (
         <KeyboardAvoidingView
@@ -384,7 +377,7 @@ export default ({
               }}
               multiline={true}
             />
-            <ForwardIconContainer onPress={() => registFn()}>
+            <ForwardIconContainer onPress={() => editFn()}>
               <ForwardIcon color={'white'} />
             </ForwardIconContainer>
           </CommentTextInputContainer>

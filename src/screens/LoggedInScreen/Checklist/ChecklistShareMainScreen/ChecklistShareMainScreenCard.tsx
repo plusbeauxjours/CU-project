@@ -20,22 +20,27 @@ const Section = styled.View`
   background-color: white;
   background-color: green;
   margin-bottom: 20px;
+  min-height: 100px;
 `;
-
+const Text = styled.Text``;
 const Row = styled.View`
   flex-direction: row;
   align-items: center;
 `;
+const RowSpace = styled(Row)`
+  justify-content: space-between;
+`;
 
-const ContentFont = styled.Text`
+const ContentText = styled.Text`
   margin-bottom: ${hp('1.5%')}px;
   margin-right: ${wp('20%')}px;
   color: #7b7b7b;
+  color: red;
 `;
 
 const Image = styled.Image`
   width: ${wp('25%')}px;
-  height: 100%;
+  height: ${wp('25%')}px;
   border-width: 1px;
   border-radius: 15px;
   border-color: #ddd;
@@ -47,15 +52,22 @@ const NewBadge = styled.View`
   left: -10px;
   top: 10px;
 `;
+const NotiTitleText = styled.Text`
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 5px;
+`;
 
 const PinTouchable = styled.TouchableOpacity<IsFavorite>`
-  width: 22px;
-  height: 22px;
+  width: 30px;
+  height: 30px;
   align-items: center;
   justify-content: center;
-  border-radius: 20px;
-  background-color: ${(props) => (props.isFavorite == '1' ? '#000' : '#ddd')};
+  border-radius: 30px;
+  background-color: ${(props) => (props.isFavorite ? '#000' : '#ddd')};
   z-index: 2;
+  margin-right: 10px;
+  padding-left: 2px;
 `;
 
 const InfoText = styled.Text`
@@ -75,18 +87,12 @@ const WhiteText = styled.Text`
 const ImageSection = styled.View`
   position: relative;
   align-items: center;
-  padding: 15px 0;
-`;
-
-const Another = styled.View`
-  position: absolute;
-  bottom: 20px;
-  right: 5px;
-  align-items: center;
-  justify-content: center;
 `;
 
 const AnotherBox = styled.View`
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
   padding: 5px;
   border-radius: 10px;
   flex-direction: row;
@@ -106,7 +112,6 @@ const ContentBox = styled.View`
   flex: 1;
   width: 100%;
   justify-content: center;
-  padding-left: ${wp('5%')}px;
 `;
 
 export default ({
@@ -164,16 +169,21 @@ export default ({
           </NewBadge>
         )}
         <ContentBox>
-          <Row>
-            <ContentFont numberOfLines={1}>{NOTI_TITLE}</ContentFont>
+          <RowSpace>
+            <NotiTitleText numberOfLines={1}>{NOTI_TITLE}</NotiTitleText>
             {type !== 'CU소식' && (
-              <PinTouchable onPress={() => confirmModal(NOTICE_SEQ)}>
-                <PinIcon size={16} color={favorite !== '1' && '#aaa'} />
+              <PinTouchable
+                isFavorite={favorite == '1' ? 'yellow' : '#aaa'}
+                onPress={() => confirmModal(NOTICE_SEQ)}>
+                <PinIcon
+                  size={18}
+                  color={favorite == '1' ? 'yellow' : '#aaa'}
+                />
               </PinTouchable>
             )}
-          </Row>
+          </RowSpace>
           <Row>
-            <ContentFont numberOfLines={1}>{CONTENTS}</ContentFont>
+            <ContentText numberOfLines={2}>{CONTENTS}</ContentText>
           </Row>
           {favorite == '1' && (
             <AddressBox>
@@ -195,12 +205,10 @@ export default ({
             <GreyText>사진 미등록</GreyText>
           )}
           {allimg?.length > 1 && (
-            <Another>
-              <AnotherBox>
-                <WhiteText>+</WhiteText>
-                <WhiteText>{allimg.length - 1}</WhiteText>
-              </AnotherBox>
-            </Another>
+            <AnotherBox>
+              <WhiteText>+</WhiteText>
+              <WhiteText>{allimg.length - 1}</WhiteText>
+            </AnotherBox>
           )}
         </ImageSection>
       </Section>

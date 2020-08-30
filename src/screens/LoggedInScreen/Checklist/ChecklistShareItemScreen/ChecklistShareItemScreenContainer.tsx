@@ -11,12 +11,21 @@ export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const {IMG_LIST, TITLE, NOTICE_SEQ, EMP_NAME} = params;
+  const {
+    IMG_LIST,
+    TITLE,
+    NOTICE_SEQ,
+    EMP_NAME,
+    NOTI_TITLE,
+    CREATE_TIME,
+    CONTENTS,
+    IS_MANAGER,
+    ME,
+    COM_SEQ,
+    MEMBER_SEQ,
+  } = params;
 
-  const {MEMBER_SEQ, STORE_SEQ} = useSelector(
-    (state: any) => state.userReducer,
-  );
-  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const {STORE_SEQ} = useSelector((state: any) => state.userReducer);
   const [memoInput, setMemoInput] = useState<string>('');
   const [clickComment, setClickComment] = useState<boolean>(false);
   const [memoUpdate, setMemoUpdate] = useState<string>('');
@@ -28,17 +37,6 @@ export default ({route: {params}}) => {
   const [modalImgarr, setModalImgarr] = useState<any>([]);
   const [imgModalIdx, setImgModalIdx] = useState<number>(0);
 
-  const onRefresh = async () => {
-    try {
-      dispatch(setSplashVisible(true));
-      await fetchData();
-    } catch (e) {
-      console.log(e);
-    } finally {
-      dispatch(setSplashVisible(false));
-    }
-  };
-
   const alertModal = (title, text) => {
     const params = {
       type: 'alert',
@@ -49,7 +47,7 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
-  const EditFn = async () => {
+  const editFn = async () => {
     try {
       dispatch(setSplashVisible(true));
       const {data} = await api.editNoticeComment(selectedCOM_SEQ, memoUpdate);
@@ -62,7 +60,7 @@ export default ({route: {params}}) => {
     }
   };
 
-  const DeleteFn = async (COM_SEQ) => {
+  const deleteFn = async (COM_SEQ) => {
     try {
       dispatch(setSplashVisible(true));
       const {data} = await api.delNoticeComment(COM_SEQ);
@@ -133,5 +131,36 @@ export default ({route: {params}}) => {
     }
     fetchData();
   }, []);
-  return <ChecklistShareItemScreenPresenter />;
+
+  return (
+    <ChecklistShareItemScreenPresenter
+      NOTI_TITLE={NOTI_TITLE}
+      CREATE_TIME={CREATE_TIME}
+      EMP_NAME={EMP_NAME}
+      TITLE={TITLE}
+      CONTENTS={CONTENTS}
+      IS_MANAGER={IS_MANAGER}
+      imgarr={imgarr}
+      setIsImageViewVisible={setIsImageViewVisible}
+      setImgModalIdx={setImgModalIdx}
+      modalImgarr={modalImgarr}
+      imgModalIdx={imgModalIdx}
+      isImageViewVisible={isImageViewVisible}
+      ME={ME}
+      MEMBER_SEQ={MEMBER_SEQ}
+      clickComment={clickComment}
+      setClickComment={setClickComment}
+      clickCommentUpdate={clickCommentUpdate}
+      setClickCommentUpdate={setClickCommentUpdate}
+      memoInput={memoInput}
+      setMemoInput={setMemoInput}
+      registFn={registFn}
+      deleteFn={deleteFn}
+      editFn={editFn}
+      comment={comment}
+      setMemoUpdate={setMemoUpdate}
+      setSelectedCOM_SEQ={setSelectedCOM_SEQ}
+      COM_SEQ={COM_SEQ}
+    />
+  );
 };
