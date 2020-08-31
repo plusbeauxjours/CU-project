@@ -34,7 +34,6 @@ const ContentText = styled.Text`
   margin-bottom: ${hp('1.5%')}px;
   margin-right: ${wp('20%')}px;
   color: #7b7b7b;
-  color: red;
 `;
 
 const Image = styled.Image`

@@ -42,7 +42,6 @@ const Section = styled.View`
   margin-top: 20px;
   padding: 20px;
   background-color: white;
-  background-color: red;
 `;
 
 const Row = styled.View`
@@ -290,12 +289,26 @@ export default ({
         />
         <CntArea>
           <NameText style={{marginBottom: 10}}>{NAME}</NameText>
-          <WorkTime>
-            <WorkTitleText>근무시간 </WorkTitleText>
-            <WorkTimeText>
-              {startTime} ~ {endTime}
-            </WorkTimeText>
-          </WorkTime>
+          {CHANGE_START != null ? (
+            <WorkTime>
+              <WorkTitleText>근무시간 </WorkTitleText>
+              <WorkTimeText>
+                {(ATTENDANCE_TIME || START)?.substring(0, 5)} ~&nbsp;
+                {(WORK_OFF_TIME || END)?.substring(0, 5)}
+              </WorkTimeText>
+            </WorkTime>
+          ) : (
+            <WorkTime>
+              <WorkTitleText>근무시간 </WorkTitleText>
+              <WorkTimeText>
+                {(ATTENDANCE_TIME || START)?.substring(0, 5)} ~&nbsp;
+                {(WORK_OFF_TIME || END)?.substring(0, 5)} >&nbsp;
+                {CHANGE_START == null ? '' : CHANGE_START?.substring(0, 5)}{' '}
+                ~&nbsp;
+                {CHANGE_END == null ? '' : CHANGE_END?.substring(0, 5)}
+              </WorkTimeText>
+            </WorkTime>
+          )}
           {UPDATED_START == null && UPDATED_END == null ? (
             <WorkTime>
               <WorkTitleText>출퇴근시간 </WorkTitleText>
