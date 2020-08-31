@@ -7,19 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* ShopsolTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ShopsolTests.m */; };
-		02D89CD333B4DF8E114BFB43 /* libPods-Shopsol-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C21E7EB0B9D7752F581C8A9 /* libPods-Shopsol-tvOS.a */; };
+		00E356F31AD99517003FC87E /* CUwesopTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CUwesopTests.m */; };
+		02D89CD333B4DF8E114BFB43 /* libPods-CUwesop-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C21E7EB0B9D7752F581C8A9 /* libPods-CUwesop-tvOS.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2DCD954D1E0B4F2C00145EB5 /* ShopsolTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ShopsolTests.m */; };
-		60B976EC54227D975CB16EFE /* libPods-Shopsol-ShopsolTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 346582D74510C889ABEFAD68 /* libPods-Shopsol-ShopsolTests.a */; };
-		6EF1F2024B7B31A4A7258C9F /* libPods-Shopsol.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F43CFCCC08BD1E68861465B1 /* libPods-Shopsol.a */; };
+		2DCD954D1E0B4F2C00145EB5 /* CUwesopTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CUwesopTests.m */; };
+		60B976EC54227D975CB16EFE /* libPods-CUwesop-CUwesopTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 346582D74510C889ABEFAD68 /* libPods-CUwesop-CUwesopTests.a */; };
+		6EF1F2024B7B31A4A7258C9F /* libPods-CUwesop.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F43CFCCC08BD1E68861465B1 /* libPods-CUwesop.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		D77D45B5B063C1349E32B1D0 /* libPods-Shopsol-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DDD78265340E6C0EDFBEAE5 /* libPods-Shopsol-tvOSTests.a */; };
+		D77D45B5B063C1349E32B1D0 /* libPods-CUwesop-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DDD78265340E6C0EDFBEAE5 /* libPods-CUwesop-tvOSTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,41 +28,41 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = Shopsol;
+			remoteInfo = CUwesop;
 		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
-			remoteInfo = "Shopsol-tvOS";
+			remoteInfo = "CUwesop-tvOS";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* ShopsolTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShopsolTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* CUwesopTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CUwesopTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* ShopsolTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShopsolTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* Shopsol.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shopsol.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Shopsol/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Shopsol/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Shopsol/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Shopsol/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Shopsol/main.m; sourceTree = "<group>"; };
-		2B77DD53399B015DC3A75D7F /* Pods-Shopsol.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shopsol.release.xcconfig"; path = "Target Support Files/Pods-Shopsol/Pods-Shopsol.release.xcconfig"; sourceTree = "<group>"; };
-		2D02E47B1E0B4A5D006451C7 /* Shopsol-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shopsol-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D02E4901E0B4A5D006451C7 /* Shopsol-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Shopsol-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2DDD78265340E6C0EDFBEAE5 /* libPods-Shopsol-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Shopsol-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2ED1D942E796DC2F8CDCEEFB /* Pods-Shopsol-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shopsol-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Shopsol-tvOS/Pods-Shopsol-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		346582D74510C889ABEFAD68 /* libPods-Shopsol-ShopsolTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Shopsol-ShopsolTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C21E7EB0B9D7752F581C8A9 /* libPods-Shopsol-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Shopsol-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Shopsol/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8ECEDD3766662FC0C7A17A52 /* Pods-Shopsol-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shopsol-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Shopsol-tvOSTests/Pods-Shopsol-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		95B5CC6C6B293F00B1EE2C34 /* Pods-Shopsol-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shopsol-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Shopsol-tvOS/Pods-Shopsol-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		A125DB07399B23F11AD74332 /* Pods-Shopsol-ShopsolTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shopsol-ShopsolTests.debug.xcconfig"; path = "Target Support Files/Pods-Shopsol-ShopsolTests/Pods-Shopsol-ShopsolTests.debug.xcconfig"; sourceTree = "<group>"; };
-		B060D114D852DA2FCEFB9C4C /* Pods-Shopsol-ShopsolTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shopsol-ShopsolTests.release.xcconfig"; path = "Target Support Files/Pods-Shopsol-ShopsolTests/Pods-Shopsol-ShopsolTests.release.xcconfig"; sourceTree = "<group>"; };
-		B8F696ACA21746BFDA9DA962 /* Pods-Shopsol-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shopsol-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Shopsol-tvOSTests/Pods-Shopsol-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* CUwesopTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CUwesopTests.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* CUwesop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CUwesop.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = CUwesop/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = CUwesop/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = CUwesop/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CUwesop/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CUwesop/main.m; sourceTree = "<group>"; };
+		2B77DD53399B015DC3A75D7F /* Pods-CUwesop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CUwesop.release.xcconfig"; path = "Target Support Files/Pods-CUwesop/Pods-CUwesop.release.xcconfig"; sourceTree = "<group>"; };
+		2D02E47B1E0B4A5D006451C7 /* CUwesop-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CUwesop-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D02E4901E0B4A5D006451C7 /* CUwesop-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CUwesop-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2DDD78265340E6C0EDFBEAE5 /* libPods-CUwesop-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CUwesop-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2ED1D942E796DC2F8CDCEEFB /* Pods-CUwesop-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CUwesop-tvOS.release.xcconfig"; path = "Target Support Files/Pods-CUwesop-tvOS/Pods-CUwesop-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		346582D74510C889ABEFAD68 /* libPods-CUwesop-CUwesopTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CUwesop-CUwesopTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C21E7EB0B9D7752F581C8A9 /* libPods-CUwesop-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CUwesop-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = CUwesop/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8ECEDD3766662FC0C7A17A52 /* Pods-CUwesop-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CUwesop-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-CUwesop-tvOSTests/Pods-CUwesop-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		95B5CC6C6B293F00B1EE2C34 /* Pods-CUwesop-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CUwesop-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-CUwesop-tvOS/Pods-CUwesop-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		A125DB07399B23F11AD74332 /* Pods-CUwesop-CUwesopTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CUwesop-CUwesopTests.debug.xcconfig"; path = "Target Support Files/Pods-CUwesop-CUwesopTests/Pods-CUwesop-CUwesopTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B060D114D852DA2FCEFB9C4C /* Pods-CUwesop-CUwesopTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CUwesop-CUwesopTests.release.xcconfig"; path = "Target Support Files/Pods-CUwesop-CUwesopTests/Pods-CUwesop-CUwesopTests.release.xcconfig"; sourceTree = "<group>"; };
+		B8F696ACA21746BFDA9DA962 /* Pods-CUwesop-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CUwesop-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-CUwesop-tvOSTests/Pods-CUwesop-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		BEBF77FF24F39D3A00F1C0F1 /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		BEBF780024F39D3A00F1C0F1 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		BEBF780124F39D3A00F1C0F1 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -81,8 +81,8 @@
 		C468669342744434B5D3B863 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		F43CFCCC08BD1E68861465B1 /* libPods-Shopsol.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Shopsol.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F5A32AB8E0E7CDD0678D77A8 /* Pods-Shopsol.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shopsol.debug.xcconfig"; path = "Target Support Files/Pods-Shopsol/Pods-Shopsol.debug.xcconfig"; sourceTree = "<group>"; };
+		F43CFCCC08BD1E68861465B1 /* libPods-CUwesop.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CUwesop.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5A32AB8E0E7CDD0678D77A8 /* Pods-CUwesop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CUwesop.debug.xcconfig"; path = "Target Support Files/Pods-CUwesop/Pods-CUwesop.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60B976EC54227D975CB16EFE /* libPods-Shopsol-ShopsolTests.a in Frameworks */,
+				60B976EC54227D975CB16EFE /* libPods-CUwesop-CUwesopTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EF1F2024B7B31A4A7258C9F /* libPods-Shopsol.a in Frameworks */,
+				6EF1F2024B7B31A4A7258C9F /* libPods-CUwesop.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,7 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02D89CD333B4DF8E114BFB43 /* libPods-Shopsol-tvOS.a in Frameworks */,
+				02D89CD333B4DF8E114BFB43 /* libPods-CUwesop-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,20 +114,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D77D45B5B063C1349E32B1D0 /* libPods-Shopsol-tvOSTests.a in Frameworks */,
+				D77D45B5B063C1349E32B1D0 /* libPods-CUwesop-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* ShopsolTests */ = {
+		00E356EF1AD99517003FC87E /* CUwesopTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* ShopsolTests.m */,
+				00E356F21AD99517003FC87E /* CUwesopTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = ShopsolTests;
+			path = CUwesopTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -138,7 +138,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* Shopsol */ = {
+		13B07FAE1A68108700A75B9A /* CUwesop */ = {
 			isa = PBXGroup;
 			children = (
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -149,7 +149,7 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = Shopsol;
+			name = CUwesop;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -157,10 +157,10 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				F43CFCCC08BD1E68861465B1 /* libPods-Shopsol.a */,
-				346582D74510C889ABEFAD68 /* libPods-Shopsol-ShopsolTests.a */,
-				7C21E7EB0B9D7752F581C8A9 /* libPods-Shopsol-tvOS.a */,
-				2DDD78265340E6C0EDFBEAE5 /* libPods-Shopsol-tvOSTests.a */,
+				F43CFCCC08BD1E68861465B1 /* libPods-CUwesop.a */,
+				346582D74510C889ABEFAD68 /* libPods-CUwesop-CUwesopTests.a */,
+				7C21E7EB0B9D7752F581C8A9 /* libPods-CUwesop-tvOS.a */,
+				2DDD78265340E6C0EDFBEAE5 /* libPods-CUwesop-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -198,9 +198,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* Shopsol */,
+				13B07FAE1A68108700A75B9A /* CUwesop */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* ShopsolTests */,
+				00E356EF1AD99517003FC87E /* CUwesopTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				B44446AF69BF2B414C61DF8C /* Pods */,
@@ -214,10 +214,10 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* Shopsol.app */,
-				00E356EE1AD99517003FC87E /* ShopsolTests.xctest */,
-				2D02E47B1E0B4A5D006451C7 /* Shopsol-tvOS.app */,
-				2D02E4901E0B4A5D006451C7 /* Shopsol-tvOSTests.xctest */,
+				13B07F961A680F5B00A75B9A /* CUwesop.app */,
+				00E356EE1AD99517003FC87E /* CUwesopTests.xctest */,
+				2D02E47B1E0B4A5D006451C7 /* CUwesop-tvOS.app */,
+				2D02E4901E0B4A5D006451C7 /* CUwesop-tvOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -225,14 +225,14 @@
 		B44446AF69BF2B414C61DF8C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F5A32AB8E0E7CDD0678D77A8 /* Pods-Shopsol.debug.xcconfig */,
-				2B77DD53399B015DC3A75D7F /* Pods-Shopsol.release.xcconfig */,
-				A125DB07399B23F11AD74332 /* Pods-Shopsol-ShopsolTests.debug.xcconfig */,
-				B060D114D852DA2FCEFB9C4C /* Pods-Shopsol-ShopsolTests.release.xcconfig */,
-				95B5CC6C6B293F00B1EE2C34 /* Pods-Shopsol-tvOS.debug.xcconfig */,
-				2ED1D942E796DC2F8CDCEEFB /* Pods-Shopsol-tvOS.release.xcconfig */,
-				8ECEDD3766662FC0C7A17A52 /* Pods-Shopsol-tvOSTests.debug.xcconfig */,
-				B8F696ACA21746BFDA9DA962 /* Pods-Shopsol-tvOSTests.release.xcconfig */,
+				F5A32AB8E0E7CDD0678D77A8 /* Pods-CUwesop.debug.xcconfig */,
+				2B77DD53399B015DC3A75D7F /* Pods-CUwesop.release.xcconfig */,
+				A125DB07399B23F11AD74332 /* Pods-CUwesop-CUwesopTests.debug.xcconfig */,
+				B060D114D852DA2FCEFB9C4C /* Pods-CUwesop-CUwesopTests.release.xcconfig */,
+				95B5CC6C6B293F00B1EE2C34 /* Pods-CUwesop-tvOS.debug.xcconfig */,
+				2ED1D942E796DC2F8CDCEEFB /* Pods-CUwesop-tvOS.release.xcconfig */,
+				8ECEDD3766662FC0C7A17A52 /* Pods-CUwesop-tvOSTests.debug.xcconfig */,
+				B8F696ACA21746BFDA9DA962 /* Pods-CUwesop-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -240,9 +240,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* ShopsolTests */ = {
+		00E356ED1AD99517003FC87E /* CUwesopTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ShopsolTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "CUwesopTests" */;
 			buildPhases = (
 				5B67DD907CB867E163C4AD9A /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -255,14 +255,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = ShopsolTests;
-			productName = ShopsolTests;
-			productReference = 00E356EE1AD99517003FC87E /* ShopsolTests.xctest */;
+			name = CUwesopTests;
+			productName = CUwesopTests;
+			productReference = 00E356EE1AD99517003FC87E /* CUwesopTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* Shopsol */ = {
+		13B07F861A680F5B00A75B9A /* CUwesop */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Shopsol" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "CUwesop" */;
 			buildPhases = (
 				111B7474B621C0D8F3E38405 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -276,14 +276,14 @@
 			);
 			dependencies = (
 			);
-			name = Shopsol;
-			productName = Shopsol;
-			productReference = 13B07F961A680F5B00A75B9A /* Shopsol.app */;
+			name = CUwesop;
+			productName = CUwesop;
+			productReference = 13B07F961A680F5B00A75B9A /* CUwesop.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E47A1E0B4A5D006451C7 /* Shopsol-tvOS */ = {
+		2D02E47A1E0B4A5D006451C7 /* CUwesop-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Shopsol-tvOS" */;
+			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "CUwesop-tvOS" */;
 			buildPhases = (
 				A8282E1451DFB993014005B4 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
@@ -296,14 +296,14 @@
 			);
 			dependencies = (
 			);
-			name = "Shopsol-tvOS";
-			productName = "Shopsol-tvOS";
-			productReference = 2D02E47B1E0B4A5D006451C7 /* Shopsol-tvOS.app */;
+			name = "CUwesop-tvOS";
+			productName = "CUwesop-tvOS";
+			productReference = 2D02E47B1E0B4A5D006451C7 /* CUwesop-tvOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D02E48F1E0B4A5D006451C7 /* Shopsol-tvOSTests */ = {
+		2D02E48F1E0B4A5D006451C7 /* CUwesop-tvOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Shopsol-tvOSTests" */;
+			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "CUwesop-tvOSTests" */;
 			buildPhases = (
 				44E2B80F46AE45C2E61C4FC5 /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
@@ -315,9 +315,9 @@
 			dependencies = (
 				2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */,
 			);
-			name = "Shopsol-tvOSTests";
-			productName = "Shopsol-tvOSTests";
-			productReference = 2D02E4901E0B4A5D006451C7 /* Shopsol-tvOSTests.xctest */;
+			name = "CUwesop-tvOSTests";
+			productName = "CUwesop-tvOSTests";
+			productReference = 2D02E4901E0B4A5D006451C7 /* CUwesop-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -346,7 +346,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Shopsol" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "CUwesop" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -359,10 +359,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* Shopsol */,
-				00E356ED1AD99517003FC87E /* ShopsolTests */,
-				2D02E47A1E0B4A5D006451C7 /* Shopsol-tvOS */,
-				2D02E48F1E0B4A5D006451C7 /* Shopsol-tvOSTests */,
+				13B07F861A680F5B00A75B9A /* CUwesop */,
+				00E356ED1AD99517003FC87E /* CUwesopTests */,
+				2D02E47A1E0B4A5D006451C7 /* CUwesop-tvOS */,
+				2D02E48F1E0B4A5D006451C7 /* CUwesop-tvOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -447,7 +447,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Shopsol-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-CUwesop-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -483,7 +483,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Shopsol-tvOSTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-CUwesop-tvOSTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -505,7 +505,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Shopsol-ShopsolTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-CUwesop-CUwesopTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -518,7 +518,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Shopsol/Pods-Shopsol-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-CUwesop/Pods-CUwesop-resources.sh",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -559,7 +559,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Shopsol/Pods-Shopsol-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CUwesop/Pods-CUwesop-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A8282E1451DFB993014005B4 /* [CP] Check Pods Manifest.lock */ = {
@@ -577,7 +577,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Shopsol-tvOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-CUwesop-tvOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -590,7 +590,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Shopsol-ShopsolTests/Pods-Shopsol-ShopsolTests-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-CUwesop-CUwesopTests/Pods-CUwesop-CUwesopTests-resources.sh",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -631,7 +631,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Shopsol-ShopsolTests/Pods-Shopsol-ShopsolTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CUwesop-CUwesopTests/Pods-CUwesop-CUwesopTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -679,7 +679,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* ShopsolTests.m in Sources */,
+				00E356F31AD99517003FC87E /* CUwesopTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -705,7 +705,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DCD954D1E0B4F2C00145EB5 /* ShopsolTests.m in Sources */,
+				2DCD954D1E0B4F2C00145EB5 /* CUwesopTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -714,12 +714,12 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* Shopsol */;
+			target = 13B07F861A680F5B00A75B9A /* CUwesop */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2D02E47A1E0B4A5D006451C7 /* Shopsol-tvOS */;
+			target = 2D02E47A1E0B4A5D006451C7 /* CUwesop-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -727,14 +727,14 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A125DB07399B23F11AD74332 /* Pods-Shopsol-ShopsolTests.debug.xcconfig */;
+			baseConfigurationReference = A125DB07399B23F11AD74332 /* Pods-CUwesop-CUwesopTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = ShopsolTests/Info.plist;
+				INFOPLIST_FILE = CUwesopTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -744,17 +744,17 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shopsol.app/Shopsol";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CUwesop.app/CUwesop";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B060D114D852DA2FCEFB9C4C /* Pods-Shopsol-ShopsolTests.release.xcconfig */;
+			baseConfigurationReference = B060D114D852DA2FCEFB9C4C /* Pods-CUwesop-CUwesopTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = ShopsolTests/Info.plist;
+				INFOPLIST_FILE = CUwesopTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -764,19 +764,19 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shopsol.app/Shopsol";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CUwesop.app/CUwesop";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F5A32AB8E0E7CDD0678D77A8 /* Pods-Shopsol.debug.xcconfig */;
+			baseConfigurationReference = F5A32AB8E0E7CDD0678D77A8 /* Pods-CUwesop.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = Shopsol/Info.plist;
+				INFOPLIST_FILE = CUwesop/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -784,7 +784,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = Shopsol;
+				PRODUCT_NAME = CUwesop;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -793,12 +793,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2B77DD53399B015DC3A75D7F /* Pods-Shopsol.release.xcconfig */;
+			baseConfigurationReference = 2B77DD53399B015DC3A75D7F /* Pods-CUwesop.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = Shopsol/Info.plist;
+				INFOPLIST_FILE = CUwesop/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -806,7 +806,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = Shopsol;
+				PRODUCT_NAME = CUwesop;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -814,7 +814,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 95B5CC6C6B293F00B1EE2C34 /* Pods-Shopsol-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 95B5CC6C6B293F00B1EE2C34 /* Pods-CUwesop-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -825,14 +825,14 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Shopsol-tvOS/Info.plist";
+				INFOPLIST_FILE = "CUwesop-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Shopsol-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.CUwesop-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -842,7 +842,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2ED1D942E796DC2F8CDCEEFB /* Pods-Shopsol-tvOS.release.xcconfig */;
+			baseConfigurationReference = 2ED1D942E796DC2F8CDCEEFB /* Pods-CUwesop-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -853,14 +853,14 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Shopsol-tvOS/Info.plist";
+				INFOPLIST_FILE = "CUwesop-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Shopsol-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.CUwesop-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -870,7 +870,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8ECEDD3766662FC0C7A17A52 /* Pods-Shopsol-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 8ECEDD3766662FC0C7A17A52 /* Pods-CUwesop-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -880,24 +880,24 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Shopsol-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "CUwesop-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Shopsol-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.CUwesop-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shopsol-tvOS.app/Shopsol-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CUwesop-tvOS.app/CUwesop-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B8F696ACA21746BFDA9DA962 /* Pods-Shopsol-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = B8F696ACA21746BFDA9DA962 /* Pods-CUwesop-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -907,17 +907,17 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Shopsol-tvOSTests/Info.plist";
+				INFOPLIST_FILE = "CUwesop-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.Shopsol-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.CUwesop-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Shopsol-tvOS.app/Shopsol-tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CUwesop-tvOS.app/CUwesop-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
@@ -1038,7 +1038,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ShopsolTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "CUwesopTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -1047,7 +1047,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Shopsol" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "CUwesop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -1056,7 +1056,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Shopsol-tvOS" */ = {
+		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "CUwesop-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4971E0B4A5E006451C7 /* Debug */,
@@ -1065,7 +1065,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Shopsol-tvOSTests" */ = {
+		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "CUwesop-tvOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
@@ -1074,7 +1074,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Shopsol" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "CUwesop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
