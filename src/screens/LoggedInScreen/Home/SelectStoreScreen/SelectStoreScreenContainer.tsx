@@ -62,7 +62,7 @@ export default () => {
 
   const alertModal = (text, title = '', okCallback = () => {}) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title,
       content: text,
       okCallback,

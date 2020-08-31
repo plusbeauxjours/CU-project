@@ -98,7 +98,7 @@ export default ({route: {params}}) => {
 
   const explainModal = (text) => {
     const params = {
-      type: 'explain',
+      alertType: 'explain',
       title: '',
       content: text,
     };
@@ -108,7 +108,7 @@ export default ({route: {params}}) => {
 
   const alertModal = (title, text) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title: title || '',
       content: text || '',
     };

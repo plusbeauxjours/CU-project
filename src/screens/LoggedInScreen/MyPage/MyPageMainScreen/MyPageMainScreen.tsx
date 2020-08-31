@@ -109,7 +109,7 @@ export default () => {
 
   const logOut = (title, text) => {
     const params = {
-      type: 'confirm',
+      alertType: 'confirm',
       title: title,
       content: text,
       okCallback: () => {

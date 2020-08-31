@@ -69,7 +69,7 @@ export default () => {
 
   const alertModal = (title, text) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title: title,
       content: text,
     };

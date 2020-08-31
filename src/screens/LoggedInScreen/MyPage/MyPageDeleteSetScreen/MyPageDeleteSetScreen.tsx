@@ -69,7 +69,7 @@ export default () => {
 
   const confirmModal = () => {
     const params = {
-      type: 'confirm',
+      alertType: 'confirm',
       title: '',
       content: '회원탈퇴 하시겠습니까?',
       okCallback: () => {

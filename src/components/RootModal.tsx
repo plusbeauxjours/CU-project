@@ -28,6 +28,7 @@ const WhiteBox = styled.View`
 `;
 
 const Box = styled.View`
+  height: 100%;
   align-items: center;
   justify-content: center;
   padding: 0 20px;
@@ -51,16 +52,16 @@ const Attach = styled.Text`
 `;
 
 const WithHelpBtn = styled.TouchableOpacity<IColor>`
-  height: ${hp('7%')}px;
-  width: ${(props) => (props.color === '#642A8C' ? wp('80%') : wp('20%'))};
+  height: 60px;
+  width: ${(props) => (props.color === '#642A8C' ? wp('80%') : wp('20%'))}px;
   align-items: center;
   justify-content: center;
   background-color: ${(props) => props.color};
 `;
 
 const HalfBtnLeft = styled.TouchableOpacity<IWarning>`
-  height: ${hp('7%')}px;
-  width: ${hp('50%')}px;
+  height: 60px;
+  width: ${wp('50%')}px;
   align-items: center;
   justify-content: center;
   border-color: #bbb;
@@ -83,14 +84,15 @@ const HalfTextRight = styled.Text<IWarning>`
 `;
 
 const BarBtn = styled.TouchableOpacity`
-  height: ${hp('7%')}px;
+  flex: 1;
+  height: 60px;
   width: ${hp('100%')}px;
   align-items: center;
   justify-content: center;
   background-color: #642a8c;
 `;
 const WhiteText = styled.Text`
-  font-size: 14px;
+  font-size: 16px;
   color: white;
 `;
 
@@ -104,9 +106,9 @@ export default ({alert}) => {
 
   const TextBox = ({alert}) => (
     <Box>
-      {alert?.title && <Title>{alert?.title}</Title>}
-      {alert?.content && <Content>{alert?.content}</Content>}
-      {alert?.attach && <Attach>{alert?.attach}</Attach>}
+      <Title>{alert?.title}</Title>
+      <Content>{alert?.content}</Content>
+      <Attach>{alert?.attach}</Attach>
     </Box>
   );
 
@@ -127,9 +129,12 @@ export default ({alert}) => {
       }}
       style={{margin: 0, justifyContent: 'flex-end'}}
       isVisible={alert.visible}>
+      {console.log('alert', alert)}
       {alert.alertType == 'explain' ? (
         <WhiteBox>
-          {/* {alert && <TextBox alert={alert} />} */}
+          <BackGround>
+            <TextBox alert={alert} />
+          </BackGround>
           <Row>
             <WithHelpBtn color={'#642A8C'} onPress={() => onPress()}>
               <WhiteText>{alert.okButtonText}</WhiteText>
@@ -142,27 +147,223 @@ export default ({alert}) => {
         </WhiteBox>
       ) : (
         <WhiteBox>
-          {/* <BackGround>{alert && <TextBox alert={alert} />}</BackGround> */}
-          <Row>
-            {alert.alertType === 'confirm' ? (
-              <>
-                <HalfBtnLeft warning={alert.warning} onPress={() => onPress()}>
-                  <HalfTextLeft>{alert.cancelButtonText}</HalfTextLeft>
-                </HalfBtnLeft>
-                <HalfBtnRight warning={alert.warning} onPress={() => onPress()}>
-                  <HalfTextRight warning={alert.warning}>
-                    {alert.okButtonText}
-                  </HalfTextRight>
-                </HalfBtnRight>
-              </>
-            ) : (
+          <BackGround>
+            <TextBox alert={alert} />
+          </BackGround>
+          {alert.alertType === 'confirm' ? (
+            <Row>
+              <HalfBtnLeft warning={alert.warning} onPress={() => onPress()}>
+                <HalfTextLeft>{alert.cancelButtonText}</HalfTextLeft>
+              </HalfBtnLeft>
+              <HalfBtnRight warning={alert.warning} onPress={() => onPress()}>
+                <HalfTextRight warning={alert.warning}>
+                  {alert.okButtonText}
+                </HalfTextRight>
+              </HalfBtnRight>
+            </Row>
+          ) : (
+            <Row>
               <BarBtn onPress={() => onPress()}>
+                {console.log('okookokok', alert.okButtonText)}
                 <WhiteText>{alert.okButtonText}</WhiteText>
               </BarBtn>
-            )}
-          </Row>
+            </Row>
+          )}
         </WhiteBox>
       )}
     </Modal>
   );
 };
+
+// <>
+//   {
+//     alert.alertType == 'explain' ? (
+//         <View
+//           style={{
+//             minHeight: 200,
+//             justifyContent: 'center',
+//             paddingVertical: hp('5%'),
+//           }}>
+//           <View
+//             style={{
+//               alignItems: 'center',
+//               justifyContent: 'center',
+//               paddingHorizontal: 20,
+//             }}>
+//             {alert.title ? (
+//               <>
+//                 <Text style={{fontSize: 24, color: '#642A8C'}}>
+//                   {alert.title}
+//                 </Text>
+//               </>
+//             ) : null}
+//             {alert.content ? (
+//               <>
+//                 {alert.title ? <View style={{height: 30}} /> : null}
+//                 <Text style={{fontSize: 15, color: '#707070'}}>
+//                   {alert.content}
+//                 </Text>
+//               </>
+//             ) : null}
+//             {alert.attach ? (
+//               <>
+//                 <Text style={{marginTop: 20, fontSize: 12, color: '#777'}}>
+//                   {alert.attach}
+//                 </Text>
+//               </>
+//             ) : null}
+//           </View>
+//         </View>
+//         <View style={{flexDirection: 'row'}}>
+//           <TouchableOpacity
+//             style={{
+//               height: hp('7%'),
+//               width: wp('80%'),
+//               alignItems: 'center',
+//               justifyContent: 'center',
+//               backgroundColor: '#642A8C',
+//             }}
+//             onPress={() => {
+//               this.props.setAlertVisible(false);
+
+//               if (alert.okCallback) {
+//                 alert.okCallback();
+//               }
+//             }}>
+//             <Text style={{fontSize: 16, color: 'white'}}>
+//               {alert.okButtonText}
+//             </Text>
+//           </TouchableOpacity>
+//           <TouchableOpacity
+//             style={{
+//               height: hp('7%'),
+//               width: wp('20%'),
+//               alignItems: 'center',
+//               justifyContent: 'center',
+//               backgroundColor: '#AACE36',
+//             }}
+//             onPress={() => {
+//               this.setState({allHelpTextView: !this.state.allHelpTextView});
+//             }}>
+//             <Text style={{fontSize: 14, color: 'white'}}>도움말</Text>
+//             <Text style={{fontSize: 14, color: 'white'}}>전체보기</Text>
+//           </TouchableOpacity>
+//         </View>
+//     ) : (
+//       <>
+//         {/* basic alert */}
+//         <View style={{height: 280, backgroundColor: 'white'}}>
+//           <View style={{flex: 1}}>
+//             <View
+//               style={{
+//                 flex: 1,
+//                 alignItems: 'center',
+//                 justifyContent: 'center',
+//                 paddingHorizontal: 20,
+//               }}>
+//               {alert.title ? (
+//                 <>
+//                   <Text style={{fontSize: 24, color: '#642A8C'}}>
+//                     {alert.title}
+//                   </Text>
+//                 </>
+//               ) : null}
+//               {alert.content ? (
+//                 <>
+//                   {alert.title ? <View style={{height: 30}} /> : null}
+//                   <Text style={{fontSize: 15, color: '#707070'}}>
+//                     {alert.content}
+//                   </Text>
+//                 </>
+//               ) : null}
+//               {alert.attach ? (
+//                 <>
+//                   <Text style={{marginTop: 20, fontSize: 12, color: '#777'}}>
+//                     {alert.attach}
+//                   </Text>
+//                 </>
+//               ) : null}
+//             </View>
+//           </View>
+//           <View style={{flexDirection: 'row'}}>
+//             {alert.alertType === 'confirm' ? (
+//               <>
+//                 <TouchableOpacity
+//                   style={{
+//                     height: hp('7%'),
+//                     width: wp('50%'),
+//                     alignItems: 'center',
+//                     justifyContent: 'center',
+//                     // backgroundColor: '#642A8C',
+//                     borderTopWidth: alert.warning == 'yes' ? 1 : 0,
+//                     borderColor: '#bbb',
+//                   }}
+//                   onPress={() => {
+//                     this.props.setAlertVisible(false);
+
+//                     if (alert.cancelCallback) {
+//                       alert.cancelCallback();
+//                     }
+//                   }}>
+//                   <Text style={{fontSize: 18, color: '#642A8C'}}>
+//                     {alert.cancelButtonText}
+//                   </Text>
+//                 </TouchableOpacity>
+//                 <TouchableOpacity
+//                   style={{
+//                     height: hp('7%'),
+//                     width: wp('50%'),
+//                     alignItems: 'center',
+//                     justifyContent: 'center',
+//                     backgroundColor:
+//                       alert.warning == 'yes' ? '#fff' : '#642A8C',
+//                     borderTopWidth: alert.warning == 'yes' ? 1 : 0,
+//                     borderLeftWidth: alert.warning == 'yes' ? 1 : 0,
+//                     borderColor: '#bbb',
+//                   }}
+//                   onPress={() => {
+//                     this.props.setAlertVisible(false);
+
+//                     if (alert.okCallback) {
+//                       alert.okCallback();
+//                     }
+//                   }}>
+//                   <Text
+//                     style={
+//                       alert.warning == 'yes'
+//                         ? {color: '#B91C1B', fontSize: 18}
+//                         : {color: '#fff', fontSize: 18}
+//                     }>
+//                     {alert.okButtonText}
+//                   </Text>
+//                 </TouchableOpacity>
+//               </>
+//             ) : (
+//               <TouchableOpacity
+//                 style={{
+//                   height: hp('7%'),
+//                   width: wp('100%'),
+//                   alignItems: 'center',
+//                   justifyContent: 'center',
+//                   backgroundColor: '#642A8C',
+//                 }}
+//                 onPress={() => {
+//                   if (alert.close !== '1') {
+//                     this.props.setAlertVisible(false);
+//                   }
+//                   if (alert.okCallback) {
+//                     alert.okCallback();
+//                   }
+//                 }}>
+//                 <Text style={{fontSize: 16, color: 'white'}}>
+//                   {alert.okButtonText}
+//                 </Text>
+//               </TouchableOpacity>
+//             )}
+//           </View>
+//         </View>
+//       </>
+//     )
+
+//   )}
+// </>;

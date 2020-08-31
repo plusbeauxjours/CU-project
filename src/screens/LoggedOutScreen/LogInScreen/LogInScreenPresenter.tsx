@@ -88,7 +88,7 @@ const LogoText = styled.View<ILogoText>`
   margin-bottom: ${hp('6%')}px;
   align-items: center;
   justify-content: center;
-  margin: ${(props) => props.isIphoneX && hp('5%')}px 0;
+  margin: 10px 0;
 `;
 
 interface ILogoText {

@@ -29,7 +29,7 @@ export default ({route: {params}}) => {
   const [push, setPush] = useState<string>('');
 
   const alertModal = (text) => {
-    const params = {type: 'alert', content: text};
+    const params = {alertType: 'alert', content: text};
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
   };

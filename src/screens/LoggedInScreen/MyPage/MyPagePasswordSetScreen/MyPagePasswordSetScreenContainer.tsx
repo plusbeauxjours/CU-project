@@ -31,7 +31,7 @@ export default ({route: {params}}) => {
   // Notification
   const alertModal = (text) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title: '',
       content: text,
     };

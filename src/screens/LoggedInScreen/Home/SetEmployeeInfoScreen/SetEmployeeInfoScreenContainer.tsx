@@ -122,7 +122,7 @@ export default ({route: {params}}) => {
 
   const alertModal = (text) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title: '',
       content: text,
     };
@@ -133,7 +133,7 @@ export default ({route: {params}}) => {
 
   const explainModal = (text) => {
     const params = {
-      type: 'explain',
+      alertType: 'explain',
       title: '',
       content: text,
     };

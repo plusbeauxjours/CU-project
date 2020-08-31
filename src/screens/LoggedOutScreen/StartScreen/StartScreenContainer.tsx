@@ -54,7 +54,7 @@ export default () => {
 
   const alertModal = (title, text) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title: title,
       content: text,
       close: '1',
@@ -82,7 +82,7 @@ export default () => {
 
   const testBtn = () => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title: '테테테테테테스트타이틀',
       content: '테테테테테테스트컨텐츠',
       close: '1',

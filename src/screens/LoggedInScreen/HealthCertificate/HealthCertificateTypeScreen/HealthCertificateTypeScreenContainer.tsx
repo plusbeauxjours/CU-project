@@ -26,7 +26,7 @@ export default ({route: {params}}) => {
 
   const explainModal = (title, text) => {
     const params = {
-      type: 'explain',
+      alertType: 'explain',
       title: title,
       content: text,
     };

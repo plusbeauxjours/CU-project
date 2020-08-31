@@ -49,14 +49,14 @@ export default ({route: {params}}) => {
   };
 
   const alertModal = (text) => {
-    const params = {type: 'alert', content: text};
+    const params = {alertType: 'alert', content: text};
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
   };
 
   const confirmModal = (title, text) => {
     const params = {
-      type: 'confirm',
+      alertType: 'confirm',
       title: title,
       content: text,
       okCallback: () => regist(),
@@ -110,7 +110,7 @@ export default ({route: {params}}) => {
       //   if (json.message === 'ALREADY_SUCCESS') {
       //     dispatch(setSplashVisible(false));
       //     const params = {
-      //       type: 'alert',
+      //       alertType: 'alert',
       //       content: '이미 가입한 휴대폰번호입니다.',
       //     };
       //     dispatch(setAlertInfo(params));
@@ -119,7 +119,7 @@ export default ({route: {params}}) => {
       //   } else if (json.message === 'SMSERROR') {
       //     dispatch(setSplashVisible(false));
       //     const params = {
-      //       type: 'alert',
+      //       alertType: 'alert',
       //       content: '인증번호 오류입니다.',
       //     };
       //     dispatch(setAlertInfo(params));
@@ -128,7 +128,7 @@ export default ({route: {params}}) => {
       //   } else {
       //     dispatch(setSplashVisible(false));
       //     const params = {
-      //       type: 'alert',
+      //       alertType: 'alert',
       //       content: '회원가입이 완료되었습니다. 다시 로그인해 주세요.',
       //     };
       //     dispatch(setAlertInfo(params));

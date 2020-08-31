@@ -46,7 +46,7 @@ export default ({route: {params}}) => {
 
   const alertModal = (title, text) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title: title || '',
       content: text || '',
     };
@@ -56,7 +56,7 @@ export default ({route: {params}}) => {
 
   const explainModal = (title, text) => {
     const params = {
-      type: 'explain',
+      alertType: 'explain',
       title: title,
       content: text,
     };
@@ -66,7 +66,7 @@ export default ({route: {params}}) => {
 
   const confirmModal = (title, text, okCallback) => {
     const params = {
-      type: 'confirm',
+      alertType: 'confirm',
       title: title || '',
       content: text || '',
       okButtonText: '삭제',
@@ -379,7 +379,7 @@ export default ({route: {params}}) => {
 
   const toggleWorkSchedule = () => {
     const params: any = {
-      type: 'confirm',
+      alertType: 'confirm',
       okCallback: () => {
         changeMode();
       },

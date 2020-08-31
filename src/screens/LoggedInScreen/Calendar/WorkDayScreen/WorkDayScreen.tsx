@@ -51,7 +51,7 @@ export default ({route: {params}}) => {
   console.log('SCH_ID', SCH_ID);
   const alertModal = (text) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title: '',
       content: text,
     };
@@ -61,7 +61,7 @@ export default ({route: {params}}) => {
 
   const confirmModal = (title, text, cancel, okBtn) => {
     const params = {
-      type: 'confirm',
+      alertType: 'confirm',
       title: title,
       content: text,
       cancelButtonText: cancel,

@@ -28,7 +28,7 @@ export default () => {
 
   const alertModal = (text) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       content: text,
     };
     dispatch(setAlertInfo(params));

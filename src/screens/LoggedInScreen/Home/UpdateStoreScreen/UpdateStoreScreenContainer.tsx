@@ -66,7 +66,7 @@ export default ({route: {params}}) => {
 
   const alertModal = (title, text) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title: title,
       content: text,
     };
@@ -76,7 +76,7 @@ export default ({route: {params}}) => {
 
   const explainModal = (title, text) => {
     const params = {
-      type: 'explain',
+      alertType: 'explain',
       title: title,
       content: text,
     };
@@ -86,7 +86,7 @@ export default ({route: {params}}) => {
 
   const confirmModal = (content) => {
     const params = {
-      type: 'confirm',
+      alertType: 'confirm',
       title: '',
       content,
       okCallback: () => {
@@ -151,7 +151,7 @@ export default ({route: {params}}) => {
       });
       if (data.message == 'SUCCESS') {
         const params = {
-          type: 'alert',
+          alertType: 'alert',
           title: '',
           content: sign == 'close',
         };

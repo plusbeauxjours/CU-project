@@ -27,7 +27,7 @@ export default ({route: {params}}) => {
 
   const adviceModal = (title, text, attach, height) => {
     const params = {
-      type: 'explain',
+      alertType: 'explain',
       height: height,
       title: title,
       content: text,

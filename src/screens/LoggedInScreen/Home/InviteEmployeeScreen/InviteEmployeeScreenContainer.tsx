@@ -24,7 +24,7 @@ export default ({route: {parmas}}) => {
 
   const explainModal = (title, text) => {
     const params = {
-      type: 'explain',
+      alertType: 'explain',
       title: title,
       content: text,
     };
@@ -34,7 +34,7 @@ export default ({route: {parmas}}) => {
 
   const alertModal = (title, text) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title: title,
       content: text,
     };

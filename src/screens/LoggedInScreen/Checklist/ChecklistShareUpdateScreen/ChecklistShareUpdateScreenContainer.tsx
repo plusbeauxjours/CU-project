@@ -25,7 +25,7 @@ export default ({route: {params}}) => {
 
   const confirmModal = (title, text, cancel, okBtn) => {
     const params = {
-      type: 'confirm',
+      alertType: 'confirm',
       title: title,
       content: text,
       cancelButtonText: cancel,
@@ -39,7 +39,7 @@ export default ({route: {params}}) => {
 
   const alertModal = (text) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title: '',
       content: text,
     };

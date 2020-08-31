@@ -8,6 +8,7 @@ import {
 import Modal from 'react-native-modal';
 
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import {Avatar} from 'react-native-elements';
 
 interface IsSelected {
   isSelected: boolean;
@@ -293,10 +294,13 @@ export default ({
   const FixScheduleStepOne = () => (
     <Section>
       <Row>
-        <Image
+        <Avatar
+          rounded
+          size={60}
           source={{
-            uri: `${'http://133.186.209.113/uploads/' + IMAGE}`,
+            uri: `http://133.186.209.113/uploads/${IMAGE}`,
           }}
+          containerStyle={{borderWidth: 1, borderColor: '#ccc'}}
         />
         <CntArea>
           <NameText style={{marginBottom: 10}}>{NAME}</NameText>

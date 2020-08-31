@@ -47,7 +47,7 @@ export default ({route: {params}}) => {
 
   const alertModal = (title, text) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title,
       content: text,
     };
@@ -57,7 +57,7 @@ export default ({route: {params}}) => {
 
   const confirmModal = (content) => {
     const params = {
-      type: 'confirm',
+      alertType: 'confirm',
       title: '',
       content: '등록한 정보를 삭제하시겠습니까?',
       okCallback: () => {

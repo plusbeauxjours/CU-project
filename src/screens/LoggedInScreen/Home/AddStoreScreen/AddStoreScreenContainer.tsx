@@ -54,7 +54,7 @@ export default () => {
 
   const alertModal = (title, text) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title,
       content: text,
     };
@@ -64,7 +64,7 @@ export default () => {
 
   const explainModal = (title, text) => {
     const params = {
-      type: 'explain',
+      alertType: 'explain',
       title: title,
       content: text,
     };

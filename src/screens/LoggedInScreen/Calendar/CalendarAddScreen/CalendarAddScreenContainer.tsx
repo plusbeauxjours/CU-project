@@ -39,7 +39,7 @@ export default ({route: {params}}) => {
 
   const alertModal = (text) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title: '',
       content: text,
     };
@@ -49,7 +49,7 @@ export default ({route: {params}}) => {
 
   const alertModalGoBack = (title, text) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title: title,
       content: text,
       okCallback: () => {
@@ -62,7 +62,7 @@ export default ({route: {params}}) => {
 
   const confirmModal = (title, text, cancel, okBtn) => {
     const params = {
-      type: 'confirm',
+      alertType: 'confirm',
       title: title,
       content: text,
       okButtonText: okBtn,

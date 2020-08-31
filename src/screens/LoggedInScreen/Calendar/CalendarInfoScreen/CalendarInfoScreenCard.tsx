@@ -133,7 +133,7 @@ export default ({
 
   const confirmModal = () => {
     const params = {
-      type: 'confirm',
+      alertType: 'confirm',
       title: '',
       content: '휴무를 취소하시겠습니까?',
       cancelButtonText: '아니요',
@@ -146,7 +146,7 @@ export default ({
 
   const alertModal = () => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title: '',
       content: '휴무를 취소하였습니다',
     };

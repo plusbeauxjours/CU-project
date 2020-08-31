@@ -98,7 +98,7 @@ export default ({route: {params}}) => {
 
   const deleteModal = (title, text, cancel, okBtn, join_emp_seq) => {
     const params = {
-      type: 'confirm',
+      alertType: 'confirm',
       title: title,
       content: text,
       cancelButtonText: cancel,
@@ -114,7 +114,7 @@ export default ({route: {params}}) => {
 
   const confirmModal = (title, text, cancel, okBtn, join_emp_seq) => {
     const params = {
-      type: 'confirm',
+      alertType: 'confirm',
       title: title,
       content: text,
       cancelButtonText: cancel,
@@ -130,7 +130,7 @@ export default ({route: {params}}) => {
 
   const explainModal = (title, text) => {
     const params = {
-      type: 'explain',
+      alertType: 'explain',
       title: title,
       content: text,
     };

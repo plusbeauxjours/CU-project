@@ -24,7 +24,7 @@ export default ({route: {params}}) => {
 
   const confirmModal = (shelfLifeClear, shelfLifeDate) => {
     const params = {
-      type: 'confirm',
+      alertType: 'confirm',
       title: '',
       content: '상품의 유통기한 만료로 폐기 또는 처리 완료 체크합니다',
       cancelButtonText: '취소',
@@ -39,7 +39,7 @@ export default ({route: {params}}) => {
 
   const alertModal = (title, text) => {
     const params = {
-      type: 'alert',
+      alertType: 'alert',
       title: title,
       content: text,
     };
