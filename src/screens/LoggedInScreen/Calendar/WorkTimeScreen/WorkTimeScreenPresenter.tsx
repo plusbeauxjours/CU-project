@@ -8,6 +8,7 @@ import {
 import Modal from 'react-native-modal';
 
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import {Avatar} from 'react-native-elements';
 import {
   UpIcon,
   DownIcon,
@@ -139,14 +140,6 @@ const WhiteSpace = styled.View`
 const IncentiveText = styled.Text`
   margin-left: 10;
   font-size: 15px;
-`;
-
-const Image = styled.Image`
-  height: 60px;
-  width: 60px;
-  border-radius: 50px;
-  border-width: 1px;
-  border-color: #ccc;
 `;
 
 const WorkTime = styled.View`
@@ -282,10 +275,13 @@ export default ({
   const FixScheduleStepOne = () => (
     <Section>
       <Row>
-        <Image
+        <Avatar
+          rounded
+          size={50}
           source={{
-            uri: `${'http://133.186.209.113/uploads/' + IMAGE}`,
+            uri: `http://133.186.209.113/uploads/${IMAGE}`,
           }}
+          containerStyle={{borderWidth: 1, borderColor: '#ccc'}}
         />
         <CntArea>
           <NameText style={{marginBottom: 10}}>{NAME}</NameText>

@@ -38,6 +38,7 @@ import {
 } from '../../../../constants/Icons';
 import InputLine from '../../../../components/InputLine';
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import {Avatar} from 'react-native-elements';
 
 interface IBox {
   isBold: boolean;
@@ -56,15 +57,6 @@ const Text = styled.Text``;
 const Touchable = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-`;
-
-const Image = styled.Image`
-  width: 70px;
-  height: 70px;
-  border-radius: 35px;
-  border-color: #ccc;
-  border-width: 1px;
-  margin: 0 5px;
 `;
 
 const Container = styled.View`
@@ -425,9 +417,16 @@ export default ({
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <Container>
             <EmployeeBox>
-              <Image
+              <Avatar
+                rounded
+                size={60}
                 source={{
                   uri: `http://133.186.209.113/uploads/${image}`,
+                }}
+                containerStyle={{
+                  borderWidth: 1,
+                  borderColor: '#ccc',
+                  marginHorizontal: 5,
                 }}
               />
               <EmployeeText>{name}</EmployeeText>

@@ -8,6 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
 import utils from '../../../../constants/utils';
 import {KeyboardAvoidingView} from 'react-native';
+import {Avatar} from 'react-native-elements';
 import {
   ForwardIcon,
   EllipseIcon,
@@ -185,8 +186,6 @@ export default ({
         setImgModalIdx(item.index);
       }}
       key={index}>
-      {console.log(item, index)}
-
       <Image
         source={{
           uri: 'http://cuapi.shop-sol.com/uploads/' + item.item,
@@ -255,19 +254,19 @@ export default ({
                 {comment?.map((data, index) => (
                   <CommentBox key={index}>
                     <Row>
-                      <Image
-                        style={{
-                          height: 50,
-                          width: 50,
-                          borderWidth: 1,
-                          borderRadius: 25,
-                          borderColor: '#ccc',
-                          marginRight: 10,
-                        }}
+                      <Avatar
+                        rounded
+                        size={60}
                         source={{
                           uri: `http://133.186.209.113/uploads/3.png`,
                         }}
+                        containerStyle={{
+                          borderWidth: 1,
+                          borderColor: '#ccc',
+                          marginRight: 10,
+                        }}
                       />
+
                       <Column>
                         <Row>
                           <Text

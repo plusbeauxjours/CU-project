@@ -11,6 +11,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import moment from 'moment';
+import {Avatar} from 'react-native-elements';
 
 import {
   BackIcon,
@@ -62,15 +63,6 @@ const EmployeeBox = styled.View`
   align-items: center;
   flex-direction: row;
   background-color: white;
-`;
-
-const Image = styled.Image`
-  width: 60px;
-  height: 60px;
-  border-radius: 50px;
-  border-color: #ccc;
-  border-width: 1px;
-  margin-right: 25px;
 `;
 
 const NameText = styled.Text`
@@ -462,8 +454,16 @@ export default ({
           <Container>
             <Section>
               <EmployeeBox>
-                <Image
-                  source={{uri: `${'http://133.186.209.113/uploads/' + image}`}}
+                <Avatar
+                  rounded
+                  size={60}
+                  source={{
+                    uri: `http://133.186.209.113/uploads/${image}`,
+                  }}
+                  containerStyle={{
+                    borderWidth: 1,
+                    borderColor: '#ccc',
+                  }}
                 />
                 <NameBox>
                   <Row>

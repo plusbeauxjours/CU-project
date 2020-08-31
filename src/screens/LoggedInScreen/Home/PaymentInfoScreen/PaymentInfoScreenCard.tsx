@@ -6,6 +6,7 @@ import {
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import {ForwardIcon} from '../../../../constants/Icons';
+import {Avatar} from 'react-native-elements';
 
 const Touchable = styled.TouchableOpacity`
   margin-top: 10px;
@@ -16,14 +17,6 @@ const Touchable = styled.TouchableOpacity`
   justify-content: space-between;
   border-radius: 20px;
   background-color: white;
-`;
-
-const Image = styled.Image`
-  width: ${hp('7%')}px;
-  height: ${hp('7%')}px;
-  border-radius: 50px;
-  border-color: #ccc;
-  border-width: 1px;
 `;
 
 const ImageArea = styled.View`
@@ -73,9 +66,15 @@ export default ({
   return (
     <Touchable key={key} onPress={() => payInfo()}>
       <ImageArea>
-        <Image
+        <Avatar
+          rounded
+          size={60}
           source={{
-            uri: `${'http://133.186.209.113/uploads/' + image}`,
+            uri: `http://133.186.209.113/uploads/${image}`,
+          }}
+          containerStyle={{
+            borderWidth: 1,
+            borderColor: '#ccc',
           }}
         />
         <TitleArea>

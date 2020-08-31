@@ -1,15 +1,16 @@
 import React from 'react';
-import api from '../../../../constants/LoggedInApi';
 import {useDispatch} from 'react-redux';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
+import {Avatar} from 'react-native-elements';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
+
+import api from '../../../../constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import {setSplashVisible} from '../../../../redux/splashSlice';
 import {EllipseIcon} from '../../../../constants/Icons';
 
 const Row = styled.View`
@@ -61,14 +62,6 @@ const Container = styled.View`
   border-color: #dedede;
   align-items: center;
   justify-content: center;
-`;
-
-const Image = styled.Image`
-  height: 60px;
-  width: 60px;
-  border-radius: 50px;
-  border-width: 1px;
-  border-color: #ccc;
 `;
 
 const ContentBox = styled.View`
@@ -273,10 +266,13 @@ export default ({
           )}
         </RowSpace>
         <Row>
-          <Image
+          <Avatar
+            rounded
+            size={50}
             source={{
-              uri: `${'http://133.186.209.113/uploads/' + image}`,
+              uri: `http://133.186.209.113/uploads/${image}`,
             }}
+            containerStyle={{borderWidth: 1, borderColor: '#ccc'}}
           />
           <CntArea>
             {CHANGE_START == null && CHANGE_END == null ? (
@@ -328,7 +324,6 @@ export default ({
           </CntArea>
         </Row>
       </ContentBox>
-
       <ButtonGroup />
     </Container>
   );

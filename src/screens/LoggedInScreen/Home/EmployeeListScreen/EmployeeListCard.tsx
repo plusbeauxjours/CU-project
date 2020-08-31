@@ -6,6 +6,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {ForwardIcon} from '../../../../constants/Icons';
+import {Avatar} from 'react-native-elements';
 
 const Touchable = styled.TouchableOpacity`
   padding: 0 20px;
@@ -14,14 +15,6 @@ const Touchable = styled.TouchableOpacity`
   background-color: white;
   flex-direction: row;
   align-items: center;
-`;
-const Image = styled.Image`
-  width: ${hp('7%')}px;
-  height: ${hp('7%')}px;
-  border-radius: 50px;
-  border-color: #ccc;
-  border-width: 1px;
-  margin: 0 ${wp('1%')}px ${wp('3%')}px ${wp('1%')}px;
 `;
 
 const ContentBox = styled.View`
@@ -74,11 +67,13 @@ export default ({
           onRefresh,
         });
       }}>
-      <Image
-        resizeMode="stretch"
+      <Avatar
+        rounded
+        size={60}
         source={{
-          uri: `${'http://133.186.209.113/uploads/' + image}`,
+          uri: `http://133.186.209.113/uploads/${image}`,
         }}
+        containerStyle={{borderWidth: 1, borderColor: '#ccc', marginRight: 10}}
       />
       <ContentBox>
         <NameBox>

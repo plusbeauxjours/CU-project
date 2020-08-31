@@ -156,14 +156,6 @@ const NormalBox = styled.TouchableOpacity`
   justify-content: center;
 `;
 
-const Image = styled.Image`
-  height: 60px;
-  width: 60px;
-  border-radius: 50px;
-  border-width: 1px;
-  border-color: #ccc;
-`;
-
 const WorkTime = styled.View`
   height: 15px;
   flex-direction: row;

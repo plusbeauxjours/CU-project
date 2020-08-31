@@ -7,6 +7,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {Avatar} from 'react-native-elements';
 
 import {userLogout} from '../../../../redux/userSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
@@ -29,16 +30,6 @@ const BoxArea = styled.View`
   margin-top: 20px;
   padding: 20px 0;
   background-color: white;
-`;
-
-const Image = styled.Image`
-  height: 70px;
-  width: 70px;
-  border-radius: 50px;
-  border-width: 1px;
-  border-color: #e0e0e0;
-  background-color: white;
-  margin-left: 40px;
 `;
 
 const PersonInfo = styled.View`
@@ -141,7 +132,18 @@ export default () => {
     <BackGround>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Info>
-          <Image source={{uri: `http://133.186.209.113/uploads/3.png`}} />
+          <Avatar
+            rounded
+            size={60}
+            source={{
+              uri: `http://133.186.209.113/uploads/${image}`,
+            }}
+            containerStyle={{
+              borderWidth: 1,
+              borderColor: '#ccc',
+              marginLeft: 40,
+            }}
+          />
           <PersonInfo>
             <Name>
               <NameText>{NAME}</NameText>
