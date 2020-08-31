@@ -117,8 +117,9 @@ export default () => {
           }
         } catch (error) {
           console.log(error);
+        } finally {
+          dispatch(setSplashVisible(false));
         }
-        dispatch(setSplashVisible(false));
       }
     };
   };
@@ -126,11 +127,11 @@ export default () => {
   const leaveWork = async (a) => {
     setIsScanned(false);
     setWorkingModalOpen(false);
-    dispatch(setSplashVisible(true));
 
     const callback = async () => {
       if (modalRef && !modalRef.current.isVisible) {
         try {
+          dispatch(setSplashVisible(true));
           const {data} = await api.attendanceOffWork({
             STORE_ID: QR,
             LAT: lat,
@@ -153,8 +154,9 @@ export default () => {
           }
         } catch (error) {
           console.log(error);
+        } finally {
+          dispatch(setSplashVisible(false));
         }
-        dispatch(setSplashVisible(false));
       }
     };
   };
@@ -201,10 +203,8 @@ export default () => {
 
   const fetchData = async () => {
     if (HomeCard?.length === 0) {
-      console.log('datafetching');
       try {
         const {data} = await api.storeList(MEMBER_SEQ, STORE);
-        console.log(data);
         dispatch(setHomeCard(data.result));
       } catch (error) {
         console.log(error);
@@ -303,7 +303,6 @@ export default () => {
   };
 
   useEffect(() => {
-    console.log('useEffectHomeCard', HomeCard);
     fetchData();
     if (utils.isAndroid) {
       setPlatform('android');

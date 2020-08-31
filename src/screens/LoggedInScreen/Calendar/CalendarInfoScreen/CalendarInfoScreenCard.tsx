@@ -101,6 +101,7 @@ const CntArea = styled.View`
 `;
 
 export default ({
+  data,
   index,
   SCH_ID,
   VACATION,
@@ -184,6 +185,7 @@ export default ({
           <SelectBoxTouchable
             onPress={() => {
               navigation.navigate('WorkTimeScreen', {
+                data,
                 STORE_SEQ,
                 date,
               });
@@ -193,6 +195,7 @@ export default ({
           <SelectBoxTouchable
             onPress={() => {
               navigation.navigate('RealWorkTimeScreen', {
+                data,
                 STORE_SEQ,
                 date,
               });
@@ -202,6 +205,7 @@ export default ({
           <SelectBoxTouchable
             onPress={() => {
               navigation.navigate('WorkDayScreen', {
+                data,
                 STORE_SEQ,
                 date,
                 addWork: TYPE == '3' && VACATION != '1' ? 'addWork' : 'schWork',

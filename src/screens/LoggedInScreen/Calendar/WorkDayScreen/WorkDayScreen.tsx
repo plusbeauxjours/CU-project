@@ -23,8 +23,7 @@ const Touchable = styled.TouchableOpacity``;
 
 const ScrollView = styled.ScrollView``;
 
-const Bold = styled.Text<Icolor>`
-  font-weight: bold;
+const Text = styled.Text<Icolor>`
   margin-left: 10px;
   font-size: 15px;
 `;
@@ -36,8 +35,9 @@ const Row = styled.View`
 
 const RowSpace = styled(Row)`
   justify-content: space-between;
-  height: 30px;
+  height: 60px;
 `;
+
 const Container = styled.View`
   width: 100%;
   padding: 20px;
@@ -47,8 +47,8 @@ const Container = styled.View`
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {data: SCH_ID, STORE_SEQ, day, addWork} = params;
-
+  const {data: SCH_ID, STORE_SEQ, date, addWork} = params;
+  console.log('SCH_ID', SCH_ID);
   const alertModal = (text) => {
     const params = {
       type: 'alert',
@@ -98,7 +98,7 @@ export default ({route: {params}}) => {
         navigation.navigate(menu, {
           data: SCH_ID,
           STORE_SEQ,
-          day,
+          date,
         });
       }}>
       <RowSpace>
@@ -107,8 +107,8 @@ export default ({route: {params}}) => {
         ) : (
           menu !== '' && <TimerIcon color={'#642A8C'} />
         )}
-        <Bold color={menu == '' ? '#FF3D3D' : '#642A8C'}>{title}</Bold>
-        <ForwardIcon color={menu == '' ? '#FF3D3D' : '#642A8C'} />
+        <Text color={menu == '' ? '#FF3D3D' : '#642A8C'}>{title}</Text>
+        <ForwardIcon size={24} color={menu == '' ? '#FF3D3D' : '#642A8C'} />
       </RowSpace>
     </Touchable>
   );

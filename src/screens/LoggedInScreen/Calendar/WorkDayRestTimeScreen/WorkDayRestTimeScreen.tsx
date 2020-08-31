@@ -75,7 +75,7 @@ export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const {REST_TIME, data: dataProps, STORE_SEQ, day} = params;
+  const {REST_TIME, data: dataProps, STORE_SEQ, date} = params;
   const employeeID = dataProps.EMP_ID;
 
   const [prevRestTime, setPrevRestTime] = useState<string>('');
@@ -107,7 +107,7 @@ export default ({route: {params}}) => {
           SCH_ID: dataProps.SCH_ID.toString(),
           EMP_NAME: dataProps.NAME.toString(),
           NEW_REST_TIME: restTime,
-          DATE: day.toString(),
+          DATE: date.toString(),
         });
         if (data.message === 'SUCCESS') {
           navigation.goBack();
@@ -119,7 +119,7 @@ export default ({route: {params}}) => {
           EMP_SEQ: employeeID.toString(),
           EMP_NAME: dataProps.NAME.toString(),
           NEW_REST_TIME: restTime,
-          DATE: day.toString(),
+          DATE: date.toString(),
           START: dataProps.ATTENDANCE_TIME.toString(),
           END: dataProps.WORK_OFF_TIME.toString(),
         });

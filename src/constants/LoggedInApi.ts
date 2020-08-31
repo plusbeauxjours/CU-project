@@ -170,4 +170,6 @@ export default {
     createScheduleVacation2: (data: any) => oldApi("post", '/Management/createScheduleVacation2', data),
     deleteSchedule: (data: any) => callApi("post", "/auth/deleteschedule/", data),
     createNewSchedule: (data: any) => oldApi("post", '/Management/new_schedule_create', data),
+    createSchedule: (data: any) => oldApi("post", '/Management/schedule_create', data),
+    updateSchedule: (data: any) => oldApi("post", '/Management/update', data),
 }

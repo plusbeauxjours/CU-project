@@ -107,7 +107,7 @@ const ModalYesButton = styled.TouchableOpacity`
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {data, STORE_SEQ, day} = params;
+  const {data, STORE_SEQ, date} = params;
   const {EMP_ID, NAME, YEAR} = data;
 
   const [isHelpModalVisible, setisHelpModalVisible] = useState<boolean>(false);
@@ -167,15 +167,17 @@ export default ({route: {params}}) => {
 
     try {
       dispatch(setSplashVisible(true));
+      console.log(EMP_ID, STORE_SEQ, NAME, date, restType);
       const {data: Data} = await api.createScheduleVacation2({
         EMP_SEQ: EMP_ID,
         STORE_ID: STORE_SEQ,
         EMP_NAME: NAME,
-        DATE: day,
+        DATE: date,
         TYPE: restType,
         START: data.START ? data.START : '',
         END: data.END ? data.END : '',
       });
+      console.log('Data', Data);
       if (Data.message === 'SUCCESS') {
         navigation.goBack();
         alertModal('휴무설정이 완료되었습니다.');

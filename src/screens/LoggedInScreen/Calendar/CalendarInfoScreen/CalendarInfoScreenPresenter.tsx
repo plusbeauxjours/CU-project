@@ -76,6 +76,7 @@ export default ({
     <>
       <CalendarInfoScreenCard
         index={index}
+        data={data}
         SCH_ID={data.WORKDATE}
         VACATION={data.VACATION}
         TYPE={data.TYPE}
