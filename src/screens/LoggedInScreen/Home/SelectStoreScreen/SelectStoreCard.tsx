@@ -154,6 +154,8 @@ export default ({
             setSES(StoreEmpSeq);
           } else if (STORE == 0 && TYPE == '0') {
             alertModal('합류승인 대기중입니다.');
+          } else {
+            null;
           }
         }
       }}>

@@ -21,23 +21,18 @@ export default () => {
   const {STOREDATA, STORE, handler} = useSelector(
     (state: any) => state.userReducer,
   );
-
-  if (STOREDATA !== undefined) {
-    if (STORE == '1' || STOREDATA.CalendarEdit == '1' || undefined) {
-      return (
-        <Touchable
-          onPress={() => {
-            navigation.navigate('CalendarAddScreen', {
-              STOREDATA,
-              handler,
-            });
-          }}>
-          <CalendarIcon />
-          <Text>일정추가</Text>
-        </Touchable>
-      );
-    }
-  } else {
-    return null;
+  if (STORE == '1' || STOREDATA.CalendarEdit == '1' || undefined) {
+    return (
+      <Touchable
+        onPress={() => {
+          navigation.navigate('CalendarAddScreen', {
+            STOREDATA,
+            handler,
+          });
+        }}>
+        <CalendarIcon />
+        <Text>일정추가</Text>
+      </Touchable>
+    );
   }
 };

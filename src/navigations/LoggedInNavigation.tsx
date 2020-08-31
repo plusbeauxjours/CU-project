@@ -203,7 +203,6 @@ export default () => {
           component={InviteEmployeeScreen}
           options={{
             title: '직원 초대',
-            headerRight: () => <CalendarInfoHeader />,
           }}
         />
         <LoggedInNavigation.Screen

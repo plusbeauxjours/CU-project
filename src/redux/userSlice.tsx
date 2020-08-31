@@ -15,6 +15,7 @@ const userSlice = createSlice({
     CalendarData: '',
     checkListData: '',
     StoreEmpSeq: '',
+    HomeCard: [],
   },
   reducers: {
     setVersion(state, action) {
@@ -84,6 +85,7 @@ const userSlice = createSlice({
       state.MEMBER_SEQ = '';
       state.STORE = '';
       state.mobileNo = '';
+      state.HomeCard = [];
     },
     setUserProfile(state, action) {
       const {payload: userProfile} = action;
@@ -125,6 +127,14 @@ const userSlice = createSlice({
         StoreEmpSeq: data,
       };
     },
+    setHomeCard(state, action) {
+      const {payload: data} = action;
+      console.log('setHomeCard', data);
+      return {
+        ...state,
+        HomeCard: data,
+      };
+    },
   },
 });
 
@@ -142,14 +152,12 @@ export const {
   setCalendarData,
   setCheckListData,
   setStoreEmpSeq,
+  setHomeCard,
 } = userSlice.actions;
 
 export const userLogin = () => async (dispatch) => {
   try {
     console.log('userLogin');
-    // const {
-    //   data: { uuid, token },
-    // } = await api.login(form);
     dispatch(setLogIn());
     // const { data } = await api.user(uuid);
     // if (data) {

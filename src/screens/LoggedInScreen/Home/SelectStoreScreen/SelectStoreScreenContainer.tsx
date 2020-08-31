@@ -1,16 +1,18 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import SelectStoreScreenPresenter from './SelectStoreScreenPresenter';
-
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import {setStoreEmpSeq, setStore} from '../../../../redux/userSlice';
-import utils from '../../../../constants/utils';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {useNavigation} from '@react-navigation/native';
-import api from '../../../../constants/LoggedInApi';
 import {BackHandler, Linking} from 'react-native';
 
-let modalInterval;
+import {setSplashVisible} from '../../../../redux/splashSlice';
+import {
+  setStoreEmpSeq,
+  setStore,
+  setHomeCard,
+} from '../../../../redux/userSlice';
+import utils from '../../../../constants/utils';
+import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import api from '../../../../constants/LoggedInApi';
 
 export default () => {
   const modalRef = useRef(null);
@@ -22,11 +24,9 @@ export default () => {
 
   const [appVersion, setAppVersion] = useState<string>('');
   const [platform, setPlatform] = useState<string>('');
-  const [storeState, setStoreState] = useState<[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [calendarData, setCalendarData] = useState<[]>([]);
   const [checkListData, setCheckListData] = useState<[]>([]);
-  const [myStore, setMyStore] = useState<[]>([]);
   const [search, setSearch] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [address, setAddress] = useState<string>('');
@@ -88,11 +88,11 @@ export default () => {
   const goWork = async () => {
     setIsScanned(false);
     setWorkingModalOpen(false);
-    dispatch(setSplashVisible(true));
 
     const callback = async () => {
       if (modalRef && !modalRef.current.isVisible) {
         try {
+          dispatch(setSplashVisible(true));
           const {data} = await api.attendanceWork({
             STORE_ID: QR,
             LAT: lat,
@@ -118,18 +118,9 @@ export default () => {
         } catch (error) {
           console.log(error);
         }
-
         dispatch(setSplashVisible(false));
-
-        if (modalInterval) {
-          clearInterval(modalInterval);
-          modalInterval = null;
-        }
       }
     };
-    if (!modalInterval) {
-      modalInterval = setTimeout(callback, 500);
-    }
   };
 
   const leaveWork = async (a) => {
@@ -164,15 +155,8 @@ export default () => {
           console.log(error);
         }
         dispatch(setSplashVisible(false));
-        if (modalInterval) {
-          clearInterval(modalInterval);
-          modalInterval = null;
-        }
       }
     };
-    if (!modalInterval) {
-      modalInterval = setTimeout(callback, 500);
-    }
   };
 
   const checkVersion = async () => {
@@ -216,14 +200,15 @@ export default () => {
   };
 
   const fetchData = async () => {
-    try {
-      const {data} = await api.storeList(MEMBER_SEQ, STORE);
-      // dispatch(setHomeCard(data.result));
-      setStoreState(data.result);
-      setMyStore(data.result);
-      setRefreshing(false);
-    } catch (error) {
-      console.log(error);
+    if (HomeCard?.length === 0) {
+      console.log('datafetching');
+      try {
+        const {data} = await api.storeList(MEMBER_SEQ, STORE);
+        console.log(data);
+        dispatch(setHomeCard(data.result));
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -318,11 +303,8 @@ export default () => {
   };
 
   useEffect(() => {
-    if (HomeCard !== undefined && Object.keys(HomeCard).length != 0) {
-      setStore(HomeCard);
-    }
+    console.log('useEffectHomeCard', HomeCard);
     fetchData();
-    dispatch(setSplashVisible(false));
     if (utils.isAndroid) {
       setPlatform('android');
     } else {
@@ -332,20 +314,10 @@ export default () => {
     checkVersion();
   }, []);
 
-  useEffect(() => {
-    return () => {
-      if (modalInterval) {
-        clearInterval(modalInterval);
-        modalInterval = null;
-      }
-    };
-  });
-
   return (
     <SelectStoreScreenPresenter
       STORE={STORE}
-      storeState={storeState}
-      myStore={myStore}
+      HomeCard={HomeCard}
       search={search}
       refreshing={refreshing}
       onRefresh={onRefresh}

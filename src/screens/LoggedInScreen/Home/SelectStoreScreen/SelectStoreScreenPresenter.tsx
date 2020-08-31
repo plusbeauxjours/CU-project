@@ -161,14 +161,13 @@ const BarcodeModalContainer = styled.View`
 `;
 const BarcodeModalBox = styled.View`
   flex: 1;
-  alignitems: center;
+  align-items: center;
   justify-content: center;
 `;
 
 export default ({
   STORE,
-  storeState,
-  myStore,
+  HomeCard,
   search,
   refreshing,
   onRefresh,
@@ -199,7 +198,7 @@ export default ({
   alertModal,
 }) => {
   const StoreList = () => {
-    if (myStore.length === 0) {
+    if (HomeCard?.length === 0) {
       if (STORE == '1') {
         return (
           <EmptyListWrapper>
@@ -224,9 +223,8 @@ export default ({
           </EmptyListWrapper>
         );
       }
-    }
-    return myStore.map((data, index) => {
-      return (
+    } else {
+      return HomeCard?.map((data, index) => (
         <SelectStoreCard
           key={index}
           data={data}
@@ -265,8 +263,8 @@ export default ({
           alertModal={alertModal}
           openModal={openModal}
         />
-      );
-    });
+      ));
+    }
   };
 
   return (
@@ -306,7 +304,7 @@ export default ({
               justifyContent: 'flex-start',
               paddingBottom: 20,
             }}>
-            {storeState.map((data, index) => {
+            {HomeCard?.map((data, index) => {
               return (
                 <SelectStoreCard
                   key={index}

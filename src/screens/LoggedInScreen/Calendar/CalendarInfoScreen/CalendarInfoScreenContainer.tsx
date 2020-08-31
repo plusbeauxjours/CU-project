@@ -28,8 +28,6 @@ export default ({route: {params}}) => {
   const [month, setMonth] = useState<string>(moment().format('MM'));
   const [day, setDay] = useState<string>(moment().format('DD'));
   const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
-  const [isReady, setIsReady] = useState<boolean>(false);
-  const [visibleSpinner, setVisibleSpinner] = useState<boolean>(false);
 
   const onChangeMonth = async (item) => {
     try {

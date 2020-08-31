@@ -169,4 +169,5 @@ export default {
     getEmpAnnual: (EMP_ID: string, YEAR: string) => oldApi("get", `/Employee/getEmpAnnual?EMP_SEQ=${EMP_ID}&YEAR=${YEAR}`),
     createScheduleVacation2: (data: any) => oldApi("post", '/Management/createScheduleVacation2', data),
     deleteSchedule: (data: any) => callApi("post", "/auth/deleteschedule/", data),
+    createNewSchedule: (data: any) => oldApi("post", '/Management/new_schedule_create', data),
 }
