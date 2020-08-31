@@ -1,3 +1,3 @@
-# Shopsol_wesop
+# CUwesop
 
-### Refactoring Shopsol mobile application with react-native-cli.
+### Refactoring CUwesop mobile application with react-native-cli.
