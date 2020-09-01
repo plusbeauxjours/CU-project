@@ -51,7 +51,7 @@ export default {
     getSMS: (data: any) => callApi("post", "/auth/getsms/", data),
     findPwd: (data: any) => callApi("post", "/auth/findPwd/", data),
     updatePush: (data: any) => oldApi("post", "/Employee/updatePush/", data),
-    getstoreinfo: (data: any) => callApi("post", "/auth/getstoreinfo/", data),
+    getStoreInfo: (data: any) => callApi("post", "/auth/getstoreinfo/", data),
     getCertificate: (data: any) => callApi("post", "/auth/getCERTIFICATE/", data),
 
     getPush: (data: any) => oldApi("post", "/Employee/getPush", data),

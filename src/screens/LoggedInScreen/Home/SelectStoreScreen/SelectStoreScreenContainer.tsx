@@ -82,7 +82,13 @@ export default () => {
     if (STORE == 0 && data.TYPE == '0') {
       alertModal('', '합류승인 대기중입니다.');
     } else {
-      navigation.navigate('HomeScreen', {STORE_SEQ: data.STORE_SEQ, STORE});
+      navigation.navigate('HomeScreen', {
+        STORE_SEQ: data.STORE_SEQ,
+        STORE,
+        STORE_NAME: data.NAME,
+        WORKING_COUNT: data.workinglist,
+        TOTAL_COUNT: data.emplist,
+      });
     }
   };
 
@@ -92,18 +98,16 @@ export default () => {
   };
 
   const fetchData = async () => {
-    if (STORELIST_DATA?.length === 0) {
-      try {
-        dispatch(setSplashVisible(true));
-        const {data} = await api.storeList(MEMBER_SEQ, STORE);
-        if (data.message === 'SUCCESS') {
-          dispatch(setSTORELIST_DATA(data.result));
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        dispatch(setSplashVisible(false));
+    try {
+      dispatch(setSplashVisible(true));
+      const {data} = await api.storeList(MEMBER_SEQ, STORE);
+      if (data.message === 'SUCCESS') {
+        dispatch(setSTORELIST_DATA(data.result));
       }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(setSplashVisible(false));
     }
   };
 

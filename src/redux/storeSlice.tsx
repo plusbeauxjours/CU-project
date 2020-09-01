@@ -7,7 +7,10 @@ const storeSlice = createSlice({
     STORE_NAME: '',
     CALENDAR_DATA: '',
     CHECKLIST_DATA: '',
-    STORE_EMP_SEQ: '',
+    EMP_SEQ: '',
+    STORE_DATA: [],
+    STOREPAY_SHOW: '',
+    IS_MANAGER: '',
   },
   reducers: {
     setSTORE_SEQ(state, action) {
@@ -42,12 +45,36 @@ const storeSlice = createSlice({
         CHECKLIST_DATA,
       };
     },
-    setSTORE_EMP_SEQ(state, action) {
-      const {payload: STORE_EMP_SEQ} = action;
-      console.log('setSTORE_EMP_SEQ', STORE_EMP_SEQ);
+    setEMP_SEQ(state, action) {
+      const {payload: EMP_SEQ} = action;
+      console.log('setEMP_SEQ', EMP_SEQ);
       return {
         ...state,
-        STORE_EMP_SEQ,
+        EMP_SEQ,
+      };
+    },
+    setSTORE_DATA(state, action) {
+      const {payload: STORE_DATA} = action;
+      console.log('setSTORE_DATA', STORE_DATA);
+      return {
+        ...state,
+        STORE_DATA,
+      };
+    },
+    setSTOREPAY_SHOW(state, action) {
+      const {payload: STOREPAY_SHOW} = action;
+      console.log('setSTOREPAY_SHOW', STOREPAY_SHOW);
+      return {
+        ...state,
+        STOREPAY_SHOW,
+      };
+    },
+    setIS_MANAGER(state, action) {
+      const {payload: IS_MANAGER} = action;
+      console.log('setIS_MANAGER', IS_MANAGER);
+      return {
+        ...state,
+        IS_MANAGER: IS_MANAGER == 1 ? '점장' : '스태프',
       };
     },
   },
@@ -58,22 +85,10 @@ export const {
   setSTORE_NAME,
   setCALENDAR_DATA,
   setCHECKLIST_DATA,
-  setSTORE_EMP_SEQ,
+  setEMP_SEQ,
+  setSTORE_DATA,
+  setSTOREPAY_SHOW,
+  setIS_MANAGER,
 } = storeSlice.actions;
 
-export const setStoreInfo = () => async (dispatch) => {
-  console.log('setStoreInfo');
-};
-
 export default storeSlice.reducer;
-
-// {
-//   "STORE_SEQ": "5562",
-//   "NAME": "포",
-//   "FIVETYPE": "0",
-//   "CHECK_COUNT": "99",
-//   "ADDR1": "서울 마포구 백범로 1 (노고산동)",
-//   "ADDR2": "ㅎ",
-//   "emplist": 0,
-//   "workinglist": 0
-// },
