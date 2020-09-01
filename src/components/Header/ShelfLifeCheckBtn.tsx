@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
 
 import {CartIcon} from '../../constants/Icons';
 
@@ -19,18 +18,8 @@ const Text = styled.Text`
 
 export default () => {
   const navigation = useNavigation();
-  const {NAME, EMP_SEQ, STORE_SEQ} = useSelector(
-    (state: any) => state.userReducer,
-  );
   return (
-    <Touchable
-      onPress={() => {
-        navigation.navigate('AddShelfLifeScreen', {
-          NAME,
-          EMP_SEQ,
-          STORE_SEQ,
-        });
-      }}>
+    <Touchable onPress={() => navigation.navigate('AddShelfLifeScreen')}>
       <CartIcon size={22} color="white" />
       <Text>등록하기</Text>
     </Touchable>

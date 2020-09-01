@@ -96,7 +96,7 @@ const Footer = styled.View`
   bottom: 0;
 `;
 
-export default ({gotoLogin, gotoVerification, testBtn}) => {
+export default ({gotoLogin, gotoVerification}) => {
   const RBSheet1 = useRef(null);
   const RBSheet2 = useRef(null);
   const RBSheet3 = useRef(null);
@@ -165,7 +165,6 @@ export default ({gotoLogin, gotoVerification, testBtn}) => {
           <SmallText>제공에 동의합니다.</SmallText>
         </TextBox>
         <Button onPress={() => gotoVerification()}>
-          {/* <Button onPress={() => testBtn()}> */}
           <WhiteText>회원가입</WhiteText>
         </Button>
       </Footer>

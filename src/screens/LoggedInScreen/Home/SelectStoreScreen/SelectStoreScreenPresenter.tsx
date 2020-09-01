@@ -167,20 +167,13 @@ const BarcodeModalBox = styled.View`
 
 export default ({
   STORE,
-  HomeCard,
+  STORELIST_DATA,
   search,
   refreshing,
   onRefresh,
-  addStore,
+  gotoAddStore,
   storeName,
   openModal,
-  setStoreEmpSeqFn,
-  setStoreFn,
-  setStoreNameFn,
-  setCalendarDataFn,
-  setCheckListDataFn,
-  calendarData,
-  checkListData,
   modalRef,
   workingModalOpen,
   setWorkingModalOpen,
@@ -190,15 +183,33 @@ export default ({
   hasCameraPermission,
   handleBarCodeScanned,
   setBarcodeModalOpen,
-  joinModalOpen,
-  setJoinModalOpen,
+  isJoinModalOpen,
+  setIsJoinModalOpen,
   submit,
-  setName,
-  setAddress,
   alertModal,
+  gotoHomeScreen,
 }) => {
-  const StoreList = () => {
-    if (HomeCard?.length === 0) {
+  const StoreList = ({search}) => {
+    if (STORELIST_DATA && STORELIST_DATA.length !== 0) {
+      return STORELIST_DATA?.map((data, index) => (
+        <SelectStoreCard
+          key={index}
+          data={data}
+          name={data.NAME}
+          address1={data.ADDR1}
+          address2={data.ADDR2}
+          employee={data.emplist}
+          STORE_SEQ={data.STORE_SEQ}
+          STORE={STORE}
+          search={search}
+          TYPE={data.TYPE}
+          MANAGER={data.IS_MANAGER == 1 ? '[점장]' : '[스태프]'}
+          workinglist={data.workinglist}
+          openModal={openModal}
+          gotoHomeScreen={gotoHomeScreen}
+        />
+      ));
+    } else {
       if (STORE == '1') {
         return (
           <EmptyListWrapper>
@@ -223,47 +234,6 @@ export default ({
           </EmptyListWrapper>
         );
       }
-    } else {
-      return HomeCard?.map((data, index) => (
-        <SelectStoreCard
-          key={index}
-          data={data}
-          name={data.NAME}
-          address1={data.ADDR1}
-          address2={data.ADDR2}
-          employee={data.emplist}
-          STORE_SEQ={data.STORE_SEQ}
-          STORE={STORE}
-          EMP_SEQ={data.EMP_SEQ}
-          search={false}
-          JOIN={data.JOIN}
-          TYPE={data.TYPE}
-          MANAGER={data.IS_MANAGER == 1 ? '[점장]' : '[스태프]'}
-          workinglist={data.workinglist}
-          StoreEmpSeq={data.EMP_SEQ}
-          setSES={(num) => {
-            setStoreEmpSeqFn(num);
-          }}
-          setStep={(num) => {
-            setStoreFn(num);
-          }}
-          setST={(num) => {
-            setStoreNameFn(num);
-          }}
-          setCalendarData={(data) => {
-            setCalendarDataFn(data);
-          }}
-          CalendarData={calendarData[index]}
-          setCheckListData={(data) => {
-            setCheckListDataFn(data);
-          }}
-          CheckListData={checkListData[index]}
-          setName={setName}
-          setAddress={setAddress}
-          alertModal={alertModal}
-          openModal={openModal}
-        />
-      ));
     }
   };
 
@@ -271,66 +241,26 @@ export default ({
     <BackGround>
       {STORE == '1' && (
         <AddStoreBox>
-          <AddStoreButton onPress={() => addStore()}>
+          <AddStoreButton onPress={() => gotoAddStore()}>
             <AddStoreButtonText>점포 등록하기</AddStoreButtonText>
             <AddCircleIcon />
           </AddStoreButton>
         </AddStoreBox>
       )}
-      {search == false ? (
-        <Container>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-            contentContainerStyle={{
-              alignItems: 'center',
-              justifyContent: 'flex-start',
-              paddingBottom: 20,
-            }}>
-            <StoreList />
-          </ScrollView>
-        </Container>
-      ) : (
-        <Container>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-            contentContainerStyle={{
-              alignItems: 'center',
-              justifyContent: 'flex-start',
-              paddingBottom: 20,
-            }}>
-            {HomeCard?.map((data, index) => {
-              return (
-                <SelectStoreCard
-                  key={index}
-                  data={data}
-                  name={data.NAME}
-                  address1={data.ADDR1}
-                  address2={data.ADDR2}
-                  employee={data.emplist}
-                  STORE_SEQ={data.STORE_SEQ}
-                  STORE={STORE}
-                  EMP_SEQ={data.EMP_SEQ}
-                  JOIN={data.JOIN}
-                  search={true}
-                  workinglist={data.workinglist}
-                  openModal={(a, b) => openModal(a, b)}
-                  setStep={(num) => setStoreFn(num)}
-                  setST={(num) => setStoreNameFn(num)}
-                  setName={setName}
-                  setAddress={setAddress}
-                  alertModal={alertModal}
-                />
-              );
-            })}
-          </ScrollView>
-        </Container>
-      )}
+      <Container>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          contentContainerStyle={{
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            paddingBottom: 20,
+          }}>
+          <StoreList search={search} />
+        </ScrollView>
+      </Container>
       <Modal
         ref={modalRef}
         isVisible={workingModalOpen}
@@ -381,8 +311,8 @@ export default ({
         </Container>
       </Modal>
       <Modal
-        isVisible={joinModalOpen}
-        onBackdropPress={() => setJoinModalOpen(false)}
+        isVisible={isJoinModalOpen}
+        onBackdropPress={() => setIsJoinModalOpen(false)}
         style={{margin: 0, justifyContent: 'flex-end'}}
         avoidKeyboard={true}>
         <BarcodeModalContainer>

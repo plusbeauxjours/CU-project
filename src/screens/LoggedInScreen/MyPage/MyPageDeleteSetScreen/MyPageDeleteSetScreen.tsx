@@ -7,6 +7,7 @@ import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import api from '../../../../constants/LoggedInApi';
 import {userLogout} from '../../../../redux/userSlice';
 import {CheckBoxIcon} from '../../../../constants/Icons';
+import {useNavigation} from '@react-navigation/native';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;

@@ -5,32 +5,23 @@ import {useNavigation} from '@react-navigation/native';
 import {BackHandler, Linking} from 'react-native';
 
 import {setSplashVisible} from '../../../../redux/splashSlice';
-import {
-  setStoreEmpSeq,
-  setStore,
-  setHomeCard,
-} from '../../../../redux/userSlice';
-import utils from '../../../../constants/utils';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import {setSTORELIST_DATA} from '../../../../redux/userSlice';
+import utils from '../../../../constants/utils';
 import api from '../../../../constants/LoggedInApi';
 
 export default () => {
   const modalRef = useRef(null);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {STORE, HomeCard, STORE_SEQ, MEMBER_SEQ, NAME} = useSelector(
+  const {STORE, STORELIST_DATA, MEMBER_SEQ, MEMBER_NAME} = useSelector(
     (state: any) => state.userReducer,
   );
-
   const [appVersion, setAppVersion] = useState<string>('');
   const [platform, setPlatform] = useState<string>('');
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [calendarData, setCalendarData] = useState<[]>([]);
-  const [checkListData, setCheckListData] = useState<[]>([]);
   const [search, setSearch] = useState<boolean>(false);
-  const [name, setName] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
-  const [joinModalOpen, setJoinModalOpen] = useState<boolean>(false);
+  const [isJoinModalOpen, setIsJoinModalOpen] = useState<boolean>(false);
   const [barcodeModalOpen, setBarcodeModalOpen] = useState<boolean>(false);
   const [workingModalOpen, setWorkingModalOpen] = useState<boolean>(false);
   const [storeName, setStoreName] = useState<string>('');
@@ -54,13 +45,7 @@ export default () => {
     }
   };
 
-  const openModal = (name, seq) => {
-    setJoinModalOpen(true);
-    setStoreName(name);
-    setStoreSEQ(seq);
-  };
-
-  const alertModal = (text, title = '', okCallback = () => {}) => {
+  const alertModal = (title, text, okCallback = () => {}) => {
     const params = {
       alertType: 'alert',
       title,
@@ -85,82 +70,7 @@ export default () => {
     }
   };
 
-  const goWork = async () => {
-    setIsScanned(false);
-    setWorkingModalOpen(false);
-
-    const callback = async () => {
-      if (modalRef && !modalRef.current.isVisible) {
-        try {
-          dispatch(setSplashVisible(true));
-          const {data} = await api.attendanceWork({
-            STORE_ID: QR,
-            LAT: lat,
-            LONG: long,
-            MEMBER_SEQ: MEMBER_SEQ,
-            TYPE: 'qr',
-          });
-          if (data.message === 'CONTRACT_END') {
-            alertModal('정확한 사업장 QR코드가 아닙니다');
-          } else if (data.message === 'WORK_ON_SUCCESS') {
-            alertModal('QR코드 출근처리를 완료했습니다');
-          } else if (data.message === 'SCHEDULE_EMPTY') {
-            alertModal('오늘은 근무일이 아닙니다');
-          } else if (data.message === 'SCHEDULE_EXIST') {
-            alertModal('이미 출근처리를 완료했습니다');
-          } else if (data.message === 'ALREADY_SUCCESS') {
-            alertModal('이미 출근처리를 완료했습니다');
-          } else if (data.message === 'FAIL') {
-            alertModal(data.result);
-          } else {
-            alertModal(data.result);
-          }
-        } catch (error) {
-          console.log(error);
-        } finally {
-          dispatch(setSplashVisible(false));
-        }
-      }
-    };
-  };
-
-  const leaveWork = async (a) => {
-    setIsScanned(false);
-    setWorkingModalOpen(false);
-
-    const callback = async () => {
-      if (modalRef && !modalRef.current.isVisible) {
-        try {
-          dispatch(setSplashVisible(true));
-          const {data} = await api.attendanceOffWork({
-            STORE_ID: QR,
-            LAT: lat,
-            LONG: long,
-            MEMBER_SEQ: MEMBER_SEQ,
-            TYPE: 'qr',
-          });
-          if (data.message == 'CONTRACT_END') {
-            alertModal('정확한 사업장 QR코드가 아닙니다');
-          } else if (data.message == 'FAIL') {
-            alertModal(data.result);
-          } else if (data.message == 'SCHEDULE_EMPTY') {
-            alertModal('일하는 시간이 아닙니다.');
-          } else if (data.message == 'ALREADY_SUCCESS') {
-            alertModal('이미 퇴근하였습니다.');
-          } else if (data.message == 'WORK_OFF_SUCCESS') {
-            alertModal('퇴근하였습니다.');
-          } else if (data.message == 'NOWORK') {
-            alertModal('출근기록이 없습니다.');
-          }
-        } catch (error) {
-          console.log(error);
-        } finally {
-          dispatch(setSplashVisible(false));
-        }
-      }
-    };
-  };
-
+  // 버전체크
   const checkVersion = async () => {
     try {
       const {data} = await api.checkApp({
@@ -181,56 +91,79 @@ export default () => {
     }
   };
 
-  const setStoreEmpSeqFn = (Emp) => {
-    dispatch(setStoreEmpSeq(Emp));
-  };
-  const setStoreFn = (step) => {
-    dispatch(setStore(step));
-  };
-  const setStoreNameFn = (STORE_NAME) => {
-    dispatch(setStoreName(STORE_NAME));
-  };
-  const setCalendarDataFn = (data) => {
-    dispatch(setCalendarData(data));
-  };
-  const setCheckListDataFn = (data) => {
-    dispatch(setCheckListData(data));
+  // GOTO 홈스크린
+  const gotoHomeScreen = (data) => {
+    if (search == true) {
+      null;
+    } else if (STORE == 0 && data.TYPE == '0') {
+      alertModal('', '합류승인 대기중입니다.');
+    } else {
+      navigation.navigate('HomeScreen', {STORE_SEQ: data.STORE_SEQ, STORE});
+    }
   };
 
-  const addStore = () => {
+  // GOTO 점포 등록하기
+  const gotoAddStore = () => {
     navigation.navigate('AddStoreScreen', {fetchData});
   };
 
-  const fetchData = async () => {
-    if (HomeCard?.length === 0) {
-      try {
-        const {data} = await api.storeList(MEMBER_SEQ, STORE);
-        dispatch(setHomeCard(data.result));
-      } catch (error) {
-        console.log(error);
-      }
-    }
+  // 합류요청 모달
+  const openModal = (name, seq) => {
+    setIsJoinModalOpen(true);
+    setStoreName(name);
+    setStoreSEQ(seq);
   };
 
+  // 합류요청
   const submit = async () => {
-    setJoinModalOpen(false);
+    setIsJoinModalOpen(false);
     try {
+      dispatch(setSplashVisible(true));
       const {data} = await api.requestJoin({
         STORE_SEQ: storeSEQ,
         MEMBER_SEQ,
-        NAME,
+        NAME: MEMBER_NAME,
       });
     } catch (error) {
       console.log(error);
+    } finally {
+      dispatch(setSplashVisible(false));
     }
   };
 
+  // QR 스캔
+  const handleBarCodeScanned = ({type, data}) => {
+    if (isNaN(data)) {
+      setBarcodeModalOpen(false);
+      setTimeout(() => {
+        alertModal('', '정확한 사업장 QR코드가 아닙니다');
+      }, 400);
+    }
+    if (storeSEQ != data) {
+      setBarcodeModalOpen(false);
+      setTimeout(() => {
+        alertModal('', '정확한 사업장 QR코드가 아닙니다');
+      }, 400);
+    }
+    let scandata = data.split('-');
+    setIsScanned(true);
+    setBarcodeModalOpen(false);
+    setTimeout(() => {
+      if (scandata.length == 2) {
+        checkData();
+      } else {
+        setWorkingModalOpen(true);
+      }
+    }, 500);
+  };
+
+  // QR 체크
   const checkData = async () => {
     setWorkingModalOpen(false);
     setIsScanned(false);
     setBarcodeModalOpen(false);
     try {
-      const {data} = await api.getCheckList({
+      const {data} = await api.getAuthCheckList({
         STORE_ID: QR,
         LAT: lat,
         LONG: long,
@@ -265,41 +198,110 @@ export default () => {
             refresh: () => onRefresh(),
           });
         } else {
-          alertModal('qr error');
+          alertModal('', 'qr error');
         }
       } else if (data.message == 'SCHEDULE_EXIST') {
-        alertModal(data.result);
+        alertModal('', data.result);
       } else {
-        alertModal(data.result);
+        alertModal('', data.result);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleBarCodeScanned = ({type, data}) => {
-    if (isNaN(data)) {
-      setBarcodeModalOpen(false);
-      setTimeout(() => {
-        alertModal('정확한 사업장 QR코드가 아닙니다');
-      }, 400);
-    }
-    if (STORE_SEQ != data) {
-      setBarcodeModalOpen(false);
-      setTimeout(() => {
-        alertModal('정확한 사업장 QR코드가 아닙니다');
-      }, 400);
-    }
-    let scandata = data.split('-');
-    setIsScanned(true);
-    setBarcodeModalOpen(false);
-    setTimeout(() => {
-      if (scandata.length == 2) {
-        checkData();
-      } else {
-        setWorkingModalOpen(true);
+  // QR 출근
+  const goWork = async () => {
+    setIsScanned(false);
+    setWorkingModalOpen(false);
+    const callback = async () => {
+      if (modalRef && !modalRef.current.isVisible) {
+        try {
+          dispatch(setSplashVisible(true));
+          const {data} = await api.attendanceWork({
+            STORE_ID: QR,
+            LAT: lat,
+            LONG: long,
+            MEMBER_SEQ: MEMBER_SEQ,
+            TYPE: 'qr',
+          });
+          if (data.message === 'CONTRACT_END') {
+            alertModal('', '정확한 사업장 QR코드가 아닙니다');
+          } else if (data.message === 'WORK_ON_SUCCESS') {
+            alertModal('', 'QR코드 출근처리를 완료했습니다');
+          } else if (data.message === 'SCHEDULE_EMPTY') {
+            alertModal('', '오늘은 근무일이 아닙니다');
+          } else if (data.message === 'SCHEDULE_EXIST') {
+            alertModal('', '이미 출근처리를 완료했습니다');
+          } else if (data.message === 'ALREADY_SUCCESS') {
+            alertModal('', '이미 출근처리를 완료했습니다');
+          } else if (data.message === 'FAIL') {
+            alertModal('', data.result);
+          } else {
+            alertModal('', data.result);
+          }
+        } catch (error) {
+          console.log(error);
+        } finally {
+          dispatch(setSplashVisible(false));
+        }
       }
-    }, 500);
+    };
+    setTimeout(callback, 500);
+  };
+
+  // QR 퇴근
+  const leaveWork = async (a) => {
+    setIsScanned(false);
+    setWorkingModalOpen(false);
+    const callback = async () => {
+      if (modalRef && !modalRef.current.isVisible) {
+        try {
+          dispatch(setSplashVisible(true));
+          const {data} = await api.attendanceOffWork({
+            STORE_ID: QR,
+            LAT: lat,
+            LONG: long,
+            MEMBER_SEQ: MEMBER_SEQ,
+            TYPE: 'qr',
+          });
+          if (data.message == 'CONTRACT_END') {
+            alertModal('', '정확한 사업장 QR코드가 아닙니다');
+          } else if (data.message == 'FAIL') {
+            alertModal('', data.result);
+          } else if (data.message == 'SCHEDULE_EMPTY') {
+            alertModal('', '일하는 시간이 아닙니다.');
+          } else if (data.message == 'ALREADY_SUCCESS') {
+            alertModal('', '이미 퇴근하였습니다.');
+          } else if (data.message == 'WORK_OFF_SUCCESS') {
+            alertModal('', '퇴근하였습니다.');
+          } else if (data.message == 'NOWORK') {
+            alertModal('', '출근기록이 없습니다.');
+          }
+        } catch (error) {
+          console.log(error);
+        } finally {
+          dispatch(setSplashVisible(false));
+        }
+      }
+    };
+    setTimeout(callback, 500);
+  };
+
+  const fetchData = async () => {
+    if (STORELIST_DATA?.length === 0) {
+      try {
+        dispatch(setSplashVisible(true));
+        const {data} = await api.storeList(MEMBER_SEQ, STORE);
+        if (data.message === 'SUCCESS') {
+          dispatch(setSTORELIST_DATA(data.result));
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        dispatch(setSplashVisible(false));
+      }
+    }
   };
 
   useEffect(() => {
@@ -309,27 +311,20 @@ export default () => {
     } else {
       setPlatform('ios');
     }
-    setAppVersion('1.3.6');
+    setAppVersion('1.3.7');
     checkVersion();
   }, []);
 
   return (
     <SelectStoreScreenPresenter
       STORE={STORE}
-      HomeCard={HomeCard}
+      STORELIST_DATA={STORELIST_DATA}
       search={search}
       refreshing={refreshing}
       onRefresh={onRefresh}
-      addStore={addStore}
+      gotoAddStore={gotoAddStore}
       storeName={storeName}
       openModal={openModal}
-      setStoreEmpSeqFn={setStoreEmpSeqFn}
-      setStoreFn={setStoreFn}
-      setStoreNameFn={setStoreNameFn}
-      setCalendarDataFn={setCalendarDataFn}
-      setCheckListDataFn={setCheckListDataFn}
-      calendarData={calendarData}
-      checkListData={checkListData}
       modalRef={modalRef}
       workingModalOpen={workingModalOpen}
       setWorkingModalOpen={setWorkingModalOpen}
@@ -339,12 +334,11 @@ export default () => {
       hasCameraPermission={hasCameraPermission}
       handleBarCodeScanned={handleBarCodeScanned}
       setBarcodeModalOpen={setBarcodeModalOpen}
-      joinModalOpen={joinModalOpen}
-      setJoinModalOpen={setJoinModalOpen}
+      isJoinModalOpen={isJoinModalOpen}
+      setIsJoinModalOpen={setIsJoinModalOpen}
       submit={submit}
-      setName={setName}
-      setAddress={setAddress}
       alertModal={alertModal}
+      gotoHomeScreen={gotoHomeScreen}
     />
   );
 };

@@ -3,22 +3,39 @@ import {createSlice} from '@reduxjs/toolkit';
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    // isLoggedIn: 'LogOut',
-    isLoggedIn: true,
+    isLoggedIn: false,
     MEMBER_SEQ: '',
-    STORE_SEQ: '',
+    MEMBER_NAME: '',
     STORE: '',
-    mobileNo: '',
-    serviceCode: '',
-    version: '',
-    STORE_NAME: '',
-    CalendarData: '',
-    checkListData: '',
-    StoreEmpSeq: '',
-    HomeCard: [],
+    TYPE: '',
+    MOBILE_NO: '',
+    SERVICE_CODE: '',
+    VERSION: '',
+    STORELIST_DATA: [],
   },
   reducers: {
-    setVersion(state, action) {
+    setMEMBER_SEQ(state, action) {
+      const {payload: MEMBER_SEQ} = action;
+      console.log('setMember', MEMBER_SEQ);
+      return {...state, MEMBER_SEQ};
+    },
+    setMEMBER_NAME(state, action) {
+      const {payload: MEMBER_NAME} = action;
+      console.log('setUserName', MEMBER_NAME);
+      return {
+        ...state,
+        MEMBER_NAME,
+      };
+    },
+    setMOBILE_NO(state, action) {
+      const {payload: MOBILE_NO} = action;
+      console.log('setMobileNo', MOBILE_NO);
+      return {
+        ...state,
+        MOBILE_NO,
+      };
+    },
+    setVERSION(state, action) {
       const {payload: version} = action;
       console.log('setVersion', version);
       return {
@@ -26,139 +43,62 @@ const userSlice = createSlice({
         version,
       };
     },
-    setToken(state, action) {
-      const {payload: token} = action;
-      console.log('setToken', token);
+    sertSERVICE_CODE(state, action) {
+      const {payload: serviceCode} = action;
+      console.log('serviceCode', serviceCode);
       return {
         ...state,
-        token,
+        serviceCode,
       };
     },
-    setUser(state, action) {
+    setSTORELIST_DATA(state, action) {
+      const {payload: STORELIST_DATA} = action;
+      console.log('setHomeCard', STORELIST_DATA);
+      return {
+        ...state,
+        STORELIST_DATA,
+      };
+    },
+    setUSER(state, action) {
       const {payload: userInfo} = action;
       console.log('setUser', userInfo);
       return {
         ...state,
         MEMBER_SEQ: userInfo.MEMBER_SEQ,
-        NAME: userInfo.NAME,
+        MEMBER_NAME: userInfo.NAME,
         STORE: userInfo.STORE,
-        mobileNo: userInfo.mobileNo,
+        TYPE: userInfo.TYPE,
+        MOBILE_NO: userInfo.mobileNo,
       };
     },
-    setStore(state, action) {
-      const {payload: STORE_SEQ} = action;
-      console.log('setStore', STORE_SEQ);
-      return {
-        ...state,
-        STORE_SEQ: STORE_SEQ,
-      };
-    },
-    setUserName(state, action) {
-      const {payload: name} = action;
-      console.log('setUserName', name);
-      return {
-        ...state,
-        NAME: name,
-      };
-    },
-    setId(state, action) {
-      const {payload: mobileNo} = action;
-      console.log('setId', mobileNo);
-      return {
-        ...state,
-        mobileNo: mobileNo,
-      };
-    },
-    sertServiceCode(state, action) {
-      const {payload: codes} = action;
-      console.log('serviceCode', codes);
-      return {
-        ...state,
-        serviceCode: codes,
-      };
-    },
-    setLogIn(state) {
+    setLOGIN(state) {
       state.isLoggedIn = true;
     },
-    setLogOut(state) {
+    setLOGOUT(state) {
       state.isLoggedIn = false;
       state.MEMBER_SEQ = '';
       state.STORE = '';
-      state.mobileNo = '';
-      state.HomeCard = [];
-    },
-    setUserProfile(state, action) {
-      const {payload: userProfile} = action;
-      console.log('setUserProfile', userProfile);
-      return {
-        ...state,
-        userProfile,
-      };
-    },
-    setStoreName(state, action) {
-      const {payload: name} = action;
-      console.log('setStoreName', name);
-      return {
-        ...state,
-        STORE_NAME: name,
-      };
-    },
-    setCalendarData(state, action) {
-      const {payload: data} = action;
-      console.log('setCalendarData', data);
-      return {
-        ...state,
-        CalendarData: data,
-      };
-    },
-    setCheckListData(state, action) {
-      const {payload: data} = action;
-      console.log('setCheckListData', data);
-      return {
-        ...state,
-        checkListData: data,
-      };
-    },
-    setStoreEmpSeq(state, action) {
-      const {payload: data} = action;
-      console.log('setStoreEmpSeq', data);
-      return {
-        ...state,
-        StoreEmpSeq: data,
-      };
-    },
-    setHomeCard(state, action) {
-      const {payload: data} = action;
-      console.log('setHomeCard', data);
-      return {
-        ...state,
-        HomeCard: data,
-      };
+      state.MOBILE_NO = '';
+      state.STORELIST_DATA = [];
     },
   },
 });
 
 export const {
-  setVersion,
-  setToken,
-  setUser,
-  setStore,
-  setUserName,
-  setId,
-  setLogIn,
-  setLogOut,
-  setUserProfile,
-  setStoreName,
-  setCalendarData,
-  setCheckListData,
-  setStoreEmpSeq,
-  setHomeCard,
+  setMEMBER_SEQ,
+  setMEMBER_NAME,
+  setMOBILE_NO,
+  sertSERVICE_CODE,
+  setVERSION,
+  setSTORELIST_DATA,
+  setUSER,
+  setLOGIN,
+  setLOGOUT,
 } = userSlice.actions;
 
 export const userLogin = () => async (dispatch) => {
   try {
-    console.log('userLogin');
-    dispatch(setLogIn());
+    dispatch(setLOGIN());
     // const { data } = await api.user(uuid);
     // if (data) {
     //   dispatch(setMe({ data }));
@@ -169,7 +109,7 @@ export const userLogin = () => async (dispatch) => {
 };
 export const userLogout = () => async (dispatch) => {
   console.log('userLogout');
-  dispatch(setLogOut());
+  dispatch(setLOGOUT());
 };
 
 export default userSlice.reducer;

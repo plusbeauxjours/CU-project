@@ -89,6 +89,7 @@ const AddressText = styled.Text`
   font-size: 13px;
   color: grey;
 `;
+
 export default ({
   key,
   data,
@@ -98,67 +99,19 @@ export default ({
   employee,
   STORE_SEQ,
   STORE,
-  EMP_SEQ,
-  JOIN,
   search,
   TYPE,
   MANAGER,
   workinglist,
   openModal,
-  StoreEmpSeq,
-  setSES,
-  setStep,
-  setST,
-  setCalendarData,
-  CalendarData,
-  setCheckListData,
-  CheckListData,
-  setName,
-  setAddress,
-  alertModal,
+  gotoHomeScreen,
 }) => {
-  const navigation = useNavigation();
   return (
     <Touchable
       key={key}
       style={{alignItems: 'center'}}
       activeOpacity={1}
-      onPress={async () => {
-        if (search == true) {
-          null;
-        } else {
-          if (STORE == 1) {
-            navigation.navigate('HomeScreen', {
-              STORE_SEQ: STORE_SEQ,
-              refresh: (obj) => {
-                setName(obj.name);
-                setAddress(obj.address);
-              },
-            });
-            setStep(STORE_SEQ);
-            setST(name);
-            setCalendarData(CalendarData);
-            setCheckListData(CheckListData);
-            setSES(StoreEmpSeq);
-          } else if (STORE == 0 && TYPE == '1') {
-            navigation.navigate('HomeScreen', {
-              data: data,
-              EMP_SEQ: EMP_SEQ,
-              STORE_SEQ: STORE_SEQ,
-              IS_MANAGER: MANAGER == '[점장]' ? '1' : '0',
-            });
-            setStep(STORE_SEQ);
-            setST(name);
-            setCalendarData(CalendarData);
-            setCheckListData(CheckListData);
-            setSES(StoreEmpSeq);
-          } else if (STORE == 0 && TYPE == '0') {
-            alertModal('합류승인 대기중입니다.');
-          } else {
-            null;
-          }
-        }
-      }}>
+      onPress={() => gotoHomeScreen(data)}>
       <Container isStore={STORE == 1}>
         <ContentBox>
           {STORE == 1 ? (
@@ -209,7 +162,7 @@ export default ({
         </ContentBox>
 
         <ArrowBox>
-          {search == true && JOIN == '0' ? (
+          {search == true && TYPE == '0' ? (
             <Askbox
               onPress={() => {
                 openModal(name, STORE_SEQ);

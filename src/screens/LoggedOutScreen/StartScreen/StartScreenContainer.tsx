@@ -73,28 +73,9 @@ export default () => {
     });
   };
 
-  // const gotoVerification = () => navigation.navigate('VerificationScreen');
-  const gotoVerification = () => navigation.navigate('SignupScreen');
-
-  ///////////////////////////////////
-  //            TESTCODE           //
-  ///////////////////////////////////
-
-  const testBtn = () => {
-    const params = {
-      alertType: 'alert',
-      title: '테테테테테테스트타이틀',
-      content: '테테테테테테스트컨텐츠',
-      close: '1',
-      alertType: 'explain',
-      cancelButtonText: 'okkk',
-    };
-    dispatch(setAlertInfo(params));
-    dispatch(setAlertVisible(true));
+  const gotoVerification = () => {
+    navigation.navigate('VerificationScreen');
   };
-
-  ///////////////////////////////////
-  ///////////////////////////////////
 
   useEffect(() => {
     if (utils.isAndroid) {
@@ -102,14 +83,14 @@ export default () => {
     } else {
       setPlatform('ios');
     }
-    setAppVersion('1.3.6');
+    setAppVersion('1.3.7');
     checkVersion();
   }, []);
+
   return (
     <StartScreenPresenter
       gotoLogin={gotoLogin}
       gotoVerification={gotoVerification}
-      testBtn={testBtn}
     />
   );
 };

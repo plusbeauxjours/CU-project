@@ -123,7 +123,7 @@ export default ({route: {params}}) => {
           });
         }
 
-        const {data} = await api.updateNotice({formData});
+        const {data} = await api.updateNoticeImg({formData});
 
         if (data.result === 'SUCCESS') {
           navigation.goBack();

@@ -85,7 +85,6 @@ export default ({route: {params}}) => {
       title: '',
       content: text,
     };
-
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
   };
@@ -241,7 +240,7 @@ export default ({route: {params}}) => {
     setIsChecklistModalVisible(false);
     try {
       dispatch(setSplashVisible(true));
-      const {data} = await api.getCheckList({
+      const {data} = await api.getAuthCheckList({
         STORE_ID: STORE_SEQ,
         LAT: lat,
         LONG: long,

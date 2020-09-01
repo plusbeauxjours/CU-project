@@ -121,7 +121,7 @@ export default ({route: {params}}) => {
     } else {
       try {
         dispatch(setSplashVisible(true));
-        const {data} = await api.setNoticeImg2({
+        const {data} = await api.setNotice2({
           TITLE: checkpointInput.toString(),
           CONTENTS: checkpointInput1.toString(),
           STORE_SEQ,

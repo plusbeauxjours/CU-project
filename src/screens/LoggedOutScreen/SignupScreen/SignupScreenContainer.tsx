@@ -192,7 +192,7 @@ export default ({route: {params}}) => {
       setPlatform('ios');
     }
     setId(params?.phone);
-    setAppVersion('1.3.6');
+    setAppVersion('1.3.7');
   }, []);
 
   return (

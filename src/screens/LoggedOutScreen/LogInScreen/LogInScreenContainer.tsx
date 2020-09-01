@@ -3,7 +3,12 @@ import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import LogInScreenPresenter from './LogInScreenPresenter';
 import {useNavigation} from '@react-navigation/native';
-import {setUser, setId, setVersion, userLogin} from '../../../redux/userSlice';
+import {
+  setUSER,
+  setMOBILE_NO,
+  setVERSION,
+  userLogin,
+} from '../../../redux/userSlice';
 import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
 import api from '../../../constants/LoggedInApi';
 
@@ -65,9 +70,9 @@ export default ({route: {params}}) => {
       });
       switch (data.RESULT_CODE) {
         case '0':
-          dispatch(setUser(data.RESULT_DATA));
-          dispatch(setId(mobileNo));
-          dispatch(setVersion(params?.appVersion));
+          dispatch(setUSER(data.RESULT_DATA));
+          dispatch(setMOBILE_NO(mobileNo));
+          dispatch(setVERSION(params?.appVersion));
           dispatch(userLogin());
           return navigation.navigate('LoggedInNavigation');
         case '1':
