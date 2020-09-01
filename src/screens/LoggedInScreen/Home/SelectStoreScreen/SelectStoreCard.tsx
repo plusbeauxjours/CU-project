@@ -1,12 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {useNavigation} from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import utils from '../../../../constants/utils';
 import {
   ForwardIcon,
   LogoutIcon,
@@ -58,22 +56,7 @@ const ArrowBox = styled.View`
   align-items: center;
   justify-content: center;
 `;
-const Askbox = styled.TouchableOpacity`
-  justify-content: center;
-  align-items: center;
-  border-width: 1px;
-  border-color: #5887f9;
-  border-radius: 20px;
-`;
-const AskText = styled.Text`
-  font-size: 13px;
-  color: #5887f9;
-  margin: 4px 8px;
-`;
-const Arrow = styled.Text`
-  font-size: 20px;
-  color: #5887f9;
-`;
+
 const IconContainer = styled.View`
   width: 20px;
   align-items: center;
@@ -97,13 +80,10 @@ export default ({
   address1,
   address2,
   employee,
-  STORE_SEQ,
   STORE,
-  search,
   TYPE,
   MANAGER,
   workinglist,
-  openModal,
   gotoHomeScreen,
 }) => {
   return (
@@ -118,7 +98,7 @@ export default ({
             <NameText>{name}</NameText>
           ) : (
             <NameText>
-              {name} {search == true ? '' : MANAGER}
+              {name} {MANAGER}
             </NameText>
           )}
           <AddressBox>
@@ -131,7 +111,6 @@ export default ({
                 : '주소 미등록'}
             </AddressText>
           </AddressBox>
-
           {STORE == 1 ? (
             <EmployeeBox>
               <IconContainer>
@@ -145,12 +124,10 @@ export default ({
             </EmployeeBox>
           ) : (
             <EmployeeBox>
-              {search !== true && (
-                <IconContainer>
-                  <PersonCircleIcon />
-                </IconContainer>
-              )}
-              {search !== true && TYPE == '0' ? (
+              <IconContainer>
+                <PersonCircleIcon />
+              </IconContainer>
+              {TYPE == '0' ? (
                 <EmployeeText>합류 대기중</EmployeeText>
               ) : (
                 <EmployeeText>
@@ -160,26 +137,8 @@ export default ({
             </EmployeeBox>
           )}
         </ContentBox>
-
         <ArrowBox>
-          {search == true && TYPE == '0' ? (
-            <Askbox
-              onPress={() => {
-                openModal(name, STORE_SEQ);
-              }}>
-              <AskText>합류요청</AskText>
-            </Askbox>
-          ) : (
-            <Arrow>
-              {search == true ? (
-                <Arrow>햡류완료</Arrow>
-              ) : TYPE == '0' ? (
-                ''
-              ) : (
-                <ForwardIcon size={20} />
-              )}
-            </Arrow>
-          )}
+          <ForwardIcon size={20} />
         </ArrowBox>
       </Container>
     </Touchable>

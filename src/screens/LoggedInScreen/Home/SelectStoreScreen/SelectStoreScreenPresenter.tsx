@@ -1,5 +1,4 @@
 import React from 'react';
-import Modal from 'react-native-modal';
 import styled from 'styled-components/native';
 import {RefreshControl} from 'react-native';
 import {
@@ -7,7 +6,6 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
 import SelectStoreCard from './SelectStoreCard';
 import {AddCircleIcon} from '../../../../constants/Icons';
 
@@ -15,6 +13,7 @@ const BackGround = styled.SafeAreaView`
   flex: 1;
   background-color: #f6f6f6;
 `;
+
 const ScrollView = styled.ScrollView``;
 const Container = styled.View`
   flex: 1;
@@ -47,6 +46,7 @@ const AddStoreBox = styled.View`
   align-items: center;
   margin: ${hp('2.5%')}px 0;
 `;
+
 const AddStoreButton = styled.TouchableOpacity`
   padding: ${hp('1.5%')}px;
   width: ${wp('85%')}px;
@@ -64,132 +64,15 @@ const AddStoreButtonText = styled.Text`
   font-weight: bold;
 `;
 
-const WorkingModalContainer = styled.View`
-  height: 280px;
-  background-color: white;
-`;
-const Row = styled.View`
-  flex-direction: row;
-`;
-
-const ModalNoButton = styled.TouchableOpacity`
-  height: ${hp('7%')}px;
-  width: ${wp('50%')}px;
-  align-items: center;
-  justify-content: center;
-  background-color: #f8f8f8;
-`;
-const ModalYesButton = styled(ModalNoButton)`
-  background-color: #642a8c;
-`;
-
-const ModalNoButtonText = styled.Text`
-  font-size: 18px;
-  color: #642a8c;
-`;
-const ModalYesButtonText = styled.Text`
-  font-size: 16px;
-  color: white;
-`;
-
-const WorkingModalBox = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-`;
-const WorkingModalText = styled.Text`
-  font-size: 30px;
-  color: #642a8c;
-`;
-
-const Work = styled.View`
-  width: ${wp('100%')}px;
-  flex-direction: row;
-`;
-const GoWork = styled.TouchableOpacity`
-  width: ${wp('100%')}px;
-  height: 52px;
-  justify-content: center;
-  align-items: center;
-  background-color: #642a8c;
-`;
-const WorkText = styled.Text`
-  color: #ffffff;
-  font-size: 15px;
-  margin: 15px 0;
-`;
-const BarcodeContainer = styled.View`
-  flex: 1;
-  flex-direction: column;
-  justify-content: flex-end;
-`;
-const BarcodeLayerTop = styled.View`
-  flex: 2;
-  background-color: rgba(0, 0, 0, 0.6);
-`;
-const BarcodeLayerCenter = styled.View`
-  flex: 3;
-  flex-direction: row;
-`;
-const BarcodeLayerLeft = styled.View`
-  flex: 1;
-  background-color: rgba(0, 0, 0, 0.6);
-`;
-const Focused = styled.View`
-  flex: 10;
-`;
-const BarcodeLayerRight = styled.View`
-  flex: 1;
-  background-color: rgba(0, 0, 0, 0.6);
-`;
-const BarcodeLayerBottom = styled.View`
-  flex: 2;
-  background-color: rgba(0, 0, 0, 0.6);
-`;
-const StoreText = styled.Text`
-  font-size: 20px;
-  margin-top: 40px;
-`;
-const ConfirmStoreText = styled.Text`
-  font-size: 30px;
-  color: #5887f9;
-  margin-top: 40px;
-`;
-const BarcodeModalContainer = styled.View`
-  height: 300px;
-  background-color: white;
-`;
-const BarcodeModalBox = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-`;
-
 export default ({
   STORE,
   STORELIST_DATA,
-  search,
   refreshing,
   onRefresh,
   gotoAddStore,
-  storeName,
-  openModal,
-  modalRef,
-  workingModalOpen,
-  setWorkingModalOpen,
-  goWork,
-  leaveWork,
-  barcodeModalOpen,
-  hasCameraPermission,
-  handleBarCodeScanned,
-  setBarcodeModalOpen,
-  isJoinModalOpen,
-  setIsJoinModalOpen,
-  submit,
-  alertModal,
   gotoHomeScreen,
 }) => {
-  const StoreList = ({search}) => {
+  const StoreList = () => {
     if (STORELIST_DATA && STORELIST_DATA.length !== 0) {
       return STORELIST_DATA?.map((data, index) => (
         <SelectStoreCard
@@ -199,13 +82,10 @@ export default ({
           address1={data.ADDR1}
           address2={data.ADDR2}
           employee={data.emplist}
-          STORE_SEQ={data.STORE_SEQ}
           STORE={STORE}
-          search={search}
           TYPE={data.TYPE}
           MANAGER={data.IS_MANAGER == 1 ? '[점장]' : '[스태프]'}
           workinglist={data.workinglist}
-          openModal={openModal}
           gotoHomeScreen={gotoHomeScreen}
         />
       ));
@@ -236,7 +116,6 @@ export default ({
       }
     }
   };
-
   return (
     <BackGround>
       {STORE == '1' && (
@@ -258,71 +137,9 @@ export default ({
             justifyContent: 'flex-start',
             paddingBottom: 20,
           }}>
-          <StoreList search={search} />
+          <StoreList />
         </ScrollView>
       </Container>
-      <Modal
-        ref={modalRef}
-        isVisible={workingModalOpen}
-        animationOutTiming={1}
-        onBackdropPress={() => setWorkingModalOpen(false)}
-        onBackButtonPress={() => setWorkingModalOpen(false)}
-        style={{margin: 0, justifyContent: 'flex-end'}}>
-        <WorkingModalContainer style={{height: 280, backgroundColor: 'white'}}>
-          <WorkingModalBox>
-            <WorkingModalText>출퇴근하기</WorkingModalText>
-          </WorkingModalBox>
-          <Row>
-            <ModalNoButton onPress={() => goWork()}>
-              <ModalNoButtonText>출근하기</ModalNoButtonText>
-            </ModalNoButton>
-            <ModalYesButton onPress={() => leaveWork()}>
-              <ModalYesButtonText>퇴근하기</ModalYesButtonText>
-            </ModalYesButton>
-          </Row>
-        </WorkingModalContainer>
-      </Modal>
-      <Modal
-        isVisible={barcodeModalOpen && hasCameraPermission}
-        onBackdropPress={() => setBarcodeModalOpen(false)}
-        onBackButtonPress={() => setBarcodeModalOpen(false)}
-        style={{margin: 0, justifyContent: 'flex-end'}}
-        avoidKeyboard={true}>
-        <Container>
-          {/* <BarcodeContainer>
-            <BarCodeScanner onBarCodeScanned={handleBarCodeScanned}>
-              <BarcodeLayerTop />
-              <BarcodeLayerCenter>
-                <BarcodeLayerLeft />
-                <Focused />
-                <BarcodeLayerRight />
-              </BarcodeLayerCenter>
-              <BarcodeLayerBottom />
-            </BarCodeScanner>
-          </BarcodeContainer> */}
-          <Work>
-            <GoWork
-              onPress={() => {
-                setBarcodeModalOpen(false);
-              }}>
-              <WorkText>닫기</WorkText>
-            </GoWork>
-          </Work>
-        </Container>
-      </Modal>
-      <Modal
-        isVisible={isJoinModalOpen}
-        onBackdropPress={() => setIsJoinModalOpen(false)}
-        style={{margin: 0, justifyContent: 'flex-end'}}
-        avoidKeyboard={true}>
-        <BarcodeModalContainer>
-          <BarcodeModalBox>
-            <ConfirmStoreText>합류요청을 하시겠습니까?</ConfirmStoreText>
-            <StoreText>{storeName}</StoreText>
-          </BarcodeModalBox>
-          <SubmitBtn text={'확인'} onPress={() => submit()} isRegisted={true} />
-        </BarcodeModalContainer>
-      </Modal>
     </BackGround>
   );
 };
