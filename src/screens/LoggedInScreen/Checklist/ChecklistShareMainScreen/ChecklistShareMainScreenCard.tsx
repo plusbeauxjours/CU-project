@@ -21,7 +21,6 @@ const Section = styled.View`
   margin-bottom: 20px;
   min-height: 100px;
 `;
-const Text = styled.Text``;
 const Row = styled.View`
   flex-direction: row;
   align-items: center;
@@ -47,7 +46,7 @@ const Touchable = styled.TouchableOpacity``;
 
 const NewBadge = styled.View`
   position: absolute;
-  left: -10px;
+  left: 5px;
   top: 10px;
 `;
 const NotiTitleText = styled.Text`
@@ -108,7 +107,7 @@ const AddressBox = styled.View`
 
 const ContentBox = styled.View`
   flex: 1;
-  width: 100%;
+  padding: 0 10px;
   justify-content: center;
 `;
 

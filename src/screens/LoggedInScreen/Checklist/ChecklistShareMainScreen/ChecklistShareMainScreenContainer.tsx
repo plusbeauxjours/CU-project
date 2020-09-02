@@ -11,7 +11,6 @@ import api from '../../../../constants/LoggedInApi';
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {TITLE, STOREDATA, notice} = params;
   const {STORE_SEQ, MEMBER_SEQ, STORE, NAME} = useSelector(
     (state: any) => state.userReducer,
   );
@@ -222,7 +221,7 @@ export default ({route: {params}}) => {
           {key: 'second', title: '특이사항', newCnt2: newCnt2},
           {key: 'third', title: 'CU소식', newCnt3: newCnt3},
         ]);
-        setIndex(page ? Number(page) : notice == '1' ? 2 : 0);
+        setIndex(page ? Number(page) : params?.notice == '1' ? 2 : 0);
         setShareList3(data);
       } catch (e) {
         console.log(e);
@@ -234,7 +233,7 @@ export default ({route: {params}}) => {
         {key: 'first', title: '지시사항', newCnt1: newCnt1},
         {key: 'second', title: '특이사항', newCnt2: newCnt2},
       ]);
-      setIndex(page ? Number(page) : notice == '1' ? 2 : 0);
+      setIndex(page ? Number(page) : params?.notice == '1' ? 2 : 0);
     }
   };
 

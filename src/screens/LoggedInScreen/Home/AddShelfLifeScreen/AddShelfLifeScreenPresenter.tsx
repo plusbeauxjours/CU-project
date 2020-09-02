@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import moment from 'moment';
 import DatePickerModal from 'react-native-modal-datetime-picker';
 
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
@@ -98,6 +96,7 @@ const DateTouchable = styled.TouchableOpacity<ITextInput>`
   width: ${wp('50%')}px;
   height: 30px;
 `;
+
 const DateText = styled.Text`
   color: #642a8c;
 `;
@@ -161,10 +160,10 @@ export default ({
                 </Row>
                 <DateTouchable
                   isBefore={shelfLifeDate == ''}
-                  onPress={setIsDateModalVisible(true)}>
+                  onPress={() => setIsDateModalVisible(true)}>
                   <DateText>{shelfLifeDate}</DateText>
                 </DateTouchable>
-                {/* <DatePickerModal
+                <DatePickerModal
                   headerTextIOS={'날짜를 선택하세요.'}
                   cancelTextIOS={'취소'}
                   confirmTextIOS={'선택'}
@@ -172,11 +171,12 @@ export default ({
                   mode="date"
                   locale="ko_KRus_EN"
                   onConfirm={(date) => {
-                    setShelfLifeDate(date), setIsDateModalVisible(false);
+                    setShelfLifeDate(moment(date).format('YYYY-MM-DD')),
+                      setIsDateModalVisible(false);
                   }}
                   onCancel={() => setIsDateModalVisible(false)}
                   display="default"
-                /> */}
+                />
               </TextInputContainer>
               <TextInputContainer>
                 <Row>
@@ -222,7 +222,6 @@ export default ({
                     <AddShelfLifeScreenCard
                       NAME={data.shelfLifeNAME}
                       DATE={data.shelfLifeDATE}
-                      TIME={data.shelfLifeTIME}
                       MEMO={data.shelfLifeMEMO}
                     />
                   </Touchable>

@@ -32,12 +32,12 @@ const DateText = styled.Text`
   color: #aaa;
 `;
 
-export default ({NAME, DATE, TIME, MEMO}) => (
+export default ({NAME, DATE, MEMO}) => (
   <Container>
     <Row>
       <NameText>{NAME}</NameText>
       <DateText>
-        {DATE.slice(0, 4)}년 {DATE.slice(5, 7)}월 {DATE.slice(8, 10)}일 {TIME}
+        {DATE.slice(0, 4)}년 {DATE.slice(5, 7)}월 {DATE.slice(8, 10)}일
       </DateText>
     </Row>
     {MEMO && MEMO !== '' ? (

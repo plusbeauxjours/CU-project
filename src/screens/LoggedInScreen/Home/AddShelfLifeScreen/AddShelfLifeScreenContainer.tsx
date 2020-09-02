@@ -1,18 +1,22 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
+import moment from 'moment';
 
 import AddShelfLifeScreenPresenter from './AddShelfLifeScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
+import {getSHELFLIFE_DATA} from '../../../../redux/shelflifeSlice';
 import api from '../../../../constants/LoggedInApi';
 
 export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {STORE_SEQ} = useSelector((state: any) => state.userReducer);
+  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
   const [shelfLifeName, setShelfLifeName] = useState<string>('');
-  const [shelfLifeDate, setShelfLifeDate] = useState<string>('2020-09-10');
+  const [shelfLifeDate, setShelfLifeDate] = useState<string>(
+    moment().format('YYYY-MM-DD'),
+  );
   const [shelfLifeMemo, setShelfLifeMemo] = useState<string>('');
   const [isDateModalVisible, setIsDateModalVisible] = useState<boolean>(false);
   const [list, setList] = useState<any>([]);
@@ -56,7 +60,7 @@ export default () => {
       shelfLifeMEMO: shelfLifeMemo,
     });
     setShelfLifeName('');
-    setShelfLifeDate('');
+    setShelfLifeDate(moment().format('YYYY-MM-DD'));
     setShelfLifeMemo('');
     setList(buffer);
   };
@@ -81,10 +85,11 @@ export default () => {
       const {data} = await api.setShelfLifeData({STORE_SEQ, LIST: list});
       if (data.result == '1') {
         alertModal('', '등록이 완료되었습니다.');
+        dispatch(getSHELFLIFE_DATA());
         navigation.goBack();
       }
     } catch (error) {
-      console.log('error', error);
+      console.log(error);
     } finally {
       dispatch(setSplashVisible(false));
     }

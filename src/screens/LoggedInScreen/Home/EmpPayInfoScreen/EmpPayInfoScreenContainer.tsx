@@ -1,11 +1,7 @@
 import React, {useEffect, useState} from 'react';
-
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
+
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import api from '../../../../constants/LoggedInApi';
@@ -117,7 +113,6 @@ export default ({route: {params}}) => {
   };
 
   const nextpay = async () => {
-    dispatch(setSplashVisible(true));
     let YEAR = year;
     let MONTH = month;
     if (MONTH == 12) {
@@ -130,6 +125,7 @@ export default ({route: {params}}) => {
       MONTH = Number('0' + MONTH);
     }
     try {
+      dispatch(setSplashVisible(true));
       const {data} = await api.monthLists(STORE_SEQ, EMP_SEQ, YEAR, MONTH);
       setMaindata(data.message);
       setYear(YEAR);
@@ -144,7 +140,6 @@ export default ({route: {params}}) => {
   };
 
   const backpay = async () => {
-    dispatch(setSplashVisible(true));
     let YEAR = year;
     let MONTH = month - 1;
     if (MONTH == 0) {
@@ -155,6 +150,7 @@ export default ({route: {params}}) => {
       MONTH = Number('0' + MONTH);
     }
     try {
+      dispatch(setSplashVisible(true));
       const {data} = await api.monthLists(STORE_SEQ, EMP_SEQ, YEAR, MONTH);
       setMaindata(data.message);
       setYear(YEAR);
@@ -172,7 +168,6 @@ export default ({route: {params}}) => {
     try {
       dispatch(setSplashVisible(true));
       const {data} = await api.monthLists(STORE_SEQ, EMP_SEQ, year, month);
-      console.log('fetchData', data);
       setMaindata(data.message);
       setYear(year);
       setMonth(month);
