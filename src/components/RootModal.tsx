@@ -169,7 +169,6 @@ export default ({alert}) => {
           ) : (
             <Row>
               <BarBtn onPress={() => onOKPress()}>
-                {console.log('okookokok', alert.okButtonText)}
                 <WhiteText>{alert.okButtonText}</WhiteText>
               </BarBtn>
             </Row>

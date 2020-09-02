@@ -437,7 +437,6 @@ export default ({
       <GreyText>
         출퇴근목록의 시간을 클릭하여 선택한 후 캘린더에서 일정을 선택하세요.
       </GreyText>
-      {console.log(markedDates)}
       <Calendar
         theme={{
           arrowColor: 'black',

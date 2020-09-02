@@ -46,14 +46,23 @@ const DateText = styled.Text`
   font-size: 12px;
 `;
 
-export default ({key, EMP_NAME, IS_MANAGER, image, START, END}) => {
+export default ({
+  key,
+  EMP_NAME,
+  IS_MANAGER,
+  image,
+  START,
+  END,
+  data,
+  onRefresh,
+}) => {
   const navigation = useNavigation();
   return (
     <Touchable
       key={key}
       activeOpacity={1}
       onPress={() => {
-        navigation.navigate('EmployeeInfoScreen');
+        navigation.navigate('EmployeeInfoScreen', {data, onRefresh});
       }}>
       <Avatar
         rounded

@@ -6,18 +6,24 @@ import api from '../../../../constants/LoggedInApi';
 import ShelfLifeCheckScreenPresenter from './ShelfLifeCheckScreenPresenter';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import {
+  setSHELFLIFE_DATA,
+  setSHELFLIFE_MARKED,
+} from '../../../../redux/shelflifeSlice';
 
-export default ({route: {params}}) => {
-  let _year = moment().format('YYYY');
-  let _month = moment().format('MM');
-  let _day = moment().format('DD');
+export default () => {
+  const YEAR = moment().format('YYYY');
+  const MONTH = moment().format('MM');
+  const DAY = moment().format('DD');
 
   const agendaRef = useRef(null);
   const dispatch = useDispatch();
-  const {STORE_SEQ, STORE} = useSelector((state: any) => state.userReducer);
 
-  const [items, setItems] = useState<any>({});
-  const [marked, setMarked] = useState<any>({});
+  const {EMP_SEQ, STORE_SEQ} = useSelector((state: any) => state.storeReducer);
+  const {STORE} = useSelector((state: any) => state.userReducer);
+  const {SHELFLIFE_DATA, SHELFLIFE_MARKED} = useSelector(
+    (state: any) => state.shelflifeReducer,
+  );
   const [selectDay, setSelectDay] = useState<string>(
     moment().format('YYYY-MM-DD'),
   );
@@ -53,53 +59,46 @@ export default ({route: {params}}) => {
 
   const onDayPress = (day) => {
     setSelectDay(day.dateString);
-    fetchData(day.year, day.month, day.day, 'markCheck');
+    fetchData(day.year, day.month, day.day);
   };
 
   const onRefresh = () => {
-    fetchData(_year, _month, _day, 'markCheck');
+    fetchData(YEAR, MONTH, DAY);
   };
 
-  const fetchData = async (year, month, day, makeCheck) => {
-    month = Number(month);
-    day = Number(day);
+  const fetchData = async (YEAR, MONTH, DAY) => {
     try {
       const {data} = await api.getShelfLifeData({
-        STORE_SEQ: STORE_SEQ,
-        YEAR: year.toString(),
-        MONTH: month < 10 ? '0' + month : month,
-        DAY: day < 10 ? '0' + day : day,
+        STORE_SEQ,
+        YEAR,
+        MONTH: MONTH < 10 ? '0' + MONTH : MONTH,
+        DAY: DAY < 10 ? '0' + DAY : DAY,
       });
-      setItems(data.resultdata);
+      dispatch(setSHELFLIFE_DATA(data.resultdata));
     } catch (error) {
       console.log(error);
     }
     try {
       const {data} = await api.getAllShelfLifeData({
-        STORE_SEQ: STORE_SEQ,
+        STORE_SEQ,
       });
-      setMarked(data.result);
+      dispatch(setSHELFLIFE_MARKED(data.result));
     } catch (error) {
       console.log(error);
     }
   };
 
   const updateShelfLife = async (shelfLife_SEQ, shelfLifeDate) => {
-    const {STOREDATA} = params;
     try {
       dispatch(setSplashVisible(true));
       const {data} = await api.checkShelfLifeData({
         STORE,
-        EMP_SEQ: STOREDATA.EMP_SEQ,
-        shelfLife_SEQ: shelfLife_SEQ,
+        EMP_SEQ,
+        shelfLife_SEQ,
       });
-      alertModal('', '상품의 폐기 또는 처리 완료 체크합니다');
-      fetchData(
-        shelfLifeDate.substr(0, 4),
-        shelfLifeDate.substr(5, 2),
-        shelfLifeDate.substr(8, 2),
-        'markCheck',
-      );
+      if (data.resultmsg === '1') {
+        alertModal('', '상품의 폐기 또는 처리 완료 하였습니다.');
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -108,17 +107,17 @@ export default ({route: {params}}) => {
   };
 
   useEffect(() => {
-    fetchData(_year, _month, _day, 'markCheck');
+    fetchData(YEAR, MONTH, DAY);
     agendaRef?.current?.chooseDay(selectDay);
   }, []);
 
   return (
     <ShelfLifeCheckScreenPresenter
       agendaRef={agendaRef}
-      items={items}
+      items={SHELFLIFE_DATA}
+      marked={SHELFLIFE_MARKED}
       onDayChange={onDayChange}
       onDayPress={onDayPress}
-      marked={marked}
       onRefresh={onRefresh}
       confirmModal={confirmModal}
       alertModal={alertModal}

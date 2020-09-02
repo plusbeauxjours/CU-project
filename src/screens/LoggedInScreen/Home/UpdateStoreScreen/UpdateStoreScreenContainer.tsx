@@ -199,7 +199,6 @@ export default ({route: {params}}) => {
           navigation.goBack();
         }
       }
-      console.log(STORE_DATA);
     } catch (error) {
       console.log(error);
     }
@@ -215,10 +214,6 @@ export default ({route: {params}}) => {
       storeCategoryTypeCheckProps[Number(STORE_DATA?.CATEGORY)] = true;
       setStoreCategoryTypeCheck(storeCategoryTypeCheckProps);
     }
-    console.log(
-      '=================STORE_DATASTORE_DATASTORE_DATASTORE_DATASTORE_DATA=================',
-      STORE_DATA,
-    );
   }, []);
 
   return (

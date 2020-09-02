@@ -22,7 +22,6 @@ const BackGround = styled.SafeAreaView`
 const ScrollView = styled.ScrollView``;
 
 const Container = styled.View`
-  margin-top: 20px;
   padding: 20px;
   align-items: center;
 `;
@@ -30,7 +29,7 @@ const Container = styled.View`
 const Text = styled.Text``;
 
 const Line = styled.View`
-  height: 2px;
+  height: 1px;
   margin: 0 30px;
   background-color: #f2f2f2;
 `;
@@ -100,6 +99,7 @@ const ContactIconContainer = styled(Contact)`
 `;
 const Box = styled.View`
   padding: 0 30px;
+  padding-bottom: 20px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;

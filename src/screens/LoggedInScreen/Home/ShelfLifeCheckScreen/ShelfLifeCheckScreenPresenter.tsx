@@ -97,9 +97,9 @@ const DateText = styled.Text`
 export default ({
   agendaRef,
   items,
+  marked,
   onDayChange,
   onDayPress,
-  marked,
   onRefresh,
   confirmModal,
   alertModal,

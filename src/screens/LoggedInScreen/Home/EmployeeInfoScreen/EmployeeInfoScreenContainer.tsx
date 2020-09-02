@@ -31,9 +31,7 @@ export default ({route: {params}}) => {
   const {EMP_SEQ, STORE_SEQ, CALCULATE_DAY} = useSelector(
     (state: any) => state.storeReducer,
   );
-  const {EMPLOYEE_INFO_DATA} = useSelector(
-    (state: any) => state.employeeReducer,
-  );
+  const {data: datapop, onRefresh} = params;
 
   const [workTypeCheck, setWorkTypeCheck] = useState<boolean>(true); // true: 자율출퇴근 직원, false: 일정이 있는 직원
   const [timeTableIndex, setTimeTableIndex] = useState<any>(null); // 저장된 시간 목록 중 선택된 항목의 인덱스
@@ -424,11 +422,12 @@ export default ({route: {params}}) => {
       timeListIndex={timeListIndex}
       timeList={timeList}
       refreshing={refreshing}
+      onRefresh={onRefresh}
       setDates={setDates}
       CALCULATE={CALCULATE}
       EMP_SEQ={EMP_SEQ}
       dates={dates}
-      data={data}
+      datapop={datapop}
       empdata={empdata}
       getPeriod={getPeriod}
       CALCULATE_DAY={CALCULATE_DAY}

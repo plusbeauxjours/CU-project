@@ -118,6 +118,8 @@ export default ({
                   }
                   START={data.START}
                   END={data.END}
+                  data={data}
+                  onRefresh={onRefresh}
                 />
               ))}
             </EmployeeListBox>
@@ -151,6 +153,8 @@ export default ({
                   }
                   START={data.START}
                   END={data.END}
+                  data={data}
+                  onRefresh={onRefresh}
                 />
               ))}
             </EmployeeListBox>

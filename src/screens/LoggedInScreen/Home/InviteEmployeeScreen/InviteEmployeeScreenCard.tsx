@@ -3,8 +3,7 @@ import styled from 'styled-components/native';
 import {AddCircleIcon, RemoveCircleIcon} from '../../../../constants/Icons';
 
 const Row = styled.View`
-  width: 100%;
-  padding: 0 20px;
+  padding: 5px;
   margin: 0 20px;
   flex-direction: row;
   align-items: center;

@@ -102,7 +102,6 @@ export default () => {
 
   useEffect(() => {
     fetchData();
-    console.log(MYCU_MONTHLY_CATEGORY);
   }, []);
 
   const selectData = MYCU_MONTHLY.filter((data) => {

@@ -8,6 +8,7 @@ import helpReducer from "./helpSlice";
 import mycuReducer from "./mycuSlice";
 import healthReducer from "./healthSlice";
 import employeeReducer from "./employeeSlice";
+import shelflifeReducer from "./shelflifeSlice";
 
 export default combineReducers({
     userReducer,
@@ -19,4 +20,5 @@ export default combineReducers({
     mycuReducer,
     healthReducer,
     employeeReducer,
+    shelflifeReducer,
 });

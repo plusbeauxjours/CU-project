@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import * as Hangul from 'hangul-js';
 
@@ -8,11 +8,11 @@ import InviteEmployeeScreenPresenter from './InviteEmployeeScreenPresenter';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import api from '../../../../constants/LoggedInApi';
 
-export default ({route: {parmas}}) => {
+export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const STORE_SEQ = parmas?.STORE_SEQ;
+  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
 
   const [name, setName] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
