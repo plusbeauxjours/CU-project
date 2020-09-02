@@ -8,14 +8,23 @@ const storeSlice = createSlice({
     CALENDAR_DATA: '',
     CHECKLIST_DATA: '',
     EMP_SEQ: '',
-    STORE_DATA: [],
+    STORE_DATA: {},
     STOREPAY_SHOW: '',
     IS_MANAGER: '',
+    WORKING_COUNT: 0,
+    TOTAL_COUNT: 0,
+    ADDR1: '',
+    ADDR2: '',
+    TYPE: 0,
+    LATE_FLAG: '',
+    LATE_TIME: 0,
+    EARLY_FLAG: '',
+    EARLY_TIME: 0,
+    CALCULATE_DAY: '',
   },
   reducers: {
     setSTORE_SEQ(state, action) {
       const {payload: STORE_SEQ} = action;
-      console.log('setSTORE_SEQ', STORE_SEQ);
       return {
         ...state,
         STORE_SEQ,
@@ -23,7 +32,6 @@ const storeSlice = createSlice({
     },
     setSTORE_NAME(state, action) {
       const {payload: STORE_NAME} = action;
-      console.log('setSTORE_NAME', STORE_NAME);
       return {
         ...state,
         STORE_NAME,
@@ -31,7 +39,6 @@ const storeSlice = createSlice({
     },
     setCALENDAR_DATA(state, action) {
       const {payload: CALENDAR_DATA} = action;
-      console.log('setCalendarData', CALENDAR_DATA);
       return {
         ...state,
         CALENDAR_DATA,
@@ -39,7 +46,6 @@ const storeSlice = createSlice({
     },
     setCHECKLIST_DATA(state, action) {
       const {payload: CHECKLIST_DATA} = action;
-      console.log('setCHECKLIST_DATA', CHECKLIST_DATA);
       return {
         ...state,
         CHECKLIST_DATA,
@@ -47,7 +53,6 @@ const storeSlice = createSlice({
     },
     setEMP_SEQ(state, action) {
       const {payload: EMP_SEQ} = action;
-      console.log('setEMP_SEQ', EMP_SEQ);
       return {
         ...state,
         EMP_SEQ,
@@ -55,7 +60,6 @@ const storeSlice = createSlice({
     },
     setSTORE_DATA(state, action) {
       const {payload: STORE_DATA} = action;
-      console.log('setSTORE_DATA', STORE_DATA);
       return {
         ...state,
         STORE_DATA,
@@ -63,7 +67,6 @@ const storeSlice = createSlice({
     },
     setSTOREPAY_SHOW(state, action) {
       const {payload: STOREPAY_SHOW} = action;
-      console.log('setSTOREPAY_SHOW', STOREPAY_SHOW);
       return {
         ...state,
         STOREPAY_SHOW,
@@ -71,10 +74,75 @@ const storeSlice = createSlice({
     },
     setIS_MANAGER(state, action) {
       const {payload: IS_MANAGER} = action;
-      console.log('setIS_MANAGER', IS_MANAGER);
       return {
         ...state,
         IS_MANAGER: IS_MANAGER == 1 ? '점장' : '스태프',
+      };
+    },
+    selectSTORE(state, action) {
+      const {
+        payload: {STORE_SEQ, STORE_NAME, WORKING_COUNT, TOTAL_COUNT},
+      } = action;
+      return {
+        ...state,
+        STORE_SEQ,
+        STORE_NAME,
+        WORKING_COUNT,
+        TOTAL_COUNT,
+      };
+    },
+    updateSTORE_DATA(state, action) {
+      const {
+        payload: {
+          NAME,
+          ADDR1,
+          ADDR2,
+          TYPE,
+          LATE_FLAG,
+          LATE_TIME,
+          EARLY_FLAG,
+          EARLY_TIME,
+          CALCULATE_DAY,
+        },
+      } = action;
+      return {
+        ...state,
+        STORE_NAME: NAME,
+        ADDR1,
+        ADDR2,
+        TYPE,
+        LATE_FLAG,
+        LATE_TIME,
+        EARLY_FLAG,
+        EARLY_TIME,
+        CALCULATE_DAY,
+        STORE_DATA: {
+          ...state.STORE_DATA,
+          STORE_NAME: NAME,
+          ADDR1,
+          ADDR2,
+          TYPE,
+          LATE_FLAG,
+          LATE_TIME,
+          EARLY_FLAG,
+          EARLY_TIME,
+          CALCULATE_DAY,
+        },
+      };
+    },
+    closeSTORE_DATA(state) {
+      return {
+        ...state,
+        STORE_SEQ: '',
+        STORE_NAME: '',
+        CALENDAR_DATA: '',
+        CHECKLIST_DATA: '',
+        EMP_SEQ: '',
+        STORE_DATA: {},
+        STOREPAY_SHOW: '',
+        IS_MANAGER: '',
+        WORKING_COUNT: 0,
+        TOTAL_COUNT: 0,
       };
     },
   },
@@ -89,6 +157,9 @@ export const {
   setSTORE_DATA,
   setSTOREPAY_SHOW,
   setIS_MANAGER,
+  selectSTORE,
+  updateSTORE_DATA,
+  closeSTORE_DATA,
 } = storeSlice.actions;
 
 export default storeSlice.reducer;

@@ -7,6 +7,7 @@ import {BackHandler, Linking} from 'react-native';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSTORELIST_DATA} from '../../../../redux/userSlice';
+import {selectSTORE} from '../../../../redux/storeSlice';
 import utils from '../../../../constants/utils';
 import api from '../../../../constants/LoggedInApi';
 
@@ -82,6 +83,14 @@ export default () => {
     if (STORE == 0 && data.TYPE == '0') {
       alertModal('', '합류승인 대기중입니다.');
     } else {
+      dispatch(
+        selectSTORE({
+          STORE_SEQ: data.STORE_SEQ,
+          STORE_NAME: data.NAME,
+          WORKING_COUNT: data.workinglist,
+          TOTAL_COUNT: data.emplist,
+        }),
+      );
       navigation.navigate('HomeScreen', {
         STORE_SEQ: data.STORE_SEQ,
         STORE,
@@ -99,7 +108,9 @@ export default () => {
 
   const fetchData = async () => {
     try {
-      dispatch(setSplashVisible(true));
+      if (STORELIST_DATA.length === 0) {
+        dispatch(setSplashVisible(true));
+      }
       const {data} = await api.storeList(MEMBER_SEQ, STORE);
       if (data.message === 'SUCCESS') {
         dispatch(setSTORELIST_DATA(data.result));

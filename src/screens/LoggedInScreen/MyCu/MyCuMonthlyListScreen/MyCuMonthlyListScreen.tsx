@@ -1,9 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import styled from 'styled-components/native';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {RefreshControl} from 'react-native';
 
+import {
+  setMYCU_MONTHLY,
+  setMYCU_MONTHLY_CATEGORY,
+} from '../../../../redux/mycuSlice';
+import {setSplashVisible} from '../../../../redux/splashSlice';
 import api from '../../../../constants/LoggedInApi';
 import MyCuMonthlyCard from './MyCuMonthlyCard';
 
@@ -36,19 +41,21 @@ const CategoryText = styled.Text<ISelected>`
 `;
 
 export default () => {
+  const dispatch = useDispatch();
   const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
+  const {MYCU_MONTHLY, MYCU_MONTHLY_CATEGORY} = useSelector(
+    (state: any) => state.mycuReducer,
+  );
 
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [dataList, setDataList] = useState<any>([]);
-  const [categoryList, setCategoryList] = useState<any>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('전체');
 
   const onRefresh = async () => {
     try {
       setRefreshing(true);
       await fetchData();
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     } finally {
       setRefreshing(false);
     }
@@ -56,6 +63,9 @@ export default () => {
 
   const fetchData = async () => {
     try {
+      if (MYCU_MONTHLY.length === 0) {
+        dispatch(setSplashVisible(true));
+      }
       const {data} = await api.cupdflistcheck(MEMBER_SEQ);
       const categoryListArray = ['전체'];
       if (data.message === 'SUCCESS') {
@@ -66,11 +76,13 @@ export default () => {
             }
           }
         }
+        dispatch(setMYCU_MONTHLY(data.result));
+        dispatch(setMYCU_MONTHLY_CATEGORY(categoryListArray));
       }
-      setDataList(data.result);
-      setCategoryList(categoryListArray);
     } catch (error) {
       console.log(error);
+    } finally {
+      dispatch(setSplashVisible(false));
     }
   };
 
@@ -90,9 +102,10 @@ export default () => {
 
   useEffect(() => {
     fetchData();
+    console.log(MYCU_MONTHLY_CATEGORY);
   }, []);
 
-  const selectData = dataList.filter((data) => {
+  const selectData = MYCU_MONTHLY.filter((data) => {
     return selectedCategory === '전체' || selectedCategory === data.PDF_YEAR;
   });
 
@@ -103,7 +116,7 @@ export default () => {
           keyExtractor={(_, index) => index.toString()}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
-          data={categoryList}
+          data={MYCU_MONTHLY_CATEGORY}
           horizontal={true}
           renderItem={({item, index}) => CategoryListRenderItem(item, index)}
         />

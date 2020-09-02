@@ -117,11 +117,15 @@ export default ({alert}) => {
     navigation.navigate('HelpModalScreen');
   };
 
-  const onPress = () => {
+  const onOKPress = () => {
     dispatch(setAlertVisible(false));
     alert?.okCallback && alert.okCallback();
   };
 
+  const onCancelPress = () => {
+    dispatch(setAlertVisible(false));
+    alert?.cancelCallback && alert.cancelCallback();
+  };
   return (
     <Modal
       onBackdropPress={() => {
@@ -136,7 +140,7 @@ export default ({alert}) => {
             <TextBox alert={alert} />
           </BackGround>
           <Row>
-            <WithHelpBtn color={'#642A8C'} onPress={() => onPress()}>
+            <WithHelpBtn color={'#642A8C'} onPress={() => onOKPress()}>
               <WhiteText>{alert.okButtonText}</WhiteText>
             </WithHelpBtn>
             <WithHelpBtn color={'#AACE36'} onPress={() => onPressExplain()}>
@@ -152,10 +156,12 @@ export default ({alert}) => {
           </BackGround>
           {alert.alertType === 'confirm' ? (
             <Row>
-              <HalfBtnLeft warning={alert.warning} onPress={() => onPress()}>
+              <HalfBtnLeft
+                warning={alert.warning}
+                onPress={() => onCancelPress()}>
                 <HalfTextLeft>{alert.cancelButtonText}</HalfTextLeft>
               </HalfBtnLeft>
-              <HalfBtnRight warning={alert.warning} onPress={() => onPress()}>
+              <HalfBtnRight warning={alert.warning} onPress={() => onOKPress()}>
                 <HalfTextRight warning={alert.warning}>
                   {alert.okButtonText}
                 </HalfTextRight>
@@ -163,7 +169,7 @@ export default ({alert}) => {
             </Row>
           ) : (
             <Row>
-              <BarBtn onPress={() => onPress()}>
+              <BarBtn onPress={() => onOKPress()}>
                 {console.log('okookokok', alert.okButtonText)}
                 <WhiteText>{alert.okButtonText}</WhiteText>
               </BarBtn>

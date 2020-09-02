@@ -1,15 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import styled from 'styled-components/native';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {RefreshControl} from 'react-native';
 
 import api from '../../../../constants/LoggedInApi';
 import MyCuVideoCard from './MyCuVideoCard';
+import {setMYCU_VIDEO} from '../../../../redux/mycuSlice';
+import {setSplashVisible} from '../../../../redux/splashSlice';
 
 interface ISelected {
   isSelected: boolean;
 }
+
 const BackGround = styled.SafeAreaView`
   flex: 1;
   background-color: #f6f6f6;
@@ -36,7 +39,9 @@ const CategoryText = styled.Text<ISelected>`
 `;
 
 export default () => {
+  const dispatch = useDispatch();
   const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
+  const {MYCU_VIDEO} = useSelector((state: any) => state.mycuReducer);
 
   const categoryList = [
     {
@@ -77,6 +82,9 @@ export default () => {
 
   const fetchData = async () => {
     try {
+      if (MYCU_VIDEO.length === 0) {
+        dispatch(setSplashVisible(true));
+      }
       const {data} = await api.cuvideolistcheck(MEMBER_SEQ);
       if (data.message === 'SUCCESS') {
         if (Array.isArray(data.result)) {
@@ -85,10 +93,12 @@ export default () => {
             i.CATEGORY = categoryArray;
           }
         }
+        dispatch(setMYCU_VIDEO(data.result));
       }
-      setDataList(data.result);
     } catch (error) {
       console.log(error);
+    } finally {
+      dispatch(setSplashVisible(false));
     }
   };
 
@@ -110,7 +120,7 @@ export default () => {
     fetchData();
   }, []);
 
-  const selectData = dataList.filter((data: any) => {
+  const selectData = MYCU_VIDEO.filter((data: any) => {
     return (
       selectedCategory === categoryList[0].key ||
       data.CATEGORY.includes(selectedCategory)

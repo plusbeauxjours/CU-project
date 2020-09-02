@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {RefreshControl} from 'react-native';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import styled from 'styled-components/native';
 
 import api from '../../../../constants/LoggedInApi';
 import EducationVideoCard from './EducationVideoCard';
+import {setEDUCATION_VIDEO} from '../../../../redux/mycuSlice';
+import {setSplashVisible} from '../../../../redux/splashSlice';
 
 interface ISelected {
   isSelected: boolean;
@@ -36,7 +38,9 @@ const CategoryText = styled.Text<ISelected>`
 `;
 
 export default () => {
+  const dispatch = useDispatch();
   const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
+  const {EDUCATION_VIDEO} = useSelector((state: any) => state.mycuReducer);
 
   const categoryList = [
     {
@@ -61,7 +65,6 @@ export default () => {
     },
   ];
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [dataList, setDataList] = useState<[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('0');
 
   const onRefresh = async () => {
@@ -77,6 +80,9 @@ export default () => {
 
   const fetchData = async () => {
     try {
+      if (EDUCATION_VIDEO.length === 0) {
+        dispatch(setSplashVisible(true));
+      }
       const {data} = await api.cuedulistcheck(MEMBER_SEQ);
       if (data.message === 'SUCCESS') {
         if (Array.isArray(data.result)) {
@@ -85,10 +91,12 @@ export default () => {
             i.CATEGORY = categoryArray;
           }
         }
+        dispatch(setEDUCATION_VIDEO(data.result));
       }
-      setDataList(data.result);
     } catch (error) {
       console.log(error);
+    } finally {
+      dispatch(setSplashVisible(false));
     }
   };
 
@@ -110,7 +118,7 @@ export default () => {
     fetchData();
   }, []);
 
-  const selectData = dataList.filter((data: any) => {
+  const selectData = EDUCATION_VIDEO.filter((data: any) => {
     return (
       selectedCategory === categoryList[0].key ||
       data.CATEGORY.includes(selectedCategory)

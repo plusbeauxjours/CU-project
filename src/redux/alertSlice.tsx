@@ -3,15 +3,15 @@ import {createSlice} from '@reduxjs/toolkit';
 const alertSlice = createSlice({
   name: 'alert',
   initialState: {
-    visible: true,
+    visible: false,
     alertType: null,
     title: '',
     content: '',
     attach: '',
     okButtonText: '확인',
-    okCallback: null,
+    okCallback: () => {},
     cancelButtonText: '취소',
-    cancelCallback: null,
+    cancelCallback: () => {},
     warning: 'no',
     close: null,
   },
@@ -41,7 +41,7 @@ const alertSlice = createSlice({
       } = action;
       return {
         ...state,
-        alertType: 'confirm',
+        alertType,
         height,
         title,
         content,

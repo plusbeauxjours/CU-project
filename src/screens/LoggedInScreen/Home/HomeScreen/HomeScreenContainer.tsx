@@ -225,11 +225,15 @@ export default ({route: {params}}) => {
   const fetchData = async () => {
     setWorkingModalOpen(false);
     try {
+      if (!STORE_DATA) {
+        dispatch(setSplashVisible(true));
+      }
       const {data} = await api.getStoreInfo({
         STORE,
         MEMBER_SEQ,
         STORE_SEQ,
       });
+      console.log('******************', data);
       if (data.resultmsg === '1') {
         dispatch(setSTORE_DATA(data));
         dispatch(setEMP_SEQ(data.EMP_SEQ));
@@ -244,6 +248,7 @@ export default ({route: {params}}) => {
     } catch (error) {
       console.log(error);
     } finally {
+      dispatch(setSplashVisible(false));
     }
   };
 
@@ -256,7 +261,6 @@ export default ({route: {params}}) => {
     }
     setAppVersion('1.3.7');
     checkVersion();
-    console.log('STORE_DATA', STORE_DATA);
   }, []);
 
   useEffect(() => {

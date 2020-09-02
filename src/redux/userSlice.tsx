@@ -107,6 +107,7 @@ export const userLogin = () => async (dispatch) => {
     console.log('Wrong user/password');
   }
 };
+
 export const userLogout = () => async (dispatch) => {
   console.log('userLogout');
   dispatch(setLOGOUT());

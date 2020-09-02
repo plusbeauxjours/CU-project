@@ -75,7 +75,7 @@ const NewCnt = styled.View`
   position: absolute;
   width: 30px;
   height: 30px;
-  top: 0px;
+  top: -5px;
   right: 0;
   align-items: center;
   justify-content: center;
