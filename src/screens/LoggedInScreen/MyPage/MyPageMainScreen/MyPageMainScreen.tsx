@@ -136,7 +136,7 @@ export default () => {
             rounded
             size={60}
             source={{
-              uri: `http://133.186.209.113/uploads/3.jpg`,
+              uri: `http://133.186.209.113/uploads/3.png`,
             }}
             containerStyle={{
               borderWidth: 1,

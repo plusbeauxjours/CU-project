@@ -2,27 +2,21 @@ import React, {useState, useEffect} from 'react';
 
 import HealthCertificateTypeScreenPresenter from './HealthCertificateTypeScreenPresenter';
 import {useDispatch, useSelector} from 'react-redux';
+import moment from 'moment';
+
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import api from '../../../../constants/LoggedInApi';
+import {setSplashVisible} from '../../../../redux/splashSlice';
+import {setHEALTH_CERTIFICATE_DATA} from '../../../../redux/healthSlice';
 
-export default ({route: {params}}) => {
+export default () => {
   const dispatch = useDispatch();
-  const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
-
-  const {STOREDATA, STORE} = params;
-  const {STORE_SEQ} = STOREDATA?.resultdata;
-
+  const {MEMBER_SEQ, STORE} = useSelector((state: any) => state.userReducer);
+  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
+  const {HEALTH_CERTIFICATE_DATA} = useSelector(
+    (state: any) => state.healthReducer,
+  );
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [EDUCATION_CERTIFICATE, setEDUCATION_CERTIFICATE] = useState<number>(0);
-  const [EDUCATION_DDAY, setEDUCATION_DDAY] = useState<string>('');
-  const [HEALTH_CERTIFICATE_TARGET, setHEALTH_CERTIFICATE_TARGET] = useState<
-    number
-  >(0);
-  const [HEALTH_CERTIFICATE_APPLY, setHEALTH_CERTIFICATE_APPLY] = useState<
-    number
-  >(0);
-  const [HEALTH_DDAY, setHEALTH_DDAY] = useState<string>('');
-  const [EDUCATION_DATA, setEDUCATION_DATA] = useState<string>('');
 
   const explainModal = (title, text) => {
     const params = {
@@ -47,31 +41,28 @@ export default ({route: {params}}) => {
 
   const fetchData = async () => {
     try {
+      if (!HEALTH_CERTIFICATE_DATA) {
+        dispatch(setSplashVisible(true));
+      }
       const {data} = await api.getCertificate({
         STORE_SEQ,
         MEMBER_SEQ,
         STORE,
       });
-      setEDUCATION_CERTIFICATE(data?.EDUCATION_CERTIFICATE);
-      setEDUCATION_DATA(data?.EDUCATION_DATA);
-      setEDUCATION_DDAY(data?.EDUCATION_DDAY);
-      setHEALTH_CERTIFICATE_TARGET(data?.HEALTH_CERTIFICATE_TARGET);
-      setHEALTH_CERTIFICATE_APPLY(data?.HEALTH_CERTIFICATE_APPLY);
-      setHEALTH_DDAY(data?.HEALTH_DDAY);
+      if (data.resultmsg === '1') {
+        dispatch(setHEALTH_CERTIFICATE_DATA(data));
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      dispatch(setSplashVisible(false));
     }
   };
 
-  const now = new Date();
-  let pushday;
-  if (STORE == '1') {
-    pushday = new Date(EDUCATION_DDAY);
-  } else {
-    pushday = new Date(HEALTH_DDAY);
-  }
-  let dday = 0;
-  dday = (pushday.getTime() - now.getTime()) / 1000 / 3600 / 24;
+  const dday = moment(HEALTH_CERTIFICATE_DATA.EDUCATION_DATA).diff(
+    moment(),
+    'days',
+  );
 
   useEffect(() => {
     fetchData();
@@ -81,13 +72,15 @@ export default ({route: {params}}) => {
     <HealthCertificateTypeScreenPresenter
       refreshing={refreshing}
       STORE={STORE}
-      STORE_SEQ={STORE_SEQ}
-      STOREDATA={STOREDATA}
-      EDUCATION_CERTIFICATE={EDUCATION_CERTIFICATE}
-      HEALTH_CERTIFICATE_TARGET={HEALTH_CERTIFICATE_TARGET}
-      HEALTH_CERTIFICATE_APPLY={HEALTH_CERTIFICATE_APPLY}
-      HEALTH_DDAY={HEALTH_DDAY}
-      EDUCATION_DATA={EDUCATION_DATA}
+      EDUCATION_CERTIFICATE={HEALTH_CERTIFICATE_DATA.EDUCATION_CERTIFICATE}
+      HEALTH_CERTIFICATE_TARGET={
+        HEALTH_CERTIFICATE_DATA.HEALTH_CERTIFICATE_TARGET
+      }
+      HEALTH_CERTIFICATE_APPLY={
+        HEALTH_CERTIFICATE_DATA.HEALTH_CERTIFICATE_APPLY
+      }
+      HEALTH_DDAY={HEALTH_CERTIFICATE_DATA.HEALTH_DDAY}
+      EDUCATION_DATA={HEALTH_CERTIFICATE_DATA.EDUCATION_DATA}
       explainModal={explainModal}
       onRefresh={onRefresh}
       dday={dday}

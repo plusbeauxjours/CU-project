@@ -146,13 +146,13 @@ export default ({route: {params}}) => {
   };
 
   const submit = async (sign) => {
-    dispatch(setSplashVisible(true));
     const gps = commuteType.toString();
     let CLOSE_FLAGProps = CLOSE_FLAG == false ? '0' : '1';
     if (sign == 'close') {
       CLOSE_FLAGProps = '1';
     }
     try {
+      dispatch(setSplashVisible(true));
       const {data} = await api.updateStore({
         CU_CODE,
         CLOSE_FLAG: CLOSE_FLAGProps,

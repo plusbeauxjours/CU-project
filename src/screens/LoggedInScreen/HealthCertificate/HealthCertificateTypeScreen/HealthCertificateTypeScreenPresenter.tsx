@@ -88,14 +88,9 @@ const ViewBtnText = styled.Text`
   padding-right: 3px;
 `;
 
-const WhiteSpace = styled.View`
-  height: 30px;
-`;
 export default ({
   refreshing,
   STORE,
-  STORE_SEQ,
-  STOREDATA,
   EDUCATION_CERTIFICATE,
   HEALTH_CERTIFICATE_TARGET,
   HEALTH_CERTIFICATE_APPLY,
@@ -138,12 +133,9 @@ export default ({
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }>
             <Section
-              onPress={() => {
-                navigation.navigate('HealthCertificateEmpListScreen', {
-                  STOREDATA,
-                  STORE,
-                });
-              }}>
+              onPress={() =>
+                navigation.navigate('HealthCertificateEmpListScreen')
+              }>
               <TypeTitle>
                 <Row>
                   <TypeTitleBox>
@@ -211,11 +203,9 @@ export default ({
             <>
               {EDUCATION_CERTIFICATE != 0 ? (
                 <Section
-                  onPress={() => {
-                    navigation.navigate('HealthCertificateStoreDetailScreen', {
-                      STORE_SEQ,
-                    });
-                  }}>
+                  onPress={() =>
+                    navigation.navigate('HealthCertificateStoreDetailScreen')
+                  }>
                   <SanitaryEducation />
                   <IconContainer
                     style={{
@@ -243,13 +233,13 @@ export default ({
                 </Section>
               ) : (
                 <Section
-                  onPress={() => {
+                  onPress={() =>
                     navigation.navigate('HealthCertificateStoreFormScreen', {
                       count: 3,
-                      STORE_SEQ,
-                    });
-                  }}>
+                    })
+                  }>
                   <SanitaryEducation />
+
                   <IconContainer>
                     <EllipseIcon size={22} color={'#CE0505'} />
                     <Text isSubmited={false}>위생교육증 미등록</Text>
@@ -259,9 +249,7 @@ export default ({
               <Section
                 onPress={() => {
                   navigation.navigate('HealthCertificateEmpListScreen', {
-                    type: '1', // 보건증
-                    STOREDATA: STOREDATA,
-                    STORE: STORE,
+                    type: '1',
                   });
                 }}>
                 <TypeTitle>

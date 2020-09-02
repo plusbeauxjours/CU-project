@@ -66,7 +66,6 @@ export default () => {
     },
   ];
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [dataList, setDataList] = useState<[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('0');
 
   const onRefresh = async () => {
