@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import EmployeeInfoEMPScreenPresenter from './EmployeeInfoEMPScreenPresenter';
 import {setSplashVisible} from '../../../../redux/splashSlice';
+import {setEMPLOYEE_INFO_DATA} from '../../../../redux/employeeSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import api from '../../../../constants/LoggedInApi';
 import moment from 'moment';
@@ -25,18 +26,20 @@ const constant = {
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
-  const {STOREDATA, STORE, EMP_SEQ} = params;
-  const {CALCULATE_DAY} = STOREDATA?.resultdata;
-
+  const {EMP_SEQ, CALCULATE_DAY} = useSelector(
+    (state: any) => state.storeReducer,
+  );
+  const {EMPLOYEE_INFO_DATA} = useSelector(
+    (state: any) => state.employeeReducer,
+  );
+  console.log(EMPLOYEE_INFO_DATA);
   const [workTypeCheck, setWorkTypeCheck] = useState<boolean>(true); // true: 자율출퇴근 직원, false: 일정이 있는 직원
   const [timeTableIndex, setTimeTableIndex] = useState<any>(null); // 저장된 시간 목록 중 선택된 항목의 인덱스
   const [timeTable, setTimeTable] = useState<any>([]); // timeList를 근무 시작일 / 근무 종료일 별로 저장한 배열
   const [timeListIndex, setTimeListIndex] = useState<number>(0); // 저장된 근무 시간 목록 중 선택된 항목의 인덱스
   const [timeList, setTimeList] = useState<any>([]); // 저장된 근무 시간 목록
-  const [dayList, setDayList] = useState<any>([]); // 일요일 ~ 토요일까지 화면에 보여질 요일 배열
   const [originalDayList, setOriginalDayList] = useState<any>([]); // dayList 원본 값
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [data, setData] = useState<any>({});
 
   const alertModal = (title, text) => {
     const params = {
@@ -59,14 +62,6 @@ export default ({route: {params}}) => {
     }
   };
 
-  const numberFormatPadding = (num) => {
-    const _num = Number(num);
-    if (_num < 10) {
-      return `0${_num}`;
-    }
-    return _num.toString();
-  };
-
   const fetchSchedule = async (EMP_SEQ) => {
     try {
       const {data} = await api.getSchedules(
@@ -83,27 +78,28 @@ export default ({route: {params}}) => {
       }
     } catch (error) {
       console.log(error);
-      alertModal('', '통신이 원활하지 않습니다.');
+      alertModal('', '통신이 원활하지 않습니다.1');
     }
   };
 
   const fetchData = async () => {
     try {
-      dispatch(setSplashVisible(true));
+      if (!EMPLOYEE_INFO_DATA) {
+        dispatch(setSplashVisible(true));
+      }
       const {data} = await api.getEmp(EMP_SEQ);
-      const today = new Date();
-      setData(data.result);
+      dispatch(setEMPLOYEE_INFO_DATA(data.result));
       if (data.result.CALENDAR === '1') {
         setWorkTypeCheck(true);
       }
       if (data.result.CALENDAR === '0') {
         setWorkTypeCheck(false);
-        fetchSchedule(data.result.EMP_SEQ);
+        fetchSchedule(EMP_SEQ);
       }
     } catch (error) {
       console.log(error);
       dispatch(setSplashVisible(false));
-      alertModal('', '통신이 원활하지 않습니다.');
+      alertModal('', '통신이 원활하지 않습니다.2');
     } finally {
       dispatch(setSplashVisible(false));
     }
@@ -113,11 +109,7 @@ export default ({route: {params}}) => {
     if (stringDate) {
       return Number(stringDate.replace(/-/g, ''));
     }
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = numberFormatPadding(today.getMonth() + 1);
-    const date = numberFormatPadding(today.getDate());
-    const numToday = Number(`${year}${month}${date}`);
+    const numToday = Number(`${moment().format('YYYYMMDD')}`);
     return numToday;
   };
 
@@ -165,23 +157,24 @@ export default ({route: {params}}) => {
       return numPrevEnd - numNextEnd;
     });
 
+    const originalDayListJSON = [
+      {day: 0, text: '일', isChecked: false, EMP_SCH_SEQ: null},
+      {day: 1, text: '월', isChecked: false, EMP_SCH_SEQ: null},
+      {day: 2, text: '화', isChecked: false, EMP_SCH_SEQ: null},
+      {day: 3, text: '수', isChecked: false, EMP_SCH_SEQ: null},
+      {day: 4, text: '목', isChecked: false, EMP_SCH_SEQ: null},
+      {day: 5, text: '금', isChecked: false, EMP_SCH_SEQ: null},
+      {day: 6, text: '토', isChecked: false, EMP_SCH_SEQ: null},
+    ];
+    setOriginalDayList(JSON.parse(JSON.stringify(originalDayListJSON)));
+
     for (const rawTime of rawTimeList) {
       const key = `${rawTime.START}@@${rawTime.END || ''}`;
       if (!objTimeTable[key]) {
         // 새로운 데이터인 경우
-        const dayList = [
-          {day: 0, text: '일', isChecked: false, EMP_SCH_SEQ: null},
-          {day: 1, text: '월', isChecked: false, EMP_SCH_SEQ: null},
-          {day: 2, text: '화', isChecked: false, EMP_SCH_SEQ: null},
-          {day: 3, text: '수', isChecked: false, EMP_SCH_SEQ: null},
-          {day: 4, text: '목', isChecked: false, EMP_SCH_SEQ: null},
-          {day: 5, text: '금', isChecked: false, EMP_SCH_SEQ: null},
-          {day: 6, text: '토', isChecked: false, EMP_SCH_SEQ: null},
-        ];
-        const originalDayListed = JSON.parse(JSON.stringify(dayList));
-        originalDayListed[Number(rawTime.DAY)].isChecked = true;
-        originalDayListed[Number(rawTime.DAY)].EMP_SCH_SEQ =
-          rawTime.EMP_SCH_SEQ;
+        const dayList = JSON.parse(JSON.stringify(originalDayListJSON));
+        dayList[Number(rawTime.DAY)].isChecked = true;
+        dayList[Number(rawTime.DAY)].EMP_SCH_SEQ = rawTime.EMP_SCH_SEQ;
         objTimeTable[key] = {
           startDate: rawTime.START,
           endDate: rawTime.END,
@@ -191,10 +184,8 @@ export default ({route: {params}}) => {
           startTime: rawTime.ATTENDANCE_TIME,
           endTime: rawTime.WORK_OFF_TIME,
           color: constant.COLOR[0],
-          dayList: originalDayListed,
+          dayList,
         });
-        setDayList(dayList);
-        setOriginalDayList(JSON.parse(JSON.stringify(dayList)));
       } else {
         // 해당 날짜가 이미 존재하는 경우
         let index = -1;
@@ -209,14 +200,14 @@ export default ({route: {params}}) => {
         }
         if (index === -1) {
           // 해당 날자가 이미 존재하지만 시간이 다른 경우
-          const dayList = JSON.parse(JSON.stringify(originalDayList));
+          const dayList = JSON.parse(JSON.stringify(originalDayListJSON));
           dayList[Number(rawTime.DAY)].isChecked = true;
           dayList[Number(rawTime.DAY)].EMP_SCH_SEQ = rawTime.EMP_SCH_SEQ;
           objTimeTable[key].data.push({
             startTime: rawTime.ATTENDANCE_TIME,
             endTime: rawTime.WORK_OFF_TIME,
             color: constant.COLOR[objTimeTable[key].data.length],
-            dayList: dayList,
+            dayList,
           });
         }
         if (index > -1) {
@@ -240,10 +231,9 @@ export default ({route: {params}}) => {
       return;
     }
     let timeTableIndex = result.length - 1;
-    const timeTabled = timeTable;
     const today = getNumberToday();
-    for (let i = 0; i < timeTabled.length; i += 1) {
-      const timeObj = timeTabled[i];
+    for (let i = 0; i < result.length; i += 1) {
+      const timeObj = result[i];
       if (timeObj) {
         const startDate = getNumberToday(timeObj.startDate);
         const endDate = timeObj.endDate
@@ -255,7 +245,7 @@ export default ({route: {params}}) => {
       }
     }
     setTimeTableIndex(timeTableIndex);
-    setTimeList(timeTable[timeTableIndex].data);
+    setTimeList(result[timeTableIndex].data);
   };
 
   const getPeriod = (CALCULATE_DAY) => {
@@ -293,14 +283,13 @@ export default ({route: {params}}) => {
 
   return (
     <EmployeeInfoEMPScreenPresenter
-      STORE={STORE}
       originalDayList={originalDayList}
       timeTableIndex={timeTableIndex}
       timeListIndex={timeListIndex}
       timeList={timeList}
       refreshing={refreshing}
       onRefresh={onRefresh}
-      data={data}
+      data={EMPLOYEE_INFO_DATA}
       getPeriod={getPeriod}
       numberComma={numberComma}
       workTypeCheck={workTypeCheck}

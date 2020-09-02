@@ -1,9 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {
   RefreshControl,
   TouchableWithoutFeedback,
@@ -28,7 +25,6 @@ const BackGround = styled.SafeAreaView`
 const ScrollView = styled.ScrollView``;
 
 const Container = styled.View`
-  margin-top: 20px;
   padding: 20px;
   align-items: center;
 `;
@@ -37,7 +33,7 @@ const RenderDayListContainer = styled.View``;
 
 const Section = styled.View`
   width: 100%;
-  margin-top: 20px;
+  margin-bottom: 20px;
   border-radius: 20px;
   padding: 20px 0;
   background-color: white;
@@ -64,7 +60,6 @@ const DateText = styled.Text`
 
 const Row = styled.View`
   flex-direction: row;
-  justify-content: center;
   align-items: center;
 `;
 
@@ -74,12 +69,14 @@ const SmallLine = styled.View`
   margin: 10px 0;
   background-color: #f2f2f2;
 `;
+
 const WorkTypeAndSalaryBox = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   margin: 10px 20px 0 20px;
 `;
+
 const WorkTypeAndSalaryInfoBox = styled.View`
   align-items: flex-end;
   border-color: #f2f2f2;
@@ -88,10 +85,12 @@ const WorkTypeAndSalaryInfoBox = styled.View`
   padding: 10px 20px;
   margin: 10px 0;
 `;
+
 const WorkTypeAndSalaryBoxTitle = styled.Text`
   font-size: 17px;
   color: #642a8c;
 `;
+
 const WorkTypeCheckSection = styled.View`
   padding: 0 20px;
 `;
@@ -100,6 +99,7 @@ const GreyText = styled.Text`
   font-size: 15px;
   color: #7e7c7c;
 `;
+
 const FixedGreyText = styled(GreyText)`
   position: absolute;
   right: 100px;
@@ -111,6 +111,7 @@ const RenderDayRow = styled.View`
   padding: 10px 0;
   width: 100%;
 `;
+
 const RenderDayBox = styled.View<IsSelected>`
   width: 40px;
   height: 40px;
@@ -125,29 +126,35 @@ const RenderDayBox = styled.View<IsSelected>`
 const RenderDayBoxText = styled.Text<IsSelected>`
   color: ${(props) => (props.isSelected ? 'white' : '#CCCCCC')};
 `;
+
 const RenderDayTime = styled.View`
   margin-top: 10px;
   margin-left: 15px;
   width: 115px;
 `;
+
 const RenderDayTimeText = styled.Text<IsSelected>`
   font-size: 15px;
   color: ${(props) => (props.substract && props.isSelected ? '#000' : '#ddd')};
 `;
+
 const RenderDuration = styled.View`
   margin-top: 10px;
   margin-left: 5px;
   width: 85px;
 `;
+
 const RenderDurationText = styled.Text<IsSelected>`
   font-size: 15px;
   color: ${(props) => (props.isSelected ? '#000' : '#ddd')};
 `;
+
 const RenderScheduleTitle = styled.View`
   justify-content: center;
   align-items: center;
   margin: 20px 0;
 `;
+
 const TimeListBox = styled.TouchableOpacity<IsSelected>`
   border-color: ${(props) => (props.isSelected ? `${props.color}` : '#CCCCCC')};
   border-width: 0.6px;
@@ -158,13 +165,16 @@ const TimeListBox = styled.TouchableOpacity<IsSelected>`
   justify-content: space-between;
   align-items: center;
 `;
+
 const TimeListRow = styled(Row)`
   margin: 20px;
 `;
+
 const TimeListBoxText = styled.Text<IsSelected>`
   font-weight: ${(props) => (props.isSelected ? '600' : '300')};
   color: ${(props) => (props.isSelected ? `${props.color}` : '#CCCCCC')};
 `;
+
 const TimeListBold = styled.Text`
   font-weight: bold;
   font-size: 15px;
@@ -172,7 +182,6 @@ const TimeListBold = styled.Text`
   margin: 0 20px;
 `;
 export default ({
-  STORE,
   originalDayList,
   timeTableIndex,
   timeListIndex,
@@ -366,10 +375,7 @@ export default ({
         keyboardDismissMode="on-drag"
         showsVerticalScrollIndicator={false}
         refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={() => onRefresh()}
-          />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <Container>
