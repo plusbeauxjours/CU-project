@@ -3,6 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const employeeSlice = createSlice({
   name: 'employee',
   initialState: {
+    EMPLOYEE_LIST: [],
     EMPLOYEE_INFO_DATA: {},
   },
   reducers: {
@@ -13,9 +14,16 @@ const employeeSlice = createSlice({
         EMPLOYEE_INFO_DATA,
       };
     },
+    setEMPLOYEE_LIST(state, action) {
+      const {payload: EMPLOYEE_LIST} = action;
+      return {
+        ...state,
+        EMPLOYEE_LIST,
+      };
+    },
   },
 });
 
-export const {setEMPLOYEE_INFO_DATA} = employeeSlice.actions;
+export const {setEMPLOYEE_INFO_DATA, setEMPLOYEE_LIST} = employeeSlice.actions;
 
 export default employeeSlice.reducer;

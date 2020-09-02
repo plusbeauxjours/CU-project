@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
@@ -27,8 +27,14 @@ const constant = {
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {data, STORE, STORE_SEQ, CALCULATE_DAY, onRefresh} = params;
-  const {EMP_SEQ} = data;
+  const {STORE} = useSelector((state: any) => state.userReducer);
+  const {EMP_SEQ, STORE_SEQ, CALCULATE_DAY} = useSelector(
+    (state: any) => state.storeReducer,
+  );
+  const {EMPLOYEE_INFO_DATA} = useSelector(
+    (state: any) => state.employeeReducer,
+  );
+
   const [workTypeCheck, setWorkTypeCheck] = useState<boolean>(true); // true: 자율출퇴근 직원, false: 일정이 있는 직원
   const [timeTableIndex, setTimeTableIndex] = useState<any>(null); // 저장된 시간 목록 중 선택된 항목의 인덱스
   const [timeTable, setTimeTable] = useState<any>([]); // timeList를 근무 시작일 / 근무 종료일 별로 저장한 배열
@@ -151,14 +157,6 @@ export default ({route: {params}}) => {
       console.log(error);
       alertModal('', '통신이 원활하지 않습니다.');
     }
-  };
-
-  const numberFormatPadding = (num) => {
-    const _num = Number(num);
-    if (_num < 10) {
-      return `0${_num}`;
-    }
-    return _num.toString();
   };
 
   const fetchData = async () => {
@@ -426,7 +424,6 @@ export default ({route: {params}}) => {
       timeListIndex={timeListIndex}
       timeList={timeList}
       refreshing={refreshing}
-      onRefresh={onRefresh}
       setDates={setDates}
       CALCULATE={CALCULATE}
       EMP_SEQ={EMP_SEQ}

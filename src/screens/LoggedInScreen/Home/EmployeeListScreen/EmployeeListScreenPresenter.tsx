@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+
 import styled from 'styled-components/native';
 import {RefreshControl} from 'react-native';
 import EmployeeListCard from './EmployeeListCard';
@@ -27,20 +24,19 @@ const Container = styled.View`
   width: 100%;
   padding: 0 20px;
   align-items: center;
-  margin-top: ${hp('5%')}px;
 `;
 
 const Section = styled.View`
-  width: ${wp('90%')}px;
-  justify-content: center;
-  margin: ${hp('3%')}px 0;
+  width: 100%;
+  margin-top: 20px;
+  padding-bottom: 30px;
   border-radius: 20px;
-  background-color: #fff;
+  background-color: white;
 `;
 
 const BoxTitle = styled.View`
   margin: 0 20px;
-  padding: ${hp('2%')}px 0;
+  padding: 20px 0;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -54,8 +50,9 @@ const BoxTitleText = styled.Text`
 const StoreBox = styled.View`
   width: 100%;
   padding: 25px;
+  margin-top: 20px;
   border-radius: 50px;
-  background-color: #fff;
+  background-color: white;
   justify-content: center;
   align-items: center;
 `;
@@ -84,7 +81,7 @@ export default ({
   refreshing,
   onRefresh,
   STORE,
-  STOREDATA,
+  STORE_NAME,
   adviceModal,
   employeeNowOn,
   employeeNowOff,
@@ -101,7 +98,7 @@ export default ({
         }>
         <Container>
           <StoreBox>
-            <StoreBoxText>{STOREDATA?.resultdata.NAME}의 직원목록</StoreBoxText>
+            <StoreBoxText>{STORE_NAME}의 직원목록</StoreBoxText>
           </StoreBox>
 
           <Section>
@@ -113,19 +110,14 @@ export default ({
             <EmployeeListBox hasEmployeeNow={employeeNowOn}>
               {employeeNowOn?.map((data, index) => (
                 <EmployeeListCard
-                  key={data.MEMBER_SEQ}
-                  name={data.EMP_NAME}
-                  isManager={data.IS_MANAGER == 0 ? '스태프' : '점장'}
+                  key={index}
+                  EMP_NAME={data.EMP_NAME}
+                  IS_MANAGER={data.IS_MANAGER == 0 ? '스태프' : '점장'}
                   image={
                     data.images.length == 0 ? '3.png' : data.images[0].IMAGE
                   }
-                  startDay={data.START}
-                  data={data}
-                  STORE={STORE}
-                  STOREDATA={STOREDATA}
-                  NUMBER={index + 1}
-                  LAST={employeeNowOn.length}
-                  onRefresh={onRefresh}
+                  START={data.START}
+                  END={data.END}
                 />
               ))}
             </EmployeeListBox>
@@ -151,19 +143,14 @@ export default ({
             <EmployeeListBox hasEmployeeNow={employeeNowOff}>
               {employeeNowOff?.map((data, index) => (
                 <EmployeeListCard
-                  key={data.MEMBER_SEQ}
-                  name={data.EMP_NAME}
-                  isManager={data.IS_MANAGER == 0 ? '스태프' : '점장'}
+                  key={index}
+                  EMP_NAME={data.EMP_NAME}
+                  IS_MANAGER={data.IS_MANAGER == 0 ? '스태프' : '점장'}
                   image={
                     data.images.length == 0 ? '3.png' : data.images[0].IMAGE
                   }
-                  startDay={data.START}
-                  data={data}
-                  STORE={STORE}
-                  STOREDATA={STOREDATA}
-                  NUMBER={index + 1}
-                  LAST={employeeNowOff.length}
-                  onRefresh={onRefresh}
+                  START={data.START}
+                  END={data.END}
                 />
               ))}
             </EmployeeListBox>

@@ -1,18 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+
 import EmployeeListScreenPresenter from './EmployeeListScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
+import {setEMPLOYEE_LIST} from '../../../../redux/employeeSlice';
 import api from '../../../../constants/LoggedInApi';
 
-export default ({route: {params}}) => {
+export default () => {
   const dispatch = useDispatch();
+  const {STORE_NAME, STORE_SEQ} = useSelector(
+    (state: any) => state.storeReducer,
+  );
   const {STORE} = useSelector((state: any) => state.userReducer);
-  const {STOREDATA} = params;
-  const {STORE_SEQ} = STOREDATA.resultdata;
+  const {EMPLOYEE_LIST} = useSelector((state: any) => state.employeeReducer);
+
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [employeeNowOn, setEmployeeNowOn] = useState<any>([]);
-  const [employeeNowOff, setEmployeeNowOff] = useState<any>([]);
 
   const onRefresh = async () => {
     try {
@@ -38,14 +41,14 @@ export default ({route: {params}}) => {
   };
 
   const fetchData = async () => {
-    dispatch(setSplashVisible(true));
     try {
+      if (!EMPLOYEE_LIST) {
+        dispatch(setSplashVisible(true));
+      }
       const {data} = await api.getEmpLists(STORE_SEQ);
       if (data.message == 'SUCCESS') {
-        setEmployeeNowOn(data?.workinglist);
-        setEmployeeNowOff(data?.endlist);
+        dispatch(setEMPLOYEE_LIST(data));
       }
-      console.log(data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -62,10 +65,10 @@ export default ({route: {params}}) => {
       refreshing={refreshing}
       onRefresh={onRefresh}
       STORE={STORE}
-      STOREDATA={STOREDATA}
+      STORE_NAME={STORE_NAME}
       adviceModal={adviceModal}
-      employeeNowOn={employeeNowOn}
-      employeeNowOff={employeeNowOff}
+      employeeNowOn={EMPLOYEE_LIST?.workinglist}
+      employeeNowOff={EMPLOYEE_LIST?.endlist}
     />
   );
 };

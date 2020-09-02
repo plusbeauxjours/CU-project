@@ -21,51 +21,39 @@ const ContentBox = styled.View`
   flex: 1;
   justify-content: center;
 `;
+
 const NameBox = styled.View`
   flex-direction: row;
   align-items: flex-end;
   margin-bottom: ${hp('0.5%')}px;
 `;
+
 const NameText = styled.Text`
   font-size: 15px;
   margin-right: ${wp('2%')};
 `;
+
 const PositionText = styled.Text`
   font-size: 13px;
 `;
+
 const WorkFromText = styled(PositionText)`
   color: grey;
 `;
+
 const DateText = styled.Text`
   color: gray;
   font-size: 12px;
 `;
-export default ({
-  key,
-  name,
-  isManager,
-  image,
-  startDay,
-  data,
-  STORE,
-  STOREDATA,
-  NUMBER,
-  LAST,
-  onRefresh,
-}) => {
+
+export default ({key, EMP_NAME, IS_MANAGER, image, START, END}) => {
   const navigation = useNavigation();
   return (
     <Touchable
       key={key}
       activeOpacity={1}
       onPress={() => {
-        navigation.navigate('EmployeeInfoScreen', {
-          data: data,
-          STORE: STORE,
-          STORE_SEQ: STOREDATA.resultdata.STORE_SEQ,
-          CALCULATE_DAY: STOREDATA.resultdata.CALCULATE_DAY,
-          onRefresh,
-        });
+        navigation.navigate('EmployeeInfoScreen');
       }}>
       <Avatar
         rounded
@@ -77,12 +65,12 @@ export default ({
       />
       <ContentBox>
         <NameBox>
-          <NameText>{name}</NameText>
-          <PositionText>[{isManager}]</PositionText>
+          <NameText>{EMP_NAME}</NameText>
+          <PositionText>[{IS_MANAGER}]</PositionText>
         </NameBox>
         <WorkFromText>근무기간</WorkFromText>
         <DateText>
-          {startDay} ~ {data.END != null ? data.END : '계속'}
+          {START} ~ {END ?? '계속'}
         </DateText>
       </ContentBox>
       <ForwardIcon />
