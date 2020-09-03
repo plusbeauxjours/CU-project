@@ -81,7 +81,7 @@ export default () => {
 
   const fetchData = async () => {
     try {
-      if (MYCU_VIDEO.length === 0) {
+      if (MYCU_VIDEO?.length === 0) {
         dispatch(setSplashVisible(true));
       }
       const {data} = await api.cuvideolistcheck(MEMBER_SEQ);
@@ -119,7 +119,7 @@ export default () => {
     fetchData();
   }, []);
 
-  const selectData = MYCU_VIDEO.filter((data: any) => {
+  const selectData = MYCU_VIDEO?.filter((data: any) => {
     return (
       selectedCategory === categoryList[0].key ||
       data.CATEGORY.includes(selectedCategory)

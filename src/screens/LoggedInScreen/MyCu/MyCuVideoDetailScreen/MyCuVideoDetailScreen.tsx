@@ -6,24 +6,25 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import FastImage from 'react-native-fast-image';
 
 import api from '../../../../constants/LoggedInApi';
 import VideoPlayer from '../../../../components/VideoPlayer';
-import {CloseIcon} from '../../../../constants/Icons';
+import {CloseCircleIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
   background-color: white;
 `;
 
-const MainImageWrapper = styled.View`
+const Wrapper = styled.View`
   justify-content: center;
   align-items: center;
 `;
 
 const MainImage = styled.Image`
-  justify-content: center;
-  align-items: center;
+  width: ${wp('100%')}px;
+  height: ${hp('30%')}px;
 `;
 
 const ScrollView = styled.ScrollView`
@@ -59,11 +60,6 @@ const ModalContainer = styled.View`
 `;
 
 const Text = styled.Text``;
-const IconContainer = styled.TouchableOpacity`
-  position: absolute;
-  right: 24px;
-  top: 55px;
-`;
 
 export default ({route: {params}}) => {
   const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
@@ -74,9 +70,6 @@ export default ({route: {params}}) => {
   const VIDEO_SEQ = params?.VIDEO_SEQ;
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [visibleVideoModalClose, setVisibleVideoModalClose] = useState<boolean>(
-    false,
-  );
 
   const checkVideo = async () => {
     setModalVisible(true);
@@ -113,54 +106,50 @@ export default ({route: {params}}) => {
   // });
 
   return (
-    <BackGround>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <MainImageWrapper>
+    <>
+      <BackGround>
+        <ScrollView
+          keyboardDismissMode="on-drag"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{alignItems: 'center'}}>
           {IMG_URL2 && (
-            <MainImage source={{uri: IMG_URL2}} resizeMode="stretch" />
+            <Wrapper>
+              <FastImage
+                style={{width: wp('100%'), height: hp('30%')}}
+                source={{
+                  uri: IMG_URL2,
+                  headers: {Authorization: 'someAuthToken'},
+                  priority: FastImage.priority.normal,
+                }}
+                resizeMode={FastImage.resizeMode.stretch}
+              />
+            </Wrapper>
           )}
-        </MainImageWrapper>
-        <PdfButtonWrapper>
-          <PdfButton
-            onPress={() => {
-              checkVideo();
-            }}>
-            <PdfButtonText>동영상 보기</PdfButtonText>
-          </PdfButton>
-        </PdfButtonWrapper>
-        <TextBox>
-          <Text>{CONTENTS2}</Text>
-        </TextBox>
-      </ScrollView>
+          <PdfButtonWrapper>
+            <PdfButton
+              onPress={() => {
+                checkVideo();
+              }}>
+              <PdfButtonText>동영상 보기</PdfButtonText>
+            </PdfButton>
+          </PdfButtonWrapper>
+          <Wrapper>
+            <Text>{CONTENTS2}</Text>
+          </Wrapper>
+        </ScrollView>
+      </BackGround>
       <Modal
         isVisible={modalVisible}
+        style={{
+          height: hp('100%'),
+        }}
         onBackButtonPress={() => {
           setModalVisible(false);
-        }}
-        style={{
-          backgroundColor: '#333333',
         }}>
         <ModalContainer>
-          <VideoPlayer
-            url={VIDEO_URL}
-            landscapeCallback={() => {
-              setVisibleVideoModalClose(false);
-            }}
-            portraitCallback={() => {
-              setVisibleVideoModalClose(true);
-            }}
-          />
-          {visibleVideoModalClose && (
-            <IconContainer
-              onPress={() => {
-                setModalVisible(false);
-              }}>
-              <Text>닫기</Text>
-              <CloseIcon size={24} />
-            </IconContainer>
-          )}
+          <VideoPlayer url={VIDEO_URL} setModalVisible={setModalVisible} />
         </ModalContainer>
       </Modal>
-    </BackGround>
+    </>
   );
 };

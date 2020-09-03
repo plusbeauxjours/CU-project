@@ -1,6 +1,8 @@
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
+import FastImage from 'react-native-fast-image';
+
 import {CheckMarkIcon} from '../../../../constants/Icons';
 
 const DataListItem = styled.TouchableOpacity`
@@ -96,9 +98,14 @@ export default ({
       }}>
       <DataListItemWrapper>
         <DataListItemImageWrapper>
-          <DataListItemImage
-            source={{uri: `http://cuapi.shop-sol.com/uploads/edu/${IMG_URL}`}}
-            resizeMode="stretch"
+          <FastImage
+            style={{width: '100%', height: 120}}
+            source={{
+              uri: `http://cuapi.shop-sol.com/uploads/edu/${IMG_URL}`,
+              headers: {Authorization: 'someAuthToken'},
+              priority: FastImage.priority.low,
+            }}
+            resizeMode={FastImage.resizeMode.stretch}
           />
         </DataListItemImageWrapper>
         <DataListItemInfoWrapper>

@@ -63,7 +63,7 @@ export default () => {
 
   const fetchData = async () => {
     try {
-      if (MYCU_MONTHLY.length === 0) {
+      if (MYCU_MONTHLY?.length === 0) {
         dispatch(setSplashVisible(true));
       }
       const {data} = await api.cupdflistcheck(MEMBER_SEQ);
@@ -104,7 +104,7 @@ export default () => {
     fetchData();
   }, []);
 
-  const selectData = MYCU_MONTHLY.filter((data) => {
+  const selectData = MYCU_MONTHLY?.filter((data) => {
     return selectedCategory === '전체' || selectedCategory === data.PDF_YEAR;
   });
 

@@ -80,7 +80,7 @@ export default () => {
 
   const fetchData = async () => {
     try {
-      if (EDUCATION_VIDEO.length === 0) {
+      if (EDUCATION_VIDEO?.length === 0) {
         dispatch(setSplashVisible(true));
       }
       const {data} = await api.cuedulistcheck(MEMBER_SEQ);
@@ -118,7 +118,7 @@ export default () => {
     fetchData();
   }, []);
 
-  const selectData = EDUCATION_VIDEO.filter((data: any) => {
+  const selectData = EDUCATION_VIDEO?.filter((data: any) => {
     return (
       selectedCategory === categoryList[0].key ||
       data.CATEGORY.includes(selectedCategory)

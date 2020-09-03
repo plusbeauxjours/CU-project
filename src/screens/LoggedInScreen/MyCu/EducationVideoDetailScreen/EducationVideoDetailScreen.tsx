@@ -6,6 +6,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import FastImage from 'react-native-fast-image';
 
 import api from '../../../../constants/LoggedInApi';
 import VideoPlayer from '../../../../components/VideoPlayer';
@@ -16,7 +17,7 @@ const BackGround = styled.SafeAreaView`
   background-color: white;
 `;
 
-const MainImageWrapper = styled.View`
+const Wrapper = styled.View`
   justify-content: center;
   align-items: center;
 `;
@@ -116,11 +117,19 @@ export default ({route: {params}}) => {
   return (
     <BackGround>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <MainImageWrapper>
-          {IMG_URL2 && (
-            <MainImage source={{uri: IMG_URL2}} resizeMode="stretch" />
-          )}
-        </MainImageWrapper>
+        {IMG_URL2 && (
+          <Wrapper>
+            <FastImage
+              style={{width: wp('100%'), height: hp('30%')}}
+              source={{
+                uri: IMG_URL2,
+                headers: {Authorization: 'someAuthToken'},
+                priority: FastImage.priority.normal,
+              }}
+              resizeMode={FastImage.resizeMode.stretch}
+            />
+          </Wrapper>
+        )}
         <PdfButtonWrapper>
           <PdfButton
             onPress={() => {
@@ -129,9 +138,9 @@ export default ({route: {params}}) => {
             <PdfButtonText>동영상 보기</PdfButtonText>
           </PdfButton>
         </PdfButtonWrapper>
-        <TextBox>
+        <Wrapper>
           <Text>{CONTENTS2}</Text>
-        </TextBox>
+        </Wrapper>
       </ScrollView>
       <Modal
         isVisible={modalVisible}

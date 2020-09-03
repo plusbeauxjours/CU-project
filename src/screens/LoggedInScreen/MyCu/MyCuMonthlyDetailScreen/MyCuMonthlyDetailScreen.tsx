@@ -6,6 +6,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import FastImage from 'react-native-fast-image';
 
 import api from '../../../../constants/LoggedInApi';
 import PDFViewer from '../../../../components/PDFViewer';
@@ -15,12 +16,7 @@ const BackGround = styled.SafeAreaView`
   background-color: white;
 `;
 
-const MainImageWrapper = styled.View`
-  justify-content: center;
-  align-items: center;
-`;
-
-const MainImage = styled.Image`
+const Wrapper = styled.View`
   justify-content: center;
   align-items: center;
 `;
@@ -48,10 +44,6 @@ const PdfButtonText = styled.Text`
   color: white;
 `;
 
-const TextBox = styled.View`
-  padding: 0 16px;
-`;
-
 const Text = styled.Text``;
 
 export default ({route: {params}}) => {
@@ -71,12 +63,23 @@ export default ({route: {params}}) => {
 
   return (
     <BackGround>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <MainImageWrapper>
-          {IMG_URL2 && (
-            <MainImage source={{uri: IMG_URL2}} resizeMode="stretch" />
-          )}
-        </MainImageWrapper>
+      <ScrollView
+        keyboardDismissMode="on-drag"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{alignItems: 'center'}}>
+        {IMG_URL2 && (
+          <Wrapper>
+            <FastImage
+              style={{width: wp('100%'), height: hp('30%')}}
+              source={{
+                uri: IMG_URL2,
+                headers: {Authorization: 'someAuthToken'},
+                priority: FastImage.priority.normal,
+              }}
+              resizeMode={FastImage.resizeMode.stretch}
+            />
+          </Wrapper>
+        )}
         <PdfButtonWrapper>
           <PdfButton
             onPress={() => {
@@ -85,9 +88,9 @@ export default ({route: {params}}) => {
             <PdfButtonText>PDF 보기</PdfButtonText>
           </PdfButton>
         </PdfButtonWrapper>
-        <TextBox>
+        <Wrapper>
           <Text>{CONTENTS2}</Text>
-        </TextBox>
+        </Wrapper>
       </ScrollView>
       <Modal
         isVisible={modalVisible}
