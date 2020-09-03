@@ -1,4 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
+import api from '../constants/LoggedInApi';
+import {setSplashVisible} from './splashSlice';
 
 const userSlice = createSlice({
   name: 'user',
@@ -99,10 +101,6 @@ export const {
 export const userLogin = () => async (dispatch) => {
   try {
     dispatch(setLOGIN());
-    // const { data } = await api.user(uuid);
-    // if (data) {
-    //   dispatch(setMe({ data }));
-    // }
   } catch (e) {
     console.log('Wrong user/password');
   }
@@ -111,6 +109,25 @@ export const userLogin = () => async (dispatch) => {
 export const userLogout = () => async (dispatch) => {
   console.log('userLogout');
   dispatch(setLOGOUT());
+};
+
+export const getSTORELIST_DATA = () => async (dispatch, getState) => {
+  const {
+    userReducer: {STORELIST_DATA, MEMBER_SEQ, STORE},
+  } = getState();
+  try {
+    if (STORELIST_DATA.length === 0) {
+      dispatch(setSplashVisible(true));
+    }
+    const {data} = await api.storeList(MEMBER_SEQ, STORE);
+    if (data.message === 'SUCCESS') {
+      dispatch(setSTORELIST_DATA(data.result));
+    }
+  } catch (e) {
+    console.log(e);
+  } finally {
+    dispatch(setSplashVisible(false));
+  }
 };
 
 export default userSlice.reducer;

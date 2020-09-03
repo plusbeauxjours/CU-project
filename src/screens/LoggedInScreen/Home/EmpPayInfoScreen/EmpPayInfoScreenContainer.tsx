@@ -19,6 +19,7 @@ export default ({route: {params}}) => {
     IMAGE,
     ISMANAGER,
   } = params;
+
   const {NAME: NAMEreducer} = useSelector((state: any) => state.userReducer);
   const [year, setYear] = useState<number>();
   const [month, setMonth] = useState<number>();
@@ -31,38 +32,6 @@ export default ({route: {params}}) => {
   const [click4, setClick4] = useState<boolean>(false);
   const [click5, setClick5] = useState<boolean>(false);
   const [maindata, setMaindata] = useState<any>({});
-  const data = [
-    {
-      key: 1,
-      day: '2019.10.16(월)',
-      base: '12,524원',
-      night: '12,524원',
-      over: '12,524원',
-      holi: '12,524원',
-      late: '12,524원',
-      total: '12,524원',
-    },
-    {
-      key: 2,
-      day: '2019.10.16(월)',
-      base: '12,524원',
-      night: '12,524원',
-      over: '12,524원',
-      holi: '12,524원',
-      late: '12,524원',
-      total: '12,524원',
-    },
-    {
-      key: 3,
-      day: '2019.10.16(월)',
-      base: '12,524원',
-      night: '12,524원',
-      over: '12,524원',
-      holi: '12,524원',
-      late: '12,524원',
-      total: '12,524원',
-    },
-  ];
 
   const onRefresh = async () => {
     try {

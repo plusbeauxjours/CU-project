@@ -6,50 +6,19 @@ import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import api from '../../../../constants/LoggedInApi';
 import {useNavigation} from '@react-navigation/native';
+import moment from 'moment';
 
-export default ({route: {params}}) => {
+export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {STORE} = useSelector((state: any) => state.userReducer);
-  const {STORE_SEQ, STOREPAY_SHOW} = params;
+  const {STORE_SEQ, STOREPAY_SHOW} = useSelector(
+    (state: any) => state.storeReducer,
+  );
 
-  const [refreshing, setRefreshing] = useState<boolean>(false);
   const [employeeNowOn, setEmployeeNowOn] = useState<any>([]);
   const [maindata, setMaindata] = useState<any>({});
-  const [year, setYear] = useState<number>(0);
-  const [month, setMonth] = useState<number>(0);
-  const data = [
-    {
-      key: 1,
-      day: '2019.10.16(월)',
-      base: '12,524원',
-      night: '12,524원',
-      over: '12,524원',
-      holi: '12,524원',
-      late: '12,524원',
-      total: '12,524원',
-    },
-    {
-      key: 2,
-      day: '2019.10.16(월)',
-      base: '12,524원',
-      night: '12,524원',
-      over: '12,524원',
-      holi: '12,524원',
-      late: '12,524원',
-      total: '12,524원',
-    },
-    {
-      key: 3,
-      day: '2019.10.16(월)',
-      base: '12,524원',
-      night: '12,524원',
-      over: '12,524원',
-      holi: '12,524원',
-      late: '12,524원',
-      total: '12,524원',
-    },
-  ];
+  const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
 
   const alertModal = (title, text) => {
     const params = {
@@ -73,33 +42,24 @@ export default ({route: {params}}) => {
 
   const onRefresh = async () => {
     try {
-      setRefreshing(true);
       await fetchData();
     } catch (e) {
       console.log(e);
-    } finally {
-      setRefreshing(false);
     }
   };
 
   const nextpay = async () => {
-    dispatch(setSplashVisible(true));
-    let YEAR = year;
-    let MONTH = month;
-    if (MONTH == 12) {
-      YEAR = YEAR + 1;
-      MONTH = 1;
-    } else {
-      MONTH = Number(MONTH) + 1;
-    }
-    if (MONTH < 10) {
-      MONTH = Number('0' + MONTH);
-    }
     try {
-      const {data} = await api.getWorkingEmpTotalPay(YEAR, MONTH, STORE_SEQ);
-      setMaindata(data.result);
-      setYear(YEAR);
-      setMonth(MONTH);
+      dispatch(setSplashVisible(true));
+      const {data} = await api.getWorkingEmpTotalPay(
+        Number(moment(date).add(1, 'month').format('YYYY')),
+        Number(moment(date).add(1, 'month').format('MM')),
+        STORE_SEQ,
+      );
+      if (data.message === 'SUCCESS') {
+        setMaindata(data.result);
+        setDate(moment(date).add(1, 'month').format('YYYY-MM-DD'));
+      }
     } catch (error) {
       console.log(error);
       alertModal('', '통신이 원활하지 않습니다.');
@@ -110,21 +70,17 @@ export default ({route: {params}}) => {
   };
 
   const backpay = async () => {
-    dispatch(setSplashVisible(true));
-    let YEAR = year;
-    let MONTH = month - 1;
-    if (MONTH == 0) {
-      YEAR = YEAR - 1;
-      MONTH = 12;
-    }
-    if (MONTH < 10) {
-      MONTH = Number('0' + MONTH);
-    }
     try {
-      const {data} = await api.getWorkingEmpTotalPay(YEAR, MONTH, STORE_SEQ);
-      setMaindata(data.result);
-      setYear(YEAR);
-      setMonth(MONTH);
+      dispatch(setSplashVisible(true));
+      const {data} = await api.getWorkingEmpTotalPay(
+        Number(moment(date).subtract(1, 'month').format('YYYY')),
+        Number(moment(date).subtract(1, 'month').format('MM')),
+        STORE_SEQ,
+      );
+      if (data.message === 'SUCCESS') {
+        setMaindata(data.result);
+        setDate(moment(date).subtract(1, 'month').format('YYYY-MM-DD'));
+      }
     } catch (error) {
       console.log(error);
       alertModal('', '통신이 원활하지 않습니다.');
@@ -135,18 +91,17 @@ export default ({route: {params}}) => {
   };
 
   const fetchData = async () => {
-    dispatch(setSplashVisible(true));
-    let dayFrom = new Date();
-    var YEAR = dayFrom.getFullYear();
-    var MONTH = dayFrom.getMonth() + 1;
-    if (MONTH < 10) {
-      MONTH = Number('0' + MONTH);
-    }
     try {
-      const {data} = await api.getWorkingEmpTotalPay(YEAR, MONTH, STORE_SEQ);
-      setMaindata(data.result);
-      setYear(YEAR);
-      setMonth(MONTH);
+      dispatch(setSplashVisible(true));
+      const {data} = await api.getWorkingEmpTotalPay(
+        Number(moment().format('YYYY')),
+        Number(moment().format('MM')),
+        STORE_SEQ,
+      );
+      if (data.message === 'SUCCESS') {
+        setMaindata(data.result);
+        setDate(moment().format('YYYY-MM-DD'));
+      }
     } catch (error) {
       console.log(error);
       alertModal('', '통신이 원활하지 않습니다.');
@@ -170,7 +125,6 @@ export default ({route: {params}}) => {
 
   return (
     <PaymentInfoScreenPresenter
-      refreshing={refreshing}
       onRefresh={onRefresh}
       nextpay={nextpay}
       STORE={STORE}

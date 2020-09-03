@@ -103,7 +103,6 @@ const BoxTitleText3 = styled.Text`
 `;
 
 export default ({
-  refreshing,
   onRefresh,
   nextpay,
   STORE,
@@ -142,15 +141,14 @@ export default ({
               <Line />
               <Pay>
                 <Row>
-                  <BoxTitleText3>예상급여</BoxTitleText3>
                   <Touchable
-                    style={{}}
                     onPress={() => {
                       explainModal(
                         '[ 예상급여 미포함 내역 ]',
                         '-자율출퇴근 급여\n-근무시간 수정(근무시간 연장시)\n-추가일정 급여\n\n*근무일정 삭제시 과거 예상급여는 차감됩니다',
                       );
                     }}>
+                    <BoxTitleText3>예상급여</BoxTitleText3>
                     <HelpCircleIcon size={20} />
                   </Touchable>
                 </Row>

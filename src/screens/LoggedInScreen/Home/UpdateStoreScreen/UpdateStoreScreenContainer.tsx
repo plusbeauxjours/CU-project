@@ -5,14 +5,16 @@ import {useNavigation} from '@react-navigation/native';
 import UpdateStoreScreenPresenter from './UpdateStoreScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
+import {getSTORELIST_DATA} from '../../../../redux/userSlice';
 import api from '../../../../constants/LoggedInApi';
 import {closeSTORE_DATA, updateSTORE_DATA} from '../../../../redux/storeSlice';
 
-export default ({route: {params}}) => {
+export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {STORE} = useSelector((state: any) => state.userReducer);
   const {
+    STORE_SEQ,
     STORE_DATA,
     STORE_NAME,
     ADDR1,
@@ -26,10 +28,10 @@ export default ({route: {params}}) => {
   } = useSelector((state: any) => state.storeReducer);
 
   const [CLOSE_FLAG, setCLOSE_FLAG] = useState<boolean>(
-    STORE_DATA?.resultdata.CLOSE_FLAG == '0' ? false : true || false,
+    STORE_DATA?.resultdata?.CLOSE_FLAG == '0' ? false : true || false,
   );
   const [CU_CODE, setCU_CODE] = useState<string>(
-    STORE_DATA?.resultdata.CU_CODE || '',
+    STORE_DATA?.resultdata?.CU_CODE || '',
   );
   const [NAME, setNAME] = useState<string>(STORE_NAME || '');
   const [ADDR1state, setADDR1state] = useState<string>(ADDR1 || '');
@@ -48,22 +50,19 @@ export default ({route: {params}}) => {
   const [CALCULATE_DAYstate, setCALCULATE_DAYstate] = useState<string>(
     CALCULATE_DAY || '1',
   );
-  const [lat, setLat] = useState<number>(STORE_DATA?.resultdata.LAT || 0);
-  const [long, setLong] = useState<number>(STORE_DATA?.resultdata.LONG || 0);
-  const [STORE_SEQ, setSTORE_SEQ] = useState<number>(
-    STORE_DATA?.resultdata.STORE_SEQ || 0,
-  );
+  const [lat, setLat] = useState<number>(STORE_DATA?.resultdata?.LAT || 0);
+  const [long, setLong] = useState<number>(STORE_DATA?.resultdata?.LONG || 0);
   const [storeCategoryTypeEtc, setStoreCategoryTypeEtc] = useState<string>(
-    STORE_DATA?.resultdata.other || null,
+    STORE_DATA?.resultdata?.other || null,
   ); // 사업장 분류 유형이 4(기타)인 경우 직접 입력 값
   const [sizeTypeCheck, setSizeTypeCheck] = useState<[boolean, boolean]>(
     TYPE == 0 ? [true, false] : [false, true] || [true, false],
   ); //1: 5인 이상, 0: 5인 미만
   const [commuteType, setCommuteType] = useState<number>(
-    STORE_DATA?.resultdata.GPS === '1' ? 1 : 0,
+    STORE_DATA?.resultdata?.GPS === '1' ? 1 : 0,
   ); // 출퇴근방법 0: QR코드 출퇴근, 1: GPS 출퇴근
   const [storeCategoryType, setStoreCategoryType] = useState<number>(
-    STORE_DATA?.resultdata.CATEGORY || null,
+    STORE_DATA?.resultdata?.CATEGORY || null,
   ); // 사업장 분류 유형, 0: 요식업, 1: 도,소매업, 2: 서비스업, 3: 일반회사, 4: 기타
   const [storeCategoryTypeCheck, setStoreCategoryTypeCheck] = useState<
     [boolean, boolean, boolean, boolean]
@@ -114,6 +113,7 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
+  // 정산일모달 확인버튼
   const checkDirectInput = () => {
     let value = JSON.parse(JSON.stringify(days));
     value.fill(false); // ES6
@@ -131,6 +131,7 @@ export default ({route: {params}}) => {
     navigation.navigate('SearchAddressScreen', {screen: 1});
   };
 
+  // 지각모달 분 선택
   const onPressLate = (LATE_TIME, LATE_FLAG) => {
     setModalVisible2(false);
     setLATE_TIMEstate(LATE_TIME);
@@ -138,6 +139,7 @@ export default ({route: {params}}) => {
     setTimeCheck(true);
   };
 
+  // 조퇴모달 분 선택
   const onPressEarly = (EARLY_TIME, EARLY_FLAG) => {
     setModalVisible1(false);
     setEARLY_TIMEstate(EARLY_TIME);
@@ -145,6 +147,7 @@ export default ({route: {params}}) => {
     setTimeCheck(true);
   };
 
+  // 수정하기버튼
   const submit = async (sign) => {
     const gps = commuteType.toString();
     let CLOSE_FLAGProps = CLOSE_FLAG == false ? '0' : '1';
@@ -182,7 +185,7 @@ export default ({route: {params}}) => {
             routes: [{name: 'SelectStoreScreen'}],
           });
         } else {
-          alertModal('', '보수정이 완료됐습니다.');
+          alertModal('', '수정이 완료됐습니다.');
           dispatch(
             updateSTORE_DATA({
               NAME,
@@ -198,11 +201,13 @@ export default ({route: {params}}) => {
           );
           navigation.goBack();
         }
+        dispatch(getSTORELIST_DATA());
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      dispatch(setSplashVisible(false));
     }
-    dispatch(setSplashVisible(false));
   };
 
   useEffect(() => {
@@ -214,6 +219,7 @@ export default ({route: {params}}) => {
       storeCategoryTypeCheckProps[Number(STORE_DATA?.CATEGORY)] = true;
       setStoreCategoryTypeCheck(storeCategoryTypeCheckProps);
     }
+    console.log(CLOSE_FLAG);
   }, []);
 
   return (

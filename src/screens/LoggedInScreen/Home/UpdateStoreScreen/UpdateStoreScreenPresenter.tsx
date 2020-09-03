@@ -48,6 +48,7 @@ const Section = styled.View`
   padding: 20px;
   background-color: white;
 `;
+
 const ModalContainer = styled.View`
   background-color: white;
 `;

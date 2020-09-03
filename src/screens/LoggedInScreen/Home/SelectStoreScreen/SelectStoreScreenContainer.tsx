@@ -4,9 +4,8 @@ import SelectStoreScreenPresenter from './SelectStoreScreenPresenter';
 import {useNavigation} from '@react-navigation/native';
 import {BackHandler, Linking} from 'react-native';
 
-import {setSplashVisible} from '../../../../redux/splashSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {setSTORELIST_DATA} from '../../../../redux/userSlice';
+import {getSTORELIST_DATA} from '../../../../redux/userSlice';
 import {selectSTORE} from '../../../../redux/storeSlice';
 import utils from '../../../../constants/utils';
 import api from '../../../../constants/LoggedInApi';
@@ -14,7 +13,7 @@ import api from '../../../../constants/LoggedInApi';
 export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {STORE, STORELIST_DATA, MEMBER_SEQ} = useSelector(
+  const {STORE, STORELIST_DATA} = useSelector(
     (state: any) => state.userReducer,
   );
   const [appVersion, setAppVersion] = useState<string>('');
@@ -24,7 +23,7 @@ export default () => {
   const onRefresh = async () => {
     try {
       setRefreshing(true);
-      await fetchData();
+      await dispatch(getSTORELIST_DATA());
     } catch (e) {
       console.log(e);
     } finally {
@@ -103,23 +102,7 @@ export default () => {
 
   // GOTO 점포 등록하기
   const gotoAddStore = () => {
-    navigation.navigate('AddStoreScreen', {fetchData});
-  };
-
-  const fetchData = async () => {
-    try {
-      if (STORELIST_DATA.length === 0) {
-        dispatch(setSplashVisible(true));
-      }
-      const {data} = await api.storeList(MEMBER_SEQ, STORE);
-      if (data.message === 'SUCCESS') {
-        dispatch(setSTORELIST_DATA(data.result));
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(setSplashVisible(false));
-    }
+    navigation.navigate('AddStoreScreen');
   };
 
   useEffect(() => {
@@ -130,7 +113,7 @@ export default () => {
     }
     setAppVersion('1.3.7');
     checkVersion();
-    fetchData();
+    dispatch(getSTORELIST_DATA());
   }, []);
 
   return (
