@@ -2,16 +2,15 @@ import React, {useState, useEffect} from 'react';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {RefreshControl} from 'react-native';
 import styled from 'styled-components/native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import api from '../../../../constants/LoggedInApi';
 import ManageInviteEmployeeCard1 from './ManageInviteEmployeeCard1';
 import ManageInviteEmployeeCard2 from './ManageInviteEmployeeCard2';
 import {HelpCircleIcon} from '../../../../constants/Icons';
+import {getRESPONSE_EMPLOYEE} from '../../../../redux/employeeSlice';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -57,76 +56,16 @@ const GreyText = styled.Text`
   color: #aaa;
 `;
 
-export default ({route: {params}}) => {
+export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {STORE_SEQ, STOREDATA} = params;
+
+  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
+  const {RESPONSE_EMPLOYEE, NO_RESPONSE_EMPLOYEE} = useSelector(
+    (state: any) => state.employeeReducer,
+  );
 
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [responseEmployee, setResponseEmployee] = useState<any>([]);
-  const [noResponseEmployee, setNoResponseEmployee] = useState<any>([]);
-
-  const cancelJoin = async (join_emp_seq) => {
-    try {
-      const {data} = await api.cancelJoin({join_emp_seq});
-      if (data.message == 'SUCCESS') {
-        let list = noResponseEmployee;
-        list = list.filter((data) => data.join_emp_seq !== join_emp_seq);
-        setNoResponseEmployee(list);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const onRefresh = async () => {
-    try {
-      setRefreshing(true);
-      await fetchData();
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setRefreshing(false);
-    }
-  };
-
-  const inviteEmployee = () => {
-    navigation.navigate('InviteEmployeeScreen', {
-      STORE_SEQ,
-    });
-  };
-
-  const deleteModal = (title, text, cancel, okBtn, join_emp_seq) => {
-    const params = {
-      alertType: 'confirm',
-      title: title,
-      content: text,
-      cancelButtonText: cancel,
-      okButtonText: okBtn,
-      warning: 'yes',
-      okCallback: () => {
-        cancelJoin(join_emp_seq);
-      },
-    };
-    dispatch(setAlertInfo(params));
-    dispatch(setAlertVisible(true));
-  };
-
-  const confirmModal = (title, text, cancel, okBtn, join_emp_seq) => {
-    const params = {
-      alertType: 'confirm',
-      title: title,
-      content: text,
-      cancelButtonText: cancel,
-      okButtonText: okBtn,
-      warning: 'yes',
-      okCallback: () => {
-        cancelJoin(join_emp_seq);
-      },
-    };
-    dispatch(setAlertInfo(params));
-    dispatch(setAlertVisible(true));
-  };
 
   const explainModal = (title, text) => {
     const params = {
@@ -138,20 +77,23 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
-  const fetchData = async () => {
+  const onRefresh = async () => {
     try {
-      const {data} = await api.getWaitEmpList(STORE_SEQ);
-      if (data.message === 'SUCCESS') {
-        setResponseEmployee(data.result);
-        setNoResponseEmployee(data.result2);
-      }
-    } catch (error) {
-      console.log(error);
+      setRefreshing(true);
+      await dispatch(getRESPONSE_EMPLOYEE());
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setRefreshing(false);
     }
   };
 
+  const gotoInviteEmployee = () => {
+    navigation.navigate('InviteEmployeeScreen');
+  };
+
   useEffect(() => {
-    fetchData();
+    dispatch(getRESPONSE_EMPLOYEE());
   }, []);
 
   return (
@@ -174,24 +116,17 @@ export default ({route: {params}}) => {
               </BoxTitleText>
               <HelpCircleIcon />
             </BoxTitle>
-            {responseEmployee.length === 0 && (
+            {RESPONSE_EMPLOYEE?.length === 0 && (
               <GreyText>초대에 응한 직원이 없습니다</GreyText>
             )}
             <EmployeeListBox>
-              {responseEmployee?.map((data) => (
+              {RESPONSE_EMPLOYEE?.map((data, index) => (
                 <ManageInviteEmployeeCard1
-                  key={data.MEMBER_SEQ}
-                  name={data.EMP_NAME}
-                  image={data.images[0].IMAGE}
+                  key={index}
+                  EMP_NAME={data.EMP_NAME}
                   EMP_SEQ={data.EMP_SEQ}
-                  STORE_SEQ={STOREDATA.resultdata.STORE_SEQ}
-                  STORE_NAME={STOREDATA.resultdata.NAME}
-                  onRefresh={onRefresh}
-                  handler1={() => dispatch(setSplashVisible(true))}
-                  handler2={() => dispatch(setSplashVisible(false))}
                   PHONE={data.MobileNo}
-                  CALCULATE_DAY={STOREDATA.resultdata.CALCULATE_DAY}
-                  confirmModal={(a, b, c, d, e) => confirmModal(a, b, c, d, e)}
+                  STORE_SEQ={STORE_SEQ}
                 />
               ))}
             </EmployeeListBox>
@@ -209,26 +144,24 @@ export default ({route: {params}}) => {
               </BoxTitleText>
               <HelpCircleIcon />
             </BoxTitle>
-            {noResponseEmployee.length === 0 && (
+            {NO_RESPONSE_EMPLOYEE?.length === 0 && (
               <GreyText>초대 메시지 미열람 직원이 없습니다.</GreyText>
             )}
             <EmployeeListBox>
-              {noResponseEmployee?.map((data) => (
+              {NO_RESPONSE_EMPLOYEE?.map((data, index) => (
                 <ManageInviteEmployeeCard2
-                  key={data.join_emp_seq}
+                  key={index}
                   join_emp_seq={data.join_emp_seq}
-                  name={data.EMP_NAME}
-                  STORE_SEQ={STORE_SEQ}
-                  handler={(param) => dispatch(setSplashVisible(param))}
+                  EMP_NAME={data.EMP_NAME}
                   PHONE={data.PHONE}
-                  deleteModal={(a, b, c, d, e) => deleteModal(a, b, c, d, e)}
+                  STORE_SEQ={STORE_SEQ}
                 />
               ))}
             </EmployeeListBox>
           </Section>
           <SubmitBtn
             text={'직원초대'}
-            onPress={() => inviteEmployee()}
+            onPress={() => gotoInviteEmployee()}
             isRegisted={true}
           />
         </Container>

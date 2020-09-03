@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
+import {useDispatch} from 'react-redux';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+
 import api from '../../../../constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 
 const Container = styled.View`
   height: ${hp('10%')}px;
@@ -54,77 +57,63 @@ const PhoneText = styled.Text`
   font-size: 14px;
 `;
 
-export default ({
-  key,
-  name,
-  image,
-  EMP_SEQ,
-  STORE_SEQ,
-  STORE_NAME,
-  onRefresh,
-  handler1,
-  handler2,
-  PHONE,
-  CALCULATE_DAY,
-  confirmModal,
-}) => {
+export default ({key, EMP_NAME, EMP_SEQ, PHONE, STORE_SEQ}) => {
   const navigation = useNavigation();
-  const [refuse, setRefuse] = useState<boolean>(false);
-  const [wording, setWording] = useState<string>('');
+  const dispatch = useDispatch();
 
-  const admit = () => {
+  const [isRefused, setIsRefused] = useState<boolean>(false);
+
+  const gotoElectronicContracts = () => {
     navigation.navigate('ElectronicContractsScreen', {
-      image,
-      name,
-      STORE_SEQ,
-      EMP_SEQ,
-      CALCULATE_DAY,
-      STORE_NAME,
-      onRefresh,
       from: 'ManageInviteEmployeeScreen',
       empType: '합류전',
     });
   };
 
-  const refuseFn = async () => {
-    handler1();
+  const confirmModal = (EMP_NAME, EMP_SEQ) => {
+    const params = {
+      alertType: 'confirm',
+      title: '',
+      content: `[${EMP_NAME}]의 합류를 거절하시겠습니까?\n\n거절 후에도 직원초대를 통해 합류요청이 가능합니다.`,
+      cancelButtonText: '취소',
+      okButtonText: '거절',
+      warning: 'yes',
+      okCallback: () => {
+        refuseFn(EMP_SEQ);
+      },
+    };
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
+  };
+
+  // 거절버튼 (초대에 응한 직원)
+  const refuseFn = async (EMP_SEQ) => {
     try {
       const {data} = await api.rejectJoin({STORE_SEQ, EMP_SEQ});
-      console.log(data);
-      setRefuse(true);
-      setWording('거절했습니다');
-      handler2();
-      onRefresh();
+      if (data.message === 'SUCCESS') {
+        setIsRefused(true);
+      }
     } catch (error) {
       console.log(error);
-      handler2();
-      onRefresh();
     }
   };
 
   return (
     <Container key={key}>
       <EmployeeBox>
-        <NameText>{name}</NameText>
+        <NameText>{EMP_NAME}</NameText>
         <PhoneText>{PHONE}</PhoneText>
       </EmployeeBox>
-      {refuse ? (
-        <RefuseText>{wording}</RefuseText>
+      {isRefused ? (
+        <ButtonBox>
+          <RefuseText>거절했습니다</RefuseText>
+        </ButtonBox>
       ) : (
         <ButtonBox>
-          <TextBox onPress={() => admit()}>
+          <TextBox onPress={() => gotoElectronicContracts()}>
             <AdmitText>승인</AdmitText>
           </TextBox>
-          <TextBox
-            onPress={() => {
-              confirmModal(
-                '',
-                `[${name}]의 합류를 거절하시겠습니까?\n\n거절 후에도 직원초대를 통해 합류요청이 가능합니다.`,
-                '취소',
-                '거절',
-                () => refuseFn(),
-              );
-            }}>
+          <TextBox onPress={() => confirmModal(EMP_NAME, EMP_SEQ)}>
             <RefuseText>거절</RefuseText>
           </TextBox>
         </ButtonBox>

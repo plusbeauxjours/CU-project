@@ -7,6 +7,7 @@ import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import InviteEmployeeScreenPresenter from './InviteEmployeeScreenPresenter';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import api from '../../../../constants/LoggedInApi';
+import {getRESPONSE_EMPLOYEE} from '../../../../redux/employeeSlice';
 
 export default () => {
   const dispatch = useDispatch();
@@ -147,7 +148,8 @@ export default () => {
     } catch (error) {
       console.log(error);
     } finally {
-      dispatch(setSplashVisible(true));
+      dispatch(setSplashVisible(false));
+      dispatch(getRESPONSE_EMPLOYEE());
     }
   };
 
@@ -187,7 +189,7 @@ export default () => {
     } catch (error) {
       console.log(error);
     } finally {
-      dispatch(setSplashVisible(true));
+      dispatch(setSplashVisible(false));
     }
   };
 
@@ -202,7 +204,7 @@ export default () => {
     } catch (error) {
       console.log(error);
     } finally {
-      dispatch(setSplashVisible(true));
+      dispatch(setSplashVisible(false));
       setSearch('');
     }
   };

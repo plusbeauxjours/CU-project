@@ -4,8 +4,13 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {useDispatch} from 'react-redux';
+
 import api from '../../../../constants/LoggedInApi';
 import {CloseCircleIcon} from '../../../../constants/Icons';
+import {setSplashVisible} from '../../../../redux/splashSlice';
+import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import {getRESPONSE_EMPLOYEE} from '../../../../redux/employeeSlice';
 
 const Container = styled.View`
   height: ${hp('10%')}px;
@@ -51,20 +56,31 @@ const ButtonBox = styled.TouchableOpacity`
   padding: 7px 14px;
 `;
 
-export default ({
-  key,
-  join_emp_seq,
-  name,
-  STORE_SEQ,
-  handler,
-  PHONE,
-  deleteModal,
-}) => {
+export default ({key, join_emp_seq, EMP_NAME, PHONE, STORE_SEQ}) => {
+  const dispatch = useDispatch();
+
   const [isSent, setIsSent] = useState<boolean>(false);
 
-  const sendFn = async () => {
+  const deleteModal = (join_emp_seq) => {
+    const params = {
+      alertType: 'confirm',
+      title: '초대 메시지 미열람 직원',
+      content: '초대내역을 삭제합니다',
+      cancelButtonText: '취소',
+      okButtonText: '삭제',
+      warning: 'yes',
+      okCallback: () => {
+        cancelJoinFn(join_emp_seq);
+      },
+    };
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
+  };
+
+  // 미열람 직원에게 초대메시지 보내기
+  const sendFn = async (PHONE) => {
     try {
-      handler(true);
+      dispatch(setSplashVisible(true));
       const {data} = await api.sendOneEmp({STORE_SEQ, PHONE});
       if (data.message == 'SUCCESS') {
         setIsSent(true);
@@ -72,39 +88,39 @@ export default ({
     } catch (error) {
       console.log(error);
     } finally {
-      handler(false);
+      dispatch(getRESPONSE_EMPLOYEE());
+      dispatch(setSplashVisible(false));
+    }
+  };
+
+  // 취소아이콘 (초대 메시지 미열람 직원)
+  const cancelJoinFn = async (join_emp_seq) => {
+    try {
+      const {data} = await api.cancelJoin({join_emp_seq});
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(getRESPONSE_EMPLOYEE());
     }
   };
 
   return (
     <Container key={key}>
       <EmployeeBox>
-        <NameText>{name}</NameText>
+        <NameText>{EMP_NAME}</NameText>
         <PhoneText>{PHONE}</PhoneText>
       </EmployeeBox>
       <Row>
         {isSent ? (
-          <ButtonBox>
+          <ButtonBox disabled={true}>
             <SendText>전송 완료</SendText>
           </ButtonBox>
         ) : (
-          <ButtonBox
-            onPress={() => {
-              sendFn();
-            }}>
+          <ButtonBox onPress={() => sendFn(PHONE)}>
             <SendText>초대 메시지 재전송</SendText>
           </ButtonBox>
         )}
-        <Touchable
-          onPress={() => {
-            deleteModal(
-              '초대 메시지 미열람 직원',
-              '초대내역을 삭제합니다',
-              '취소',
-              '삭제',
-              join_emp_seq,
-            );
-          }}>
+        <Touchable onPress={() => deleteModal(join_emp_seq)}>
           <CloseCircleIcon />
         </Touchable>
       </Row>

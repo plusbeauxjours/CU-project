@@ -82,7 +82,7 @@ export default {
     getCuCode: (code: string) => oldApi("get", `/Store/getCuCode?code=${code}`),
     getEmpLists: (STORE_SEQ: string) => oldApi("get", `/Store/get_emp_lists?STORE_SEQ=${STORE_SEQ}`),
     getWorkingEmpTotalPay: (YEAR: number, MONTH: number, STORE_SEQ: string) => oldApi("get", `/Store/get_working_emp_totalpay2?YEAR=${YEAR}&MONTH=${MONTH}&STORE_SEQ=${STORE_SEQ}`),
-    cancelJoin: (data: any) => callApi("post", "/auth/canceljoin/", data),
+    cancelJoin: (data: any) => callApi("post", "/auth/canceljoin", data),
     getWaitEmpList: (STORE_SEQ: string) => oldApi("get", `/Store/get_wait_emp_list?STORE_SEQ=${STORE_SEQ}`),
     rejectJoin: (data: any) => oldApi("post", "/Employee/reject_join", data),
     sendOneEmp: (data: any) => oldApi("post", "/Auth/sendOneEmp", data),
