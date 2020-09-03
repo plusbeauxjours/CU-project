@@ -10,22 +10,14 @@ import EmpPayInfoScreenPresenter from './EmpPayInfoScreenPresenter';
 export default ({route: {params}}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const {
-    STORE_SEQ,
-    EMP_SEQ,
-    STORE,
-    STOREPAY_SHOW,
-    NAME,
-    IMAGE,
-    ISMANAGER,
-  } = params;
+  const {STORE_SEQ, EMP_SEQ, STORE, STOREPAY_SHOW, NAME, ISMANAGER} = params;
 
   const {NAME: NAMEreducer} = useSelector((state: any) => state.userReducer);
   const [year, setYear] = useState<number>();
   const [month, setMonth] = useState<number>();
   const [boxButton, setBoxButton] = useState<boolean>(true);
   const [boxButton2, setBoxButton2] = useState<boolean>(true);
-  const [cardShow, setCardShow] = useState<boolean>(false);
+  const [isCardShowed, setIsCardShowed] = useState<boolean>(false);
   const [click1, setClick1] = useState<boolean>(false);
   const [click2, setClick2] = useState<boolean>(false);
   const [click3, setClick3] = useState<boolean>(false);
@@ -78,7 +70,7 @@ export default ({route: {params}}) => {
     } else {
       setClick5(!click5);
     }
-    setCardShow(!cardShow);
+    setIsCardShowed(!isCardShowed);
   };
 
   const nextpay = async () => {
@@ -170,7 +162,6 @@ export default ({route: {params}}) => {
       nextpay={nextpay}
       STORE={STORE}
       STOREPAY_SHOW={STOREPAY_SHOW}
-      IMAGE={IMAGE}
       ISMANAGER={ISMANAGER}
       boxButton={boxButton}
       setBoxButton={setBoxButton}
@@ -181,15 +172,10 @@ export default ({route: {params}}) => {
       click1={click1}
       click2={click2}
       click3={click3}
-      click4={click4}
-      click5={click5}
-      cardShow={cardShow}
+      isCardShowed={isCardShowed}
       setClick1={setClick1}
       setClick2={setClick2}
       setClick3={setClick3}
-      setClick4={setClick4}
-      setClick5={setClick5}
-      setCardShow={setCardShow}
       onPressFooter={onPressFooter}
     />
   );

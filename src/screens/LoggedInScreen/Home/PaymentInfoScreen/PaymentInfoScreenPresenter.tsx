@@ -123,7 +123,7 @@ export default ({
           <Box>
             <DateBox>
               <DateArrow onPress={() => backpay()}>
-                <BackIcon size={22} color={'#bbb'} />
+                <BackIcon size={22} color={'black'} />
               </DateArrow>
               <Date>
                 <DateText>
@@ -134,7 +134,7 @@ export default ({
                 <ReloadCircleIcon />
               </DateReload>
               <DateArrow onPress={() => nextpay()}>
-                <ForwardIcon size={22} color={'#bbb'} />
+                <ForwardIcon size={22} color={'black'} />
               </DateArrow>
             </DateBox>
             <PayBox>

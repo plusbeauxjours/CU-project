@@ -199,7 +199,6 @@ export default ({
   nextpay,
   STORE,
   STOREPAY_SHOW,
-  IMAGE,
   ISMANAGER,
   boxButton,
   setBoxButton,
@@ -210,15 +209,10 @@ export default ({
   click1,
   click2,
   click3,
-  click4,
-  click5,
-  cardShow,
+  isCardShowed,
   setClick1,
   setClick2,
   setClick3,
-  setClick4,
-  setClick5,
-  setCardShow,
   onPressFooter,
 }) => {
   const MainBoxContainer = ({text, onPress, boxButton}) => (
@@ -262,7 +256,7 @@ export default ({
       </Profile>
       <DateBox>
         <DateArrow onPress={() => backpay()}>
-          <BackIcon size={22} color={'#bbb'} />
+          <BackIcon size={22} color={'black'} />
         </DateArrow>
         <Date>
           <DateText>
@@ -273,7 +267,7 @@ export default ({
           <ReloadCircleIcon />
         </DateReload>
         <DateArrow onPress={() => nextpay()}>
-          <ForwardIcon size={22} color={'#bbb'} />
+          <ForwardIcon size={22} color={'black'} />
         </DateArrow>
       </DateBox>
     </TopArea>
@@ -566,13 +560,13 @@ export default ({
             <Footer>
               <FooterBtn onPress={() => onPressFooter('click4')}>
                 <DateText>일별 급여현황</DateText>
-                {cardShow ? (
+                {isCardShowed ? (
                   <UpIcon color="#BCC5D3" />
                 ) : (
                   <DownIcon color="#777" />
                 )}
               </FooterBtn>
-              {cardShow && (
+              {isCardShowed && (
                 <CardBox>
                   {maindata.CARDLIST.map((data) => {
                     return (
@@ -694,13 +688,13 @@ export default ({
                   onPressFooter('click5');
                 }}>
                 <DateText>일별 급여현황</DateText>
-                {cardShow ? (
+                {isCardShowed ? (
                   <UpIcon color="#BCC5D3" />
                 ) : (
                   <DownIcon color="#777" />
                 )}
               </FooterBtn>
-              {cardShow && (
+              {isCardShowed && (
                 <CardBox>
                   {maindata.CARDLIST1.map((data) => {
                     return (

@@ -101,6 +101,17 @@ export default () => {
     }
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const selectData = MYCU_VIDEO?.filter((data: any) => {
+    return (
+      selectedCategory === categoryList[0].key ||
+      data.CATEGORY.includes(selectedCategory)
+    );
+  });
+
   const CategoryListRenderItem = (item, index) => {
     const isSelected = item.key.toString() === selectedCategory;
     return (
@@ -114,17 +125,6 @@ export default () => {
       </Category>
     );
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const selectData = MYCU_VIDEO?.filter((data: any) => {
-    return (
-      selectedCategory === categoryList[0].key ||
-      data.CATEGORY.includes(selectedCategory)
-    );
-  });
 
   return (
     <BackGround>

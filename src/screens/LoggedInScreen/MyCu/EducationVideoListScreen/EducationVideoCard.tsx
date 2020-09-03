@@ -25,11 +25,6 @@ const DataListItemImageWrapper = styled.View`
   height: 100%;
 `;
 
-const DataListItemImage = styled.Image`
-  width: 100%;
-  height: 100%;
-`;
-
 const DataListItemInfoWrapper = styled.View`
   width: 45%;
   height: 100%;

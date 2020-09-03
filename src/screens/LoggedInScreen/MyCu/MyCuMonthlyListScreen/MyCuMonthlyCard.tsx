@@ -3,7 +3,6 @@ import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
 import FastImage from 'react-native-fast-image';
 
-import utils from '../../../../constants/utils';
 import {CheckMarkIcon} from '../../../../constants/Icons';
 
 const DataListItem = styled.TouchableOpacity`
@@ -22,11 +21,6 @@ const DataListItemWrapper = styled.View`
 
 const DataListItemImageWrapper = styled.View`
   width: 45%;
-  height: 100%;
-`;
-
-const DataListItemImage = styled.Image`
-  width: 100%;
   height: 100%;
 `;
 

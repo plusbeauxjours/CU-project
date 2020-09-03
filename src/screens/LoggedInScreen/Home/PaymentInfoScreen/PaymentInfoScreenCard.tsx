@@ -1,12 +1,10 @@
 import React from 'react';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
-import {ForwardIcon} from '../../../../constants/Icons';
 import {Avatar} from 'react-native-elements';
+
+import {ForwardIcon} from '../../../../constants/Icons';
 
 const Touchable = styled.TouchableOpacity`
   margin-top: 10px;
@@ -59,7 +57,6 @@ export default ({
       STORE,
       STOREPAY_SHOW,
       NAME: name,
-      IMAGE: image,
       ISMANAGER: isManager,
     });
   };
@@ -82,7 +79,7 @@ export default ({
           <SubText>[{isManager}]</SubText>
         </TitleArea>
       </ImageArea>
-      <ForwardIcon size={22} color={'#bbb'} />
+      <ForwardIcon size={22} color={'black'} />
     </Touchable>
   );
 };
