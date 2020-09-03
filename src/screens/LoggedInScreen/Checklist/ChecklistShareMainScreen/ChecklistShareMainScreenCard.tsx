@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
-import {NewBoxIcon, PinIcon} from '../../../../constants/Icons';
 import moment from 'moment';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import FastImage from 'react-native-fast-image';
+
+import {NewBoxIcon, PinIcon} from '../../../../constants/Icons';
 
 interface IsFavorite {
   isFavorite: boolean;
@@ -35,13 +37,6 @@ const ContentText = styled.Text`
   color: #7b7b7b;
 `;
 
-const Image = styled.Image`
-  width: ${wp('25%')}px;
-  height: ${wp('25%')}px;
-  border-width: 1px;
-  border-radius: 15px;
-  border-color: #ddd;
-`;
 const Touchable = styled.TouchableOpacity``;
 
 const NewBadge = styled.View`
@@ -108,7 +103,16 @@ const AddressBox = styled.View`
 const ContentBox = styled.View`
   flex: 1;
   padding: 0 10px;
+`;
+
+const BorderBox = styled.View`
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  border-width: 0.7px;
+  border-color: #ccc;
   justify-content: center;
+  align-items: center;
 `;
 
 export default ({
@@ -138,25 +142,21 @@ export default ({
     imgarr.push(allimg[0]);
   }
   return (
+    // 파라미터 확인 필요 =============================================
     <Touchable
       key={key}
       onPress={() => {
         navigation.navigate('ChecklistShareItemScreen', {
           TITLE: `${type}`,
+          IMG_LIST,
+          NOTICE_SEQ,
+          EMP_NAME,
+          NOTI_TITLE,
+          CREATE_TIME,
+          CONTENTS,
+          ME,
           COM_SEQ,
           MEMBER_SEQ,
-          ME,
-          STORE,
-          NOTICE_SEQ,
-          NOTI_TITLE,
-          CONTENTS,
-          CREATE_TIME,
-          EMP_NAME,
-          IMG_LIST,
-          type,
-          favorite,
-          confirmModal,
-          NoticeCheck_SEQ,
         });
       }}>
       <Section>
@@ -192,14 +192,19 @@ export default ({
         </ContentBox>
         <ImageSection>
           {imgarr?.length > 0 ? (
-            <Image
+            <FastImage
+              style={{width: 100, height: 100, borderRadius: 10}}
               source={{
                 uri: 'http://cuapi.shop-sol.com/uploads/' + imgarr[0],
+                headers: {Authorization: 'someAuthToken'},
+                priority: FastImage.priority.normal,
               }}
-              resizeMode="cover"
+              resizeMode={FastImage.resizeMode.cover}
             />
           ) : (
-            <GreyText>사진 미등록</GreyText>
+            <BorderBox>
+              <GreyText>사진 미등록</GreyText>
+            </BorderBox>
           )}
           {allimg?.length > 1 && (
             <AnotherBox>

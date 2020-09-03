@@ -3,8 +3,8 @@ import moment from 'moment';
 import styled from 'styled-components/native';
 import Modal from 'react-native-modal';
 import {Calendar} from 'react-native-calendars';
-import DatePicker from 'react-native-datepicker';
 import {RefreshControl} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {
   widthPercentageToDP as wp,
@@ -22,7 +22,6 @@ import {
   CreateIcon,
 } from '../../../../constants/Icons';
 import ChecklistShareMainScreenCard from './ChecklistShareMainScreenCard';
-import {useNavigation} from '@react-navigation/native';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -37,16 +36,20 @@ const Container = styled.View`
   padding: 20px;
   align-items: center;
 `;
+
 const Row = styled.View`
   flex-direction: row;
   align-items: center;
 `;
+
 const RowSpace = styled(Row)`
   justify-content: space-between;
 `;
+
 const SmallWhiteSpace = styled.View`
   height: 10px;
 `;
+
 const NewCntViewContainer = styled.View`
   position: absolute;
   top: ${utils.isAndroid ? 0 : -3};
@@ -128,9 +131,11 @@ const AddCheckilistButton = styled.TouchableOpacity`
   align-items: center;
   margin-top: 20px;
 `;
+
 const WhiteSpace = styled.View`
   height: 30px;
 `;
+
 const AddChecklistButtonText = styled.Text`
   color: #642a8c;
   font-weight: bold;
@@ -227,51 +232,42 @@ export default ({
   onDayPress,
   onMonthChange,
   onPressAddButtonFn,
-  markedDates,
+  CHECKLIST_SHARE_MARKED,
   date,
   setDate,
-  date1,
-  setDate1,
-  ShareList,
-  ShareList2,
-  ShareList3,
+  CHECKLIST_SHARE_DATA1,
+  NEW_CNT1,
+  CHECKLIST_SHARE_DATA2,
+  NEW_CNT2,
+  CHECKLIST_SHARE_DATA3,
+  NEW_CNT3,
   markingFn,
   fixControlFn,
   fetchData,
   index,
   MEMBER_SEQ,
-  year,
-  month,
-  day,
   isCalendarModalVisible,
   setIsCalendarModalVisible,
 }) => {
-  const navigation = useNavigation();
   const Tab = createMaterialTopTabNavigator();
 
   const NewCntView = ({route}) => {
-    if (route.title == '지시사항' && route.newCnt1 !== 0) {
+    if (route.title == '지시사항' && NEW_CNT1 !== 0) {
       return (
         <NewCntViewContainer>
-          <NewCntViewText>
-            {route.newCnt1 < 10 ? route.newCnt1 : '9+'}
-          </NewCntViewText>
+          <NewCntViewText>{NEW_CNT1 < 10 ? NEW_CNT1 : '9+'}</NewCntViewText>
         </NewCntViewContainer>
       );
-    } else if (route.title == '특이사항' && route.newCnt2 !== 0) {
+    } else if (route.title == '특이사항' && NEW_CNT2 !== 0) {
       return (
         <NewCntViewContainer>
-          <NewCntViewText>
-            {route.newCnt2 < 10 ? route.newCnt2 : '9+'}
-          </NewCntViewText>
+          <NewCntViewText>{NEW_CNT2 < 10 ? NEW_CNT2 : '9+'}</NewCntViewText>
         </NewCntViewContainer>
       );
-    } else if (route.title == 'CU소식' && route.newCnt3 !== 0) {
+    } else if (route.title == 'CU소식' && NEW_CNT3 !== 0) {
       return (
         <NewCntViewContainer>
-          <NewCntViewText>
-            {route.newCnt3 < 10 ? route.newCnt3 : '9+'}
-          </NewCntViewText>
+          <NewCntViewText>{NEW_CNT3 < 10 ? NEW_CNT3 : '9+'}</NewCntViewText>
         </NewCntViewContainer>
       );
     } else {
@@ -279,7 +275,7 @@ export default ({
     }
   };
 
-  const DateController = ({text}) => {
+  const DateController = ({location, text}) => {
     const yesterday = moment(date).subtract(1, 'days').format('YYYY-MM-DD');
     const tomorrow = moment(date).add(1, 'days').format('YYYY-MM-DD');
     return (
@@ -288,7 +284,7 @@ export default ({
           <DateArrowLeft
             onPress={() => {
               setDate(yesterday);
-              fetchData(index, yesterday);
+              fetchData(location, yesterday);
             }}>
             <BackIcon size={22} color={'#000'} />
           </DateArrowLeft>
@@ -304,7 +300,7 @@ export default ({
           </DateToday>
           <CalendarOpenBtn
             onPress={() => {
-              markingFn(year, month);
+              markingFn(moment().format('YYYY'), moment().format('M'));
               setIsCalendarModalVisible(true);
             }}>
             <CalendarIcon size={22} color={'black'} />
@@ -312,7 +308,7 @@ export default ({
           <DateArrowRight
             onPress={() => {
               setDate(tomorrow);
-              fetchData(index, yesterday);
+              fetchData(location, tomorrow);
             }}>
             <ForwardIcon size={22} color={'#000'} />
           </DateArrowRight>
@@ -335,16 +331,20 @@ export default ({
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={() => onRefresh(index)}
+            onRefresh={() => onRefresh('firstRoute')}
           />
         }>
         <Container>
-          <DateController text={'점주가 직원들에게 전달하는 내용입니다.'} />
-          {ShareList?.basic?.length == 0 && ShareList?.favorite?.length == 0 ? (
+          <DateController
+            location={'firstRoute'}
+            text={'점주가 직원들에게 전달하는 내용입니다.'}
+          />
+          {CHECKLIST_SHARE_DATA1?.basic?.length == 0 &&
+          CHECKLIST_SHARE_DATA1?.favorite?.length == 0 ? (
             <EmptyList TITLE={'지시사항'} />
           ) : (
             <>
-              {ShareList?.favorite?.map((data, index) => (
+              {CHECKLIST_SHARE_DATA1?.favorite?.map((data, index) => (
                 <ChecklistShareMainScreenCard
                   key={index}
                   COM_SEQ={data.COM_SEQ}
@@ -363,7 +363,7 @@ export default ({
                   NoticeCheck_SEQ={data.NoticeCheck_SEQ}
                 />
               ))}
-              {ShareList?.basic?.map((data, index) => {
+              {CHECKLIST_SHARE_DATA1?.basic?.map((data, index) => {
                 return (
                   <ChecklistShareMainScreenCard
                     key={index}
@@ -407,18 +407,20 @@ export default ({
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={() => onRefresh(index)}
+            onRefresh={() => onRefresh('secondRoute')}
           />
         }>
         <Container>
           <DateController
+            location={'secondRoute'}
             text={'직원이 점포 운영현황을 점주에게 전달합니다.'}
           />
-          {ShareList2.basic?.length == 0 && ShareList2.favorite?.length == 0 ? (
+          {CHECKLIST_SHARE_DATA2?.basic?.length == 0 &&
+          CHECKLIST_SHARE_DATA2?.favorite?.length == 0 ? (
             <EmptyList TITLE={'특이사항'} />
           ) : (
             <>
-              {ShareList2?.favorite?.map((data, index) => (
+              {CHECKLIST_SHARE_DATA2?.favorite?.map((data, index) => (
                 <ChecklistShareMainScreenCard
                   key={index}
                   COM_SEQ={data.COM_SEQ}
@@ -437,7 +439,7 @@ export default ({
                   NoticeCheck_SEQ={data.NoticeCheck_SEQ}
                 />
               ))}
-              {ShareList2?.basic?.map((data, index) => {
+              {CHECKLIST_SHARE_DATA2?.basic?.map((data, index) => {
                 return (
                   <ChecklistShareMainScreenCard
                     key={index}
@@ -476,7 +478,7 @@ export default ({
     <BackGround>
       <Container>
         <NewCntViewText>ThirdRoute</NewCntViewText>
-        {ShareList3?.message?.length == 0 ? (
+        {CHECKLIST_SHARE_DATA3?.message?.length == 0 ? (
           <EmptyList TITLE={'CU소식'} />
         ) : (
           <>
@@ -492,11 +494,11 @@ export default ({
               refreshControl={
                 <RefreshControl
                   refreshing={refreshing}
-                  onRefresh={() => onRefresh(index)}
+                  onRefresh={() => onRefresh()}
                 />
               }>
               <WhiteSpace />
-              {ShareList3?.message?.map((data, index) => {
+              {CHECKLIST_SHARE_DATA3?.message?.map((data, index) => {
                 return (
                   <ChecklistShareMainScreenCard
                     key={index}
@@ -605,13 +607,13 @@ export default ({
         }}>
         <Tab.Screen name="지시사항" component={FirstRoute} />
         <Tab.Screen name="특이사항" component={SecondRoute} />
-        <Tab.Screen name="CU소식" component={ThirdRoute} />
+        {STORE === '1' && <Tab.Screen name="CU소식" component={ThirdRoute} />}
       </Tab.Navigator>
       <Modal
         isVisible={isCalendarModalVisible}
         onBackdropPress={() => {
           setIsCalendarModalVisible(false);
-          setDate1(date);
+          setDate(date);
         }}>
         <CalendarTitle>
           <CalendarTextBox>
@@ -636,9 +638,11 @@ export default ({
             </RowSpace>
           </CalendarTextBox>
           <CalendarTitleBox>
-            <CalendarTitleText1>{year}년</CalendarTitleText1>
+            <CalendarTitleText1>
+              {moment(date).format('YYYY')}년
+            </CalendarTitleText1>
             <CalendarTitleText2>
-              {month}월 {day}일
+              {moment(date).format('M')}월 {moment(date).format('D')}일
             </CalendarTitleText2>
           </CalendarTitleBox>
         </CalendarTitle>
@@ -655,8 +659,8 @@ export default ({
           markingType={'multi-dot'}
           hideExtraDays={true}
           monthFormat={'yyyy년 M월'}
-          current={date1}
-          markedDates={markedDates}
+          current={date}
+          markedDates={CHECKLIST_SHARE_MARKED}
           onDayPress={(date) => {
             onDayPress(date);
           }}

@@ -5,43 +5,38 @@ import moment from 'moment';
 
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
+import {
+  getCHECKLIST_SHARE_DATA1,
+  getCHECKLIST_SHARE_DATA2,
+  getCHECKLIST_SHARE_DATA3,
+  setCHECKLIST_SHARE_MARKED,
+} from '../../../../redux/checklistshareSlice';
 import ChecklistShareMainScreenPresenter from './ChecklistShareMainScreenPresenter';
 import api from '../../../../constants/LoggedInApi';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {STORE_SEQ, MEMBER_SEQ, STORE, NAME} = useSelector(
-    (state: any) => state.userReducer,
+  const {STORE, MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
+  const {STORE_SEQ, STORE_NAME} = useSelector(
+    (state: any) => state.storeReducer,
   );
+  const {
+    CHECKLIST_SHARE_DATA1,
+    NEW_CNT1,
+    CHECKLIST_SHARE_DATA2,
+    NEW_CNT2,
+    CHECKLIST_SHARE_DATA3,
+    NEW_CNT3,
+    CHECKLIST_SHARE_MARKED,
+  } = useSelector((state: any) => state.checklistshareReducer);
 
-  const [storeID, setStoreID] = useState<string>('');
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [ShareList, setShareList] = useState<any>([]);
-  const [ShareList2, setShareList2] = useState<any>([]);
-  const [ShareList3, setShareList3] = useState<any>([]);
   const [index, setIndex] = useState<number>(0);
-  const [routes, setRoutes] = useState<any>([]);
   const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
-  const [date1, setDate1] = useState<string>(moment().format('YYYY-MM-DD'));
-  const [year, setYear] = useState<string>(moment().format('YYYY'));
-  const [month, setMonth] = useState<string>(moment().format('MM'));
-  const [day, setDay] = useState<string>(moment().format('DD'));
   const [isCalendarModalVisible, setIsCalendarModalVisible] = useState<boolean>(
     false,
   );
-  const [markedDates, setMarkedDates] = useState<any>({});
-
-  const onRefresh = async (page) => {
-    try {
-      dispatch(setSplashVisible(true));
-      await fetchData(page, date);
-    } catch (e) {
-      console.log(e);
-    } finally {
-      dispatch(setSplashVisible(false));
-    }
-  };
 
   const alertModal = (text) => {
     const params = {
@@ -68,8 +63,9 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
+  // 해당 Route만 리로드
   const fixControlFn = (noticeSeq, type) => {
-    var TYPE;
+    let TYPE;
     type == 'fix' ? (TYPE = '고정은') : (TYPE = '고정해제는');
     if (STORE == '0') {
       return alertModal(`상단${TYPE} 점주만 가능합니다`);
@@ -93,159 +89,126 @@ export default ({route: {params}}) => {
     }
   };
 
+  // 해당 Route만 리로드
+  const onRefresh = async (location) => {
+    try {
+      setRefreshing(true);
+      if (location === 'firstRoute') {
+        dispatch(getCHECKLIST_SHARE_DATA1(date));
+      } else if (location === 'secondRoute') {
+        dispatch(getCHECKLIST_SHARE_DATA2(date));
+      } else {
+        dispatch(getCHECKLIST_SHARE_DATA3());
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
+  // 캘린더에서 월을 이도하는 경우 해당 월의 Marking 로드
+  const onMonthChange = (date) => {
+    setDate(date.dateString);
+    markingFn(date.year, date.month);
+  };
+
+  // 캘린더에서 날짜를 선택하는 경우 지시사항과 특이사항만 로드
+  const onDayPress = (date) => {
+    dispatch(getCHECKLIST_SHARE_DATA1(date.dateString));
+    dispatch(getCHECKLIST_SHARE_DATA2(date.dateString));
+    setIsCalendarModalVisible(false);
+    setDate(date.dateString);
+  };
+
+  // 고정 & 고정해제
   const registerFn = async (noticeSeq) => {
     try {
       dispatch(setSplashVisible(true));
       const {data} = await api.setNoticeFavorite({NOTICE_SEQ: noticeSeq});
-      fetchData(index, date);
     } catch (e) {
       console.log(e);
     } finally {
-      dispatch(setSplashVisible(true));
+      dispatch(setSplashVisible(false));
+      dispatch(getCHECKLIST_SHARE_DATA1(date));
+      dispatch(getCHECKLIST_SHARE_DATA2(date));
     }
   };
 
-  const onMonthChange = (date) => {
-    setDate1(date);
-    markingFn(year, date.month);
-  };
-
+  // 파라미터 확인 필요 =============================================
   const onPressAddButtonFn = (TITLE) => {
     navigation.navigate('ChecklistShareInsertScreen', {
       TITLE,
-      NAME,
+      NAME: STORE_NAME,
       STORE,
       STORE_SEQ,
       ADDDATE: date,
     });
   };
-  const onDayPress = (data) => {
-    fetchData(index, moment(data).format('YYYY-MM-DD'));
-    setIsCalendarModalVisible(false);
-    setYear(moment(data).format('YYYY'));
-    setMonth(moment(data).format('MM'));
-    setDay(moment(data).format('DD'));
-    setDate(moment(data).format('YYYY-MM-DD'));
-  };
 
-  const markingFn = async (year, month) => {
+  // API 타입 확인 필요 =============================================
+  const markingFn = async (YEAR, MONTH) => {
     const content = {key: 'content', color: '#000'};
     try {
       const {data} = await api.getNoticeAll(
         STORE_SEQ,
-        year,
-        Number(month),
+        YEAR,
+        MONTH,
         MEMBER_SEQ,
         index == 0 ? '1' : '0',
       );
       console.log('markingFn', data);
-      const iterator = Object.keys(data.result);
-      const markedDates = {};
-      var dots1 = [];
-      dots1.push(content);
-      for (const key of iterator) {
-        markedDates[key] = '';
-        if (data.result[key].COUNT !== 0) {
-          markedDates[key] = {dots: dots1};
+      if (data.message === 'SUCCESS') {
+        const iterator = Object.keys(data.result);
+        const markedDates = {};
+        let dots1 = [];
+        dots1.push(content);
+        for (const key of iterator) {
+          markedDates[key] = '';
+          if (data.result[key].COUNT !== 0) {
+            markedDates[key] = {dots: dots1};
+          }
+          if (data.result[key].NEW !== 0) {
+            markedDates[key] = {
+              ...markedDates[key],
+              selected: true,
+              selectedColor: 'red',
+            };
+          }
         }
-        if (data.result[key].NEW !== 0) {
-          markedDates[key] = {
-            ...markedDates[key],
-            selected: true,
-            selectedColor: 'red',
-          };
-        }
+        for (let i = 0; i < data.result.length; i++) {}
+        dispatch(setCHECKLIST_SHARE_MARKED(markedDates));
       }
-      for (var i = 0; i < data.result.length; i++) {}
-      setMarkedDates(markedDates);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const fetchData = async (page, date) => {
-    markingFn(moment(date1).format('YYYY'), moment(date1).format('M'));
-
-    var newCnt1 = 0;
-    var newCnt2 = 0;
-    var newCnt3 = 0;
-    try {
-      dispatch(setSplashVisible(true));
-      const {data} = await api.getNotice31(STORE_SEQ, MEMBER_SEQ, date);
-      for (var a = 0; a < data.basic.length; a++) {
-        if (data.basic[a].NoticeCheck_SEQ == null) {
-          newCnt1 = newCnt1 + 1;
-        }
-      }
-      for (var b = 0; b < data.favorite.length; b++) {
-        if (data.favorite[b].NoticeCheck_SEQ == null) {
-          newCnt1 = newCnt1 + 1;
-        }
-      }
-      setShareList(data);
-    } catch (e) {
-      console.log(e);
-    } finally {
-      dispatch(setSplashVisible(false));
-    }
-    try {
-      dispatch(setSplashVisible(true));
-      const {data} = await api.getNotice30(STORE_SEQ, MEMBER_SEQ, date);
-      for (var a = 0; a < data.basic.length; a++) {
-        if (data.basic[a].NoticeCheck_SEQ == null) {
-          newCnt2 = newCnt2 + 1;
-        }
-      }
-      for (var b = 0; b < data.favorite.length; b++) {
-        if (data.favorite[b].NoticeCheck_SEQ == null) {
-          newCnt2 = newCnt2 + 1;
-        }
-      }
-      setShareList2(data);
-    } catch (e) {
-      console.log(e);
-    } finally {
-      dispatch(setSplashVisible(false));
-    }
-    if (STORE == '1') {
-      try {
-        dispatch(setSplashVisible(true));
-        const {data} = await api.getCuNotice(STORE_SEQ, MEMBER_SEQ);
-        for (var a = 0; a < data.message.length; a++) {
-          if (data.message[a].cu_notice_check_SEQ == null) {
-            newCnt3 = newCnt3 + 1;
-          }
-        }
-        setRoutes([
-          {key: 'first', title: '지시사항', newCnt1: newCnt1},
-          {key: 'second', title: '특이사항', newCnt2: newCnt2},
-          {key: 'third', title: 'CU소식', newCnt3: newCnt3},
-        ]);
-        setIndex(page ? Number(page) : params?.notice == '1' ? 2 : 0);
-        setShareList3(data);
-      } catch (e) {
-        console.log(e);
-      } finally {
-        dispatch(setSplashVisible(false));
-      }
+  const fetchData = (location, date) => {
+    if (location === 'firstRoute') {
+      dispatch(getCHECKLIST_SHARE_DATA1(date));
+    } else if (location === 'secondRoute') {
+      dispatch(getCHECKLIST_SHARE_DATA2(date));
     } else {
-      setRoutes([
-        {key: 'first', title: '지시사항', newCnt1: newCnt1},
-        {key: 'second', title: '특이사항', newCnt2: newCnt2},
-      ]);
+      dispatch(getCHECKLIST_SHARE_DATA1(date));
+      dispatch(getCHECKLIST_SHARE_DATA2(date));
+    }
+  };
+
+  const Init = async (page, date) => {
+    markingFn(moment(date).format('YYYY'), moment(date).format('M'));
+    fetchData('', date);
+    if (STORE === '1') {
+      dispatch(getCHECKLIST_SHARE_DATA3());
+      setIndex(page ? Number(page) : params?.notice == '1' ? 2 : 0);
+    } else {
       setIndex(page ? Number(page) : params?.notice == '1' ? 2 : 0);
     }
   };
 
   useEffect(() => {
-    fetchData(index, date);
+    Init(index, moment().format('YYYY-M-DD'));
   }, []);
-
-  useEffect(() => {
-    setYear(moment(date).format('YYYY'));
-    setMonth(moment(date).format('MM'));
-    setDay(moment(date).format('DD'));
-  }, [date]);
 
   return (
     <ChecklistShareMainScreenPresenter
@@ -255,22 +218,20 @@ export default ({route: {params}}) => {
       onDayPress={onDayPress}
       onMonthChange={onMonthChange}
       onPressAddButtonFn={onPressAddButtonFn}
-      markedDates={markedDates}
+      CHECKLIST_SHARE_MARKED={CHECKLIST_SHARE_MARKED}
       date={date}
       setDate={setDate}
-      date1={date1}
-      setDate1={setDate1}
-      ShareList={ShareList}
-      ShareList2={ShareList2}
-      ShareList3={ShareList3}
+      CHECKLIST_SHARE_DATA1={CHECKLIST_SHARE_DATA1}
+      NEW_CNT1={NEW_CNT1}
+      CHECKLIST_SHARE_DATA2={CHECKLIST_SHARE_DATA2}
+      NEW_CNT2={NEW_CNT2}
+      CHECKLIST_SHARE_DATA3={CHECKLIST_SHARE_DATA3}
+      NEW_CNT3={NEW_CNT3}
       markingFn={markingFn}
       fixControlFn={fixControlFn}
       fetchData={fetchData}
       index={index}
       MEMBER_SEQ={MEMBER_SEQ}
-      year={year}
-      month={month}
-      day={day}
       isCalendarModalVisible={isCalendarModalVisible}
       setIsCalendarModalVisible={setIsCalendarModalVisible}
     />

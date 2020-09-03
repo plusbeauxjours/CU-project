@@ -19,13 +19,13 @@ export default ({route: {params}}) => {
     NOTI_TITLE,
     CREATE_TIME,
     CONTENTS,
-    IS_MANAGER,
     ME,
     COM_SEQ,
     MEMBER_SEQ,
   } = params;
 
-  const {STORE_SEQ} = useSelector((state: any) => state.userReducer);
+  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
+  const {STORE} = useSelector((state: any) => state.userReducer);
   const [memoInput, setMemoInput] = useState<string>('');
   const [clickComment, setClickComment] = useState<boolean>(false);
   const [memoUpdate, setMemoUpdate] = useState<string>('');
@@ -36,6 +36,7 @@ export default ({route: {params}}) => {
   const [imgarr, setImgarr] = useState<any>([]);
   const [modalImgarr, setModalImgarr] = useState<any>([]);
   const [imgModalIdx, setImgModalIdx] = useState<number>(0);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const alertModal = (title, text) => {
     const params = {
@@ -82,6 +83,7 @@ export default ({route: {params}}) => {
         EMP_NAME,
         MEMBER_SEQ,
         memoInput,
+        STORE,
       );
       setMemoUpdate('');
       setClickCommentUpdate(false);
@@ -123,7 +125,7 @@ export default ({route: {params}}) => {
       for (let i = 0; i < allimg.length; i++) {
         imgarr.push(allimg[i]);
         modalImgarr.push({
-          uri: 'http://cuapi.shop-sol.com/uploads/' + allimg[i],
+          url: 'http://cuapi.shop-sol.com/uploads/' + allimg[i],
         });
       }
       setModalImgarr(modalImgarr);
@@ -139,7 +141,6 @@ export default ({route: {params}}) => {
       EMP_NAME={EMP_NAME}
       TITLE={TITLE}
       CONTENTS={CONTENTS}
-      IS_MANAGER={IS_MANAGER}
       imgarr={imgarr}
       setIsImageViewVisible={setIsImageViewVisible}
       setImgModalIdx={setImgModalIdx}
@@ -163,6 +164,8 @@ export default ({route: {params}}) => {
       COM_SEQ={COM_SEQ}
       IMG_LIST={IMG_LIST}
       NOTICE_SEQ={NOTICE_SEQ}
+      modalOpen={modalOpen}
+      setModalOpen={setModalOpen}
     />
   );
 };
