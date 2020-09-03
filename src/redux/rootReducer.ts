@@ -9,6 +9,7 @@ import mycuReducer from "./mycuSlice";
 import healthReducer from "./healthSlice";
 import employeeReducer from "./employeeSlice";
 import shelflifeReducer from "./shelflifeSlice";
+import calendarReducer from "./calendarSlice";
 
 export default combineReducers({
     userReducer,
@@ -21,4 +22,5 @@ export default combineReducers({
     healthReducer,
     employeeReducer,
     shelflifeReducer,
+    calendarReducer,
 });

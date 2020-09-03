@@ -21,6 +21,7 @@ const storeSlice = createSlice({
     EARLY_FLAG: '',
     EARLY_TIME: 0,
     CALCULATE_DAY: '',
+    CALENDAR_EDIT: '',
   },
   reducers: {
     setSTORE_SEQ(state, action) {
@@ -70,6 +71,13 @@ const storeSlice = createSlice({
       return {
         ...state,
         STOREPAY_SHOW,
+      };
+    },
+    setCALENDAR_EDIT(state, action) {
+      const {payload: CALENDAR_EDIT} = action;
+      return {
+        ...state,
+        CALENDAR_EDIT,
       };
     },
     setIS_MANAGER(state, action) {
@@ -156,6 +164,7 @@ export const {
   setEMP_SEQ,
   setSTORE_DATA,
   setSTOREPAY_SHOW,
+  setCALENDAR_EDIT,
   setIS_MANAGER,
   selectSTORE,
   updateSTORE_DATA,

@@ -51,19 +51,11 @@ const Bold = styled.Text<IWeekend>`
 export default ({
   STORE,
   STORE_SEQ,
-  STOREDATA,
-  year,
-  month,
-  date,
-  day,
-  employee,
-  showalert,
-  onDayPress,
-  onRefresh,
-  fetchData,
+  CALENDAR_EDIT,
+  onDayPressFn,
   onChangeMonth,
-  markedDates,
-  buffer,
+  CALENDAR_MARKED,
+  CALENDAR_DATA,
 }) => {
   const rowHasChanged = (r1, r2) => false;
   const renderKnob = () => (
@@ -108,7 +100,7 @@ export default ({
   const renderEmptyDate = () => (
     <View>
       <GreyText>
-        {STORE == '1' || (STORE == '0' && STOREDATA.CalendarEdit)
+        {STORE == '1' || (STORE == '0' && CALENDAR_EDIT)
           ? '일정근무 직원이 없습니다.'
           : '근무일정이 없습니다.'}
       </GreyText>
@@ -116,12 +108,12 @@ export default ({
   );
   return (
     <Agenda
-      items={buffer}
+      items={CALENDAR_DATA}
       renderItem={renderItem}
-      onDayPress={onDayPress}
+      onDayPress={onDayPressFn}
       renderEmptyDate={renderEmptyDate}
       renderKnob={renderKnob}
-      markedDates={markedDates}
+      markedDates={CALENDAR_MARKED}
       theme={{
         agendaTodayColor: '#AACE36',
         selectedDayBackgroundColor: '#ddd',

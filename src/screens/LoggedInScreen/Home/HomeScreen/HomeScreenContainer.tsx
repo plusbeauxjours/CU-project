@@ -10,6 +10,7 @@ import {
   setEMP_SEQ,
   setSTOREPAY_SHOW,
   setIS_MANAGER,
+  setCALENDAR_EDIT,
 } from '../../../../redux/storeSlice';
 import utils from '../../../../constants/utils';
 import api from '../../../../constants/LoggedInApi';
@@ -238,6 +239,7 @@ export default ({route: {params}}) => {
         dispatch(setEMP_SEQ(data.EMP_SEQ));
         dispatch(setSTOREPAY_SHOW(data.STOREPAY_SHOW));
         dispatch(setIS_MANAGER(data.IS_MANAGER));
+        dispatch(setCALENDAR_EDIT(data.CalendarEdit));
         setQR(data.resultdata.QR);
         setNotice(data.notice);
         setInvitedEmpCount(data.inviteemp);
