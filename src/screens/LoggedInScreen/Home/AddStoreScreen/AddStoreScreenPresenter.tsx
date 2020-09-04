@@ -355,10 +355,9 @@ export default ({
             <TextInput
               placeholder={'서울시 성동구'}
               placeholderTextColor={'#E5E5E5'}
-              onChangeText={(text) => {
-                setADDR1(text);
-              }}
+              onChangeText={(text) => setADDR1(text)}
               value={ADDR1}
+              editable={false}
             />
             <InputLine isBefore={ADDR1 === ''} />
             <WhiteSpace />

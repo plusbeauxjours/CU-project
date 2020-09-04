@@ -365,7 +365,7 @@ export default ({
               placeholderTextColor={'#E5E5E5'}
               onChangeText={(text) => setADDR1(text)}
               value={ADDR1}
-              editable={STORE == 0 ? false : true}
+              editable={false}
             />
             <InputLine isBefore={ADDR1 === ''} />
             <WhiteSpace />

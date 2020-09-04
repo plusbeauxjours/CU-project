@@ -299,7 +299,7 @@ export default ({
           </DateTextArea>
           <CalendarOpenBtn
             onPress={() => {
-              markingFn(moment().format('YYYY'), moment().format('M'));
+              markingFn(moment(date).format('YYYY'), moment(date).format('M'));
               setIsCalendarModalVisible(true);
             }}>
             <CalendarIcon size={22} color={'black'} />

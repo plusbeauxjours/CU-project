@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
@@ -8,14 +8,15 @@ import {setSplashVisible} from '../../../../redux/splashSlice';
 import {getSTORELIST_DATA} from '../../../../redux/userSlice';
 import api from '../../../../constants/LoggedInApi';
 
-export default () => {
+export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
 
   const [CU_CODE, setCU_CODE] = useState<string>('');
   const [NAME, setNAME] = useState<string>('');
-  const [ADDR1, setADDR1] = useState<string>('');
+  const [ADDR1, setADDR1] = useState<string>(params?.addr || '');
   const [ADDR2, setADDR2] = useState<string>('');
   const [TYPE, setTYPE] = useState<number>(0);
   const [LATE_FLAG, setLATE_FLAG] = useState<string>('0');
@@ -23,14 +24,14 @@ export default () => {
   const [EARLY_FLAG, setEARLY_FLAG] = useState<string>('0');
   const [EARLY_TIME, setEARLY_TIME] = useState<number>(0);
   const [CALCULATE_DAY, setCALCULATE_DAY] = useState<string>('1');
-  const [LAT, setLAT] = useState<number>(0);
-  const [LONG, setLONG] = useState<number>(0);
+  const [LAT, setLAT] = useState<number>(params?.lat || 0);
+  const [LONG, setLONG] = useState<number>(params?.lng || 0);
   const [storeCategoryTypeEtc, setStoreCategoryTypeEtc] = useState<string>(
     null,
   ); // 사업장 분류 유형이 4(기타)인 경우 직접 입력 값
   const [sizeTypeCheck, setSizeTypeCheck] = useState<[boolean, boolean]>([
-    true,
     false,
+    true,
   ]); //1: 5인 이상, 0: 5인 미만
   const [commuteType, setCommuteType] = useState<number>(0); // 출퇴근방법 0: QR코드 출퇴근, 1: GPS 출퇴근
 
@@ -156,6 +157,10 @@ export default () => {
       }
     }
   };
+
+  useEffect(() => {
+    setADDR1(params?.addr ?? '');
+  }, [params]);
 
   return (
     <AddStoreScreenPresenter

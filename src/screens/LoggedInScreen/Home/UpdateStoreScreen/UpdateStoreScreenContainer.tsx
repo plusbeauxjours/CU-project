@@ -220,6 +220,10 @@ export default () => {
     console.log(CLOSE_FLAG);
   }, []);
 
+  useEffect(() => {
+    setADDR1(params?.addr ?? '');
+  }, [params]);
+
   return (
     <UpdateStoreScreenPresenter
       STORE={STORE}

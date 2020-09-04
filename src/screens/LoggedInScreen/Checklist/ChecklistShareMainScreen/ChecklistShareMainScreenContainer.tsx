@@ -109,8 +109,8 @@ export default ({route: {params}}) => {
 
   // 캘린더에서 월을 이도하는 경우 해당 월의 Marking 로드
   const onMonthChange = (date) => {
-    setDate(date.dateString);
     markingFn(date.year, date.month);
+    setDate(date.dateString);
   };
 
   // 캘린더에서 날짜를 선택하는 경우 지시사항과 특이사항만 로드

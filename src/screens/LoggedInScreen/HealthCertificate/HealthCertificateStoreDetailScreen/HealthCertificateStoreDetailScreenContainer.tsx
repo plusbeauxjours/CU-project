@@ -11,7 +11,9 @@ export default () => {
   const dispatch = useDispatch();
 
   const {STORE_SEQ, EMP_SEQ} = useSelector((state: any) => state.storeReducer);
-  const {HEALTH_STORE_DETAIL} = useSelector((state: any) => state.storeReducer);
+  const {HEALTH_STORE_DETAIL} = useSelector(
+    (state: any) => state.healthReducer,
+  );
 
   const [businesstype, setBusinesstype] = useState<string>('');
   const [position, setPosition] = useState<string>('');
