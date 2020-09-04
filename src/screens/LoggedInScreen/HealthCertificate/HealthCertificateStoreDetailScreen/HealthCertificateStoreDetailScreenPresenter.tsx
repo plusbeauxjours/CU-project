@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
-import ImageView from 'react-native-image-viewing';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -222,6 +221,7 @@ export default ({
   const images = [
     {url: 'http://cuapi.shop-sol.com/uploads/ocr/' + TESTING_CERTIFICATE},
   ];
+
   const renderFooter = (index: number) => (
     <Footer>
       <FooterText>1 / 1</FooterText>
@@ -375,20 +375,17 @@ export default ({
           enablePreload
           renderFooter={renderFooter}
           loadingRender={() => <ActivityIndicator />}
-          renderIndicator={() => {}}
+          renderIndicator={() => null}
           renderImage={(props) => (
-            <>
-              {console.log(props)}
-              <FastImage
-                style={{width: '100%', height: '100%'}}
-                source={{
-                  uri: props.source.uri,
-                  headers: {Authorization: 'someAuthToken'},
-                  priority: FastImage.priority.low,
-                }}
-                resizeMode={FastImage.resizeMode.cover}
-              />
-            </>
+            <FastImage
+              style={{width: '100%', height: '100%'}}
+              source={{
+                uri: props.source.uri,
+                headers: {Authorization: 'someAuthToken'},
+                priority: FastImage.priority.low,
+              }}
+              resizeMode={FastImage.resizeMode.cover}
+            />
           )}
         />
       </Modal>

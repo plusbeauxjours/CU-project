@@ -1,11 +1,15 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
-import ImageView from 'react-native-image-viewing';
+import ImageViewer from 'react-native-image-zoom-viewer';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import FastImage from 'react-native-fast-image';
+import Modal from 'react-native-modal';
+import {ActivityIndicator} from 'react-native';
+
 import {
   BackIcon,
   ForwardIcon,
@@ -172,9 +176,20 @@ const RegDateContainer = styled.View`
   align-items: flex-end;
 `;
 
+const Footer = styled.View`
+  width: ${wp('100%')}px;
+`;
+
+const FooterText = styled.Text`
+  text-align: center;
+  color: white;
+  font-size: 18px;
+  margin-bottom: 20px;
+`;
+
 export default ({
-  modalVisible,
-  setModalVisible,
+  setIsImageViewVisible,
+  isImageViewVisible,
   onRefresh,
   nextdata,
   backdata,
@@ -184,7 +199,6 @@ export default ({
   TESTING_CERTIFICATE,
   REAL_NAME,
   EMP_SEQ,
-  STORE_SEQ,
   TESTING_COUNT,
   TESTING_DATE,
   SETTIME,
@@ -192,6 +206,17 @@ export default ({
   HEALTH_EMP_DETAIL,
 }) => {
   const navigation = useNavigation();
+
+  const images = [
+    {url: 'http://cuapi.shop-sol.com/uploads/ocr/' + TESTING_CERTIFICATE},
+  ];
+
+  const renderFooter = (index: number) => (
+    <Footer>
+      <FooterText>1 / 1</FooterText>
+    </Footer>
+  );
+
   const GetContent = ({label, data}) => (
     <ContentLine>
       <ContentLabelWrapper>
@@ -217,7 +242,7 @@ export default ({
       ) : (
         <ImageButtonWrapper
           onPress={() => {
-            setModalVisible(true);
+            setIsImageViewVisible(true);
           }}>
           <ImageButtonText>사진 보기</ImageButtonText>
           <ImageIconContainer>
@@ -309,16 +334,39 @@ export default ({
           <WhiteSpace />
         </Container>
       </ScrollView>
-      <ImageView
-        imageIndex={0}
-        images={[
-          {uri: 'http://cuapi.shop-sol.com/uploads/ocr/' + TESTING_CERTIFICATE},
-        ]}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(false);
-        }}
-      />
+      <Modal
+        onBackdropPress={() => setIsImageViewVisible(false)}
+        isVisible={isImageViewVisible}
+        style={{
+          margin: 0,
+          justifyContent: 'flex-end',
+          width: '100%',
+          height: '100%',
+        }}>
+        <ImageViewer
+          imageUrls={images}
+          onSwipeDown={() => setIsImageViewVisible(false)}
+          backgroundColor={'transparent'}
+          saveToLocalByLongPress={false}
+          enableSwipeDown
+          useNativeDriver
+          enablePreload
+          renderFooter={renderFooter}
+          loadingRender={() => <ActivityIndicator />}
+          renderIndicator={() => null}
+          renderImage={(props) => (
+            <FastImage
+              style={{width: '100%', height: '100%'}}
+              source={{
+                uri: props.source.uri,
+                headers: {Authorization: 'someAuthToken'},
+                priority: FastImage.priority.low,
+              }}
+              resizeMode={FastImage.resizeMode.cover}
+            />
+          )}
+        />
+      </Modal>
     </BackGround>
   );
 };

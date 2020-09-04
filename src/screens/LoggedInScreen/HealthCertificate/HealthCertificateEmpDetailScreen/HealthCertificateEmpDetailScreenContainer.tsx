@@ -17,7 +17,7 @@ export default ({route: {params}}) => {
 
   const [REAL_NAME, setREAL_NAME] = useState<any>(params?.data?.NAME);
   const [SETTIME, setSETTIME] = useState<any>(params?.data?.SETTIME);
-  const [modalVisible, setModalVisible] = useState<any>(false);
+  const [isImageViewVisible, setIsImageViewVisible] = useState<any>(false);
   const [STORE_HEALTH_SEQ, setSTORE_HEALTH_SEQ] = useState<any>(null);
   const [TESTING_DATE, setTESTING_DATE] = useState<any>(null);
   const [TESTING_COUNT, setTESTING_COUNT] = useState<any>(null);
@@ -94,8 +94,8 @@ export default ({route: {params}}) => {
 
   return (
     <HealthCertificateEmpDetailScreenPresenter
-      modalVisible={modalVisible}
-      setModalVisible={setModalVisible}
+      setIsImageViewVisible={setIsImageViewVisible}
+      isImageViewVisible={isImageViewVisible}
       onRefresh={onRefresh}
       nextdata={nextdata}
       backdata={backdata}
@@ -105,7 +105,6 @@ export default ({route: {params}}) => {
       TESTING_CERTIFICATE={TESTING_CERTIFICATE}
       REAL_NAME={REAL_NAME}
       EMP_SEQ={EMP_SEQ}
-      STORE_SEQ={STORE_SEQ}
       TESTING_COUNT={TESTING_COUNT}
       TESTING_DATE={TESTING_DATE}
       SETTIME={SETTIME}
