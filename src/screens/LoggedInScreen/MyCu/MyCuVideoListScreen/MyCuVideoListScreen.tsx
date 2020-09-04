@@ -144,22 +144,20 @@ export default () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         contentContainerStyle={{alignItems: 'center', padding: 20}}>
-        {selectData?.map((item: any, index) => {
-          return (
-            <MyCuVideoCard
-              KEY={index}
-              VIDEO_SEQ={item.VIDEO_SEQ}
-              CATEGORY={item.CATEGORY}
-              VIDEO_URL={item.VIDEO_URL}
-              IMG_URL2={item.IMG_URL2}
-              CONTENTS2={item.CONTENTS2}
-              IMG_URL={item.IMG_URL}
-              VIDEOCHECK_SEQ={item.VIDEOCHECK_SEQ}
-              CONTENTS={item.CONTENTS}
-              categoryList={categoryList}
-            />
-          );
-        })}
+        {selectData?.map((item: any, index) => (
+          <MyCuVideoCard
+            KEY={index}
+            VIDEO_SEQ={item.VIDEO_SEQ}
+            CATEGORY={item.CATEGORY}
+            VIDEO_URL={item.VIDEO_URL}
+            IMG_URL2={item.IMG_URL2}
+            CONTENTS2={item.CONTENTS2}
+            IMG_URL={item.IMG_URL}
+            VIDEOCHECK_SEQ={item.VIDEOCHECK_SEQ}
+            CONTENTS={item.CONTENTS}
+            categoryList={categoryList}
+          />
+        ))}
       </ScrollView>
     </BackGround>
   );

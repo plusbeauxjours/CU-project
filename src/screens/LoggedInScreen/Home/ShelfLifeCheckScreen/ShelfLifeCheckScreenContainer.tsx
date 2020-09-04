@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -13,16 +13,12 @@ export default () => {
   const MONTH = moment().format('MM');
   const DAY = moment().format('DD');
 
-  const agendaRef = useRef(null);
   const dispatch = useDispatch();
 
   const {EMP_SEQ} = useSelector((state: any) => state.storeReducer);
   const {STORE} = useSelector((state: any) => state.userReducer);
   const {SHELFLIFE_DATA, SHELFLIFE_MARKED} = useSelector(
     (state: any) => state.shelflifeReducer,
-  );
-  const [selectDay, setSelectDay] = useState<string>(
-    moment().format('YYYY-MM-DD'),
   );
 
   const confirmModal = (shelfLifeClear) => {
@@ -50,12 +46,7 @@ export default () => {
     dispatch(setAlertVisible(true));
   };
 
-  const onDayChange = (day) => {
-    setSelectDay(day.dateString);
-  };
-
   const onDayPress = (day) => {
-    setSelectDay(day.dateString);
     dispatch(getSHELFLIFE_DATA(day.year, day.month, day.day));
   };
 
@@ -83,15 +74,12 @@ export default () => {
 
   useEffect(() => {
     dispatch(getSHELFLIFE_DATA(YEAR, MONTH, DAY));
-    agendaRef?.current?.chooseDay(selectDay);
   }, []);
 
   return (
     <ShelfLifeCheckScreenPresenter
-      agendaRef={agendaRef}
-      items={SHELFLIFE_DATA}
-      marked={SHELFLIFE_MARKED}
-      onDayChange={onDayChange}
+      SHELFLIFE_DATA={SHELFLIFE_DATA}
+      SHELFLIFE_MARKED={SHELFLIFE_MARKED}
       onDayPress={onDayPress}
       onRefresh={onRefresh}
       confirmModal={confirmModal}

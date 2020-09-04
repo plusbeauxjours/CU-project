@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
@@ -27,7 +27,12 @@ const constant = {
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {CALCULATE_DAY, EMP_SEQ, STORE_SEQ} = params;
+  const {
+    EMP_SEQ,
+    STORE_SEQ,
+    STORE_DATA: {resultdata: {CALCULATE_DAY = null} = {}} = {},
+  } = useSelector((state: any) => state.storeReducer);
+  const {PAY = null, PAY_TYPE = null} = params;
 
   const [workTypeCheck, setWorkTypeCheck] = useState<boolean>(
     params?.workTypeCheck,
@@ -36,13 +41,9 @@ export default ({route: {params}}) => {
   const [timeTable, setTimeTable] = useState<any>([]); // timeList를 근무 시작일 / 근무 종료일 별로 저장한 배열
   const [timeListIndex, setTimeListIndex] = useState<number>(0); // 저장된 근무 시간 목록 중 선택된 항목의 인덱스
   const [timeList, setTimeList] = useState<any>([]); // 저장된 근무 시간 목록
-  const [dayList, setDayList] = useState<any>([]); // 일요일 ~ 토요일까지 화면에 보여질 요일 배열
   const [originalDayList, setOriginalDayList] = useState<any>([]); // dayList 원본 값
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [data, setData] = useState<any>({});
-  const [dates, setDates] = useState<string>(moment().format('YYYY-MM-DD'));
-  const [PAY, setPAY] = useState<number>(params?.PAY);
-  const [PAY_TYPE, setPAY_TYPE] = useState<string>(params?.PAY_TYPE);
 
   const alertModal = (title, text) => {
     const params = {
@@ -388,10 +389,7 @@ export default ({route: {params}}) => {
   const changeMode = async () => {
     try {
       const {data} = await api.toggleCalendar({
-        CALENDAR:
-          workTypeCheck === true
-            ? '1'.toString() /* 일정 */
-            : '0'.toString() /* 자율 */,
+        CALENDAR: workTypeCheck === true ? '1' : '0',
         EMP_SEQ,
       });
       if (data.message === 'SUCCESS') {

@@ -28,9 +28,11 @@ export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {STORE} = useSelector((state: any) => state.userReducer);
-  const {EMP_SEQ, STORE_SEQ, CALCULATE_DAY} = useSelector(
-    (state: any) => state.storeReducer,
-  );
+  const {
+    EMP_SEQ,
+    STORE_SEQ,
+    STORE_DATA: {resultdata: {CALCULATE_DAY = null} = {}} = {},
+  } = useSelector((state: any) => state.storeReducer);
   const {data: datapop, onRefresh} = params;
 
   const [workTypeCheck, setWorkTypeCheck] = useState<boolean>(true); // true: 자율출퇴근 직원, false: 일정이 있는 직원

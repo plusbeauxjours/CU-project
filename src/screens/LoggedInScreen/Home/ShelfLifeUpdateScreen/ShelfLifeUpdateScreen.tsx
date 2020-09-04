@@ -1,16 +1,19 @@
-import React, {useState, useRef} from 'react';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import React, {useState} from 'react';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
-import DatePicker from 'react-native-datepicker';
 import {useDispatch} from 'react-redux';
+import DatePickerModal from 'react-native-modal-datetime-picker';
 import {useNavigation} from '@react-navigation/native';
+
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import api from '../../../../constants/LoggedInApi';
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import moment from 'moment';
+import {
+  updateSHELFLIFE_DATA,
+  getSHELFLIFE_DATA,
+} from '../../../../redux/shelflifeSlice';
 
 interface ITextInput {
   isBefore: boolean;
@@ -25,7 +28,7 @@ const TextInput = styled.TextInput<ITextInput>`
   border-color: ${(props) => (props.isBefore ? '#ddd' : '#642A8C')};
   align-items: center;
   border-width: 1px;
-  width: ${wp('50%')};
+  width: ${wp('50%')}px;
 `;
 const Container = styled.View`
   margin-top: 20px;
@@ -74,14 +77,20 @@ const InputItem = styled.View`
   justify-content: space-between;
 `;
 
-const InputItemText = styled.Text`
-  font-size: 16px;
-`;
+const InputItemText = styled.Text``;
 
 const Touchable = styled.TouchableOpacity``;
 
+const DateBox = styled.View`
+  padding: 3px 10px;
+  border-color: ${(props) => (props.isBefore ? '#ddd' : '#642A8C')};
+  border-width: 1px;
+  width: ${wp('50%')}px;
+`;
+
+const DateText = styled.Text``;
+
 export default ({route: {params}}) => {
-  const dateRef = useRef(null);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -95,8 +104,6 @@ export default ({route: {params}}) => {
   const [shelfLifeDate, setShelfLifeDate] = useState<string>(
     params?.shelfLifeDate || '',
   );
-  const [date, setDate] = useState<string>('');
-  const [markedDate, setMarkedDate] = useState<any>([]);
   const [shelfLifeDateModal, setShelfLifeDateModal] = useState<boolean>(false);
 
   const alertModal = (title, text) => {
@@ -148,17 +155,21 @@ export default ({route: {params}}) => {
       dispatch(setSplashVisible(true));
       const {data} = await api.updateShelfLifeData({
         shelfLife_SEQ,
-        shelfLifeName,
-        shelfLifeDate,
-        shelfLifeMemo,
+        shelfLifeNAME: shelfLifeName,
+        shelfLifeDATE: shelfLifeDate,
+        shelfLifeMEMO: shelfLifeMemo,
       });
-      console.log(
-        'datadatadatadatadatadatadatadatadatafasdfsadfasdf124312423',
-        data,
-      );
       if (data.result == '1') {
         navigation.goBack();
         alertModal('', '수정이 완료되었습니다.');
+        dispatch(
+          updateSHELFLIFE_DATA({
+            shelfLife_SEQ,
+            shelfLifeName,
+            shelfLifeDate,
+            shelfLifeMemo,
+          }),
+        );
       }
     } catch (error) {
       console.log(error);
@@ -208,48 +219,9 @@ export default ({route: {params}}) => {
                 <DeleteBtnText>*</DeleteBtnText>
               </Row>
               <Touchable onPress={() => setShelfLifeDateModal(true)}>
-                <TextInput
-                  isBefore={shelfLifeDate == ''}
-                  placeholder="상품명"
-                  selectionColor="#6428AC"
-                  placeholderTextColor="#CCC"
-                  onChangeText={(text) => {
-                    setShelfLifeMemo(text);
-                  }}
-                  value={shelfLifeDate}
-                  editable={false}>
-                  <DatePicker
-                    ref={dateRef}
-                    showIcon={false}
-                    style={{
-                      width: '100%',
-                      textAlign: 'center',
-                      justifyContent: 'center',
-                    }}
-                    date={shelfLifeDate ?? ''}
-                    placeholder="기한 입력"
-                    mode="date"
-                    format="YYYY-MM-DD"
-                    minDate="1900/01/01"
-                    maxDate="9999/12/31"
-                    confirmBtnText="확인"
-                    cancelBtnText="취소"
-                    locale="ko"
-                    androidMode="spinner"
-                    customStyles={{
-                      dateInput: {
-                        alignItems: 'center',
-                        borderWidth: 0,
-                      },
-                      dateText: {
-                        fontSize: 16,
-                      },
-                    }}
-                    onDateChange={(date) => {
-                      setShelfLifeDate(date);
-                    }}
-                  />
-                </TextInput>
+                <DateBox>
+                  <DateText>{shelfLifeDate}</DateText>
+                </DateBox>
               </Touchable>
             </InputItem>
             <InputItem>
@@ -271,6 +243,20 @@ export default ({route: {params}}) => {
             isRegisted={true}
           />
         </Container>
+        <DatePickerModal
+          headerTextIOS={'날짜를 선택하세요.'}
+          cancelTextIOS={'취소'}
+          confirmTextIOS={'선택'}
+          isVisible={shelfLifeDateModal}
+          mode="date"
+          locale="ko_KRus_EN"
+          onConfirm={(date) => {
+            setShelfLifeDate(moment(date).format('YYYY-MM-DD'));
+            setShelfLifeDateModal(false);
+          }}
+          onCancel={() => setShelfLifeDateModal(false)}
+          display="default"
+        />
       </ScrollView>
     </BackGround>
   );

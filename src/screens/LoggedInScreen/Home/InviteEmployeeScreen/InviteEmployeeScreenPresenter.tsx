@@ -252,21 +252,19 @@ export default ({
                 (카카오톡 미설치 시 문자 발송)
               </ReferText>
             </Refer>
-            {choice?.map((data, index) => {
-              return (
-                <Touchable
-                  key={index}
-                  onPress={() => {
-                    deleteBuffer(data.key);
-                  }}>
-                  <InviteEmployeeScreenCard
-                    name={data.NAME}
-                    phone={data.phone}
-                    isSearched={false}
-                  />
-                </Touchable>
-              );
-            })}
+            {choice?.map((data, index) => (
+              <Touchable
+                key={index}
+                onPress={() => {
+                  deleteBuffer(data.key);
+                }}>
+                <InviteEmployeeScreenCard
+                  name={data.NAME}
+                  phone={data.phone}
+                  isSearched={false}
+                />
+              </Touchable>
+            ))}
           </Section>
           <SubmitBtn
             text={'직원초대완료'}

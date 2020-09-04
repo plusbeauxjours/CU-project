@@ -247,11 +247,11 @@ export default ({
                 </Section>
               )}
               <Section
-                onPress={() => {
+                onPress={() =>
                   navigation.navigate('HealthCertificateEmpListScreen', {
                     type: '1',
-                  });
-                }}>
+                  })
+                }>
                 <TypeTitle>
                   <Row>
                     <TypeTitleBox>

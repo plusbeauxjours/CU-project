@@ -362,27 +362,25 @@ export default ({
                   NoticeCheck_SEQ={data.NoticeCheck_SEQ}
                 />
               ))}
-              {CHECKLIST_SHARE_DATA1?.basic?.map((data, index) => {
-                return (
-                  <ChecklistShareMainScreenCard
-                    key={index}
-                    COM_SEQ={data.COM_SEQ}
-                    MEMBER_SEQ={data.MEMBER_SEQ}
-                    ME={MEMBER_SEQ}
-                    STORE={STORE}
-                    NOTICE_SEQ={data.NOTICE_SEQ}
-                    NOTI_TITLE={data.TITLE}
-                    CONTENTS={data.CONTENTS}
-                    CREATE_TIME={data.CREATE_TIME}
-                    EMP_NAME={data.EMP_NAME}
-                    IMG_LIST={data.IMG_LIST}
-                    type={'지시사항'}
-                    favorite={data.favorite}
-                    confirmModal={(noticeSeq) => fixControlFn(noticeSeq, 'fix')}
-                    NoticeCheck_SEQ={data.NoticeCheck_SEQ}
-                  />
-                );
-              })}
+              {CHECKLIST_SHARE_DATA1?.basic?.map((data, index) => (
+                <ChecklistShareMainScreenCard
+                  key={index}
+                  COM_SEQ={data.COM_SEQ}
+                  MEMBER_SEQ={data.MEMBER_SEQ}
+                  ME={MEMBER_SEQ}
+                  STORE={STORE}
+                  NOTICE_SEQ={data.NOTICE_SEQ}
+                  NOTI_TITLE={data.TITLE}
+                  CONTENTS={data.CONTENTS}
+                  CREATE_TIME={data.CREATE_TIME}
+                  EMP_NAME={data.EMP_NAME}
+                  IMG_LIST={data.IMG_LIST}
+                  type={'지시사항'}
+                  favorite={data.favorite}
+                  confirmModal={(noticeSeq) => fixControlFn(noticeSeq, 'fix')}
+                  NoticeCheck_SEQ={data.NoticeCheck_SEQ}
+                />
+              ))}
             </>
           )}
         </Container>
@@ -438,27 +436,25 @@ export default ({
                   NoticeCheck_SEQ={data.NoticeCheck_SEQ}
                 />
               ))}
-              {CHECKLIST_SHARE_DATA2?.basic?.map((data, index) => {
-                return (
-                  <ChecklistShareMainScreenCard
-                    key={index}
-                    COM_SEQ={data.COM_SEQ}
-                    MEMBER_SEQ={data.MEMBER_SEQ}
-                    ME={MEMBER_SEQ}
-                    STORE={STORE}
-                    NOTICE_SEQ={data.NOTICE_SEQ}
-                    NOTI_TITLE={data.TITLE}
-                    CONTENTS={data.CONTENTS}
-                    CREATE_TIME={data.CREATE_TIME}
-                    EMP_NAME={data.EMP_NAME}
-                    IMG_LIST={data.IMG_LIST}
-                    type={'특이사항'}
-                    favorite={data.favorite}
-                    confirmModal={(noticeSeq) => fixControlFn(noticeSeq, 'fix')}
-                    NoticeCheck_SEQ={data.NoticeCheck_SEQ}
-                  />
-                );
-              })}
+              {CHECKLIST_SHARE_DATA2?.basic?.map((data, index) => (
+                <ChecklistShareMainScreenCard
+                  key={index}
+                  COM_SEQ={data.COM_SEQ}
+                  MEMBER_SEQ={data.MEMBER_SEQ}
+                  ME={MEMBER_SEQ}
+                  STORE={STORE}
+                  NOTICE_SEQ={data.NOTICE_SEQ}
+                  NOTI_TITLE={data.TITLE}
+                  CONTENTS={data.CONTENTS}
+                  CREATE_TIME={data.CREATE_TIME}
+                  EMP_NAME={data.EMP_NAME}
+                  IMG_LIST={data.IMG_LIST}
+                  type={'특이사항'}
+                  favorite={data.favorite}
+                  confirmModal={(noticeSeq) => fixControlFn(noticeSeq, 'fix')}
+                  NoticeCheck_SEQ={data.NoticeCheck_SEQ}
+                />
+              ))}
             </>
           )}
         </Container>
@@ -497,27 +493,25 @@ export default ({
                 />
               }>
               <WhiteSpace />
-              {CHECKLIST_SHARE_DATA3?.message?.map((data, index) => {
-                return (
-                  <ChecklistShareMainScreenCard
-                    key={index}
-                    COM_SEQ={data.COM_SEQ}
-                    MEMBER_SEQ={data.MEMBER_SEQ}
-                    ME={MEMBER_SEQ}
-                    STORE={STORE}
-                    NOTICE_SEQ={data.CU_NOTICE_SEQ}
-                    NOTI_TITLE={data.TITLE}
-                    CONTENTS={data.CONTENTS}
-                    CREATE_TIME={data.CREATE_TIME}
-                    EMP_NAME={data.EMP_NAME}
-                    IMG_LIST={data.IMG_LIST}
-                    type={'CU소식'}
-                    favorite={''}
-                    confirmModal={() => {}}
-                    NoticeCheck_SEQ={data.cu_notice_check_SEQ}
-                  />
-                );
-              })}
+              {CHECKLIST_SHARE_DATA3?.message?.map((data, index) => (
+                <ChecklistShareMainScreenCard
+                  key={index}
+                  COM_SEQ={data.COM_SEQ}
+                  MEMBER_SEQ={data.MEMBER_SEQ}
+                  ME={MEMBER_SEQ}
+                  STORE={STORE}
+                  NOTICE_SEQ={data.CU_NOTICE_SEQ}
+                  NOTI_TITLE={data.TITLE}
+                  CONTENTS={data.CONTENTS}
+                  CREATE_TIME={data.CREATE_TIME}
+                  EMP_NAME={data.EMP_NAME}
+                  IMG_LIST={data.IMG_LIST}
+                  type={'CU소식'}
+                  favorite={''}
+                  confirmModal={() => {}}
+                  NoticeCheck_SEQ={data.cu_notice_check_SEQ}
+                />
+              ))}
             </ScrollView>
           </>
         )}

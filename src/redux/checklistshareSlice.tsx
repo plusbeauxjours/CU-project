@@ -86,12 +86,11 @@ export const getCHECKLIST_SHARE_DATA1 = (date) => async (
   const {
     checklistshareReducer: {CHECKLIST_SHARE_DATA1},
   } = getState();
-  if (CHECKLIST_SHARE_DATA1 && CHECKLIST_SHARE_DATA1?.length === 0) {
+  if (!CHECKLIST_SHARE_DATA1 || CHECKLIST_SHARE_DATA1?.length === 0) {
     dispatch(setSplashVisible(true));
   }
   try {
     const {data} = await api.getNotice31(STORE_SEQ, MEMBER_SEQ, date);
-    console.log('getCHECKLIST_SHARE_DATA1', date, data);
     for (let a = 0; a < data.basic.length; a++) {
       if (data.basic[a].NoticeCheck_SEQ == null) {
         dispatch(increaseNEW_CNT1());
@@ -123,7 +122,7 @@ export const getCHECKLIST_SHARE_DATA2 = (date) => async (
   const {
     checklistshareReducer: {CHECKLIST_SHARE_DATA2},
   } = getState();
-  if (CHECKLIST_SHARE_DATA2 && CHECKLIST_SHARE_DATA2?.length === 0) {
+  if (!CHECKLIST_SHARE_DATA2 || CHECKLIST_SHARE_DATA2?.length === 0) {
     dispatch(setSplashVisible(true));
   }
   try {

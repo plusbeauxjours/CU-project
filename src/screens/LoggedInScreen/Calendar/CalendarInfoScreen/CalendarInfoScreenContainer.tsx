@@ -24,9 +24,11 @@ export default () => {
   const {CALENDAR_DATA, CALENDAR_MARKED} = useSelector(
     (state: any) => state.calendarReducer,
   );
-  const {STORE_SEQ, CALENDAR_EDIT, EMP_SEQ} = useSelector(
-    (state: any) => state.storeReducer,
-  );
+  const {
+    STORE_SEQ,
+    EMP_SEQ,
+    STORE_DATA: {resultdata: {CALENDAR_EDIT = null} = {}} = {},
+  } = useSelector((state: any) => state.storeReducer);
 
   const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
 

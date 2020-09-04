@@ -93,7 +93,7 @@ const TextInputBox = styled.View`
 `;
 
 const GreyText = styled.Text`
-  font-size: 18;
+  font-size: 18px;
   color: #999;
   font-weight: bold;
 `;
@@ -208,7 +208,6 @@ export default ({
             </TextContainer>
             <CameraBox onPress={() => setCameraModalVisible(true)}>
               <Bold style={{color: '#642A8C'}}>촬영하기</Bold>
-              <CameraIcon />
               <CameraIcon />
             </CameraBox>
             <Bold>* 인식이 불안정할 경우 직접입력하여 진행해 주세요.</Bold>

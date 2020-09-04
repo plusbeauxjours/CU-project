@@ -10,10 +10,12 @@ import {useNavigation} from '@react-navigation/native';
 
 let timer = null;
 
-export default ({route: {params}}) => {
+export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
+  const {MEMBER_SEQ, MOBILE_NO} = useSelector(
+    (state: any) => state.userReducer,
+  );
 
   const [password, setPassword] = useState<string>('');
   const [passwordCheck, setPasswordCheck] = useState<string>('');
@@ -22,7 +24,7 @@ export default ({route: {params}}) => {
     false,
   );
   const [verifyCode, setVerifyCode] = useState<string>('');
-  const [mobileNo, setMobileNo] = useState<string>(params?.mobileNo || '');
+  const [mobileNo, setMobileNo] = useState<string>(MOBILE_NO || '');
   const [isRegisted, setIsRegisted] = useState<boolean>(false);
   const [countdown, setCountdown] = useState<string>('');
   const [isCountDownStarted, setIsCountDownStarted] = useState<boolean>(false);
@@ -105,25 +107,13 @@ export default ({route: {params}}) => {
         return false;
       } else {
         try {
-          let response = await fetch(
-            'http://133.186.209.113:80/api/v2/Auth/changePwd',
-            {
-              method: 'POST',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                MobileNo: mobileNo,
-                MEMBER_SEQ,
-                PASSWORD: password,
-                SMS: verifyCode,
-              }),
-            },
-          );
-          const json = await response.json();
-          console.log(json);
-          if (json.message == 'SMSERROR') {
+          const {data} = await api.changePwd({
+            MobileNo: mobileNo,
+            MEMBER_SEQ,
+            PASSWORD: password,
+            SMS: verifyCode,
+          });
+          if (data.message == 'SMSERROR') {
             alertModal('인증번호 오류입니다.');
           } else {
             alertModal('비밀번호가 변경 되었습니다 다시 로그인해주세요.');

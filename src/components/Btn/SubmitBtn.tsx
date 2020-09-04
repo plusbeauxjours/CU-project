@@ -23,7 +23,7 @@ const SubmitButtonContainer = styled.View`
 `;
 
 const WhiteText = styled.Text`
-  font-size: 16;
+  font-size: 16px;
   color: white;
 `;
 

@@ -10,6 +10,7 @@ const BackGround = styled.SafeAreaView`
 
 export default ({route: {params}}) => {
   const navigation = useNavigation();
+
   const choseAddress = (data) => {
     const {addr, lat, long} = JSON.parse(data.data);
     navigation.navigate(
@@ -21,6 +22,7 @@ export default ({route: {params}}) => {
       },
     );
   };
+
   return (
     <BackGround>
       <WebView

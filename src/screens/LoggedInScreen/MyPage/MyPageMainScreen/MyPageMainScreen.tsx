@@ -94,15 +94,15 @@ const CardText = styled.Text`
 export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {STORE, version, NAME, mobileNo} = useSelector(
+  const {STORE, version, MEMBER_NAME, mobileNo} = useSelector(
     (state: any) => state.userReducer,
   );
 
-  const logOut = (title, text) => {
+  const logOut = () => {
     const params = {
       alertType: 'confirm',
-      title: title,
-      content: text,
+      title: '',
+      content: '로그아웃 하시겠습니까?',
       okCallback: () => {
         dispatch(userLogout());
         navigation.reset({
@@ -146,7 +146,7 @@ export default () => {
           />
           <PersonInfo>
             <Name>
-              <NameText>{NAME}</NameText>
+              <NameText>{MEMBER_NAME}</NameText>
               <PositionText>{STORE == 1 ? '[점주]' : '[직원]'}</PositionText>
             </Name>
 
@@ -188,10 +188,7 @@ export default () => {
           </Card>
           <Card
             onPress={() => {
-              navigation.navigate('MyPageIdSetMainScreen', {
-                mobileNo: mobileNo,
-                STORE: STORE,
-              });
+              navigation.navigate('MyPageIdSetMainScreen');
             }}>
             <CardText>계정관리</CardText>
             <ArrowIcon />
@@ -202,10 +199,7 @@ export default () => {
               <BoxTitle>{version}</BoxTitle>
             </Arrow>
           </Card>
-          <Card
-            onPress={() => {
-              logOut('', '로그아웃 하시겠습니까?');
-            }}>
+          <Card onPress={() => logOut()}>
             <CardText>로그 아웃</CardText>
             <Arrow>
               <LogoutIcon size={24} />

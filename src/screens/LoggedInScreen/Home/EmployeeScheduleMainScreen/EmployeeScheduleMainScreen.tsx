@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
@@ -76,19 +76,9 @@ const RowTouchable = styled.TouchableOpacity`
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {
-    CALCULATE_DAY,
-    image,
-    name,
-    EMP_SEQ,
-    STORE_SEQ,
-    STORE_NAME,
-    START,
-    END,
-    POSITION,
-    PAY_TYPE,
-    PAY,
-  } = params;
+
+  const {PAY_TYPE, PAY} = params;
+  const {EMP_SEQ} = useSelector((state: any) => state.storeReducer);
 
   const [workTypeCheck, setWorkTypeCheck] = useState<[boolean, boolean]>([
     false,
@@ -120,7 +110,7 @@ export default ({route: {params}}) => {
     try {
       const {data} = await api.toggleCalendar({
         CALENDAR: workTypeCheck,
-        EMP_SEQ: EMP_SEQ.toString(),
+        EMP_SEQ,
       });
     } catch (error) {
       console.log(error);
@@ -196,9 +186,7 @@ export default ({route: {params}}) => {
         onPress={() => {
           changeModeFn(workTypeCheck[0] === true ? '1' : '0');
           navigation.navigate('EmployeeScheduleInfoScreen', {
-            CALCULATE_DAY,
-            EMP_SEQ,
-            STORE_SEQ,
+            workTypeCheck: workTypeCheck[0] === true ? '1' : '0',
             PAY,
             PAY_TYPE,
           });

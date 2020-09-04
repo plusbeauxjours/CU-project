@@ -31,7 +31,7 @@ const ButtonAfter = styled.TouchableOpacity`
 
 const Text = styled.Text`
   color: #707070;
-  font-size: 15;
+  font-size: 15px;
 `;
 
 const WhiteText = styled.Text`

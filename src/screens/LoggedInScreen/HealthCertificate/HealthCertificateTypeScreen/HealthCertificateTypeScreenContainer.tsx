@@ -60,7 +60,7 @@ export default () => {
   };
 
   const dday = moment(HEALTH_CERTIFICATE_DATA.EDUCATION_DATA).diff(
-    moment(),
+    moment().subtract(1, 'year'),
     'days',
   );
 

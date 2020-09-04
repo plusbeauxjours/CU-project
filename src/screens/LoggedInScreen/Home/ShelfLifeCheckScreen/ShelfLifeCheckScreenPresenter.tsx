@@ -95,10 +95,8 @@ const DateText = styled.Text`
 `;
 
 export default ({
-  agendaRef,
-  items,
-  marked,
-  onDayChange,
+  SHELFLIFE_DATA,
+  SHELFLIFE_MARKED,
   onDayPress,
   onRefresh,
   confirmModal,
@@ -124,6 +122,7 @@ export default ({
       shelfLifeMemo,
       checkType,
     } = item;
+    console.log('---------------', item, '---------------');
     return (
       <Item
         isChecked={checkType !== '0'}
@@ -182,14 +181,12 @@ export default ({
   };
   return (
     <Agenda
-      ref={agendaRef}
-      items={items}
+      items={SHELFLIFE_DATA}
       renderItem={renderItem}
       renderEmptyDate={renderEmptyDate}
       renderKnob={renderKnob}
-      onDayChange={onDayChange}
       onDayPress={onDayPress}
-      markedDates={marked}
+      markedDates={SHELFLIFE_MARKED}
       theme={{
         agendaTodayColor: '#AACE36',
         selectedDayBackgroundColor: '#ddd',

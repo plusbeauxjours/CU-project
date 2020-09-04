@@ -157,7 +157,6 @@ export default ({route: {params}}) => {
         MEMBER_SEQ,
         index == 0 ? '1' : '0',
       );
-      console.log('markingFn', data);
       if (data.message === 'SUCCESS') {
         const iterator = Object.keys(data.result);
         const markedDates = {};

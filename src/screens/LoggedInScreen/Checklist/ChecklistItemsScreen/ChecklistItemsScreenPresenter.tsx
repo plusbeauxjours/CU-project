@@ -200,7 +200,7 @@ const IconContainer = styled.TouchableOpacity`
 `;
 
 const WhiteBigText = styled(WhiteText)`
-  font-size: 20;
+  font-size: 20px;
 `;
 
 const ChecklistModalBox = styled.View`
@@ -227,7 +227,7 @@ const ChecklistIconContainer = styled.View<IsEmpName>`
 const ChecklistTypeText1 = styled.Text`
   align-self: flex-start;
   color: #642a8c;
-  font-size: 11;
+  font-size: 11px;
 `;
 const ChecklistTypeText2 = styled.Text`
   flex: 1;

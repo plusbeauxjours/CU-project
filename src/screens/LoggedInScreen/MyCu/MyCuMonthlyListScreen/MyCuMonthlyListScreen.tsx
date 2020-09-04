@@ -126,21 +126,19 @@ export default () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         contentContainerStyle={{alignItems: 'center', padding: 20}}>
-        {selectData?.map((item, index) => {
-          return (
-            <MyCuMonthlyCard
-              KEY={index}
-              PDF_URL={item.PDF_URL}
-              IMG_URL2={item.IMG_URL2}
-              CONTENTS2={item.CONTENTS2}
-              PDF_SEQ={item.PDF_SEQ}
-              IMG_URL={item.IMG_URL}
-              PDF_YEAR={item.PDF_YEAR}
-              PDFCHECK_SEQ={item.PDFCHECK_SEQ}
-              CONTENTS={item.CONTENTS}
-            />
-          );
-        })}
+        {selectData?.map((item, index) => (
+          <MyCuMonthlyCard
+            KEY={index}
+            PDF_URL={item.PDF_URL}
+            IMG_URL2={item.IMG_URL2}
+            CONTENTS2={item.CONTENTS2}
+            PDF_SEQ={item.PDF_SEQ}
+            IMG_URL={item.IMG_URL}
+            PDF_YEAR={item.PDF_YEAR}
+            PDFCHECK_SEQ={item.PDFCHECK_SEQ}
+            CONTENTS={item.CONTENTS}
+          />
+        ))}
       </ScrollView>
     </BackGround>
   );

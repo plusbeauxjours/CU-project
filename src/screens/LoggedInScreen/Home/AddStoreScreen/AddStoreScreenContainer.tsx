@@ -79,7 +79,7 @@ export default () => {
   };
 
   const gotoSearchAddress = () => {
-    navigation.navigate('SearchAddressScreen', {screen: 1});
+    navigation.navigate('SearchAddressScreen', {screen: 0});
   };
 
   // 지각모달 분 선택

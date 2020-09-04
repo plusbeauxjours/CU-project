@@ -25,7 +25,7 @@ const RoundButtonContainer = styled.View`
 `;
 
 const Text = styled.Text<IIsBefore>`
-  font-size: 16;
+  font-size: 16px;
   color: ${(props) => (props.isBefore ? '#CCCCCC' : '#642A8C')};
 `;
 

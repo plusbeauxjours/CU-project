@@ -94,7 +94,7 @@ const TextInputBox = styled.View`
 `;
 
 const GreyText = styled.Text`
-  font-size: 18;
+  font-size: 18px;
   color: #999;
   font-weight: bold;
 `;

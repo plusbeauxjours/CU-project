@@ -26,9 +26,10 @@ const constant = {
 
 export default () => {
   const dispatch = useDispatch();
-  const {EMP_SEQ, CALCULATE_DAY} = useSelector(
-    (state: any) => state.storeReducer,
-  );
+  const {
+    EMP_SEQ,
+    STORE_DATA: {resultdata: {CALCULATE_DAY = null} = {}} = {},
+  } = useSelector((state: any) => state.storeReducer);
   const {EMPLOYEE_INFO_DATA} = useSelector(
     (state: any) => state.employeeReducer,
   );

@@ -343,18 +343,14 @@ export default ({
       {choiceEmp?.length !== 0 && (
         <>
           <ScrollView horizontal={true} contentContainerStyle={{marginTop: 10}}>
-            {choiceEmp?.map((data, index) => {
-              return (
-                <Touchable
-                  key={index}
-                  onPress={() => deleteEmpFn(data.MobileNo)}>
-                  <ChecklistAddScreenAddedCard
-                    name={data.NAME}
-                    image={data.IMAGE}
-                  />
-                </Touchable>
-              );
-            })}
+            {choiceEmp?.map((data, index) => (
+              <Touchable key={index} onPress={() => deleteEmpFn(data.MobileNo)}>
+                <ChecklistAddScreenAddedCard
+                  name={data.NAME}
+                  image={data.IMAGE}
+                />
+              </Touchable>
+            ))}
           </ScrollView>
           <SubText>* 직원 이미지를 클릭하면 목록에서 제외됩니다.</SubText>
         </>
@@ -559,21 +555,19 @@ export default ({
         <ScrollView
           persistentScrollbar={true}
           contentContainerStyle={{alignItems: 'center'}}>
-          {emplist?.map((data, index) => {
-            return (
-              <Touchable
-                key={index}
-                onPress={() => {
-                  addEmpFn(data);
-                }}>
-                <ModalCheckEmpList>
-                  <Bold>{data.NAME}</Bold>
-                  <Text>{data.MobileNo}</Text>
-                  <AddCircleIcon size={20} />
-                </ModalCheckEmpList>
-              </Touchable>
-            );
-          })}
+          {emplist?.map((data, index) => (
+            <Touchable
+              key={index}
+              onPress={() => {
+                addEmpFn(data);
+              }}>
+              <ModalCheckEmpList>
+                <Bold>{data.NAME}</Bold>
+                <Text>{data.MobileNo}</Text>
+                <AddCircleIcon size={20} />
+              </ModalCheckEmpList>
+            </Touchable>
+          ))}
         </ScrollView>
       </RBSheet>
       <Modal

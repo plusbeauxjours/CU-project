@@ -6,6 +6,11 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import FastImage from 'react-native-fast-image';
+import Modal from 'react-native-modal';
+import {ActivityIndicator} from 'react-native';
+import ImageViewer from 'react-native-image-zoom-viewer';
+
 import {
   BackIcon,
   ForwardIcon,
@@ -16,6 +21,7 @@ const BackGround = styled.SafeAreaView`
   flex: 1;
   background-color: white;
 `;
+
 const ScrollView = styled.ScrollView``;
 const Text = styled.Text``;
 
@@ -118,6 +124,7 @@ const DateArrowLeft = styled.TouchableOpacity`
   border-radius: 12px;
   background-color: #eee;
 `;
+
 const DateArrowRight = styled(DateArrowLeft)``;
 const DateTextArea = styled.TouchableOpacity`
   flex: 1;
@@ -125,6 +132,7 @@ const DateTextArea = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
 `;
+
 const DateToday = styled.TouchableOpacity`
   margin-right: 5px;
   width: ${wp('10%')}px;
@@ -134,10 +142,12 @@ const DateToday = styled.TouchableOpacity`
   border-radius: 12px;
   background-color: #eee;
 `;
+
 const DateText = styled.Text`
   font-weight: bold;
   font-size: 15px;
 `;
+
 const ContentWrapper = styled.View`
   width: ${wp('90%')}px;
   margin-top: ${hp('3%')}px;
@@ -152,6 +162,7 @@ const ModifyButton = styled.TouchableOpacity`
   justify-content: center;
   background-color: #aace36;
 `;
+
 const SaveButton = styled(ModifyButton)`
   background-color: #642a8c;
 `;
@@ -173,10 +184,18 @@ const RegDateContainer = styled.View`
   align-items: flex-end;
 `;
 
+const Footer = styled.View`
+  width: ${wp('100%')}px;
+`;
+
+const FooterText = styled.Text`
+  text-align: center;
+  color: white;
+  font-size: 18px;
+  margin-bottom: 20px;
+`;
+
 export default ({
-  NAME,
-  modalVisible,
-  setModalVisible,
   onRefresh,
   nextdata,
   backdata,
@@ -192,11 +211,23 @@ export default ({
   businesstype,
   SETTIME,
   selectindex,
-  allData,
+  HEALTH_STORE_DETAIL,
   EDUCATION_DATE,
   CEO_HEALTH_SEQ,
+  isImageViewVisible,
+  setIsImageViewVisible,
 }) => {
   const navigation = useNavigation();
+
+  const images = [
+    {url: 'http://cuapi.shop-sol.com/uploads/ocr/' + TESTING_CERTIFICATE},
+  ];
+  const renderFooter = (index: number) => (
+    <Footer>
+      <FooterText>1 / 1</FooterText>
+    </Footer>
+  );
+
   const GetContent = ({label, data}) => (
     <ContentLine>
       <ContentLabelWrapper>
@@ -216,13 +247,13 @@ export default ({
       {label == '교육 구분' ? (
         <ContentDataWrapper>
           <ContentDataText>
-            {EDUCATION_TYPE == 'online' ? '온라인교육' : '집체교육'}
+            {EDUCATION_TYPE === 'online' ? '온라인교육' : '집체교육'}
           </ContentDataText>
         </ContentDataWrapper>
       ) : (
         <ImageButtonWrapper
           onPress={() => {
-            setModalVisible(true);
+            setIsImageViewVisible(true);
           }}>
           <ImageButtonText>사진 보기</ImageButtonText>
           <ImageIconContainer>
@@ -244,7 +275,7 @@ export default ({
             <Date>
               <DateArrowLeft
                 onPress={() => {
-                  if (selectindex == allData.length - 1) {
+                  if (selectindex == HEALTH_STORE_DETAIL.length - 1) {
                     alertModal('', '최초데이터 입니다.');
                   } else {
                     backdata();
@@ -282,6 +313,7 @@ export default ({
               <GetContent label={'영업소명칭'} data={storename} />
               <GetContent label={'교육 일시'} data={EDUCATION_DATE} />
               <GetContent label={'영업의종류'} data={businesstype} />
+              <GetContentComponent label={'교육 구분'} />
               <GetContentComponent label={'사진'} />
             </ContentWrapper>
             <RegDateContainer>
@@ -324,16 +356,42 @@ export default ({
           <WhiteSpace />
         </Container>
       </ScrollView>
-      <ImageView
-        imageIndex={0}
-        images={[
-          {uri: 'http://cuapi.shop-sol.com/uploads/ocr/' + TESTING_CERTIFICATE},
-        ]}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(false);
-        }}
-      />
+      <Modal
+        onBackdropPress={() => setIsImageViewVisible(false)}
+        isVisible={isImageViewVisible}
+        style={{
+          margin: 0,
+          justifyContent: 'flex-end',
+          width: '100%',
+          height: '100%',
+        }}>
+        <ImageViewer
+          imageUrls={images}
+          onSwipeDown={() => setIsImageViewVisible(false)}
+          backgroundColor={'transparent'}
+          saveToLocalByLongPress={false}
+          enableSwipeDown
+          useNativeDriver
+          enablePreload
+          renderFooter={renderFooter}
+          loadingRender={() => <ActivityIndicator />}
+          renderIndicator={() => {}}
+          renderImage={(props) => (
+            <>
+              {console.log(props)}
+              <FastImage
+                style={{width: '100%', height: '100%'}}
+                source={{
+                  uri: props.source.uri,
+                  headers: {Authorization: 'someAuthToken'},
+                  priority: FastImage.priority.low,
+                }}
+                resizeMode={FastImage.resizeMode.cover}
+              />
+            </>
+          )}
+        />
+      </Modal>
     </BackGround>
   );
 };

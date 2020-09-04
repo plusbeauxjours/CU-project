@@ -45,9 +45,8 @@ const ContentLabelText = styled.Text`
   color: #000;
 `;
 
-const ContentDataText = styled.Text`
+const ContentDataText = styled(ContentLabelText)`
   font-weight: bold;
-  color: #000;
 `;
 
 const ImageButtonWrapper = styled.TouchableOpacity`
@@ -190,7 +189,7 @@ export default ({
   TESTING_DATE,
   SETTIME,
   selectIndex,
-  allData,
+  HEALTH_EMP_DETAIL,
 }) => {
   const navigation = useNavigation();
   const GetContent = ({label, data}) => (
@@ -240,7 +239,7 @@ export default ({
             <Date>
               <DateArrowLeft
                 onPress={() => {
-                  if (selectIndex == allData.length - 1) {
+                  if (selectIndex == HEALTH_EMP_DETAIL.length - 1) {
                     alertModal('', '최초데이터 입니다.');
                   } else {
                     backdata();
@@ -248,16 +247,10 @@ export default ({
                 }}>
                 <BackIcon size={22} color={'#000'} />
               </DateArrowLeft>
-              <DateTextArea
-                onPress={() => {
-                  onRefresh();
-                }}>
+              <DateTextArea onPress={() => onRefresh()}>
                 <DateText>{TESTING_COUNT}회차</DateText>
               </DateTextArea>
-              <DateToday
-                onPress={() => {
-                  onRefresh();
-                }}>
+              <DateToday onPress={() => onRefresh()}>
                 <ReloadCircleIcon size={22} />
               </DateToday>
               <DateArrowRight
@@ -289,7 +282,6 @@ export default ({
                 navigation.navigate('HealthCertificateEmpUpdateScreen', {
                   NAME: REAL_NAME,
                   EMP_SEQ,
-                  STORE_SEQ,
                   RESULT_COUNT: TESTING_COUNT,
                   EDUCATION_DATE: TESTING_DATE,
                   TESTING_CERTIFICATE:
@@ -305,7 +297,6 @@ export default ({
                 navigation.navigate('HealthCertificateEmpFormScreen', {
                   NAME: REAL_NAME,
                   EMP_SEQ,
-                  STORE_SEQ,
                   RESULT_COUNT: TESTING_COUNT,
                   TESTING_CERTIFICATE:
                     'http://cuapi.shop-sol.com/uploads/ocr/' +

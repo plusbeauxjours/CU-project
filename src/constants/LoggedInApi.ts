@@ -43,6 +43,7 @@ const noPortApi = async (method: string, path: string, data?: any, params = {}) 
 };
 
 export default {
+    changePwd: (data: any) => oldApi("post", "/Auth/changePwd", data),
     checkApp: (data: any) => callApi("post", "/auth/checkApp/", data),
     help: () => callApi("post", "/auth/help/"),
     logIn: (data: any) => callApi("post", "/auth/signin/", data),

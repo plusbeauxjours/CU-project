@@ -143,23 +143,21 @@ export default () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         contentContainerStyle={{alignItems: 'center', padding: 20}}>
-        {selectData?.map((item: any, index) => {
-          return (
-            <EducationVideoCard
-              KEY={index}
-              EMP_FILE_SEQ={item.EMP_FILE_SEQ}
-              CATEGORY={item.CATEGORY}
-              FILE_URL={item.FILE_URL}
-              IMG_URL2={item.IMG_URL2}
-              CONTENTS2={item.CONTENTS2}
-              IMG_URL={item.IMG_URL}
-              EDUCHECK_SEQ={item.EDUCHECK_SEQ}
-              CONTENTS={item.CONTENTS}
-              TYPE={item.TYPE}
-              categoryList={categoryList}
-            />
-          );
-        })}
+        {selectData?.map((item: any, index) => (
+          <EducationVideoCard
+            KEY={index}
+            EMP_FILE_SEQ={item.EMP_FILE_SEQ}
+            CATEGORY={item.CATEGORY}
+            FILE_URL={item.FILE_URL}
+            IMG_URL2={item.IMG_URL2}
+            CONTENTS2={item.CONTENTS2}
+            IMG_URL={item.IMG_URL}
+            EDUCHECK_SEQ={item.EDUCHECK_SEQ}
+            CONTENTS={item.CONTENTS}
+            TYPE={item.TYPE}
+            categoryList={categoryList}
+          />
+        ))}
       </ScrollView>
     </BackGround>
   );

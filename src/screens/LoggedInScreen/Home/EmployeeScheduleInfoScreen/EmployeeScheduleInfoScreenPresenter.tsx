@@ -344,67 +344,65 @@ export default ({
     } else {
       return (
         <RenderScheduleTitle>
-          {timeTable?.map((table, index) => {
-            return (
-              <React.Fragment key={index}>
-                {timeTableIndex === index && (
-                  <>
-                    <TimeListRow>
-                      {timeTableIndex > 0 && (
-                        <TouchableHighlight
-                          onPress={() => {
-                            const timeTableIndexed = timeTableIndex - 1;
-                            setTimeTableIndex(timeTableIndexed);
-                            setTimeListIndex(null);
-                            setTimeList(timeTable[timeTableIndex].data);
-                          }}>
-                          <BackIcon size={22} color={'#999'} />
-                        </TouchableHighlight>
-                      )}
-                      <TimeListBold>
-                        {table.startDate}&nbsp;~&nbsp;
-                        {table.endDate ||
-                          (getNumberToday() < getNumberToday(table.startDate)
-                            ? ''
-                            : '현재')}
-                      </TimeListBold>
-                      {timeTableIndex < timeTable.length - 1 && (
-                        <TouchableHighlight
-                          onPress={() => {
-                            const timeTableIndexed = timeTableIndex + 1;
-                            setTimeTableIndex(timeTableIndexed);
-                            setTimeListIndex(null);
-                            setTimeList(timeTable[timeTableIndex].data);
-                          }}>
-                          <ForwardIcon size={22} color={'#999'} />
-                        </TouchableHighlight>
-                      )}
-                    </TimeListRow>
-                    {table?.data?.map((data, index) => (
-                      <TimeListBox
-                        isSelected={timeListIndex === index}
-                        color={data.color}
-                        key={index}
+          {timeTable?.map((table, index) => (
+            <React.Fragment key={index}>
+              {timeTableIndex === index && (
+                <>
+                  <TimeListRow>
+                    {timeTableIndex > 0 && (
+                      <TouchableHighlight
                         onPress={() => {
-                          if (timeListIndex === index) {
-                            setTimeListIndex(null);
-                          } else {
-                            setTimeListIndex(index);
-                          }
+                          const timeTableIndexed = timeTableIndex - 1;
+                          setTimeTableIndex(timeTableIndexed);
+                          setTimeListIndex(null);
+                          setTimeList(timeTable[timeTableIndex].data);
                         }}>
-                        <TimeListBoxText isSelected={timeListIndex === index}>
-                          {data.startTime} ~ {data.endTime}
-                        </TimeListBoxText>
-                        <TimeListBoxText isSelected={timeListIndex === index}>
-                          보기
-                        </TimeListBoxText>
-                      </TimeListBox>
-                    ))}
-                  </>
-                )}
-              </React.Fragment>
-            );
-          })}
+                        <BackIcon size={22} color={'#999'} />
+                      </TouchableHighlight>
+                    )}
+                    <TimeListBold>
+                      {table.startDate}&nbsp;~&nbsp;
+                      {table.endDate ||
+                        (getNumberToday() < getNumberToday(table.startDate)
+                          ? ''
+                          : '현재')}
+                    </TimeListBold>
+                    {timeTableIndex < timeTable.length - 1 && (
+                      <TouchableHighlight
+                        onPress={() => {
+                          const timeTableIndexed = timeTableIndex + 1;
+                          setTimeTableIndex(timeTableIndexed);
+                          setTimeListIndex(null);
+                          setTimeList(timeTable[timeTableIndex].data);
+                        }}>
+                        <ForwardIcon size={22} color={'#999'} />
+                      </TouchableHighlight>
+                    )}
+                  </TimeListRow>
+                  {table?.data?.map((data, index) => (
+                    <TimeListBox
+                      isSelected={timeListIndex === index}
+                      color={data.color}
+                      key={index}
+                      onPress={() => {
+                        if (timeListIndex === index) {
+                          setTimeListIndex(null);
+                        } else {
+                          setTimeListIndex(index);
+                        }
+                      }}>
+                      <TimeListBoxText isSelected={timeListIndex === index}>
+                        {data.startTime} ~ {data.endTime}
+                      </TimeListBoxText>
+                      <TimeListBoxText isSelected={timeListIndex === index}>
+                        보기
+                      </TimeListBoxText>
+                    </TimeListBox>
+                  ))}
+                </>
+              )}
+            </React.Fragment>
+          ))}
         </RenderScheduleTitle>
       );
     }

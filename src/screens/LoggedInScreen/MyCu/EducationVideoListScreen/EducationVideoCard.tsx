@@ -86,9 +86,9 @@ export default ({
         navigation.navigate('MyCuVideoDetailScreen', {
           FILE_URL: `http://cuapi.shop-sol.com/uploads/edu/${FILE_URL}`,
           IMG_URL2: `http://cuapi.shop-sol.com/uploads/edu/${IMG_URL2}`,
-          CONTENTS2: CONTENTS2,
-          EMP_FILE_SEQ: EMP_FILE_SEQ,
-          TYPE: TYPE,
+          CONTENTS2,
+          EMP_FILE_SEQ,
+          TYPE,
         });
       }}>
       <DataListItemWrapper>

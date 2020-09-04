@@ -5,7 +5,7 @@ import moment from 'moment';
 const shelflifetSlice = createSlice({
   name: 'shelflife',
   initialState: {
-    SHELFLIFE_DATA: {},
+    SHELFLIFE_DATA: null,
     SHELFLIFE_MARKED: {},
   },
   reducers: {
@@ -16,6 +16,7 @@ const shelflifetSlice = createSlice({
         SHELFLIFE_DATA,
       };
     },
+
     setSHELFLIFE_MARKED(state, action) {
       const {payload: SHELFLIFE_MARKED} = action;
       return {
@@ -23,10 +24,28 @@ const shelflifetSlice = createSlice({
         SHELFLIFE_MARKED,
       };
     },
+
+    updateSHELFLIFE_DATA(state, action) {
+      const {
+        payload: {shelfLife_SEQ, shelfLifeName, shelfLifeDate, shelfLifeMemo},
+      } = action;
+      const item = state.SHELFLIFE_DATA[shelfLifeDate].find(
+        (i) => i.shelfLife_SEQ === shelfLife_SEQ,
+      );
+      if (item) {
+        item.shelfLifeName = shelfLifeName;
+        item.shelfLifeDate = shelfLifeDate;
+        item.shelfLifeMemo = shelfLifeMemo;
+      }
+    },
   },
 });
 
-export const {setSHELFLIFE_DATA, setSHELFLIFE_MARKED} = shelflifetSlice.actions;
+export const {
+  setSHELFLIFE_DATA,
+  setSHELFLIFE_MARKED,
+  updateSHELFLIFE_DATA,
+} = shelflifetSlice.actions;
 
 export const getSHELFLIFE_DATA = (
   YEAR: string = moment().format('YYYY'),
@@ -36,13 +55,15 @@ export const getSHELFLIFE_DATA = (
   const {
     storeReducer: {STORE_SEQ},
   } = getState();
+  console.log('PING');
   try {
     const {data: SHELFLIFE_DATA} = await api.getShelfLifeData({
       STORE_SEQ,
       YEAR,
-      MONTH: Number(MONTH) < 10 ? '0' + MONTH : MONTH,
-      DAY: Number(DAY) < 10 ? '0' + DAY : DAY,
+      MONTH,
+      DAY,
     });
+    console.log(SHELFLIFE_DATA);
     dispatch(setSHELFLIFE_DATA(SHELFLIFE_DATA.resultdata));
   } catch (e) {
     console.log(e);
@@ -51,7 +72,7 @@ export const getSHELFLIFE_DATA = (
     const {data: SHELFLIFE_MARKED} = await api.getAllShelfLifeData({
       STORE_SEQ,
     });
-    console.log('SHELFLIFE_MARKED', SHELFLIFE_MARKED);
+    console.log(SHELFLIFE_MARKED);
     dispatch(setSHELFLIFE_MARKED(SHELFLIFE_MARKED.result));
   } catch (e) {
     console.log(e);

@@ -7,16 +7,6 @@ const storeSlice = createSlice({
     STORE_NAME: '',
     EMP_SEQ: '',
     STORE_DATA: null,
-    ////////
-    // 삭제
-    ////////
-    // TYPE: 0,
-    // LATE_FLAG: '',
-    // LATE_TIME: 0,
-    // EARLY_FLAG: '',
-    // EARLY_TIME: 0,
-    // CALCULATE_DAY: '',
-    // CALENDAR_EDIT: '',
   },
   reducers: {
     setEMP_SEQ(state, action) {

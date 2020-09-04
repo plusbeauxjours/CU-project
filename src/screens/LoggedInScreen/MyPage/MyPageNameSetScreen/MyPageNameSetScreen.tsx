@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import styled from 'styled-components/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {setUserName} from '../../../../redux/userSlice';
+import {setMEMBER_NAME} from '../../../../redux/userSlice';
 import api from '../../../../constants/LoggedInApi';
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
 import InputLine from '../../../../components/InputLine';
@@ -39,8 +39,9 @@ export default () => {
   const {MEMBER_SEQ, mobileNo, name} = useSelector(
     (state: any) => state.userReducer,
   );
-  const [newName, setNewName] = useState<string>('');
-  const [gender, setGender] = useState<string>('0');
+
+  const [NAME, setNAME] = useState<string>('');
+  const [GENDER, setGENDER] = useState<string>('0');
 
   const submit = async () => {
     if (name === '') {
@@ -51,12 +52,12 @@ export default () => {
       const {data} = await api.changeName({
         MobileNo: mobileNo,
         MEMBER_SEQ,
-        NAME: newName,
-        GENDER: gender,
+        NAME,
+        GENDER,
       });
       if (data.message === 'SUCCESS') {
         navigation.navigate('MyPageMainScreen');
-        dispatch(setUserName(newName));
+        dispatch(setMEMBER_NAME(NAME));
       }
     } catch (error) {
       console.log(error);
@@ -72,16 +73,16 @@ export default () => {
           selectionColor={'#642A8C'}
           placeholderTextColor={'#CCCCCC'}
           onChangeText={(text) => {
-            setNewName(text);
+            setNAME(text);
           }}
-          value={newName}
+          value={NAME}
           maxLength={10}
         />
-        <InputLine isBefore={newName === '' ? true : false} />
+        <InputLine isBefore={NAME === '' ? true : false} />
         <SubmitBtn
           text={'수정하기'}
           onPress={() => submit()}
-          isRegisted={newName !== ''}
+          isRegisted={NAME !== ''}
         />
       </Container>
     </BackGround>

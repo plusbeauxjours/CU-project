@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import moment from 'moment';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
@@ -13,8 +13,8 @@ export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
   const EMP_SEQ = params?.EMP_SEQ;
-  const STORE_SEQ = params?.STORE_SEQ;
 
   const [cameraModalVisible, setCameraModalVisible] = useState<boolean>(false); // 사진 미리
   const [cameraRatioList, setCameraRatioList] = useState<any>([]);
@@ -167,6 +167,7 @@ export default ({route: {params}}) => {
     //   }
     // }
     // getPermissionsAsync();
+    console.log('params', params);
   }, []);
 
   return (

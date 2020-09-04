@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {useNavigation} from '@react-navigation/native';
+import moment from 'moment';
+
 import {EllipseIcon} from '../../../../constants/Icons';
 
 interface IText {
@@ -15,6 +16,7 @@ const AddressBox = styled.View`
 `;
 const AddressText = styled.Text<IText>`
   font-size: 13px;
+  color: ${(props) => props.color};
 `;
 const Touchable = styled.TouchableOpacity``;
 const IconContainer = styled.View`
@@ -42,69 +44,43 @@ const ContainerBox = styled.View`
 
 export default ({
   key,
-  STOREDATA,
-  STORE_HEALTH_SEQ,
-  STORE_SEQ,
-  EMP_SEQ,
-  NAME,
-  MANAGER,
-  EDUCATION_DATE,
-  EDUCATION_HOUR,
-  EDUCATION_TYPE,
-  TESTING_DATE,
-  TESTING_COUNT,
-  TESTING_DAY,
-  PUSH_DAY,
-  TESTING_CERTIFICATE,
-  REG_DT,
-  REAL_NAME,
-  SETTIME,
-  IMG_LIST,
-  type,
-  onRefresh,
+  data,
+  gotoHealthCertificateEmpDetail,
+  gotoHealthCertificateEmpForm,
 }) => {
-  const navigation = useNavigation();
-  const now = new Date();
-  const pushday = new Date(PUSH_DAY);
-  let dday = 0;
-  dday = (pushday.getTime() - now.getTime()) / 1000 / 3600 / 24;
-  if (TESTING_DATE) {
+  const dday = moment(data?.PUSH_DAY).diff(moment(), 'days');
+  if (data.RESULT_DATE) {
     return (
       <Touchable
         key={key}
         activeOpacity={1}
-        onPress={() => {
-          navigation.navigate('HealthCertificateEmpDetailScreen', {
-            STORE_SEQ,
-            EMP_SEQ,
-            NAME,
-            SETTIME,
-            IMG_LIST,
-            EDUCATION_TYPE,
-          });
-        }}>
+        onPress={() => gotoHealthCertificateEmpDetail(data)}>
         <Container>
           <ContainerBox>
             <NameText>
-              {NAME}[{MANAGER === '1' ? '점장' : '스태프'}]
+              {data?.NAME}[{data?.IS_MANAGER === '1' ? '점장' : '스태프'}]
             </NameText>
             <AddressBox>
               <IconContainer>
-                {TESTING_DATE && dday > 0 ? (
+                {data?.RESULT_DATE && dday > 0 ? (
                   <EllipseIcon color={'#642A8C'} />
                 ) : (
                   <EllipseIcon color={'#CE0505'} />
                 )}
               </IconContainer>
-              {TESTING_DATE ? (
+              {data?.RESULT_DATE ? (
                 <AddressText
                   color={dday <= 0 ? '#CE0505' : '#642A8C'}
-                  style={dday > 0 && {textDecorationLine: 'underline'}}>
-                  검진일 : {TESTING_DATE} (갱신 D{dday <= 0 ? '+' : '-'}
+                  style={dday <= 0 && {textDecorationLine: 'underline'}}>
+                  검진일 : {data?.RESULT_DATE} (갱신 D{dday <= 0 ? '+' : '-'}
                   {Math.abs(Math.floor(dday))})
                 </AddressText>
               ) : (
-                <AddressText color={'#CE0505'}>보건증 미등록</AddressText>
+                <AddressText
+                  color={'#CE0505'}
+                  style={{textDecorationLine: 'underline'}}>
+                  보건증 미등록
+                </AddressText>
               )}
             </AddressBox>
           </ContainerBox>
@@ -116,49 +92,39 @@ export default ({
       <Touchable
         key={key}
         activeOpacity={1}
-        onPress={() => {
-          navigation.navigate('HealthCertificateEmpFormScreen', {
-            STOREDATA: STOREDATA,
-            STORE_SEQ,
-            EMP_SEQ,
-            NAME,
-            MANAGER,
-            EDUCATION_DATE,
-            EDUCATION_HOUR,
-            EDUCATION_TYPE,
-            TESTING_DATE,
-            REAL_NAME,
-            TESTING_COUNT,
-            TESTING_DAY,
-            TESTING_CERTIFICATE,
-            REG_DT,
-            SETTIME,
-            IMG_LIST,
-            type,
-            FORM: '입력',
-            onRefresh,
-            count: 1,
-          });
-        }}>
+        onPress={() =>
+          gotoHealthCertificateEmpForm(
+            data.NAME,
+            data.EMP_SEQ,
+            data.RESULT_COUNT,
+            data.IMG_LIST,
+          )
+        }>
         <Container>
           <ContainerBox>
             <NameText>
-              {NAME}[{MANAGER == '1' ? '점장' : '스태프'}]
+              {data?.NAME}[{data?.IS_MANAGER == '1' ? '점장' : '스태프'}]
             </NameText>
             <AddressBox>
               <IconContainer>
-                {TESTING_DATE ? (
+                {data?.RESULT_DATE ? (
                   <EllipseIcon color={'#642A8C'} />
                 ) : (
                   <EllipseIcon color={'#CE0505'} />
                 )}
               </IconContainer>
-              {TESTING_DATE ? (
-                <AddressText color={'#642A8C'}>
-                  검진일 : {TESTING_DATE}
+              {data?.RESULT_DATE ? (
+                <AddressText
+                  color={dday <= 0 ? '#CE0505' : '#642A8C'}
+                  style={dday <= 0 && {textDecorationLine: 'underline'}}>
+                  검진일 : {data?.RESULT_DATE}
                 </AddressText>
               ) : (
-                <AddressText color={'#CE0505'}>보건증 미등록</AddressText>
+                <AddressText
+                  color={'#CE0505'}
+                  style={{textDecorationLine: 'underline'}}>
+                  보건증 미등록
+                </AddressText>
               )}
             </AddressBox>
           </ContainerBox>

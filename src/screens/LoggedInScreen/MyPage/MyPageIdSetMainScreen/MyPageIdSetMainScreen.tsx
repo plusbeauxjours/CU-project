@@ -29,8 +29,7 @@ const CardText = styled.Text`
   color: #212121;
 `;
 
-export default ({route: {params}}) => {
-  const {mobileNo, STORE} = params;
+export default () => {
   const navigation = useNavigation();
   const ArrowIcon = () => (
     <Arrow>
@@ -48,7 +47,7 @@ export default ({route: {params}}) => {
       </Card>
       <Card
         onPress={() => {
-          navigation.navigate('MyPagePasswordSetScreen', {mobileNo: mobileNo});
+          navigation.navigate('MyPagePasswordSetScreen');
         }}>
         <CardText>비밀번호 재설정</CardText>
         <ArrowIcon />

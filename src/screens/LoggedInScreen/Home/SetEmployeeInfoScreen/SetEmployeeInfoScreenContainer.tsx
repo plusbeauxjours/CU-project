@@ -324,9 +324,9 @@ export default ({route: {params}}) => {
           },
           body: JSON.stringify({
             FIRST: MODIFYCOUNT,
-            START_TYPE: START_TYPE,
-            STORE_SEQ: STORE_SEQ.toString(),
-            EMP_SEQ: EMP_SEQ.toString(),
+            START_TYPE,
+            STORE_SEQ,
+            EMP_SEQ,
             // ↓ STEP 1
             START: startDay.toString(),
             END: endDayCheck === true ? null : endDay.toString(),
@@ -385,25 +385,9 @@ export default ({route: {params}}) => {
           navigation.goBack();
           onRefresh();
         } else if (from === 'ElectronicContracts') {
-          const CALCULATE_DAY = params?.CALCULATE_DAY;
-          const image = params?.image;
-          const name = params?.name;
-          const EMP_SEQ = params?.EMP_SEQ;
-          const STORE_SEQ = params?.STORE_SEQ;
-          const STORE_NAME = params?.STORE_NAME;
-
           let payChecked = payCheck.indexOf(true);
 
           navigation.navigate('EmployeeScheduleMainScreen', {
-            CALCULATE_DAY,
-            image,
-            name,
-            EMP_SEQ,
-            STORE_SEQ,
-            STORE_NAME,
-            START: startDay,
-            END: endDayCheck === true ? null : endDay,
-            POSITION: positionChecked !== -1 ? String(positionChecked) : '0',
             PAY_TYPE: String(payChecked),
             PAY: payCheck[2] === true ? pay1 : pay,
           });

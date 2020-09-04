@@ -57,7 +57,7 @@ const Button = styled.View`
 `;
 
 const GreyText = styled.Text`
-  font-size: 18;
+  font-size: 18px;
   color: #212121;
   font-weight: bold;
 `;

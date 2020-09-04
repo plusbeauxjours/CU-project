@@ -1,11 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {RefreshControl} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import styled from 'styled-components/native';
+import {useNavigation} from '@react-navigation/native';
 
 import HealthCertificateEmpListCard from './HealthCertificateEmpListCard';
 import api from '../../../../constants/LoggedInApi';
 import {CheckMarkIcon} from '../../../../constants/Icons';
+import {setHEALTH_EMP_LIST} from '../../../../redux/healthSlice';
+import {setSplashVisible} from '../../../../redux/splashSlice';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -37,11 +40,14 @@ const GreyText = styled.Text`
 `;
 
 export default ({route: {params}}) => {
-  const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
-  const {STOREDATA, STORE, type} = params;
-  const {STORE_SEQ} = STOREDATA.resultdata;
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
-  const [dataList, setDataList] = useState<[]>([]);
+  const {STORE, MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
+  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
+  const {HEALTH_EMP_LIST} = useSelector((state: any) => state.healthReducer);
+  const {type = null} = params;
+
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const onRefresh = async () => {
@@ -57,12 +63,42 @@ export default ({route: {params}}) => {
 
   const fetchData = async () => {
     try {
+      if (!HEALTH_EMP_LIST || HEALTH_EMP_LIST.length === 0) {
+        dispatch(setSplashVisible(true));
+      }
       const {data} = await api.storeHealthEmpList(MEMBER_SEQ, STORE_SEQ, STORE);
-      setDataList(data.result);
+      if (data.message === 'SUCCESS') {
+        dispatch(setHEALTH_EMP_LIST(data.result));
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      dispatch(setSplashVisible(false));
     }
   };
+
+  const gotoHealthCertificateEmpDetail = (data) => {
+    console.log('----------------lplplp----------------', data);
+    navigation.navigate('HealthCertificateEmpDetailScreen', {data});
+  };
+
+  const gotoHealthCertificateEmpForm = (
+    NAME,
+    EMP_SEQ,
+    RESULT_COUNT,
+    TESTING_CERTIFICATE,
+  ) => {
+    navigation.navigate('HealthCertificateEmpFormScreen', {
+      NAME,
+      EMP_SEQ,
+      RESULT_COUNT,
+      TESTING_CERTIFICATE,
+      type,
+      FORM: '입력',
+      count: 1,
+    });
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -87,34 +123,15 @@ export default ({route: {params}}) => {
               </Row>
             </Box>
           )}
-          {dataList && dataList.length !== 0 ? (
-            dataList?.map((data: any, index) => {
-              return (
-                <HealthCertificateEmpListCard
-                  key={index}
-                  STOREDATA={STOREDATA}
-                  STORE_HEALTH_SEQ={data.STORE_HEALTH_SEQ}
-                  STORE_SEQ={STORE_SEQ}
-                  EMP_SEQ={data.EMP_SEQ}
-                  NAME={data.NAME}
-                  MANAGER={data.IS_MANAGER}
-                  EDUCATION_DATE={data.EDUCATION_DATE}
-                  EDUCATION_HOUR={data.EDUCATION_HOUR}
-                  EDUCATION_TYPE={data.EDUCATION_TYPE}
-                  TESTING_DATE={data.RESULT_DATE}
-                  TESTING_COUNT={data.RESULT_COUNT}
-                  TESTING_DAY={data.TESTING_DAY}
-                  PUSH_DAY={data.PUSH_DAY}
-                  TESTING_CERTIFICATE={data.IMG_LIST}
-                  REG_DT={data.REG_DT}
-                  REAL_NAME={data.REAL_NAME}
-                  SETTIME={data.SETTIME}
-                  IMG_LIST={data.IMG_LIST}
-                  type={type}
-                  onRefresh={onRefresh}
-                />
-              );
-            })
+          {HEALTH_EMP_LIST && HEALTH_EMP_LIST.length !== 0 ? (
+            HEALTH_EMP_LIST?.map((data: any, index) => (
+              <HealthCertificateEmpListCard
+                key={index}
+                data={data}
+                gotoHealthCertificateEmpDetail={gotoHealthCertificateEmpDetail}
+                gotoHealthCertificateEmpForm={gotoHealthCertificateEmpForm}
+              />
+            ))
           ) : (
             <Box>
               <GreyText>근무중인 직원이 없습니다</GreyText>
