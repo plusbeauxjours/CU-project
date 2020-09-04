@@ -86,8 +86,6 @@ export default () => {
         selectSTORE({
           STORE_SEQ: data.STORE_SEQ,
           STORE_NAME: data.NAME,
-          WORKING_COUNT: data.workinglist,
-          TOTAL_COUNT: data.emplist,
         }),
       );
       navigation.navigate('HomeScreen', {

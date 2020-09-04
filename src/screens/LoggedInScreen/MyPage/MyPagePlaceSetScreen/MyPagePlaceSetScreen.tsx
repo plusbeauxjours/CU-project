@@ -1,13 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
 import api from '../../../../constants/LoggedInApi';
 import MyPagePlaceSetCard from './MyPagePlaceSetCard';
+import {setCLOSED_STORE_DATA} from '../../../../redux/mypageSlice';
+import {setSplashVisible} from '../../../../redux/splashSlice';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -39,31 +41,45 @@ const BoxText = styled.Text`
 const ScrollView = styled.ScrollView``;
 
 export default () => {
+  const dispatch = useDispatch();
   const {MEMBER_SEQ, STORE} = useSelector((state: any) => state.userReducer);
-  const [store, setStore] = useState<[]>([]);
+  const {CLOSED_STORE_DATA} = useSelector((state: any) => state.mypageReducer);
 
-  const fetch = async () => {
+  const fetchData = async () => {
     if (STORE == 1) {
       try {
+        if (!CLOSED_STORE_DATA) {
+          dispatch(setSplashVisible(true));
+        }
         const {data} = await api.closeList(MEMBER_SEQ);
-        console.log(data);
-        setStore(data.result);
+        if (data.message === 'SUCCESS') {
+          dispatch(setCLOSED_STORE_DATA(data.result));
+        }
       } catch (error) {
         console.log(error);
+      } finally {
+        dispatch(setSplashVisible(false));
       }
     } else {
       try {
+        if (!CLOSED_STORE_DATA) {
+          dispatch(setSplashVisible(true));
+        }
         const {data} = await api.endList(MEMBER_SEQ);
-        console.log(data);
-        setStore(data.result);
+        if (data.message === 'SUCCESS') {
+          dispatch(setCLOSED_STORE_DATA(data.result));
+        }
       } catch (error) {
         console.log(error);
+      } finally {
+        dispatch(setSplashVisible(false));
       }
     }
   };
 
   useEffect(() => {
-    fetch();
+    fetchData();
+    console.log(CLOSED_STORE_DATA);
   }, []);
 
   return (
@@ -74,25 +90,22 @@ export default () => {
             {STORE == '1' ? '폐업 사업장 목록' : '종료 사업장 목록'}
           </BoxText>
         </Box>
-
         <ScrollView
           contentContainerStyle={{width: wp('100%'), alignItems: 'center'}}
           showsVerticalScrollIndicator={false}>
-          {store.length === 0 && (
+          {CLOSED_STORE_DATA?.length === 0 && (
             <BoxText style={{marginTop: 30}}>
               {STORE == '1' ? '폐업 사업장' : '종료 사업장'}이 없습니다
             </BoxText>
           )}
-          {store.map((data: any) => {
-            return (
-              <MyPagePlaceSetCard
-                key={data.STORE_SEQ}
-                name={data.NAME}
-                addr={data.ADDR1 + data.ADDR2}
-                data={data}
-              />
-            );
-          })}
+          {CLOSED_STORE_DATA?.map((data: any, index) => (
+            <MyPagePlaceSetCard
+              key={index}
+              name={data.NAME}
+              addr={data.ADDR1 + data.ADDR2}
+              data={data}
+            />
+          ))}
         </ScrollView>
       </Container>
     </BackGround>

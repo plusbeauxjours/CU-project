@@ -124,7 +124,7 @@ export default ({route: {params}}) => {
               source={{
                 uri: IMG_URL2,
                 headers: {Authorization: 'someAuthToken'},
-                priority: FastImage.priority.normal,
+                priority: FastImage.priority.low,
               }}
               resizeMode={FastImage.resizeMode.stretch}
             />

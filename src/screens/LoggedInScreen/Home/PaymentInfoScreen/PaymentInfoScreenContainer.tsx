@@ -12,7 +12,7 @@ export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {STORE} = useSelector((state: any) => state.userReducer);
-  const {STORE_SEQ, STOREPAY_SHOW} = useSelector(
+  const {STORE_SEQ, STORE_DATA: {STOREPAY_SHOW = null} = {}} = useSelector(
     (state: any) => state.storeReducer,
   );
 

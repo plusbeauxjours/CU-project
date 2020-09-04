@@ -7,7 +7,6 @@ import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import {getSTORELIST_DATA} from '../../../../redux/userSlice';
 import api from '../../../../constants/LoggedInApi';
-import {updateSTORE_DATA} from '../../../../redux/storeSlice';
 
 export default () => {
   const dispatch = useDispatch();
@@ -24,8 +23,8 @@ export default () => {
   const [EARLY_FLAG, setEARLY_FLAG] = useState<string>('0');
   const [EARLY_TIME, setEARLY_TIME] = useState<number>(0);
   const [CALCULATE_DAY, setCALCULATE_DAY] = useState<string>('1');
-  const [lat, setLat] = useState<number>(0);
-  const [long, setLong] = useState<number>(0);
+  const [LAT, setLAT] = useState<number>(0);
+  const [LONG, setLONG] = useState<number>(0);
   const [storeCategoryTypeEtc, setStoreCategoryTypeEtc] = useState<string>(
     null,
   ); // 사업장 분류 유형이 4(기타)인 경우 직접 입력 값
@@ -101,7 +100,7 @@ export default () => {
 
   // 등록하기버튼
   const submit = async () => {
-    const gps = commuteType.toString();
+    const GPS = commuteType.toString();
     if (CU_CODE.length !== 5) {
       dispatch(setSplashVisible(false));
       alertModal('', '점포코드를 올바르게 입력해주세요.');
@@ -128,40 +127,26 @@ export default () => {
           ADDR1,
           ADDR2,
           MEMBER_SEQ,
-          LAT: lat,
-          LONG: long,
+          LAT,
+          LONG,
           CALCULATE_DAY,
           LATE_TIME,
           LATE_FLAG,
           EARLY_TIME,
           EARLY_FLAG,
-          GPS: gps,
+          GPS,
           JULI: distance,
           TYPE,
           CATEGORY: storeCategoryType,
           other: storeCategoryTypeEtc,
-          CU_CODE: CU_CODE,
+          CU_CODE,
         });
-        dispatch(setSplashVisible(false));
         if (data.message == 'SUCCESS') {
           alertModal(
             '사업장 추가완료',
             '사업장을 클릭하신 후 직원을 초대하세요.',
           );
           dispatch(getSTORELIST_DATA());
-          dispatch(
-            updateSTORE_DATA({
-              NAME,
-              ADDR1,
-              ADDR2,
-              TYPE,
-              LATE_FLAG,
-              LATE_TIME,
-              EARLY_FLAG,
-              EARLY_TIME,
-              CALCULATE_DAY,
-            }),
-          );
           navigation.goBack();
         }
       } catch (error) {

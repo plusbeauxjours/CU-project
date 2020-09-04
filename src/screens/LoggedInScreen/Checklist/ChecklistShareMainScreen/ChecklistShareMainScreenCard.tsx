@@ -197,7 +197,7 @@ export default ({
               source={{
                 uri: 'http://cuapi.shop-sol.com/uploads/' + imgarr[0],
                 headers: {Authorization: 'someAuthToken'},
-                priority: FastImage.priority.normal,
+                priority: FastImage.priority.low,
               }}
               resizeMode={FastImage.resizeMode.cover}
             />

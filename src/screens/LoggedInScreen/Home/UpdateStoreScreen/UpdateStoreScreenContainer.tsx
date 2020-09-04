@@ -7,25 +7,15 @@ import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import {getSTORELIST_DATA} from '../../../../redux/userSlice';
 import api from '../../../../constants/LoggedInApi';
-import {closeSTORE_DATA, updateSTORE_DATA} from '../../../../redux/storeSlice';
+import {closeSTORE_DATA, updateSTORE} from '../../../../redux/storeSlice';
 
 export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {STORE} = useSelector((state: any) => state.userReducer);
-  const {
-    STORE_SEQ,
-    STORE_DATA,
-    STORE_NAME,
-    ADDR1,
-    ADDR2,
-    TYPE,
-    LATE_FLAG,
-    LATE_TIME,
-    EARLY_FLAG,
-    EARLY_TIME,
-    CALCULATE_DAY,
-  } = useSelector((state: any) => state.storeReducer);
+  const {STORE_SEQ, STORE_DATA} = useSelector(
+    (state: any) => state.storeReducer,
+  );
 
   const [CLOSE_FLAG, setCLOSE_FLAG] = useState<boolean>(
     STORE_DATA?.resultdata?.CLOSE_FLAG == '0' ? false : true || false,
@@ -33,22 +23,28 @@ export default () => {
   const [CU_CODE, setCU_CODE] = useState<string>(
     STORE_DATA?.resultdata?.CU_CODE || '',
   );
-  const [NAME, setNAME] = useState<string>(STORE_NAME || '');
-  const [ADDR1state, setADDR1state] = useState<string>(ADDR1 || '');
-  const [ADDR2state, setADDR2state] = useState<string>(ADDR2 || '');
-  const [TYPEstate, setTYPE] = useState<number>(TYPE || 0);
-  const [LATE_FLAGstate, setLATE_FLAGstate] = useState<string>(
-    LATE_FLAG || '0',
+  const [NAME, setNAME] = useState<string>(STORE_DATA?.resultdata?.NAME || '');
+  const [ADDR1, setADDR1] = useState<string>(
+    STORE_DATA?.resultdata?.ADDR1 || '',
   );
-  const [LATE_TIMEstate, setLATE_TIMEstate] = useState<number>(LATE_TIME || 0);
-  const [EARLY_FLAGstate, setEARLY_FLAGstate] = useState<string>(
-    EARLY_FLAG || '0',
+  const [ADDR2, setADDR2] = useState<string>(
+    STORE_DATA?.resultdata?.ADDR2 || '',
   );
-  const [EARLY_TIMEstate, setEARLY_TIMEstate] = useState<number>(
-    EARLY_TIME || 0,
+  const [TYPE, setTYPE] = useState<number>(STORE_DATA?.resultdata?.TYPE || 0);
+  const [LATE_FLAG, setLATE_FLAG] = useState<string>(
+    STORE_DATA?.resultdata?.LATE_FLAG || '0',
   );
-  const [CALCULATE_DAYstate, setCALCULATE_DAYstate] = useState<string>(
-    CALCULATE_DAY || '1',
+  const [LATE_TIME, setLATE_TIME] = useState<number>(
+    STORE_DATA?.resultdata?.LATE_TIME || 0,
+  );
+  const [EARLY_FLAG, setEARLY_FLAG] = useState<string>(
+    STORE_DATA?.resultdata?.EARLY_FLAG || '0',
+  );
+  const [EARLY_TIME, setEARLY_TIME] = useState<number>(
+    STORE_DATA?.resultdata?.EARLY_TIME || 0,
+  );
+  const [CALCULATE_DAY, setCALCULATE_DAY] = useState<string>(
+    STORE_DATA?.resultdata?.CALCULATE_DAY || '1',
   );
   const [lat, setLat] = useState<number>(STORE_DATA?.resultdata?.LAT || 0);
   const [long, setLong] = useState<number>(STORE_DATA?.resultdata?.LONG || 0);
@@ -56,7 +52,9 @@ export default () => {
     STORE_DATA?.resultdata?.other || null,
   ); // 사업장 분류 유형이 4(기타)인 경우 직접 입력 값
   const [sizeTypeCheck, setSizeTypeCheck] = useState<[boolean, boolean]>(
-    TYPE == 0 ? [true, false] : [false, true] || [true, false],
+    STORE_DATA?.resultdata?.TYPE == 0
+      ? [true, false]
+      : [false, true] || [true, false],
   ); //1: 5인 이상, 0: 5인 미만
   const [commuteType, setCommuteType] = useState<number>(
     STORE_DATA?.resultdata?.GPS === '1' ? 1 : 0,
@@ -124,7 +122,7 @@ export default () => {
     }
     setModalVisible3(false);
     setDayCheck(true);
-    setCALCULATE_DAYstate(calculateDay);
+    setCALCULATE_DAY(calculateDay);
   };
 
   const gotoSearchAddress = () => {
@@ -134,16 +132,16 @@ export default () => {
   // 지각모달 분 선택
   const onPressLate = (LATE_TIME, LATE_FLAG) => {
     setModalVisible2(false);
-    setLATE_TIMEstate(LATE_TIME);
-    setLATE_FLAGstate(LATE_FLAG);
+    setLATE_TIME(LATE_TIME);
+    setLATE_FLAG(LATE_FLAG);
     setTimeCheck(true);
   };
 
   // 조퇴모달 분 선택
   const onPressEarly = (EARLY_TIME, EARLY_FLAG) => {
     setModalVisible1(false);
-    setEARLY_TIMEstate(EARLY_TIME);
-    setEARLY_FLAGstate(EARLY_FLAG);
+    setEARLY_TIME(EARLY_TIME);
+    setEARLY_FLAG(EARLY_FLAG);
     setTimeCheck(true);
   };
 
@@ -161,18 +159,18 @@ export default () => {
         CLOSE_FLAG: CLOSE_FLAGProps,
         STORE_SEQ,
         NAME,
-        ADDR1: ADDR1state,
-        ADDR2: ADDR2state,
+        ADDR1,
+        ADDR2,
         LAT: lat,
         LONG: long,
-        CALCULATE_DAY: CALCULATE_DAYstate,
-        LATE_TIME: LATE_TIMEstate,
-        LATE_FLAG: LATE_FLAGstate,
-        EARLY_TIME: EARLY_TIMEstate,
-        EARLY_FLAG: EARLY_FLAGstate,
+        CALCULATE_DAY,
+        LATE_TIME,
+        LATE_FLAG,
+        EARLY_TIME,
+        EARLY_FLAG,
         GPS: gps,
         JULI: distance,
-        TYPE: TYPEstate,
+        TYPE: TYPE,
         CATEGORY: storeCategoryType,
         other: storeCategoryTypeEtc,
       });
@@ -187,16 +185,16 @@ export default () => {
         } else {
           alertModal('', '수정이 완료됐습니다.');
           dispatch(
-            updateSTORE_DATA({
+            updateSTORE({
               NAME,
-              ADDR1: ADDR1state,
-              ADDR2: ADDR2state,
-              TYPE: TYPEstate,
-              LATE_FLAG: LATE_FLAGstate,
-              LATE_TIME: LATE_TIMEstate,
-              EARLY_FLAG: EARLY_FLAGstate,
-              EARLY_TIME: EARLY_TIMEstate,
-              CALCULATE_DAY: CALCULATE_DAYstate,
+              ADDR1,
+              ADDR2,
+              TYPE,
+              LATE_FLAG,
+              LATE_TIME,
+              EARLY_FLAG,
+              EARLY_TIME,
+              CALCULATE_DAY,
             }),
           );
           navigation.goBack();
@@ -228,17 +226,17 @@ export default () => {
       CU_CODE={CU_CODE}
       setNAME={setNAME}
       NAME={NAME}
-      LATE_TIME={LATE_TIMEstate}
-      EARLY_TIME={EARLY_TIMEstate}
+      LATE_TIME={LATE_TIME}
+      EARLY_TIME={EARLY_TIME}
       timeCheck={timeCheck}
       dayCheck={dayCheck}
-      CALCULATE_DAY={CALCULATE_DAYstate}
+      CALCULATE_DAY={CALCULATE_DAY}
       days={days}
       setDays={setDays}
-      setADDR1={setADDR1state}
-      setADDR2={setADDR2state}
-      ADDR1={ADDR1state}
-      ADDR2={ADDR2state}
+      setADDR1={setADDR1}
+      setADDR2={setADDR2}
+      ADDR1={ADDR1}
+      ADDR2={ADDR2}
       sizeTypeCheck={sizeTypeCheck}
       setSizeTypeCheck={setSizeTypeCheck}
       setTYPE={setTYPE}

@@ -4,7 +4,6 @@ import styled from 'styled-components/native';
 import Modal from 'react-native-modal';
 import {Calendar} from 'react-native-calendars';
 import {RefreshControl} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {
   widthPercentageToDP as wp,
@@ -82,7 +81,7 @@ const CalendarOpenBtn = styled(DateArrowLeft)`
 `;
 
 const DateToday = styled(DateArrowLeft)`
-  margin-right: 5px;
+  margin-left: 5px;
 `;
 
 const Section = styled.View`
@@ -288,9 +287,6 @@ export default ({
             }}>
             <BackIcon size={22} color={'#000'} />
           </DateArrowLeft>
-          <DateTextArea>
-            <DateText>{date}</DateText>
-          </DateTextArea>
           <DateToday
             onPress={() => {
               setDate(moment().format('YYYY-MM-DD'));
@@ -298,6 +294,9 @@ export default ({
             }}>
             <ReloadCircleIcon size={22} />
           </DateToday>
+          <DateTextArea>
+            <DateText>{date}</DateText>
+          </DateTextArea>
           <CalendarOpenBtn
             onPress={() => {
               markingFn(moment().format('YYYY'), moment().format('M'));

@@ -18,12 +18,10 @@ const userSlice = createSlice({
   reducers: {
     setMEMBER_SEQ(state, action) {
       const {payload: MEMBER_SEQ} = action;
-      console.log('setMember', MEMBER_SEQ);
       return {...state, MEMBER_SEQ};
     },
     setMEMBER_NAME(state, action) {
       const {payload: MEMBER_NAME} = action;
-      console.log('setUserName', MEMBER_NAME);
       return {
         ...state,
         MEMBER_NAME,
@@ -31,7 +29,6 @@ const userSlice = createSlice({
     },
     setMOBILE_NO(state, action) {
       const {payload: MOBILE_NO} = action;
-      console.log('setMobileNo', MOBILE_NO);
       return {
         ...state,
         MOBILE_NO,
@@ -39,7 +36,6 @@ const userSlice = createSlice({
     },
     setVERSION(state, action) {
       const {payload: version} = action;
-      console.log('setVersion', version);
       return {
         ...state,
         version,
@@ -47,7 +43,6 @@ const userSlice = createSlice({
     },
     sertSERVICE_CODE(state, action) {
       const {payload: serviceCode} = action;
-      console.log('serviceCode', serviceCode);
       return {
         ...state,
         serviceCode,
@@ -55,7 +50,6 @@ const userSlice = createSlice({
     },
     setSTORELIST_DATA(state, action) {
       const {payload: STORELIST_DATA} = action;
-      console.log('setHomeCard', STORELIST_DATA);
       return {
         ...state,
         STORELIST_DATA,
@@ -63,7 +57,6 @@ const userSlice = createSlice({
     },
     setUSER(state, action) {
       const {payload: userInfo} = action;
-      console.log('setUser', userInfo);
       return {
         ...state,
         MEMBER_SEQ: userInfo.MEMBER_SEQ,
@@ -107,7 +100,6 @@ export const userLogin = () => async (dispatch) => {
 };
 
 export const userLogout = () => async (dispatch) => {
-  console.log('userLogout');
   dispatch(setLOGOUT());
 };
 

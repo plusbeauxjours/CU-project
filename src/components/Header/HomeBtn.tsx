@@ -17,9 +17,14 @@ const Text = styled.Text`
 
 export default () => {
   const {STORE} = useSelector((state: any) => state.userReducer);
-  const {STORE_SEQ, STORE_NAME, WORKING_COUNT, TOTAL_COUNT} = useSelector(
-    (state: any) => state.storeReducer,
-  );
+  const {
+    STORE_SEQ,
+    STORE_NAME,
+    STORE_DATA: {
+      workinglist: WORKING_COUNT = null,
+      emplist: TOTAL_COUNT = null,
+    },
+  } = useSelector((state: any) => state.storeReducer);
 
   const navigation = useNavigation();
   return (

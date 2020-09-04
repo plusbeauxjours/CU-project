@@ -28,23 +28,27 @@ const Title = styled.View`
   align-items: center;
   margin-bottom: 15px;
 `;
+
 const TitleText = styled.Text`
   font-size: 20px;
   color: #404040;
   font-weight: bold;
 `;
+
 const Check = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: center;
   align-items: center;
   padding-left: 10px;
 `;
+
 const CheckText = styled.Text`
   font-size: 15px;
   color: #404040;
   margin-left: 10px;
   padding-top: 5px;
 `;
+
 const SubmitBtn = styled.TouchableOpacity<IIsConfirm>`
   height: ${hp('5%')}px;
   background-color: ${(props) => (props.isConfirmed ? '#FF3D3D' : '#FFC7C7')};
@@ -52,6 +56,7 @@ const SubmitBtn = styled.TouchableOpacity<IIsConfirm>`
   align-items: center;
   border-radius: 20px;
 `;
+
 const SubmitBtnText = styled.Text`
   font-size: 15px;
   color: white;
