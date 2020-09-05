@@ -6,7 +6,10 @@ import api from '../../../../constants/LoggedInApi';
 import ShelfLifeCheckScreenPresenter from './ShelfLifeCheckScreenPresenter';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {getSHELFLIFE_DATA} from '../../../../redux/shelflifeSlice';
+import {
+  getSHELFLIFE_DATA,
+  udpateSHELFLIFE,
+} from '../../../../redux/shelflifeSlice';
 
 export default () => {
   const YEAR = moment().format('YYYY');
@@ -21,7 +24,7 @@ export default () => {
     (state: any) => state.shelflifeReducer,
   );
 
-  const confirmModal = (shelfLifeClear) => {
+  const confirmModal = (shelfLife_SEQ, shelfLifeDate) => {
     const params = {
       alertType: 'confirm',
       title: '',
@@ -29,7 +32,7 @@ export default () => {
       cancelButtonText: '취소',
       okButtonText: '확인',
       okCallback: () => {
-        updateShelfLife(shelfLifeClear);
+        updateShelfLife(shelfLife_SEQ, shelfLifeDate);
       },
     };
     dispatch(setAlertInfo(params));
@@ -54,7 +57,7 @@ export default () => {
     dispatch(getSHELFLIFE_DATA(YEAR, MONTH, DAY));
   };
 
-  const updateShelfLife = async (shelfLife_SEQ) => {
+  const updateShelfLife = async (shelfLife_SEQ, shelfLifeDate) => {
     try {
       dispatch(setSplashVisible(true));
       const {data} = await api.checkShelfLifeData({
@@ -64,6 +67,19 @@ export default () => {
       });
       if (data.resultmsg === '1') {
         alertModal('', '상품의 폐기 또는 처리 완료 하였습니다.');
+        dispatch(
+          udpateSHELFLIFE({
+            shelfLife_SEQ,
+            shelfLifeDate,
+          }),
+        );
+        // dispatch(
+        //   getSHELFLIFE_DATA(
+        //     moment(shelfLifeDate).format('YYYY'),
+        //     moment(shelfLifeDate).format('MM'),
+        //     moment(shelfLifeDate).format('DD'),
+        //   ),
+        // );
       }
     } catch (error) {
       console.log(error);

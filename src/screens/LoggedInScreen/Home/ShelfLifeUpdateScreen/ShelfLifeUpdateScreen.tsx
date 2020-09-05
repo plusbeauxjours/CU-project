@@ -24,11 +24,13 @@ const BackGround = styled.SafeAreaView`
 `;
 const ScrollView = styled.ScrollView``;
 const TextInput = styled.TextInput<ITextInput>`
-  padding: 3px 10px;
-  border-color: ${(props) => (props.isBefore ? '#ddd' : '#642A8C')};
+  border-color: ${(props) => (props.isBefore ? '#ddd' : '#642a8c')};
+  justify-content: center;
   align-items: center;
+  padding: 10px;
   border-width: 1px;
   width: ${wp('50%')}px;
+  min-height: 40px;
 `;
 const Container = styled.View`
   margin-top: 20px;
@@ -67,13 +69,16 @@ const Line = styled.View`
   height: 2px;
   background-color: #ddd;
 `;
+
 const Row = styled.View`
   flex-direction: row;
+  align-items: center;
 `;
+
 const InputItem = styled.View`
-  padding: 10px 0;
+  padding: 10px 20px;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
 `;
 
@@ -81,11 +86,13 @@ const InputItemText = styled.Text``;
 
 const Touchable = styled.TouchableOpacity``;
 
-const DateBox = styled.View`
+const DateBox = styled.View<ITextInput>`
   padding: 3px 10px;
   border-color: ${(props) => (props.isBefore ? '#ddd' : '#642A8C')};
   border-width: 1px;
   width: ${wp('50%')}px;
+  justify-content: center;
+  min-height: 40px;
 `;
 
 const DateText = styled.Text``;

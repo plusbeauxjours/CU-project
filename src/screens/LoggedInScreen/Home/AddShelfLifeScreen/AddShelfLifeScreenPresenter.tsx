@@ -65,7 +65,7 @@ const GreyText = styled.Text`
   color: #aaa;
 `;
 
-const TextInputContainer = styled.View`
+const InputItem = styled.View`
   padding: 10px 20px;
   flex-direction: row;
   align-items: center;
@@ -80,21 +80,19 @@ const TextInput = styled.TextInput<ITextInput>`
   border-color: ${(props) => (props.isBefore ? '#ddd' : '#642a8c')};
   justify-content: center;
   align-items: center;
-  text-align: center;
   padding: 10px;
   border-width: 1px;
   width: ${wp('50%')}px;
   min-height: 40px;
 `;
 
-const DateTouchable = styled.TouchableOpacity<ITextInput>`
+const DateBox = styled.TouchableOpacity<ITextInput>`
+  padding: 3px 10px;
+  border-color: ${(props) => (props.isBefore ? '#ddd' : '#642A8C')};
   border-width: 1px;
-  border-color: ${(props) => (props.isBefore ? '#ddd' : '#642a8c')};
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   width: ${wp('50%')}px;
-  height: 30px;
+  justify-content: center;
+  min-height: 40px;
 `;
 
 const DateText = styled.Text`
@@ -137,12 +135,11 @@ export default ({
               </Row>
             </TextContainer>
             <TextInputBox>
-              <TextInputContainer>
+              <InputItem>
                 <Row>
                   <Text>상품명 </Text>
                   <Text style={{color: '#B91C1B'}}>*</Text>
                 </Row>
-
                 <TextInput
                   isBefore={shelfLifeName == ''}
                   placeholder="상품명 입력"
@@ -152,17 +149,17 @@ export default ({
                   value={shelfLifeName}
                   maxLength={15}
                 />
-              </TextInputContainer>
-              <TextInputContainer>
+              </InputItem>
+              <InputItem>
                 <Row>
                   <Text>기한 </Text>
                   <Text style={{color: '#B91C1B'}}>*</Text>
                 </Row>
-                <DateTouchable
-                  isBefore={shelfLifeDate == ''}
-                  onPress={() => setIsDateModalVisible(true)}>
-                  <DateText>{shelfLifeDate}</DateText>
-                </DateTouchable>
+                <Touchable onPress={() => setIsDateModalVisible(true)}>
+                  <DateBox isBefore={shelfLifeDate == ''}>
+                    <DateText>{shelfLifeDate}</DateText>
+                  </DateBox>
+                </Touchable>
                 <DatePickerModal
                   headerTextIOS={'날짜를 선택하세요.'}
                   cancelTextIOS={'취소'}
@@ -177,8 +174,8 @@ export default ({
                   onCancel={() => setIsDateModalVisible(false)}
                   display="default"
                 />
-              </TextInputContainer>
-              <TextInputContainer>
+              </InputItem>
+              <InputItem>
                 <Row>
                   <Text>메모</Text>
                 </Row>
@@ -191,7 +188,7 @@ export default ({
                   value={shelfLifeMemo}
                   multiline={true}
                 />
-              </TextInputContainer>
+              </InputItem>
             </TextInputBox>
             <RoundBtn
               text={'목록에 추가하기'}

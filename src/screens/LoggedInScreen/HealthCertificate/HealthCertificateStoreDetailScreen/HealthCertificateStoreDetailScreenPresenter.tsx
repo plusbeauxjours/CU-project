@@ -220,7 +220,6 @@ export default ({
   const images = [
     {url: 'http://cuapi.shop-sol.com/uploads/ocr/' + TESTING_CERTIFICATE},
   ];
-  console.log(images);
 
   const renderFooter = (index: number) => (
     <Footer>
@@ -275,7 +274,6 @@ export default ({
             <Date>
               <DateArrowLeft
                 onPress={() => {
-                  console.log(HEALTH_STORE_DETAIL);
                   if (selectindex == HEALTH_STORE_DETAIL?.length - 1) {
                     alertModal('', '최초데이터 입니다.');
                   } else {

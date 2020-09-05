@@ -85,7 +85,13 @@ export default () => {
       const {data} = await api.setShelfLifeData({STORE_SEQ, LIST: list});
       if (data.result == '1') {
         alertModal('', '등록이 완료되었습니다.');
-        dispatch(getSHELFLIFE_DATA());
+        dispatch(
+          getSHELFLIFE_DATA(
+            moment(shelfLifeDate).format('YYYY'),
+            moment(shelfLifeDate).format('MM'),
+            moment(shelfLifeDate).format('DD'),
+          ),
+        );
         navigation.goBack();
       }
     } catch (error) {

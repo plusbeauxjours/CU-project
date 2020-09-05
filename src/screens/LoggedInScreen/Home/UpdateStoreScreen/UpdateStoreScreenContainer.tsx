@@ -9,7 +9,7 @@ import {getSTORELIST_DATA} from '../../../../redux/userSlice';
 import api from '../../../../constants/LoggedInApi';
 import {closeSTORE_DATA, updateSTORE} from '../../../../redux/storeSlice';
 
-export default () => {
+export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {STORE} = useSelector((state: any) => state.userReducer);
@@ -221,7 +221,7 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    setADDR1(params?.addr ?? '');
+    setADDR1(params?.addr ?? STORE_DATA?.resultdata?.ADDR1);
   }, [params]);
 
   return (

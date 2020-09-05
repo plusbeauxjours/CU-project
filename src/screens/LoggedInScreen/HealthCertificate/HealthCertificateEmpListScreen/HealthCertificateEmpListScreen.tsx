@@ -78,7 +78,6 @@ export default ({route: {params}}) => {
   };
 
   const gotoHealthCertificateEmpDetail = (data) => {
-    console.log('----------------lplplp----------------', data);
     navigation.navigate('HealthCertificateEmpDetailScreen', {data});
   };
 

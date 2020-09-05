@@ -160,7 +160,6 @@ export const getCHECKLIST_SHARE_DATA3 = () => async (dispatch, getState) => {
   }
   try {
     const {data} = await api.getCuNotice(STORE_SEQ, MEMBER_SEQ);
-    console.log(data);
     for (let a = 0; a < data.message.length; a++) {
       if (data.message[a].cu_notice_check_SEQ == null) {
         dispatch(increaseNEW_CNT3());

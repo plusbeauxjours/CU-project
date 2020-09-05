@@ -144,7 +144,6 @@ export default ({route: {params}}) => {
       checklisted[checklisted.length - 1] = checklisted[
         checklisted.length - 1
       ].replace('@', '');
-      console.log(checklisted);
     }
 
     setChecklistGoodState(checklistGoodStated);
@@ -286,8 +285,6 @@ export default ({route: {params}}) => {
   };
 
   useEffect(() => {
-    console.log('checklist', checklist);
-    console.log('check', check);
     initialize();
     //     this.defaultPictureUploadPath = FileSystem.documentDirectory + 'picture/';
     //     await FileSystem.makeDirectoryAsync(this.defaultPictureUploadPath, {

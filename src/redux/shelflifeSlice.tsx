@@ -24,7 +24,20 @@ const shelflifetSlice = createSlice({
         SHELFLIFE_MARKED,
       };
     },
-
+    udpateSHELFLIFE(state, action) {
+      const {
+        payload: {shelfLife_SEQ, shelfLifeDate},
+      } = action;
+      console.log(shelfLife_SEQ, shelfLifeDate);
+      console.log(state.SHELFLIFE_DATA[shelfLifeDate]);
+      const item = state.SHELFLIFE_DATA[shelfLifeDate].find(
+        (i) => i.shelfLife_SEQ === shelfLife_SEQ,
+      );
+      console.log(item);
+      if (item) {
+        item.checkType = '1';
+      }
+    },
     updateSHELFLIFE_DATA(state, action) {
       const {
         payload: {
@@ -50,6 +63,7 @@ const shelflifetSlice = createSlice({
 export const {
   setSHELFLIFE_DATA,
   setSHELFLIFE_MARKED,
+  udpateSHELFLIFE,
   updateSHELFLIFE_DATA,
 } = shelflifetSlice.actions;
 

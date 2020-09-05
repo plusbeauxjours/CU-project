@@ -138,7 +138,7 @@ export default ({
           <Touchable
             onPress={() => {
               if (checkType == '0') {
-                confirmModal(shelfLife_SEQ);
+                confirmModal(shelfLife_SEQ, shelfLifeDate);
               } else {
                 alertModal('처리완료된 상품입니다');
               }
@@ -178,6 +178,7 @@ export default ({
       </Item>
     );
   };
+
   return (
     <Agenda
       items={SHELFLIFE_DATA}

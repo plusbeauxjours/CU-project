@@ -79,7 +79,6 @@ export default () => {
 
   useEffect(() => {
     fetchData();
-    console.log(CLOSED_STORE_DATA);
   }, []);
 
   return (
