@@ -166,9 +166,17 @@ export default ({route: {params}}) => {
           updateSHELFLIFE_DATA({
             shelfLife_SEQ,
             shelfLifeName,
+            prevShelfLifeDate: params?.shelfLifeDate,
             shelfLifeDate,
             shelfLifeMemo,
           }),
+        );
+        dispatch(
+          getSHELFLIFE_DATA(
+            moment(shelfLifeDate).format('YYYY'),
+            moment(shelfLifeDate).format('MM'),
+            moment(shelfLifeDate).format('DD'),
+          ),
         );
       }
     } catch (error) {
@@ -219,7 +227,7 @@ export default ({route: {params}}) => {
                 <DeleteBtnText>*</DeleteBtnText>
               </Row>
               <Touchable onPress={() => setShelfLifeDateModal(true)}>
-                <DateBox>
+                <DateBox isBefore={shelfLifeDate == ''}>
                   <DateText>{shelfLifeDate}</DateText>
                 </DateBox>
               </Touchable>

@@ -167,7 +167,6 @@ export default ({route: {params}}) => {
 
     try {
       dispatch(setSplashVisible(true));
-      console.log(EMP_ID, STORE_SEQ, NAME, date, restType);
       const {data: Data} = await api.createScheduleVacation2({
         EMP_SEQ: EMP_ID,
         STORE_ID: STORE_SEQ,
@@ -177,7 +176,6 @@ export default ({route: {params}}) => {
         START: data.START ? data.START : '',
         END: data.END ? data.END : '',
       });
-      console.log('Data', Data);
       if (Data.message === 'SUCCESS') {
         navigation.goBack();
         alertModal('휴무설정이 완료되었습니다.');

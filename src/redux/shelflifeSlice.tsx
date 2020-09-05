@@ -27,9 +27,15 @@ const shelflifetSlice = createSlice({
 
     updateSHELFLIFE_DATA(state, action) {
       const {
-        payload: {shelfLife_SEQ, shelfLifeName, shelfLifeDate, shelfLifeMemo},
+        payload: {
+          shelfLife_SEQ,
+          shelfLifeName,
+          prevShelfLifeDate,
+          shelfLifeDate,
+          shelfLifeMemo,
+        },
       } = action;
-      const item = state.SHELFLIFE_DATA[shelfLifeDate].find(
+      const item = state.SHELFLIFE_DATA[prevShelfLifeDate].find(
         (i) => i.shelfLife_SEQ === shelfLife_SEQ,
       );
       if (item) {
@@ -55,7 +61,6 @@ export const getSHELFLIFE_DATA = (
   const {
     storeReducer: {STORE_SEQ},
   } = getState();
-  console.log('PING');
   try {
     const {data: SHELFLIFE_DATA} = await api.getShelfLifeData({
       STORE_SEQ,
@@ -63,7 +68,6 @@ export const getSHELFLIFE_DATA = (
       MONTH,
       DAY,
     });
-    console.log(SHELFLIFE_DATA);
     dispatch(setSHELFLIFE_DATA(SHELFLIFE_DATA.resultdata));
   } catch (e) {
     console.log(e);
@@ -72,7 +76,6 @@ export const getSHELFLIFE_DATA = (
     const {data: SHELFLIFE_MARKED} = await api.getAllShelfLifeData({
       STORE_SEQ,
     });
-    console.log(SHELFLIFE_MARKED);
     dispatch(setSHELFLIFE_MARKED(SHELFLIFE_MARKED.result));
   } catch (e) {
     console.log(e);

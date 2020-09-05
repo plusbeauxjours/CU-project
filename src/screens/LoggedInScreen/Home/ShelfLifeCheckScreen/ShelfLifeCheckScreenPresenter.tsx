@@ -105,7 +105,7 @@ export default ({
   const navigation = useNavigation();
 
   const renderEmptyDate = () => <RenderEmpty />;
-  const rowHasChanged = (r1, r2) => false;
+  const rowHasChanged = (r1, r2) => r1 !== r2;
   const renderKnob = () => (
     <KnobIconContainer>
       <DownIcon />
@@ -122,7 +122,6 @@ export default ({
       shelfLifeMemo,
       checkType,
     } = item;
-    console.log('---------------', item, '---------------');
     return (
       <Item
         isChecked={checkType !== '0'}

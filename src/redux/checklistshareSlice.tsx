@@ -127,7 +127,6 @@ export const getCHECKLIST_SHARE_DATA2 = (date) => async (
   }
   try {
     const {data} = await api.getNotice30(STORE_SEQ, MEMBER_SEQ, date);
-    console.log(date, data);
     for (let a = 0; a < data.basic.length; a++) {
       if (data.basic[a].NoticeCheck_SEQ == null) {
         dispatch(increaseNEW_CNT2());

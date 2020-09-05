@@ -55,7 +55,7 @@ export default ({route: {params}}) => {
       setMemoUpdate('');
       setClickCommentUpdate(false);
     } catch (error) {
-      console.log('error', error);
+      console.log(error);
     } finally {
       dispatch(setSplashVisible(false));
     }
@@ -66,7 +66,7 @@ export default ({route: {params}}) => {
       dispatch(setSplashVisible(true));
       const {data} = await api.delNoticeComment(COM_SEQ);
     } catch (error) {
-      console.log('error', error);
+      console.log(error);
     } finally {
       dispatch(setSplashVisible(false));
     }
@@ -88,7 +88,7 @@ export default ({route: {params}}) => {
       setMemoUpdate('');
       setClickCommentUpdate(false);
     } catch (error) {
-      console.log('error', error);
+      console.log(error);
     } finally {
       dispatch(setSplashVisible(false));
     }
@@ -111,7 +111,7 @@ export default ({route: {params}}) => {
       );
       setComment(data.message);
     } catch (error) {
-      console.log('error', error);
+      console.log(error);
     } finally {
       dispatch(setSplashVisible(false));
     }

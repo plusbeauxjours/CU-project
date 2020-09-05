@@ -48,7 +48,6 @@ export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {data: SCH_ID, STORE_SEQ, date, addWork} = params;
-  console.log('SCH_ID', SCH_ID);
   const alertModal = (text) => {
     const params = {
       alertType: 'alert',

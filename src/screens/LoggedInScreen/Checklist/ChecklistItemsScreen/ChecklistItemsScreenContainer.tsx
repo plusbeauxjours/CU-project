@@ -105,7 +105,7 @@ export default ({route: {params}}) => {
       const {data} = await api.getChecklist2(STORE_SEQ, date);
       setChecklist(data.result);
     } catch (error) {
-      console.log('error', error);
+      console.log(error);
     } finally {
       dispatch(setSplashVisible(false));
     }
@@ -122,7 +122,7 @@ export default ({route: {params}}) => {
       setSelectChecklist(data.result);
       setScanstore(data);
     } catch (error) {
-      console.log('error', error);
+      console.log(error);
     } finally {
       dispatch(setSplashVisible(false));
     }
@@ -187,7 +187,7 @@ export default ({route: {params}}) => {
       setStaticmarkedDates(staticmarkedDates);
       setMarkedDates(staticmarkedDates);
     } catch (error) {
-      console.log('error', error);
+      console.log(error);
     } finally {
       dispatch(setSplashVisible(false));
     }
