@@ -117,10 +117,8 @@ const BorderBox = styled.View`
 
 export default ({
   key,
-  COM_SEQ,
   MEMBER_SEQ,
   ME,
-  STORE,
   NOTICE_SEQ,
   NOTI_TITLE,
   CONTENTS,
@@ -142,7 +140,6 @@ export default ({
     imgarr.push(allimg[0]);
   }
   return (
-    // 파라미터 확인 필요 =============================================
     <Touchable
       key={key}
       onPress={() => {
@@ -155,7 +152,6 @@ export default ({
           CREATE_TIME,
           CONTENTS,
           ME,
-          COM_SEQ,
           MEMBER_SEQ,
         });
       }}>
@@ -170,7 +166,7 @@ export default ({
             <NotiTitleText numberOfLines={1}>{NOTI_TITLE}</NotiTitleText>
             {type !== 'CU소식' && (
               <PinTouchable
-                isFavorite={favorite == '1' ? 'yellow' : '#aaa'}
+                isFavorite={favorite === '1'}
                 onPress={() => confirmModal(NOTICE_SEQ)}>
                 <PinIcon
                   size={18}

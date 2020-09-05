@@ -346,10 +346,8 @@ export default ({
               {CHECKLIST_SHARE_DATA1?.favorite?.map((data, index) => (
                 <ChecklistShareMainScreenCard
                   key={index}
-                  COM_SEQ={data.COM_SEQ}
                   MEMBER_SEQ={data.MEMBER_SEQ}
                   ME={MEMBER_SEQ}
-                  STORE={STORE}
                   NOTICE_SEQ={data.NOTICE_SEQ}
                   NOTI_TITLE={data.TITLE}
                   CONTENTS={data.CONTENTS}
@@ -365,10 +363,8 @@ export default ({
               {CHECKLIST_SHARE_DATA1?.basic?.map((data, index) => (
                 <ChecklistShareMainScreenCard
                   key={index}
-                  COM_SEQ={data.COM_SEQ}
                   MEMBER_SEQ={data.MEMBER_SEQ}
                   ME={MEMBER_SEQ}
-                  STORE={STORE}
                   NOTICE_SEQ={data.NOTICE_SEQ}
                   NOTI_TITLE={data.TITLE}
                   CONTENTS={data.CONTENTS}
@@ -420,10 +416,8 @@ export default ({
               {CHECKLIST_SHARE_DATA2?.favorite?.map((data, index) => (
                 <ChecklistShareMainScreenCard
                   key={index}
-                  COM_SEQ={data.COM_SEQ}
                   MEMBER_SEQ={data.MEMBER_SEQ}
                   ME={MEMBER_SEQ}
-                  STORE={STORE}
                   NOTICE_SEQ={data.NOTICE_SEQ}
                   NOTI_TITLE={data.TITLE}
                   CONTENTS={data.CONTENTS}
@@ -439,10 +433,8 @@ export default ({
               {CHECKLIST_SHARE_DATA2?.basic?.map((data, index) => (
                 <ChecklistShareMainScreenCard
                   key={index}
-                  COM_SEQ={data.COM_SEQ}
                   MEMBER_SEQ={data.MEMBER_SEQ}
                   ME={MEMBER_SEQ}
-                  STORE={STORE}
                   NOTICE_SEQ={data.NOTICE_SEQ}
                   NOTI_TITLE={data.TITLE}
                   CONTENTS={data.CONTENTS}
@@ -496,10 +488,8 @@ export default ({
               {CHECKLIST_SHARE_DATA3?.message?.map((data, index) => (
                 <ChecklistShareMainScreenCard
                   key={index}
-                  COM_SEQ={data.COM_SEQ}
                   MEMBER_SEQ={data.MEMBER_SEQ}
                   ME={MEMBER_SEQ}
-                  STORE={STORE}
                   NOTICE_SEQ={data.CU_NOTICE_SEQ}
                   NOTI_TITLE={data.TITLE}
                   CONTENTS={data.CONTENTS}

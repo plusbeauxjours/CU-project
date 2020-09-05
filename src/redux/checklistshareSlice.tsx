@@ -12,6 +12,7 @@ const checklistshareSlice = createSlice({
     CHECKLIST_SHARE_DATA3: [],
     NEW_CNT3: 0,
     CHECKLIST_SHARE_MARKED: {},
+    CHECKLIST_SHARE_COMMENTS: [],
   },
   reducers: {
     setCHECKLIST_SHARE_DATA1(state, action) {
@@ -60,6 +61,31 @@ const checklistshareSlice = createSlice({
         NEW_CNT3: state.NEW_CNT3 + 1,
       };
     },
+    setCHECKLIST_SHARE_COMMENTS(state, action) {
+      const {payload: CHECKLIST_SHARE_COMMENTS} = action;
+      return {
+        ...state,
+        CHECKLIST_SHARE_COMMENTS,
+      };
+    },
+    editCHECKLIST_SHARE_COMMENTS(state, action) {
+      const {
+        payload: {selectedCOM_SEQ, comment},
+      } = action;
+      const item = state.CHECKLIST_SHARE_COMMENTS.find(
+        (i) => i.COM_SEQ === selectedCOM_SEQ,
+      );
+      item.CONTENTS = comment;
+    },
+    deleteCHECKLIST_SHARE_COMMENTS(state, action) {
+      const {payload: selectedCOM_SEQ} = action;
+      return {
+        ...state,
+        CHECKLIST_SHARE_COMMENTS: state.CHECKLIST_SHARE_COMMENTS.filter(
+          (i) => i.COM_SEQ !== selectedCOM_SEQ,
+        ),
+      };
+    },
   },
 });
 
@@ -71,6 +97,9 @@ export const {
   increaseNEW_CNT1,
   increaseNEW_CNT2,
   increaseNEW_CNT3,
+  setCHECKLIST_SHARE_COMMENTS,
+  editCHECKLIST_SHARE_COMMENTS,
+  deleteCHECKLIST_SHARE_COMMENTS,
 } = checklistshareSlice.actions;
 
 export const getCHECKLIST_SHARE_DATA1 = (date) => async (
@@ -170,6 +199,31 @@ export const getCHECKLIST_SHARE_DATA3 = () => async (dispatch, getState) => {
     console.log(e);
   } finally {
     dispatch(setSplashVisible(false));
+  }
+};
+
+export const getCHECKLIST_COMMENTS = (NOTICE_SEQ, TITLE) => async (
+  dispatch,
+  getState,
+) => {
+  const {
+    userReducer: {MEMBER_SEQ},
+  } = getState();
+  const {
+    storeReducer: {STORE_SEQ},
+  } = getState();
+
+  const title = TITLE == 'CU소식' ? '1' : '0';
+  try {
+    const {data} = await api.getNoticeComment(
+      NOTICE_SEQ,
+      MEMBER_SEQ,
+      STORE_SEQ,
+      title,
+    );
+    dispatch(setCHECKLIST_SHARE_COMMENTS(data.message));
+  } catch (error) {
+    console.log(error);
   }
 };
 

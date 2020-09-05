@@ -49,6 +49,7 @@ const RowTouchable = styled.TouchableOpacity`
 `;
 
 const Section = styled.View`
+  flex: 1;
   width: 100%;
   margin-bottom: 20px;
   border-radius: 20px;
@@ -108,7 +109,6 @@ const MemoBox = styled.TouchableOpacity`
 `;
 
 const Comment = styled.View`
-  flex: 1;
   margin: 20px 0;
   border-bottom-width: 0.7px;
   border-color: #ddd;
@@ -146,29 +146,23 @@ export default ({
   CONTENTS,
   imgarr,
   setIsImageViewVisible,
-  setImgModalIdx,
   modalImgarr,
-  imgModalIdx,
   isImageViewVisible,
   ME,
   MEMBER_SEQ,
-  clickComment,
-  setClickComment,
-  clickCommentUpdate,
-  setClickCommentUpdate,
-  memoInput,
-  setMemoInput,
+  isEditMode,
+  setIsEditMode,
+  comment,
+  setComment,
   registFn,
   deleteFn,
   editFn,
-  comment,
-  setMemoUpdate,
-  setSelectedCOM_SEQ,
-  COM_SEQ,
+  CHECKLIST_SHARE_COMMENTS,
   IMG_LIST,
   NOTICE_SEQ,
-  modalOpen,
-  setModalOpen,
+  commentInputBox,
+  setCommentInputBox,
+  setSelectedCOM_SEQ,
 }) => {
   const navigation = useNavigation();
 
@@ -176,7 +170,6 @@ export default ({
     <Touchable
       onPress={() => {
         setIsImageViewVisible(true);
-        setImgModalIdx(item.index);
       }}
       key={index}>
       <FastImage
@@ -241,12 +234,16 @@ export default ({
               <Section>
                 <MemoContainer>
                   <CommentTitleText>댓글달기</CommentTitleText>
-                  <MemoBox onPress={() => setClickComment(true)}>
+                  <MemoBox
+                    onPress={() => {
+                      setIsEditMode(false);
+                      setCommentInputBox(true);
+                    }}>
                     <MemoText>댓글을 입력하세요...</MemoText>
                   </MemoBox>
                 </MemoContainer>
                 <Comment>
-                  {comment?.map((data, index) => (
+                  {CHECKLIST_SHARE_COMMENTS?.map((data, index) => (
                     <CommentBox key={index}>
                       <Row>
                         <Avatar
@@ -261,7 +258,6 @@ export default ({
                             marginRight: 10,
                           }}
                         />
-
                         <Column>
                           <Row>
                             <Text
@@ -289,8 +285,9 @@ export default ({
                         <Row style={{justifyContent: 'flex-end'}}>
                           <RowTouchable
                             onPress={() => {
-                              setClickCommentUpdate(true);
-                              setMemoUpdate(data.CONTENTS);
+                              setIsEditMode(true);
+                              setCommentInputBox(true);
+                              setComment(data.CONTENTS);
                               setSelectedCOM_SEQ(data.COM_SEQ);
                             }}>
                             <SettingIcon color={'#AACE36'} size={20} />
@@ -307,7 +304,7 @@ export default ({
                 </Comment>
               </Section>
             )}
-            {MEMBER_SEQ && ME == MEMBER_SEQ && (
+            {ME == MEMBER_SEQ && (
               <SubmitBtn
                 text={`${TITLE} 수정하기`}
                 onPress={() =>
@@ -325,8 +322,7 @@ export default ({
             )}
           </Container>
         </ScrollView>
-
-        {clickComment && (
+        {commentInputBox && (
           <KeyboardAvoidingView
             behavior={utils.isAndroid ? 'height' : 'padding'}
             keyboardVerticalOffset={0}
@@ -339,47 +335,20 @@ export default ({
             <CommentTextInputContainer>
               <TextInput
                 autoFocus={true}
-                onChangeText={(text) => setMemoInput(text)}
-                value={memoInput}
+                onChangeText={(text) => setComment(text)}
+                value={comment}
                 placeholder={'댓글을 입력하세요.'}
                 placeholderTextColor={'#CCCCCC'}
                 onBlur={() => {
-                  setMemoInput('');
-                  setClickComment(false);
+                  setComment('');
+                  setCommentInputBox(false);
                 }}
                 multiline={true}
               />
-              <ForwardIconContainer onPress={() => registFn()}>
-                <ForwardIcon color={'white'} />
-              </ForwardIconContainer>
-            </CommentTextInputContainer>
-          </KeyboardAvoidingView>
-        )}
-
-        {clickCommentUpdate && (
-          <KeyboardAvoidingView
-            behavior={utils.isAndroid ? 'height' : 'padding'}
-            keyboardVerticalOffset={0}
-            style={
-              utils.isAndroid
-                ? {backgroundColor: '#dddee2'}
-                : {backgroundColor: '#cfd3d6'}
-            }
-            enabled>
-            <CommentTextInputContainer>
-              <TextInput
-                autoFocus={true}
-                onChangeText={(text) => setMemoInput(text)}
-                value={memoInput}
-                placeholder={'댓글을 입력하세요.'}
-                placeholderTextColor={'#CCCCCC'}
-                onBlur={() => {
-                  setMemoInput('');
-                  setClickCommentUpdate(false);
-                }}
-                multiline={true}
-              />
-              <ForwardIconContainer onPress={() => editFn()}>
+              <ForwardIconContainer
+                onPress={() => {
+                  isEditMode ? editFn() : registFn();
+                }}>
                 <ForwardIcon color={'white'} />
               </ForwardIconContainer>
             </CommentTextInputContainer>
@@ -405,10 +374,7 @@ export default ({
           enablePreload
           renderFooter={renderFooter}
           loadingRender={() => <ActivityIndicator />}
-          renderIndicator={(index?: number) => {
-            setImgModalIdx(index);
-            return <React.Fragment />;
-          }}
+          renderIndicator={() => null}
           renderImage={(props) => (
             <FastImage
               style={{width: '100%', height: '100%'}}

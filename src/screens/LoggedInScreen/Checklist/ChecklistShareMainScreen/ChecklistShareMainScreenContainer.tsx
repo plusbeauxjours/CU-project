@@ -18,9 +18,7 @@ export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {STORE, MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
-  const {STORE_SEQ, STORE_NAME} = useSelector(
-    (state: any) => state.storeReducer,
-  );
+  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
   const {
     CHECKLIST_SHARE_DATA1,
     NEW_CNT1,
@@ -139,14 +137,11 @@ export default ({route: {params}}) => {
   const onPressAddButtonFn = (TITLE) => {
     navigation.navigate('ChecklistShareInsertScreen', {
       TITLE,
-      NAME: STORE_NAME,
-      STORE,
-      STORE_SEQ,
-      ADDDATE: date,
+      date,
     });
   };
 
-  // API 타입 확인 필요 =============================================
+  // 캘린더 마킹 데이터
   const markingFn = async (YEAR, MONTH) => {
     const content = {key: 'content', color: '#000'};
     try {
@@ -194,9 +189,9 @@ export default ({route: {params}}) => {
     }
   };
 
-  const Init = async (page, date) => {
-    markingFn(moment(date).format('YYYY'), moment(date).format('M'));
-    fetchData('', date);
+  const Init = async (page) => {
+    markingFn(moment().format('YYYY'), moment().format('M'));
+    fetchData('', moment().format('YYYY-M-DD'));
     if (STORE === '1') {
       dispatch(getCHECKLIST_SHARE_DATA3());
       setIndex(page ? Number(page) : params?.notice == '1' ? 2 : 0);
@@ -206,7 +201,7 @@ export default ({route: {params}}) => {
   };
 
   useEffect(() => {
-    Init(index, moment().format('YYYY-M-DD'));
+    Init(index);
   }, []);
 
   return (

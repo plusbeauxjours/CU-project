@@ -119,14 +119,14 @@ const IconBox = styled.View`
 export default ({
   isDateModalVisible,
   setIsDateModalVisible,
-  addDate,
-  setAddDate,
+  date,
+  setDate,
   cameraPictureList,
   setCameraPictureList,
-  checkpointInput,
-  setCheckpointInput,
-  checkpointInput1,
-  setCheckpointInput1,
+  title,
+  setTitle,
+  content,
+  setContent,
   isCameraModalVisible,
   setIsCameraModalVisible,
   TITLE,
@@ -148,9 +148,9 @@ export default ({
                 selectionColor={'#642A8C'}
                 placeholderTextColor={'#E5E5E5'}
                 onChangeText={(text) => {
-                  setCheckpointInput(text);
+                  setTitle(text);
                 }}
-                value={checkpointInput}
+                value={title}
                 maxLength={15}
               />
             </Section>
@@ -159,10 +159,10 @@ export default ({
               <Touchable onPress={() => setIsDateModalVisible(true)}>
                 <TextInputContainer>
                   <TitleText>등록일자</TitleText>
-                  <DateText>{addDate}</DateText>
+                  <DateText>{date}</DateText>
                 </TextInputContainer>
               </Touchable>
-              <InputLine isBefore={addDate ? false : true} />
+              <InputLine isBefore={date ? false : true} />
             </Section>
 
             <Section>
@@ -174,9 +174,9 @@ export default ({
                 multiline={true}
                 placeholderTextColor={'#E5E5E5'}
                 onChangeText={(text) => {
-                  setCheckpointInput1(text);
+                  setContent(text);
                 }}
-                value={checkpointInput1}
+                value={content}
               />
             </Section>
 
@@ -232,8 +232,10 @@ export default ({
 
             <SubmitBtn
               text={`${TITLE} 등록완료`}
-              onPress={() => registerFn()}
-              isRegisted={checkpointInput1 && checkpointInput}
+              onPress={() => {
+                console.log('등록완료'), registerFn();
+              }}
+              isRegisted={content && title}
             />
           </Container>
         </ScrollView>
@@ -246,7 +248,7 @@ export default ({
         mode="date"
         locale="ko_KRus_EN"
         onConfirm={(date) => {
-          setAddDate(moment(date).format('YYYY-MM-DD')),
+          setDate(moment(date).format('YYYY-MM-DD')),
             setIsDateModalVisible(false);
         }}
         onCancel={() => setIsDateModalVisible(false)}

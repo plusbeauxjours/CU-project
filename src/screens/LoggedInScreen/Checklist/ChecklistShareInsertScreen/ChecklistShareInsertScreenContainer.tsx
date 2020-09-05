@@ -7,19 +7,27 @@ import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import utils from '../../../../constants/utils';
 import api from '../../../../constants/LoggedInApi';
+import {
+  getCHECKLIST_SHARE_DATA1,
+  getCHECKLIST_SHARE_DATA2,
+} from '../../../../redux/checklistshareSlice';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const {ADDDATE, checkpoint, TITLE, STORE_SEQ, STORE, NAME} = params;
+  const {STORE, EMP_NAME, MEMBER_SEQ} = useSelector(
+    (state: any) => state.userReducer,
+  );
+  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
+
   const [cameraPictureList, setCameraPictureList] = useState<any>([]);
   const [isCameraModalVisible, setIsCameraModalVisible] = useState<boolean>(
     false,
   );
-  const [checkpointInput, setCheckpointInput] = useState<any>(checkpoint);
-  const [checkpointInput1, setCheckpointInput1] = useState<string>('');
-  const [addDate, setAddDate] = useState<string>(ADDDATE);
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
+  const [date, setDate] = useState<string>(params?.date);
   const [isDateModalVisible, setIsDateModalVisible] = useState<boolean>(false);
 
   const alertModal = (text) => {
@@ -67,18 +75,17 @@ export default ({route: {params}}) => {
   };
 
   const registerFn = async () => {
-    const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
     if (cameraPictureList?.length > 0) {
       try {
         dispatch(setSplashVisible(true));
         const formData: any = new FormData();
 
-        formData.append('TITLE', checkpointInput.toString());
-        formData.append('CONTENTS', checkpointInput1.toString());
-        formData.append('ADDDATE', addDate.toString());
-        formData.append('STORE_SEQ', STORE_SEQ.toString());
-        formData.append('STORE', STORE.toString());
-        formData.append('EMP_NAME', NAME.toString());
+        formData.append('TITLE', title);
+        formData.append('CONTENTS', content);
+        formData.append('ADDDATE', date);
+        formData.append('STORE_SEQ', STORE_SEQ);
+        formData.append('STORE', STORE);
+        formData.append('EMP_NAME', EMP_NAME);
         formData.append('MEMBER_SEQ', MEMBER_SEQ);
 
         for (let i = 0; i < cameraPictureList?.length; i++) {
@@ -86,10 +93,8 @@ export default ({route: {params}}) => {
           const fileInfoArr = cameraPicture.split('/');
           const fileInfo = fileInfoArr[fileInfoArr.length - 1];
           const extensionIndex = fileInfo.indexOf('.');
-
           let fileName = fileInfo;
           let fileType = '';
-
           if (extensionIndex > -1) {
             fileName = fileInfo;
             fileType = `image/${fileInfo.substring(extensionIndex + 1)}`;
@@ -98,7 +103,6 @@ export default ({route: {params}}) => {
               fileType = 'image/jpeg';
             }
           }
-
           formData.append('image', {
             uri: utils.isAndroid
               ? cameraPicture
@@ -117,18 +121,23 @@ export default ({route: {params}}) => {
         console.log(error);
       } finally {
         dispatch(setSplashVisible(false));
+        if (params.TITLE === '지시사항') {
+          dispatch(getCHECKLIST_SHARE_DATA1(date));
+        } else {
+          dispatch(getCHECKLIST_SHARE_DATA2(date));
+        }
       }
     } else {
       try {
         dispatch(setSplashVisible(true));
         const {data} = await api.setNotice2({
-          TITLE: checkpointInput.toString(),
-          CONTENTS: checkpointInput1.toString(),
+          TITLE: title,
+          CONTENTS: content,
           STORE_SEQ,
           STORE,
-          EMP_NAME: NAME,
+          EMP_NAME,
           MEMBER_SEQ,
-          ADDDATE: addDate,
+          ADDDATE: date,
         });
         if (data.result === 'SUCCESS') {
           navigation.goBack();
@@ -139,6 +148,11 @@ export default ({route: {params}}) => {
         console.log(error);
       } finally {
         dispatch(setSplashVisible(false));
+        if (params.TITLE === '지시사항') {
+          dispatch(getCHECKLIST_SHARE_DATA1(date));
+        } else {
+          dispatch(getCHECKLIST_SHARE_DATA2(date));
+        }
       }
     }
   };
@@ -151,23 +165,24 @@ export default ({route: {params}}) => {
     //   }
     // }
     // getPermissions();
+    console.log(params?.TITLE);
   }, []);
 
   return (
     <ChecklistShareInsertScreenPresenter
       isDateModalVisible={isDateModalVisible}
       setIsDateModalVisible={setIsDateModalVisible}
-      addDate={addDate}
-      setAddDate={setAddDate}
+      date={date}
+      setDate={setDate}
       cameraPictureList={cameraPictureList}
       setCameraPictureList={setCameraPictureList}
-      checkpointInput={checkpointInput}
-      setCheckpointInput={setCheckpointInput}
-      checkpointInput1={checkpointInput1}
-      setCheckpointInput1={setCheckpointInput1}
+      title={title}
+      setTitle={setTitle}
+      content={content}
+      setContent={setContent}
       isCameraModalVisible={isCameraModalVisible}
       setIsCameraModalVisible={setIsCameraModalVisible}
-      TITLE={TITLE}
+      TITLE={params?.TITLE}
       registerFn={registerFn}
       openImagePickerFn={openImagePickerFn}
     />
