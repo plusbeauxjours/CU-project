@@ -13,22 +13,17 @@ import {
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
 
-  const {
-    TITLE,
-    IMG_LIST,
-    NOTICE_SEQ,
-    EMP_NAME,
-    NOTI_TITLE,
-    CREATE_TIME,
-    CONTENTS,
-    ME,
-    MEMBER_SEQ,
-  } = params;
+  const {TITLE, NOTICE_SEQ, isFavorite} = params;
 
-  const {STORE} = useSelector((state: any) => state.userReducer);
-  const {CHECKLIST_SHARE_COMMENTS} = useSelector(
-    (state: any) => state.checklistshareReducer,
+  const {STORE, MEMBER_SEQ: ME} = useSelector(
+    (state: any) => state.userReducer,
   );
+  const {
+    CHECKLIST_SHARE_COMMENTS,
+    CHECKLIST_SHARE_DATA1,
+    CHECKLIST_SHARE_DATA2,
+    CHECKLIST_SHARE_DATA3,
+  } = useSelector((state: any) => state.checklistshareReducer);
 
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [comment, setComment] = useState<string>('');
@@ -37,6 +32,8 @@ export default ({route: {params}}) => {
   const [isImageViewVisible, setIsImageViewVisible] = useState<boolean>(false);
   const [imgarr, setImgarr] = useState<any>([]);
   const [modalImgarr, setModalImgarr] = useState<any>([]);
+  const [item, setItem] = useState<any>({});
+  const [loading, setLoading] = useState<boolean>(true);
 
   const alertModal = (title, text) => {
     const params = {
@@ -84,8 +81,8 @@ export default ({route: {params}}) => {
     try {
       const {data} = await api.setNoticeComment(
         NOTICE_SEQ,
-        EMP_NAME,
-        MEMBER_SEQ,
+        item?.EMP_NAME,
+        item?.MEMBER_SEQ,
         comment,
         STORE,
       );
@@ -98,15 +95,11 @@ export default ({route: {params}}) => {
     }
   };
 
-  const fetchData = async () => {
-    dispatch(getCHECKLIST_COMMENTS(NOTICE_SEQ, TITLE));
-  };
-
-  useEffect(() => {
+  const fetchImage = (item) => {
     let imgarr = [];
     let modalImgarr = [];
-    if (IMG_LIST != null) {
-      let allimg = IMG_LIST.split('@');
+    if (item?.IMG_LIST != null) {
+      let allimg = item?.IMG_LIST.split('@');
       for (let i = 0; i < allimg.length; i++) {
         imgarr.push(allimg[i]);
         modalImgarr.push({
@@ -116,22 +109,67 @@ export default ({route: {params}}) => {
       setModalImgarr(modalImgarr);
       setImgarr(imgarr);
     }
+  };
+
+  const fetchData = async () => {
+    dispatch(getCHECKLIST_COMMENTS(NOTICE_SEQ, TITLE));
+
+    if (TITLE === '지시사항') {
+      if (isFavorite) {
+        const item = CHECKLIST_SHARE_DATA1.favorite.find(
+          (i) => i.NOTICE_SEQ === NOTICE_SEQ,
+        );
+        fetchImage(item);
+        setItem(item);
+        console.log(item);
+      } else {
+        const item = CHECKLIST_SHARE_DATA1.basic.find(
+          (i) => i.NOTICE_SEQ === NOTICE_SEQ,
+        );
+        fetchImage(item);
+        setItem(item);
+      }
+    } else if (TITLE === '특이사항') {
+      if (isFavorite) {
+        const item = CHECKLIST_SHARE_DATA2.favorite.find(
+          (i) => i.NOTICE_SEQ === NOTICE_SEQ,
+        );
+        fetchImage(item);
+        setItem(item);
+      } else {
+        const item = CHECKLIST_SHARE_DATA2.basic.find(
+          (i) => i.NOTICE_SEQ === NOTICE_SEQ,
+        );
+        fetchImage(item);
+        setItem(item);
+      }
+    } else {
+      const item = CHECKLIST_SHARE_DATA3.message.find(
+        (i) => i.NOTICE_SEQ === NOTICE_SEQ,
+      );
+      fetchImage(item);
+      setItem(item);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
+    fetchImage(item);
   }, []);
 
   return (
     <ChecklistShareItemScreenPresenter
-      NOTI_TITLE={NOTI_TITLE}
-      CREATE_TIME={CREATE_TIME}
-      EMP_NAME={EMP_NAME}
+      NOTI_TITLE={item?.TITLE}
+      CREATE_TIME={item?.CREATE_TIME}
+      EMP_NAME={item?.EMP_NAME}
       TITLE={TITLE}
-      CONTENTS={CONTENTS}
+      CONTENTS={item?.CONTENTS}
       imgarr={imgarr}
       setIsImageViewVisible={setIsImageViewVisible}
       modalImgarr={modalImgarr}
       isImageViewVisible={isImageViewVisible}
       ME={ME}
-      MEMBER_SEQ={MEMBER_SEQ}
+      MEMBER_SEQ={item?.MEMBER_SEQ}
       isEditMode={isEditMode}
       setIsEditMode={setIsEditMode}
       comment={comment}
@@ -139,12 +177,14 @@ export default ({route: {params}}) => {
       registFn={registFn}
       deleteFn={deleteFn}
       editFn={editFn}
-      CHECKLIST_SHARE_COMMENTS={CHECKLIST_SHARE_COMMENTS}
-      IMG_LIST={IMG_LIST}
+      IMG_LIST={item?.IMG_LIST}
       NOTICE_SEQ={NOTICE_SEQ}
       commentInputBox={commentInputBox}
       setCommentInputBox={setCommentInputBox}
       setSelectedCOM_SEQ={setSelectedCOM_SEQ}
+      CHECKLIST_SHARE_COMMENTS={CHECKLIST_SHARE_COMMENTS}
+      loading={loading}
+      isFavorite={isFavorite}
     />
   );
 };

@@ -5,13 +5,14 @@ import {setSplashVisible} from './splashSlice';
 const checklistshareSlice = createSlice({
   name: 'checklistshare',
   initialState: {
-    CHECKLIST_SHARE_DATA1: [],
+    CHECKLIST_SHARE_DATA1: null,
     NEW_CNT1: 0,
-    CHECKLIST_SHARE_DATA2: [],
+    CHECKLIST_SHARE_DATA2: null,
     NEW_CNT2: 0,
     CHECKLIST_SHARE_DATA3: [],
     NEW_CNT3: 0,
     CHECKLIST_SHARE_MARKED: {},
+    CHECKLIST_SHARE_DETAIL: null,
     CHECKLIST_SHARE_COMMENTS: [],
   },
   reducers: {
@@ -86,6 +87,101 @@ const checklistshareSlice = createSlice({
         ),
       };
     },
+    updateCHECKLIST_SHARE_DATA(state, action) {
+      const {
+        payload: {
+          TITLE,
+          title,
+          content,
+          NOTICE_SEQ,
+          image,
+          isFavorite,
+          CLOSE_FLAG,
+        },
+      } = action;
+      console.log(TITLE, CLOSE_FLAG, NOTICE_SEQ);
+      if (TITLE === '지시사항') {
+        if (isFavorite) {
+          if (CLOSE_FLAG == '1') {
+            return {
+              ...state,
+              CHECKLIST_SHARE_DATA1: {
+                ...state.CHECKLIST_SHARE_DATA1,
+                favorite: state.CHECKLIST_SHARE_DATA1.favorite.filter(
+                  (i) => i.NOTICE_SEQ !== NOTICE_SEQ,
+                ),
+              },
+            };
+          } else {
+            const favoriteItem = state.CHECKLIST_SHARE_DATA1.favorite.find(
+              (i) => i.NOTICE_SEQ === NOTICE_SEQ,
+            );
+            favoriteItem.TITLE = title;
+            favoriteItem.CONTENTS = content;
+            favoriteItem.IMG_LIST = image ?? null;
+          }
+        } else {
+          if (CLOSE_FLAG == '1') {
+            return {
+              ...state,
+              CHECKLIST_SHARE_DATA1: {
+                ...state.CHECKLIST_SHARE_DATA1,
+                basic: state.CHECKLIST_SHARE_DATA1.basic.filter(
+                  (i) => i.NOTICE_SEQ !== NOTICE_SEQ,
+                ),
+              },
+            };
+          } else {
+            const basicItem = state.CHECKLIST_SHARE_DATA1.basic.find(
+              (i) => i.NOTICE_SEQ === NOTICE_SEQ,
+            );
+            basicItem.TITLE = title;
+            basicItem.CONTENTS = content;
+            basicItem.IMG_LIST = image ?? null;
+          }
+        }
+      } else {
+        if (isFavorite) {
+          if (CLOSE_FLAG == '1') {
+            return {
+              ...state,
+              CHECKLIST_SHARE_DATA2: {
+                ...state.CHECKLIST_SHARE_DATA2,
+                favorite: state.CHECKLIST_SHARE_DATA2.favorite.filter(
+                  (i) => i.NOTICE_SEQ !== NOTICE_SEQ,
+                ),
+              },
+            };
+          } else {
+            const basicItem = state.CHECKLIST_SHARE_DATA2.favorite.find(
+              (i) => i.NOTICE_SEQ === NOTICE_SEQ,
+            );
+            basicItem.TITLE = title;
+            basicItem.CONTENTS = content;
+            basicItem.IMG_LIST = image;
+          }
+        } else {
+          if (CLOSE_FLAG == '1') {
+            return {
+              ...state,
+              CHECKLIST_SHARE_DATA2: {
+                ...state.CHECKLIST_SHARE_DATA2,
+                basic: state.CHECKLIST_SHARE_DATA2.basic.filter(
+                  (i) => i.NOTICE_SEQ !== NOTICE_SEQ,
+                ),
+              },
+            };
+          } else {
+            const favoriteItem = state.CHECKLIST_SHARE_DATA2.basic.find(
+              (i) => i.NOTICE_SEQ === NOTICE_SEQ,
+            );
+            favoriteItem.TITLE = title;
+            favoriteItem.CONTENTS = content;
+            favoriteItem.IMG_LIST = image;
+          }
+        }
+      }
+    },
   },
 });
 
@@ -100,6 +196,7 @@ export const {
   setCHECKLIST_SHARE_COMMENTS,
   editCHECKLIST_SHARE_COMMENTS,
   deleteCHECKLIST_SHARE_COMMENTS,
+  updateCHECKLIST_SHARE_DATA,
 } = checklistshareSlice.actions;
 
 export const getCHECKLIST_SHARE_DATA1 = (date) => async (

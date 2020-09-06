@@ -157,12 +157,14 @@ export default ({
   registFn,
   deleteFn,
   editFn,
-  CHECKLIST_SHARE_COMMENTS,
   IMG_LIST,
   NOTICE_SEQ,
   commentInputBox,
   setCommentInputBox,
   setSelectedCOM_SEQ,
+  CHECKLIST_SHARE_COMMENTS,
+  loading,
+  isFavorite,
 }) => {
   const navigation = useNavigation();
 
@@ -173,7 +175,7 @@ export default ({
       }}
       key={index}>
       <FastImage
-        style={{width: 120, height: 120, borderRadius: 10}}
+        style={{width: 120, height: 120, borderRadius: 10, marginHorizontal: 5}}
         source={{
           uri: 'http://cuapi.shop-sol.com/uploads/' + item,
           headers: {Authorization: 'someAuthToken'},
@@ -219,7 +221,7 @@ export default ({
               <Text>{CONTENTS}</Text>
             </Section>
             {imgarr?.length > 0 && (
-              <Section style={{alignItems: 'center'}}>
+              <Section>
                 <FlatList
                   horizontal
                   keyExtractor={(_, index) => index.toString()}
@@ -243,64 +245,70 @@ export default ({
                   </MemoBox>
                 </MemoContainer>
                 <Comment>
-                  {CHECKLIST_SHARE_COMMENTS?.map((data, index) => (
-                    <CommentBox key={index}>
-                      <Row>
-                        <Avatar
-                          rounded
-                          size={60}
-                          source={{
-                            uri: `http://133.186.209.113/uploads/3.png`,
-                          }}
-                          containerStyle={{
-                            borderWidth: 1,
-                            borderColor: '#ccc',
-                            marginRight: 10,
-                          }}
-                        />
-                        <Column>
-                          <Row>
+                  {loading ? (
+                    <ActivityIndicator size={'small'} />
+                  ) : (
+                    !loading &&
+                    CHECKLIST_SHARE_COMMENTS?.map((data, index) => (
+                      <CommentBox key={index}>
+                        <Row>
+                          <Avatar
+                            rounded
+                            size={60}
+                            source={{
+                              uri: `http://133.186.209.113/uploads/3.png`,
+                            }}
+                            containerStyle={{
+                              borderWidth: 1,
+                              borderColor: '#ccc',
+                              marginRight: 10,
+                            }}
+                          />
+                          <Column>
+                            <Row>
+                              <Text
+                                style={{
+                                  color: '#aaa',
+                                  fontSize: 13,
+                                  marginRight: 15,
+                                }}>
+                                {data.EMP_NAME} [{data.IS_MANAGER}]
+                              </Text>
+                              <EllipseIcon color={'#999'} size={5} />
+                              <Bold style={{color: '#C8C8C8', marginLeft: 5}}>
+                                {moment(data.CREATE_TIME).format('YYYY.MM.DD')}
+                              </Bold>
+                            </Row>
                             <Text
-                              style={{
-                                color: '#aaa',
-                                fontSize: 13,
-                                marginRight: 15,
-                              }}>
-                              {data.EMP_NAME} [{data.IS_MANAGER}]
+                              ellipsizeMode={'tail'}
+                              numberOfLines={100}
+                              style={{flexWrap: 'wrap', marginTop: 5}}>
+                              {data.CONTENTS}
                             </Text>
-                            <EllipseIcon color={'#999'} size={5} />
-                            <Bold style={{color: '#C8C8C8', marginLeft: 5}}>
-                              {moment(data.CREATE_TIME).format('YYYY.MM.DD')}
-                            </Bold>
-                          </Row>
-                          <Text
-                            ellipsizeMode={'tail'}
-                            numberOfLines={100}
-                            style={{flexWrap: 'wrap', marginTop: 5}}>
-                            {data.CONTENTS}
-                          </Text>
-                        </Column>
-                      </Row>
-                      {data.MEMBER_SEQ == MEMBER_SEQ && (
-                        <Row style={{justifyContent: 'flex-end'}}>
-                          <RowTouchable
-                            onPress={() => {
-                              setIsEditMode(true);
-                              setCommentInputBox(true);
-                              setComment(data.CONTENTS);
-                              setSelectedCOM_SEQ(data.COM_SEQ);
-                            }}>
-                            <SettingIcon color={'#AACE36'} size={20} />
-                            <Text style={{color: '#AACE36'}}>수정</Text>
-                          </RowTouchable>
-                          <RowTouchable onPress={() => deleteFn(data.COM_SEQ)}>
-                            <DeleteIcon />
-                            <Text style={{color: '#B91C1B'}}>삭제</Text>
-                          </RowTouchable>
+                          </Column>
                         </Row>
-                      )}
-                    </CommentBox>
-                  ))}
+                        {data.MEMBER_SEQ == MEMBER_SEQ && (
+                          <Row style={{justifyContent: 'flex-end'}}>
+                            <RowTouchable
+                              onPress={() => {
+                                setIsEditMode(true);
+                                setCommentInputBox(true);
+                                setComment(data.CONTENTS);
+                                setSelectedCOM_SEQ(data.COM_SEQ);
+                              }}>
+                              <SettingIcon color={'#AACE36'} size={20} />
+                              <Text style={{color: '#AACE36'}}>수정</Text>
+                            </RowTouchable>
+                            <RowTouchable
+                              onPress={() => deleteFn(data.COM_SEQ)}>
+                              <DeleteIcon />
+                              <Text style={{color: '#B91C1B'}}>삭제</Text>
+                            </RowTouchable>
+                          </Row>
+                        )}
+                      </CommentBox>
+                    ))
+                  )}
                 </Comment>
               </Section>
             )}
@@ -315,6 +323,7 @@ export default ({
                     NOTICE_SEQ,
                     CONTENTS,
                     NOTI_TITLE,
+                    isFavorite,
                   })
                 }
                 isRegisted={true}

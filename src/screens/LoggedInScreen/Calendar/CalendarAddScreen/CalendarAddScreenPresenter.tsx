@@ -79,7 +79,7 @@ const RowSpaceTouchable = styled.TouchableOpacity`
   align-items: center;
 `;
 
-const RowTouchable = styled.TouchableOpacity`
+const RowTouchable = styled.TouchableOpacity<IsSelected>`
   padding: 10px;
   flex-direction: row;
   justify-content: space-between;
@@ -195,7 +195,7 @@ const ChecktimeButton = styled.TouchableOpacity`
   border-color: #642a8c;
 `;
 
-const ChecktimeButtonText = styled.Text<IsSelected>`
+const ChecktimeButtonText = styled.Text`
   color: #642a8c;
   font-weight: 400;
 `;

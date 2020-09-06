@@ -32,6 +32,7 @@ export default ({route: {params}}) => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [index, setIndex] = useState<number>(0);
   const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
+  const [data, setData] = useState<string>(moment().format('YYYY-MM-DD'));
   const [isCalendarModalVisible, setIsCalendarModalVisible] = useState<boolean>(
     false,
   );
@@ -133,7 +134,6 @@ export default ({route: {params}}) => {
     }
   };
 
-  // 파라미터 확인 필요 =============================================
   const onPressAddButtonFn = (TITLE) => {
     navigation.navigate('ChecklistShareInsertScreen', {
       TITLE,

@@ -1,17 +1,14 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {FlatList} from 'react-native';
+import {FlatList, ActivityIndicator} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import FastImage from 'react-native-fast-image';
 
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
 import {CameraIcon, PictureIcon} from '../../../../constants/Icons';
-
-interface IsSelected {
-  isSelected: boolean;
-}
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -40,8 +37,10 @@ const Row = styled.View`
   flex-direction: row;
   align-items: baseline;
 `;
+
 const RowCenter = styled(Row)`
   justify-content: center;
+  margin-bottom: 30px;
 `;
 
 const TitleText = styled.Text`
@@ -113,6 +112,12 @@ const IconBox = styled.View`
   align-items: center;
 `;
 
+const DeleteButton = styled.TouchableOpacity`
+  margin: 50px 0;
+  justify-content: center;
+  align-items: center;
+`;
+
 export default ({
   isDateModalVisible,
   setIsDateModalVisible,
@@ -120,15 +125,16 @@ export default ({
   setAddDate,
   cameraPictureList,
   setCameraPictureList,
-  checkpointInput,
-  setCheckpointInput,
-  checkpointInput1,
-  setCheckpointInput1,
+  title,
+  setTitle,
+  content,
+  setContent,
   isCameraModalVisible,
   setIsCameraModalVisible,
   TITLE,
   registerFn,
   openImagePickerFn,
+  confirmModal,
 }) => {
   const renderImage = (item, index) => (
     <Touchable
@@ -138,9 +144,15 @@ export default ({
         cameraPictureListed.splice(item.index, 1);
         setCameraPictureList(cameraPictureListed);
       }}>
-      <ImageContainer>
-        <Image source={{uri: item}} />
-      </ImageContainer>
+      <FastImage
+        style={{width: 120, height: 120, borderRadius: 10, marginHorizontal: 5}}
+        source={{
+          uri: item,
+          headers: {Authorization: 'someAuthToken'},
+          priority: FastImage.priority.low,
+        }}
+        resizeMode={FastImage.resizeMode.cover}
+      />
     </Touchable>
   );
   return (
@@ -158,9 +170,9 @@ export default ({
                 selectionColor={'#642A8C'}
                 placeholderTextColor={'#E5E5E5'}
                 onChangeText={(text) => {
-                  setCheckpointInput(text);
+                  setTitle(text);
                 }}
-                value={checkpointInput}
+                value={title}
                 maxLength={15}
               />
             </Section>
@@ -174,9 +186,9 @@ export default ({
                 multiline={true}
                 placeholderTextColor={'#E5E5E5'}
                 onChangeText={(text) => {
-                  setCheckpointInput1(text);
+                  setContent(text);
                 }}
-                value={checkpointInput1}
+                value={content}
               />
             </Section>
 
@@ -201,26 +213,48 @@ export default ({
                   </Touchable>
                 </IconContainer>
               </RowCenter>
+              {!cameraPictureList && <ActivityIndicator size={'small'} />}
               {cameraPictureList?.length > 0 && (
                 <FlatList
                   horizontal
                   keyExtractor={(_, index) => index.toString()}
-                  style={{
-                    marginTop: 40,
-                    marginHorizontal: 20,
-                    flexDirection: 'row',
-                  }}
+                  style={{flexDirection: 'row'}}
+                  contentContainerStyle={{justifyContent: 'center'}}
                   data={cameraPictureList}
+                  showsHorizontalScrollIndicator={false}
                   renderItem={({item, index}) => renderImage(item, index)}
                 />
               )}
             </Section>
 
             <SubmitBtn
-              text={`${TITLE} 등록완료`}
-              onPress={() => registerFn()}
-              isRegisted={checkpointInput1 && checkpointInput}
+              text={`${TITLE} 수정완료`}
+              onPress={() =>
+                confirmModal(`${TITLE}을 수정하시겠습니까?`, '수정', 'no', () =>
+                  registerFn(),
+                )
+              }
+              isRegisted={title && content}
             />
+            <DeleteButton
+              onPress={() => {
+                confirmModal(
+                  `${TITLE}을 삭제하시겠습니까?`,
+                  '삭제',
+                  'yes',
+                  () => registerFn('close'),
+                );
+              }}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                  color: '#FF3D3D',
+                  textDecorationLine: 'underline',
+                }}>
+                보건증 삭제하기
+              </Text>
+            </DeleteButton>
           </Container>
         </ScrollView>
       </BackGround>

@@ -289,8 +289,8 @@ export default ({
           </DateArrowLeft>
           <DateToday
             onPress={() => {
-              setDate(moment().format('YYYY-MM-DD'));
-              fetchData();
+              setDate(moment(date).format('YYYY-MM-DD'));
+              fetchData(location, date);
             }}>
             <ReloadCircleIcon size={22} />
           </DateToday>
@@ -346,35 +346,19 @@ export default ({
               {CHECKLIST_SHARE_DATA1?.favorite?.map((data, index) => (
                 <ChecklistShareMainScreenCard
                   key={index}
-                  MEMBER_SEQ={data.MEMBER_SEQ}
+                  data={data}
                   ME={MEMBER_SEQ}
-                  NOTICE_SEQ={data.NOTICE_SEQ}
-                  NOTI_TITLE={data.TITLE}
-                  CONTENTS={data.CONTENTS}
-                  CREATE_TIME={data.CREATE_TIME}
-                  EMP_NAME={data.EMP_NAME}
-                  IMG_LIST={data.IMG_LIST}
                   type={'지시사항'}
-                  favorite={data.favorite}
                   confirmModal={(noticeSeq) => fixControlFn(noticeSeq, 'unFix')}
-                  NoticeCheck_SEQ={data.NoticeCheck_SEQ}
                 />
               ))}
               {CHECKLIST_SHARE_DATA1?.basic?.map((data, index) => (
                 <ChecklistShareMainScreenCard
                   key={index}
-                  MEMBER_SEQ={data.MEMBER_SEQ}
+                  data={data}
                   ME={MEMBER_SEQ}
-                  NOTICE_SEQ={data.NOTICE_SEQ}
-                  NOTI_TITLE={data.TITLE}
-                  CONTENTS={data.CONTENTS}
-                  CREATE_TIME={data.CREATE_TIME}
-                  EMP_NAME={data.EMP_NAME}
-                  IMG_LIST={data.IMG_LIST}
                   type={'지시사항'}
-                  favorite={data.favorite}
                   confirmModal={(noticeSeq) => fixControlFn(noticeSeq, 'fix')}
-                  NoticeCheck_SEQ={data.NoticeCheck_SEQ}
                 />
               ))}
             </>
@@ -416,35 +400,19 @@ export default ({
               {CHECKLIST_SHARE_DATA2?.favorite?.map((data, index) => (
                 <ChecklistShareMainScreenCard
                   key={index}
-                  MEMBER_SEQ={data.MEMBER_SEQ}
+                  data={data}
                   ME={MEMBER_SEQ}
-                  NOTICE_SEQ={data.NOTICE_SEQ}
-                  NOTI_TITLE={data.TITLE}
-                  CONTENTS={data.CONTENTS}
-                  CREATE_TIME={data.CREATE_TIME}
-                  EMP_NAME={data.EMP_NAME}
-                  IMG_LIST={data.IMG_LIST}
                   type={'특이사항'}
-                  favorite={data.favorite}
                   confirmModal={(noticeSeq) => fixControlFn(noticeSeq, 'unFix')}
-                  NoticeCheck_SEQ={data.NoticeCheck_SEQ}
                 />
               ))}
               {CHECKLIST_SHARE_DATA2?.basic?.map((data, index) => (
                 <ChecklistShareMainScreenCard
                   key={index}
-                  MEMBER_SEQ={data.MEMBER_SEQ}
+                  data={data}
                   ME={MEMBER_SEQ}
-                  NOTICE_SEQ={data.NOTICE_SEQ}
-                  NOTI_TITLE={data.TITLE}
-                  CONTENTS={data.CONTENTS}
-                  CREATE_TIME={data.CREATE_TIME}
-                  EMP_NAME={data.EMP_NAME}
-                  IMG_LIST={data.IMG_LIST}
                   type={'특이사항'}
-                  favorite={data.favorite}
                   confirmModal={(noticeSeq) => fixControlFn(noticeSeq, 'fix')}
-                  NoticeCheck_SEQ={data.NoticeCheck_SEQ}
                 />
               ))}
             </>
@@ -488,18 +456,10 @@ export default ({
               {CHECKLIST_SHARE_DATA3?.message?.map((data, index) => (
                 <ChecklistShareMainScreenCard
                   key={index}
-                  MEMBER_SEQ={data.MEMBER_SEQ}
+                  data={data}
                   ME={MEMBER_SEQ}
-                  NOTICE_SEQ={data.CU_NOTICE_SEQ}
-                  NOTI_TITLE={data.TITLE}
-                  CONTENTS={data.CONTENTS}
-                  CREATE_TIME={data.CREATE_TIME}
-                  EMP_NAME={data.EMP_NAME}
-                  IMG_LIST={data.IMG_LIST}
                   type={'CU소식'}
-                  favorite={''}
                   confirmModal={() => {}}
-                  NoticeCheck_SEQ={data.cu_notice_check_SEQ}
                 />
               ))}
             </ScrollView>

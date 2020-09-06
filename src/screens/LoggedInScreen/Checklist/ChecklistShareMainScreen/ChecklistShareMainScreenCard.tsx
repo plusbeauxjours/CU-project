@@ -115,28 +115,14 @@ const BorderBox = styled.View`
   align-items: center;
 `;
 
-export default ({
-  key,
-  MEMBER_SEQ,
-  ME,
-  NOTICE_SEQ,
-  NOTI_TITLE,
-  CONTENTS,
-  CREATE_TIME,
-  EMP_NAME,
-  IMG_LIST,
-  type,
-  favorite,
-  confirmModal,
-  NoticeCheck_SEQ,
-}) => {
+export default ({key, data, ME, type, confirmModal}) => {
   const navigation = useNavigation();
 
-  var imgarr = [];
-  var allimg = [];
+  let imgarr = [];
+  let allimg = [];
 
-  if (IMG_LIST != null) {
-    allimg = IMG_LIST.split('@');
+  if (data.IMG_LIST != null) {
+    allimg = data.IMG_LIST.split('@');
     imgarr.push(allimg[0]);
   }
   return (
@@ -145,43 +131,39 @@ export default ({
       onPress={() => {
         navigation.navigate('ChecklistShareItemScreen', {
           TITLE: `${type}`,
-          IMG_LIST,
-          NOTICE_SEQ,
-          EMP_NAME,
-          NOTI_TITLE,
-          CREATE_TIME,
-          CONTENTS,
-          ME,
-          MEMBER_SEQ,
+          NOTICE_SEQ: data.NOTICE_SEQ,
+          isFavorite: data.favorite,
         });
       }}>
       <Section>
-        {ME !== MEMBER_SEQ && NoticeCheck_SEQ == null && (
+        {ME !== data.MEMBER_SEQ && data.NoticeCheck_SEQ == null && (
           <NewBadge>
             <NewBoxIcon />
           </NewBadge>
         )}
         <ContentBox>
           <RowSpace>
-            <NotiTitleText numberOfLines={1}>{NOTI_TITLE}</NotiTitleText>
+            <NotiTitleText numberOfLines={1}>{data.TITLE}</NotiTitleText>
             {type !== 'CU소식' && (
               <PinTouchable
-                isFavorite={favorite === '1'}
-                onPress={() => confirmModal(NOTICE_SEQ)}>
+                isFavorite={data.favorite === '1'}
+                onPress={() => confirmModal(data.NOTICE_SEQ)}>
                 <PinIcon
                   size={18}
-                  color={favorite == '1' ? 'yellow' : '#aaa'}
+                  color={data.favorite == '1' ? 'yellow' : '#aaa'}
                 />
               </PinTouchable>
             )}
           </RowSpace>
           <Row>
-            <ContentText numberOfLines={2}>{CONTENTS}</ContentText>
+            <ContentText numberOfLines={2}>{data.CONTENTS}</ContentText>
           </Row>
-          {favorite == '1' && (
+          {data.favorite == '1' && (
             <AddressBox>
               {type !== 'CU소식' && (
-                <InfoText>{moment(CREATE_TIME).format('YYYY.MM.DD')}</InfoText>
+                <InfoText>
+                  {moment(data.CREATE_TIME).format('YYYY.MM.DD')}
+                </InfoText>
               )}
             </AddressBox>
           )}

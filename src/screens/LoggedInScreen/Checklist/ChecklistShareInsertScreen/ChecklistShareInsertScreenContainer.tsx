@@ -16,7 +16,7 @@ export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const {STORE, EMP_NAME, MEMBER_SEQ} = useSelector(
+  const {STORE, MEMBER_SEQ, MEMBER_NAME} = useSelector(
     (state: any) => state.userReducer,
   );
   const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
@@ -85,7 +85,7 @@ export default ({route: {params}}) => {
         formData.append('ADDDATE', date);
         formData.append('STORE_SEQ', STORE_SEQ);
         formData.append('STORE', STORE);
-        formData.append('EMP_NAME', EMP_NAME);
+        formData.append('EMP_NAME', MEMBER_NAME);
         formData.append('MEMBER_SEQ', MEMBER_SEQ);
 
         for (let i = 0; i < cameraPictureList?.length; i++) {
@@ -135,7 +135,7 @@ export default ({route: {params}}) => {
           CONTENTS: content,
           STORE_SEQ,
           STORE,
-          EMP_NAME,
+          EMP_NAME: MEMBER_NAME,
           MEMBER_SEQ,
           ADDDATE: date,
         });
@@ -165,7 +165,7 @@ export default ({route: {params}}) => {
     //   }
     // }
     // getPermissions();
-    console.log(params?.TITLE);
+    console.log(params);
   }, []);
 
   return (
