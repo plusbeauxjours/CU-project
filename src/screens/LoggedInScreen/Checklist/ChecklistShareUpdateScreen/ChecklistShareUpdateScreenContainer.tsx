@@ -19,8 +19,6 @@ export default ({route: {params}}) => {
   );
   const [title, setTitle] = useState<string>(params?.NOTI_TITLE);
   const [content, setContent] = useState<string>(params?.CONTENTS);
-  const [addDate, setAddDate] = useState<string>(params?.ADDDATE);
-  const [isDateModalVisible, setIsDateModalVisible] = useState<boolean>(false);
 
   const confirmModal = (content, okButtonText, warning, okCallback) => {
     const params = {
@@ -80,44 +78,42 @@ export default ({route: {params}}) => {
   };
 
   const registerFn = async (sign) => {
-    if (cameraPictureList.length > 0) {
-      const formData: any = new FormData();
-      formData.append('TITLE', title);
-      formData.append('CONTENTS', content);
-      formData.append('NOTICE_SEQ', params?.NOTICE_SEQ);
-      formData.append('CLOSE_FLAG', sign == 'close' ? '1' : '0');
-
-      for (let i = 0; i < cameraPictureList.length; i++) {
-        const cameraPicture = cameraPictureList[i];
-        const fileInfoArr = cameraPicture.split('/');
-        const fileInfo = fileInfoArr[fileInfoArr.length - 1];
-        const extensionIndex = fileInfo.indexOf('.');
-
-        let fileName = fileInfo;
-        let fileType = '';
-
-        if (extensionIndex > -1) {
-          fileName = fileInfo;
-          fileType = `image/${fileInfo.substring(extensionIndex + 1)}`;
-
-          if (fileType === 'image/jpg') {
-            fileType = 'image/jpeg';
-          }
-        }
-        formData.append('image', {
-          uri: utils.isAndroid
-            ? cameraPicture
-            : cameraPicture.replace('file://', ''),
-          name: fileName,
-          type: fileType,
-        });
-      }
+    if (cameraPictureList?.length > 0) {
       try {
         dispatch(setSplashVisible(true));
-        const {data} = await api.updateNoticeImg({
-          formData,
-        });
-        console.log(formData.image);
+        const formData: any = new FormData();
+        formData.append('TITLE', title);
+        formData.append('CONTENTS', content);
+        formData.append('NOTICE_SEQ', params?.NOTICE_SEQ);
+        formData.append('CLOSE_FLAG', sign == 'close' ? '1' : '0');
+
+        for (let i = 0; i < cameraPictureList.length; i++) {
+          const cameraPicture = cameraPictureList[i];
+          const fileInfoArr = cameraPicture.split('/');
+          const fileInfo = fileInfoArr[fileInfoArr.length - 1];
+          const extensionIndex = fileInfo.indexOf('.');
+
+          let fileName = fileInfo;
+          let fileType = '';
+
+          if (extensionIndex > -1) {
+            fileName = fileInfo;
+            fileType = `image/${fileInfo.substring(extensionIndex + 1)}`;
+
+            if (fileType === 'image/jpg') {
+              fileType = 'image/jpeg';
+            }
+          }
+          formData.append('image', {
+            uri: utils.isAndroid
+              ? cameraPicture
+              : cameraPicture.replace('file://', ''),
+            name: fileName,
+            type: fileType,
+          });
+        }
+        console.log('formData', formData);
+        const {data} = await api.updateNoticeImg({formData});
         if (data.result === 'SUCCESS') {
           navigation.pop(2);
         } else {
@@ -193,10 +189,6 @@ export default ({route: {params}}) => {
 
   return (
     <ChecklistShareUpdateScreenPresenter
-      isDateModalVisible={isDateModalVisible}
-      setIsDateModalVisible={setIsDateModalVisible}
-      addDate={addDate}
-      setAddDate={setAddDate}
       cameraPictureList={cameraPictureList}
       setCameraPictureList={setCameraPictureList}
       title={title}

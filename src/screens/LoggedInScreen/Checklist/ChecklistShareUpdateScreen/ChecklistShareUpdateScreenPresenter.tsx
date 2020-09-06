@@ -119,10 +119,6 @@ const DeleteButton = styled.TouchableOpacity`
 `;
 
 export default ({
-  isDateModalVisible,
-  setIsDateModalVisible,
-  addDate,
-  setAddDate,
   cameraPictureList,
   setCameraPictureList,
   title,
