@@ -56,7 +56,6 @@ const TextBox = styled.View`
 const ModalContainer = styled.View`
   flex: 1;
   justify-content: center;
-  padding-top: 60px;
 `;
 
 const Text = styled.Text``;
@@ -106,50 +105,49 @@ export default ({route: {params}}) => {
   // });
 
   return (
-    <>
-      <BackGround>
-        <ScrollView
-          keyboardDismissMode="on-drag"
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{alignItems: 'center'}}>
-          {IMG_URL2 && (
-            <Wrapper>
-              <FastImage
-                style={{width: wp('100%'), height: hp('30%')}}
-                source={{
-                  uri: IMG_URL2,
-                  headers: {Authorization: 'someAuthToken'},
-                  priority: FastImage.priority.low,
-                }}
-                resizeMode={FastImage.resizeMode.stretch}
-              />
-            </Wrapper>
-          )}
-          <PdfButtonWrapper>
-            <PdfButton
-              onPress={() => {
-                checkVideo();
-              }}>
-              <PdfButtonText>동영상 보기</PdfButtonText>
-            </PdfButton>
-          </PdfButtonWrapper>
+    <BackGround>
+      <ScrollView
+        keyboardDismissMode="on-drag"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{alignItems: 'center'}}>
+        {IMG_URL2 && (
           <Wrapper>
-            <Text>{CONTENTS2}</Text>
+            <FastImage
+              style={{width: wp('100%'), height: hp('30%')}}
+              source={{
+                uri: IMG_URL2,
+                headers: {Authorization: 'someAuthToken'},
+                priority: FastImage.priority.low,
+              }}
+              resizeMode={FastImage.resizeMode.stretch}
+            />
           </Wrapper>
-        </ScrollView>
-      </BackGround>
+        )}
+        <PdfButtonWrapper>
+          <PdfButton
+            onPress={() => {
+              checkVideo();
+            }}>
+            <PdfButtonText>동영상 보기</PdfButtonText>
+          </PdfButton>
+        </PdfButtonWrapper>
+        <Wrapper>
+          <Text>{CONTENTS2}</Text>
+        </Wrapper>
+      </ScrollView>
       <Modal
         isVisible={modalVisible}
         style={{
           height: hp('100%'),
         }}
+        onBackdropPress={() => {
+          setModalVisible(false);
+        }}
         onBackButtonPress={() => {
           setModalVisible(false);
         }}>
-        <ModalContainer>
-          <VideoPlayer url={VIDEO_URL} setModalVisible={setModalVisible} />
-        </ModalContainer>
+        <VideoPlayer url={VIDEO_URL} setModalVisible={setModalVisible} />
       </Modal>
-    </>
+    </BackGround>
   );
 };

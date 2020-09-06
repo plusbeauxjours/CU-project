@@ -155,6 +155,7 @@ export default ({route: {params}}) => {
   useEffect(() => {
     fetchData();
     fetchImage(item);
+    console.log(item.IMG_LIST);
   }, []);
 
   return (

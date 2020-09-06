@@ -280,3 +280,46 @@ export const CalendarTimesIcon: React.FC<IProps> = ({size, color}) => (
     color={color ?? 'black'}
   />
 );
+
+export const TenForwardIcon: React.FC<IProps> = ({size, color}) => (
+  <MaterialCommunityIcons
+    name={'fast-forward-10'}
+    size={size ?? 36}
+    color={color ?? 'white'}
+  />
+);
+
+export const TenRewindIcon: React.FC<IProps> = ({size, color}) => (
+  <MaterialCommunityIcons
+    name={'rewind-10'}
+    size={size ?? 36}
+    color={color ?? 'white'}
+  />
+);
+
+export const LandscapeIcon: React.FC<IProps> = ({size, color}) => (
+  <MaterialCommunityIcons
+    name={'rotate-left-variant'}
+    size={size ?? 28}
+    color={color ?? 'white'}
+  />
+);
+
+export const PortraitIcon: React.FC<IProps> = ({size, color}) => (
+  <MaterialCommunityIcons
+    name={'rotate-left-variant'}
+    size={size ?? 30}
+    color={color ?? 'white'}
+  />
+);
+
+export const PauseIcon: React.FC<IProps> = ({size, color}) => (
+  <MaterialCommunityIcons
+    name={'pause'}
+    size={size ?? 42}
+    color={color ?? 'white'}
+  />
+);
+export const PlayIcon: React.FC<IProps> = ({size, color}) => (
+  <Ionicons name={'play-sharp'} size={size ?? 42} color={color ?? 'white'} />
+);

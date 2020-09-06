@@ -14,7 +14,7 @@ export default ({route: {params}}) => {
   const navigation = useNavigation();
 
   const STORE_SEQ = params?.STORE_SEQ;
-
+  console.log(params);
   const [dateModalVisible, setDateModalVisible] = useState<boolean>(false);
   const [cameraModalVisible, setCameraModalVisible] = useState<boolean>(false);
   const [cameraRatioList, setCameraRatioList] = useState<any>([]);

@@ -170,9 +170,11 @@ export default ({route: {params}}) => {
         RESULT_COUNT,
         STORE_HEALTH_SEQ,
         image: {
-          uri: utils.isAndroid
-            ? cameraPicture
-            : cameraPicture.replace('file://', ''),
+          uri:
+            'http://cuapi.shop-sol.com/uploads/39684cd9-bf85-44b6-939c-44dcd9a03684-1595571257792.jpg',
+          // uri: utils.isAndroid
+          //   ? cameraPicture
+          //   : cameraPicture.replace('file://', ''),
           name: fileName,
           type: fileType,
         },

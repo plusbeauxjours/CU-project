@@ -47,7 +47,7 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
-  const confirmModal = (title, text, cancel, okBtn, noticeSeq) => {
+  const confirmModal = (title, text, cancel, okBtn, noticeSeq, TITLE) => {
     const params = {
       alertType: 'confirm',
       title: title,
@@ -55,7 +55,7 @@ export default ({route: {params}}) => {
       cancelButtonText: cancel,
       okButtonText: okBtn,
       okCallback: () => {
-        registerFn(noticeSeq);
+        registerFn(noticeSeq, TITLE);
       },
     };
     dispatch(setAlertInfo(params));
@@ -63,7 +63,7 @@ export default ({route: {params}}) => {
   };
 
   // 해당 Route만 리로드
-  const fixControlFn = (noticeSeq, type) => {
+  const fixControlFn = (noticeSeq, type, TITLE) => {
     let TYPE;
     type == 'fix' ? (TYPE = '고정은') : (TYPE = '고정해제는');
     if (STORE == '0') {
@@ -76,6 +76,7 @@ export default ({route: {params}}) => {
         '취소',
         '고정',
         noticeSeq,
+        TITLE,
       );
     } else {
       return confirmModal(
@@ -84,6 +85,7 @@ export default ({route: {params}}) => {
         '취소',
         '해제',
         noticeSeq,
+        TITLE,
       );
     }
   };
@@ -121,16 +123,17 @@ export default ({route: {params}}) => {
   };
 
   // 고정 & 고정해제
-  const registerFn = async (noticeSeq) => {
+  const registerFn = async (noticeSeq, TITLE) => {
     try {
-      dispatch(setSplashVisible(true));
       const {data} = await api.setNoticeFavorite({NOTICE_SEQ: noticeSeq});
     } catch (e) {
       console.log(e);
     } finally {
-      dispatch(setSplashVisible(false));
-      dispatch(getCHECKLIST_SHARE_DATA1(date));
-      dispatch(getCHECKLIST_SHARE_DATA2(date));
+      if (TITLE === '지시사항') {
+        dispatch(getCHECKLIST_SHARE_DATA1(date));
+      } else {
+        dispatch(getCHECKLIST_SHARE_DATA2(date));
+      }
     }
   };
 
@@ -199,7 +202,6 @@ export default ({route: {params}}) => {
       setIndex(page ? Number(page) : params?.notice == '1' ? 2 : 0);
     }
   };
-
   useEffect(() => {
     Init(index);
   }, []);

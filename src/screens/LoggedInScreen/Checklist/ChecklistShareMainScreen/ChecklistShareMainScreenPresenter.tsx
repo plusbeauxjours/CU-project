@@ -349,7 +349,9 @@ export default ({
                   data={data}
                   ME={MEMBER_SEQ}
                   type={'지시사항'}
-                  confirmModal={(noticeSeq) => fixControlFn(noticeSeq, 'unFix')}
+                  confirmModal={(noticeSeq) =>
+                    fixControlFn(noticeSeq, 'unFix', '지시사항')
+                  }
                 />
               ))}
               {CHECKLIST_SHARE_DATA1?.basic?.map((data, index) => (
@@ -358,7 +360,9 @@ export default ({
                   data={data}
                   ME={MEMBER_SEQ}
                   type={'지시사항'}
-                  confirmModal={(noticeSeq) => fixControlFn(noticeSeq, 'fix')}
+                  confirmModal={(noticeSeq) =>
+                    fixControlFn(noticeSeq, 'fix', '지시사항')
+                  }
                 />
               ))}
             </>
@@ -403,7 +407,9 @@ export default ({
                   data={data}
                   ME={MEMBER_SEQ}
                   type={'특이사항'}
-                  confirmModal={(noticeSeq) => fixControlFn(noticeSeq, 'unFix')}
+                  confirmModal={(noticeSeq) =>
+                    fixControlFn(noticeSeq, 'unFix', '특이사항')
+                  }
                 />
               ))}
               {CHECKLIST_SHARE_DATA2?.basic?.map((data, index) => (
@@ -412,7 +418,9 @@ export default ({
                   data={data}
                   ME={MEMBER_SEQ}
                   type={'특이사항'}
-                  confirmModal={(noticeSeq) => fixControlFn(noticeSeq, 'fix')}
+                  confirmModal={(noticeSeq) =>
+                    fixControlFn(noticeSeq, 'fix', '특이사항')
+                  }
                 />
               ))}
             </>

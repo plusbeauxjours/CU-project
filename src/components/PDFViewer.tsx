@@ -29,7 +29,7 @@ export default ({url, setModalVisible}) => {
         onPress={() => {
           setModalVisible(false);
         }}>
-        <CloseCircleIcon size={33} color={'#642a8c'} />
+        <CloseCircleIcon size={33} color={'white'} />
       </IconContainer>
       <Pdf
         source={{uri: url}}

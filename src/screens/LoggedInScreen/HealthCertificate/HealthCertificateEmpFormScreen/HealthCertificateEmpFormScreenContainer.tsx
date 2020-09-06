@@ -60,12 +60,12 @@ export default ({route: {params}}) => {
         '검진일 날짜형식은 "2020-01-01"과 같은 형식이어야 합니다. 사진이 인식되지 않는다면 항목을 눌러 날짜를 직접 선택해주세요.',
       );
     }
-    if (TESTING_CERTIFICATE == undefined) {
-      return alertModal(
-        '',
-        '보건증을 촬영하여 사진을 등록해주세요.\n\n사진촬영 시 인식실패 문구가 나와도 사진은 정상적으로 등록이 됩니다.',
-      );
-    }
+    // if (TESTING_CERTIFICATE == undefined) {
+    //   return alertModal(
+    //     '',
+    //     '보건증을 촬영하여 사진을 등록해주세요.\n\n사진촬영 시 인식실패 문구가 나와도 사진은 정상적으로 등록이 됩니다.',
+    //   );
+    // }
     if (NAME.length === 0 || !NAME) {
       return alertModal('', '성명을 입력해주세요.');
     }
@@ -74,19 +74,21 @@ export default ({route: {params}}) => {
     }
     try {
       dispatch(setSplashVisible(true));
-      const cameraPicture = TESTING_CERTIFICATE;
-      const fileInfoArr = cameraPicture.split('/');
-      const fileInfo = fileInfoArr[fileInfoArr.length - 1];
-      const extensionIndex = fileInfo.indexOf('.');
-      let fileName;
-      let fileType;
-      if (extensionIndex > -1) {
-        fileName = fileInfo;
-        fileType = `image/${fileInfo.substring(extensionIndex + 1)}`;
-        if (fileType === 'image/jpg') {
-          fileType = 'image/jpeg';
-        }
-      }
+      // const cameraPicture = TESTING_CERTIFICATE;
+      // const fileInfoArr = cameraPicture.split('/');
+      // const fileInfo = fileInfoArr[fileInfoArr.length - 1];
+      // const extensionIndex = fileInfo.indexOf('.');
+      // let fileName;
+      // let fileType;
+      // if (extensionIndex > -1) {
+      //   fileName = fileInfo;
+      //   fileType = `image/${fileInfo.substring(extensionIndex + 1)}`;
+      //   if (fileType === 'image/jpg') {
+      //     fileType = 'image/jpeg';
+      //   }
+      // }
+      console.log('data');
+
       const {data} = await api.saveOcr({
         EMP_NAME: NAME,
         EMP_SEQ,
@@ -94,13 +96,17 @@ export default ({route: {params}}) => {
         RESULT_DATE: EDUCATION_DATE,
         RESULT_COUNT,
         image: {
-          uri: utils.isAndroid
-            ? cameraPicture
-            : cameraPicture.replace('file://', ''),
-          name: fileName,
-          type: fileType,
+          uri: '39684cd9-bf85-44b6-939c-44dcd9a03684-1595571257792.jpg',
+          name: '39684cd9-bf85-44b6-939c-44dcd9a03684-1595571257792',
+          type: 'image/jpeg',
+          // uri: utils.isAndroid
+          //   ? cameraPicture
+          //   : cameraPicture.replace('file://', ''),
+          // name: fileName,
+          // type: fileType,
         },
       });
+      console.log(data);
       if (data.result == '1') {
         alertModal('', '저장 완료');
         navigation.goBack();
