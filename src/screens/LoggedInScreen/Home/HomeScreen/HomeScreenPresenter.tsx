@@ -6,6 +6,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import FastImage from 'react-native-fast-image';
 
 import {
   ForwardIcon,
@@ -429,10 +430,10 @@ export default ({
       source = require(`../../../../assets/main/EducationVideoList.png`);
     }
     return (
-      <Image
+      <FastImage
+        style={{width: '100%', height: '100%'}}
         source={source}
-        isCheckListItems={paging == 'ChecklistItemsScreen'}
-        resizeMode="contain"
+        resizeMode={FastImage.resizeMode.contain}
       />
     );
   };

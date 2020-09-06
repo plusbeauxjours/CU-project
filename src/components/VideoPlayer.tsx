@@ -13,12 +13,7 @@ import Video, {
 import Orientation from 'react-native-orientation-locker';
 import {PlayerControls} from './PlayerControls';
 import {ProgressBar} from './ProgressBar';
-import {
-  PortraitIcon,
-  LandscapeIcon,
-  DownIcon,
-  CloseCircleIcon,
-} from '../constants/Icons';
+import {PortraitIcon, LandscapeIcon, CloseCircleIcon} from '../constants/Icons';
 
 interface IsFullScreen {
   isFullScreen: boolean;
@@ -38,7 +33,7 @@ const ControlOverlay = styled.View`
 const FullScreenIconContainer = styled.TouchableOpacity<IsFullScreen>`
   z-index: 5;
   position: absolute;
-  right: 50;
+  right: 0;
   top: ${(props) => (props.isFullScreen ? -20 : 25)};
 `;
 
@@ -113,6 +108,7 @@ export default ({url, setModalVisible}) => {
   }
 
   useEffect(() => {
+    setTimeout(() => setIsShowedControls(false), 4000);
     Orientation.addOrientationListener(handleOrientation);
     return () => {
       Orientation.removeOrientationListener(handleOrientation);
@@ -124,7 +120,6 @@ export default ({url, setModalVisible}) => {
       isFullScreen={isFullScreen}
       onPress={showControls}
       activeOpacity={1}>
-      {console.log('url', url)}
       <Video
         ref={videoRef}
         source={{uri: url}}
@@ -143,18 +138,29 @@ export default ({url, setModalVisible}) => {
       />
       {isShowedControls && (
         <>
-          <CloseIconContainer
-            isFullScreen={isFullScreen}
-            onPress={() => {
-              setModalVisible(false);
-            }}>
-            <CloseCircleIcon size={33} color={'white'} />
-          </CloseIconContainer>
-          <FullScreenIconContainer
-            isFullScreen={isFullScreen}
-            onPress={handleFullscreen}>
-            {isFullScreen ? <PortraitIcon /> : <LandscapeIcon />}
-          </FullScreenIconContainer>
+          {isFullScreen ? (
+            <FullScreenIconContainer
+              isFullScreen={isFullScreen}
+              onPress={handleFullscreen}>
+              <PortraitIcon />
+            </FullScreenIconContainer>
+          ) : (
+            <>
+              <FullScreenIconContainer
+                style={{rigth: 50}}
+                isFullScreen={isFullScreen}
+                onPress={handleFullscreen}>
+                <LandscapeIcon />
+              </FullScreenIconContainer>
+              <CloseIconContainer
+                isFullScreen={isFullScreen}
+                onPress={() => {
+                  setModalVisible(false);
+                }}>
+                <CloseCircleIcon size={33} color={'white'} />
+              </CloseIconContainer>
+            </>
+          )}
           <ControlOverlay
             style={
               isFullScreen
