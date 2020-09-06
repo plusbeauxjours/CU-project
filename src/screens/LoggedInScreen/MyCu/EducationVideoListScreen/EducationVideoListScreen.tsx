@@ -124,7 +124,6 @@ export default () => {
       data.CATEGORY.includes(selectedCategory)
     );
   });
-
   return (
     <BackGround>
       <CategoryList>

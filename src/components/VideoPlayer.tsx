@@ -124,12 +124,10 @@ export default ({url, setModalVisible}) => {
       isFullScreen={isFullScreen}
       onPress={showControls}
       activeOpacity={1}>
+      {console.log('url', url)}
       <Video
         ref={videoRef}
-        source={{
-          uri:
-            'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-        }}
+        source={{uri: url}}
         style={
           isFullScreen
             ? {width: hp('100%'), height: wp('100%')}

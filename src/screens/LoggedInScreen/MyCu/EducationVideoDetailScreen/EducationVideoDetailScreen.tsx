@@ -10,7 +10,7 @@ import FastImage from 'react-native-fast-image';
 
 import api from '../../../../constants/LoggedInApi';
 import VideoPlayer from '../../../../components/VideoPlayer';
-import {CloseIcon} from '../../../../constants/Icons';
+import PDFViewer from '../../../../components/PDFViewer';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -18,11 +18,6 @@ const BackGround = styled.SafeAreaView`
 `;
 
 const Wrapper = styled.View`
-  justify-content: center;
-  align-items: center;
-`;
-
-const MainImage = styled.Image`
   justify-content: center;
   align-items: center;
 `;
@@ -50,21 +45,7 @@ const PdfButtonText = styled.Text`
   color: white;
 `;
 
-const TextBox = styled.View`
-  padding: 0 16px;
-`;
-const ModalContainer = styled.View`
-  flex: 1;
-  justify-content: center;
-  padding-top: 60px;
-`;
-
 const Text = styled.Text``;
-const IconContainer = styled.TouchableOpacity`
-  position: absolute;
-  right: 24px;
-  top: 55px;
-`;
 
 export default ({route: {params}}) => {
   const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
@@ -76,44 +57,12 @@ export default ({route: {params}}) => {
   const TYPE = params?.TYPE;
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [visibleVideoModalClose, setVisibleVideoModalClose] = useState<boolean>(
-    false,
-  );
 
   const checkVideo = async () => {
     setModalVisible(true);
     const {data} = await api.seteducheck(EMP_FILE_SEQ, MEMBER_SEQ);
   };
-
-  // const screenOrientationChange(event) {
-  //   const info = event.orientationInfo;
-  //   const state = {};
-
-  //   if (info) {
-  //     if (info.orientation.startsWith('LANDSCAPE')) {
-  //       state.iosModalHeaderTopStyle = 25;
-  //       state.iosModalHeaderButtonTopStyle = 25;
-  //     } else if (info.orientation.startsWith('PORTRAIT')) {
-  //       state.iosModalHeaderTopStyle = 55;
-  //       state.iosModalHeaderButtonTopStyle = 55;
-  //     }
-
-  //     this.setState(state);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   ScreenOrientation.addOrientationChangeListener((event) => {
-  //     screenOrientationChange(event);
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   return () => {
-  //     ScreenOrientation.removeOrientationChangeListeners();
-  //   };
-  // });
-
+  console.log('params', params);
   return (
     <BackGround>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -122,7 +71,7 @@ export default ({route: {params}}) => {
             <FastImage
               style={{width: wp('100%'), height: hp('30%')}}
               source={{
-                uri: IMG_URL2,
+                uri: `http://cuapi.shop-sol.com/uploads/edu/${IMG_URL2}`,
                 headers: {Authorization: 'someAuthToken'},
                 priority: FastImage.priority.low,
               }}
@@ -130,60 +79,39 @@ export default ({route: {params}}) => {
             />
           </Wrapper>
         )}
-        <PdfButtonWrapper>
-          <PdfButton
-            onPress={() => {
-              checkVideo();
-            }}>
-            <PdfButtonText>동영상 보기</PdfButtonText>
-          </PdfButton>
-        </PdfButtonWrapper>
+        {FILE_URL && (
+          <PdfButtonWrapper>
+            <PdfButton
+              onPress={() => {
+                checkVideo();
+              }}>
+              <PdfButtonText>동영상 보기</PdfButtonText>
+            </PdfButton>
+          </PdfButtonWrapper>
+        )}
         <Wrapper>
           <Text>{CONTENTS2}</Text>
         </Wrapper>
       </ScrollView>
+      {console.log(FILE_URL)}
       <Modal
         isVisible={modalVisible}
+        style={{
+          height: hp('100%'),
+        }}
         onBackButtonPress={() => {
           setModalVisible(false);
-        }}
-        style={{
-          backgroundColor: '#333333',
         }}>
         {TYPE == '0' ? (
-          <ModalContainer>
-            {/* <PDFViewer url={FILE_URL} /> */}
-            {visibleVideoModalClose && (
-              <IconContainer
-                onPress={() => {
-                  setModalVisible(false);
-                }}>
-                <Text>닫기</Text>
-                <CloseIcon size={28} />
-              </IconContainer>
-            )}
-          </ModalContainer>
+          <PDFViewer
+            url={`http://cuapi.shop-sol.com/uploads/edu/${FILE_URL}`}
+            setModalVisible={setModalVisible}
+          />
         ) : (
-          <ModalContainer>
-            <VideoPlayer
-              url={FILE_URL}
-              landscapeCallback={() => {
-                setVisibleVideoModalClose(false);
-              }}
-              portraitCallback={() => {
-                setVisibleVideoModalClose(true);
-              }}
-            />
-            {visibleVideoModalClose && (
-              <IconContainer
-                onPress={() => {
-                  setModalVisible(false);
-                }}>
-                <Text>닫기</Text>
-                <CloseIcon size={28} />
-              </IconContainer>
-            )}
-          </ModalContainer>
+          <VideoPlayer
+            url={`http://cuapi.shop-sol.com/uploads/edu/${FILE_URL}`}
+            setModalVisible={setModalVisible}
+          />
         )}
       </Modal>
     </BackGround>

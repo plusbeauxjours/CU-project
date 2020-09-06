@@ -10,7 +10,6 @@ import FastImage from 'react-native-fast-image';
 
 import api from '../../../../constants/LoggedInApi';
 import VideoPlayer from '../../../../components/VideoPlayer';
-import {CloseCircleIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -20,11 +19,6 @@ const BackGround = styled.SafeAreaView`
 const Wrapper = styled.View`
   justify-content: center;
   align-items: center;
-`;
-
-const MainImage = styled.Image`
-  width: ${wp('100%')}px;
-  height: ${hp('30%')}px;
 `;
 
 const ScrollView = styled.ScrollView`
@@ -50,14 +44,6 @@ const PdfButtonText = styled.Text`
   color: white;
 `;
 
-const TextBox = styled.View`
-  padding: 0 16px;
-`;
-const ModalContainer = styled.View`
-  flex: 1;
-  justify-content: center;
-`;
-
 const Text = styled.Text``;
 
 export default ({route: {params}}) => {
@@ -74,35 +60,6 @@ export default ({route: {params}}) => {
     setModalVisible(true);
     const {data} = await api.setvideocheck(VIDEO_SEQ, MEMBER_SEQ);
   };
-
-  // const screenOrientationChange(event) {
-  //   const info = event.orientationInfo;
-  //   const state = {};
-
-  //   if (info) {
-  //     if (info.orientation.startsWith('LANDSCAPE')) {
-  //       state.iosModalHeaderTopStyle = 25;
-  //       state.iosModalHeaderButtonTopStyle = 25;
-  //     } else if (info.orientation.startsWith('PORTRAIT')) {
-  //       state.iosModalHeaderTopStyle = 55;
-  //       state.iosModalHeaderButtonTopStyle = 55;
-  //     }
-
-  //     this.setState(state);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   ScreenOrientation.addOrientationChangeListener((event) => {
-  //     screenOrientationChange(event);
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   return () => {
-  //     ScreenOrientation.removeOrientationChangeListeners();
-  //   };
-  // });
 
   return (
     <BackGround>
