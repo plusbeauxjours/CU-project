@@ -295,7 +295,7 @@ export default ({
     );
   };
 
-  const SizeType = ({selection, text}) => {
+  const SizeType = ({selection, text, disabled = false}) => {
     let value = JSON.parse(JSON.stringify(sizeTypeCheck));
     return (
       <TypeContainer
@@ -304,7 +304,8 @@ export default ({
           value[selection] = true;
           setSizeTypeCheck(value);
           setTYPE(selection);
-        }}>
+        }}
+        disabled={disabled}>
         {sizeTypeCheck[selection] ? (
           <RadioBtnOnIcon size={17} />
         ) : (
@@ -356,7 +357,9 @@ export default ({
                 <NameText>기본주소</NameText>
                 <HelpCircleIcon />
               </RowTouchable>
-              <RequestButton onPress={() => gotoSearchAddress()}>
+              <RequestButton
+                onPress={() => gotoSearchAddress()}
+                disabled={STORE == '1' ? false : true}>
                 <RequestText>주소 검색</RequestText>
               </RequestButton>
             </InputCaseRow>
@@ -474,9 +477,8 @@ export default ({
                   <NameText>사업장 규모</NameText>
                 </TypeContainer>
                 <TypeCheckCase>
-                  <Text>
-                    {sizeTypeCheck[0] == true ? '5인 미만' : '5인 이상'}
-                  </Text>
+                  <SizeType selection={0} text={'5인 미만'} disabled={true} />
+                  <SizeType selection={1} text={'5인 이상'} disabled={true} />
                   <InputLine isBefore={false} />
                 </TypeCheckCase>
               </>

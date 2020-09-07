@@ -1,6 +1,6 @@
 import React, {useRef} from 'react';
 import styled from 'styled-components/native';
-import {Keyboard, KeyboardAvoidingView} from 'react-native';
+import {Keyboard} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {
   widthPercentageToDP as wp,
@@ -15,7 +15,7 @@ import {
   RemoveCircleIcon,
   EllipseIcon,
 } from '../../../../constants/Icons';
-import ChecklistAddScreenAddedCard from './ChecklistAddScreenAddedCard';
+import CalendarAddScreenCard from './CalendarAddScreenCard';
 import RoundBtn from '../../../../components/Btn/RoundBtn';
 import {
   DownIcon,
@@ -53,11 +53,6 @@ const Container = styled.View`
   width: 100%;
   padding: 20px;
   align-items: center;
-`;
-
-const WhiteText = styled.Text`
-  font-size: 12px;
-  color: white;
 `;
 
 const Section = styled.View`
@@ -345,10 +340,7 @@ export default ({
           <ScrollView horizontal={true} contentContainerStyle={{marginTop: 10}}>
             {choiceEmp?.map((data, index) => (
               <Touchable key={index} onPress={() => deleteEmpFn(data.MobileNo)}>
-                <ChecklistAddScreenAddedCard
-                  name={data.NAME}
-                  image={data.IMAGE}
-                />
+                <CalendarAddScreenCard name={data.NAME} image={data.IMAGE} />
               </Touchable>
             ))}
           </ScrollView>
@@ -590,17 +582,9 @@ export default ({
           {RenderHourRow([12, 13, 14, 15], 4)}
           {RenderHourRow([16, 17, 18, 19], 5)}
           {RenderHourRow([20, 21, 22, 23], 6)}
-          {/* <RenderHourRow rowData={[0, 1, 2, 3]} rowNum={1} />
-          <RenderHourRow rowData={[4, 5, 6, 7]} rowNum={2} />
-          <RenderHourRow rowData={[8, 9, 10, 11]} rowNum={3} />
-          <RenderHourRow rowData={[12, 13, 14, 15]} rowNum={4} />
-          <RenderHourRow rowData={[16, 17, 18, 19]} rowNum={5} />
-          <RenderHourRow rowData={[20, 21, 22, 23]} rowNum={6} /> */}
           <ModalText>분 선택</ModalText>
           {RenderMinuteRow([0, 10, 20, 30], 1)}
           {RenderMinuteRow([40, 50, 'directInput'], 2)}
-          {/* <RenderMinuteRow rowData={[0, 10, 20, 30]} rowNum={1} />
-          <RenderMinuteRow rowData={[40, 50, 'directInput']} rowNum={2} /> */}
         </ModalContainer>
         <ModalFooter>
           <ModalButton

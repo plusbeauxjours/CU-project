@@ -98,7 +98,7 @@ export default () => {
   };
 
   const gotoChecklistAdd = () => {
-    navigation.navigate('ChecklistAddScreen', {type: '등록'});
+    navigation.navigate('ChecklistAddScreen', {type: '등록', DATE: date});
   };
 
   // 캘린더 마킹 데이터

@@ -1,39 +1,41 @@
 import React, {useState, useEffect} from 'react';
 
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import {setAlertVisible, setAlertInfo} from '../../../../redux/alertSlice';
 import api from '../../../../constants/LoggedInApi';
 import ChecklistAddScreenPresenter from './ChecklistAddScreenPresenter';
+import {getCHECKLIST_DATA} from '../../../../redux/checklistSlice';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {
-    checkID,
-    checkpoint = null,
-    checklist = null,
-    checktime = null,
+    CHECK_SEQ = null,
     PHOTO_CHECK = null,
-    checkSelectedEmp = null,
-    checkSelectedEmpName = null,
+    EMP_SEQ = null,
+    NAME = null,
+    DATE = null,
     type,
   } = params;
+
+  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
 
   const [choiceEmp, setChoiceEmp] = useState<any>([]);
   const [isCheckedEmpChoise, setIsCheckedEmpChoise] = useState<boolean>(false);
   const [emplist, setEmplist] = useState<any>([]);
   const [CLOSE_FLAG, setCLOSE_FLAG] = useState<boolean>(false);
-  const [checkpointInput, setCheckpointInput] = useState<string>('');
+  const [TITLE, setTITLE] = useState<string>(params?.TITLE || null);
   const [checklistInput, setChecklistInput] = useState<string>('');
-  const [checklistState, setChecklistState] = useState<any>([]);
-  const [isNoCheckedtime, setIsNoCheckedtime] = useState<boolean>(false);
+  const [LIST, setLIST] = useState<any>([]);
+  const [isNoCheckedtime, setIsNoCheckedtime] = useState<boolean>(
+    params?.END_TIME ? true : false,
+  );
   const [isCheckedCamera, setIsCheckedCamera] = useState<boolean>(false);
-  const [customChecktime, setCustomChecktime] = useState<string>('');
-  const [isRegisterModalVisible, setIsRegisterModalVisible] = useState<boolean>(
-    false,
+  const [customChecktime, setCustomChecktime] = useState<string>(
+    params?.END_TIME || null,
   );
   const [isTimeCheckedModalVisible, setIsTimeCheckedModalVisible] = useState<
     boolean
@@ -70,10 +72,12 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
+  // 체크리스트 삭제
   const deleteFn = () => {
     submitFn('close');
   };
 
+  // 담당직원 리스트에서 삭제
   const deleteEmpFn = (KEY) => {
     let buffer = JSON.parse(JSON.stringify(choiceEmp));
     for (let i = 0; i < buffer.length; i++) {
@@ -90,6 +94,7 @@ export default ({route: {params}}) => {
     }
   };
 
+  // 담당직원 리스트에 추가
   const choiseEmpFn = (data) => {
     let buffer = JSON.parse(JSON.stringify(choiceEmp));
     for (let i = 0; i < buffer.length; i++) {
@@ -103,7 +108,7 @@ export default ({route: {params}}) => {
 
   const fetchData = async () => {
     try {
-      const {data} = await api.getEmployeeList({STORE_SEQ: storeID.toString()});
+      const {data} = await api.getEmployeeList({STORE_SEQ});
       if (data.message === 'SUCCESS') {
         setEmplist(data.result);
       }
@@ -113,6 +118,7 @@ export default ({route: {params}}) => {
     }
   };
 
+  // 예정시간모달에서 직접입력
   const checkDirectInputFn = () => {
     let valueH = JSON.parse(JSON.stringify(hourCheck));
     let valueM = JSON.parse(JSON.stringify(minuteCheck));
@@ -142,12 +148,10 @@ export default ({route: {params}}) => {
     setMinuteDirectInput('');
   };
 
+  // 체크리스트 추가하기
   const submitFn = async (sign) => {
-    if (sign == 'close') {
-      setCLOSE_FLAG(true);
-    }
     let buffer = JSON.parse(JSON.stringify(choiceEmp));
-    if (checkpointInput == '') {
+    if (TITLE == '') {
       alertModal('체크포인트를 입력해주세요');
     }
     if (isCheckedEmpChoise) {
@@ -163,25 +167,24 @@ export default ({route: {params}}) => {
     }
 
     let newlist = [];
-    for (let i = 0; i < checklist.length; i++) {
-      newlist.push(checklist[i]);
+    for (let i = 0; i < LIST.length; i++) {
+      newlist.push(LIST[i]);
       newlist.push(false);
     }
-    if (checkID) {
+    if (!CHECK_SEQ) {
       try {
         dispatch(setSplashVisible(true));
         if (buffer.length != 0) {
           const {data} = await api.checkRegister({
             LIST: newlist,
-            STORE_SEQ: storeID.toString(),
-            TITLE: checkpointInput.toString(),
-            createdData: isNoCheckedtime ? '' : customChecktime.toString(), // chcktime
+            STORE_SEQ,
+            TITLE,
+            createdData: isNoCheckedtime ? '' : customChecktime.toString(),
             PHOTO_CHECK: isCheckedCamera ? '1' : '0',
             EMP_SEQ: newChoiceEmp,
           });
           if (data.message === 'SUCCESS') {
             navigation.goBack();
-            onRefresh();
             alertModal('체크리스트가 추가되었습니다.');
           } else if (data.message === 'ALREADY_SUCCESS') {
             alertModal(data.result);
@@ -191,14 +194,13 @@ export default ({route: {params}}) => {
         } else {
           const {data} = await api.checkRegister({
             LIST: newlist,
-            STORE_SEQ: storeID.toString(),
-            TITLE: checkpointInput.toString(),
-            createdData: isNoCheckedtime ? '' : customChecktime.toString(), // chcktime
+            STORE_SEQ,
+            TITLE,
+            createdData: isNoCheckedtime ? '' : customChecktime.toString(),
             PHOTO_CHECK: isCheckedCamera ? '1' : '0',
           });
           if (data.message === 'SUCCESS') {
             navigation.goBack();
-            onRefresh();
             alertModal('체크리스트가 추가되었습니다.');
           } else if (data.message === 'ALREADY_SUCCESS') {
             alertModal(data.result);
@@ -209,6 +211,7 @@ export default ({route: {params}}) => {
       } catch (error) {
         console.log(error);
       } finally {
+        dispatch(getCHECKLIST_DATA(DATE));
         dispatch(setSplashVisible(false));
       }
     } else {
@@ -216,18 +219,17 @@ export default ({route: {params}}) => {
         dispatch(setSplashVisible(true));
         if (buffer.length !== 0) {
           const {data} = await api.checkUpdate({
-            CLOSE_FLAG: CLOSE_FLAG ? '1' : '0',
-            STORE_SEQ: storeID.toString(), // storeID
-            LIST: newlist, // checklist
-            CHECK_SEQ: checkID.toString(), // storeID
-            TITLE: checkpointInput.toString(), // checkpoint
-            createdData: isNoCheckedtime ? '' : customChecktime.toString(), // chcktime
+            CLOSE_FLAG: sign == 'close' ? '1' : '0',
+            STORE_SEQ,
+            LIST: newlist,
+            CHECK_SEQ,
+            TITLE,
+            createdData: isNoCheckedtime ? '' : customChecktime.toString(),
             PHOTO_CHECK: isCheckedCamera ? '1' : '0',
             EMP_SEQ: newChoiceEmp,
           });
           if (data.result === 'SUCCESS') {
             navigation.goBack();
-            onRefresh();
             alertModal(
               `체크리스트가 ${CLOSE_FLAG ? '삭제' : '수정'}되었습니다.`,
             );
@@ -236,17 +238,16 @@ export default ({route: {params}}) => {
           }
         } else {
           const {data} = await api.checkUpdate({
-            CLOSE_FLAG: CLOSE_FLAG ? '1' : '0',
-            STORE_SEQ: storeID.toString(), // storeID
-            LIST: newlist, // checklist
-            CHECK_SEQ: checkID.toString(), // storeID
-            TITLE: checkpointInput.toString(), // checkpoint
-            createdData: isNoCheckedtime ? '' : customChecktime.toString(), // chcktime
+            CLOSE_FLAG: sign == 'close' ? '1' : '0',
+            STORE_SEQ,
+            LIST: newlist,
+            CHECK_SEQ,
+            TITLE,
+            createdData: isNoCheckedtime ? '' : customChecktime.toString(),
             PHOTO_CHECK: isCheckedCamera ? '1' : '0',
           });
           if (data.result === 'SUCCESS') {
             navigation.goBack();
-            onRefresh();
             alertModal(
               `체크리스트가 ${CLOSE_FLAG ? '삭제' : '수정'}되었습니다.`,
             );
@@ -257,31 +258,25 @@ export default ({route: {params}}) => {
       } catch (error) {
         console.log(error);
       } finally {
+        dispatch(getCHECKLIST_DATA(DATE));
         dispatch(setSplashVisible(false));
       }
     }
   };
 
   useEffect(() => {
-    if (checktime) {
-      setIsNoCheckedtime(true);
-    } else {
-      setIsNoCheckedtime(false);
-      setCustomChecktime(checktime);
-    }
-    if (checklist) {
-      let newchecklist = checklist.split('@@');
+    if (params?.LIST) {
+      let newchecklist = params?.LIST.split('@@');
       newchecklist[newchecklist.length - 1] = newchecklist[
         newchecklist.length - 1
       ].replace('@', '');
-
       let newlist = [];
       for (let i = 0; i < newchecklist.length; i++) {
         newlist.push(newchecklist[i]);
       }
-      if (checkSelectedEmp) {
-        let emparr = checkSelectedEmp.split('@');
-        let empnamearr = checkSelectedEmpName.split('@');
+      if (EMP_SEQ) {
+        let emparr = EMP_SEQ.split('@');
+        let empnamearr = NAME.split('@');
         let buffer = JSON.parse(JSON.stringify(choiceEmp));
         for (let i = 0; i < emparr.length; i++) {
           let data: any = {};
@@ -295,9 +290,7 @@ export default ({route: {params}}) => {
           setChoiceEmp(buffer);
         }
       }
-      setCheckpointInput(checkpoint);
-      setChecklistState(newlist);
-
+      setLIST(newlist);
       setIsCheckedCamera(Number(PHOTO_CHECK || 0) === 1 ? true : false);
     }
     fetchData();
@@ -311,13 +304,11 @@ export default ({route: {params}}) => {
       setMinuteCheck={setMinuteCheck}
       minuteDirectInput={minuteDirectInput}
       setMinuteDirectInput={setMinuteDirectInput}
-      checkpointInput={checkpointInput}
-      setCheckpointInput={setCheckpointInput}
+      TITLE={TITLE}
+      setTITLE={setTITLE}
       deleteEmpFn={deleteEmpFn}
       isTimeCheckedModalVisible={isTimeCheckedModalVisible}
       setIsTimeCheckedModalVisible={setIsTimeCheckedModalVisible}
-      isRegisterModalVisible={isRegisterModalVisible}
-      setIsRegisterModalVisible={setIsRegisterModalVisible}
       isNoCheckedtime={isNoCheckedtime}
       setIsNoCheckedtime={setIsNoCheckedtime}
       isCheckedCamera={isCheckedCamera}
@@ -331,14 +322,12 @@ export default ({route: {params}}) => {
       checkDirectInputFn={checkDirectInputFn}
       emplist={emplist}
       choiceEmp={choiceEmp}
-      setChoiceEmp={setChoiceEmp}
       submitFn={submitFn}
-      checklist={checklist}
+      LIST={LIST}
       type={type}
       confirmModal={confirmModal}
       setChecklistInput={setChecklistInput}
-      checklistState={checklistState}
-      setChecklistState={setChecklistState}
+      setLIST={setLIST}
     />
   );
 };

@@ -171,7 +171,11 @@ export const SettingIcon: React.FC<IProps> = ({size, color}) => (
 );
 
 export const QrCodeIcon: React.FC<IProps> = ({size, color}) => (
-  <Ionicons name="qrcode-scan" size={size ?? 36} color={color ?? '#642A8C'} />
+  <MaterialCommunityIcons
+    name="qrcode-scan"
+    size={size ?? 36}
+    color={color ?? '#642A8C'}
+  />
 );
 
 export const CalendarIcon: React.FC<IProps> = ({size, color}) => (

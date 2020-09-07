@@ -98,6 +98,7 @@ const MenuBox = styled.View`
 `;
 
 const Qr = styled.TouchableOpacity`
+  width: ${wp('100%') - 40}px;
   border-width: 1px;
   border-color: #642a8c;
   padding: ${hp('2%')}px ${wp('10%')}px;
@@ -372,6 +373,7 @@ export default ({
     <MenuCnt
       style={{zIndex: 4}}
       isTrue={selection == '체크리스트'}
+      activeOpacity={0.6}
       onPress={() => {
         selection == 'QR보기'
           ? setPictureModalOpen(true)

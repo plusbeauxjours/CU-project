@@ -52,7 +52,7 @@ const Section = styled.View`
 
 const Row = styled.View`
   flex-direction: row;
-  align-items: baseline;
+  align-items: center;
 `;
 
 const RowTitle = styled(Row)`
@@ -120,7 +120,6 @@ const Line = styled.View`
 
 const ChecktimeButton = styled.TouchableOpacity`
   padding: 5px 20px;
-  margin-bottom: 5px;
   border-width: 1px;
   border-radius: 30px;
   border-color: #642a8c;
@@ -219,6 +218,10 @@ const ChecklistBox = styled.View`
   padding: 10px;
 `;
 
+const WhiteSpace = styled.View`
+  height: 30px;
+`;
+
 export default ({
   hourCheck,
   setHourCheck,
@@ -226,13 +229,11 @@ export default ({
   setMinuteCheck,
   minuteDirectInput,
   setMinuteDirectInput,
-  checkpointInput,
-  setCheckpointInput,
+  TITLE,
+  setTITLE,
   deleteEmpFn,
   isTimeCheckedModalVisible,
   setIsTimeCheckedModalVisible,
-  isRegisterModalVisible,
-  setIsRegisterModalVisible,
   isNoCheckedtime,
   setIsNoCheckedtime,
   isCheckedCamera,
@@ -246,16 +247,15 @@ export default ({
   checkDirectInputFn,
   emplist,
   choiceEmp,
-  setChoiceEmp,
   submitFn,
-  checklist,
+  LIST,
   type,
   confirmModal,
   setChecklistInput,
-  checklistState,
-  setChecklistState,
+  setLIST,
 }) => {
   const RBSheetRef = useRef(null);
+
   const RenderHourRow = (rowData, rowNum) => (
     <Row>
       <RenderHourRowData rowData={rowData} rowNum={rowNum} />
@@ -348,10 +348,8 @@ export default ({
               placeholder={'ex. 주방'}
               selectionColor={'#642A8C'}
               placeholderTextColor={'#E5E5E5'}
-              onChangeText={(text) => {
-                setCheckpointInput(text);
-              }}
-              value={checkpointInput}
+              onChangeText={(text) => setTITLE(text)}
+              value={TITLE}
             />
           </Section>
 
@@ -370,28 +368,28 @@ export default ({
             <RoundBtn
               text={'목록에 추가하기'}
               onPress={() => {
-                let value = JSON.parse(JSON.stringify(checklistState));
+                let value = JSON.parse(JSON.stringify(LIST));
                 Keyboard.dismiss();
                 value.push(checklistInput);
                 setChecklistInput('');
-                setChecklistState(value);
+                setLIST(value);
               }}
               isRegisted={checklistInput !== ''}
             />
             <ChecklistBox>
-              {checklistState?.length === 0 && (
+              {LIST?.length === 0 && (
                 <ChecklistItem>
                   <GreyText>ex. 가스벨브 잠그기</GreyText>
                 </ChecklistItem>
               )}
-              {checklistState?.map((data, index) => (
+              {LIST?.map((data, index) => (
                 <ChecklistItem key={index}>
                   <GreyText>{data}</GreyText>
                   <Touchable
                     onPress={() => {
-                      let value = JSON.parse(JSON.stringify(checklistState));
+                      let value = JSON.parse(JSON.stringify(LIST));
                       value.splice(index, 1);
-                      setChecklistState(value);
+                      setLIST(value);
                     }}>
                     <RemoveCircleIcon />
                   </Touchable>
@@ -466,9 +464,7 @@ export default ({
               </Row>
               {isCheckedEmpChoise && (
                 <ChecktimeButton onPress={() => RBSheetRef.current.open()}>
-                  <ChecktimeButtonText isSelected={customChecktime}>
-                    {customChecktime ? customChecktime : '선택'}
-                  </ChecktimeButtonText>
+                  <ChecktimeButtonText>직원 선택하기</ChecktimeButtonText>
                 </ChecktimeButton>
               )}
             </RowTitle>
@@ -487,92 +483,33 @@ export default ({
               </Row>
               <SubText>미선택시 전 직원이 체크할 수 있습니다.</SubText>
             </Touchable>
-            <ScrollView
-              horizontal={true}
-              contentContainerStyle={{marginTop: 10}}>
-              {choiceEmp?.map((data, index) => (
-                <Touchable
-                  key={index}
-                  onPress={() => deleteEmpFn(data.EMP_SEQ)}>
-                  <ChecklistAddScreenCard name={data.NAME} image={data.IMAGE} />
-                </Touchable>
-              ))}
-            </ScrollView>
+            <WhiteSpace />
+            {isCheckedEmpChoise && (
+              <ScrollView
+                horizontal={true}
+                contentContainerStyle={{marginTop: 10}}>
+                {choiceEmp?.map((data, index) => (
+                  <Touchable
+                    key={index}
+                    onPress={() => deleteEmpFn(data.EMP_SEQ)}>
+                    <ChecklistAddScreenCard
+                      name={data.NAME}
+                      image={data.IMAGE}
+                    />
+                  </Touchable>
+                ))}
+              </ScrollView>
+            )}
             {choiceEmp?.length !== 0 && (
               <SubText>* 직원 이미지를 클릭하면 목록에서 제외됩니다.</SubText>
             )}
           </Section>
-          <Modal
-            isVisible={isTimeCheckedModalVisible}
-            onBackdropPress={() => setIsTimeCheckedModalVisible(false)}
-            style={{margin: 0, justifyContent: 'flex-end'}}
-            avoidKeyboard={true}>
-            <ModalContainer>
-              <ModalText>시간 선택</ModalText>
-              {RenderHourRow([0, 1, 2, 3], 1)}
-              {RenderHourRow([4, 5, 6, 7], 2)}
-              {RenderHourRow([8, 9, 10, 11], 3)}
-              {RenderHourRow([12, 13, 14, 15], 4)}
-              {RenderHourRow([16, 17, 18, 19], 5)}
-              {RenderHourRow([20, 21, 22, 23], 6)}
-              {/* <RenderHourRow rowData={[0, 1, 2, 3]} rowNum={1} />
-              <RenderHourRow rowData={[4, 5, 6, 7]} rowNum={2} />
-              <RenderHourRow rowData={[8, 9, 10, 11]} rowNum={3} />
-              <RenderHourRow rowData={[12, 13, 14, 15]} rowNum={4} />
-              <RenderHourRow rowData={[16, 17, 18, 19]} rowNum={5} />
-              <RenderHourRow rowData={[20, 21, 22, 23]} rowNum={6} /> */}
-              <ModalText>분 선택</ModalText>
-              {/* {RenderMinuteRow([0, 10, 20, 30], 1)}
-              {RenderMinuteRow([40, 50, 'directInput'], 2)} */}
-              {/* <RenderMinuteRow rowData={[0, 10, 20, 30]} rowNum={1} />
-              <RenderMinuteRow rowData={[40, 50, 'directInput']} rowNum={2} /> */}
-            </ModalContainer>
-            <ModalFooter>
-              {/* <ModalButton onPress={() => setIsTimeCheckedModalVisible(false)}>
-                <NameText style={{color: '#642a8c'}}>닫기</NameText>
-              </ModalButton> */}
-              {/*<ModalButton onPress={() => checkDirectInputFn()}>
-                <NameText style={{color: 'white'}}>확인</NameText>
-              </ModalButton> */}
-            </ModalFooter>
-          </Modal>
-          <RBSheet
-            ref={RBSheetRef}
-            closeOnDragDown={true}
-            closeOnPressMask={true}
-            height={350}
-            openDuration={250}
-            customStyles={{
-              container: {
-                justifyContent: 'center',
-                alignItems: 'center',
-              },
-            }}>
-            <ScrollView
-              persistentScrollbar={true}
-              contentContainerStyle={{alignItems: 'center'}}>
-              {emplist?.map((data, index) => (
-                <Touchable
-                  key={index}
-                  onPress={() => {
-                    choiseEmpFn(data);
-                  }}>
-                  <ModalCheckEmpList>
-                    <Bold>{data.NAME}</Bold>
-                    <Text>{data.MobileNo}</Text>
-                    <AddCircleIcon size={20} />
-                  </ModalCheckEmpList>
-                </Touchable>
-              ))}
-            </ScrollView>
-          </RBSheet>
         </Container>
         <SubmitBtn
           text={`${type}완료`}
           onPress={() => submitFn()}
           isRegisted={
-            checklist?.length === 0 &&
-            (!isNoCheckedtime || customChecktime === '')
+            (LIST?.length !== 0 && isNoCheckedtime) || customChecktime
           }
         />
         {type == '수정' && (
@@ -584,6 +521,79 @@ export default ({
           </DeleteButton>
         )}
       </ScrollView>
+      <RBSheet
+        ref={RBSheetRef}
+        closeOnDragDown={true}
+        closeOnPressMask={true}
+        height={350}
+        openDuration={250}
+        customStyles={{
+          container: {
+            justifyContent: 'center',
+            alignItems: 'center',
+          },
+        }}>
+        <ScrollView
+          persistentScrollbar={true}
+          contentContainerStyle={{alignItems: 'center'}}>
+          {emplist?.map((data, index) => (
+            <Touchable
+              key={index}
+              onPress={() => {
+                choiseEmpFn(data);
+              }}>
+              <ModalCheckEmpList>
+                <Bold>{data.NAME}</Bold>
+                <Text>{data.MobileNo}</Text>
+                <AddCircleIcon size={20} />
+              </ModalCheckEmpList>
+            </Touchable>
+          ))}
+        </ScrollView>
+      </RBSheet>
+      <Modal
+        isVisible={isTimeCheckedModalVisible}
+        onBackdropPress={() => {
+          let valueH = JSON.parse(JSON.stringify(hourCheck));
+          let valueM = JSON.parse(JSON.stringify(minuteCheck));
+          setIsTimeCheckedModalVisible(false);
+          setHourCheck(valueH);
+          setMinuteCheck(valueM);
+          setMinuteDirectInput('');
+        }}
+        style={{margin: 0, justifyContent: 'flex-end'}}
+        avoidKeyboard={true}>
+        <ModalContainer>
+          <ModalText>시간 선택</ModalText>
+          {RenderHourRow([0, 1, 2, 3], 1)}
+          {RenderHourRow([4, 5, 6, 7], 2)}
+          {RenderHourRow([8, 9, 10, 11], 3)}
+          {RenderHourRow([12, 13, 14, 15], 4)}
+          {RenderHourRow([16, 17, 18, 19], 5)}
+          {RenderHourRow([20, 21, 22, 23], 6)}
+          <ModalText>분 선택</ModalText>
+          {RenderMinuteRow([0, 10, 20, 30], 1)}
+          {RenderMinuteRow([40, 50, 'directInput'], 2)}
+        </ModalContainer>
+        <ModalFooter>
+          <ModalButton
+            onPress={() => {
+              let valueH = JSON.parse(JSON.stringify(hourCheck));
+              let valueM = JSON.parse(JSON.stringify(minuteCheck));
+              setIsTimeCheckedModalVisible(false);
+              setHourCheck(valueH);
+              setMinuteCheck(valueM);
+              setMinuteDirectInput('');
+            }}>
+            <NameText style={{color: '#642a8c'}}>닫기</NameText>
+          </ModalButton>
+          <ModalButton
+            style={{backgroundColor: '#642a8c'}}
+            onPress={() => checkDirectInputFn()}>
+            <NameText style={{color: 'white'}}>확인</NameText>
+          </ModalButton>
+        </ModalFooter>
+      </Modal>
     </BackGround>
   );
 };

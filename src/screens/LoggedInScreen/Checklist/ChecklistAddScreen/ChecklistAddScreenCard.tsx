@@ -15,11 +15,11 @@ export default ({name, image}) => {
     <Container>
       <Avatar
         rounded
-        size={50}
+        size={60}
         source={{
           uri: `http://133.186.209.113/uploads/${image}`,
         }}
-        containerStyle={{borderWidth: 1, borderColor: '#ccc'}}
+        containerStyle={{borderWidth: 1, borderColor: '#ccc', marginBottom: 5}}
       />
       <Text>{name}</Text>
     </Container>
