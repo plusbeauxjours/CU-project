@@ -61,7 +61,8 @@ const CalendarText = styled.Text`
 export default ({key, date, data}) => {
   const navigation = useNavigation();
   const [willCheck, setWillCheck] = useState<boolean>(false);
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [checkYes, setCheckYes] = useState<boolean>(false);
+  const [checkNo, setCheckNo] = useState<boolean>(false);
 
   let done = false;
   if (moment(date) == moment()) {
@@ -74,11 +75,12 @@ export default ({key, date, data}) => {
 
   const gotoCkecklistDetail = () => {
     if (data.CS_SEQ) {
-      return navigation.navigate('ChecklistDetailScreen', {
-        checkType: '0', // 미체크
+      navigation.navigate('ChecklistDetailScreen', {
+        CHECK_SEQ: data.CHECK_SEQ,
+        DATE: date,
       });
     } else {
-      return navigation.navigate('ChecklistSpecificationScreen', {
+      navigation.navigate('ChecklistSpecificationScreen', {
         checkType: '1', // 체크됨
         scan: 0,
         register: false,
@@ -92,10 +94,10 @@ export default ({key, date, data}) => {
       for (var i = 0; i < check.length / 2; i++) {
         var temp = 2 * i + 1;
         if (check[temp] === '1') {
-          setIsChecked(true);
+          setCheckYes(true);
         }
         if (check[temp] === '2') {
-          setIsChecked(false);
+          setCheckNo(true);
         }
       }
     } else {
@@ -131,13 +133,13 @@ export default ({key, date, data}) => {
                     <CalendarText>미체크</CalendarText>
                   </Row>
                 )}
-                {isChecked && data.CS_SEQ && (
+                {!checkNo && data.CS_SEQ && (
                   <Row>
                     <EllipseIcon size={8} color={'#AACE36'} />
                     <CalendarText>체크정상</CalendarText>
                   </Row>
                 )}
-                {!isChecked && data.CS_SEQ && (
+                {checkNo && data.CS_SEQ && (
                   <Row>
                     <EllipseIcon size={8} color={'#984B19'} />
                     <CalendarText>체크이상</CalendarText>
@@ -154,17 +156,17 @@ export default ({key, date, data}) => {
           </Row>
           <CheckpointText>{data.TITLE}</CheckpointText>
 
-          {data.EMP_NAME ? ( // 체크한 상태
+          {data.NAME ? ( // 체크한 상태
             <>
               <CheckpointBox>
                 <ChecktimeText>체크시간</ChecktimeText>
                 <GreyText>{data.CHECK_TIME}</GreyText>
               </CheckpointBox>
-              {data.EMP_SEQ ? (
+              {data.NAME ? (
                 <CheckpointBox>
                   <ChecktimeText>담당직원</ChecktimeText>
                   <GreyText numberOfLines={1} ellipsizeMode="tail">
-                    {data.EMP_SEQ.split('@').join(' / ')}
+                    {data.NAME.split('@').join(' / ')}
                   </GreyText>
                 </CheckpointBox>
               ) : (
@@ -182,11 +184,11 @@ export default ({key, date, data}) => {
                   {data.END_TIME === '' ? '미사용' : data.END_TIME}
                 </GreyText>
               </CheckpointBox>
-              {data.EMP_SEQ && (
+              {data.NAME && (
                 <CheckpointBox>
                   <ChecktimeText>담당직원</ChecktimeText>
                   <GreyText numberOfLines={1} ellipsizeMode="tail">
-                    {data.EMP_SEQ.split('@').join(' / ')}
+                    {data.NAME.split('@').join(' / ')}
                   </GreyText>
                 </CheckpointBox>
               )}

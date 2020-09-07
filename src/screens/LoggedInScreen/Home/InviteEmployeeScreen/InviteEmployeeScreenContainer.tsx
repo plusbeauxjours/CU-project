@@ -171,7 +171,6 @@ export default () => {
       //     if (info.phoneNumbers) {
       //       for (var a = 0; a < info.phoneNumbers.length; a++) {
       //         const num = info.phoneNumbers[a].number.split('-').join('');
-      //         console.log('num', num);
       //         if (buffer[i].phone == num) {
       //           flag = true;
       //           break;

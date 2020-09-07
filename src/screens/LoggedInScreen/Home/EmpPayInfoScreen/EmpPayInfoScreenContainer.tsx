@@ -148,7 +148,6 @@ export default ({route: {params}}) => {
     if (MONTH < 10) {
       MONTH = Number('0' + MONTH);
     }
-    console.log(YEAR, MONTH);
     fetchData(YEAR, MONTH);
   }, []);
 

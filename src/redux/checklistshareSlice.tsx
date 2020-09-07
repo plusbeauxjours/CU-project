@@ -99,7 +99,6 @@ const checklistshareSlice = createSlice({
           CLOSE_FLAG,
         },
       } = action;
-      console.log(TITLE, CLOSE_FLAG, NOTICE_SEQ);
       if (TITLE === '지시사항') {
         if (isFavorite) {
           if (CLOSE_FLAG == '1') {

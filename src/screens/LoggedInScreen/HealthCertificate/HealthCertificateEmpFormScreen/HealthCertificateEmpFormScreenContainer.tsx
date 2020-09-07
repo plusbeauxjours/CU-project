@@ -87,7 +87,6 @@ export default ({route: {params}}) => {
       //     fileType = 'image/jpeg';
       //   }
       // }
-      console.log('data');
 
       const {data} = await api.saveOcr({
         EMP_NAME: NAME,
@@ -106,7 +105,6 @@ export default ({route: {params}}) => {
           // type: fileType,
         },
       });
-      console.log(data);
       if (data.result == '1') {
         alertModal('', '저장 완료');
         navigation.goBack();
@@ -173,7 +171,6 @@ export default ({route: {params}}) => {
     //   }
     // }
     // getPermissionsAsync();
-    console.log('params', params);
   }, []);
 
   return (

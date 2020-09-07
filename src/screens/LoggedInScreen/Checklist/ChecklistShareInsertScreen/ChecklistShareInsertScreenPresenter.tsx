@@ -232,9 +232,7 @@ export default ({
 
             <SubmitBtn
               text={`${TITLE} 등록완료`}
-              onPress={() => {
-                console.log('등록완료'), registerFn();
-              }}
+              onPress={() => registerFn()}
               isRegisted={content && title}
             />
           </Container>

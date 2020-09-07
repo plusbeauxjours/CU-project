@@ -4,10 +4,18 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import ImageView from 'react-native-image-viewing';
 import {FlatList} from 'react-native-gesture-handler';
 import moment from 'moment';
+import Modal from 'react-native-modal';
+import FastImage from 'react-native-fast-image';
+import ImageViewer from 'react-native-image-zoom-viewer';
+
 import {CheckBoxIcon} from '../../../../constants/Icons';
+import {ActivityIndicator} from 'react-native';
+
+interface ISelected {
+  isSelected: boolean;
+}
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -19,10 +27,10 @@ const Text = styled.Text``;
 const Touchable = styled.TouchableOpacity``;
 const Container = styled.View`
   width: 100%;
-  margin-top: 20px;
   padding: 20px;
   align-items: center;
 `;
+
 const Row = styled.View`
   flex-direction: row;
 `;
@@ -30,10 +38,12 @@ const Row = styled.View`
 const RowSpace = styled(Row)`
   justify-content: space-between;
 `;
+
 const SectionText = styled.Text`
   font-size: 15px;
   font-weight: bold;
 `;
+
 const Section = styled.View`
   width: 100%;
   margin-bottom: 20px;
@@ -41,12 +51,14 @@ const Section = styled.View`
   padding: 20px;
   background-color: white;
 `;
+
 const Box = styled.View`
   border-width: 1px;
   border-color: #f2f2f2;
   min-height: 100px;
   padding: 10px;
 `;
+
 const ImageModalFooter = styled.View`
   margin-bottom: 60px;
   align-items: center;
@@ -54,25 +66,31 @@ const ImageModalFooter = styled.View`
   border-radius: 20px;
   background-color: rgba(0, 0, 0, 0.4);
 `;
+
 const ImageModalFooterText = styled.Text`
   color: white;
   font-weight: bold;
 `;
+
 const TextInput = styled.TextInput``;
+
 const ImageBox = styled.View`
   flex-direction: row;
   margin: 15px 20px 0 20px;
 `;
+
 const ImageContainer = styled.View`
   width: 25px;
   height: 25px;
   border-radius: 5px;
 `;
+
 const Image = styled.Image`
   width: 100%;
   height: 100%;
   border-radius: 5px;
 `;
+
 const WhiteSpace = styled.View`
   height: 10px;
 `;
@@ -107,18 +125,45 @@ const CheckBoxIconContainer = styled(RowSpace)`
   width: 60px;
 `;
 
+const CategoryList = styled.View`
+  padding: 16px 0;
+`;
+
+const Category = styled.TouchableOpacity<ISelected>`
+  border-radius: 15px;
+  height: 30px;
+  background-color: ${(props) => (props.isSelected ? '#642A8C' : '#ffffff')};
+  border-color: #642a8c;
+  border-width: 1px;
+  justify-content: center;
+  align-items: center;
+  padding: 0 15px;
+  margin-left: 16px;
+`;
+
+const CategoryText = styled.Text`
+  color: ${(props) => (props.isSelected ? '#ffffff' : '#642A8C')};
+`;
+
+const Footer = styled.View`
+  width: ${wp('100%')}px;
+`;
+
+const FooterText = styled.Text`
+  text-align: center;
+  color: white;
+  font-size: 18px;
+  margin-bottom: 20px;
+`;
+
 export default ({
   checkEMPTime,
   selectedCategory,
   cameraPictureList,
   modalImgarr,
-  imgModalIdx,
   isImageViewVisible,
   setIsImageViewVisible,
   memoInput,
-  setMemoInput,
-  scan,
-  setImgModalIdx,
   checkpoint,
   checktime,
   checkEMP,
@@ -127,143 +172,140 @@ export default ({
   setChecklistGoodState,
   checklistBadState,
   setChecklistBadState,
+  categoryList,
+  setSelectedCategory,
+  setCheck,
+  setCheckpoint,
+  setChecklist,
+  setChecktime,
+  setCsID,
+  setMemoInput,
+  setCheckEMP,
+  setCheckEMPTime,
+  setCameraPictureList,
+  setModalImgarr,
+  data,
 }) => {
-  const checkEMPTimed = checkEMPTime.substring(11, 16);
+  const renderImage = (item, index) => (
+    <Touchable
+      onPress={() => {
+        setIsImageViewVisible(true);
+      }}
+      key={index}>
+      <FastImage
+        style={{width: 120, height: 120, borderRadius: 10, marginHorizontal: 5}}
+        source={{
+          uri: item,
+          headers: {Authorization: 'someAuthToken'},
+          priority: FastImage.priority.low,
+        }}
+        resizeMode={FastImage.resizeMode.cover}
+      />
+    </Touchable>
+  );
 
-  // const categoryListRenderItem = ({item, data}) => {
-  //   let wrapperStyle = {
-  //     borderRadius: 15,
-  //     height: 30,
-  //     backgroundColor: '#FFFFFF',
-  //     borderColor: '#642A8C',
-  //     borderWidth: 1,
-  //     justifyContent: 'center',
-  //     alignItems: 'center',
-  //     paddingHorizontal: 15,
-  //     marginRight: 10,
-  //     marginBottom: 0,
-  //   };
-  //   let textStyle = {color: '#642A8C'};
+  const renderFooter = (index: number) => (
+    <Footer>
+      <FooterText>
+        {index + 1 || 1} / {modalImgarr.length}
+      </FooterText>
+    </Footer>
+  );
 
-  //   if (item.text === selectedCategory) {
-  //     wrapperStyle.backgroundColor = '#642A8C';
-  //     wrapperStyle.borderColor = '#642A8C';
-  //     wrapperStyle.borderWidth = 1;
-  //     textStyle.color = '#FFFFFF';
-  //   }
+  const CategoryListRenderItem = (item, index) => {
+    const isSelected = item.MEMBER_SEQ1 == selectedCategory;
+    return (
+      <Category
+        key={index}
+        isSelected={isSelected}
+        onPress={() => {
+          let csID = data.resultdata[item.key].CS_SEQ;
+          let check = data.resultdata[item.key].CHECK_LIST;
+          let checkEMP = data.resultdata[item.key].EMP_NAME;
+          let checkEMPTime = data.resultdata[item.key].CHECK_TIME;
+          let memo = data.resultdata[item.key].CHECK_TITLE;
+          let IMAGE_LIST = data.resultdata[item.key].IMAGE_LIST;
 
-  //   return (
-  //     <TouchableOpacity
-  //       key={item.key}
-  //       style={wrapperStyle}
-  //       onPress={() => {
-  //         let checkpoint = data._this.state.data.checkdata[0].TITLE;
-  //         let checklist = data._this.state.data.checkdata[0].LIST;
-  //         let checktime = data._this.state.data.checkdata[0].END_TIME;
-  //         let PHOTO_CHECK = data._this.state.data.checkdata[0].PHOTO_CHECK;
-  //         let csID = data._this.state.data.resultdata[item.key].CS_SEQ;
-  //         let check = data._this.state.data.resultdata[item.key].CHECK_LIST;
-  //         let checkEMP = data._this.state.data.resultdata[item.key].EMP_NAME;
-  //         let checkEMPTime =
-  //           data._this.state.data.resultdata[item.key].CHECK_TIME;
-  //         let memo = data._this.state.data.resultdata[item.key].CHECK_TITLE;
-  //         let IMAGE_LIST =
-  //           data._this.state.data.resultdata[item.key].IMAGE_LIST;
-  //         let checklistGoodState = new Array(checklist.length);
-  //         let checklistBadState = new Array(checklist.length);
+          let checklistGoodState = new Array(checklist.length);
+          let checklistBadState = new Array(checklist.length);
 
-  //         checklistGoodState.fill(false);
-  //         checklistBadState.fill(false);
+          checklistGoodState.fill(false);
+          checklistBadState.fill(false);
 
-  //         if (check !== null) {
-  //           checklist = check.split('@');
-  //           const size = checklist.length / 2;
-  //           checklist = new Array();
-  //           check = check.split('@');
-  //           for (var i = 0; i < size; i++) {
-  //             var checktemp = 2 * i;
-  //             checklist[i] = check[checktemp];
+          if (check !== null) {
+            checklist = check.split('@');
+            const size = checklist.length / 2;
+            checklist = new Array();
+            check = check.split('@');
+            for (var i = 0; i < size; i++) {
+              var checktemp = 2 * i;
+              checklist[i] = check[checktemp];
+              var temp = 2 * i + 1;
+              if (check[temp] === '1') {
+                checklistGoodState[i] = true;
+              }
+              if (check[temp] === '2') {
+                checklistBadState[i] = true;
+              }
+            }
+          } else {
+            checklist = checklist.split('@@');
+            checklist[checklist.length - 1] = checklist[
+              checklist.length - 1
+            ].replace('@', '');
+          }
 
-  //             var temp = 2 * i + 1;
+          const cameraPictureList = [];
+          const modalImgarr = [];
+          const imageList = (IMAGE_LIST || '').split('@');
+          if (imageList && Array.isArray(imageList)) {
+            if (imageList[0] != '') {
+              for (const imageName of imageList) {
+                cameraPictureList.push(
+                  `http://cuapi.shop-sol.com/uploads/${imageName}`,
+                );
+                modalImgarr.push({
+                  url: `http://cuapi.shop-sol.com/uploads/${imageName}`,
+                });
+              }
+            }
+          }
 
-  //             if (check[temp] === '1') {
-  //               checklistGoodState[i] = true;
-  //             }
+          setCheck(check);
+          setCheckpoint(checkpoint);
+          setChecklist(checklist);
+          setChecktime(checktime === null ? '' : checktime);
+          setCsID(csID === null ? '' : csID);
+          setMemoInput(memo === null ? '' : memo);
+          setCheckEMP(checkEMP === null ? '' : checkEMP);
+          setCheckEMPTime(checkEMPTime === null ? '' : checkEMPTime);
+          setChecklistGoodState(checklistGoodState);
+          setChecklistBadState(checklistBadState);
+          setCameraPictureList(cameraPictureList);
+          setModalImgarr(modalImgarr);
 
-  //             if (check[temp] === '2') {
-  //               checklistBadState[i] = true;
-  //             }
-  //           }
-  //         } else {
-  //           checklist = checklist.split('@@');
-  //           checklist[checklist.length - 1] = checklist[
-  //             checklist.length - 1
-  //           ].replace('@', '');
-  //         }
-
-  //         const cameraPictureListed = cameraPictureList;
-  //         const modalImgarred = modalImgarr;
-  //         const imageList = (IMAGE_LIST || '').split('@');
-  //         if (imageList && Array.isArray(imageList)) {
-  //           if (imageList[0] != '') {
-  //             for (const imageName of imageList) {
-  //               cameraPictureListed.push(
-  //                 `http://cuapi.shop-sol.com/uploads/${imageName}`,
-  //               );
-  //               modalImgarred.push({
-  //                 source: {
-  //                   uri: `http://cuapi.shop-sol.com/uploads/${imageName}`,
-  //                 },
-  //                 title: 'modalImg' + [i],
-  //                 width: wp('100%'),
-  //                 height: hp('100%'),
-  //               });
-  //             }
-  //           }
-  //         }
-
-  //         data._this.setState({
-  //           selectedCategory: item.text,
-  //           check: check,
-  //           checkpoint,
-  //           checklist,
-  //           checktime: checktime === null ? '' : checktime,
-  //           csID: csID === null ? '' : csID,
-  //           memoInput: memo === null ? '' : memo,
-  //           checkEMP: checkEMP === null ? '' : checkEMP,
-  //           checkEMPTime: checkEMPTime === null ? '' : checkEMPTime,
-  //           checklistGoodState,
-  //           checklistBadState,
-  //           PHOTO_CHECK,
-  //           cameraPictureList,
-  //           modalImgarr,
-  //         });
-  //       }}>
-  //       <Text style={textStyle}>{item.text}</Text>
-  //     </TouchableOpacity>
-  //   );
-  // };
+          setSelectedCategory(item.MEMBER_SEQ1);
+        }}>
+        <CategoryText isSelected={isSelected}>{item.EMP_NAME}</CategoryText>
+      </Category>
+    );
+  };
 
   return (
     <BackGround>
-      <ScrollView
-        keyboardShouldPersistTaps={'handled'}
-        keyboardDismissMode="on-drag"
-        contentContainerStyle={{alignItems: 'center'}}>
-        {/* <View style={{marginTop: 20, marginHorizontal: wp('6%')}}>
+      <CategoryList>
         <FlatList
-          style={{}}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(_, index) => index.toString()}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
-          data={this.state.categoryList}
+          data={categoryList}
           horizontal={true}
-          renderItem={({item}) => {
-            return this._categoryListRenderItem(item, {_this: this});
-          }}
+          renderItem={({item, index}) => CategoryListRenderItem(item, index)}
         />
-      </View> */}
-
+      </CategoryList>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{alignItems: 'center'}}>
         <Container>
           <Section>
             <RowSpace>
@@ -276,7 +318,6 @@ export default ({
               <Text>{checktime == '' ? '미사용' : checktime}</Text>
             </RowSpace>
           </Section>
-
           <Section>
             <RowSpace>
               <SectionText>{checkEMP ? '담당직원' : '확인직원'}</SectionText>
@@ -327,7 +368,7 @@ export default ({
                         setChecklistGoodState(checklistGoodStated);
                         setChecklistBadState(checklistBadStated);
                       }}
-                      disabled={scan == '1' ? false : true}>
+                      disabled={true}>
                       {checklistGoodState[index] ? (
                         <CheckBoxIcon size={25} color="#642A8C" />
                       ) : (
@@ -348,7 +389,7 @@ export default ({
                         setChecklistGoodState(checklistGoodStated);
                         setChecklistBadState(checklistBadStated);
                       }}
-                      disabled={scan == '1' ? false : true}>
+                      disabled={true}>
                       {checklistBadState[index] ? (
                         <CheckBoxIcon size={25} color="#642A8C" />
                       ) : (
@@ -372,7 +413,7 @@ export default ({
                   placeholder={'내용를 입력하세요.'}
                   placeholderTextColor={'#CCCCCC'}
                   multiline={true}
-                  editable={scan == '0' ? false : true}
+                  editable={false}
                 />
               </Box>
             </Section>
@@ -380,42 +421,56 @@ export default ({
           {cameraPictureList?.length > 0 && (
             <Section>
               <SectionText>체크리스트 관련사진</SectionText>
-              <ImageBox>
-                {cameraPictureList?.map(({picture, index}) => (
-                  <Touchable
-                    key={index}
-                    onPress={() => {
-                      setIsImageViewVisible(true);
-                      setImgModalIdx(picture?.index);
-                    }}>
-                    <ImageContainer
-                      style={{
-                        width: wp('18%'),
-                        height: wp('18%'),
-                        marginRight: 14,
-                      }}>
-                      <Image source={{uri: picture?.item}} />
-                    </ImageContainer>
-                  </Touchable>
-                ))}
-              </ImageBox>
+              <WhiteSpace />
+              <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(_, index) => index.toString()}
+                style={{flexDirection: 'row'}}
+                data={cameraPictureList}
+                renderItem={({item, index}) => renderImage(item, index)}
+              />
             </Section>
           )}
         </Container>
 
-        <ImageView
-          images={modalImgarr}
-          imageIndex={imgModalIdx}
-          visible={isImageViewVisible}
-          onRequestClose={() => setIsImageViewVisible(false)}
-          FooterComponent={({imageIndex}) => (
-            <ImageModalFooter>
-              <ImageModalFooterText>
-                {imageIndex + 1} / {modalImgarr.length}
-              </ImageModalFooterText>
-            </ImageModalFooter>
-          )}
-        />
+        <Modal
+          onBackdropPress={() => setIsImageViewVisible(false)}
+          isVisible={isImageViewVisible}
+          style={{
+            margin: 0,
+            justifyContent: 'flex-end',
+            width: '100%',
+            height: '100%',
+          }}>
+          {console.log('modalImgarr', modalImgarr)}
+          <ImageViewer
+            imageUrls={modalImgarr}
+            onSwipeDown={() => setIsImageViewVisible(false)}
+            backgroundColor={'transparent'}
+            saveToLocalByLongPress={false}
+            enableSwipeDown
+            useNativeDriver
+            enablePreload
+            renderFooter={renderFooter}
+            loadingRender={() => <ActivityIndicator />}
+            renderIndicator={() => null}
+            renderImage={(props) => {
+              console.log('props', props);
+              return (
+                <FastImage
+                  style={{width: '100%', height: '100%'}}
+                  source={{
+                    uri: props.source.uri,
+                    headers: {Authorization: 'someAuthToken'},
+                    priority: FastImage.priority.low,
+                  }}
+                  resizeMode={FastImage.resizeMode.cover}
+                />
+              );
+            }}
+          />
+        </Modal>
       </ScrollView>
     </BackGround>
   );

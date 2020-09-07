@@ -217,7 +217,6 @@ export default ({route: {params}}) => {
       storeCategoryTypeCheckProps[Number(STORE_DATA?.CATEGORY)] = true;
       setStoreCategoryTypeCheck(storeCategoryTypeCheckProps);
     }
-    console.log(CLOSE_FLAG);
   }, []);
 
   useEffect(() => {

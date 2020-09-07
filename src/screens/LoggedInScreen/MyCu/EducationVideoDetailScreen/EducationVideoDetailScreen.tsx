@@ -62,7 +62,6 @@ export default ({route: {params}}) => {
     setModalVisible(true);
     const {data} = await api.seteducheck(EMP_FILE_SEQ, MEMBER_SEQ);
   };
-  console.log('params', params);
   return (
     <BackGround>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -93,7 +92,6 @@ export default ({route: {params}}) => {
           <Text>{CONTENTS2}</Text>
         </Wrapper>
       </ScrollView>
-      {console.log(FILE_URL)}
       <Modal
         isVisible={modalVisible}
         style={{

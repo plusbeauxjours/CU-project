@@ -115,10 +115,20 @@ export default {
         MONTH: string) => oldApi("get", `/Employee/get_schedules?EMP_SEQ=${EMP_SEQ}&YEAR=${YEAR}&MONTH=${MONTH}`),
     getChecklist: (STORE: string,
         DATE: string) => oldApi("get", `/Store/Checklist?STORE=${STORE}&DATE=${DATE}`),
+
+    ////////////
+    //
+    // getChecklistAll: (storeID: string,
+    //     YEAR: string,
+    //     MONTH: string
+    // ) => oldApi("get", `/Store/ChecklistAll?STORE=${storeID}&YEAR=${YEAR}&MONTH=${MONTH}`),
+    //
+    ////////////
+
     getChecklistAll: (storeID: string,
         YEAR: string,
         MONTH: string
-    ) => oldApi("get", `/Store/ChecklistAll?STORE=${storeID}&YEAR=${YEAR}&MONTH=${MONTH}`),
+    ) => callApi("get", `/auth/getAllchecklist ?STORE=${storeID}&YEAR=${YEAR}&MONTH=${MONTH}`),
     checkRegister: (data: any) => oldApi("post", "/Store/CheckRegister/", data),
     checkUpdate: (data: any) => oldApi("post", "/Store/CheckUpdate/", data),
     getEmployeeList: (data: any) => oldApi("post", "/Employee/getEmpList/", data),

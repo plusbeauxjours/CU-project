@@ -121,7 +121,6 @@ export default ({route: {params}}) => {
         );
         fetchImage(item);
         setItem(item);
-        console.log(item);
       } else {
         const item = CHECKLIST_SHARE_DATA1.basic.find(
           (i) => i.NOTICE_SEQ === NOTICE_SEQ,
@@ -155,7 +154,6 @@ export default ({route: {params}}) => {
   useEffect(() => {
     fetchData();
     fetchImage(item);
-    console.log(item.IMG_LIST);
   }, []);
 
   return (

@@ -112,7 +112,6 @@ export default ({route: {params}}) => {
             type: fileType,
           });
         }
-        console.log('formData', formData);
         const {data} = await api.updateNoticeImg({formData});
         if (data.result === 'SUCCESS') {
           navigation.pop(2);
