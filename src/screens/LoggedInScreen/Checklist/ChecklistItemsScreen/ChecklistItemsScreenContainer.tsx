@@ -4,21 +4,28 @@ import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
 import api from '../../../../constants/LoggedInApi';
 import ChecklistItemsScreenPresenter from './ChecklistItemsScreenPresenter';
-export default ({route: {params}}) => {
+import {
+  setCHECKLIST_MARKED,
+  getCHECKLIST_DATA,
+} from '../../../../redux/checklistSlice';
+
+export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
+
+  const {CHECKLIST_DATA, CHECKLIST_MARKED} = useSelector(
+    (state: any) => state.checklistReducer,
+  );
+  const {STORE} = useSelector((state: any) => state.userReducer);
   const {
-    STOREDATA,
-    STORE,
     STORE_SEQ,
-    EMP_SEQ,
-    STOREPAY_SHOW,
-    ISMANAGER,
-  } = params;
+    STORE_DATA: {
+      check_count: CHECK_COUNT = null,
+      resultdata: {CHECK_COUNT: MAX_CHECK_COUNT = null} = {},
+    } = {},
+  } = useSelector((state: any) => state.storeReducer);
 
   const intended = {
     key: 'intended',
@@ -39,43 +46,17 @@ export default ({route: {params}}) => {
     boolean
   >(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [storeID, setStoreID] = useState<string>(STORE_SEQ || '');
-  const [checklist, setChecklist] = useState<any>([]);
-  const [checklist2, setChecklist2] = useState<any>([]);
   const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD') || '');
-  const [dateToday, setDateToday] = useState<string>(
-    moment().format('YYYY-MM-DD') || '',
-  );
-  const [defaultMonth, setDefaultMonth] = useState<string>(
-    moment().format('YYYY-MM-DD') || '',
-  );
-  // 마크드 데이터 만들기
-  const [today, setToday] = useState<string>(
-    moment().format('YYYY-MM-DD') || '',
-  );
-  const [year, setYear] = useState<string>(moment().format('YYYY') || '');
-  const [month, setMonth] = useState<string>(moment().format('MM') || '');
-  const [day, setDay] = useState<string>(moment().format('DD') || '');
   const [staticmarkedDates, setStaticmarkedDates] = useState<any>({});
-  const [markedDates, setMarkedDates] = useState<any>({});
-  // QR체크
-  const [selectChecklist, setSelectChecklist] = useState<any>([]);
-  const [lat, setLat] = useState<number>(0);
-  const [long, setLong] = useState<number>(0);
-  const [isScanned, setIsScanned] = useState<boolean>(false);
-  const [scanstore, setScanstore] = useState<boolean>(false);
-  const [isCheckYes, setIsCheckYes] = useState<boolean>(false);
-  const [isCheckNo, setIsCheckNo] = useState<boolean>(false);
-  const [isWillCheck, setIsWillCheck] = useState<boolean>(false);
 
-  const onRefresh = async () => {
+  const onRefresh = () => {
     try {
-      dispatch(setSplashVisible(true));
-      await fetchData();
+      setRefreshing(true);
+      dispatch(getCHECKLIST_DATA());
     } catch (e) {
       console.log(e);
     } finally {
-      dispatch(setSplashVisible(false));
+      setRefreshing(false);
     }
   };
 
@@ -99,101 +80,89 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
-  const fetchData = async (date = moment().format('YYYY-MM-DD')) => {
-    try {
-      dispatch(setSplashVisible(true));
-      const {data} = await api.getChecklist2(STORE_SEQ, date);
-      setChecklist(data.result);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(setSplashVisible(false));
-    }
+  // 캘린더에서 월을 이동이도하는 경우 해당 월의 Marking 로드
+  const onMonthChange = (date) => {
+    markingFn(date.year, date.month, date.day);
+    setDate(date.dateString);
   };
 
-  const selectCheckListFn = async () => {
-    try {
-      dispatch(setSplashVisible(true));
-      const {data} = await api.getChecklist(
-        STORE_SEQ,
-        moment().format('YYYY-MM-DD'),
+  // 점주가 체크리스트 추가하기를 눌렀을 때
+  const onPressAddChecklist = () => {
+    if (Number(MAX_CHECK_COUNT) <= Number(CHECK_COUNT)) {
+      alertModal(
+        '체크리스트는 ' + MAX_CHECK_COUNT + '개까지만 등록가능합니다.',
       );
-      setIsChecklistModalVisible(true);
-      setSelectChecklist(data.result);
-      setScanstore(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(setSplashVisible(false));
+    } else {
+      gotoChecklistAdd();
     }
   };
 
-  const monthChange = async (data) => {
-    setDefaultMonth(data.dateString);
-    marking(data.year, data.month, data.day);
+  const gotoChecklistAdd = () => {
+    navigation.navigate('ChecklistAddScreen', {type: '등록'});
   };
 
-  const marking = async (y, m, d) => {
+  // 캘린더 마킹 데이터
+  const markingFn = async (YEAR, MONTH, DAY) => {
     try {
-      dispatch(setSplashVisible(true));
-      const {data} = await api.getChecklistAll(STORE_SEQ, y, m);
-      const iterator = Object.keys(data.result);
-      const staticmarkedDates = {};
-      const markedDates = {};
-      let today = new Date();
-      for (const key of iterator) {
-        staticmarkedDates[key] = '';
-        markedDates[key] = '';
-        let dots1 = [];
-        let status1 = '0';
-        let status2 = '0';
-        let status3 = '0';
+      const {data} = await api.getChecklistAll(STORE_SEQ, YEAR, MONTH);
+      if (data.message === 'SUCCESS') {
+        const iterator = Object.keys(data.result);
+        const staticmarkedDates = {};
+        const markedDates = {};
+        let today = new Date();
+        for (const key of iterator) {
+          staticmarkedDates[key] = '';
+          markedDates[key] = '';
+          let dots1 = [];
+          let status1 = '0';
+          let status2 = '0';
+          let status3 = '0';
 
-        let keyday = new Date(key);
-        if (today.getTime() < keyday.getTime()) {
-          continue;
-        }
-        for (let j = 0; j < data.result[key].length; j++) {
-          if (data.result[key][j].EMP_CHECK == '0') {
-            status1 = '1'; // 예정
-          } else {
-            if (data.result[key][j].CHECK_TYPE == '1') {
-              status2 = '1'; // 이상
+          let keyday = new Date(key);
+          if (today.getTime() < keyday.getTime()) {
+            continue;
+          }
+          for (let j = 0; j < data.result[key].length; j++) {
+            if (data.result[key][j].EMP_CHECK == '0') {
+              status1 = '1'; // 예정
             } else {
-              status3 = '1'; // 정상
+              if (data.result[key][j].CHECK_TYPE == '1') {
+                status2 = '1'; // 이상
+              } else {
+                status3 = '1'; // 정상
+              }
             }
           }
-        }
-        if (data.result[key].length !== 0) {
-          if (status1 == '1') {
-            dots1.push(intended);
-          } else if (status2 == '1') {
-            dots1.push(confused);
-          } else {
-            dots1.push(clear);
+          if (data.result[key].length !== 0) {
+            if (status1 == '1') {
+              dots1.push(intended);
+            } else if (status2 == '1') {
+              dots1.push(confused);
+            } else {
+              dots1.push(clear);
+            }
           }
+          staticmarkedDates[key] = {
+            dots: dots1,
+          };
         }
-        staticmarkedDates[key] = {
-          dots: dots1,
+        MONTH < 10 ? (MONTH = '0' + MONTH) : MONTH;
+        DAY < 10 ? (DAY = '0' + DAY) : DAY;
+        staticmarkedDates[YEAR + '-' + MONTH + '-' + DAY] = {
+          ...staticmarkedDates[YEAR + '-' + MONTH + '-' + DAY],
+          selected: true,
+          selectedColor: '#ccc',
         };
+        setStaticmarkedDates(staticmarkedDates);
+        dispatch(setCHECKLIST_MARKED(staticmarkedDates));
       }
-      m < 10 ? (m = '0' + m) : m;
-      d < 10 ? (d = '0' + d) : d;
-      staticmarkedDates[y + '-' + m + '-' + d] = {
-        ...staticmarkedDates[y + '-' + m + '-' + d],
-        selected: true,
-        selectedColor: '#ccc',
-      };
-      setStaticmarkedDates(staticmarkedDates);
-      setMarkedDates(staticmarkedDates);
     } catch (error) {
       console.log(error);
-    } finally {
-      dispatch(setSplashVisible(false));
     }
   };
 
-  const select = (year, month, day) => {
+  // 캘린더에서 날짜를 선택하는 경우 공통업무와 점포업무 로드
+  const onDayPress = (date) => {
     let markedDates = staticmarkedDates;
     let iterator = Object.keys(markedDates);
     for (const key of iterator) {
@@ -202,155 +171,78 @@ export default ({route: {params}}) => {
         selected: false,
       };
     }
-    let m = month;
-    let d = day;
-    markedDates[year + '-' + m + '-' + d] = {
-      ...markedDates[year + '-' + m + '-' + d],
+    markedDates[date.dateString] = {
+      ...markedDates[date.dateString],
       selected: true,
       selectedColor: '#ccc',
     };
-    fetchData(year + '-' + m + '-' + d);
+    dispatch(getCHECKLIST_DATA(date.dateString));
+    setDate(date.dateString);
     setIsCalendarModalVisible(false);
-    setMarkedDates(markedDates);
-    setDate(year + '-' + m + '-' + d);
-    setDefaultMonth(year + '-' + m + '-' + d);
+    dispatch(setCHECKLIST_MARKED(markedDates));
   };
 
-  const onDayPress = (data) => {
-    select(
-      moment(data.dateString).format('YYYY'),
-      moment(data.dateString).format('MM'),
-      moment(data.dateString).format('DD'),
-    );
-  };
-
-  const checkdata = async (storeid, list) => {
-    let flag = true;
-    if (list.EMP_SEQ != null) {
-      flag = false;
-      let emparr = list.EMP_SEQ.split('@');
-      for (let index = 0; index < emparr.length; index++) {
-        if (emparr[index] == STOREDATA?.EMP_SEQ) {
-          flag = true;
-          break;
-        }
-      }
-    }
-    setIsScanned(false);
-    setIsChecklistModalVisible(false);
+  // 직원이 체크 버튼을 눌렀을 때
+  const selectCheckListFn = async () => {
     try {
-      dispatch(setSplashVisible(true));
-      const {data} = await api.getAuthCheckList({
-        STORE_ID: STORE_SEQ,
-        LAT: lat,
-        LONG: long,
-        MEMBER_SEQ,
-      });
-      if (flag == false) {
-        alertModal('담당직원이 아닙니다.');
-      } else {
-        if (data.message == 'SUCCESS') {
-          if (data.result.length > 0) {
-            navigation.navigate('ChecklistSpecification', {
-              checkType: '2', // 체크진행
-              checkID: data.result[0]?.CHECK_SEQ,
-              csID: data.result[0]?.CS_SEQ,
-              checkpoint: data.result[0]?.TITLE,
-              checklist: data.result[0]?.LIST,
-              checktime: data.result[0]?.END_TIME,
-              check: data.result[0]?.CHECK_LIST,
-              checkEMP: data.result[0]?.EMP_NAME,
-              checkEMPTime: data.result[0]?.CHECK_TIME,
-              memo: data.result[0]?.CHCEK_TITLE,
-              PHOTO_CHECK: data.result[0]?.PHOTO_CHECK,
-              scan: '1',
-              register: false,
-              DATE: date,
-              refresh: () => onRefresh(),
-            });
-          } else {
-            alertModal('체크리스트를 추가해주세요.');
-          }
-        } else if (data.message == 'SCHEDULE_EXIST') {
-          alertModal(data.result);
-        } else if (data.message == 'EMP_ERROR') {
-          alertModal(data.result);
-        } else {
-          alertModal(data.result);
-        }
-      }
+      dispatch(getCHECKLIST_DATA());
+      setIsChecklistModalVisible(true);
     } catch (error) {
       console.log(error);
-    } finally {
-      dispatch(setSplashVisible(false));
     }
   };
 
-  const onPressAddChecklist = () => {
-    if (
-      Number(STOREDATA?.resultdata.CHECK_COUNT) <=
-      Number(STOREDATA?.check_count)
-    ) {
-      alertModal(
-        '체크리스트는 ' +
-          STOREDATA?.resultdata.CHECK_COUNT +
-          '개까지만 등록가능합니다.',
-      );
-    } else {
-      gotoChecklistAdd();
-    }
-  };
-
-  const gotoChecklistAdd = () => {
-    navigation.navigate('ChecklistAddScreen', {
-      STOREDATA,
-      storeID,
-      TITLE: '체크리스트 등록',
-      type: '등록',
-      onRefresh: () => onRefresh(),
+  // 직원이 체크 버튼을 실행한 뒤 모달에서 아이템을 눌렀을 때
+  const gotoChecklistSpecification = (item) => {
+    navigation.navigate('ChecklistSpecificationScreen', {
+      item,
+      checkType: '2', // 체크진행
+      scan: '1',
+      register: false,
     });
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const fetchData = (date) => {
+    dispatch(getCHECKLIST_DATA(date));
+    markingFn(
+      moment(date).format('YYYY'),
+      moment(date).format('M'),
+      moment(date).format('D'),
+    );
+  };
 
   useEffect(() => {
-    setYear(moment(date).format('YYYY'));
-    setMonth(moment(date).format('MM'));
-    setDay(moment(date).format('DD'));
-  }, [date]);
+    dispatch(getCHECKLIST_DATA());
+    markingFn(
+      moment().format('YYYY'),
+      moment().format('M'),
+      moment().format('D'),
+    );
+  }, []);
 
   return (
     <ChecklistItemsScreenPresenter
       STORE={STORE}
       date={date}
-      fetchData={fetchData}
+      setDate={setDate}
       refreshing={refreshing}
       onRefresh={onRefresh}
-      year={year}
-      month={month}
-      day={day}
-      select={select}
-      marking={marking}
+      markingFn={markingFn}
       isCalendarModalVisible={isCalendarModalVisible}
       setIsCalendarModalVisible={setIsCalendarModalVisible}
       isChecklistModalVisible={isChecklistModalVisible}
       setIsChecklistModalVisible={setIsChecklistModalVisible}
-      setDefaultMonth={setDefaultMonth}
       onPressAddChecklist={onPressAddChecklist}
-      defaultMonth={defaultMonth}
-      markedDates={markedDates}
+      CHECKLIST_MARKED={CHECKLIST_MARKED}
       onDayPress={onDayPress}
-      monthChange={monthChange}
-      checklist={checklist}
+      onMonthChange={onMonthChange}
+      CHECKLIST_DATA={CHECKLIST_DATA}
       STORE_SEQ={STORE_SEQ}
       adviceModal={adviceModal}
       gotoChecklistAdd={gotoChecklistAdd}
       selectCheckListFn={selectCheckListFn}
-      selectChecklist={selectChecklist}
-      checkdata={checkdata}
-      scanstore={scanstore}
+      gotoChecklistSpecification={gotoChecklistSpecification}
+      fetchData={fetchData}
     />
   );
 };

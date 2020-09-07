@@ -10,6 +10,7 @@ const Container = styled.View`
   border-radius: 20px;
   padding: 20px;
   margin-bottom: 20px;
+  height: 140px;
   background-color: white;
 `;
 const Touchable = styled.TouchableOpacity``;
@@ -22,7 +23,6 @@ const ArrowBox = styled.View`
 
 const ContentBox = styled.View`
   flex: 1;
-  justify-content: center;
   margin-left: 10px;
 `;
 
@@ -31,16 +31,10 @@ const Row = styled.View`
   align-items: center;
 `;
 
-const StateFont = styled.Text`
-  font-size: 13px;
-  color: #999;
-  margin-left: 5px;
-`;
-
 const CheckpointText = styled.Text`
   font-size: 17px;
   font-weight: bold;
-  margin: 5px 0;
+  margin-bottom: 20px;
 `;
 
 const GreyText = styled.Text`
@@ -50,7 +44,7 @@ const GreyText = styled.Text`
 const CheckpointBox = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-bottom: 7px;
+  margin-bottom: 5px;
 `;
 
 const ChecktimeText = styled.Text`
@@ -58,73 +52,36 @@ const ChecktimeText = styled.Text`
   color: #642a8c;
 `;
 
-export default ({
-  key,
-  QR_SEQ,
-  STORE,
-  storeID,
-  checkID,
-  csID,
-  checkpoint,
-  checktime,
-  checklist,
-  check,
-  checkEMP,
-  checkEMPTime,
-  checkSelectedEmp,
-  checkType,
-  checkSelectedEmpName,
-  memo,
-  PHOTO_CHECK,
-  IMAGE_LIST,
-  DATE,
-  onRefresh,
-}) => {
+const CalendarText = styled.Text`
+  margin: 0 5px;
+  font-size: 11px;
+  color: #333;
+`;
+
+export default ({key, date, data}) => {
   const navigation = useNavigation();
   const [willCheck, setWillCheck] = useState<boolean>(false);
-  const [checkYes, setCheckYes] = useState<boolean>(false);
-  const [checkNo, setCheckNo] = useState<boolean>(false);
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
-  let scan = '0';
   let done = false;
-  if (moment(DATE) == moment()) {
+  if (moment(date) == moment()) {
     done = true;
   } else {
-    if (!(moment(DATE) > moment())) {
+    if (!(moment(date) > moment())) {
       done = true;
     }
   }
 
   const gotoCkecklistDetail = () => {
-    if (csID) {
+    if (data.CS_SEQ) {
       return navigation.navigate('ChecklistDetailScreen', {
         checkType: '0', // 미체크
-        checkID,
-        DATE,
-        onRefresh,
       });
     } else {
       return navigation.navigate('ChecklistSpecificationScreen', {
         checkType: '1', // 체크됨
-        STORE,
-        checkID,
-        storeID,
-        csID,
-        checkpoint,
-        checklist,
-        checktime,
-        check,
-        checkEMP,
-        checkEMPTime,
-        memo,
-        scan,
-        PHOTO_CHECK,
-        IMAGE_LIST,
-        checkSelectedEmp,
-        checkSelectedEmpName,
+        scan: 0,
         register: false,
-        DATE,
-        onRefresh,
       });
     }
   };
@@ -135,10 +92,10 @@ export default ({
       for (var i = 0; i < check.length / 2; i++) {
         var temp = 2 * i + 1;
         if (check[temp] === '1') {
-          setCheckYes(true);
+          setIsChecked(true);
         }
         if (check[temp] === '2') {
-          setCheckNo(true);
+          setIsChecked(false);
         }
       }
     } else {
@@ -147,11 +104,12 @@ export default ({
   };
 
   useEffect(() => {
-    checkState(check);
+    checkState(data.CHECK_LIST);
   }, []);
+
   useEffect(() => {
-    checkState(check);
-  }, [check]);
+    checkState(data.CHECK_LIST);
+  }, [data.CHECK_LIST]);
 
   return (
     <Touchable
@@ -163,56 +121,56 @@ export default ({
           <Row
             style={{
               justifyContent: 'flex-end',
+              height: 10,
             }}>
             {done && (
               <Row style={{justifyContent: 'flex-end'}}>
                 {willCheck && (
                   <Row>
-                    <EllipseIcon color={'#0D4F8A'} />
-                    <StateFont>미체크</StateFont>
+                    <EllipseIcon size={8} color={'#0D4F8A'} />
+                    <CalendarText>미체크</CalendarText>
                   </Row>
                 )}
-                {!checkNo && csID && (
+                {isChecked && data.CS_SEQ && (
                   <Row>
-                    <EllipseIcon color={'#AACE36'} />
-                    <StateFont>체크정상</StateFont>
+                    <EllipseIcon size={8} color={'#AACE36'} />
+                    <CalendarText>체크정상</CalendarText>
                   </Row>
                 )}
-                {checkNo && csID && (
+                {!isChecked && data.CS_SEQ && (
                   <Row>
-                    <EllipseIcon color={'#984B19'} />
-                    <StateFont>체크이상</StateFont>
+                    <EllipseIcon size={8} color={'#984B19'} />
+                    <CalendarText>체크이상</CalendarText>
                   </Row>
                 )}
-                {memo && csID && (
+                {data.CHECK_TITLE && data.CS_SEQ && (
                   <Row>
-                    <EllipseIcon color={'#FEBF40'} />
-                    <StateFont>특이사항</StateFont>
+                    <EllipseIcon size={8} color={'#FEBF40'} />
+                    <CalendarText>특이사항</CalendarText>
                   </Row>
                 )}
               </Row>
             )}
           </Row>
-          <Row>
-            <CheckpointText>{checkpoint}</CheckpointText>
-          </Row>
-          {checkEMP ? ( // 체크한 상태
+          <CheckpointText>{data.TITLE}</CheckpointText>
+
+          {data.EMP_NAME ? ( // 체크한 상태
             <>
               <CheckpointBox>
                 <ChecktimeText>체크시간</ChecktimeText>
-                <GreyText>{checkEMPTime}</GreyText>
+                <GreyText>{data.CHECK_TIME}</GreyText>
               </CheckpointBox>
-              {checkSelectedEmp ? (
+              {data.EMP_SEQ ? (
                 <CheckpointBox>
                   <ChecktimeText>담당직원</ChecktimeText>
                   <GreyText numberOfLines={1} ellipsizeMode="tail">
-                    {checkSelectedEmpName.split('@').join(' / ')}
+                    {data.EMP_SEQ.split('@').join(' / ')}
                   </GreyText>
                 </CheckpointBox>
               ) : (
                 <CheckpointBox>
                   <ChecktimeText>체크직원</ChecktimeText>
-                  <GreyText>{checkEMP}</GreyText>
+                  <GreyText>{data.EMP_NAME}</GreyText>
                 </CheckpointBox>
               )}
             </>
@@ -220,13 +178,15 @@ export default ({
             <>
               <CheckpointBox>
                 <ChecktimeText>체크예정시간</ChecktimeText>
-                <GreyText>{checktime === '' ? '미사용' : checktime}</GreyText>
+                <GreyText>
+                  {data.END_TIME === '' ? '미사용' : data.END_TIME}
+                </GreyText>
               </CheckpointBox>
-              {checkSelectedEmp && (
+              {data.EMP_SEQ && (
                 <CheckpointBox>
                   <ChecktimeText>담당직원</ChecktimeText>
                   <GreyText numberOfLines={1} ellipsizeMode="tail">
-                    {checkSelectedEmpName.split('@').join(' / ')}
+                    {data.EMP_SEQ.split('@').join(' / ')}
                   </GreyText>
                 </CheckpointBox>
               )}

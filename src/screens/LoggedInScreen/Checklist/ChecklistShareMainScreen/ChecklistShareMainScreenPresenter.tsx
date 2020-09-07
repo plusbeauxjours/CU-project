@@ -609,15 +609,11 @@ export default ({
           }}
           markingType={'multi-dot'}
           hideExtraDays={true}
-          monthFormat={'yyyy년 M월'}
+          monthFormat={'M월'}
           current={date}
           markedDates={CHECKLIST_SHARE_MARKED}
-          onDayPress={(date) => {
-            onDayPress(date);
-          }}
-          onMonthChange={(date) => {
-            onMonthChange(date);
-          }}
+          onDayPress={(date) => onDayPress(date)}
+          onMonthChange={(date) => onMonthChange(date)}
         />
       </Modal>
     </>

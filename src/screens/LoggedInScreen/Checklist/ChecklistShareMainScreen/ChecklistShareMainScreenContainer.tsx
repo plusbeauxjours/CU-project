@@ -4,7 +4,6 @@ import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
 import {
   getCHECKLIST_SHARE_DATA1,
   getCHECKLIST_SHARE_DATA2,
@@ -32,7 +31,6 @@ export default ({route: {params}}) => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [index, setIndex] = useState<number>(0);
   const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
-  const [data, setData] = useState<string>(moment().format('YYYY-MM-DD'));
   const [isCalendarModalVisible, setIsCalendarModalVisible] = useState<boolean>(
     false,
   );
@@ -108,7 +106,7 @@ export default ({route: {params}}) => {
     }
   };
 
-  // 캘린더에서 월을 이도하는 경우 해당 월의 Marking 로드
+  // 캘린더에서 월을 이동하는 경우 해당 월의 Marking 로드
   const onMonthChange = (date) => {
     markingFn(date.year, date.month);
     setDate(date.dateString);
@@ -192,7 +190,7 @@ export default ({route: {params}}) => {
     }
   };
 
-  const Init = async (page) => {
+  const Init = (page) => {
     markingFn(moment().format('YYYY'), moment().format('M'));
     fetchData('', moment().format('YYYY-M-DD'));
     if (STORE === '1') {

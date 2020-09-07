@@ -12,27 +12,14 @@ export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {
-    checkType,
     checkID,
-    STORE = null,
-    storeID = null,
-    csID = null,
     checkpoint = null,
     checklist = null,
     checktime = null,
-    check = null,
-    checkEMP = null,
-    checkEMPTime = null,
-    memo = null,
-    scan = null,
     PHOTO_CHECK = null,
-    IMAGE_LIST = null,
     checkSelectedEmp = null,
     checkSelectedEmpName = null,
-    register = null,
-    DATE,
     type,
-    onRefresh,
   } = params;
 
   const [choiceEmp, setChoiceEmp] = useState<any>([]);
