@@ -9,9 +9,9 @@ import moment from 'moment';
 import Modal from 'react-native-modal';
 import FastImage from 'react-native-fast-image';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import {ActivityIndicator} from 'react-native';
 
 import {CheckBoxIcon} from '../../../../constants/Icons';
-import {ActivityIndicator} from 'react-native';
 
 interface ISelected {
   isSelected: boolean;

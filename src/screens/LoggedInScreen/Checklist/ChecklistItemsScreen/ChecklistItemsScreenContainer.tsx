@@ -197,7 +197,6 @@ export default () => {
     setIsChecklistModalVisible(false);
     navigation.navigate('ChecklistSpecificationScreen', {
       data: item,
-      checkType: '2', // 체크진행
       scan: '1',
     });
   };

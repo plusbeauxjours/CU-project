@@ -13,34 +13,26 @@ export default ({route: {params}}) => {
   const navigation = useNavigation();
 
   const {STORE, MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
-  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
+  const {STORE_SEQ, EMP_SEQ} = useSelector((state: any) => state.storeReducer);
 
   const {
     data: {
       CHECK_SEQ = null,
       TITLE = null,
-      LIST = null,
       END_TIME = null,
       CS_SEQ = null,
-      CHECK_LIST = null,
       EMP_NAME = null,
       CHECK_TIME = null,
-      memo = null,
+      CHECK_DATE = null,
       PHOTO_CHECK = null,
-      IMAGE_LIST = null,
-      EMP_SEQ = null,
       NAME = null,
-      StoreEmpSeq = null,
     } = {},
-    checkType = null,
     scan,
   } = params;
 
-  // FROM MODAL
-  // scan:'1'
+  // FROM MODAL EDITABLE
   // {
   //   "scan": "1"
-  //   "checkType": "2",
   //   "data": {
   //     "CHECK_DATE": "2020-09-08",
   //     "CHECK_LIST": "제품 유통기한 확인@2@빠진 제품 채우기@2@테이블 쳥결 유지@2@커피머신 확인(원두,찌꺼기통)@1@......",
@@ -65,11 +57,9 @@ export default ({route: {params}}) => {
   //   },
   // }
 
-  // FROM CARD
-  // scan:'1'
+  // FROM CARD NONEDITABLE
   // {
   //   "scan": 0
-  //   "checkType": "1",
   //   "data": {
   //     "CHECK_DATE": null,
   //     "CHECK_LIST": null,
@@ -104,13 +94,13 @@ export default ({route: {params}}) => {
   const [cameraRatioList, setCameraRatioList] = useState<any>([]);
   const [cameraPictureList, setCameraPictureList] = useState<any>([]);
   const [cameraPictureLast, setCameraPictureLast] = useState<any>(null);
-  const [checkData, setCheckData] = useState<string>('');
-  const [checklistData, setChecklistData] = useState<any>([]);
+  const [LIST, setLIST] = useState<any>([]);
   const [checklistGoodState, setChecklistGoodState] = useState<any>([]);
   const [checklistBadState, setChecklistBadState] = useState<any>([]);
-  const [memoInput, setMemoInput] = useState<string>(memo || '');
+  const [CHECK_TITLE, setCHECK_TITLE] = useState<string>();
   const [modalImgarr, setModalImgarr] = useState<any>([]);
   const [imgModalIdx, setImgModalIdx] = useState<string>('');
+  const [CHECK_LIST, setCHECK_LIST] = useState<any>(null);
 
   const alertModal = (text) => {
     const params = {
@@ -143,13 +133,19 @@ export default ({route: {params}}) => {
   //   }
   // };
 
+  const openImagePickerFn = () => {
+    console.log('openImagePickerFn');
+  };
+
   const gotoChecklistAdd = () => {
     navigation.navigate('ChecklistAddScreen', {
-      data: params,
-      memo: memoInput,
-      registerFn: false,
+      CHECK_SEQ,
+      PHOTO_CHECK,
+      EMP_SEQ,
+      NAME,
+      DATE: CHECK_DATE,
       type: '수정',
-      StoreEmpSeq,
+      CHECK_LIST,
     });
   };
 
@@ -157,12 +153,6 @@ export default ({route: {params}}) => {
     let newList = [];
     let memostr;
     let badflag = false;
-
-    if (memoInput == '') {
-      memostr = null;
-    } else {
-      memostr = memoInput;
-    }
 
     for (let i = 0; i < LIST?.length; i++) {
       newList.push(LIST[i]);
@@ -269,40 +259,39 @@ export default ({route: {params}}) => {
 
   // 체크리스트 ON/OFF
   const initialize = async () => {
-    let checklistGoodStated = new Array(LIST.length);
-    let checklistBadStated = new Array(LIST.length);
-    let checked;
-    let checklisted;
-    checklistGoodStated.fill(false);
-    checklistBadStated.fill(false);
-    if (CHECK_LIST) {
-      checklisted = CHECK_LIST.split('@');
-      const size = LIST.length / 2;
-      checklisted = new Array();
-      checked = CHECK_LIST.split('@');
+    let checklistGoodStat = new Array(params?.data.LIST.length);
+    let checklistBadState = new Array(params?.data.LIST.length);
+    let checklist = params?.data.CHECK_LIST;
+    let list = params?.data.LIST;
+    checklistGoodStat.fill(false);
+    checklistBadState.fill(false);
+
+    if (params?.data.CHECK_LIST) {
+      checklist = params?.data.LIST.split('@');
+      const size = checklist.length / 2;
+      list = new Array();
+      checklist = params?.data.CHECK_LIST.split('@');
       for (var i = 0; i < size; i++) {
         var checktemp = 2 * i;
-        checklisted[i] = checked[checktemp];
+        list[i] = checklist[checktemp];
         var temp = 2 * i + 1;
-        if (checked[temp] === '1') {
-          checklistGoodStated[i] = true;
+        if (checklist[temp] === '1') {
+          checklistGoodStat[i] = true;
         }
-        if (checked[temp] === '2') {
-          checklistBadStated[i] = true;
+        if (checklist[temp] === '2') {
+          checklistBadState[i] = true;
         }
       }
     } else {
-      checklisted = LIST.split('@@');
-      checklisted[checklisted.length - 1] = checklisted[
-        checklisted.length - 1
-      ].replace('@', '');
+      list = params?.data.LIST.split('@@');
+      list[list.length - 1] = list[list.length - 1].replace('@', '');
     }
-    setChecklistGoodState(checklistGoodStated);
-    setChecklistBadState(checklistBadStated);
-    setCheckData(checked);
-    setChecklistData(checklisted);
+    setChecklistGoodState(checklistGoodStat);
+    setChecklistBadState(checklistBadState);
+    setCHECK_LIST(checklist);
+    setLIST(list);
   };
-  console.log('[][][][][][]');
+
   useEffect(() => {
     initialize();
     //     this.defaultPictureUploadPath = FileSystem.documentDirectory + 'picture/';
@@ -317,24 +306,25 @@ export default ({route: {params}}) => {
   return (
     <ChecklistSpecificationScreenPresenter
       scan={scan}
+      hasCHECK_TITLE={params?.data.CHECK_TITLE}
       gotoChecklistAdd={gotoChecklistAdd}
-      checkType={checkType}
-      memoInput={memoInput}
+      openImagePickerFn={openImagePickerFn}
+      CHECK_TITLE={CHECK_TITLE}
+      setCHECK_TITLE={setCHECK_TITLE}
+      TITLE={TITLE}
+      LIST={LIST}
+      NAME={NAME}
       STORE={STORE}
+      CHECK_TIME={CHECK_TIME}
       PHOTO_CHECK={PHOTO_CHECK}
+      END_TIME={END_TIME}
+      EMP_NAME={EMP_NAME}
       isCameraModalVisible={isCameraModalVisible}
       setIsCameraModalVisible={setIsCameraModalVisible}
       cameraPictureList={cameraPictureList}
       setCameraPictureList={setCameraPictureList}
       imgModalIdx={imgModalIdx}
       setImgModalIdx={setImgModalIdx}
-      CHECK_TIME={CHECK_TIME}
-      TITLE={TITLE}
-      END_TIME={END_TIME}
-      EMP_NAME={EMP_NAME}
-      NAME={NAME}
-      checklistData={checklistData}
-      checkData={checkData}
       checklistGoodState={checklistGoodState}
       setChecklistGoodState={setChecklistGoodState}
       checklistBadState={checklistBadState}

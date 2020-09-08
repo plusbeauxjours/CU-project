@@ -6,10 +6,16 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import FastImage from 'react-native-fast-image';
+import moment from 'moment';
 
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import moment from 'moment';
-import {CheckBoxIcon} from '../../../../constants/Icons';
+import {ActivityIndicator} from 'react-native';
+import {
+  CheckBoxIcon,
+  CameraIcon,
+  PictureIcon,
+} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -25,7 +31,6 @@ const Container = styled.View`
   padding: 20px;
   align-items: center;
 `;
-const Image = styled.Image``;
 
 const Row = styled.View`
   flex-direction: row;
@@ -42,12 +47,15 @@ const Section = styled.View`
   border-radius: 20px;
   padding: 20px;
   background-color: white;
+  background-color: red;
 `;
 
 const SectionText = styled.Text`
   font-size: 15px;
   font-weight: bold;
 `;
+
+const TextInput = styled.TextInput``;
 
 const WhiteSpace = styled.View`
   height: 10px;
@@ -90,154 +98,82 @@ const ChecklistText = styled.Text`
   color: #999;
 `;
 
+const TitleText = styled.Text`
+  font-size: 17px;
+  color: #000;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-right: 5px;
+`;
+
+const GreyText = styled(Text)`
+  margin: 10px 0;
+  color: #bbb;
+`;
+
+const RowCenter = styled(Row)`
+  justify-content: center;
+  margin-bottom: 30px;
+`;
+
+const IconContainer = styled.View`
+  width: ${wp('45%')}px;
+  align-items: center;
+`;
+
+const IconBox = styled.View`
+  margin-top: 10px;
+  width: ${wp('20%')};
+  height: ${wp('20%')};
+  border-width: 1px;
+  border-color: #642a8c;
+  justify-content: center;
+  align-items: center;
+`;
 export default ({
   scan,
+  hasCHECK_TITLE,
   gotoChecklistAdd,
-  checkType,
-  memoInput,
+  CHECK_TITLE,
+  setCHECK_TITLE,
+  TITLE,
+  LIST,
+  NAME,
   STORE,
+  CHECK_TIME,
   PHOTO_CHECK,
+  END_TIME,
+  EMP_NAME,
   isCameraModalVisible,
   setIsCameraModalVisible,
   cameraPictureList,
   setCameraPictureList,
   imgModalIdx,
   setImgModalIdx,
-  CHECK_TIME,
-  TITLE,
-  END_TIME,
-  EMP_NAME,
-  NAME,
-  checklistData,
-  checkData,
   checklistGoodState,
   setChecklistGoodState,
   checklistBadState,
   setChecklistBadState,
+  openImagePickerFn,
 }) => {
-  const MemoView = () => (
-    <View style={styles.section}>
-      <Text style={{fontSize: 15, fontWeight: 'bold', paddingHorizontal: 20}}>
-        메모
-      </Text>
-      <View style={styles.memoBox} ref={(ref) => (this.memoInputArea = ref)}>
-        <TextInput
-          ref={(ref) => (this.memoInputBox = ref)}
-          style={styles.memoTIText}
-          onChangeText={(text) => this.setState({memoInput: text})}
-          value={this.state.memoInput}
-          placeholder={'내용를 입력하세요.'}
-          placeholderTextColor={'#CCCCCC'}
-          multiline={true}
-          editable={scan == '0' ? false : true}
-          onFocus={() => {
-            console.log('this.memoInputBox', this.memoInputArea);
-          }}
-        />
-      </View>
-    </View>
+  const renderImage = (item, index) => (
+    <Touchable
+      onPress={() => {
+        setIsCameraModalVisible(true);
+      }}
+      key={index}>
+      <FastImage
+        style={{width: 120, height: 120, borderRadius: 10, marginHorizontal: 5}}
+        source={{
+          uri: item,
+          headers: {Authorization: 'someAuthToken'},
+          priority: FastImage.priority.low,
+        }}
+        resizeMode={FastImage.resizeMode.cover}
+      />
+    </Touchable>
   );
 
-  // const _getPhotoZone = (scan) => {
-  //   if (Number(PHOTO_CHECK || 0) !== 1) {
-  //     return null;
-  //   }
-
-  //   if (STORE === '0' && scan === '1') {
-  //     return (
-  //       <View style={styles.section}>
-  //         <Text style={{fontSize: 15, color: '#642A8C', paddingHorizontal: 20}}>
-  //           사진 업로드
-  //         </Text>
-  //         <View style={styles.cameraButtonBox}>
-  //           <Text style={{fontSize: 14, color: '#999'}}>촬영</Text>
-  //           <TouchableOpacity
-  //             style={styles.cameraButton}
-  //             onPress={() => setIsCameraModalVisible(false)}>
-  //             <SimpleLineIcons
-  //               name="camera"
-  //               size={30}
-  //               color="#642A8C"
-  //               style={{paddingTop: 3}}
-  //             />
-  //           </TouchableOpacity>
-  //         </View>
-  //         {cameraPictureList?.length > 0 && (
-  //           <FlatList
-  //             horizontal
-  //             keyExtractor={(item, index) => index.toString()}
-  //             style={{marginHorizontal: 20, flexDirection: 'row'}}
-  //             data={cameraPictureList}
-  //             renderItem={(obj) => {
-  //               return (
-  //                 <TouchableOpacity
-  //                   onPress={() => {
-  //                     const cameraPictureListed = cameraPictureList;
-  //                     cameraPictureListed.splice(obj.index, 1);
-  //                     setCameraPictureList(cameraPictureListed);
-  //                   }}>
-  //                   <View
-  //                     key={obj.index.toString()}
-  //                     style={{
-  //                       width: wp('18%'),
-  //                       height: wp('18%'),
-  //                       marginRight: 14,
-  //                     }}>
-  //                     <Image
-  //                       source={{uri: obj.item}}
-  //                       style={{width: '100%', height: '100%', borderRadius: 5}}
-  //                     />
-  //                   </View>
-  //                 </TouchableOpacity>
-  //               );
-  //             }}
-  //           />
-  //         )}
-  //       </View>
-  //     );
-  //   }
-
-  //   if (cameraPictureList?.length != 0) {
-  //     return (
-  //       <View style={styles.sectionPhoto}>
-  //         {cameraPictureList?.length > 0 && (
-  //           <FlatList
-  //             horizontal
-  //             keyExtractor={(item, index) => index.toString()}
-  //             style={{
-  //               marginHorizontal: 20,
-  //               flexDirection: 'row',
-  //               paddingBottom: 10,
-  //             }}
-  //             data={cameraPictureList}
-  //             renderItem={(obj) => {
-  //               return (
-  //                 <TouchableOpacity
-  //                   key={obj.index.toString()}
-  //                   style={
-  //                     obj.index == 0
-  //                       ? {marginLeft: 0, width: wp('65%'), height: wp('48%')}
-  //                       : {marginLeft: 20, width: wp('65%'), height: wp('48%')}
-  //                   }
-  //                   onPress={() => {
-  //                     setIsImageViewVisible(true);
-  //                     setImgModalIdx(obj.index);
-  //                   }}>
-  //                   <Image
-  //                     source={{uri: obj.item}}
-  //                     style={{width: '100%', height: '100%', borderRadius: 5}}
-  //                   />
-  //                 </TouchableOpacity>
-  //               );
-  //             }}
-  //           />
-  //         )}
-  //       </View>
-  //     );
-  //   }
-
-  //   return null;
-  // };
   return (
     <BackGround>
       <ScrollView
@@ -260,7 +196,7 @@ export default ({
             <RowSpace>
               <SectionText>{NAME ? '담당직원' : '확인직원'}</SectionText>
               <Text style={{color: '#642A8C', fontWeight: 'bold'}}>
-                {NAME ? NAME.split('@').join(' / ') : '체크전'}
+                {NAME ? NAME.split('@').join(' / ') : EMP_NAME ?? '체크전'}
               </Text>
             </RowSpace>
             <WhiteSpace />
@@ -276,7 +212,7 @@ export default ({
             <WhiteSpace />
             <Box>
               <ChecklistTitle>
-                {checklistData?.length === 0 ? (
+                {LIST?.length === 0 ? (
                   <ChecklistItem>
                     <ChecklistText>ex. 가스벨브 잠그기</ChecklistText>
                   </ChecklistItem>
@@ -299,7 +235,7 @@ export default ({
                   </CheckBoxIconContainer>
                 )}
               </ChecklistTitle>
-              {checklistData?.map((data, index) => (
+              {LIST?.map((data, index) => (
                 <ChecklistItem key={index}>
                   <ChecklistText>{data}</ChecklistText>
                   <CheckBoxIconContainer>
@@ -350,11 +286,57 @@ export default ({
             </Box>
           </Section>
 
-          {/* {checkType == '1' && memoInput !== '' && <MemoView />}
-          {checkType == '2' && <MemoView />} */}
-
-          {/*  {_getPhotoZone(scan)} */}
-
+          {hasCHECK_TITLE?.length > 0 && (
+            <Section>
+              <SectionText>메모</SectionText>
+              <WhiteSpace />
+              <Box>
+                <TextInput
+                  onChangeText={(text) => setCHECK_TITLE(text)}
+                  value={CHECK_TITLE}
+                  placeholder={'내용를 입력하세요.'}
+                  placeholderTextColor={'#CCCCCC'}
+                  multiline={true}
+                />
+              </Box>
+            </Section>
+          )}
+          {PHOTO_CHECK === '1' && STORE === '0' && scan === '1' && (
+            <Section>
+              <TitleText>사진</TitleText>
+              <GreyText>등록된 사진을 클릭하면 리스트에서 제거됩니다</GreyText>
+              <RowCenter>
+                <IconContainer>
+                  <Text>촬영</Text>
+                  <Touchable onPress={() => setIsCameraModalVisible(true)}>
+                    <IconBox>
+                      <CameraIcon size={40} />
+                    </IconBox>
+                  </Touchable>
+                </IconContainer>
+                <IconContainer>
+                  <Text>보관함</Text>
+                  <Touchable onPress={() => openImagePickerFn()}>
+                    <IconBox>
+                      <PictureIcon />
+                    </IconBox>
+                  </Touchable>
+                </IconContainer>
+              </RowCenter>
+              {!cameraPictureList && <ActivityIndicator size={'small'} />}
+              {cameraPictureList?.length > 0 && (
+                <FlatList
+                  horizontal
+                  keyExtractor={(_, index) => index.toString()}
+                  style={{flexDirection: 'row'}}
+                  contentContainerStyle={{justifyContent: 'center'}}
+                  data={cameraPictureList}
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({item, index}) => renderImage(item, index)}
+                />
+              )}
+            </Section>
+          )}
           {STORE == '1' && (
             <SubmitBtn
               text={'수정하기'}

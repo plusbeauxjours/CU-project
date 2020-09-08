@@ -82,7 +82,6 @@ export default ({key, date, data}) => {
     } else {
       navigation.navigate('ChecklistSpecificationScreen', {
         data,
-        checkType: '1', // 체크됨
         scan: 0,
       });
     }
