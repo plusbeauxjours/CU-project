@@ -27,10 +27,9 @@ const constant = {
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {type: TYPE} = params;
+  const {type: TYPE, EMP_SEQ} = params;
 
   const [isUpdateMode, setIsUpdateMode] = useState<boolean>(false); // INSERT 또는 UPDATE 상태값
-  const [empSeq, setEmpSeq] = useState<any>(params?.EMP_SEQ || null); // 직원 번호
   const [timeList, setTimeList] = useState<any>(params?.timeList || []); // 저장된 근무 시간 목록
   const [startDate, setStartDate] = useState<string>(
     params?.startDate || moment().format('YYYY-MM-DD'),
@@ -82,7 +81,7 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
-  const selectDate = (date) => {
+  const selectDateFn = (date) => {
     let markedDates = {};
     markedDates[date.dateString] = {
       selected: true,
@@ -136,7 +135,7 @@ export default ({route: {params}}) => {
   };
 
   // 모달 시,분 선택 후 확인버튼
-  const setTime = () => {
+  const setTimeFn = () => {
     setIsHourModalVisible(false);
     let houred = hour;
     let minuted = minute;
@@ -165,8 +164,9 @@ export default ({route: {params}}) => {
   };
 
   // STEP3 출퇴근 시간 삭제
-  const removeTime = (index) => {
-    const timeListed = timeList;
+  const removeTimeFn = (index) => {
+    let timeListed = timeList;
+    console.log(index);
     timeListed.splice(index, 1);
     for (let i = 0; i < timeListed.length; i++) {
       const color = constant.COLOR[i];
@@ -174,17 +174,17 @@ export default ({route: {params}}) => {
         timeListed[i].color = color;
       }
     }
+    setTimeListIndex(0);
     setTimeList(timeListed);
-    setTimeListIndex(null);
   };
 
   // STEP3 출퇴근 시간 삭제
-  const removeDay = (day) => {
-    const timeListed = timeList;
+  const removeDayFn = (day) => {
     let count = 0;
     let index = -1;
-    for (let i = 0; i < timeListed.length; i++) {
-      const time = timeListed[i];
+    for (let i = 0; i < timeList.length; i++) {
+      const time = timeList[i];
+
       for (const innerDay of time.dayList) {
         if (innerDay.isChecked && day.day === innerDay.day) {
           index = i;
@@ -193,16 +193,16 @@ export default ({route: {params}}) => {
         }
       }
     }
+    console.log(count, index);
     if (index > -1) {
-      for (const innerDay of timeListed[index].dayList) {
+      for (const innerDay of timeList[index].dayList) {
         if (innerDay.isChecked) {
           count++;
         }
       }
     }
-    setTimeList(timeListed);
     if (count === 0 && index > -1) {
-      removeTime(index);
+      removeTimeFn(index);
     }
   };
 
@@ -211,7 +211,7 @@ export default ({route: {params}}) => {
     try {
       dispatch(setSplashVisible(true));
       const params = {
-        EMP_SEQ: empSeq,
+        EMP_SEQ,
         START: startDate,
         END: endDate,
         empSchedules: [],
@@ -225,7 +225,7 @@ export default ({route: {params}}) => {
             params.empSchedules.push({
               EMP_SCH_SEQ: -1,
               JE_SEQ: -1,
-              EMP_SEQ: empSeq,
+              EMP_SEQ,
               DAY: day.day,
               ATTENDANCE_TIME: time.startTime,
               WORK_OFF_TIME: time.endTime,
@@ -259,11 +259,11 @@ export default ({route: {params}}) => {
 
   const initialize = () => {
     const hourListed = Array.apply(null, Array(24)).map(
-      (empty, index) => index + 0,
-    ); // 1 ~ 24의 배열 생성
+      (_, index) => index + 0,
+    );
     const minuteListed = Array.apply(null, Array(6)).map(
-      (empty, index) => index * 10,
-    ); // 10 ~ 50의 배열 생성
+      (_, index) => index * 10,
+    );
     const dayListed = [
       {day: 0, text: '일', isChecked: false, EMP_SCH_SEQ: null},
       {day: 1, text: '월', isChecked: false, EMP_SCH_SEQ: null},
@@ -274,27 +274,19 @@ export default ({route: {params}}) => {
       {day: 6, text: '토', isChecked: false, EMP_SCH_SEQ: null},
     ];
 
-    let empSeqed = null;
     let timeListed = [];
-    let startDateed = null;
 
     if (params) {
-      empSeqed = params?.EMP_SEQ;
-
       if (params?.timeList) {
         timeListed = JSON.parse(JSON.stringify(params?.timeList));
-        startDateed = params?.startDate;
       }
     }
-    setEmpSeq(empSeqed);
     setDayList(dayListed);
     setHourList(hourListed);
     setMinuteList(minuteListed);
     setOriginalDayList(JSON.parse(JSON.stringify(dayListed)));
 
-    /*
-     * 수정이면 값 세팅
-     */
+    // 수정이면 값 세팅
     if (timeListed && timeListed.length > 0) {
       const deleteListed = [];
       for (const time of timeListed) {
@@ -307,15 +299,20 @@ export default ({route: {params}}) => {
       setIsUpdateMode(true);
       setTimeList(timeListed);
       setDeleteList(deleteListed);
-      setStartDate(startDateed);
       setCalendarModalType('start');
-      setCheckNoEndDate(params?.endDate ? true : false);
-      selectDate({dateString: startDate});
+      selectDateFn({dateString: startDate});
       if (endDate) {
         setCalendarModalType('end');
-        selectDate({dateString: endDate});
+        selectDateFn({dateString: endDate});
       }
     }
+  };
+
+  // STEP2 요일을 눌렀을 때 toggle isChecked
+  const onDayPress = (index) => {
+    let dayListed = dayList;
+    dayListed[index].isChecked = !dayList[index].isChecked;
+    setDayList(dayListed);
   };
 
   useEffect(() => {
@@ -328,7 +325,7 @@ export default ({route: {params}}) => {
       timeListIndex={timeListIndex}
       setTimeListIndex={setTimeListIndex}
       originalDayList={originalDayList}
-      removeDay={removeDay}
+      removeDayFn={removeDayFn}
       dayList={dayList}
       setDayList={setDayList}
       startTime={startTime}
@@ -360,7 +357,9 @@ export default ({route: {params}}) => {
       setCheckNoEndDate={setCheckNoEndDate}
       checkNoEndDate={checkNoEndDate}
       setHourModalType={setHourModalType}
-      setTime={setTime}
+      setTimeFn={setTimeFn}
+      onDayPress={onDayPress}
+      removeTimeFn={removeTimeFn}
     />
   );
 };

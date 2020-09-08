@@ -126,7 +126,6 @@ const RenderDayPickerTouchable = styled.TouchableOpacity<IColor>`
   border-radius: 20px;
   border-width: 1px;
   border-color: ${(props) => props.color};
-  background-color: ${(props) => props.backgroundColor};
   align-items: center;
   justify-content: center;
 `;
@@ -183,7 +182,6 @@ const DayPickRowBox = styled.View`
 `;
 
 const WorkTypeCheckSection = styled.View`
-  background-color: grey;
   padding: 0 20px;
 `;
 
@@ -263,7 +261,7 @@ export default ({
   timeListIndex,
   setTimeListIndex,
   originalDayList,
-  removeDay,
+  removeDayFn,
   dayList,
   setDayList,
   startTime,
@@ -295,7 +293,9 @@ export default ({
   setCheckNoEndDate,
   checkNoEndDate,
   setHourModalType,
-  setTime,
+  setTimeFn,
+  onDayPress,
+  removeTimeFn,
 }) => {
   // STEP 1의 출퇴근 시간 등록에서, <시> 컴포넌트 전체
   const RenderHour = () => {
@@ -330,9 +330,7 @@ export default ({
     return (
       <RenderTouchable
         isSelected={display !== hour}
-        onPress={() => {
-          setHour(display);
-        }}
+        onPress={() => setHour(display)}
         key={display}>
         <RenderText isSelected={display !== hour}>{display}</RenderText>
       </RenderTouchable>
@@ -477,7 +475,7 @@ export default ({
           </RenderDurationText>
         </RenderDuration>
         {flag && (
-          <RenderWorkDayTouchable onPress={() => removeDay(originalDay)}>
+          <RenderWorkDayTouchable onPress={() => removeDayFn(originalDay)}>
             <RemoveCircleIcon size={22} />
           </RenderWorkDayTouchable>
         )}
@@ -485,59 +483,47 @@ export default ({
     );
   };
 
-  const RenderDayPicker = () => {
-    const dayListed = dayList;
-    const returnList = [];
-    for (let i = 0; i < dayList.length; i++) {
-      const isChecked = dayList[i].isChecked;
-      const borderColor = isChecked ? '#642A8C' : '#CCCCCC';
-      let isDisabled = false;
-      for (const time of timeList) {
-        if (!isDisabled) {
+  const RenderDayPicker = () => (
+    <>
+      {dayList?.map((day, index) => {
+        let isDisabled = false;
+        for (const time of timeList) {
           for (const day of time.dayList) {
-            if (day.isChecked && day.day === dayList[i].day) {
+            if (day.isChecked && day.day === dayList[index].day) {
               isDisabled = true;
-              break;
             }
           }
         }
-      }
-      var bgc;
-      if (isChecked && !isDisabled) {
-        bgc = '#642A8C';
-      } else if (!isChecked && isDisabled) {
-        bgc = '#bbb';
-      } else if (isChecked && isDisabled) {
-        bgc = '#bbb';
-      } else {
-        bgc = '#fff';
-      }
-      const TC = isChecked ? '#fff' : '#000';
-      returnList.push(
-        <RenderDayPickerTouchable
-          color={borderColor}
-          backgroundColor={bgc}
-          disabled={isDisabled}
-          onPress={() => {
-            if (!isDisabled) {
+        return (
+          <RenderDayPickerTouchable
+            color={day.isChecked ? '#642A8C' : '#CCCCCC'}
+            style={{
+              backgroundColor:
+                day.isChecked && isDisabled
+                  ? '#bbb'
+                  : !day.isChecked && isDisabled
+                  ? '#bbb'
+                  : day.isChecked && !isDisabled
+                  ? '#642A8C'
+                  : '#fff',
+            }}
+            disabled={isDisabled}
+            onPress={() => {
               if (!startTime || !endTime) {
-                return alertModal('시간을 선택해주세요.');
+                alertModal('시간을 선택해주세요.');
+              } else {
+                onDayPress(index);
               }
-              console.log(dayListed);
-              console.log(dayList);
-              dayListed[i].isChecked = !isChecked;
-              setDayList(dayListed);
-            }
-          }}
-          key={dayList[i].day.toString()}>
-          <RenderDayPickerText color={TC}>
-            {dayList[i].text}
-          </RenderDayPickerText>
-        </RenderDayPickerTouchable>,
-      );
-    }
-    return returnList;
-  };
+            }}
+            key={index}>
+            <RenderDayPickerText color={day.isChecked ? '#fff' : '#000'}>
+              {day.text}
+            </RenderDayPickerText>
+          </RenderDayPickerTouchable>
+        );
+      })}
+    </>
+  );
 
   return (
     <BackGround>
@@ -609,7 +595,6 @@ export default ({
               <DateTouchable
                 disabled={!checkNoEndDate}
                 onPress={() => setIsEndDayModalVisible(true)}>
-                {console.log('endDate', endDate)}
                 <Text>{endDate}</Text>
               </DateTouchable>
               <InputLine isBefore={endDate === null} />
@@ -674,7 +659,9 @@ export default ({
           </Section>
           <Section>
             <StepTitle>(STEP 2) 출퇴근 요일 선택</StepTitle>
-            <DayPickRowBox>{RenderDayPicker()}</DayPickRowBox>
+            <DayPickRowBox>
+              <RenderDayPicker />
+            </DayPickRowBox>
             <RoundBtn
               text={'추가하기'}
               onPress={() => checkAddTimeFn()}
@@ -684,7 +671,7 @@ export default ({
           {timeList && timeList.length !== 0 && (
             <Section>
               <StepTitle>(STEP 3) 근무일정 확인</StepTitle>
-              {timeList?.map((data, index) => (
+              {timeList.map((data, index) => (
                 <TimeListBox
                   isSelected={timeListIndex === index}
                   color={data.color}
@@ -704,7 +691,7 @@ export default ({
                     {data.startTime} ~ {data.endTime}
                   </TimeListBoxText>
                   <TimeListBoxText isSelected={true}>보기</TimeListBoxText>
-                  <RenderWorkDayTouchable onPress={() => removeDay(index)}>
+                  <RenderWorkDayTouchable onPress={() => removeTimeFn(index)}>
                     <RemoveCircleIcon size={22} />
                   </RenderWorkDayTouchable>
                 </TimeListBox>
@@ -747,7 +734,7 @@ export default ({
           </ModalButton>
           <ModalButton
             style={{backgroundColor: '#642a8c'}}
-            onPress={() => setTime()}>
+            onPress={() => setTimeFn()}>
             <NameText style={{color: 'white'}}>확인</NameText>
           </ModalButton>
         </ModalFooter>

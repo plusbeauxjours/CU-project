@@ -29,7 +29,6 @@ export default ({route: {params}}) => {
   const navigation = useNavigation();
   const {STORE} = useSelector((state: any) => state.userReducer);
   const {
-    STORE_SEQ,
     STORE_DATA: {resultdata: {CALCULATE_DAY = null} = {}} = {},
   } = useSelector((state: any) => state.storeReducer);
   const {data: {EMP_SEQ = null} = {}} = params;
@@ -318,7 +317,7 @@ export default ({route: {params}}) => {
       EMP_SEQ,
       workTypeCheck: 'fix',
       type: '수정',
-      timeList: timeList,
+      timeList,
       startDate: timeTable[timeTableIndex].startDate,
       endDate: timeTable[timeTableIndex].endDate,
       fetchData,
