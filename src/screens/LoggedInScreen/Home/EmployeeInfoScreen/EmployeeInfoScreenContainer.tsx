@@ -32,7 +32,7 @@ export default ({route: {params}}) => {
     STORE_SEQ,
     STORE_DATA: {resultdata: {CALCULATE_DAY = null} = {}} = {},
   } = useSelector((state: any) => state.storeReducer);
-  const {data: {EMP_NAME, EMP_SEQ} = {}} = params;
+  const {data: {EMP_SEQ = null} = {}} = params;
 
   const [workTypeCheck, setWorkTypeCheck] = useState<boolean>(true); // true: 자율출퇴근 직원, false: 일정이 있는 직원
   const [timeTableIndex, setTimeTableIndex] = useState<any>(null); // 저장된 시간 목록 중 선택된 항목의 인덱스
@@ -41,9 +41,7 @@ export default ({route: {params}}) => {
   const [timeList, setTimeList] = useState<any>([]); // 저장된 근무 시간 목록
   const [originalDayList, setOriginalDayList] = useState<any>([]); // dayList 원본 값
   const [empdata, setEmpdata] = useState<any>({});
-  const [year, setYear] = useState<string>(moment().format('YYYY'));
-  const [month, setMonth] = useState<string>(moment().format('MM'));
-  const [dates, setDates] = useState<string>(moment().format('YYYY-MM-DD'));
+  const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
   const [PAY, setPAY] = useState<number>(0);
   const [PAY_TYPE, setPAY_TYPE] = useState<string>('0');
 
@@ -80,6 +78,7 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
+  // 급여 천단위 나눔
   const numberComma = (num) => {
     let result = num;
     if (isNaN(num)) {
@@ -90,15 +89,13 @@ export default ({route: {params}}) => {
     return resultArray.join('.');
   };
 
-  const CALCULATE = async (EMP_SEQ, DATE) => {
-    let YEAR = DATE.getFullYear();
-    let MONTH = DATE.getMonth() + 1;
-    MONTH < 10 ? (MONTH = '0' + MONTH) : MONTH;
+  // 급여란의 급여 계산
+  const calculateFn = async (EMP_SEQ, YEAR, MONTH) => {
     try {
       const {data} = await api.getEmpPay({
+        EMP_SEQ,
         YEAR,
         MONTH,
-        EMP_SEQ,
       });
       if (data.message.length !== 0) {
         setPAY(data.message[0].PAY);
@@ -112,9 +109,10 @@ export default ({route: {params}}) => {
     }
   };
 
+  // 급여란의 근무 일수 계산
   const getPeriod = (CALCULATE_DAY) => {
-    let dayFrom = new Date(dates);
-    let dayTo = new Date(dates);
+    let dayFrom = new Date(date);
+    let dayTo = new Date(date);
     let dayFromMonth, dayToMonth, dayFromDay, dayToDay, NowYear;
     NowYear = dayFrom.getFullYear();
     dayFrom.setDate(CALCULATE_DAY); // 시작일 => 정산일로설정
@@ -143,7 +141,11 @@ export default ({route: {params}}) => {
 
   const fetchSchedule = async (EMP_SEQ) => {
     try {
-      const {data} = await api.getSchedules(EMP_SEQ, year, month);
+      const {data} = await api.getSchedules(
+        EMP_SEQ,
+        moment(date).format('YYYY'),
+        moment(date).format('MM'),
+      );
       if (data.message === 'SUCCESS') {
         initTimeTable(data.result);
       } else if (data.message === 'LIST_EMPTY') {
@@ -157,29 +159,7 @@ export default ({route: {params}}) => {
     }
   };
 
-  const fetchData = async () => {
-    try {
-      dispatch(setSplashVisible(true));
-      const {data} = await api.getEmp(EMP_SEQ);
-      const today = new Date();
-      CALCULATE(EMP_SEQ, today);
-      setEmpdata(data.result);
-      if (data.result.CALENDAR === '1') {
-        setWorkTypeCheck(true);
-      }
-      if (data.result.CALENDAR === '0') {
-        setWorkTypeCheck(false);
-        fetchSchedule(data.result.EMP_SEQ);
-      }
-    } catch (error) {
-      console.log(error);
-      dispatch(setSplashVisible(false));
-      alertModal('', '통신이 원활하지 않습니다.');
-    } finally {
-      dispatch(setSplashVisible(false));
-    }
-  };
-
+  // 타임테이블을 위한 일정 타입변환
   const getNumberToday = (stringDate?) => {
     if (stringDate) {
       return Number(stringDate.replace(/-/g, ''));
@@ -188,6 +168,7 @@ export default ({route: {params}}) => {
     return numToday;
   };
 
+  // 타임테이블
   const initTimeTable = (rawTimeList) => {
     const objTimeTable = {};
     const numberToday = getNumberToday();
@@ -313,43 +294,41 @@ export default ({route: {params}}) => {
     setTimeList(result[timeTableIndex].data);
   };
 
-  const changeMode = async () => {
-    try {
-      const {data} = await api.toggleCalendar({
-        CALENDAR:
-          workTypeCheck === true
-            ? '1'.toString() /* 일정 */
-            : '0'.toString() /* 자율 */,
-        EMP_SEQ,
-      });
-      if (data.message === 'SUCCESS') {
-        setWorkTypeCheck(!workTypeCheck);
-        await fetchData();
-      }
-    } catch (error) {
-      console.log(error);
-      alertModal('', '통신이 원활하지 않습니다.');
-    }
+  // 보라색 테두리의 수정 버튼
+  const gotoSetInfo = (data) => {
+    navigation.navigate('SetEmployeeInfoScreen', {
+      from: 'EmployeeInfoScreen',
+      data,
+    });
   };
 
-  const registerSchedule = async () => {
-    const params = {
-      workTypeCheck: constant.WORK_TYPE.FIX,
+  // 삼버튼 중 첫째 추가
+  const registerScheduleFn = () => {
+    navigation.navigate('EmployeeScheduleAddScreen', {
       EMP_SEQ,
-      STORE_SEQ,
+      workTypeCheck: 'fix',
       type: '추가',
       TITLE: '일정추가',
-      handler: () => {
-        fetchSchedule(EMP_SEQ);
-        navigation.goBack();
-      },
-    };
-    navigation.navigate('EmployeeScheduleAddScreen', params);
+    });
   };
 
-  const removeSchedule = async () => {
+  // 삼버튼 중 둘째 수정
+  const modifyScheduleFn = () => {
+    navigation.navigate('EmployeeScheduleAddScreen', {
+      EMP_SEQ,
+      workTypeCheck: 'fix',
+      type: '수정',
+      TITLE: '일정수정',
+      timeList: timeList,
+      startDate: timeTable[timeTableIndex].startDate,
+      endDate: timeTable[timeTableIndex].endDate,
+    });
+  };
+
+  // 삼버튼 중 마지막 삭제
+  const removeScheduleFn = () => {
     confirmModal('', '일정을 삭제하시겠습니까?', async () => {
-      if (timeTableIndex) {
+      if (timeTableIndex !== null) {
         const deleteList = [];
         for (const timeObj of timeList) {
           for (const dayObj of timeObj.dayList) {
@@ -360,12 +339,15 @@ export default ({route: {params}}) => {
         }
         if (deleteList.length > 0) {
           const {data} = await api.updateEmpSchedules3({DEL: deleteList});
-          fetchSchedule(EMP_SEQ);
+          if (data.message === 'SUCCESS') {
+            fetchSchedule(EMP_SEQ);
+          }
         }
       }
     });
   };
 
+  // 자율출퇴근으로 전환하기 & 일정출퇴근으로 전환하기
   const toggleWorkSchedule = () => {
     const params: any = {
       alertType: 'confirm',
@@ -386,36 +368,50 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
-  const modifySchedule = async () => {
-    const params: any = {
-      workTypeCheck: constant.WORK_TYPE.FIX,
-      EMP_SEQ,
-      STORE_SEQ,
-      type: '수정',
-      handler: () => {
-        fetchSchedule(EMP_SEQ);
-        navigation.goBack();
-      },
-    };
-    if (timeTableIndex !== null) {
-      const timeTabled = timeTable[timeTableIndex];
-      const timeListed = timeList;
-
-      params.timeList = timeListed;
-      params.startDate = timeTabled.startDate;
-      params.endDate = timeTabled.endDate;
-      params.type = '수정';
-      params.TITLE = '일정수정';
+  // 자율출퇴근으로 전환하기 & 일정출퇴근으로 전환하기 API
+  const changeMode = async () => {
+    try {
+      const {data} = await api.toggleCalendar({
+        CALENDAR:
+          workTypeCheck === true
+            ? '1'.toString() /* 일정 */
+            : '0'.toString() /* 자율 */,
+        EMP_SEQ,
+      });
+      if (data.message === 'SUCCESS') {
+        setWorkTypeCheck(!workTypeCheck);
+        await fetchData();
+      }
+    } catch (error) {
+      console.log(error);
+      alertModal('', '통신이 원활하지 않습니다.');
     }
-    navigation.navigate('EmployeeScheduleAddScreen', params);
   };
 
-  // 직원 정보 수정
-  const gotoSetInfo = (data) => {
-    navigation.navigate('SetEmployeeInfoScreen', {
-      from: 'EmployeeInfoScreen',
-      data,
-    });
+  const fetchData = async () => {
+    try {
+      dispatch(setSplashVisible(true));
+      const {data} = await api.getEmp(EMP_SEQ);
+      calculateFn(
+        EMP_SEQ,
+        moment().add(1, 'month').format('YYYY'),
+        moment().add(1, 'month').format('MM'),
+      );
+      setEmpdata(data.result);
+      if (data.result.CALENDAR === '1') {
+        setWorkTypeCheck(true);
+      }
+      if (data.result.CALENDAR === '0') {
+        setWorkTypeCheck(false);
+        fetchSchedule(data.result.EMP_SEQ);
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch(setSplashVisible(false));
+      alertModal('', '통신이 원활하지 않습니다.');
+    } finally {
+      dispatch(setSplashVisible(false));
+    }
   };
 
   useEffect(() => {
@@ -429,10 +425,10 @@ export default ({route: {params}}) => {
       timeTableIndex={timeTableIndex}
       timeListIndex={timeListIndex}
       timeList={timeList}
-      setDates={setDates}
-      CALCULATE={CALCULATE}
+      setDate={setDate}
+      calculateFn={calculateFn}
       EMP_SEQ={EMP_SEQ}
-      dates={dates}
+      date={date}
       empdata={empdata}
       getPeriod={getPeriod}
       CALCULATE_DAY={CALCULATE_DAY}
@@ -443,9 +439,9 @@ export default ({route: {params}}) => {
       toggleWorkSchedule={toggleWorkSchedule}
       workTypeCheck={workTypeCheck}
       timeTable={timeTable}
-      registerSchedule={registerSchedule}
-      modifySchedule={modifySchedule}
-      removeSchedule={removeSchedule}
+      registerScheduleFn={registerScheduleFn}
+      modifyScheduleFn={modifyScheduleFn}
+      removeScheduleFn={removeScheduleFn}
       explainModal={explainModal}
       setTimeTableIndex={setTimeTableIndex}
       setTimeListIndex={setTimeListIndex}

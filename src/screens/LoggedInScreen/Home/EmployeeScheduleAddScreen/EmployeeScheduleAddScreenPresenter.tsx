@@ -17,6 +17,7 @@ import SubmitBtn from '../../../../components/Btn/SubmitBtn';
 import RoundBtn from '../../../../components/Btn/RoundBtn';
 import InputLine from '../../../../components/InputLine';
 import Modal from 'react-native-modal';
+import moment from 'moment';
 
 interface IsSelected {
   isSelected: boolean;
@@ -632,7 +633,8 @@ export default ({
                 mode="date"
                 locale="ko_KRus_EN"
                 onConfirm={(date) => {
-                  endDate(date), setIsEndDayModalVisible(false);
+                  setEndDate(moment(date).format('YYYY-MM-DD'));
+                  setIsEndDayModalVisible(false);
                 }}
                 onCancel={() => {
                   setIsEndDayModalVisible(false);

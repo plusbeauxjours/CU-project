@@ -192,18 +192,12 @@ export default ({route: {params}}) => {
   };
 
   const registerSchedule = async () => {
-    const params = {
-      workTypeCheck: constant.WORK_TYPE.FIX,
+    navigation.navigate('EmployeeScheduleAddScreen', {
       EMP_SEQ,
-      STORE_SEQ,
+      workTypeCheck: 'fix',
       type: '추가',
       TITLE: '일정추가',
-      handler: () => {
-        fetchSchedule(EMP_SEQ);
-        navigation.goBack();
-      },
-    };
-    navigation.navigate('EmployeeScheduleAddScreen', params);
+    });
   };
 
   const removeSchedule = async () => {
@@ -226,21 +220,15 @@ export default ({route: {params}}) => {
   };
 
   const modifySchedule = async () => {
-    const params = {
+    navigation.navigate('EmployeeScheduleAddScreen', {
+      EMP_SEQ,
+      workTypeCheck: 'fix',
+      type: '수정',
+      TITLE: '일정수정',
       timeList: timeTableIndex && timeList,
       startDate: timeTableIndex && timeTable[timeTableIndex].startDate,
       endDate: timeTableIndex && timeTable[timeTableIndex].endDate,
-      workTypeCheck: constant.WORK_TYPE.FIX,
-      type: '수정',
-      TITLE: '일정수정',
-      EMP_SEQ,
-      STORE_SEQ,
-      handler: () => {
-        fetchSchedule(EMP_SEQ);
-        navigation.goBack();
-      },
-    };
-    navigation.navigate('EmployeeScheduleAddScreen', params);
+    });
   };
 
   const sendPush = async () => {

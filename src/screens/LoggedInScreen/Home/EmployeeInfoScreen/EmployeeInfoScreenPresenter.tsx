@@ -39,7 +39,6 @@ const Touchable = styled.TouchableOpacity`
 `;
 
 const Container = styled.View`
-  margin-top: 20px;
   padding: 20px;
   align-items: center;
 `;
@@ -50,12 +49,14 @@ const WhiteText = styled.Text`
   font-size: 12px;
   color: white;
 `;
+
 const Section = styled.View`
   width: 100%;
-  margin-top: 20px;
+  margin-bottom: 20px;
   border-radius: 20px;
   padding: 20px 0;
   background-color: white;
+  background-color: red;
 `;
 const NameBox = styled.View``;
 const EmployeeBox = styled.View`
@@ -276,10 +277,10 @@ export default ({
   timeTableIndex,
   timeListIndex,
   timeList,
-  setDates,
-  CALCULATE,
+  setDate,
+  calculateFn,
   EMP_SEQ,
-  dates,
+  date,
   data,
   empdata,
   getPeriod,
@@ -290,9 +291,9 @@ export default ({
   toggleWorkSchedule,
   workTypeCheck,
   timeTable,
-  registerSchedule,
-  modifySchedule,
-  removeSchedule,
+  registerScheduleFn,
+  modifyScheduleFn,
+  removeScheduleFn,
   explainModal,
   setTimeTableIndex,
   setTimeListIndex,
@@ -513,26 +514,38 @@ export default ({
                 <Row>
                   <DateBox
                     onPress={() => {
-                      let prevMonth = new Date(dates);
-                      prevMonth.setMonth(prevMonth.getMonth() - 1);
-                      setDates(prevMonth);
-                      CALCULATE(EMP_SEQ, prevMonth);
+                      setDate(
+                        moment(date).subtract(1, 'month').format('YYYY-MM-DD'),
+                      );
+                      calculateFn(
+                        EMP_SEQ,
+                        moment(date).subtract(1, 'month').format('YYYY'),
+                        moment(date).subtract(1, 'month').format('MM'),
+                      );
                     }}>
                     <BackIcon size={16} color={'#000'} />
                   </DateBox>
                   <DateBox
                     onPress={() => {
-                      setDates(moment().format('YYYY-MM-DD'));
-                      CALCULATE(EMP_SEQ, moment().format('YYYY-MM-DD'));
+                      setDate(moment().format('YYYY-MM-DD'));
+                      calculateFn(
+                        EMP_SEQ,
+                        moment().format('YYYY'),
+                        moment().format('MM'),
+                      );
                     }}>
                     <ReloadCircleIcon size={16} />
                   </DateBox>
                   <DateBox
                     onPress={() => {
-                      let nextMonth = new Date(dates);
-                      nextMonth.setMonth(nextMonth.getMonth() + 1);
-                      setDates(nextMonth);
-                      CALCULATE(EMP_SEQ, nextMonth);
+                      setDate(
+                        moment(date).add(1, 'month').format('YYYY-MM-DD'),
+                      );
+                      calculateFn(
+                        EMP_SEQ,
+                        moment(date).add(1, 'month').format('YYYY'),
+                        moment(date).add(1, 'month').format('MM'),
+                      );
                     }}>
                     <ForwardIcon size={16} color={'#000'} />
                   </DateBox>
@@ -598,7 +611,7 @@ export default ({
                     <FixTypeDayChangeBox>
                       <FixTypeDayChangeButton
                         style={{borderColor: '#642A8C', width: '100%'}}
-                        onPress={() => registerSchedule()}>
+                        onPress={() => registerScheduleFn()}>
                         <FixTypeDayChangeButtonText style={{color: '#642A8C'}}>
                           일정 추가
                         </FixTypeDayChangeButtonText>
@@ -609,21 +622,21 @@ export default ({
                   <FixTypeDayChangeBox>
                     <FixTypeDayChangeButton
                       style={{borderColor: '#642A8C'}}
-                      onPress={() => registerSchedule()}>
+                      onPress={() => registerScheduleFn()}>
                       <FixTypeDayChangeButtonText style={{color: '#642A8C'}}>
                         추가
                       </FixTypeDayChangeButtonText>
                     </FixTypeDayChangeButton>
                     <FixTypeDayChangeButton
                       style={{borderColor: '#AACE36'}}
-                      onPress={() => modifySchedule()}>
+                      onPress={() => modifyScheduleFn()}>
                       <FixTypeDayChangeButtonText style={{color: '#AACE36'}}>
                         수정
                       </FixTypeDayChangeButtonText>
                     </FixTypeDayChangeButton>
                     <FixTypeDayChangeButton
                       style={{borderColor: '#B91C1B'}}
-                      onPress={() => removeSchedule()}>
+                      onPress={() => removeScheduleFn()}>
                       <FixTypeDayChangeButtonText style={{color: '#B91C1B'}}>
                         삭제
                       </FixTypeDayChangeButtonText>

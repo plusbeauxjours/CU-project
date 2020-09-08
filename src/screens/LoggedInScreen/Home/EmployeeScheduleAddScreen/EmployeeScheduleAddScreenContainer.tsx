@@ -26,11 +26,10 @@ const constant = {
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigate = useNavigation();
-  const {type: TYPE, handler} = params;
+  const {type: TYPE} = params;
 
   const [isUpdateMode, setIsUpdateMode] = useState<boolean>(false); // INSERT 또는 UPDATE 상태값
   const [empSeq, setEmpSeq] = useState<any>(params?.EMP_SEQ || null); // 직원 번호
-  const [workType, setWorkType] = useState<any>(params?.workTypeCheck || null); // 근무 유형 (fix: 일정이 있는 직원, free: 자율 출퇴근 직원)
   const [timeList, setTimeList] = useState<any>(params?.timeList || []); // 저장된 근무 시간 목록
   const [startDate, setStartDate] = useState<string>(
     params?.startDate || moment().format('YYYY-MM-DD'),
@@ -147,7 +146,6 @@ export default ({route: {params}}) => {
       }
     }
     setEmpSeq(empSeqed);
-    setWorkType(workTypeed);
     setDayList(dayListed);
     setHourList(hourListed);
     setMinuteList(minuteListed);
@@ -284,69 +282,73 @@ export default ({route: {params}}) => {
   };
 
   const submitFn = async () => {
-    dispatch(setSplashVisible(true));
-    const params = {
-      EMP_SEQ: empSeq,
-      START: startDate,
-      END: endDate == '' ? null : endDate,
-      empSchedules: [],
-    };
-    if (!startDate || (!checkNoEndDate && (!endDate || endDate == null))) {
-      return alertModal('일정 기간을 입력해주세요');
-    }
-    for (const time of timeList) {
-      for (const day of time.dayList) {
-        if (day.isChecked) {
-          params.empSchedules.push({
-            EMP_SCH_SEQ: -1,
-            JE_SEQ: -1,
-            EMP_SEQ: empSeq,
-            DAY: day.day,
-            ATTENDANCE_TIME: time.startTime,
-            WORK_OFF_TIME: time.endTime,
-            USE_FLAG: 1,
-            START: startDate,
-            END: endDate == '' ? null : endDate,
-          });
+    try {
+      dispatch(setSplashVisible(true));
+      const params = {
+        EMP_SEQ: empSeq,
+        START: startDate,
+        END: endDate == '' ? null : endDate,
+        empSchedules: [],
+      };
+      if (!startDate || (!checkNoEndDate && (!endDate || endDate == null))) {
+        return alertModal('일정 기간을 입력해주세요');
+      }
+      for (const time of timeList) {
+        for (const day of time.dayList) {
+          if (day.isChecked) {
+            params.empSchedules.push({
+              EMP_SCH_SEQ: -1,
+              JE_SEQ: -1,
+              EMP_SEQ: empSeq,
+              DAY: day.day,
+              ATTENDANCE_TIME: time.startTime,
+              WORK_OFF_TIME: time.endTime,
+              USE_FLAG: 1,
+              START: startDate,
+              END: endDate == '' ? null : endDate,
+            });
+          }
         }
       }
-    }
-    if (isUpdateMode) {
+      if (isUpdateMode) {
+        const response = await fetch(
+          'http://133.186.209.113:80/api/v2/Employee/update_emp_schedules3',
+          {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({DEL: deleteList}),
+          },
+        );
+        const json = await response.json();
+        if (json.message !== 'SUCCESS') {
+          alertModal(json.result);
+        }
+      }
       const response = await fetch(
-        'http://133.186.209.113:80/api/v2/Employee/update_emp_schedules3',
+        'http://133.186.209.113:80/api/v2/Employee/insert_emp_schedules',
         {
           method: 'POST',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({DEL: deleteList}),
+          body: JSON.stringify(params),
         },
       );
       const json = await response.json();
-      if (json.message !== 'SUCCESS') {
+      if (json.message === 'SUCCESS') {
+        alertModal('일정이 ' + TYPE + '되었습니다.');
+      } else {
         alertModal(json.result);
       }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setSplashVisible(false);
     }
-    const response = await fetch(
-      'http://133.186.209.113:80/api/v2/Employee/insert_emp_schedules',
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(params),
-      },
-    );
-    const json = await response.json();
-    if (json.message === 'SUCCESS') {
-      alertModal('일정이 ' + TYPE + '되었습니다.');
-      handler();
-    } else {
-      alertModal(json.result);
-    }
-    setSplashVisible(false);
   };
 
   useEffect(() => {
