@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
 import EmployeeScheduleAddScreenPresenter from './EmployeeScheduleAddScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
+import api from '../../../../constants/LoggedInApi';
+import {useNavigation} from '@react-navigation/native';
 
 const constant = {
   WORK_TYPE: {
@@ -25,7 +26,7 @@ const constant = {
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
-  const navigate = useNavigation();
+  const navigation = useNavigation();
   const {type: TYPE} = params;
 
   const [isUpdateMode, setIsUpdateMode] = useState<boolean>(false); // INSERT 또는 UPDATE 상태값
@@ -34,11 +35,11 @@ export default ({route: {params}}) => {
   const [startDate, setStartDate] = useState<string>(
     params?.startDate || moment().format('YYYY-MM-DD'),
   ); // 근무 시작일
-  const [endDate, setEndDate] = useState<string>(params?.endDate || ''); // 근무 종료일
+  const [endDate, setEndDate] = useState<string>(params?.endDate || null); // 근무 종료일
 
   const [startTime, setStartTime] = useState<any>(null); // 화면에서 선택된 출근시간
   const [endTime, setEndTime] = useState<any>(null); // 화면에서 선택된 퇴근시간
-  const [timeListIndex, setTimeListIndex] = useState<any>(null); // 저장된 근무 시간 목록 중 선택된 항목의 인덱스
+  const [timeListIndex, setTimeListIndex] = useState<any>(0); // 저장된 근무 시간 목록 중 선택된 항목의 인덱스
   const [isHourModalVisible, setIsHourModalVisible] = useState<boolean>(false); // 시간/분 입력 모달 활성화 여부
   const [hourModalType, setHourModalType] = useState<any>(null); // 모달의 종류 (start: 출근시간, end: 퇴근시간)
   const [originalDayList, setOriginalDayList] = useState<any>([]); // dayList 원본 값
@@ -50,16 +51,10 @@ export default ({route: {params}}) => {
   const [isMinuteInputFocused, setIsMinuteInputFocused] = useState<boolean>(
     false,
   ); // 분 직접 입력 포커싱 여부
-  const [workDayExpand, setWorkDayExpand] = useState<boolean>(false); // 최하단 출퇴근정보 입력 화면 활성화 여부
-  const [isCalendarModalVisible, setIsCalendarModalVisible] = useState<boolean>(
-    false,
-  ); // 캘린더 모달 활성화 여부
-  const [calendarModalType, setCalendarModalType] = useState<>(null); // 캘린더 모달 종류 (start: 근무 시작일, end: 근무 종료일)
-
-  const [markedStartDate, setMarkedStartDate] = useState<>(null); // 캘린더에서 시작일 선택 마크
-  const [markedEndDate, setMarkedEndDate] = useState<>(null); // 캘린더에서 종료일 선택 마크
-  const [checkNoEndDate, setCheckNoEndDate] = useState<>(true); // 일정 종료일 없음 체크
-  const [step3Visible, setStep3Visible] = useState<boolean>(false); // STEP 3 활성화 여부
+  const [calendarModalType, setCalendarModalType] = useState<string>(null); // 캘린더 모달 종류 (start: 근무 시작일, end: 근무 종료일)
+  const [checkNoEndDate, setCheckNoEndDate] = useState<boolean>(
+    params?.endDate ? true : false,
+  ); // 일정 종료일 없음 체크
   const [deleteList, setDeleteList] = useState<any>([]); // 삭제 대상 목록
   const [isStartDayModalVisible, setIsStartDayModalVisible] = useState<boolean>(
     false,
@@ -95,91 +90,21 @@ export default ({route: {params}}) => {
     };
     if (calendarModalType === 'start') {
       setStartDate(date.dateString);
-      setMarkedStartDate(markedDates);
     } else {
       setEndDate(date.dateString);
-      setMarkedEndDate(markedDates);
     }
   };
 
+  // STEP1 출퇴근 시,분 타입변환
   const numberFormatPadding = (num) => {
     const _num = Number(num);
-
     if (_num < 10) {
       return `0${_num}`;
     }
-
     return _num.toString();
   };
 
-  const initialize = () => {
-    const hourListed = Array.apply(null, Array(24)).map(
-      (empty, index) => index + 0,
-    ); // 1 ~ 24의 배열 생성
-    const minuteListed = Array.apply(null, Array(6)).map(
-      (empty, index) => index * 10,
-    ); // 10 ~ 50의 배열 생성
-    const dayListed = [
-      {day: 0, text: '일', isChecked: false, EMP_SCH_SEQ: null},
-      {day: 1, text: '월', isChecked: false, EMP_SCH_SEQ: null},
-      {day: 2, text: '화', isChecked: false, EMP_SCH_SEQ: null},
-      {day: 3, text: '수', isChecked: false, EMP_SCH_SEQ: null},
-      {day: 4, text: '목', isChecked: false, EMP_SCH_SEQ: null},
-      {day: 5, text: '금', isChecked: false, EMP_SCH_SEQ: null},
-      {day: 6, text: '토', isChecked: false, EMP_SCH_SEQ: null},
-    ];
-
-    let workTypeed = constant.WORK_TYPE.FIX;
-    let empSeqed = null;
-    let timeListed = [];
-    let startDateed = null;
-    let endDateed = null;
-
-    if (params) {
-      workTypeed = params?.workTypeCheck;
-      empSeqed = params?.EMP_SEQ;
-
-      if (params?.timeList) {
-        timeListed = JSON.parse(JSON.stringify(params?.timeList));
-        startDateed = params?.startDate;
-        endDateed = params?.endDate;
-      }
-    }
-    setEmpSeq(empSeqed);
-    setDayList(dayListed);
-    setHourList(hourListed);
-    setMinuteList(minuteListed);
-    setOriginalDayList(JSON.parse(JSON.stringify(dayList)));
-
-    /*
-     * 수정이면 값 세팅
-     */
-    if (timeListed && timeListed.length > 0) {
-      const deleteListed = [];
-      for (const time of timeListed) {
-        for (const day of time.dayList) {
-          if (day.EMP_SCH_SEQ) {
-            deleteListed.push(day.EMP_SCH_SEQ);
-          }
-        }
-      }
-      setIsUpdateMode(true);
-      setTimeList(setTimeList);
-      setDeleteList(deleteListed);
-      setStartDate(startDateed);
-      setEndDate(endDateed);
-      setCheckNoEndDate(!endDate);
-      setStep3Visible(true);
-      setCalendarModalType('start');
-      selectDate({dateString: startDate});
-
-      if (endDate) {
-        setCalendarModalType('end');
-        selectDate({dateString: endDate});
-      }
-    }
-  };
-
+  // STEP2 출퇴근 요일 선택 추가하기 버튼
   const checkAddTimeFn = () => {
     let validDay = false;
     for (const day of dayList) {
@@ -197,7 +122,7 @@ export default ({route: {params}}) => {
       setStartTime(null);
       setEndTime(null);
       setDayList(JSON.parse(JSON.stringify(originalDayList)));
-      setStep3Visible(true);
+      setTimeListIndex(timeList.length);
       // 중간에 삭제되는 경우 다음 추가에 대한 컬러 인덱스 우선권 부여
       const colorIndex =
         timeList.length <= constant.COLOR.length ? timeList.length : 0;
@@ -210,6 +135,7 @@ export default ({route: {params}}) => {
     }
   };
 
+  // 모달 시,분 선택 후 확인버튼
   const setTime = () => {
     setIsHourModalVisible(false);
     let houred = hour;
@@ -238,6 +164,7 @@ export default ({route: {params}}) => {
     }
   };
 
+  // STEP3 출퇴근 시간 삭제
   const removeTime = (index) => {
     const timeListed = timeList;
     timeListed.splice(index, 1);
@@ -249,11 +176,9 @@ export default ({route: {params}}) => {
     }
     setTimeList(timeListed);
     setTimeListIndex(null);
-    if (timeList.length === 0) {
-      setStep3Visible(false);
-    }
   };
 
+  // STEP3 출퇴근 시간 삭제
   const removeDay = (day) => {
     const timeListed = timeList;
     let count = 0;
@@ -281,13 +206,14 @@ export default ({route: {params}}) => {
     }
   };
 
+  // 추가 완료 & 수정 완료
   const submitFn = async () => {
     try {
       dispatch(setSplashVisible(true));
       const params = {
         EMP_SEQ: empSeq,
         START: startDate,
-        END: endDate == '' ? null : endDate,
+        END: endDate,
         empSchedules: [],
       };
       if (!startDate || (!checkNoEndDate && (!endDate || endDate == null))) {
@@ -305,49 +231,90 @@ export default ({route: {params}}) => {
               WORK_OFF_TIME: time.endTime,
               USE_FLAG: 1,
               START: startDate,
-              END: endDate == '' ? null : endDate,
+              END: endDate,
             });
           }
         }
       }
       if (isUpdateMode) {
-        const response = await fetch(
-          'http://133.186.209.113:80/api/v2/Employee/update_emp_schedules3',
-          {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({DEL: deleteList}),
-          },
-        );
-        const json = await response.json();
-        if (json.message !== 'SUCCESS') {
-          alertModal(json.result);
+        const {data} = await api.updateEmpSchedule({DEL: deleteList});
+        if (data.message !== 'SUCCESS') {
+          alertModal(data.result);
         }
       }
-      const response = await fetch(
-        'http://133.186.209.113:80/api/v2/Employee/insert_emp_schedules',
-        {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(params),
-        },
-      );
-      const json = await response.json();
-      if (json.message === 'SUCCESS') {
+      const {data} = await api.insertEmpSchedule(params);
+      if (data.message === 'SUCCESS') {
         alertModal('일정이 ' + TYPE + '되었습니다.');
       } else {
-        alertModal(json.result);
+        alertModal(data.result);
       }
     } catch (e) {
       console.log(e);
     } finally {
+      params?.fetchData();
+      navigation.goBack();
       setSplashVisible(false);
+    }
+  };
+
+  const initialize = () => {
+    const hourListed = Array.apply(null, Array(24)).map(
+      (empty, index) => index + 0,
+    ); // 1 ~ 24의 배열 생성
+    const minuteListed = Array.apply(null, Array(6)).map(
+      (empty, index) => index * 10,
+    ); // 10 ~ 50의 배열 생성
+    const dayListed = [
+      {day: 0, text: '일', isChecked: false, EMP_SCH_SEQ: null},
+      {day: 1, text: '월', isChecked: false, EMP_SCH_SEQ: null},
+      {day: 2, text: '화', isChecked: false, EMP_SCH_SEQ: null},
+      {day: 3, text: '수', isChecked: false, EMP_SCH_SEQ: null},
+      {day: 4, text: '목', isChecked: false, EMP_SCH_SEQ: null},
+      {day: 5, text: '금', isChecked: false, EMP_SCH_SEQ: null},
+      {day: 6, text: '토', isChecked: false, EMP_SCH_SEQ: null},
+    ];
+
+    let empSeqed = null;
+    let timeListed = [];
+    let startDateed = null;
+
+    if (params) {
+      empSeqed = params?.EMP_SEQ;
+
+      if (params?.timeList) {
+        timeListed = JSON.parse(JSON.stringify(params?.timeList));
+        startDateed = params?.startDate;
+      }
+    }
+    setEmpSeq(empSeqed);
+    setDayList(dayListed);
+    setHourList(hourListed);
+    setMinuteList(minuteListed);
+    setOriginalDayList(JSON.parse(JSON.stringify(dayListed)));
+
+    /*
+     * 수정이면 값 세팅
+     */
+    if (timeListed && timeListed.length > 0) {
+      const deleteListed = [];
+      for (const time of timeListed) {
+        for (const day of time.dayList) {
+          if (day.EMP_SCH_SEQ) {
+            deleteListed.push(day.EMP_SCH_SEQ);
+          }
+        }
+      }
+      setIsUpdateMode(true);
+      setTimeList(timeListed);
+      setDeleteList(deleteListed);
+      setStartDate(startDateed);
+      setCalendarModalType('start');
+      setCheckNoEndDate(params?.endDate ? true : false);
+      selectDate({dateString: startDate});
+      if (endDate) {
+        setCalendarModalType('end');
+        selectDate({dateString: endDate});
+      }
     }
   };
 
@@ -392,7 +359,6 @@ export default ({route: {params}}) => {
       setIsEndDayModalVisible={setIsEndDayModalVisible}
       setCheckNoEndDate={setCheckNoEndDate}
       checkNoEndDate={checkNoEndDate}
-      setMarkedEndDate={setMarkedEndDate}
       setHourModalType={setHourModalType}
       setTime={setTime}
     />

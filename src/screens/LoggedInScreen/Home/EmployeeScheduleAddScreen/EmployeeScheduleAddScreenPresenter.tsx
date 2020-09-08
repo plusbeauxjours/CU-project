@@ -69,8 +69,6 @@ const RowSpaceTouchable = styled(RowTouchable)`
   justify-content: space-around;
 `;
 
-const RenderDayListContainer = styled.View``;
-
 const RenderDayRow = styled.View`
   flex-direction: row;
   margin-bottom: 10px;
@@ -185,6 +183,7 @@ const DayPickRowBox = styled.View`
 `;
 
 const WorkTypeCheckSection = styled.View`
+  background-color: grey;
   padding: 0 20px;
 `;
 
@@ -295,141 +294,9 @@ export default ({
   setIsEndDayModalVisible,
   setCheckNoEndDate,
   checkNoEndDate,
-  setMarkedEndDate,
   setHourModalType,
   setTime,
 }) => {
-  const RenderWorkDayList = () => (
-    <RenderDayListContainer>
-      {originalDayList?.map((originalDay) => (
-        <RenderWorkDayItem key={originalDay.day} originalDay={originalDay} />
-      ))}
-    </RenderDayListContainer>
-  );
-
-  const RenderWorkDayItem = ({originalDay, key}) => {
-    const timeListed = timeList;
-    const substractHour = (startTime, endTime) => {
-      const startTimeArray = startTime.split(':');
-      let startTimeHour = Number(startTimeArray[0]);
-      let startTimeMinute = Number(startTimeArray[1]);
-      const endTimeArray = endTime.split(':');
-      let endTimeHour = Number(endTimeArray[0]);
-      let endTimeMinute = Number(endTimeArray[1]);
-      let resultTimeHour = 0;
-      let resultTimeMinute = 0;
-      if (
-        startTimeHour > endTimeHour ||
-        (startTimeHour === endTimeHour && startTimeMinute > endTimeMinute)
-      ) {
-        endTimeHour += 24;
-      }
-      if (startTimeMinute > endTimeMinute) {
-        endTimeHour--;
-        endTimeMinute += 60;
-      }
-      resultTimeMinute = endTimeMinute - startTimeMinute;
-      resultTimeHour = endTimeHour - startTimeHour;
-      return `(${resultTimeHour}h ${resultTimeMinute}m)`;
-    };
-    const timeListIndexed = timeListIndex;
-    let startTime = '00:00';
-    let endTime = '00:00';
-    let flag = false;
-    let color = null;
-    for (let i = 0; i < timeListed.length; i++) {
-      const time = timeListed[i];
-      for (const day of time.dayList) {
-        if (day.isChecked && originalDay.day === day.day) {
-          startTime = time.startTime;
-          endTime = time.endTime;
-          flag = true;
-          if (timeListIndexed !== null && timeListIndexed === i) {
-            color = time.color;
-          }
-        }
-      }
-    }
-    const substract = flag ? substractHour(startTime, endTime) : '';
-    const isSelected = color && flag;
-    return (
-      <RenderDayRow key={key}>
-        <RenderDayBox isSelected={isSelected} color={color}>
-          <RenderDayBoxText isSelected={isSelected}>
-            {originalDay.text}
-          </RenderDayBoxText>
-        </RenderDayBox>
-        <RenderDayTime>
-          <RenderDayTimeText isSelected={isSelected} substract={substract}>
-            {isSelected ? startTime : '00:00'} ~{' '}
-            {isSelected ? endTime : '00:00'}
-          </RenderDayTimeText>
-        </RenderDayTime>
-        <RenderDuration>
-          <RenderDurationText isSelected={isSelected}>
-            {isSelected && substract}
-          </RenderDurationText>
-        </RenderDuration>
-        {flag && (
-          <RenderWorkDayTouchable onPress={() => removeDay(originalDay)}>
-            <RemoveCircleIcon size={22} />
-          </RenderWorkDayTouchable>
-        )}
-      </RenderDayRow>
-    );
-  };
-
-  const RenderDayPicker = () => {
-    const dayListed = dayList;
-    const returnList = [];
-    for (let i = 0; i < dayList.length; i++) {
-      const isChecked = dayList[i].isChecked;
-      const borderColor = isChecked ? '#642A8C' : '#CCCCCC';
-      let isDisabled = false;
-      for (const time of timeList) {
-        if (!isDisabled) {
-          for (const day of time.dayList) {
-            if (day.isChecked && day.day === dayList[i].day) {
-              isDisabled = true;
-              break;
-            }
-          }
-        }
-      }
-      var bgc;
-      if (isChecked && !isDisabled) {
-        bgc = '#642A8C';
-      } else if (!isChecked && isDisabled) {
-        bgc = '#bbb';
-      } else if (isChecked && isDisabled) {
-        bgc = '#bbb';
-      } else {
-        bgc = '#fff';
-      }
-      const TC = isChecked ? '#fff' : '#000';
-      returnList.push(
-        <RenderDayPickerTouchable
-          color={borderColor}
-          backgroundColor={bgc}
-          onPress={() => {
-            if (!isDisabled) {
-              if (!startTime || !endTime) {
-                return alertModal('', '시간을 선택해주세요.');
-              }
-              dayList[i].isChecked = !isChecked;
-              setDayList(dayListed);
-            }
-          }}
-          key={dayList[i].day.toString()}>
-          <RenderDayPickerText color={TC}>
-            {dayList[i].text}
-          </RenderDayPickerText>
-        </RenderDayPickerTouchable>,
-      );
-    }
-    return returnList;
-  };
-
   // STEP 1의 출퇴근 시간 등록에서, <시> 컴포넌트 전체
   const RenderHour = () => {
     const returnList = [];
@@ -538,41 +405,139 @@ export default ({
     );
   };
 
-  const GetStep = () => (
-    <>
-      <Section>
-        <StepTitle>(STEP 3) 근무일정 확인</StepTitle>
-        {timeList?.map((data, index) => (
-          <TimeListBox
-            isSelected={timeListIndex === index}
-            color={data.color}
-            key={index}
-            onPress={() => {
-              if (timeListIndex === index) {
-                setTimeListIndex(null);
-              } else {
-                setTimeListIndex(index);
-              }
-            }}>
-            <TimeListBoxText isSelected={timeListIndex === index}>
-              <EllipseIcon
-                color={timeListIndex === index ? data.color : '#ddd'}
-              />
-              &nbsp;&nbsp;
-              {data.startTime} ~ {data.endTime}
-            </TimeListBoxText>
-            <TimeListBoxText isSelected={true}>보기</TimeListBoxText>
-            <RenderWorkDayTouchable onPress={() => removeDay(index)}>
-              <RemoveCircleIcon size={22} />
-            </RenderWorkDayTouchable>
-          </TimeListBox>
-        ))}
-        <WorkTypeCheckSection>
-          <RenderWorkDayList />
-        </WorkTypeCheckSection>
-      </Section>
-    </>
+  const RenderWorkDayList = () => (
+    <WorkTypeCheckSection>
+      {originalDayList?.map((originalDay) => (
+        <RenderWorkDayItem key={originalDay.day} originalDay={originalDay} />
+      ))}
+    </WorkTypeCheckSection>
   );
+
+  const RenderWorkDayItem = ({originalDay, key}) => {
+    const timeListed = timeList;
+    const substractHour = (startTime, endTime) => {
+      const startTimeArray = startTime.split(':');
+      let startTimeHour = Number(startTimeArray[0]);
+      let startTimeMinute = Number(startTimeArray[1]);
+      const endTimeArray = endTime.split(':');
+      let endTimeHour = Number(endTimeArray[0]);
+      let endTimeMinute = Number(endTimeArray[1]);
+      let resultTimeHour = 0;
+      let resultTimeMinute = 0;
+      if (
+        startTimeHour > endTimeHour ||
+        (startTimeHour === endTimeHour && startTimeMinute > endTimeMinute)
+      ) {
+        endTimeHour += 24;
+      }
+      if (startTimeMinute > endTimeMinute) {
+        endTimeHour--;
+        endTimeMinute += 60;
+      }
+      resultTimeMinute = endTimeMinute - startTimeMinute;
+      resultTimeHour = endTimeHour - startTimeHour;
+      return `(${resultTimeHour}h ${resultTimeMinute}m)`;
+    };
+    const timeListIndexed = timeListIndex;
+    let startTime = '00:00';
+    let endTime = '00:00';
+    let flag = false;
+    let color = null;
+    for (let i = 0; i < timeListed.length; i++) {
+      const time = timeListed[i];
+      for (const day of time.dayList) {
+        if (day.isChecked && originalDay.day === day.day) {
+          startTime = time.startTime;
+          endTime = time.endTime;
+          flag = true;
+          if (timeListIndexed !== null && timeListIndexed === i) {
+            color = time.color;
+          }
+        }
+      }
+    }
+    const substract = flag ? substractHour(startTime, endTime) : '';
+    const isSelected = color && flag;
+    return (
+      <RenderDayRow key={key}>
+        <RenderDayBox isSelected={isSelected} color={color}>
+          <RenderDayBoxText isSelected={isSelected}>
+            {originalDay.text}
+          </RenderDayBoxText>
+        </RenderDayBox>
+        <RenderDayTime>
+          <RenderDayTimeText isSelected={isSelected} substract={substract}>
+            {isSelected ? startTime : '00:00'} ~{' '}
+            {isSelected ? endTime : '00:00'}
+          </RenderDayTimeText>
+        </RenderDayTime>
+        <RenderDuration>
+          <RenderDurationText isSelected={isSelected}>
+            {isSelected && substract}
+          </RenderDurationText>
+        </RenderDuration>
+        {flag && (
+          <RenderWorkDayTouchable onPress={() => removeDay(originalDay)}>
+            <RemoveCircleIcon size={22} />
+          </RenderWorkDayTouchable>
+        )}
+      </RenderDayRow>
+    );
+  };
+
+  const RenderDayPicker = () => {
+    const dayListed = dayList;
+    const returnList = [];
+    for (let i = 0; i < dayList.length; i++) {
+      const isChecked = dayList[i].isChecked;
+      const borderColor = isChecked ? '#642A8C' : '#CCCCCC';
+      let isDisabled = false;
+      for (const time of timeList) {
+        if (!isDisabled) {
+          for (const day of time.dayList) {
+            if (day.isChecked && day.day === dayList[i].day) {
+              isDisabled = true;
+              break;
+            }
+          }
+        }
+      }
+      var bgc;
+      if (isChecked && !isDisabled) {
+        bgc = '#642A8C';
+      } else if (!isChecked && isDisabled) {
+        bgc = '#bbb';
+      } else if (isChecked && isDisabled) {
+        bgc = '#bbb';
+      } else {
+        bgc = '#fff';
+      }
+      const TC = isChecked ? '#fff' : '#000';
+      returnList.push(
+        <RenderDayPickerTouchable
+          color={borderColor}
+          backgroundColor={bgc}
+          disabled={isDisabled}
+          onPress={() => {
+            if (!isDisabled) {
+              if (!startTime || !endTime) {
+                return alertModal('시간을 선택해주세요.');
+              }
+              console.log(dayListed);
+              console.log(dayList);
+              dayListed[i].isChecked = !isChecked;
+              setDayList(dayListed);
+            }
+          }}
+          key={dayList[i].day.toString()}>
+          <RenderDayPickerText color={TC}>
+            {dayList[i].text}
+          </RenderDayPickerText>
+        </RenderDayPickerTouchable>,
+      );
+    }
+    return returnList;
+  };
 
   return (
     <BackGround>
@@ -641,16 +606,18 @@ export default ({
                 }}
                 display="default"
               />
-              <DateTouchable onPress={() => setIsEndDayModalVisible(true)}>
-                <Text>{endDate ?? ''}</Text>
+              <DateTouchable
+                disabled={!checkNoEndDate}
+                onPress={() => setIsEndDayModalVisible(true)}>
+                {console.log('endDate', endDate)}
+                <Text>{endDate}</Text>
               </DateTouchable>
-              <InputLine isBefore={endDate === ''} />
+              <InputLine isBefore={endDate === null} />
               <RowTouchable
                 style={{marginTop: 20}}
                 onPress={() => {
                   setCheckNoEndDate(!checkNoEndDate);
                   setEndDate(null);
-                  setMarkedEndDate(null);
                 }}>
                 <SideBox>
                   {checkNoEndDate ? (
@@ -714,7 +681,37 @@ export default ({
               isRegisted={true}
             />
           </Section>
-          <GetStep />
+          {timeList && timeList.length !== 0 && (
+            <Section>
+              <StepTitle>(STEP 3) 근무일정 확인</StepTitle>
+              {timeList?.map((data, index) => (
+                <TimeListBox
+                  isSelected={timeListIndex === index}
+                  color={data.color}
+                  key={index}
+                  onPress={() => {
+                    if (timeListIndex === index) {
+                      setTimeListIndex(null);
+                    } else {
+                      setTimeListIndex(index);
+                    }
+                  }}>
+                  <TimeListBoxText isSelected={timeListIndex === index}>
+                    <EllipseIcon
+                      color={timeListIndex === index ? data.color : '#ddd'}
+                    />
+                    &nbsp;&nbsp;
+                    {data.startTime} ~ {data.endTime}
+                  </TimeListBoxText>
+                  <TimeListBoxText isSelected={true}>보기</TimeListBoxText>
+                  <RenderWorkDayTouchable onPress={() => removeDay(index)}>
+                    <RemoveCircleIcon size={22} />
+                  </RenderWorkDayTouchable>
+                </TimeListBox>
+              ))}
+              <RenderWorkDayList />
+            </Section>
+          )}
           <SubmitBtn
             text={`일정${TYPE} 완료`}
             onPress={() => submitFn()}

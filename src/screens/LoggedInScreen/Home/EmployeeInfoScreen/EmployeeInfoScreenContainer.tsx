@@ -308,7 +308,7 @@ export default ({route: {params}}) => {
       EMP_SEQ,
       workTypeCheck: 'fix',
       type: '추가',
-      TITLE: '일정추가',
+      fetchData,
     });
   };
 
@@ -318,10 +318,10 @@ export default ({route: {params}}) => {
       EMP_SEQ,
       workTypeCheck: 'fix',
       type: '수정',
-      TITLE: '일정수정',
       timeList: timeList,
       startDate: timeTable[timeTableIndex].startDate,
       endDate: timeTable[timeTableIndex].endDate,
+      fetchData,
     });
   };
 

@@ -196,7 +196,6 @@ export default ({route: {params}}) => {
       EMP_SEQ,
       workTypeCheck: 'fix',
       type: '추가',
-      TITLE: '일정추가',
     });
   };
 
@@ -224,7 +223,6 @@ export default ({route: {params}}) => {
       EMP_SEQ,
       workTypeCheck: 'fix',
       type: '수정',
-      TITLE: '일정수정',
       timeList: timeTableIndex && timeList,
       startDate: timeTableIndex && timeTable[timeTableIndex].startDate,
       endDate: timeTableIndex && timeTable[timeTableIndex].endDate,

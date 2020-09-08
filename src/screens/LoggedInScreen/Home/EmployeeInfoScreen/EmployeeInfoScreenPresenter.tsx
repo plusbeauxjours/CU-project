@@ -56,7 +56,6 @@ const Section = styled.View`
   border-radius: 20px;
   padding: 20px 0;
   background-color: white;
-  background-color: red;
 `;
 const NameBox = styled.View``;
 const EmployeeBox = styled.View`
@@ -489,10 +488,11 @@ export default ({
                   containerStyle={{
                     borderWidth: 1,
                     borderColor: '#ccc',
+                    marginRight: 10,
                   }}
                 />
                 <NameBox>
-                  <Row>
+                  <Row style={{justifyContent: 'flex-start'}}>
                     <NameText>{data?.EMP_NAME}</NameText>
                     <DateText>
                       {data?.IS_MANAGER === '1' ? '[점장]' : '[스태프]'}
@@ -628,9 +628,9 @@ export default ({
                       </FixTypeDayChangeButtonText>
                     </FixTypeDayChangeButton>
                     <FixTypeDayChangeButton
-                      style={{borderColor: '#AACE36'}}
+                      style={{borderColor: '#642A8C'}}
                       onPress={() => modifyScheduleFn()}>
-                      <FixTypeDayChangeButtonText style={{color: '#AACE36'}}>
+                      <FixTypeDayChangeButtonText style={{color: '#642A8C'}}>
                         수정
                       </FixTypeDayChangeButtonText>
                     </FixTypeDayChangeButton>

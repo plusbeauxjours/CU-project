@@ -179,4 +179,6 @@ export default {
     createNewSchedule: (data: any) => oldApi("post", '/Management/new_schedule_create', data),
     createSchedule: (data: any) => oldApi("post", '/Management/schedule_create', data),
     updateSchedule: (data: any) => oldApi("post", '/Management/update', data),
+    updateEmpSchedule: (data: any) => oldApi("post", '/Employee/update_emp_schedules3', data),
+    insertEmpSchedule: (data: any) => oldApi("post", '/Employee/insert_emp_schedules', data),
 }
