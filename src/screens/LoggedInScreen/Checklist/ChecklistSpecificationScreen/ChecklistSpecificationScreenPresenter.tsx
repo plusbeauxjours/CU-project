@@ -47,7 +47,6 @@ const Section = styled.View`
   border-radius: 20px;
   padding: 20px;
   background-color: white;
-  background-color: red;
 `;
 
 const SectionText = styled.Text`
@@ -304,7 +303,11 @@ export default ({
           {PHOTO_CHECK === '1' && STORE === '0' && scan === '1' && (
             <Section>
               <TitleText>사진</TitleText>
-              <GreyText>등록된 사진을 클릭하면 리스트에서 제거됩니다</GreyText>
+              {cameraPictureList?.length > 0 && (
+                <GreyText>
+                  등록된 사진을 클릭하면 리스트에서 제거됩니다
+                </GreyText>
+              )}
               <RowCenter>
                 <IconContainer>
                   <Text>촬영</Text>

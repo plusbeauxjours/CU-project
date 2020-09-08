@@ -66,7 +66,6 @@ export default ({key, EMP_NAME, EMP_SEQ, PHONE, STORE_SEQ}) => {
   const gotoElectronicContracts = () => {
     navigation.navigate('ElectronicContractsScreen', {
       from: 'ManageInviteEmployeeScreen',
-      empType: '합류전',
     });
   };
 

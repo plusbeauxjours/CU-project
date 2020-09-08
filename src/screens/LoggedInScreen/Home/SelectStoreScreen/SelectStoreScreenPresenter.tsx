@@ -9,13 +9,14 @@ import {
 import SelectStoreCard from './SelectStoreCard';
 import {AddCircleIcon} from '../../../../constants/Icons';
 
-const BackGround = styled.SafeAreaView`
+const BackGround = styled.View`
   flex: 1;
   background-color: #f6f6f6;
 `;
 
 const ScrollView = styled.ScrollView``;
 const Container = styled.View`
+  padding: 20px;
   flex: 1;
 `;
 
@@ -44,12 +45,13 @@ const EmptyListTitle = styled.Text`
 const AddStoreBox = styled.View`
   width: ${wp('100%')}px;
   align-items: center;
-  margin: ${hp('2.5%')}px 0;
+  margin-top: 10px;
+  background-color: transparent;
 `;
 
 const AddStoreButton = styled.TouchableOpacity`
-  padding: ${hp('1.5%')}px;
-  width: ${wp('85%')}px;
+  padding: 15px;
+  width: ${wp('100%') - 40}px;
   border-radius: 30px;
   border-width: 2px;
   border-color: #642a8c;
@@ -126,20 +128,17 @@ export default ({
           </AddStoreButton>
         </AddStoreBox>
       )}
-      <Container>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-          contentContainerStyle={{
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-            paddingBottom: 20,
-          }}>
-          <StoreList />
-        </ScrollView>
-      </Container>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        contentContainerStyle={{
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+        }}>
+        <StoreList />
+      </ScrollView>
     </BackGround>
   );
 };

@@ -62,7 +62,7 @@ export default ({
       key={key}
       activeOpacity={1}
       onPress={() => {
-        navigation.navigate('EmployeeInfoScreen', {data, onRefresh});
+        navigation.navigate('EmployeeInfoScreen', {data});
       }}>
       <Avatar
         rounded

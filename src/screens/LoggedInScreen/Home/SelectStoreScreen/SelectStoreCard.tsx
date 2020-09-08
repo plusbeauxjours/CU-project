@@ -20,13 +20,7 @@ const Container = styled.View<IIsStore>`
   background-color: white;
   flex-direction: row;
   border-radius: 30px;
-  elevation: 5;
-  shadow-color: #4d4d4d;
-  shadow-offset: { width: 8px, height: 8px };
-  shadow-opacity: 0.3;
-  shadow-radius: 4px;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  box-shadow: 7px 7px 7px rgba(100, 100, 100, 0.4);
 `;
 
 const EmployeeBox = styled.View`
@@ -89,7 +83,7 @@ export default ({
   return (
     <Touchable
       key={key}
-      style={{alignItems: 'center'}}
+      style={{alignItems: 'center', marginTop: 30}}
       activeOpacity={1}
       onPress={() => gotoHomeScreen(data)}>
       <Container isStore={STORE == 1}>

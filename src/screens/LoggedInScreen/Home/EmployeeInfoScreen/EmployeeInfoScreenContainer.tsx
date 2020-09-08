@@ -29,11 +29,10 @@ export default ({route: {params}}) => {
   const navigation = useNavigation();
   const {STORE} = useSelector((state: any) => state.userReducer);
   const {
-    EMP_SEQ,
     STORE_SEQ,
     STORE_DATA: {resultdata: {CALCULATE_DAY = null} = {}} = {},
   } = useSelector((state: any) => state.storeReducer);
-  const {data: datapop, onRefresh} = params;
+  const {data: {EMP_NAME, EMP_SEQ} = {}} = params;
 
   const [workTypeCheck, setWorkTypeCheck] = useState<boolean>(true); // true: 자율출퇴근 직원, false: 일정이 있는 직원
   const [timeTableIndex, setTimeTableIndex] = useState<any>(null); // 저장된 시간 목록 중 선택된 항목의 인덱스
@@ -41,7 +40,6 @@ export default ({route: {params}}) => {
   const [timeListIndex, setTimeListIndex] = useState<number>(0); // 저장된 근무 시간 목록 중 선택된 항목의 인덱스
   const [timeList, setTimeList] = useState<any>([]); // 저장된 근무 시간 목록
   const [originalDayList, setOriginalDayList] = useState<any>([]); // dayList 원본 값
-  const [refreshing, setRefreshing] = useState<boolean>(false);
   const [empdata, setEmpdata] = useState<any>({});
   const [year, setYear] = useState<string>(moment().format('YYYY'));
   const [month, setMonth] = useState<string>(moment().format('MM'));
@@ -412,6 +410,14 @@ export default ({route: {params}}) => {
     navigation.navigate('EmployeeScheduleAddScreen', params);
   };
 
+  // 직원 정보 수정
+  const gotoSetInfo = (data) => {
+    navigation.navigate('SetEmployeeInfoScreen', {
+      from: 'EmployeeInfoScreen',
+      data,
+    });
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -423,19 +429,17 @@ export default ({route: {params}}) => {
       timeTableIndex={timeTableIndex}
       timeListIndex={timeListIndex}
       timeList={timeList}
-      refreshing={refreshing}
-      onRefresh={onRefresh}
       setDates={setDates}
       CALCULATE={CALCULATE}
       EMP_SEQ={EMP_SEQ}
       dates={dates}
-      datapop={datapop}
       empdata={empdata}
       getPeriod={getPeriod}
       CALCULATE_DAY={CALCULATE_DAY}
       PAY_TYPE={PAY_TYPE}
       numberComma={numberComma}
       PAY={PAY}
+      data={params?.data}
       toggleWorkSchedule={toggleWorkSchedule}
       workTypeCheck={workTypeCheck}
       timeTable={timeTable}
@@ -447,6 +451,7 @@ export default ({route: {params}}) => {
       setTimeListIndex={setTimeListIndex}
       setTimeList={setTimeList}
       getNumberToday={getNumberToday}
+      gotoSetInfo={gotoSetInfo}
     />
   );
 };

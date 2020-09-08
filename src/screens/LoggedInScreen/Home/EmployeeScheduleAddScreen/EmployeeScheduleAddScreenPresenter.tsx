@@ -553,15 +553,14 @@ export default ({
                 setTimeListIndex(index);
               }
             }}>
-            <EllipseIcon
-              color={timeListIndex === index ? data.color : '#ddd'}
-            />
             <TimeListBoxText isSelected={timeListIndex === index}>
+              <EllipseIcon
+                color={timeListIndex === index ? data.color : '#ddd'}
+              />
+              &nbsp;&nbsp;
               {data.startTime} ~ {data.endTime}
             </TimeListBoxText>
-            <TimeListBoxText isSelected={timeListIndex === index}>
-              보기
-            </TimeListBoxText>
+            <TimeListBoxText isSelected={true}>보기</TimeListBoxText>
             <RenderWorkDayTouchable onPress={() => removeDay(index)}>
               <RemoveCircleIcon size={22} />
             </RenderWorkDayTouchable>

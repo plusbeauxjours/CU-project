@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import {Avatar} from 'react-native-elements';
+import {EllipseIcon} from '../../../../constants/Icons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -392,11 +393,12 @@ export default ({
                         }
                       }}>
                       <TimeListBoxText isSelected={timeListIndex === index}>
-                        {data.startTime} ~ {data.endTime}
+                        <EllipseIcon
+                          color={timeListIndex === index ? data.color : '#ddd'}
+                        />
+                        &nbsp;&nbsp;{data.startTime} ~ {data.endTime}
                       </TimeListBoxText>
-                      <TimeListBoxText isSelected={timeListIndex === index}>
-                        보기
-                      </TimeListBoxText>
+                      <TimeListBoxText isSelected={true}>보기</TimeListBoxText>
                     </TimeListBox>
                   ))}
                 </>

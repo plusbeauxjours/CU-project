@@ -5,7 +5,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import HomeScreenPresenter from './HomeScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
-import {setSTORE_DATA} from '../../../../redux/storeSlice';
+import {setSTORE_DATA, setEMP_SEQ} from '../../../../redux/storeSlice';
 import utils from '../../../../constants/utils';
 import api from '../../../../constants/LoggedInApi';
 
@@ -228,8 +228,10 @@ export default ({route: {params}}) => {
         MEMBER_SEQ,
         STORE_SEQ,
       });
+      console.log(data);
       if (data.resultmsg === '1') {
         dispatch(setSTORE_DATA(data));
+        dispatch(setEMP_SEQ(data.EMP_SEQ));
         setQR(data.resultdata.QR);
         setNotice(data.notice);
         setInvitedEmpCount(data.inviteemp);

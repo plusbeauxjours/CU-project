@@ -5,13 +5,13 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {
-  RefreshControl,
   TouchableWithoutFeedback,
   Keyboard,
   TouchableHighlight,
 } from 'react-native';
 import moment from 'moment';
 import {Avatar} from 'react-native-elements';
+import {EllipseIcon} from '../../../../constants/Icons';
 
 import {
   BackIcon,
@@ -89,12 +89,14 @@ const SmallLine = styled.View`
   margin: 10px 0;
   background-color: #f2f2f2;
 `;
+
 const WorkTypeAndSalaryBox = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   margin: 10px 20px 0 20px;
 `;
+
 const WorkTypeAndSalaryInfoBox = styled.View`
   align-items: flex-end;
   border-color: #f2f2f2;
@@ -103,13 +105,16 @@ const WorkTypeAndSalaryInfoBox = styled.View`
   padding: 10px 20px;
   margin: 10px 0;
 `;
+
 const WorkTypeAndSalaryBoxTitle = styled.Text`
   font-size: 17px;
   color: #642a8c;
 `;
+
 const WorkTypeCheckSection = styled.View`
   padding: 0 20px;
 `;
+
 const WorkScheduleBox = styled.TouchableOpacity`
   flex-direction: row;
   margin-left: 10px;
@@ -119,7 +124,8 @@ const WorkScheduleBox = styled.TouchableOpacity`
   align-items: center;
   background-color: #642a8c;
 `;
-const DateArrowLeft = styled.TouchableOpacity`
+
+const DateBox = styled.TouchableOpacity`
   margin-left: 5px;
   width: ${wp('10%')}px;
   height: ${wp('10%')}px;
@@ -128,24 +134,17 @@ const DateArrowLeft = styled.TouchableOpacity`
   border-radius: 12px;
   background-color: #eee;
 `;
-const DateArrowRight = styled(DateArrowLeft)``;
-const DateToday = styled.TouchableOpacity`
-  margin-left: 5px;
-  width: ${wp('10%')}px;
-  height: ${wp('10%')}px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background-color: #eee;
-`;
+
 const GreyText = styled.Text`
   font-size: 15px;
   color: #7e7c7c;
 `;
+
 const FixedGreyText = styled(GreyText)`
   position: absolute;
   right: 100px;
 `;
+
 const FreeTypeInfoBox = styled.View`
   margin: 10px 20px;
   padding: 20px 0;
@@ -154,6 +153,7 @@ const FreeTypeInfoBox = styled.View`
   border-color: #e5e5e5;
   border-width: 1px;
 `;
+
 const FixTypeDayChangeBox = styled.View`
   width: 100%;
   margin-top: 20px;
@@ -161,6 +161,7 @@ const FixTypeDayChangeBox = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `;
+
 const FixTypeDayChangeButton = styled.TouchableOpacity`
   width: 30%;
   height: 40px;
@@ -169,15 +170,18 @@ const FixTypeDayChangeButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
 `;
+
 const FixTypeDayChangeButtonText = styled.Text`
   font-size: 15px;
 `;
+
 const RenderDayRow = styled.View`
   flex-direction: row;
   margin-bottom: 10px;
   padding: 10px 0;
   width: 100%;
 `;
+
 const RenderDayBox = styled.View<IsSelected>`
   width: 40px;
   height: 40px;
@@ -189,32 +193,39 @@ const RenderDayBox = styled.View<IsSelected>`
   align-items: center;
   justify-content: center;
 `;
+
 const RenderDayBoxText = styled.Text<IsSelected>`
   color: ${(props) => (props.isSelected ? 'white' : '#CCCCCC')};
 `;
+
 const RenderDayTime = styled.View`
   margin-top: 10px;
   margin-left: 15px;
   width: 115px;
 `;
+
 const RenderDayTimeText = styled.Text<IsSelected>`
   font-size: 15px;
   color: ${(props) => (props.substract && props.isSelected ? '#000' : '#ddd')};
 `;
+
 const RenderDuration = styled.View`
   margin-top: 10px;
   margin-left: 5px;
   width: 85px;
 `;
+
 const RenderDurationText = styled.Text<IsSelected>`
   font-size: 15px;
   color: ${(props) => (props.isSelected ? '#000' : '#ddd')};
 `;
+
 const RenderScheduleTitle = styled.View`
   justify-content: center;
   align-items: center;
   margin: 20px 0;
 `;
+
 const TimeListBox = styled.TouchableOpacity<IsSelected>`
   border-color: ${(props) => (props.isSelected ? `${props.color}` : '#CCCCCC')};
   border-width: 0.6px;
@@ -225,27 +236,46 @@ const TimeListBox = styled.TouchableOpacity<IsSelected>`
   justify-content: space-between;
   align-items: center;
 `;
+
 const TimeListRow = styled(Row)`
   margin: 20px;
 `;
+
 const TimeListBoxText = styled.Text<IsSelected>`
   font-weight: ${(props) => (props.isSelected ? '600' : '300')};
   color: ${(props) => (props.isSelected ? `${props.color}` : '#CCCCCC')};
 `;
+
 const TimeListBold = styled.Text`
   font-weight: bold;
   font-size: 15px;
   margin-left: 15px;
   margin: 0 20px;
 `;
+
+const NavigationButton = styled.TouchableOpacity`
+  position: absolute;
+  right: 10px;
+  height: 60px;
+  width: 60px;
+  align-items: center;
+  justify-content: center;
+  border-width: 1px;
+  border-color: #642a8c;
+  border-radius: 6px;
+`;
+
+const Bold = styled.Text`
+  color: #642a8c;
+  font-weight: bold;
+`;
+
 export default ({
   STORE,
   originalDayList,
   timeTableIndex,
   timeListIndex,
   timeList,
-  refreshing,
-  onRefresh,
   setDates,
   CALCULATE,
   EMP_SEQ,
@@ -268,6 +298,7 @@ export default ({
   setTimeListIndex,
   setTimeList,
   getNumberToday,
+  gotoSetInfo,
 }) => {
   let image;
 
@@ -421,11 +452,13 @@ export default ({
                         }
                       }}>
                       <TimeListBoxText isSelected={timeListIndex === index}>
+                        <EllipseIcon
+                          color={timeListIndex === index ? data.color : '#ddd'}
+                        />
+                        &nbsp;&nbsp;
                         {data.startTime} ~ {data.endTime}
                       </TimeListBoxText>
-                      <TimeListBoxText isSelected={timeListIndex === index}>
-                        보기
-                      </TimeListBoxText>
+                      <TimeListBoxText isSelected={true}>보기</TimeListBoxText>
                     </TimeListBox>
                   ))}
                 </>
@@ -441,13 +474,7 @@ export default ({
       <ScrollView
         keyboardShouldPersistTaps={'handled'}
         keyboardDismissMode="on-drag"
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={() => onRefresh()}
-          />
-        }>
+        showsVerticalScrollIndicator={false}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <Container>
             <Section>
@@ -465,23 +492,26 @@ export default ({
                 />
                 <NameBox>
                   <Row>
-                    <NameText>{data.EMP_NAME}</NameText>
+                    <NameText>{data?.EMP_NAME}</NameText>
                     <DateText>
-                      {data.IS_MANAGER === '1' ? '[점장]' : '[스태프]'}
+                      {data?.IS_MANAGER === '1' ? '[점장]' : '[스태프]'}
                     </DateText>
                   </Row>
                   <DateText>근무기간</DateText>
                   <DateText>
-                    {data.START} ~ {data.END ? data.END : '계속'}
+                    {data?.START} ~ {data?.END ? data?.END : '계속'}
                   </DateText>
                 </NameBox>
+                <NavigationButton onPress={() => gotoSetInfo(data)}>
+                  <Bold>정보수정</Bold>
+                </NavigationButton>
               </EmployeeBox>
             </Section>
             <Section>
               <WorkTypeAndSalaryBox>
                 <WorkTypeAndSalaryBoxTitle>급여</WorkTypeAndSalaryBoxTitle>
                 <Row>
-                  <DateArrowLeft
+                  <DateBox
                     onPress={() => {
                       let prevMonth = new Date(dates);
                       prevMonth.setMonth(prevMonth.getMonth() - 1);
@@ -489,15 +519,15 @@ export default ({
                       CALCULATE(EMP_SEQ, prevMonth);
                     }}>
                     <BackIcon size={16} color={'#000'} />
-                  </DateArrowLeft>
-                  <DateToday
+                  </DateBox>
+                  <DateBox
                     onPress={() => {
                       setDates(moment().format('YYYY-MM-DD'));
                       CALCULATE(EMP_SEQ, moment().format('YYYY-MM-DD'));
                     }}>
                     <ReloadCircleIcon size={16} />
-                  </DateToday>
-                  <DateArrowRight
+                  </DateBox>
+                  <DateBox
                     onPress={() => {
                       let nextMonth = new Date(dates);
                       nextMonth.setMonth(nextMonth.getMonth() + 1);
@@ -505,7 +535,7 @@ export default ({
                       CALCULATE(EMP_SEQ, nextMonth);
                     }}>
                     <ForwardIcon size={16} color={'#000'} />
-                  </DateArrowRight>
+                  </DateBox>
                 </Row>
               </WorkTypeAndSalaryBox>
               <WorkTypeAndSalaryInfoBox>

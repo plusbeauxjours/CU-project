@@ -85,8 +85,7 @@ export default ({route: {params}}) => {
     if (params?.from === 'ManageInviteEmployeeScreen') {
       setIsModalVisible(false);
       navigation.navigate('SetEmployeeInfoScreen', {
-        ...params,
-        ...{from: 'ElectronicContracts'},
+        from: 'ElectronicContracts',
       });
     } else {
       setIsModalVisible(false);
@@ -148,8 +147,7 @@ export default ({route: {params}}) => {
         <SkipTouchable
           onPress={() => {
             navigation.navigate('SetEmployeeInfoScreen', {
-              ...params,
-              ...{from: 'ElectronicContracts'},
+              from: 'ElectronicContracts',
             });
           }}>
           <Text style={{color: 'white', fontSize: 16}}>다음에 진행하기</Text>

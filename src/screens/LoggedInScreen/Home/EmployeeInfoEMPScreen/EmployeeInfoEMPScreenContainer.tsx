@@ -26,6 +26,7 @@ const constant = {
 
 export default () => {
   const dispatch = useDispatch();
+
   const {
     EMP_SEQ,
     STORE_DATA: {resultdata: {CALCULATE_DAY = null} = {}} = {},
@@ -290,7 +291,7 @@ export default () => {
       timeList={timeList}
       refreshing={refreshing}
       onRefresh={onRefresh}
-      data={EMPLOYEE_INFO_DATA}
+      EMPLOYEE_INFO_DATA={EMPLOYEE_INFO_DATA}
       getPeriod={getPeriod}
       numberComma={numberComma}
       workTypeCheck={workTypeCheck}

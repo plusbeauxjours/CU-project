@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {Avatar} from 'react-native-elements';
 
-import {BackIcon, ForwardIcon} from '../../../../constants/Icons';
+import {BackIcon, ForwardIcon, EllipseIcon} from '../../../../constants/Icons';
 
 interface IsSelected {
   isSelected: boolean;
@@ -188,7 +188,7 @@ export default ({
   timeList,
   refreshing,
   onRefresh,
-  data,
+  EMPLOYEE_INFO_DATA,
   getPeriod,
   numberComma,
   workTypeCheck,
@@ -199,14 +199,6 @@ export default ({
   getNumberToday,
   CALCULATE_DAY,
 }) => {
-  let image;
-
-  if (Object.keys(data).length != 0) {
-    image = data.images[0].IMAGE;
-  } else {
-    image = '3.png';
-  }
-
   const RenderDayList = () => {
     if (timeTable && timeTable.length !== 0) {
       return (
@@ -351,11 +343,13 @@ export default ({
                         }
                       }}>
                       <TimeListBoxText isSelected={timeListIndex === index}>
+                        <EllipseIcon
+                          color={timeListIndex === index ? data.color : '#ddd'}
+                        />
+                        &nbsp;&nbsp;
                         {data.startTime} ~ {data.endTime}
                       </TimeListBoxText>
-                      <TimeListBoxText isSelected={timeListIndex === index}>
-                        보기
-                      </TimeListBoxText>
+                      <TimeListBoxText isSelected={true}>보기</TimeListBoxText>
                     </TimeListBox>
                   ))}
                 </>
@@ -383,7 +377,7 @@ export default ({
                   rounded
                   size={60}
                   source={{
-                    uri: `http://133.186.209.113/uploads/${image}`,
+                    uri: 'http://133.186.209.113/uploads/3.png',
                   }}
                   containerStyle={{
                     borderWidth: 1,
@@ -393,15 +387,20 @@ export default ({
                 />
                 <NameBox>
                   <Row>
-                    <NameText>{data.EMP_NAME}</NameText>
+                    <NameText>{EMPLOYEE_INFO_DATA?.EMP_NAME}</NameText>
                     <DateText>
-                      {data.IS_MANAGER === '1' ? '[점장]' : '[스태프]'}
+                      {EMPLOYEE_INFO_DATA?.IS_MANAGER === '1'
+                        ? '[점장]'
+                        : '[스태프]'}
                     </DateText>
                   </Row>
                   <Row>
                     <DateText>근무기간&nbsp;</DateText>
                     <DateText>
-                      {data.START} ~ {data.END ? data.END : '계속'}
+                      {EMPLOYEE_INFO_DATA?.START} ~{' '}
+                      {EMPLOYEE_INFO_DATA?.END
+                        ? EMPLOYEE_INFO_DATA?.END
+                        : '계속'}
                     </DateText>
                   </Row>
                 </NameBox>
@@ -418,14 +417,15 @@ export default ({
                 <SmallLine />
                 <Row>
                   <FixedGreyText style={{marginRight: 50}}>
-                    {data.PAY_TYPE == '0'
+                    {EMPLOYEE_INFO_DATA?.PAY_TYPE == '0'
                       ? '시급'
-                      : data.PAY_TYPE == '1'
+                      : EMPLOYEE_INFO_DATA?.PAY_TYPE == '1'
                       ? '일급'
                       : '월급'}
                   </FixedGreyText>
                   <GreyText style={{marginRight: 20}}>
-                    {numberComma(data.PAY)}
+                    {EMPLOYEE_INFO_DATA?.PAY &&
+                      numberComma(EMPLOYEE_INFO_DATA?.PAY)}
                   </GreyText>
                   <GreyText>원</GreyText>
                 </Row>
