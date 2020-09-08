@@ -118,17 +118,14 @@ export default {
 
     ////////////
     //
-    // getChecklistAll: (storeID: string,
-    //     YEAR: string,
-    //     MONTH: string
-    // ) => oldApi("get", `/Store/ChecklistAll?STORE=${storeID}&YEAR=${YEAR}&MONTH=${MONTH}`),
-    //
-    ////////////
-
     getChecklistAll: (storeID: string,
         YEAR: string,
         MONTH: string
-    ) => callApi("get", `/auth/getAllchecklist ?STORE=${storeID}&YEAR=${YEAR}&MONTH=${MONTH}`),
+    ) => oldApi("get", `/Store/ChecklistAll?STORE=${storeID}&YEAR=${YEAR}&MONTH=${MONTH}`),
+    //
+    ////////////
+
+    // getChecklistAll: (data: any) => callApi("post", "/auth/getAllchecklist", data),
     checkRegister: (data: any) => oldApi("post", "/Store/CheckRegister/", data),
     checkUpdate: (data: any) => oldApi("post", "/Store/CheckUpdate/", data),
     getEmployeeList: (data: any) => oldApi("post", "/Employee/getEmpList/", data),

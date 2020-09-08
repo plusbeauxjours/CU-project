@@ -59,37 +59,7 @@ const Box = styled.View`
   padding: 10px;
 `;
 
-const ImageModalFooter = styled.View`
-  margin-bottom: 60px;
-  align-items: center;
-  padding: 5px 20px;
-  border-radius: 20px;
-  background-color: rgba(0, 0, 0, 0.4);
-`;
-
-const ImageModalFooterText = styled.Text`
-  color: white;
-  font-weight: bold;
-`;
-
 const TextInput = styled.TextInput``;
-
-const ImageBox = styled.View`
-  flex-direction: row;
-  margin: 15px 20px 0 20px;
-`;
-
-const ImageContainer = styled.View`
-  width: 25px;
-  height: 25px;
-  border-radius: 5px;
-`;
-
-const Image = styled.Image`
-  width: 100%;
-  height: 100%;
-  border-radius: 5px;
-`;
 
 const WhiteSpace = styled.View`
   height: 10px;
@@ -157,16 +127,20 @@ const FooterText = styled.Text`
 `;
 
 export default ({
-  checkEMPTime,
   selectedCategory,
   cameraPictureList,
   modalImgarr,
   isImageViewVisible,
   setIsImageViewVisible,
-  memoInput,
-  checkpoint,
-  checktime,
-  checkEMP,
+  CHECK_TITLE,
+  setCHECK_TITLE,
+  TITLE,
+  END_TIME,
+  setEND_TIME,
+  EMP_NAME,
+  setEMP_NAME,
+  CHECK_TIME,
+  setCHECK_TIME,
   checklist,
   checklistGoodState,
   setChecklistGoodState,
@@ -175,13 +149,7 @@ export default ({
   categoryList,
   setSelectedCategory,
   setCheck,
-  setCheckpoint,
   setChecklist,
-  setChecktime,
-  setCsID,
-  setMemoInput,
-  setCheckEMP,
-  setCheckEMPTime,
   setCameraPictureList,
   setModalImgarr,
   data,
@@ -219,12 +187,7 @@ export default ({
         key={index}
         isSelected={isSelected}
         onPress={() => {
-          let csID = data.resultdata[item.key].CS_SEQ;
           let check = data.resultdata[item.key].CHECK_LIST;
-          let checkEMP = data.resultdata[item.key].EMP_NAME;
-          let checkEMPTime = data.resultdata[item.key].CHECK_TIME;
-          let memo = data.resultdata[item.key].CHECK_TITLE;
-          let IMAGE_LIST = data.resultdata[item.key].IMAGE_LIST;
 
           let checklistGoodState = new Array(checklist.length);
           let checklistBadState = new Array(checklist.length);
@@ -257,7 +220,9 @@ export default ({
 
           const cameraPictureList = [];
           const modalImgarr = [];
-          const imageList = (IMAGE_LIST || '').split('@');
+          const imageList = (data.resultdata[item.key].IMAGE_LIST || '').split(
+            '@',
+          );
           if (imageList && Array.isArray(imageList)) {
             if (imageList[0] != '') {
               for (const imageName of imageList) {
@@ -272,13 +237,11 @@ export default ({
           }
 
           setCheck(check);
-          setCheckpoint(checkpoint);
           setChecklist(checklist);
-          setChecktime(checktime === null ? '' : checktime);
-          setCsID(csID === null ? '' : csID);
-          setMemoInput(memo === null ? '' : memo);
-          setCheckEMP(checkEMP === null ? '' : checkEMP);
-          setCheckEMPTime(checkEMPTime === null ? '' : checkEMPTime);
+          setEND_TIME(data.resultdata[item.key].END_TIME);
+          setCHECK_TITLE(data.resultdata[item.key].CHECK_TITLE);
+          setEMP_NAME(data.resultdata[item.key].EMP_NAME);
+          setCHECK_TIME(data.resultdata[item.key].CHECK_TIME);
           setChecklistGoodState(checklistGoodState);
           setChecklistBadState(checklistBadState);
           setCameraPictureList(cameraPictureList);
@@ -310,26 +273,26 @@ export default ({
           <Section>
             <RowSpace>
               <SectionText>체크항목</SectionText>
-              <Text>{checkpoint}</Text>
+              <Text>{TITLE}</Text>
             </RowSpace>
             <WhiteSpace />
             <RowSpace>
               <SectionText>체크예정시간</SectionText>
-              <Text>{checktime == '' ? '미사용' : checktime}</Text>
+              <Text>{END_TIME == '' ? '미사용' : END_TIME}</Text>
             </RowSpace>
           </Section>
           <Section>
             <RowSpace>
-              <SectionText>{checkEMP ? '담당직원' : '확인직원'}</SectionText>
+              <SectionText>{EMP_NAME ? '담당직원' : '확인직원'}</SectionText>
               <Text style={{color: '#642A8C', fontWeight: 'bold'}}>
-                {checkEMP ?? '체크전'}
+                {EMP_NAME ?? '체크전'}
               </Text>
             </RowSpace>
             <WhiteSpace />
             <RowSpace>
               <SectionText>확인시간</SectionText>
               <Text style={{color: '#642A8C', fontWeight: 'bold'}}>
-                {moment(checkEMPTime).format('HH:mm') ?? '체크전'}
+                {CHECK_TIME ? moment(CHECK_TIME).format('HH:mm') : '체크전'}
               </Text>
             </RowSpace>
           </Section>
@@ -346,7 +309,7 @@ export default ({
                 ) : (
                   <CheckBoxIconContainer>
                     <Text style={{fontSize: 15, color: '#642A8C'}}>정상</Text>
-                    <Text style={{fontSize: 15, color: '#642A8C'}}>이상</Text>
+                    <Text style={{fontSize: 15, color: '#B91C1B'}}>이상</Text>
                   </CheckBoxIconContainer>
                 )}
               </ChecklistTitle>
@@ -391,7 +354,7 @@ export default ({
                       }}
                       disabled={true}>
                       {checklistBadState[index] ? (
-                        <CheckBoxIcon size={25} color="#642A8C" />
+                        <CheckBoxIcon size={25} color="#B91C1B" />
                       ) : (
                         <CheckBoxIcon size={25} color="#CCCCCC" />
                       )}
@@ -402,14 +365,14 @@ export default ({
             </Box>
           </Section>
 
-          {memoInput?.length > 0 && (
+          {CHECK_TITLE?.length > 0 && (
             <Section>
               <SectionText>메모</SectionText>
               <WhiteSpace />
               <Box>
                 <TextInput
-                  onChangeText={(text) => setMemoInput(text)}
-                  value={memoInput}
+                  onChangeText={(text) => setCHECK_TITLE(text)}
+                  value={CHECK_TITLE}
                   placeholder={'내용를 입력하세요.'}
                   placeholderTextColor={'#CCCCCC'}
                   multiline={true}
@@ -418,6 +381,7 @@ export default ({
               </Box>
             </Section>
           )}
+
           {cameraPictureList?.length > 0 && (
             <Section>
               <SectionText>체크리스트 관련사진</SectionText>

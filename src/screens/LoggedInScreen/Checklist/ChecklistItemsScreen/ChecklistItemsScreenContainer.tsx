@@ -194,11 +194,11 @@ export default () => {
 
   // 직원이 체크 버튼을 실행한 뒤 모달에서 아이템을 눌렀을 때
   const gotoChecklistSpecification = (item) => {
+    setIsChecklistModalVisible(false);
     navigation.navigate('ChecklistSpecificationScreen', {
-      item,
+      data: item,
       checkType: '2', // 체크진행
       scan: '1',
-      register: false,
     });
   };
 

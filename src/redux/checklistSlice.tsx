@@ -35,13 +35,8 @@ export const getCHECKLIST_DATA = (
   const {
     storeReducer: {STORE_SEQ},
   } = getState();
-  const {
-    checklistReducer: {CHECKLIST_DATA},
-  } = getState();
   try {
-    if (!CHECKLIST_DATA) {
-      dispatch(setSplashVisible(true));
-    }
+    dispatch(setSplashVisible(true));
     const {data} = await api.getChecklist(STORE_SEQ, date);
     if (data.message === 'SUCCESS') {
       dispatch(setCHECKLIST_DATA(data.result));

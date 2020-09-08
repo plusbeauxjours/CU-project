@@ -12,19 +12,17 @@ export default ({route: {params}}) => {
   const {CHECK_SEQ = null, DATE = null} = params;
 
   const [data, setData] = useState<any>();
-  const [csID, setCsID] = useState<string>('');
   const [cameraPictureList, setCameraPictureList] = useState<any>([]);
   const [check, setCheck] = useState<string>('');
-  const [checkpoint, setCheckpoint] = useState<string>('');
+  const [TITLE, setTITLE] = useState<string>('');
   const [checklist, setChecklist] = useState<any>([]);
-  const [checktime, setChecktime] = useState<string>('');
+  const [END_TIME, setEND_TIME] = useState<string>('');
   const [checklistGoodState, setChecklistGoodState] = useState<any>([]);
   const [checklistBadState, setChecklistBadState] = useState<any>([]);
-  const [memoInput, setMemoInput] = useState<string>('');
-  const [checkEMP, setCheckEMP] = useState<string>('');
-  const [checkEMPTime, setCheckEMPTime] = useState<string>('');
+  const [CHECK_TITLE, setCHECK_TITLE] = useState<string>('');
+  const [EMP_NAME, setEMP_NAME] = useState<string>('');
+  const [CHECK_TIME, setCHECK_TIME] = useState<string>('');
   const [modalImgarr, setModalImgarr] = useState<any>([]);
-  const [imgModalIdx, setImgModalIdx] = useState<string>('');
   const [isImageViewVisible, setIsImageViewVisible] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('1');
   const [categoryList, setCategoryList] = useState<any>([]);
@@ -47,16 +45,8 @@ export default ({route: {params}}) => {
           list.push(json);
         }
 
-        let checkpoint = data.checkdata[0].TITLE;
         let checklist = data.checkdata[0].LIST;
-        let checktime = data.checkdata[0].END_TIME;
-
-        let csID = data.resultdata[0].CS_SEQ;
         let check = data.resultdata[0].CHECK_LIST;
-        let checkEMP = data.resultdata[0].EMP_NAME;
-        let checkEMPTime = data.resultdata[0].CHECK_TIME;
-        let memo = data.resultdata[0].CHECK_TITLE;
-        let IMAGE_LIST = data.resultdata[0].IMAGE_LIST;
 
         let checklistGoodState = new Array(checklist.length);
         let checklistBadState = new Array(checklist.length);
@@ -89,7 +79,7 @@ export default ({route: {params}}) => {
 
         const cameraPictureList = [];
         const modalImgarr = [];
-        const imageList = (IMAGE_LIST || '').split('@');
+        const imageList = (data.resultdata[0].IMAGE_LIST || '').split('@');
         if (imageList && Array.isArray(imageList)) {
           if (imageList[0] != '') {
             for (const imageName of imageList) {
@@ -104,13 +94,13 @@ export default ({route: {params}}) => {
         }
 
         setCheck(check);
-        setCheckpoint(checkpoint);
         setChecklist(checklist);
-        setChecktime(checktime === null ? '' : checktime);
-        setCsID(csID === null ? '' : csID);
-        setMemoInput(memo === null ? '' : memo);
-        setCheckEMP(checkEMP === null ? '' : checkEMP);
-        setCheckEMPTime(checkEMPTime === null ? '' : checkEMPTime);
+        setTITLE(data.checkdata[0].TITLE);
+        setEND_TIME(data.checkdata[0].END_TIME);
+        setCHECK_TITLE(data.resultdata[0].CHECK_TITLE);
+        setEMP_NAME(data.resultdata[0].EMP_NAME);
+        setCHECK_TIME(data.resultdata[0].CHECK_TIME);
+        setSelectedCategory(data.resultdata[0].MEMBER_SEQ1);
         setChecklistGoodState(checklistGoodState);
         setChecklistBadState(checklistBadState);
         setCameraPictureList(cameraPictureList);
@@ -118,7 +108,6 @@ export default ({route: {params}}) => {
 
         setData(data);
         setCategoryList(list);
-        setSelectedCategory(data.resultdata[0].MEMBER_SEQ1);
       }
     } catch (error) {
       console.log(error);
@@ -133,18 +122,20 @@ export default ({route: {params}}) => {
 
   return (
     <ChecklistDetailScreenPresenter
-      checkEMPTime={checkEMPTime}
       selectedCategory={selectedCategory}
       cameraPictureList={cameraPictureList}
       modalImgarr={modalImgarr}
-      imgModalIdx={imgModalIdx}
       isImageViewVisible={isImageViewVisible}
       setIsImageViewVisible={setIsImageViewVisible}
-      memoInput={memoInput}
-      setImgModalIdx={setImgModalIdx}
-      checkpoint={checkpoint}
-      checktime={checktime}
-      checkEMP={checkEMP}
+      CHECK_TITLE={CHECK_TITLE}
+      setCHECK_TITLE={setCHECK_TITLE}
+      TITLE={TITLE}
+      END_TIME={END_TIME}
+      setEND_TIME={setEND_TIME}
+      EMP_NAME={EMP_NAME}
+      setEMP_NAME={setEMP_NAME}
+      CHECK_TIME={CHECK_TIME}
+      setCHECK_TIME={setCHECK_TIME}
       checklist={checklist}
       checklistGoodState={checklistGoodState}
       setChecklistGoodState={setChecklistGoodState}
@@ -153,13 +144,7 @@ export default ({route: {params}}) => {
       categoryList={categoryList}
       setSelectedCategory={setSelectedCategory}
       setCheck={setCheck}
-      setCheckpoint={setCheckpoint}
       setChecklist={setChecklist}
-      setChecktime={setChecktime}
-      setCsID={setCsID}
-      setMemoInput={setMemoInput}
-      setCheckEMP={setCheckEMP}
-      setCheckEMPTime={setCheckEMPTime}
       setCameraPictureList={setCameraPictureList}
       setModalImgarr={setModalImgarr}
       data={data}

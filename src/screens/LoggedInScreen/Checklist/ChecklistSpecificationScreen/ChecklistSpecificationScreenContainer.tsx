@@ -11,31 +11,88 @@ import api from '../../../../constants/LoggedInApi';
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {NAME, STORE_SEQ, MEMBER_SEQ} = useSelector(
-    (state: any) => state.userReducer,
-  );
-  const {
-    STORE,
-    scan,
-    storeID,
-    checkID,
-    checkpoint,
-    checklist = '',
-    checktime,
-    csID = '',
-    check,
-    checkEMP = '',
-    checkEMPTime = '',
-    memo,
-    PHOTO_CHECK,
-    IMAGE_LIST,
-    checkSelectedEmp,
-    checkSelectedEmpName,
-    StoreEmpSeq,
-    checkType,
 
-    onRefresh,
+  const {STORE, MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
+  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
+
+  const {
+    data: {
+      CHECK_SEQ = null,
+      TITLE = null,
+      LIST = null,
+      END_TIME = null,
+      CS_SEQ = null,
+      CHECK_LIST = null,
+      EMP_NAME = null,
+      CHECK_TIME = null,
+      memo = null,
+      PHOTO_CHECK = null,
+      IMAGE_LIST = null,
+      EMP_SEQ = null,
+      NAME = null,
+      StoreEmpSeq = null,
+    } = {},
+    checkType = null,
+    scan,
   } = params;
+
+  // FROM MODAL
+  // scan:'1'
+  // {
+  //   "scan": "1"
+  //   "checkType": "2",
+  //   "data": {
+  //     "CHECK_DATE": "2020-09-08",
+  //     "CHECK_LIST": "제품 유통기한 확인@2@빠진 제품 채우기@2@테이블 쳥결 유지@2@커피머신 확인(원두,찌꺼기통)@1@......",
+  //     "CHECK_SEQ": "2677",
+  //     "CHECK_TIME": "2020-09-08 01:20:49",
+  //     "CHECK_TITLE": "Gigi",
+  //     "CHECK_TYPE": "0",
+  //     "CREATE_TIME": "2020-06-22 14:56:05",
+  //     "CS_SEQ": "7165",
+  //     "EMP_NAME": "직원5",
+  //     "EMP_SEQ": null,
+  //     "END_TIME": "20:00",
+  //     "IMAGE_LIST": "af35a086-a003-4c72-a801-a8c221caa89e-1599495627189.jpg",
+  //     "LIST": "제품 유통기한 확인@@빠진 제품 채우기@@테이블 쳥결 유지@@커피머신 확인(원두,찌꺼기통)@@택배 주변 정리@@.....",
+  //     "NAME": null,
+  //     "PHOTO_CHECK": "1",
+  //     "QRURL": "",
+  //     "QR_SEQ": "2",
+  //     "START_DATE": "2020-06-22",
+  //     "TITLE": "관리(1)",
+  //     "UPDATE_TIME": "2020-07-02 21:16:06"
+  //   },
+  // }
+
+  // FROM CARD
+  // scan:'1'
+  // {
+  //   "scan": 0
+  //   "checkType": "1",
+  //   "data": {
+  //     "CHECK_DATE": null,
+  //     "CHECK_LIST": null,
+  //     "CHECK_SEQ": "2677",
+  //     "CHECK_TIME": null,
+  //     "CHECK_TITLE": null,
+  //     "CHECK_TYPE": "0",
+  //     "CREATE_TIME": "2020-06-22 14:56:05",
+  //     "CS_SEQ": null,
+  //     "EMP_NAME": null,
+  //     "EMP_SEQ": null,
+  //     "END_TIME": "20:00",
+  //     "IMAGE_LIST": null,
+  //     "LIST": "제품 유통기한 확인@@빠진 제품 채우기@@테이블 쳥결 유지@@커피머신 확인(원두,찌꺼기통)@@택배 주변 정리.....",
+  //     "NAME": null,
+  //     "PHOTO_CHECK": "1",
+  //     "QRURL": "",
+  //     "QR_SEQ": "2",
+  //     "START_DATE": "2020-06-22",
+  //     "TITLE": "관리(1)",
+  //     "UPDATE_TIME": "2020-07-02 21:16:06"
+  //   },
+  // }
 
   const [isCameraModalVisible, setIsCameraModalVisible] = useState<boolean>(
     false,
@@ -88,87 +145,15 @@ export default ({route: {params}}) => {
 
   const gotoChecklistAdd = () => {
     navigation.navigate('ChecklistAddScreen', {
-      storeID,
-      checkID,
-      csID,
-      checkpoint,
-      checklist,
-      checktime,
-      check,
-      checkEMP,
-      checkEMPTime,
+      data: params,
       memo: memoInput,
-      scan,
-      register: false,
-      TITLE: '체크리스트 수정',
+      registerFn: false,
       type: '수정',
-      PHOTO_CHECK,
-      checkSelectedEmp,
-      checkSelectedEmpName,
       StoreEmpSeq,
-      onRefresh,
     });
   };
 
-  const initialize = async () => {
-    let checklistGoodStated = new Array(checklist.length);
-    let checklistBadStated = new Array(checklist.length);
-    let checked;
-    let checklisted;
-    checklistGoodStated.fill(false);
-    checklistBadStated.fill(false);
-
-    if (check) {
-      checklisted = check.split('@');
-
-      const size = checklist.length / 2;
-      checklisted = new Array();
-      checked = check.split('@');
-
-      for (var i = 0; i < size; i++) {
-        var checktemp = 2 * i;
-        checklisted[i] = checked[checktemp];
-
-        var temp = 2 * i + 1;
-
-        if (checked[temp] === '1') {
-          checklistGoodStated[i] = true;
-        }
-
-        if (checked[temp] === '2') {
-          checklistBadStated[i] = true;
-        }
-      }
-    } else {
-      checklisted = checklist.split('@@');
-      checklisted[checklisted.length - 1] = checklisted[
-        checklisted.length - 1
-      ].replace('@', '');
-    }
-
-    setChecklistGoodState(checklistGoodStated);
-    setChecklistBadState(checklistBadStated);
-
-    const cameraPictureListed = cameraPictureList;
-    const modalImgarred = modalImgarr;
-    const imageListed = (IMAGE_LIST || '').split('@');
-    if (imageListed && Array.isArray(imageListed) && imageListed[0] != '') {
-      for (const imageName of imageListed) {
-        cameraPictureListed.push(
-          `http://cuapi.shop-sol.com/uploads/${imageName}`,
-        );
-        modalImgarred.push({
-          uri: `http://cuapi.shop-sol.com/uploads/${imageName}`,
-        });
-      }
-    }
-    setCheckData(checked);
-    setChecklistData(checklisted);
-    setModalImgarr(modalImgarred);
-    setCameraPictureList(cameraPictureListed);
-  };
-
-  const register = async () => {
+  const registerFn = async () => {
     let newList = [];
     let memostr;
     let badflag = false;
@@ -179,8 +164,8 @@ export default ({route: {params}}) => {
       memostr = memoInput;
     }
 
-    for (let i = 0; i < checklist.length; i++) {
-      newList.push(checklist[i]);
+    for (let i = 0; i < LIST?.length; i++) {
+      newList.push(LIST[i]);
       if (checklistGoodState[i]) {
         newList.push('1');
       }
@@ -204,9 +189,9 @@ export default ({route: {params}}) => {
 
       formData.append('LIST', JSON.stringify(newList));
       formData.append('CHECK_TITLE', memostr);
-      formData.append('CHECK_SEQ', checkID.toString());
-      formData.append('NAME', NAME.toString());
-      formData.append('CS_SEQ', csID.toString());
+      formData.append('CHECK_SEQ', CHECK_SEQ);
+      formData.append('NAME', NAME);
+      formData.append('CS_SEQ', CS_SEQ);
 
       for (let i = 0; i < cameraPictureList.length; i++) {
         const cameraPicture = cameraPictureList[i];
@@ -244,7 +229,6 @@ export default ({route: {params}}) => {
           // }
           navigation.goBack();
           alertModal('체크가 완료되었습니다.');
-          onRefresh();
         }
       } catch (error) {
         console.log(error);
@@ -257,9 +241,9 @@ export default ({route: {params}}) => {
         const {data} = await api.setCheckList2({
           LIST: JSON.stringify(newList),
           CHECK_TITLE: memostr,
-          CHECK_SEQ: checkID,
+          CHECK_SEQ,
           NAME,
-          CS_SEQ: csID,
+          CS_SEQ,
           STORE_SEQ,
           MEMBER_SEQ,
         });
@@ -274,7 +258,6 @@ export default ({route: {params}}) => {
           // }
           navigation.goBack();
           alertModal('체크가 완료되었습니다.');
-          onRefresh();
         }
       } catch (error) {
         console.log(error);
@@ -284,6 +267,42 @@ export default ({route: {params}}) => {
     }
   };
 
+  // 체크리스트 ON/OFF
+  const initialize = async () => {
+    let checklistGoodStated = new Array(LIST.length);
+    let checklistBadStated = new Array(LIST.length);
+    let checked;
+    let checklisted;
+    checklistGoodStated.fill(false);
+    checklistBadStated.fill(false);
+    if (CHECK_LIST) {
+      checklisted = CHECK_LIST.split('@');
+      const size = LIST.length / 2;
+      checklisted = new Array();
+      checked = CHECK_LIST.split('@');
+      for (var i = 0; i < size; i++) {
+        var checktemp = 2 * i;
+        checklisted[i] = checked[checktemp];
+        var temp = 2 * i + 1;
+        if (checked[temp] === '1') {
+          checklistGoodStated[i] = true;
+        }
+        if (checked[temp] === '2') {
+          checklistBadStated[i] = true;
+        }
+      }
+    } else {
+      checklisted = LIST.split('@@');
+      checklisted[checklisted.length - 1] = checklisted[
+        checklisted.length - 1
+      ].replace('@', '');
+    }
+    setChecklistGoodState(checklistGoodStated);
+    setChecklistBadState(checklistBadStated);
+    setCheckData(checked);
+    setChecklistData(checklisted);
+  };
+  console.log('[][][][][][]');
   useEffect(() => {
     initialize();
     //     this.defaultPictureUploadPath = FileSystem.documentDirectory + 'picture/';
@@ -309,11 +328,12 @@ export default ({route: {params}}) => {
       setCameraPictureList={setCameraPictureList}
       imgModalIdx={imgModalIdx}
       setImgModalIdx={setImgModalIdx}
-      checkEMPTime={checkEMPTime}
-      checkpoint={checkpoint}
-      checktime={checktime}
+      CHECK_TIME={CHECK_TIME}
+      TITLE={TITLE}
+      END_TIME={END_TIME}
+      EMP_NAME={EMP_NAME}
+      NAME={NAME}
       checklistData={checklistData}
-      checkEMP={checkEMP}
       checkData={checkData}
       checklistGoodState={checklistGoodState}
       setChecklistGoodState={setChecklistGoodState}

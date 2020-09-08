@@ -103,43 +103,40 @@ export default ({
   setCameraPictureList,
   imgModalIdx,
   setImgModalIdx,
-  checkEMPTime,
-  checkpoint,
-  checktime,
+  CHECK_TIME,
+  TITLE,
+  END_TIME,
+  EMP_NAME,
+  NAME,
   checklistData,
-  checkEMP,
   checkData,
   checklistGoodState,
   setChecklistGoodState,
   checklistBadState,
   setChecklistBadState,
 }) => {
-  // const memoView = () => {
-  //   let scan = this.props.navigation.getParam('scan'
-  //   return (
-  //     <View style={styles.section}>
-  //       <Text style={{fontSize: 15, fontWeight: 'bold', paddingHorizontal: 20}}>
-  //         메모
-  //       </Text>
-  //       <View style={styles.memoBox} ref={(ref) => (this.memoInputArea = ref)}>
-  //         <TextInput
-  //           ref={(ref) => (this.memoInputBox = ref)}
-  //           style={styles.memoTIText}
-
-  //           onChangeText={(text) => this.setState({memoInput: text})}
-  //           value={this.state.memoInput}
-  //           placeholder={'내용를 입력하세요.'}
-  //           placeholderTextColor={'#CCCCCC'}
-  //           multiline={true}
-  //           editable={scan == '0' ? false : true}
-  //           onFocus={() => {
-  //             console.log('this.memoInputBox', this.memoInputArea);
-  //           }}
-  //         />
-  //       </View>
-  //     </View>
-  //   );
-  // };
+  const MemoView = () => (
+    <View style={styles.section}>
+      <Text style={{fontSize: 15, fontWeight: 'bold', paddingHorizontal: 20}}>
+        메모
+      </Text>
+      <View style={styles.memoBox} ref={(ref) => (this.memoInputArea = ref)}>
+        <TextInput
+          ref={(ref) => (this.memoInputBox = ref)}
+          style={styles.memoTIText}
+          onChangeText={(text) => this.setState({memoInput: text})}
+          value={this.state.memoInput}
+          placeholder={'내용를 입력하세요.'}
+          placeholderTextColor={'#CCCCCC'}
+          multiline={true}
+          editable={scan == '0' ? false : true}
+          onFocus={() => {
+            console.log('this.memoInputBox', this.memoInputArea);
+          }}
+        />
+      </View>
+    </View>
+  );
 
   // const _getPhotoZone = (scan) => {
   //   if (Number(PHOTO_CHECK || 0) !== 1) {
@@ -251,31 +248,29 @@ export default ({
           <Section>
             <RowSpace>
               <SectionText>체크항목</SectionText>
-              <Text>{checkpoint}</Text>
+              <Text>{TITLE}</Text>
             </RowSpace>
             <WhiteSpace />
             <RowSpace>
               <SectionText>체크예정시간</SectionText>
-              <Text>{checktime == '' ? '미사용' : checktime}</Text>
+              <Text>{END_TIME == '' ? '미사용' : END_TIME}</Text>
             </RowSpace>
           </Section>
-
           <Section>
             <RowSpace>
-              <SectionText>{checkEMP ? '담당직원' : '확인직원'}</SectionText>
+              <SectionText>{NAME ? '담당직원' : '확인직원'}</SectionText>
               <Text style={{color: '#642A8C', fontWeight: 'bold'}}>
-                {checkEMP ?? '체크전'}
+                {NAME ? NAME.split('@').join(' / ') : '체크전'}
               </Text>
             </RowSpace>
             <WhiteSpace />
             <RowSpace>
               <SectionText>확인시간</SectionText>
               <Text style={{color: '#642A8C', fontWeight: 'bold'}}>
-                {moment(checkEMPTime).format('HH:mm') ?? '체크전'}
+                {CHECK_TIME ? moment(CHECK_TIME).format('HH:mm') : '체크전'}
               </Text>
             </RowSpace>
           </Section>
-
           <Section>
             <SectionText>체크리스트 목록</SectionText>
             <WhiteSpace />
@@ -287,12 +282,23 @@ export default ({
                   </ChecklistItem>
                 ) : (
                   <CheckBoxIconContainer>
-                    <Text style={{fontSize: 15, color: '#642A8C'}}>정상</Text>
-                    <Text style={{fontSize: 15, color: '#642A8C'}}>이상</Text>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        color: scan == '0' ? '#CCCCCC' : '#642A8C',
+                      }}>
+                      정상
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        color: scan == '0' ? '#CCCCCC' : '#B91C1B',
+                      }}>
+                      이상
+                    </Text>
                   </CheckBoxIconContainer>
                 )}
               </ChecklistTitle>
-
               {checklistData?.map((data, index) => (
                 <ChecklistItem key={index}>
                   <ChecklistText>{data}</ChecklistText>
@@ -311,11 +317,12 @@ export default ({
                         setChecklistBadState(checklistBadStated);
                       }}
                       disabled={scan == '1' ? false : true}>
-                      {checklistGoodState[index] ? (
-                        <CheckBoxIcon size={25} color="#642A8C" />
-                      ) : (
-                        <CheckBoxIcon size={25} color="#CCCCCC" />
-                      )}
+                      <CheckBoxIcon
+                        size={25}
+                        color={
+                          checklistGoodState[index] ? '#642A8C' : '#CCCCCC'
+                        }
+                      />
                     </Touchable>
                     <WhiteSpace />
                     <Touchable
@@ -332,11 +339,10 @@ export default ({
                         setChecklistBadState(checklistBadStated);
                       }}
                       disabled={scan == '1' ? false : true}>
-                      {checklistBadState[index] ? (
-                        <CheckBoxIcon size={25} color="#642A8C" />
-                      ) : (
-                        <CheckBoxIcon size={25} color="#CCCCCC" />
-                      )}
+                      <CheckBoxIcon
+                        size={25}
+                        color={checklistBadState[index] ? '#B91C1B' : '#CCCCCC'}
+                      />
                     </Touchable>
                   </CheckBoxIconContainer>
                 </ChecklistItem>
@@ -344,10 +350,10 @@ export default ({
             </Box>
           </Section>
 
-          {/* {checkType == '1' && memoInput !== '' && memoView()}
-          {checkType == '2' && memoView()}
+          {/* {checkType == '1' && memoInput !== '' && <MemoView />}
+          {checkType == '2' && <MemoView />} */}
 
-          {_getPhotoZone(scan)} */}
+          {/*  {_getPhotoZone(scan)} */}
 
           {STORE == '1' && (
             <SubmitBtn
