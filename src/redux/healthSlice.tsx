@@ -1,4 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {setSplashVisible} from './splashSlice';
+import api from '../constants/LoggedInApi';
 
 const healthSlice = createSlice({
   name: 'health',
@@ -46,5 +48,28 @@ export const {
   setHEALTH_EMP_DETAIL,
   setHEALTH_STORE_DETAIL,
 } = healthSlice.actions;
+
+export const getHEALTH_CERTIFICATE_DATA = () => async (dispatch, getState) => {
+  const {
+    storeReducer: {STORE_SEQ},
+  } = getState();
+  const {
+    userReducer: {STORE, MEMBER_SEQ},
+  } = getState();
+  const {
+    healthReducer: {HEALTH_CERTIFICATE_DATA},
+  } = getState();
+  try {
+    if (!HEALTH_CERTIFICATE_DATA) {
+      dispatch(setSplashVisible(true));
+    }
+    const {data} = await api.getCertificate({STORE_SEQ, MEMBER_SEQ, STORE});
+    dispatch(setHEALTH_CERTIFICATE_DATA(data));
+  } catch (e) {
+    console.log(e);
+  } finally {
+    dispatch(setSplashVisible(false));
+  }
+};
 
 export default healthSlice.reducer;

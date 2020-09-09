@@ -54,8 +54,8 @@ export default () => {
     try {
       setRefreshing(true);
       await fetchData();
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       setRefreshing(false);
     }
@@ -79,8 +79,8 @@ export default () => {
         dispatch(setMYCU_MONTHLY(data.result));
         dispatch(setMYCU_MONTHLY_CATEGORY(categoryListArray));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
     }

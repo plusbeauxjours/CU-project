@@ -59,8 +59,8 @@ export default () => {
         navigation.navigate('MyPageMainScreen');
         dispatch(setMEMBER_NAME(NAME));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
   return (

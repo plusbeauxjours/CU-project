@@ -56,8 +56,8 @@ export default () => {
         setSETTIME(data.resultdata[0].CREATE_TIME);
         setCEO_HEALTH_SEQ(data.resultdata[0].CEO_HEALTH_SEQ);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 

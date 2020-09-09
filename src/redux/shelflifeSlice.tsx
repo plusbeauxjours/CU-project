@@ -54,6 +54,21 @@ const shelflifetSlice = createSlice({
         item.shelfLifeMemo = shelfLifeMemo;
       }
     },
+    removeSHELFLIFE_DATA(state, action) {
+      const {
+        payload: {shelfLife_SEQ, shelfLifeDate},
+      } = action;
+      const item = state.SHELFLIFE_DATA[shelfLifeDate].filter(
+        (i) => i.shelfLife_SEQ !== shelfLife_SEQ,
+      );
+      return {
+        ...state,
+        SHELFLIFE_DATA: {
+          ...state.SHELFLIFE_DATA,
+          [shelfLifeDate]: item,
+        },
+      };
+    },
   },
 });
 
@@ -62,6 +77,7 @@ export const {
   setSHELFLIFE_MARKED,
   udpateSHELFLIFE,
   updateSHELFLIFE_DATA,
+  removeSHELFLIFE_DATA,
 } = shelflifetSlice.actions;
 
 export const getSHELFLIFE_DATA = (

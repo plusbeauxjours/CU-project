@@ -350,9 +350,9 @@ export default ({route: {params}}) => {
           });
         }
       }
-    } catch (error) {
+    } catch (e) {
       alertModal('통신이 원활하지 않습니다.');
-      console.log(error);
+      console.log(e);
     } finally {
       console.log('kfodkofkd');
       onRefresh();
@@ -487,8 +487,8 @@ export default ({route: {params}}) => {
           setMINPAY(data.resultdata.MINPAY); // 최저시급
         }
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       alertModal('통신이 원활하지 않습니다.');
       navigation.goBack();
     }

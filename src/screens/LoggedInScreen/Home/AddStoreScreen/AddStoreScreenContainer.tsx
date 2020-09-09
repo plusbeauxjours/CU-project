@@ -150,8 +150,8 @@ export default ({route: {params}}) => {
           dispatch(getSTORELIST_DATA());
           navigation.goBack();
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       } finally {
         dispatch(setSplashVisible(false));
       }

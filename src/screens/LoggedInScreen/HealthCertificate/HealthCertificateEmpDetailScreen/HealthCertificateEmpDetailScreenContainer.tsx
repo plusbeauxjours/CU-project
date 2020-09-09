@@ -53,8 +53,8 @@ export default ({route: {params}}) => {
         setSETTIME(data.result[0].CREATE_TIME);
         setTESTING_CERTIFICATE(data.result[0].IMG_LIST);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 

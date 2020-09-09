@@ -128,8 +128,8 @@ export default ({route: {params}}) => {
           alertModal('휴게시간이 변경되었습니다.');
         }
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
     }

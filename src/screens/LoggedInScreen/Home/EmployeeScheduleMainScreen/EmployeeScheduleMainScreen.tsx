@@ -106,8 +106,8 @@ export default ({route: {params}}) => {
         CALENDAR: isFreeWorkingType ? '0' : '1',
         EMP_SEQ,
       });
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       alertModal('', '통신이 원활하지 않습니다.');
     }
   };

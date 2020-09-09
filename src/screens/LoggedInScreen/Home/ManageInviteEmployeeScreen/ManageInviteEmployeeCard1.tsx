@@ -102,8 +102,8 @@ export default ({
       if (data.message === 'SUCCESS') {
         setIsRefused(true);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 

@@ -119,8 +119,8 @@ export default ({route: {params}}) => {
           navigation.goBack(); // 뒤로
           alertModal('출퇴근 시간이 변경되었습니다.');
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       } finally {
         dispatch(setSplashVisible(false));
       }
@@ -142,8 +142,8 @@ export default ({route: {params}}) => {
           navigation.goBack(); // 뒤로
           alertModal('출퇴근 시간이 변경되었습니다.');
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       } finally {
         dispatch(setSplashVisible(false));
       }

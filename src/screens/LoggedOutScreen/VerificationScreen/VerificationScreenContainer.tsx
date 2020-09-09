@@ -75,8 +75,8 @@ export default () => {
         } else {
           alertModal('인증번호가 맞지않습니다.');
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       }
     }
   };
@@ -118,8 +118,8 @@ export default () => {
       if (data.RESULT_CODE == '0') {
         alertModal('인증번호를 발송하였습니다.');
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 

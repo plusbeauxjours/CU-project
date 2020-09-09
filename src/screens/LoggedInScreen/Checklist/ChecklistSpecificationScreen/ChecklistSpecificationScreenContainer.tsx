@@ -220,8 +220,8 @@ export default ({route: {params}}) => {
           navigation.goBack();
           alertModal('체크가 완료되었습니다.');
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       } finally {
         dispatch(setSplashVisible(false));
       }
@@ -249,8 +249,8 @@ export default ({route: {params}}) => {
           navigation.goBack();
           alertModal('체크가 완료되었습니다.');
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       } finally {
         dispatch(setSplashVisible(false));
       }

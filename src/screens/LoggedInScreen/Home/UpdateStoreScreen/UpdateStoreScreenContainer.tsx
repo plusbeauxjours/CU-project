@@ -201,8 +201,8 @@ export default ({route: {params}}) => {
         }
         dispatch(getSTORELIST_DATA());
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
     }

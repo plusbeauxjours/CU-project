@@ -5,8 +5,8 @@ import {useSelector, useDispatch} from 'react-redux';
 import CalendarInfoScreenPresenter from './CalendarInfoScreenPresenter';
 import api from '../../../../constants/LoggedInApi';
 import {
-  setCALENDAR_DATA,
   setCALENDAR_MARKED,
+  getCALENDAR_DATA,
 } from '../../../../redux/calendarSlice';
 
 export default () => {
@@ -40,39 +40,15 @@ export default () => {
         item.month,
       );
       setMarkFn(data);
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 
   const fetchData = async (date) => {
-    try {
-      const {data} = await api.getAllSchedules(
-        STORE_SEQ,
-        moment(date).format('YYYY'),
-        moment(date).format('M'),
-      );
-      let buffer = {};
-      const iterator = Object.keys(data.result);
-      for (const key of iterator) {
-        buffer[key] = data.result[key]['EMP_LIST'];
-        if (buffer[key].length !== 0) {
-          for (let k = 0; k < buffer[key].length; k++) {
-            buffer[key][k] = {...buffer[key][k], WORKDATE: key};
-          }
-        }
-      }
-      if (STORE == '0' && CALENDAR_EDIT !== 1) {
-        for (const key of iterator) {
-          buffer[key] = buffer[key].filter((info) => info.EMP_ID == EMP_SEQ);
-        }
-      }
-      dispatch(setCALENDAR_DATA(buffer));
-      setDate(date);
-      setMarkFn(data);
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(getCALENDAR_DATA(date));
+    setDate(date);
+    setMarkFn(CALENDAR_DATA);
   };
 
   const setMarkFn = (data) => {

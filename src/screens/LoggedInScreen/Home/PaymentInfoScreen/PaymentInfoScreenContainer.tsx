@@ -60,8 +60,8 @@ export default () => {
         setMaindata(data.result);
         setDate(moment(date).add(1, 'month').format('YYYY-MM-DD'));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       alertModal('', '통신이 원활하지 않습니다.');
       navigation.goBack();
     } finally {
@@ -81,8 +81,8 @@ export default () => {
         setMaindata(data.result);
         setDate(moment(date).subtract(1, 'month').format('YYYY-MM-DD'));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       alertModal('', '통신이 원활하지 않습니다.');
       navigation.goBack();
     } finally {
@@ -102,8 +102,8 @@ export default () => {
         setMaindata(data.result);
         setDate(moment().format('YYYY-MM-DD'));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       alertModal('', '통신이 원활하지 않습니다.');
       navigation.goBack();
     }
@@ -112,8 +112,8 @@ export default () => {
       if (data.message == 'SUCCESS') {
         setEmployeeNowOn(data?.workinglist);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
     }

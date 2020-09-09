@@ -104,8 +104,8 @@ export default ({route: {params}}) => {
           ],
         });
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       alertModal('통신이 원활하지 않습니다.');
     }
   };
@@ -175,8 +175,8 @@ export default ({route: {params}}) => {
         initTimeTable([]);
       } else {
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       alertModal('통신이 원활하지 않습니다.');
     }
   };
@@ -391,8 +391,8 @@ export default ({route: {params}}) => {
         setIsFreeWorkingType(!isFreeWorkingType);
         await fetchData();
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       alertModal('통신이 원활하지 않습니다.');
     }
   };
@@ -409,8 +409,8 @@ export default ({route: {params}}) => {
         setIsFreeWorkingType(false);
         fetchSchedule(data.result.EMP_SEQ);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       dispatch(setSplashVisible(false));
       alertModal('통신이 원활하지 않습니다.');
     } finally {

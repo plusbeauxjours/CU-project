@@ -47,8 +47,8 @@ export default () => {
         MEMBER_SEQ,
         [alarm]: isAlarmOn,
       });
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       alertModal('', '통신이 원활하지 않습니다.');
       toggleAlarm(value);
     }
@@ -62,8 +62,8 @@ export default () => {
       data.CHECK_PUSH == '1' && dispatch(setCheckPush(true));
       data.CHECKSHARE_PUSH == '1' && dispatch(setChecksharePush(true));
       data.SCHEDULE_PUSH == '1' && dispatch(setScedulePUsh(true));
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 

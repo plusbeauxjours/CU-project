@@ -145,8 +145,8 @@ export default () => {
         setChoice([]);
         navigation.goBack();
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
       dispatch(getRESPONSE_EMPLOYEE());
@@ -185,8 +185,8 @@ export default () => {
       // setContacts(data);
       // setResult(dataArr);
       setIsModalVisible(true);
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
     }
@@ -200,8 +200,8 @@ export default () => {
         data.name,
         data.phoneNumbers[0].number.replace(/\D/g, ''),
       );
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
       setSearch('');

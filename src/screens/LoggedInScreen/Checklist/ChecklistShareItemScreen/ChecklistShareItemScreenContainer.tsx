@@ -54,8 +54,8 @@ export default ({route: {params}}) => {
       if (data.message === 'SUCCESS') {
         dispatch(editCHECKLIST_SHARE_COMMENTS({selectedCOM_SEQ, comment}));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       setCommentInputBox(false);
       setComment('');
@@ -69,8 +69,8 @@ export default ({route: {params}}) => {
       if (data.message === 'SUCCESS') {
         dispatch(deleteCHECKLIST_SHARE_COMMENTS(selectedCOM_SEQ));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -90,8 +90,8 @@ export default ({route: {params}}) => {
         setComment('');
         dispatch(getCHECKLIST_COMMENTS(NOTICE_SEQ, TITLE));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 

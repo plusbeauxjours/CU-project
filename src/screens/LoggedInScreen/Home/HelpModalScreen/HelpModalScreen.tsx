@@ -58,8 +58,8 @@ export default () => {
       dispatch(setSplashVisible(true));
       const {data} = await api.help();
       dispatch(setHelpCategory(data.result));
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
     }

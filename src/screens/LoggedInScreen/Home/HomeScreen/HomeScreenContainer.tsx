@@ -9,6 +9,7 @@ import {setSTORE_DATA, setEMP_SEQ} from '../../../../redux/storeSlice';
 import utils from '../../../../constants/utils';
 import api from '../../../../constants/LoggedInApi';
 import {getRESPONSE_EMPLOYEE} from '../../../../redux/employeeSlice';
+import {getHEALTH_CERTIFICATE_DATA} from '../../../../redux/healthSlice';
 
 let modalInterval;
 
@@ -70,8 +71,8 @@ export default ({route: {params}}) => {
           },
         );
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -124,8 +125,8 @@ export default ({route: {params}}) => {
           } else {
             alertModal('', data.result);
           }
-        } catch (error) {
-          console.log(error);
+        } catch (e) {
+          console.log(e);
         } finally {
           dispatch(setSplashVisible(false));
         }
@@ -168,8 +169,8 @@ export default ({route: {params}}) => {
           } else if (data.message == 'NOWORK') {
             alertModal('', '출근기록이 없습니다.');
           }
-        } catch (error) {
-          console.log(error);
+        } catch (e) {
+          console.log(e);
         } finally {
           dispatch(setSplashVisible(false));
         }
@@ -239,8 +240,9 @@ export default ({route: {params}}) => {
         setNoticeCount(data.noticelength);
       }
       await dispatch(getRESPONSE_EMPLOYEE());
-    } catch (error) {
-      console.log(error);
+      await dispatch(getHEALTH_CERTIFICATE_DATA());
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
     }

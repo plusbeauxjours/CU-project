@@ -34,7 +34,7 @@ export default ({url, setModalVisible}) => {
       <Pdf
         source={{uri: url}}
         onError={(error) => {
-          console.log(error);
+          console.log(e);
           setModalVisible(false);
         }}
         onPressLink={(uri) => {

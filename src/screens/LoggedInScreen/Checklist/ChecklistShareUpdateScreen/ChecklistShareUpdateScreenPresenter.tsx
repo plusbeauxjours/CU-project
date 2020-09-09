@@ -248,7 +248,7 @@ export default ({
                   color: '#FF3D3D',
                   textDecorationLine: 'underline',
                 }}>
-                보건증 삭제하기
+                {TITLE} 삭제하기
               </Text>
             </DeleteButton>
           </Container>

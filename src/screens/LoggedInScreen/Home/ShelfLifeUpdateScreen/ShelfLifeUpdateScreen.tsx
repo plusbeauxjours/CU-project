@@ -1,18 +1,19 @@
 import React, {useState} from 'react';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import DatePickerModal from 'react-native-modal-datetime-picker';
 import {useNavigation} from '@react-navigation/native';
+import moment from 'moment';
 
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import api from '../../../../constants/LoggedInApi';
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import moment from 'moment';
 import {
   updateSHELFLIFE_DATA,
   getSHELFLIFE_DATA,
+  removeSHELFLIFE_DATA,
 } from '../../../../redux/shelflifeSlice';
 
 interface ITextInput {
@@ -100,7 +101,6 @@ const DateText = styled.Text``;
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
   const shelfLife_SEQ = params?.shelfLife_SEQ || '';
   const [shelfLifeName, setShelfLifeName] = useState<string>(
     params?.shelfLifeName || '',
@@ -141,16 +141,12 @@ export default ({route: {params}}) => {
 
   const deleteShelfLife = async () => {
     try {
-      dispatch(setSplashVisible(true));
       const {data} = await api.deleteShelfLifeData({shelfLife_SEQ});
-      if (data.result == '1') {
-        navigation.goBack();
-        alertModal('', '상품을 삭제하였습니다.');
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(setSplashVisible(false));
+      navigation.goBack();
+      dispatch(removeSHELFLIFE_DATA({shelfLife_SEQ, shelfLifeDate}));
+      alertModal('', '상품을 삭제하였습니다.');
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -186,8 +182,8 @@ export default ({route: {params}}) => {
           ),
         );
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
     }

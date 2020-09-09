@@ -112,8 +112,8 @@ export default ({route: {params}}) => {
       if (data.message === 'SUCCESS') {
         setEmplist(data.result);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       alertModal('통신이 원활하지 않습니다.');
     }
   };
@@ -208,8 +208,8 @@ export default ({route: {params}}) => {
             alertModal('연결에 실패하였습니다.');
           }
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       } finally {
         dispatch(getCHECKLIST_DATA(DATE));
         dispatch(setSplashVisible(false));
@@ -255,8 +255,8 @@ export default ({route: {params}}) => {
             alertModal('연결에 실패하였습니다.');
           }
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       } finally {
         dispatch(getCHECKLIST_DATA(DATE));
         dispatch(setSplashVisible(false));

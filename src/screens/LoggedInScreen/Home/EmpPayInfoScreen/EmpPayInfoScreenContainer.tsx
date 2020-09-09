@@ -91,8 +91,8 @@ export default ({route: {params}}) => {
       setMaindata(data.message);
       setYear(YEAR);
       setMonth(MONTH);
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       alertModal('', '통신이 원활하지 않습니다.');
       navigation.goBack();
     } finally {
@@ -116,8 +116,8 @@ export default ({route: {params}}) => {
       setMaindata(data.message);
       setYear(YEAR);
       setMonth(MONTH);
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       alertModal('', '통신이 원활하지 않습니다.');
       navigation.goBack();
     } finally {
@@ -132,8 +132,8 @@ export default ({route: {params}}) => {
       setMaindata(data.message);
       setYear(year);
       setMonth(month);
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       alertModal('', '통신이 원활하지 않습니다.');
       navigation.goBack();
     } finally {

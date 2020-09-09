@@ -82,8 +82,8 @@ export default ({route: {params}}) => {
         default:
           break;
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       alertModal('서버 접속이 원할하지 않습니다.');
     }
   };

@@ -59,8 +59,8 @@ export const getRESPONSE_EMPLOYEE = () => async (dispatch, getState) => {
       dispatch(setRESPONSE_EMPLOYEE(data.result));
       dispatch(setNO_RESPONSE_EMPLOYEE(data.result2));
     }
-  } catch (error) {
-    console.log(error);
+  } catch (e) {
+    console.log(e);
   } finally {
     dispatch(setSplashVisible(false));
   }

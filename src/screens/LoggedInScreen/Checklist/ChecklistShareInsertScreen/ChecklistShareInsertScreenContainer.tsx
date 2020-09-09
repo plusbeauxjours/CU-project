@@ -117,8 +117,8 @@ export default ({route: {params}}) => {
         } else {
           alertModal('연결에 실패하였습니다.');
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       } finally {
         dispatch(setSplashVisible(false));
         if (params.TITLE === '지시사항') {
@@ -144,8 +144,8 @@ export default ({route: {params}}) => {
         } else {
           alertModal('연결에 실패하였습니다.');
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       } finally {
         dispatch(setSplashVisible(false));
         if (params.TITLE === '지시사항') {

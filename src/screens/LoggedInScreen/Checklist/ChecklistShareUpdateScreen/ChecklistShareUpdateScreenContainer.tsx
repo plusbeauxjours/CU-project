@@ -118,8 +118,8 @@ export default ({route: {params}}) => {
         } else {
           alertModal('연결에 실패하였습니다.');
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       } finally {
         dispatch(setSplashVisible(false));
         // dispatch(
@@ -158,8 +158,8 @@ export default ({route: {params}}) => {
         } else {
           alertModal('연결에 실패하였습니다.');
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       } finally {
         dispatch(setSplashVisible(false));
       }

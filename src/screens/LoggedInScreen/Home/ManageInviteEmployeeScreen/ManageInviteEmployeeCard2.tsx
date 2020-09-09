@@ -85,8 +85,8 @@ export default ({key, join_emp_seq, EMP_NAME, PHONE, STORE_SEQ}) => {
       if (data.message == 'SUCCESS') {
         setIsSent(true);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(getRESPONSE_EMPLOYEE());
       dispatch(setSplashVisible(false));
@@ -97,8 +97,8 @@ export default ({key, join_emp_seq, EMP_NAME, PHONE, STORE_SEQ}) => {
   const cancelJoinFn = async (join_emp_seq) => {
     try {
       const {data} = await api.cancelJoin({join_emp_seq});
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(getRESPONSE_EMPLOYEE());
     }

@@ -109,8 +109,8 @@ export default ({route: {params}}) => {
         alertModal('', '저장 완료');
         navigation.goBack();
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
     }
@@ -153,8 +153,8 @@ export default ({route: {params}}) => {
         setEDUCATION_DATE(data.resultdate);
         setRESULT_COUNT(data.count);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       setCameraModalVisible(false);
       dispatch(setSplashVisible(false));

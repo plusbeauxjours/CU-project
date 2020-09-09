@@ -49,8 +49,8 @@ export default () => {
       if (data.message == 'SUCCESS') {
         dispatch(setEMPLOYEE_LIST(data));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
     }

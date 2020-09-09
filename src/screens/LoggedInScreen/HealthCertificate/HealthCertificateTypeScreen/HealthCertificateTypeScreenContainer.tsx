@@ -1,18 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 
 import HealthCertificateTypeScreenPresenter from './HealthCertificateTypeScreenPresenter';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import api from '../../../../constants/LoggedInApi';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import {setHEALTH_CERTIFICATE_DATA} from '../../../../redux/healthSlice';
+import {getHEALTH_CERTIFICATE_DATA} from '../../../../redux/healthSlice';
 
 export default () => {
   const dispatch = useDispatch();
-  const {MEMBER_SEQ, STORE} = useSelector((state: any) => state.userReducer);
-  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
+  const {STORE} = useSelector((state: any) => state.userReducer);
   const {HEALTH_CERTIFICATE_DATA} = useSelector(
     (state: any) => state.healthReducer,
   );
@@ -31,7 +28,7 @@ export default () => {
   const onRefresh = async () => {
     try {
       setRefreshing(true);
-      await fetchData();
+      await dispatch(getHEALTH_CERTIFICATE_DATA());
     } catch (e) {
       console.log(e);
     } finally {
@@ -39,34 +36,10 @@ export default () => {
     }
   };
 
-  const fetchData = async () => {
-    try {
-      if (!HEALTH_CERTIFICATE_DATA) {
-        dispatch(setSplashVisible(true));
-      }
-      const {data} = await api.getCertificate({
-        STORE_SEQ,
-        MEMBER_SEQ,
-        STORE,
-      });
-      if (data.resultmsg === '1') {
-        dispatch(setHEALTH_CERTIFICATE_DATA(data));
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(setSplashVisible(false));
-    }
-  };
-
   const dday = moment(HEALTH_CERTIFICATE_DATA.EDUCATION_DATA).diff(
     moment().subtract(1, 'year'),
     'days',
   );
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <HealthCertificateTypeScreenPresenter

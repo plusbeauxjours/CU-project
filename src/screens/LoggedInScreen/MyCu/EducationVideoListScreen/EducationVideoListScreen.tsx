@@ -93,8 +93,8 @@ export default () => {
         }
         dispatch(setEDUCATION_VIDEO(data.result));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
     }

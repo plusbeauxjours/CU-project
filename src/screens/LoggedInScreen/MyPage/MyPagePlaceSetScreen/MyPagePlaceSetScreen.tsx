@@ -55,8 +55,8 @@ export default () => {
         if (data.message === 'SUCCESS') {
           dispatch(setCLOSED_STORE_DATA(data.result));
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       } finally {
         dispatch(setSplashVisible(false));
       }
@@ -69,8 +69,8 @@ export default () => {
         if (data.message === 'SUCCESS') {
           dispatch(setCLOSED_STORE_DATA(data.result));
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       } finally {
         dispatch(setSplashVisible(false));
       }

@@ -136,8 +136,8 @@ export default ({route: {params}}) => {
         alertModal('', '저장 완료');
         navigation.goBack();
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
     }
@@ -192,7 +192,7 @@ export default ({route: {params}}) => {
         setBusinesstype(data.businesstype);
         setEDUCATION_TYPE(data.EDUCATION_TYPE);
       }
-    } catch (error) {
+    } catch (e) {
       alertModal(
         '인식 실패',
         '촬영 시 라인에 맞춰 정면에서 찍어주세요.\n\n* 인식이 불안정한 경우 직접입력하여 진행해 주세요.',

@@ -70,8 +70,8 @@ export default ({route: {params}}) => {
       if (data.message === 'SUCCESS') {
         dispatch(setHEALTH_EMP_LIST(data.result));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
     }

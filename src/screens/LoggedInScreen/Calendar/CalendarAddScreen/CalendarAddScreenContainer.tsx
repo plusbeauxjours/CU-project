@@ -80,8 +80,8 @@ export default ({route: {params}}) => {
       if (data.message === 'SUCCESS') {
         setEmplist(data.result);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       alertModal('통신이 원활하지 않습니다.');
     } finally {
       dispatch(setSplashVisible(false));
@@ -167,8 +167,8 @@ export default ({route: {params}}) => {
           navigation.goBack();
           alertModal('일정을 추가하였습니다.');
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
         alertModal('통신이 원활하지 않습니다.');
       } finally {
         dispatch(setSplashVisible(false));

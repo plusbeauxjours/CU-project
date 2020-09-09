@@ -156,8 +156,8 @@ export default () => {
         setStaticmarkedDates(staticmarkedDates);
         dispatch(setCHECKLIST_MARKED(staticmarkedDates));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -187,8 +187,8 @@ export default () => {
     try {
       dispatch(getCHECKLIST_DATA());
       setIsChecklistModalVisible(true);
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 

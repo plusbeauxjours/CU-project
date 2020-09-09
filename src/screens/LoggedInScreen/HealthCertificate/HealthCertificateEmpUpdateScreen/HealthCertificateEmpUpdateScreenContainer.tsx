@@ -105,8 +105,8 @@ export default ({route: {params}}) => {
         setEDUCATION_DATE(data.resultdate);
         setRESULT_COUNT(data.count);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       setCameraModalVisible(false);
       dispatch(setSplashVisible(false));
@@ -126,8 +126,8 @@ export default ({route: {params}}) => {
           `${EDUCATION_DATE.slice(0, 4)}년 위생교육증을 삭제하였습니다.`,
         );
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       navigation.goBack();
     }
@@ -183,8 +183,8 @@ export default ({route: {params}}) => {
         alertModal('', '수정 완료');
         navigation.goBack();
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
     }

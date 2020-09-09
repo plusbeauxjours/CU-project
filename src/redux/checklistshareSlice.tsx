@@ -318,8 +318,8 @@ export const getCHECKLIST_COMMENTS = (NOTICE_SEQ, TITLE) => async (
       title,
     );
     dispatch(setCHECKLIST_SHARE_COMMENTS(data.message));
-  } catch (error) {
-    console.log(error);
+  } catch (e) {
+    console.log(e);
   }
 };
 

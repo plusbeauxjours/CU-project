@@ -80,8 +80,8 @@ export default ({route: {params}}) => {
       const {data} = await api.deleteSchedule({SCH_ID});
       navigation.goBack();
       alertModal('추가일정 삭제완료');
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
     }

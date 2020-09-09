@@ -346,7 +346,7 @@ export default ({
                 <PayInfoBox>
                   <MainPayBox>
                     <MainPayBoxText>
-                      {numberComma(ownertotal)} 원
+                      {ownertotal ? `${numberComma(ownertotal)} 원` : '0 원'}
                     </MainPayBoxText>
                   </MainPayBox>
                   {boxButton && (
@@ -390,7 +390,9 @@ export default ({
               )}
               <PayInfoBox>
                 <MainPayBox>
-                  <MainPayBoxText>{numberComma(emptotal)} 원</MainPayBoxText>
+                  <MainPayBoxText>
+                    {emptotal ? `${numberComma(emptotal)} 원` : '0 원'}
+                  </MainPayBoxText>
                 </MainPayBox>
                 {boxButton2 && (
                   <DetailBox>
@@ -471,7 +473,7 @@ export default ({
                 <PayInfoBox>
                   <MainPayBox>
                     <MainPayBoxText>
-                      {numberComma(ownertotal)} 원
+                      {ownertotal ? `${numberComma(ownertotal)} 원` : '0 원'}
                     </MainPayBoxText>
                   </MainPayBox>
                   {boxButton && (
@@ -515,7 +517,7 @@ export default ({
               <PayInfoBox>
                 <MainPayBox>
                   <MainPayBoxText>
-                    {numberComma(realemptotal)} 원
+                    {realemptotal ? `${numberComma(realemptotal)} 원` : '0 원'}
                   </MainPayBoxText>
                 </MainPayBox>
                 {boxButton2 && (
@@ -613,7 +615,7 @@ export default ({
                 <PayInfoBox>
                   <MainPayBox>
                     <MainPayBoxText>
-                      {numberComma(ownertotal)} 원
+                      {ownertotal ? `${numberComma(ownertotal)} 원` : '0 원'}
                     </MainPayBoxText>
                   </MainPayBox>
                   {boxButton && (
@@ -657,7 +659,7 @@ export default ({
               <PayInfoBox>
                 <MainPayBox>
                   <MainPayBoxText>
-                    {numberComma(realemptotal)} 원
+                    {realemptotal ? `${numberComma(realemptotal)} 원` : '0 원'}
                   </MainPayBoxText>
                 </MainPayBox>
                 {boxButton2 && (

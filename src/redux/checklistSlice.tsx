@@ -41,8 +41,8 @@ export const getCHECKLIST_DATA = (
     if (data.message === 'SUCCESS') {
       dispatch(setCHECKLIST_DATA(data.result));
     }
-  } catch (error) {
-    console.log(error);
+  } catch (e) {
+    console.log(e);
   } finally {
     dispatch(setSplashVisible(false));
   }

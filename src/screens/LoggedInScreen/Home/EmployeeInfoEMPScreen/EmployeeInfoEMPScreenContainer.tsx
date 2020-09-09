@@ -78,8 +78,8 @@ export default () => {
       } else {
         console.log(data);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       alertModal('', '통신이 원활하지 않습니다.1');
     }
   };
@@ -98,8 +98,8 @@ export default () => {
         setIsFreeWorkingType(false);
         fetchSchedule(EMP_SEQ);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       dispatch(setSplashVisible(false));
       alertModal('', '통신이 원활하지 않습니다.2');
     } finally {
