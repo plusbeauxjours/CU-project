@@ -54,7 +54,7 @@ export default ({
   CALENDAR_EDIT,
   onDayPressFn,
   onChangeMonth,
-  CALENDAR_MARKED,
+  markedDates,
   CALENDAR_DATA,
 }) => {
   const rowHasChanged = (r1, r2) => r1 !== r2;
@@ -65,37 +65,35 @@ export default ({
   );
 
   const renderItem = (data, index) => (
-    <>
-      <CalendarInfoScreenCard
-        index={index}
-        data={data}
-        SCH_ID={data.SCH_ID}
-        MEMBER_SEQ={data.MEMBER_SEQ}
-        VACATION={data.VACATION}
-        TYPE={data.TYPE}
-        STORE_SEQ={STORE_SEQ}
-        NAME={data.NAME}
-        date={data.WORKDATE}
-        image={data.IMAGE}
-        ICON={data.ICON}
-        nowork={data.nowork}
-        workoff={data.workoff}
-        working={data.working}
-        alear={data.alear}
-        jigark={data.jigark}
-        CHANGE_START={data.CHANGE_START}
-        CHANGE_END={data.CHANGE_END}
-        ATTENDANCE_TIME={data.ATTENDANCE_TIME}
-        START={data.START}
-        WORK_OFF_TIME={data.WORK_OFF_TIME}
-        END={data.END}
-        UPDATED_START={data.UPDATED_START}
-        UPDATED_END={data.UPDATED_END}
-        START_TIME={data.START_TIME}
-        END_TIME={data.END_TIME}
-        REST_TIME={data.REST_TIME}
-      />
-    </>
+    <CalendarInfoScreenCard
+      index={index}
+      data={data}
+      SCH_ID={data.SCH_ID}
+      MEMBER_SEQ={data.MEMBER_SEQ}
+      VACATION={data.VACATION}
+      TYPE={data.TYPE}
+      STORE_SEQ={STORE_SEQ}
+      NAME={data.NAME}
+      date={data.WORKDATE}
+      image={data.IMAGE}
+      ICON={data.ICON}
+      nowork={data.nowork}
+      workoff={data.workoff}
+      working={data.working}
+      alear={data.alear}
+      jigark={data.jigark}
+      CHANGE_START={data.CHANGE_START}
+      CHANGE_END={data.CHANGE_END}
+      ATTENDANCE_TIME={data.ATTENDANCE_TIME}
+      START={data.START}
+      WORK_OFF_TIME={data.WORK_OFF_TIME}
+      END={data.END}
+      UPDATED_START={data.UPDATED_START}
+      UPDATED_END={data.UPDATED_END}
+      START_TIME={data.START_TIME}
+      END_TIME={data.END_TIME}
+      REST_TIME={data.REST_TIME}
+    />
   );
 
   const renderEmptyDate = () => (
@@ -107,14 +105,15 @@ export default ({
       </GreyText>
     </View>
   );
+  console.log(CALENDAR_DATA);
   return (
     <Agenda
       items={CALENDAR_DATA}
       renderItem={renderItem}
-      onDayPress={onDayPressFn}
+      onDayPress={(date) => onDayPressFn(date)}
       renderEmptyDate={renderEmptyDate}
       renderKnob={renderKnob}
-      markedDates={CALENDAR_MARKED}
+      markedDates={markedDates}
       theme={{
         agendaTodayColor: '#AACE36',
         selectedDayBackgroundColor: '#ddd',
@@ -168,7 +167,7 @@ export default ({
         }
       }}
       rowHasChanged={rowHasChanged}
-      loadItemsForMonth={(month) => onChangeMonth(month)}
+      loadItemsForMonth={(date) => onChangeMonth(date)}
       markingType={'multi-dot'}
     />
   );

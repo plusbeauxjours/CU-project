@@ -354,7 +354,6 @@ export default ({route: {params}}) => {
       alertModal('통신이 원활하지 않습니다.');
       console.log(e);
     } finally {
-      console.log('kfodkofkd');
       onRefresh();
       dispatch(setSplashVisible(false));
     }

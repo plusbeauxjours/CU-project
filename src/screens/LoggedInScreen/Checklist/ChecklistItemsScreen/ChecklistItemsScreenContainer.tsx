@@ -233,7 +233,7 @@ export default () => {
       setIsChecklistModalVisible={setIsChecklistModalVisible}
       onPressAddChecklist={onPressAddChecklist}
       CHECKLIST_MARKED={CHECKLIST_MARKED}
-      onDayPress={onDayPress}
+      onDayPress={(date) => onDayPress(date)}
       onMonthChange={onMonthChange}
       CHECKLIST_DATA={CHECKLIST_DATA}
       STORE_SEQ={STORE_SEQ}

@@ -30,7 +30,6 @@ export const getTOTAL_PAYMENT_WORKING_EMP = (
 
   try {
     const {data} = await api.getWorkingEmpTotalPay(YEAR, MONTH, STORE_SEQ);
-    console.log('kokokokoko', data);
     if (data.message === 'SUCCESS') {
       dispatch(setTOTAL_PAYMENT_WORKING_EMP(data.result));
     }

@@ -29,7 +29,6 @@ export default ({route: {params}}) => {
   const [isFreeWorkingType, setIsFreeWorkingType] = useState<boolean>(
     params.isFreeWorkingType,
   ); // true: 자율출퇴근 직원, false: 일정이 있는 직원
-  console.log(params, isFreeWorkingType);
   const [timeTableIndex, setTimeTableIndex] = useState<any>(null); // 저장된 시간 목록 중 선택된 항목의 인덱스
   const [timeTable, setTimeTable] = useState<any>([]); // timeList를 근무 시작일 / 근무 종료일 별로 저장한 배열
   const [timeListIndex, setTimeListIndex] = useState<number>(0); // 저장된 근무 시간 목록 중 선택된 항목의 인덱스

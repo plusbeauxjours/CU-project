@@ -21,7 +21,6 @@ export default ({route: {params}}) => {
     (state: any) => state.userReducer,
   );
   const {STORE_DATA} = useSelector((state: any) => state.storeReducer);
-  console.log(params);
   const [appVersion, setAppVersion] = useState<string>('');
   const [platform, setPlatform] = useState<string>('');
   const [pictureModalOpen, setPictureModalOpen] = useState<boolean>(false);

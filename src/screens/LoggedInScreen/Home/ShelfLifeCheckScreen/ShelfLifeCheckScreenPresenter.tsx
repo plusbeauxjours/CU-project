@@ -185,7 +185,7 @@ export default ({
       renderItem={renderItem}
       renderEmptyDate={renderEmptyDate}
       renderKnob={renderKnob}
-      onDayPress={onDayPress}
+      onDayPress={(date) => onDayPress(date)}
       markedDates={SHELFLIFE_MARKED}
       theme={{
         agendaTodayColor: '#AACE36',

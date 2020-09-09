@@ -64,7 +64,6 @@ const Bold = styled.Text`
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  console.log(params);
   const {
     data: {
       MEMBER_SEQ = null,

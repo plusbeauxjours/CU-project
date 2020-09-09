@@ -1,2 +1,2 @@
-import HealthCertificateStoreFormScreenContainer from "./HealthCertificateStoreFormScreenContainer"
-export default HealthCertificateStoreFormScreenContainer
+import HealthCertificateStoreFormScreenContainer from './HealthCertificateStoreFormScreenContainer';
+export default HealthCertificateStoreFormScreenContainer;

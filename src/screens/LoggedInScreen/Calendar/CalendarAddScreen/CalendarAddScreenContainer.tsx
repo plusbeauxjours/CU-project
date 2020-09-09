@@ -72,7 +72,6 @@ export default ({route: {params}}) => {
 
   // 직원 리스트 모달에서 직원을 추가하였을 때
   const addEmpFn = (data) => {
-    console.log(data);
     let buffer = JSON.parse(JSON.stringify(choiceEmp));
     for (let i = 0; i < buffer.length; i++) {
       if (data.NAME == buffer[i].NAME) {

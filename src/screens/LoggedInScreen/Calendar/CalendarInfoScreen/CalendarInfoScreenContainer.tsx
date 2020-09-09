@@ -1,12 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import moment from 'moment';
 import {useSelector, useDispatch} from 'react-redux';
 
 import CalendarInfoScreenPresenter from './CalendarInfoScreenPresenter';
-import {
-  setCALENDAR_MARKED,
-  getCALENDAR_DATA,
-} from '../../../../redux/calendarSlice';
+import {setCALENDAR_DATA} from '../../../../redux/calendarSlice';
+import api from '../../../../constants/LoggedInApi';
 
 export default () => {
   const vacation = {
@@ -20,38 +18,19 @@ export default () => {
   const dispatch = useDispatch();
 
   const {STORE} = useSelector((state: any) => state.userReducer);
-  const {CALENDAR_DATA, CALENDAR_MARKED} = useSelector(
-    (state: any) => state.calendarReducer,
-  );
+  const {CALENDAR_DATA} = useSelector((state: any) => state.calendarReducer);
   const {
     STORE_SEQ,
     EMP_SEQ,
     STORE_DATA: {resultdata: {CALENDAR_EDIT = null} = {}} = {},
   } = useSelector((state: any) => state.storeReducer);
 
-  const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
-
-  // 캘린더에서 달이 바뀔 때
-  const onChangeMonth = async (date) => {
-    try {
-      const data = await dispatch(getCALENDAR_DATA(date.dateString));
-      setMarkFn(data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  // INIT
-  const fetchData = async (date) => {
-    const data = await dispatch(getCALENDAR_DATA(date));
-    setDate(date);
-    setMarkFn(data);
-  };
+  const [markedDates, setMarkedDates] = useState<any>(null);
 
   // INIT으로 받은 데이터를 가공
   const setMarkFn = (data) => {
-    let staticmarkedDated = {};
-    let markedDate = {};
+    let staticMarked = {};
+    let marked = {};
 
     const iterator = Object.keys(data.result);
     for (const key of iterator) {
@@ -114,40 +93,74 @@ export default () => {
           }
         });
       }
-      if (vacation1 == true && nowork1 == true && jigark1 == true) {
-        staticmarkedDated[key] = {dots: [vacation, nowork, jigark]};
+      if (vacation1 !== false && nowork1 !== false && jigark1 !== false) {
+        staticMarked[key] = {dots: [vacation, nowork, jigark]};
       } else {
-        if (vacation1 == true) {
-          staticmarkedDated[key] = {dots: [vacation]};
+        if (vacation1 !== false) {
+          staticMarked[key] = {dots: [vacation]};
         }
-        if (nowork1 == true) {
-          staticmarkedDated[key] = {dots: [nowork]};
+        if (nowork1 !== false) {
+          staticMarked[key] = {dots: [nowork]};
         }
-        if (jigark1 == true) {
-          staticmarkedDated[key] = {dots: [jigark]};
+        if (jigark1 !== false) {
+          staticMarked[key] = {dots: [jigark]};
         }
-        if (vacation1 == true && nowork1 == true) {
-          staticmarkedDated[key] = {dots: [vacation, nowork]};
+        if (vacation1 !== false && nowork1 !== false) {
+          staticMarked[key] = {dots: [vacation, nowork]};
         }
-        if (vacation1 == true && jigark1 == true) {
-          staticmarkedDated[key] = {dots: [vacation, jigark]};
+        if (vacation1 !== false && jigark1 !== false) {
+          staticMarked[key] = {dots: [vacation, jigark]};
         }
-        if (nowork1 == true && jigark1 == true) {
-          staticmarkedDated[key] = {dots: [nowork, jigark]};
+        if (nowork1 !== false && jigark1 !== false) {
+          staticMarked[key] = {dots: [nowork, jigark]};
         }
       }
-      markedDate = staticmarkedDated;
+      marked = staticMarked;
     }
-    dispatch(setCALENDAR_MARKED(Object.assign(markedDate, CALENDAR_MARKED)));
+    // setStaticmarkedDates(staticMarked);
+    setMarkedDates(Object.assign(marked, markedDates));
   };
 
+  const fetchData = async (date) => {
+    try {
+      const {data} = await api.getAllSchedules(
+        STORE_SEQ,
+        moment(date).format('YYYY'),
+        moment(date).format('M'),
+      );
+      if (data.message === 'SUCCESS') {
+        let buffer = {};
+        const iterator = Object.keys(data.result);
+        for (const key of iterator) {
+          buffer[key] = data.result[key]['EMP_LIST'];
+          if (buffer[key].length !== 0) {
+            for (let k = 0; k < buffer[key].length; k++) {
+              buffer[key][k] = {...buffer[key][k], WORKDATE: key};
+            }
+          }
+        }
+        if (STORE == '0' && CALENDAR_EDIT !== 1) {
+          for (const key of iterator) {
+            buffer[key] = buffer[key].Dlter((info) => info.EMP_ID == EMP_SEQ);
+          }
+        }
+        dispatch(setCALENDAR_DATA(buffer));
+        setMarkFn(data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // 캘린더에서 일이 바뀔 때
   const onDayPressFn = (date) => {
     fetchData(date.dateString);
   };
 
-  useEffect(() => {
-    fetchData(date);
-  }, []);
+  // 캘린더에서 달이 바뀔 때
+  const onChangeMonth = async (date) => {
+    fetchData(date.dateString);
+  };
 
   return (
     <CalendarInfoScreenPresenter
@@ -156,7 +169,7 @@ export default () => {
       CALENDAR_EDIT={CALENDAR_EDIT}
       onDayPressFn={onDayPressFn}
       onChangeMonth={onChangeMonth}
-      CALENDAR_MARKED={CALENDAR_MARKED}
+      markedDates={markedDates}
       CALENDAR_DATA={CALENDAR_DATA}
     />
   );
