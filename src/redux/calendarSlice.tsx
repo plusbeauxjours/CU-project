@@ -23,10 +23,39 @@ const calendarSlice = createSlice({
         CALENDAR_MARKED,
       };
     },
+    toggleVACATION(state, action) {
+      const {
+        payload: {VACATION, DATE, MEMBER_SEQ},
+      } = action;
+      const item = state.CALENDAR_DATA[DATE].find(
+        (i) => i.MEMBER_SEQ === MEMBER_SEQ,
+      );
+      if (item) {
+        item.VACATION = VACATION;
+      }
+    },
+    updateREST_TIME(state, action) {
+      console.log('[][][]][]][][][][]', action);
+      const {
+        payload: {REST_TIME, DATE, MEMBER_SEQ},
+      } = action;
+      const item = state.CALENDAR_DATA[DATE].find(
+        (i) => i.MEMBER_SEQ === MEMBER_SEQ,
+      );
+      console.log(item);
+      if (item) {
+        item.REST_TIME = REST_TIME;
+      }
+    },
   },
 });
 
-export const {setCALENDAR_DATA, setCALENDAR_MARKED} = calendarSlice.actions;
+export const {
+  setCALENDAR_DATA,
+  setCALENDAR_MARKED,
+  toggleVACATION,
+  updateREST_TIME,
+} = calendarSlice.actions;
 
 export const getCALENDAR_DATA = (date: string) => async (
   dispatch,
@@ -48,22 +77,25 @@ export const getCALENDAR_DATA = (date: string) => async (
       moment(date).format('YYYY'),
       moment(date).format('M'),
     );
-    let buffer = {};
-    const iterator = Object.keys(data.result);
-    for (const key of iterator) {
-      buffer[key] = data.result[key]['EMP_LIST'];
-      if (buffer[key].length !== 0) {
-        for (let k = 0; k < buffer[key].length; k++) {
-          buffer[key][k] = {...buffer[key][k], WORKDATE: key};
+    if (data.message === 'SUCCESS') {
+      let buffer = {};
+      const iterator = Object.keys(data.result);
+      for (const key of iterator) {
+        buffer[key] = data.result[key]['EMP_LIST'];
+        if (buffer[key].length !== 0) {
+          for (let k = 0; k < buffer[key].length; k++) {
+            buffer[key][k] = {...buffer[key][k], WORKDATE: key};
+          }
         }
       }
-    }
-    if (STORE == '0' && CALENDAR_EDIT !== 1) {
-      for (const key of iterator) {
-        buffer[key] = buffer[key].filter((info) => info.EMP_ID == EMP_SEQ);
+      if (STORE == '0' && CALENDAR_EDIT !== 1) {
+        for (const key of iterator) {
+          buffer[key] = buffer[key].filter((info) => info.EMP_ID == EMP_SEQ);
+        }
       }
+      dispatch(setCALENDAR_DATA(buffer));
+      return data;
     }
-    dispatch(setCALENDAR_DATA(buffer));
   } catch (e) {
     console.log(e);
   }

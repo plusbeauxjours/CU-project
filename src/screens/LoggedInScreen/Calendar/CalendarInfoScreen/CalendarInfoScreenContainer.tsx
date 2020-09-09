@@ -3,7 +3,6 @@ import moment from 'moment';
 import {useSelector, useDispatch} from 'react-redux';
 
 import CalendarInfoScreenPresenter from './CalendarInfoScreenPresenter';
-import api from '../../../../constants/LoggedInApi';
 import {
   setCALENDAR_MARKED,
   getCALENDAR_DATA,
@@ -32,25 +31,24 @@ export default () => {
 
   const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
 
-  const onChangeMonth = async (item) => {
+  // 캘린더에서 달이 바뀔 때
+  const onChangeMonth = async (date) => {
     try {
-      const {data} = await api.getAllSchedules(
-        STORE_SEQ,
-        item.year,
-        item.month,
-      );
+      const data = await dispatch(getCALENDAR_DATA(date.dateString));
       setMarkFn(data);
     } catch (e) {
       console.log(e);
     }
   };
 
+  // INIT
   const fetchData = async (date) => {
-    dispatch(getCALENDAR_DATA(date));
+    const data = await dispatch(getCALENDAR_DATA(date));
     setDate(date);
-    setMarkFn(CALENDAR_DATA);
+    setMarkFn(data);
   };
 
+  // INIT으로 받은 데이터를 가공
   const setMarkFn = (data) => {
     let staticmarkedDated = {};
     let markedDate = {};
@@ -116,7 +114,6 @@ export default () => {
           }
         });
       }
-
       if (vacation1 == true && nowork1 == true && jigark1 == true) {
         staticmarkedDated[key] = {dots: [vacation, nowork, jigark]};
       } else {

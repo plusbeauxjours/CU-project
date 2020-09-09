@@ -18,17 +18,13 @@ const Text = styled.Text`
 
 export default () => {
   const navigation = useNavigation();
-  const {STOREDATA, STORE, handler} = useSelector(
-    (state: any) => state.userReducer,
-  );
-  if (STORE == '1' || STOREDATA.CalendarEdit == '1' || undefined) {
+  const {STORE_DATA} = useSelector((state: any) => state.storeReducer);
+  const {STORE} = useSelector((state: any) => state.userReducer);
+  if (STORE == '1' || STORE_DATA.CalendarEdit == '1' || undefined) {
     return (
       <Touchable
         onPress={() => {
-          navigation.navigate('CalendarAddScreen', {
-            STOREDATA,
-            handler,
-          });
+          navigation.navigate('CalendarAddScreen');
         }}>
         <CalendarIcon />
         <Text>일정추가</Text>

@@ -170,7 +170,7 @@ export default {
         YEAR: string,
         MONTH: string,
     ) => oldApi("get", `/Store/getAllSchedules?STORE_SEQ=${STORE_SEQ}&YEAR=${YEAR}&MONTH=${MONTH}`),
-    cancelScheduleVacation: (data: any) => callApi("post", "/Management/cancelScheduleVacation/", data),
+    cancelScheduleVacation: (data: any) => oldApi("post", "/Management/cancelScheduleVacation/", data),
     getScheduleRestTImeUpdate: (data: any) => oldApi("post", "/Management/schedule_Rest_TIme_update/", data),
     getScheduleRestTImeCreate: (data: any) => oldApi("post", "/Management/schedule_Rest_TIme_create/", data),
     getEmpAnnual: (EMP_SEQ: string, YEAR: string) => oldApi("get", `/Employee/getEmpAnnual?EMP_SEQ=${EMP_SEQ}&YEAR=${YEAR}`),

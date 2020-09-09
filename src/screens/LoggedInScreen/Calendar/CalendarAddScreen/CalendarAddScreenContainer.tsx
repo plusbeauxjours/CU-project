@@ -7,15 +7,26 @@ import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import api from '../../../../constants/LoggedInApi';
 
+const constant = {
+  COLOR: [
+    '#0D4F8A',
+    '#ED8F52',
+    '#FEBF40',
+    '#5CAD6F',
+    '#984B19',
+    '#CB8DB1',
+    '#FEBF40',
+  ],
+};
+
 export default ({route: {params}}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const {STOREDATA, NAME: storeName} = params;
-  const {STORE_SEQ} = useSelector((state: any) => state.userReducer);
-  const [isEmpListModalVisible, setIsEmpListModalVisible] = useState<boolean>(
-    false,
+  const {STORE_SEQ, STORE_NAME} = useSelector(
+    (state: any) => state.storeReducer,
   );
+
   const [emplist, setEmplist] = useState<any>([]);
   const [choiceEmp, setChoiceEmp] = useState<any>([]);
   const [isTimeCheckModalVisible, setIsTimeCheckModalVisible] = useState<
@@ -47,47 +58,7 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
-  const alertModalGoBack = (title, text) => {
-    const params = {
-      alertType: 'alert',
-      title: title,
-      content: text,
-      okCallback: () => {
-        navigation.goBack();
-      },
-    };
-    dispatch(setAlertInfo(params));
-    dispatch(setAlertVisible(true));
-  };
-
-  const confirmModal = (title, text, cancel, okBtn) => {
-    const params = {
-      alertType: 'confirm',
-      title: title,
-      content: text,
-      okButtonText: okBtn,
-      warning: 'yes',
-      okCallback: () => navigation.goBack(),
-    };
-    dispatch(setAlertInfo(params));
-    dispatch(setAlertVisible(true));
-  };
-
-  const fetchData = async () => {
-    try {
-      dispatch(setSplashVisible(true));
-      const {data} = await api.getEmployeeList({STORE_SEQ});
-      if (data.message === 'SUCCESS') {
-        setEmplist(data.result);
-      }
-    } catch (e) {
-      console.log(e);
-      alertModal('통신이 원활하지 않습니다.');
-    } finally {
-      dispatch(setSplashVisible(false));
-    }
-  };
-
+  // STEP1에서 추가한 직원을 눌렀을 때
   const deleteEmpFn = (KEY) => {
     let buffer = JSON.parse(JSON.stringify(choiceEmp));
     for (let i = 0; i < buffer.length; i++) {
@@ -99,7 +70,9 @@ export default ({route: {params}}) => {
     setChoiceEmp(buffer);
   };
 
+  // 직원 리스트 모달에서 직원을 추가하였을 때
   const addEmpFn = (data) => {
+    console.log(data);
     let buffer = JSON.parse(JSON.stringify(choiceEmp));
     for (let i = 0; i < buffer.length; i++) {
       if (data.NAME == buffer[i].NAME) {
@@ -108,22 +81,19 @@ export default ({route: {params}}) => {
     }
     buffer.push(data);
     setChoiceEmp(buffer);
-    setIsEmpListModalVisible(false);
   };
 
+  // 일정추가완료 버튼
   const registerFn = async () => {
     let incentiveChecked = incentiveCheck.indexOf(true);
     if (choiceEmp.length === 0) {
-      alertModal('직원을 선택해주세요.');
-      return;
+      return alertModal('직원을 선택해주세요.');
     }
     if (timeCheck.length === 0) {
-      alertModal('출퇴근 시간이 입력되지 않았습니다.');
-      return;
+      return alertModal('출퇴근 시간이 입력되지 않았습니다.');
     }
     if (Object.keys(markedDates).length === 0) {
-      alertModal('캘린더에서 근무일을 설정해주세요.');
-      return;
+      return alertModal('캘린더에서 근무일을 설정해주세요.');
     }
     let newChoiceEmp = [];
     for (var i = 0; i < choiceEmp.length; i++) {
@@ -154,15 +124,14 @@ export default ({route: {params}}) => {
         const {data} = await api.createNewSchedule({
           EMPS: newChoiceEmp,
           DATE: newMarkedDates,
-          SCHEDULETYPE: incentiveChecked.toString(),
-          TYPE: '3'.toString(),
-          START: timeCheck[i].start.toString(),
-          END: timeCheck[i].end.toString(),
-          COLOR: timeCheck[i].color.toString(),
-          STORE_NAME: storeName.toString(),
-          STORE_ID: STORE_SEQ.toString(),
+          SCHEDULETYPE: incentiveChecked,
+          TYPE: '3',
+          START: timeCheck[i].start,
+          END: timeCheck[i].end,
+          COLOR: timeCheck[i].color,
+          STORE_NAME,
+          STORE_ID: STORE_SEQ,
         });
-
         if (data.message) {
           navigation.goBack();
           alertModal('일정을 추가하였습니다.');
@@ -176,7 +145,9 @@ export default ({route: {params}}) => {
     }
   };
 
+  // 출퇴근 목록에서 삭제 붉은 아이콘
   const checkAddTimeFn = () => {
+    setTimeSelected(0);
     if (!startTime || !endTime) {
       return alertModal('출퇴근 시간을 먼저 입력해주세요.');
     }
@@ -184,38 +155,31 @@ export default ({route: {params}}) => {
       return alertModal('일정은 7개가 최대입니다.');
     }
     let value = JSON.parse(JSON.stringify(timeCheck));
-    let color = [
-      '#0D4F8A',
-      '#ED8F52',
-      '#FEBF40',
-      '#5CAD6F',
-      '#984B19',
-      '#CB8DB1',
-      '#FEBF40',
-    ];
     let temp, tempIndex;
     if (timeCheck.length === 0) {
       temp = {
         start: startTime,
         end: endTime,
-        color: color[timeCheck.length],
+        color: constant.COLOR[timeCheck.length],
       };
     } else {
       for (var i = 0; i < timeCheck.length; i++) {
-        tempIndex = color.indexOf(timeCheck[i].color);
-        color.splice(tempIndex, 1);
+        tempIndex = constant.COLOR.indexOf(timeCheck[i].color);
+        constant.COLOR.splice(tempIndex, 1);
       }
       temp = {
         start: startTime,
         end: endTime,
-        color: color[0],
+        color: constant.COLOR[0],
       };
     }
     value.push(temp);
     setTimeCheck(value);
   };
 
+  // 출퇴근 목록에서 삭제 붉은 아이콘
   const deleteColorFn = (index) => {
+    setTimeSelected(0);
     let timeChecked = JSON.parse(JSON.stringify(timeCheck));
     let markedDated = JSON.parse(JSON.stringify(markedDates));
     Object.keys(markedDated).map((key) => {
@@ -237,6 +201,7 @@ export default ({route: {params}}) => {
     }
   };
 
+  // 시간 입력 모달 직접입력
   const checkDirectInputFn = () => {
     let valueH = JSON.parse(JSON.stringify(hourCheck));
     let valueM = JSON.parse(JSON.stringify(minuteCheck));
@@ -280,6 +245,18 @@ export default ({route: {params}}) => {
       setHourCheck(valueH);
       setMinuteCheck(valueM);
       setMinuteDirectInput('');
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const {data} = await api.getEmployeeList({STORE_SEQ});
+      if (data.message === 'SUCCESS') {
+        setEmplist(data.result);
+      }
+    } catch (e) {
+      console.log(e);
+      alertModal('통신이 원활하지 않습니다.');
     }
   };
 

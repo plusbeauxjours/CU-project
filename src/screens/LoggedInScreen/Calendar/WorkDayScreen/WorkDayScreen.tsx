@@ -86,7 +86,6 @@ export default ({route: {params}}) => {
       dispatch(setSplashVisible(false));
     }
   };
-
   const Menu = ({menu, title}) => (
     <Touchable
       activeOpacity={1}

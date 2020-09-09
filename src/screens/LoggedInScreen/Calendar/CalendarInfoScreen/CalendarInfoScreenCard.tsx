@@ -10,24 +10,25 @@ import {useNavigation} from '@react-navigation/native';
 
 import api from '../../../../constants/LoggedInApi';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
+import {toggleVACATION} from '../../../../redux/calendarSlice';
 import {EllipseIcon} from '../../../../constants/Icons';
 
 const Row = styled.View`
   flex-direction: row;
   align-items: center;
+  margin-right: 10px;
 `;
 
-const Text = styled.Text``;
+const Text = styled.Text`
+  margin-left: 5px;
+  font-weight: 200;
+  font-size: 11px;
+`;
 
 const NameText = styled.Text`
   font-size: 15px;
   color: #333;
   margin-bottom: 5px;
-`;
-
-const RowFlexEnd = styled(Row)`
-  justify-content: flex-end;
 `;
 
 const RowSpace = styled(Row)`
@@ -97,6 +98,7 @@ export default ({
   data,
   index,
   SCH_ID,
+  MEMBER_SEQ,
   VACATION,
   TYPE,
   STORE_SEQ,
@@ -149,15 +151,17 @@ export default ({
 
   const cancelVacationFn = async () => {
     try {
-      dispatch(setSplashVisible(true));
+      alertModal();
+      dispatch(
+        toggleVACATION({
+          VACATION: null,
+          DATE: date,
+          MEMBER_SEQ,
+        }),
+      );
       const {data} = await api.cancelScheduleVacation({SCH_ID});
-      if (data.message === 'SUCCESS') {
-        alertModal();
-      }
     } catch (e) {
       console.log(e);
-    } finally {
-      dispatch(setSplashVisible(false));
     }
   };
 
@@ -216,54 +220,56 @@ export default ({
       <ContentBox>
         <RowSpace>
           <NameText>{NAME}</NameText>
-          {VACATION == '1' && (
-            <Row>
-              <EllipseIcon color={'#325CBE'} />
-              <Text>휴무</Text>
-            </Row>
-          )}
-          {ICON == '1' && VACATION != '1' && (
-            <Row>
-              <EllipseIcon color={'#23AF3A'} />
-              <Text>출근예정</Text>
-            </Row>
-          )}
-          {TYPE == '3' && VACATION != '1' && (
-            <Row>
-              <EllipseIcon color={'#325CBE'} />
-              <Text>추가일정</Text>
-            </Row>
-          )}
-          {nowork == '1' && (
-            <Row>
-              <EllipseIcon color={'#B91C1B'} />
-              <Text>결근</Text>
-            </Row>
-          )}
-          {workoff == '1' && (
-            <Row>
-              <EllipseIcon color={'#8F8F8F'} />
-              <Text>퇴근</Text>
-            </Row>
-          )}
-          {working == '1' && (
-            <Row>
-              <EllipseIcon color={'#23AF3A'} />
-              <Text>근무중</Text>
-            </Row>
-          )}
-          {alear == '1' && (
-            <Row>
-              <EllipseIcon color={'#E8B12F'} />
-              <Text>조퇴</Text>
-            </Row>
-          )}
-          {jigark == '1' && (
-            <Row>
-              <EllipseIcon color={'#E8B12F'} />
-              <Text>지각</Text>
-            </Row>
-          )}
+          <Row>
+            {VACATION == '1' && (
+              <Row>
+                <EllipseIcon size={8} color={'#325CBE'} />
+                <Text>휴무</Text>
+              </Row>
+            )}
+            {ICON == '1' && VACATION != '1' && (
+              <Row>
+                <EllipseIcon size={8} color={'#23AF3A'} />
+                <Text>출근예정</Text>
+              </Row>
+            )}
+            {TYPE == '3' && VACATION != '1' && (
+              <Row>
+                <EllipseIcon size={8} color={'#325CBE'} />
+                <Text>추가일정</Text>
+              </Row>
+            )}
+            {nowork == '1' && (
+              <Row>
+                <EllipseIcon size={8} color={'#B91C1B'} />
+                <Text>결근</Text>
+              </Row>
+            )}
+            {workoff == '1' && (
+              <Row>
+                <EllipseIcon size={8} color={'#8F8F8F'} />
+                <Text>퇴근</Text>
+              </Row>
+            )}
+            {working == '1' && (
+              <Row>
+                <EllipseIcon size={8} color={'#23AF3A'} />
+                <Text>근무중</Text>
+              </Row>
+            )}
+            {alear == '1' && (
+              <Row>
+                <EllipseIcon size={8} color={'#E8B12F'} />
+                <Text>조퇴</Text>
+              </Row>
+            )}
+            {jigark == '1' && (
+              <Row>
+                <EllipseIcon size={8} color={'#E8B12F'} />
+                <Text>지각</Text>
+              </Row>
+            )}
+          </Row>
         </RowSpace>
         <Row>
           <Avatar

@@ -11,7 +11,7 @@ interface IIsBefore {
 
 const SubmitButton = styled.TouchableOpacity<IIsBefore>`
   width: ${wp('100%') - 40};
-  height: ${hp('5%')};
+  height: 60px;
   align-items: center;
   justify-content: center;
   background-color: ${(props) => (props.isBefore ? '#CCCCCC' : '#642A8C')};

@@ -57,7 +57,7 @@ export default ({
   CALENDAR_MARKED,
   CALENDAR_DATA,
 }) => {
-  const rowHasChanged = (r1, r2) => false;
+  const rowHasChanged = (r1, r2) => r1 !== r2;
   const renderKnob = () => (
     <KnobIconContainer>
       <DownIcon />
@@ -69,7 +69,8 @@ export default ({
       <CalendarInfoScreenCard
         index={index}
         data={data}
-        SCH_ID={data.WORKDATE}
+        SCH_ID={data.SCH_ID}
+        MEMBER_SEQ={data.MEMBER_SEQ}
         VACATION={data.VACATION}
         TYPE={data.TYPE}
         STORE_SEQ={STORE_SEQ}

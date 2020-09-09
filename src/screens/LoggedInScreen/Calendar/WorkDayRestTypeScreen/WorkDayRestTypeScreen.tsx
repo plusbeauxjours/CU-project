@@ -9,17 +9,17 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import {setSplashVisible} from '../../../../redux/splashSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import {toggleVACATION} from '../../../../redux/calendarSlice';
 import api from '../../../../constants/LoggedInApi';
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import moment from 'moment';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
   background-color: #f6f6f6;
 `;
 
-const ScrollView = styled.ScrollView``;
 const Text = styled.Text``;
 
 const Container = styled.View`
@@ -33,6 +33,7 @@ const Section = styled.View`
   border-radius: 20px;
   margin-top: 20px;
   padding: 20px;
+  align-items: center;
   background-color: white;
 `;
 
@@ -107,8 +108,19 @@ const ModalYesButton = styled.TouchableOpacity`
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {data, STORE_SEQ, date} = params;
-  const {EMP_ID, NAME, YEAR} = data;
+  const {
+    data: {
+      WORKDATE = null,
+      MEMBER_SEQ = null,
+      EMP_ID = null,
+      NAME = null,
+      YEAR = moment().format('YYYY'),
+      START = '',
+      END = '',
+    } = {},
+    STORE_SEQ = null,
+    date = null,
+  } = params;
 
   const [isHelpModalVisible, setisHelpModalVisible] = useState<boolean>(false);
   const [totalVacation, setTotalVacation] = useState<string>('');
@@ -120,6 +132,7 @@ export default ({route: {params}}) => {
     false,
   ]); //  [무급휴가, 유급휴가]
 
+  // 삭제예정
   const fetchData = async () => {
     const {data} = await api.getEmpAnnual(EMP_ID, YEAR);
     if (Array.isArray(data.message) && data.message.length > 0) {
@@ -164,26 +177,27 @@ export default ({route: {params}}) => {
     } else if (remainderVacation && isNaN(Number(remainderVacation))) {
       return alertModal('남은 연차 값이 올바르지 않습니다.');
     }
-
     try {
-      dispatch(setSplashVisible(true));
-      const {data: Data} = await api.createScheduleVacation2({
+      dispatch(
+        toggleVACATION({
+          VACATION: '1',
+          DATE: date,
+          MEMBER_SEQ,
+        }),
+      );
+      navigation.pop(2);
+      alertModal('휴무설정이 완료되었습니다.');
+      const {data} = await api.createScheduleVacation2({
         EMP_SEQ: EMP_ID,
         STORE_ID: STORE_SEQ,
         EMP_NAME: NAME,
         DATE: date,
         TYPE: restType,
-        START: data.START ? data.START : '',
-        END: data.END ? data.END : '',
+        START,
+        END,
       });
-      if (Data.message === 'SUCCESS') {
-        navigation.goBack();
-        alertModal('휴무설정이 완료되었습니다.');
-      }
     } catch (e) {
       console.log(e);
-    } finally {
-      dispatch(setSplashVisible(false));
     }
   };
 
@@ -246,52 +260,47 @@ export default ({route: {params}}) => {
 
   return (
     <BackGround>
-      <ScrollView
-        keyboardShouldPersistTaps={'handled'}
-        keyboardDismissMode="on-drag"
-        contentContainerStyle={{alignItems: 'center'}}>
-        <Container>
-          <Section>
-            <BigText>
-              {data.WORKDATE.slice(0, 4)}년 {data.WORKDATE.slice(5, 7)}
-              월&nbsp;
-              {data.WORKDATE.slice(8, 10)}일
-            </BigText>
-            <BigText style={{fontSize: 26}}>
-              <Text
-                style={{
-                  color: '#642A8C',
-                  fontWeight: 'bold',
-                  fontSize: 30,
-                }}>
-                {data.NAME}
-              </Text>
-              직원의 근무를
-            </BigText>
-            <RestType selection={0} text={'무급휴무로 진행합니다.'} />
-            {restType === '1' && (
-              <>
-                <RowSpace>
-                  <ElementsBox>
-                    <Vacation key={'totalVacation'} title={'총 연차'} />
-                    <Vacation key={'useVacation'} title={'사용한 연차'} />
-                    <ContentsBoxLine />
-                    <Vacation key={'remainderVacation'} title={'남은 연차'} />
-                  </ElementsBox>
-                </RowSpace>
-                <GreyText>
-                  * 직원정보의 연차설정에 입력된 값으로 셋팅이 됩니다.
-                </GreyText>
-              </>
-            )}
-          </Section>
-          <SubmitBtn
-            text={'휴무 적용'}
-            onPress={() => registerFn()}
-            isRegisted={true}
-          />
-        </Container>
-      </ScrollView>
+      <Container>
+        <Section>
+          <BigText>
+            {WORKDATE.slice(0, 4)}년 {WORKDATE.slice(5, 7)}
+            월&nbsp;
+            {WORKDATE.slice(8, 10)}일
+          </BigText>
+          <BigText>
+            <Text
+              style={{
+                color: '#642A8C',
+                fontWeight: 'bold',
+                fontSize: 30,
+              }}>
+              {NAME}
+            </Text>
+            직원의 근무를
+          </BigText>
+          <RestType selection={0} text={'무급휴무로 진행합니다.'} />
+          {restType === '1' && (
+            <>
+              <RowSpace>
+                <ElementsBox>
+                  <Vacation key={'totalVacation'} title={'총 연차'} />
+                  <Vacation key={'useVacation'} title={'사용한 연차'} />
+                  <ContentsBoxLine />
+                  <Vacation key={'remainderVacation'} title={'남은 연차'} />
+                </ElementsBox>
+              </RowSpace>
+              <GreyText>
+                * 직원정보의 연차설정에 입력된 값으로 셋팅이 됩니다.
+              </GreyText>
+            </>
+          )}
+        </Section>
+        <SubmitBtn
+          text={'휴무 적용'}
+          onPress={() => registerFn()}
+          isRegisted={true}
+        />
+      </Container>
     </BackGround>
   );
 };
