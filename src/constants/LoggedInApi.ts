@@ -181,4 +181,5 @@ export default {
     updateSchedule: (data: any) => oldApi("post", '/Management/update', data),
     updateEmpSchedule: (data: any) => oldApi("post", '/Employee/update_emp_schedules3', data),
     insertEmpSchedule: (data: any) => oldApi("post", '/Employee/insert_emp_schedules', data),
+    setEmpType: (EMP_SEQ: string) => oldApi("get", `/Employee/setEmpType?EMP_SEQ=${EMP_SEQ}`),
 }

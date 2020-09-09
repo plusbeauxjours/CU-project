@@ -14,11 +14,10 @@ export default ({route: {params}}) => {
 
   const {
     data: {
-      images = [],
+      images = null,
       EMP_NAME = null,
       STORE_SEQ = null,
       EMP_SEQ = null,
-      STORE_NAME = null,
     } = {},
     from = null,
     onRefresh,
@@ -342,17 +341,10 @@ export default ({route: {params}}) => {
       if (json.message == 'SUCCESS') {
         if (from === 'EmployeeInfoScreen') {
           alertModal('직원정보가 수정되었습니다.');
+          navigation.goBack();
         } else if (from === 'ElectronicContracts') {
           navigation.navigate('EmployeeScheduleMainScreen', {
-            CALCULATE_DAY,
-            image: images[0].IMAGE,
-            name,
             EMP_SEQ,
-            STORE_SEQ,
-            STORE_NAME,
-            START: startDay,
-            END: endDayCheck === true ? null : endDay,
-            POSITION: positionChecked !== -1 ? positionChecked : '0',
             PAY_TYPE: payChecked,
             PAY: payCheck[2] === true ? pay1 : pay,
           });
@@ -362,7 +354,7 @@ export default ({route: {params}}) => {
       alertModal('통신이 원활하지 않습니다.');
       console.log(error);
     } finally {
-      navigation.goBack();
+      console.log('kfodkofkd');
       onRefresh();
       dispatch(setSplashVisible(false));
     }
@@ -524,7 +516,7 @@ export default ({route: {params}}) => {
       setEndDayCheck={setEndDayCheck}
       setPayDay={setPayDay}
       setPayMonth={setPayMonth}
-      image={images[0].IMAGE}
+      image={images ? images[0].IMAGE : null}
       name={EMP_NAME}
       click1={click1}
       setClick1={setClick1}

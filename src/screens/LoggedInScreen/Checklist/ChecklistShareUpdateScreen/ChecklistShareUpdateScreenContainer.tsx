@@ -183,7 +183,6 @@ export default ({route: {params}}) => {
     //   }
     // }
     // getPermissions();
-    console.log('paramsparamsparamsparamsparamsparamsparams', params);
   }, []);
 
   return (

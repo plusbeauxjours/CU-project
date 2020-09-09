@@ -407,7 +407,6 @@ export default ({
             width: '100%',
             height: '100%',
           }}>
-          {console.log('modalImgarr', modalImgarr)}
           <ImageViewer
             imageUrls={modalImgarr}
             onSwipeDown={() => setIsImageViewVisible(false)}
@@ -419,20 +418,17 @@ export default ({
             renderFooter={renderFooter}
             loadingRender={() => <ActivityIndicator />}
             renderIndicator={() => null}
-            renderImage={(props) => {
-              console.log('props', props);
-              return (
-                <FastImage
-                  style={{width: '100%', height: '100%'}}
-                  source={{
-                    uri: props.source.uri,
-                    headers: {Authorization: 'someAuthToken'},
-                    priority: FastImage.priority.low,
-                  }}
-                  resizeMode={FastImage.resizeMode.cover}
-                />
-              );
-            }}
+            renderImage={(props) => (
+              <FastImage
+                style={{width: '100%', height: '100%'}}
+                source={{
+                  uri: props.source.uri,
+                  headers: {Authorization: 'someAuthToken'},
+                  priority: FastImage.priority.low,
+                }}
+                resizeMode={FastImage.resizeMode.cover}
+              />
+            )}
           />
         </Modal>
       </ScrollView>

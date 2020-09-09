@@ -288,7 +288,7 @@ export default ({
   numberComma,
   PAY,
   toggleWorkSchedule,
-  workTypeCheck,
+  isFreeWorkingType,
   timeTable,
   registerScheduleFn,
   modifyScheduleFn,
@@ -578,7 +578,7 @@ export default ({
                   {STORE == '1' && (
                     <Touchable
                       onPress={() => {
-                        if (workTypeCheck) {
+                        if (isFreeWorkingType) {
                           explainModal(
                             '일정근무로 설정하면 정확한 급여계산이 가능합니다.\n\n일정관련하여 다양한 케이스별 설정이 가능합니다.\n자세한 설명은 [도움말 전체보기]에서 확인하세요.\n\nEx.) 직원 스케쥴 변경, 주단위 일정입력 등',
                           );
@@ -592,7 +592,7 @@ export default ({
                     </Touchable>
                   )}
                   <WorkScheduleBox onPress={() => toggleWorkSchedule()}>
-                    {workTypeCheck ? (
+                    {isFreeWorkingType ? (
                       <WhiteText>일정출퇴근으로 전환하기</WhiteText>
                     ) : (
                       <WhiteText>자율출퇴근으로 전환하기</WhiteText>
@@ -600,13 +600,13 @@ export default ({
                   </WorkScheduleBox>
                 </Row>
               </WorkTypeAndSalaryBox>
-              {workTypeCheck && (
+              {isFreeWorkingType && (
                 <FreeTypeInfoBox>
                   <GreyText>자율출퇴근 근무 중</GreyText>
                 </FreeTypeInfoBox>
               )}
               <Row>
-                {workTypeCheck !== true &&
+                {isFreeWorkingType !== true &&
                 timeTable.length == 0 && ( // 자율출퇴근★
                     <FixTypeDayChangeBox>
                       <FixTypeDayChangeButton
@@ -618,7 +618,7 @@ export default ({
                       </FixTypeDayChangeButton>
                     </FixTypeDayChangeBox>
                   )}
-                {workTypeCheck !== true && timeTable.length > 0 && (
+                {isFreeWorkingType !== true && timeTable.length > 0 && (
                   <FixTypeDayChangeBox>
                     <FixTypeDayChangeButton
                       style={{borderColor: '#642A8C'}}
@@ -644,7 +644,7 @@ export default ({
                   </FixTypeDayChangeBox>
                 )}
               </Row>
-              {!workTypeCheck && (
+              {!isFreeWorkingType && (
                 <WorkTypeCheckSection>
                   <RenderScheduleList />
                   <RenderDayList />

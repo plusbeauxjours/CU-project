@@ -17,6 +17,7 @@ import {
   ForwardIcon,
   HelpCircleIcon,
 } from '../../../../constants/Icons';
+import SubmitBtn from '../../../../components/Btn/SubmitBtn';
 
 interface IsSelected {
   isSelected: boolean;
@@ -37,7 +38,6 @@ const Touchable = styled.TouchableOpacity`
 `;
 
 const Container = styled.View`
-  margin-top: 20px;
   padding: 20px;
   align-items: center;
 `;
@@ -50,11 +50,12 @@ const WhiteText = styled.Text`
 `;
 const Section = styled.View`
   width: 100%;
-  margin-top: 20px;
+  margin-bottom: 20px;
   border-radius: 20px;
   padding: 20px 0;
   background-color: white;
 `;
+
 const NameBox = styled.View``;
 const EmployeeBox = styled.View`
   padding: 0 20px;
@@ -229,22 +230,24 @@ export default ({
   PAY_TYPE,
   numberComma,
   PAY,
-  toggleWorkSchedule,
-  workTypeCheck,
+  toggleWorkScheduleFn,
+  isFreeWorkingType,
   timeTable,
-  registerSchedule,
-  modifySchedule,
-  removeSchedule,
+  registerScheduleFn,
+  modifyScheduleFn,
+  removeScheduleFn,
   explainModal,
   setTimeTableIndex,
   setTimeListIndex,
   setTimeList,
   getNumberToday,
+  alertModal,
+  joinModal,
 }) => {
   let image;
 
-  if (Object.keys(data).length != 0) {
-    image = data.images[0].IMAGE;
+  if (Object?.keys(data).length != 0) {
+    image = data?.images[0].IMAGE;
   } else {
     image = '3.png';
   }
@@ -480,7 +483,7 @@ export default ({
                 <RowSpace>
                   <Touchable
                     onPress={() => {
-                      if (workTypeCheck) {
+                      if (isFreeWorkingType) {
                         explainModal(
                           '일정근무로 설정하면 정확한 급여계산이 가능합니다.\n\n일정관련하여 다양한 케이스별 설정이 가능합니다.\n자세한 설명은 [도움말 전체보기]에서 확인하세요.\n\nEx.) 직원 스케쥴 변경, 주단위 일정입력 등',
                         );
@@ -495,8 +498,8 @@ export default ({
                     </WorkTypeAndSalaryBoxTitle>
                     <HelpCircleIcon />
                   </Touchable>
-                  <WorkScheduleBox onPress={() => toggleWorkSchedule()}>
-                    {workTypeCheck ? (
+                  <WorkScheduleBox onPress={() => toggleWorkScheduleFn()}>
+                    {isFreeWorkingType ? (
                       <WhiteText>일정출퇴근으로 전환하기</WhiteText>
                     ) : (
                       <WhiteText>자율출퇴근으로 전환하기</WhiteText>
@@ -504,7 +507,7 @@ export default ({
                   </WorkScheduleBox>
                 </RowSpace>
               </WorkTypeAndSalaryBox>
-              {workTypeCheck && (
+              {isFreeWorkingType && (
                 <FixTypeDayChangeBox>
                   <FixTypeDayChangeButton
                     style={{borderColor: '#999', width: '100%'}}
@@ -516,37 +519,37 @@ export default ({
                 </FixTypeDayChangeBox>
               )}
               <Row>
-                {workTypeCheck !== true &&
+                {isFreeWorkingType !== true &&
                 timeTable.length == 0 && ( // 자율출퇴근★
                     <FixTypeDayChangeBox>
                       <FixTypeDayChangeButton
                         style={{borderColor: '#642A8C', width: '100%'}}
-                        onPress={() => registerSchedule()}>
+                        onPress={() => registerScheduleFn()}>
                         <FixTypeDayChangeButtonText style={{color: '#642A8C'}}>
                           일정 추가
                         </FixTypeDayChangeButtonText>
                       </FixTypeDayChangeButton>
                     </FixTypeDayChangeBox>
                   )}
-                {workTypeCheck !== true && timeTable.length > 0 && (
+                {isFreeWorkingType !== true && timeTable.length > 0 && (
                   <FixTypeDayChangeBox>
                     <FixTypeDayChangeButton
                       style={{borderColor: '#642A8C'}}
-                      onPress={() => registerSchedule()}>
+                      onPress={() => registerScheduleFn()}>
                       <FixTypeDayChangeButtonText style={{color: '#642A8C'}}>
                         추가
                       </FixTypeDayChangeButtonText>
                     </FixTypeDayChangeButton>
                     <FixTypeDayChangeButton
-                      style={{borderColor: '#AACE36'}}
-                      onPress={() => modifySchedule()}>
-                      <FixTypeDayChangeButtonText style={{color: '#AACE36'}}>
+                      style={{borderColor: '#642A8C'}}
+                      onPress={() => modifyScheduleFn()}>
+                      <FixTypeDayChangeButtonText style={{color: '#642A8C'}}>
                         수정
                       </FixTypeDayChangeButtonText>
                     </FixTypeDayChangeButton>
                     <FixTypeDayChangeButton
                       style={{borderColor: '#B91C1B'}}
-                      onPress={() => removeSchedule()}>
+                      onPress={() => removeScheduleFn()}>
                       <FixTypeDayChangeButtonText style={{color: '#B91C1B'}}>
                         삭제
                       </FixTypeDayChangeButtonText>
@@ -554,7 +557,7 @@ export default ({
                   </FixTypeDayChangeBox>
                 )}
               </Row>
-              {!workTypeCheck && (
+              {!isFreeWorkingType && (
                 <WorkTypeCheckSection>
                   <RenderScheduleList />
                   <RenderDayList />
@@ -563,6 +566,19 @@ export default ({
             </Section>
           </Container>
         </TouchableWithoutFeedback>
+        <SubmitBtn
+          text={'합류 완료'}
+          onPress={() => {
+            if (!isFreeWorkingType && !timeTable) {
+              alertModal(
+                '일정을 추가한 후에 직원 합류를 완료해주세요.\n정해진 일정없이 출퇴근을 진행하시려면 자율출퇴근으로 전환하기 버튼을 눌러주세요.',
+              );
+            } else {
+              joinModal('직원이 합류되었습니다.');
+            }
+          }}
+          isRegisted={isFreeWorkingType || timeTable}
+        />
       </ScrollView>
     </BackGround>
   );

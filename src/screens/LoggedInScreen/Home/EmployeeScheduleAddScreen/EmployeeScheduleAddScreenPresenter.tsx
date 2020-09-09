@@ -659,6 +659,7 @@ export default ({
           </Section>
           <Section>
             <StepTitle>(STEP 2) 출퇴근 요일 선택</StepTitle>
+            <StepTitle>(STEP 2) 출퇴근 요일 선택</StepTitle>
             <DayPickRowBox>
               <RenderDayPicker />
             </DayPickRowBox>

@@ -9,10 +9,6 @@ import api from '../../../../constants/LoggedInApi';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 
 const constant = {
-  WORK_TYPE: {
-    FIX: 'fix',
-    FREE: 'free',
-  },
   COLOR: [
     '#0D4F8A',
     '#ED8F52',
@@ -33,7 +29,7 @@ export default ({route: {params}}) => {
   } = useSelector((state: any) => state.storeReducer);
   const {data: {EMP_SEQ = null} = {}} = params;
 
-  const [workTypeCheck, setWorkTypeCheck] = useState<boolean>(true); // true: 자율출퇴근 직원, false: 일정이 있는 직원
+  const [isFreeWorkingType, setIsFreeWorkingType] = useState<boolean>(true); // true: 자율출퇴근 직원, false: 일정이 있는 직원
   const [timeTableIndex, setTimeTableIndex] = useState<any>(null); // 저장된 시간 목록 중 선택된 항목의 인덱스
   const [timeTable, setTimeTable] = useState<any>([]); // timeList를 근무 시작일 / 근무 종료일 별로 저장한 배열
   const [timeListIndex, setTimeListIndex] = useState<number>(0); // 저장된 근무 시간 목록 중 선택된 항목의 인덱스
@@ -306,7 +302,7 @@ export default ({route: {params}}) => {
   const registerScheduleFn = () => {
     navigation.navigate('EmployeeScheduleAddScreen', {
       EMP_SEQ,
-      workTypeCheck: 'fix',
+      isFreeWorkingType,
       type: '추가',
       fetchData,
     });
@@ -316,7 +312,7 @@ export default ({route: {params}}) => {
   const modifyScheduleFn = () => {
     navigation.navigate('EmployeeScheduleAddScreen', {
       EMP_SEQ,
-      workTypeCheck: 'fix',
+      isFreeWorkingType,
       type: '수정',
       timeList,
       startDate: timeTable[timeTableIndex].startDate,
@@ -351,13 +347,11 @@ export default ({route: {params}}) => {
   const toggleWorkSchedule = () => {
     const params: any = {
       alertType: 'confirm',
-      okCallback: () => {
-        changeMode();
-      },
+      okCallback: () => changeMode(),
       okButtonText: '예',
       cancelButtonText: '아니오',
     };
-    if (workTypeCheck) {
+    if (isFreeWorkingType) {
       params.title = '일정출퇴근으로 변경합니다.';
       params.content = '직원의 일정을 입력하는 화면으로 전환됩니다.';
     } else {
@@ -372,14 +366,11 @@ export default ({route: {params}}) => {
   const changeMode = async () => {
     try {
       const {data} = await api.toggleCalendar({
-        CALENDAR:
-          workTypeCheck === true
-            ? '1'.toString() /* 일정 */
-            : '0'.toString() /* 자율 */,
+        CALENDAR: isFreeWorkingType ? '0' : '1',
         EMP_SEQ,
       });
       if (data.message === 'SUCCESS') {
-        setWorkTypeCheck(!workTypeCheck);
+        setIsFreeWorkingType(!isFreeWorkingType);
         await fetchData();
       }
     } catch (error) {
@@ -399,10 +390,10 @@ export default ({route: {params}}) => {
       );
       setEmpdata(data.result);
       if (data.result.CALENDAR === '1') {
-        setWorkTypeCheck(true);
+        setIsFreeWorkingType(true);
       }
       if (data.result.CALENDAR === '0') {
-        setWorkTypeCheck(false);
+        setIsFreeWorkingType(false);
         fetchSchedule(data.result.EMP_SEQ);
       }
     } catch (error) {
@@ -437,7 +428,7 @@ export default ({route: {params}}) => {
       PAY={PAY}
       data={params?.data}
       toggleWorkSchedule={toggleWorkSchedule}
-      workTypeCheck={workTypeCheck}
+      isFreeWorkingType={isFreeWorkingType}
       timeTable={timeTable}
       registerScheduleFn={registerScheduleFn}
       modifyScheduleFn={modifyScheduleFn}

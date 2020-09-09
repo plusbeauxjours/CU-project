@@ -91,7 +91,6 @@ export default () => {
           MOBILENO: mobileNo,
           SMSNUMBER: verifyCode,
         });
-        console.log(data);
         if (data.RESULT_CODE == '0') {
           clearInterval(timer);
           setIsVerified(true);

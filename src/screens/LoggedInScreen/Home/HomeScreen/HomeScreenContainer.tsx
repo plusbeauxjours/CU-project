@@ -8,6 +8,7 @@ import {setSplashVisible} from '../../../../redux/splashSlice';
 import {setSTORE_DATA, setEMP_SEQ} from '../../../../redux/storeSlice';
 import utils from '../../../../constants/utils';
 import api from '../../../../constants/LoggedInApi';
+import {getRESPONSE_EMPLOYEE} from '../../../../redux/employeeSlice';
 
 let modalInterval;
 
@@ -19,7 +20,7 @@ export default ({route: {params}}) => {
     (state: any) => state.userReducer,
   );
   const {STORE_DATA} = useSelector((state: any) => state.storeReducer);
-
+  console.log(params);
   const [appVersion, setAppVersion] = useState<string>('');
   const [platform, setPlatform] = useState<string>('');
   const [pictureModalOpen, setPictureModalOpen] = useState<boolean>(false);
@@ -228,7 +229,6 @@ export default ({route: {params}}) => {
         MEMBER_SEQ,
         STORE_SEQ,
       });
-      console.log(data);
       if (data.resultmsg === '1') {
         dispatch(setSTORE_DATA(data));
         dispatch(setEMP_SEQ(data.EMP_SEQ));
@@ -238,6 +238,7 @@ export default ({route: {params}}) => {
         setChecklistCount(data.checklength);
         setNoticeCount(data.noticelength);
       }
+      await dispatch(getRESPONSE_EMPLOYEE());
     } catch (error) {
       console.log(error);
     } finally {

@@ -35,7 +35,7 @@ export default () => {
     (state: any) => state.employeeReducer,
   );
 
-  const [workTypeCheck, setWorkTypeCheck] = useState<boolean>(true); // true: 자율출퇴근 직원, false: 일정이 있는 직원
+  const [isFreeWorkingType, setIsFreeWorkingType] = useState<boolean>(true); // true: 자율출퇴근 직원, false: 일정이 있는 직원
   const [timeTableIndex, setTimeTableIndex] = useState<any>(null); // 저장된 시간 목록 중 선택된 항목의 인덱스
   const [timeTable, setTimeTable] = useState<any>([]); // timeList를 근무 시작일 / 근무 종료일 별로 저장한 배열
   const [timeListIndex, setTimeListIndex] = useState<number>(0); // 저장된 근무 시간 목록 중 선택된 항목의 인덱스
@@ -92,10 +92,10 @@ export default () => {
       const {data} = await api.getEmp(EMP_SEQ);
       dispatch(setEMPLOYEE_INFO_DATA(data.result));
       if (data.result.CALENDAR === '1') {
-        setWorkTypeCheck(true);
+        setIsFreeWorkingType(true);
       }
       if (data.result.CALENDAR === '0') {
-        setWorkTypeCheck(false);
+        setIsFreeWorkingType(false);
         fetchSchedule(EMP_SEQ);
       }
     } catch (error) {
@@ -294,7 +294,7 @@ export default () => {
       EMPLOYEE_INFO_DATA={EMPLOYEE_INFO_DATA}
       getPeriod={getPeriod}
       numberComma={numberComma}
-      workTypeCheck={workTypeCheck}
+      isFreeWorkingType={isFreeWorkingType}
       timeTable={timeTable}
       setTimeTableIndex={setTimeTableIndex}
       setTimeListIndex={setTimeListIndex}

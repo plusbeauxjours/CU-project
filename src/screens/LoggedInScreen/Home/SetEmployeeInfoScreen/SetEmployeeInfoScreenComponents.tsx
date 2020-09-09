@@ -303,7 +303,6 @@ export const PayCheck = ({
           setPay3('');
           setPay4('');
           setPay5('');
-          console.log(value);
           setPayCheck(value);
         } else if (selection === 2) {
           setPay('');

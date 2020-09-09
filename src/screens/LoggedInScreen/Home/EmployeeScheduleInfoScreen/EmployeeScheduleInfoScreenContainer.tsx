@@ -9,10 +9,6 @@ import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import api from '../../../../constants/LoggedInApi';
 
 const constant = {
-  WORK_TYPE: {
-    FIX: 'fix',
-    FREE: 'free',
-  },
   COLOR: [
     '#0D4F8A',
     '#ED8F52',
@@ -27,15 +23,12 @@ const constant = {
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {
-    EMP_SEQ,
-    STORE_SEQ,
-    STORE_DATA: {resultdata: {CALCULATE_DAY = null} = {}} = {},
-  } = useSelector((state: any) => state.storeReducer);
-  const {PAY = null, PAY_TYPE = null} = params;
+  const {STORE} = useSelector((state: any) => state.userReducer);
+  const {STORE_DATA} = useSelector((state: any) => state.storeReducer);
+  const {PAY = null, PAY_TYPE = null, EMP_SEQ = null} = params;
 
-  const [workTypeCheck, setWorkTypeCheck] = useState<boolean>(
-    params?.workTypeCheck,
+  const [isFreeWorkingType, setIsFreeWorkingType] = useState<boolean>(
+    params?.isFreeWorkingType,
   ); // true: 자율출퇴근 직원, false: 일정이 있는 직원
   const [timeTableIndex, setTimeTableIndex] = useState<any>(null); // 저장된 시간 목록 중 선택된 항목의 인덱스
   const [timeTable, setTimeTable] = useState<any>([]); // timeList를 근무 시작일 / 근무 종료일 별로 저장한 배열
@@ -45,10 +38,10 @@ export default ({route: {params}}) => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [data, setData] = useState<any>({});
 
-  const alertModal = (title, text) => {
+  const alertModal = (text) => {
     const params = {
       alertType: 'alert',
-      title: title || '',
+      title: '',
       content: text || '',
     };
     dispatch(setAlertInfo(params));
@@ -78,6 +71,56 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
+  // 합류하기 모달
+  const joinModal = (text) => {
+    const params = {
+      alertType: 'alert',
+      title: '',
+      content: text || '',
+      okCallback: () => sendPushFn(),
+    };
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
+  };
+
+  // 합류하기 API
+  const sendPushFn = async () => {
+    try {
+      const {data} = await api.setEmpType(EMP_SEQ);
+      if (data.message === 'SUCCESS') {
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'HomeScreen',
+              params: {
+                STORE_SEQ: STORE_DATA?.resultdata.STORE_SEQ,
+                STORE,
+                STORE_NAME: STORE_DATA?.resultdata.NAME,
+                WORKING_COUNT: STORE_DATA?.workinglist,
+                TOTAL_COUNT: STORE_DATA?.emplist + 1,
+              },
+            },
+          ],
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      alertModal('통신이 원활하지 않습니다.');
+    }
+  };
+
+  // 급여 천단위 나눔
+  const numberComma = (num) => {
+    let result = num;
+    if (isNaN(num)) {
+      result = Number(num);
+    }
+    let resultArray = result.toString().split('.');
+    resultArray[0] = resultArray[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return resultArray.join('.');
+  };
+
   const onRefresh = async () => {
     try {
       setRefreshing(true);
@@ -89,21 +132,11 @@ export default ({route: {params}}) => {
     }
   };
 
-  const numberComma = (num) => {
-    let result = num;
-    if (isNaN(num)) {
-      result = Number(num);
-    }
-    let resultArray = result.toString().split('.');
-    resultArray[0] = resultArray[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    return resultArray.join('.');
-  };
-
+  // 급여란의 근무 일수 계산
   const getPeriod = (CALCULATE_DAY) => {
     let dayFrom = new Date();
     let dayTo = new Date();
     let dayFromMonth, dayToMonth, dayFromDay, dayToDay, NowYear;
-
     NowYear = dayFrom.getFullYear();
     dayFrom.setDate(CALCULATE_DAY); // 시작일 => 정산일로설정
     dayTo.setDate(CALCULATE_DAY); // 종료일 => 정산일로 설정
@@ -141,112 +174,23 @@ export default ({route: {params}}) => {
       } else if (data.message === 'LIST_EMPTY') {
         initTimeTable([]);
       } else {
-        console.log(data);
       }
     } catch (error) {
       console.log(error);
-      alertModal('', '통신이 원활하지 않습니다.');
+      alertModal('통신이 원활하지 않습니다.');
     }
   };
 
-  const numberFormatPadding = (num) => {
-    const _num = Number(num);
-    if (_num < 10) {
-      return `0${_num}`;
-    }
-    return _num.toString();
-  };
-
-  const fetchData = async () => {
-    try {
-      dispatch(setSplashVisible(true));
-      const {data} = await api.getEmp(EMP_SEQ);
-      const today = new Date();
-      setData(data.result);
-      if (data.result.CALENDAR === '1') {
-        setWorkTypeCheck(true);
-      }
-      if (data.result.CALENDAR === '0') {
-        setWorkTypeCheck(false);
-        fetchSchedule(data.result.EMP_SEQ);
-      }
-    } catch (error) {
-      console.log(error);
-      dispatch(setSplashVisible(false));
-      alertModal('', '통신이 원활하지 않습니다.');
-    } finally {
-      dispatch(setSplashVisible(false));
-    }
-  };
-
+  // 타임테이블을 위한 일정 타입변환
   const getNumberToday = (stringDate?) => {
     if (stringDate) {
       return Number(stringDate.replace(/-/g, ''));
     }
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = numberFormatPadding(today.getMonth() + 1);
-    const date = numberFormatPadding(today.getDate());
-    const numToday = Number(`${year}${month}${date}`);
+    const numToday = Number(`${moment().format('YYYYMMDD')}`);
     return numToday;
   };
 
-  const registerSchedule = async () => {
-    navigation.navigate('EmployeeScheduleAddScreen', {
-      EMP_SEQ,
-      workTypeCheck: 'fix',
-      type: '추가',
-    });
-  };
-
-  const removeSchedule = async () => {
-    confirmModal('', '일정을 삭제하시겠습니까?', async () => {
-      if (timeTableIndex) {
-        const deleteList = [];
-        for (const timeObj of timeList) {
-          for (const dayObj of timeObj.dayList) {
-            if (dayObj.EMP_SCH_SEQ) {
-              deleteList.push(dayObj.EMP_SCH_SEQ);
-            }
-          }
-        }
-        if (deleteList.length > 0) {
-          const {data} = await api.updateEmpSchedules3({DEL: deleteList});
-          fetchSchedule(EMP_SEQ);
-        }
-      }
-    });
-  };
-
-  const modifySchedule = async () => {
-    navigation.navigate('EmployeeScheduleAddScreen', {
-      EMP_SEQ,
-      workTypeCheck: 'fix',
-      type: '수정',
-      timeList: timeTableIndex && timeList,
-      startDate: timeTableIndex && timeTable[timeTableIndex].startDate,
-      endDate: timeTableIndex && timeTable[timeTableIndex].endDate,
-    });
-  };
-
-  const sendPush = async () => {
-    try {
-      dispatch(setSplashVisible(true));
-      let response = await fetch(
-        `http://133.186.209.113:80/api/v2/Employee/setEmpType?EMP_SEQ=${EMP_SEQ}`,
-      );
-      navigation.reset({
-        index: 0,
-        routes: [{name: 'HomeScreen'}],
-      });
-    } catch (error) {
-      console.log(error);
-      alertModal('', '통신이 원활하지 않습니다.');
-    } finally {
-      dispatch(setSplashVisible(false));
-    }
-  };
-
+  // 타임테이블
   const initTimeTable = (rawTimeList) => {
     const objTimeTable = {};
     const numberToday = getNumberToday();
@@ -372,32 +316,60 @@ export default ({route: {params}}) => {
     setTimeList(result[timeTableIndex].data);
   };
 
-  const changeMode = async () => {
-    try {
-      const {data} = await api.toggleCalendar({
-        CALENDAR: workTypeCheck === true ? '1' : '0',
-        EMP_SEQ,
-      });
-      if (data.message === 'SUCCESS') {
-        setWorkTypeCheck(!workTypeCheck);
-        await fetchData();
-      }
-    } catch (error) {
-      console.log(error);
-      alertModal('', '통신이 원활하지 않습니다.');
-    }
+  // 삼버튼 중 첫째 추가
+  const registerScheduleFn = () => {
+    navigation.navigate('EmployeeScheduleAddScreen', {
+      EMP_SEQ,
+      isFreeWorkingType,
+      type: '추가',
+      fetchData,
+    });
   };
 
-  const toggleWorkSchedule = () => {
+  // 삼버튼 중 둘째 수정
+  const modifyScheduleFn = () => {
+    navigation.navigate('EmployeeScheduleAddScreen', {
+      EMP_SEQ,
+      isFreeWorkingType,
+      type: '수정',
+      timeList,
+      startDate: timeTable[timeTableIndex].startDate,
+      endDate: timeTable[timeTableIndex].endDate,
+      fetchData,
+    });
+  };
+
+  // 삼버튼 중 마지막 삭제
+  const removeScheduleFn = () => {
+    confirmModal('', '일정을 삭제하시겠습니까?', async () => {
+      if (timeTableIndex !== null) {
+        const deleteList = [];
+        for (const timeObj of timeList) {
+          for (const dayObj of timeObj.dayList) {
+            if (dayObj.EMP_SCH_SEQ) {
+              deleteList.push(dayObj.EMP_SCH_SEQ);
+            }
+          }
+        }
+        if (deleteList.length > 0) {
+          const {data} = await api.updateEmpSchedules3({DEL: deleteList});
+          if (data.message === 'SUCCESS') {
+            fetchSchedule(EMP_SEQ);
+          }
+        }
+      }
+    });
+  };
+
+  // 자율출퇴근으로 전환하기 & 일정출퇴근으로 전환하기
+  const toggleWorkScheduleFn = () => {
     const params: any = {
       alertType: 'confirm',
-      okCallback: () => {
-        changeMode();
-      },
+      okCallback: () => changeMode(),
       okButtonText: '예',
       cancelButtonText: '아니오',
     };
-    if (workTypeCheck) {
+    if (isFreeWorkingType) {
       params.title = '일정출퇴근으로 변경합니다.';
       params.content = '직원의 일정을 입력하는 화면으로 전환됩니다.';
     } else {
@@ -406,6 +378,44 @@ export default ({route: {params}}) => {
     }
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
+  };
+
+  // 자율출퇴근으로 전환하기 & 일정출퇴근으로 전환하기 API
+  const changeMode = async () => {
+    try {
+      const {data} = await api.toggleCalendar({
+        CALENDAR: isFreeWorkingType ? '0' : '1',
+        EMP_SEQ,
+      });
+      if (data.message === 'SUCCESS') {
+        setIsFreeWorkingType(!isFreeWorkingType);
+        await fetchData();
+      }
+    } catch (error) {
+      console.log(error);
+      alertModal('통신이 원활하지 않습니다.');
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      dispatch(setSplashVisible(true));
+      const {data} = await api.getEmp(EMP_SEQ);
+      setData(data.result);
+      if (data.result.CALENDAR === '1') {
+        setIsFreeWorkingType(true);
+      }
+      if (data.result.CALENDAR === '0') {
+        setIsFreeWorkingType(false);
+        fetchSchedule(data.result.EMP_SEQ);
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch(setSplashVisible(false));
+      alertModal('통신이 원활하지 않습니다.');
+    } finally {
+      dispatch(setSplashVisible(false));
+    }
   };
 
   useEffect(() => {
@@ -422,21 +432,23 @@ export default ({route: {params}}) => {
       onRefresh={onRefresh}
       data={data}
       getPeriod={getPeriod}
-      CALCULATE_DAY={CALCULATE_DAY}
+      CALCULATE_DAY={params?.resultdata?.CALCULATE_DAY}
       PAY_TYPE={PAY_TYPE}
       numberComma={numberComma}
       PAY={PAY}
-      toggleWorkSchedule={toggleWorkSchedule}
-      workTypeCheck={workTypeCheck}
+      toggleWorkScheduleFn={toggleWorkScheduleFn}
+      isFreeWorkingType={isFreeWorkingType}
       timeTable={timeTable}
-      registerSchedule={registerSchedule}
-      modifySchedule={modifySchedule}
-      removeSchedule={removeSchedule}
+      registerScheduleFn={registerScheduleFn}
+      modifyScheduleFn={modifyScheduleFn}
+      removeScheduleFn={removeScheduleFn}
       explainModal={explainModal}
       setTimeTableIndex={setTimeTableIndex}
       setTimeListIndex={setTimeListIndex}
       setTimeList={setTimeList}
       getNumberToday={getNumberToday}
+      alertModal={alertModal}
+      joinModal={joinModal}
     />
   );
 };

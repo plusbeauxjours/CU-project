@@ -57,7 +57,15 @@ const PhoneText = styled.Text`
   font-size: 14px;
 `;
 
-export default ({key, EMP_NAME, EMP_SEQ, PHONE, STORE_SEQ}) => {
+export default ({
+  key,
+  data,
+  EMP_NAME,
+  EMP_SEQ,
+  PHONE,
+  STORE_SEQ,
+  onRefresh,
+}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -65,7 +73,9 @@ export default ({key, EMP_NAME, EMP_SEQ, PHONE, STORE_SEQ}) => {
 
   const gotoElectronicContracts = () => {
     navigation.navigate('ElectronicContractsScreen', {
+      data,
       from: 'ManageInviteEmployeeScreen',
+      onRefresh,
     });
   };
 

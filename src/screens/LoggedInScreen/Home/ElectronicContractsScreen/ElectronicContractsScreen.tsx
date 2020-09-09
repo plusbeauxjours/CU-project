@@ -3,7 +3,10 @@ import {ScrollView, ActivityIndicator} from 'react-native';
 import Modal from 'react-native-modal';
 import styled from 'styled-components/native';
 import {WebView} from 'react-native-webview';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
 
 import {CloseIcon} from '../../../../constants/Icons';
@@ -85,7 +88,9 @@ export default ({route: {params}}) => {
     if (params?.from === 'ManageInviteEmployeeScreen') {
       setIsModalVisible(false);
       navigation.navigate('SetEmployeeInfoScreen', {
+        data: params.data,
         from: 'ElectronicContracts',
+        onRefresh: params?.onRefresh,
       });
     } else {
       setIsModalVisible(false);
@@ -147,7 +152,9 @@ export default ({route: {params}}) => {
         <SkipTouchable
           onPress={() => {
             navigation.navigate('SetEmployeeInfoScreen', {
+              data: params?.data,
               from: 'ElectronicContracts',
+              onRefresh: params?.onRefresh,
             });
           }}>
           <Text style={{color: 'white', fontSize: 16}}>다음에 진행하기</Text>
@@ -156,7 +163,7 @@ export default ({route: {params}}) => {
       <Modal
         isVisible={isModalVisible}
         onBackdropPress={() => setIsModalVisible(false)}
-        style={{flex: 1, margin: 0, justifyContent: 'flex-end'}}
+        style={{flex: 1, margin: 0}}
         avoidKeyboard={false}>
         <Column>
           <ModalHeader>
@@ -183,8 +190,14 @@ export default ({route: {params}}) => {
           )}
           <WebView
             source={{uri: 'https://bit.ly/2WFaeL4'}}
-            style={{justifyContent: 'center', alignItems: 'center', flex: 1}}
-            onMessage={(event) => {}}
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: wp('100%'),
+              height: hp('100%'),
+            }}
+            onMessage={() => {}}
             onLoadStart={() => setIsWebviewSpinnerVisible(true)}
             onLoad={() => setIsWebviewSpinnerVisible(false)}
           />

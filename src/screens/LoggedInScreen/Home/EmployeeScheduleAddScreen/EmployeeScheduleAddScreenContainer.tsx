@@ -28,7 +28,6 @@ export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {type: TYPE, EMP_SEQ} = params;
-
   const [isUpdateMode, setIsUpdateMode] = useState<boolean>(false); // INSERT 또는 UPDATE 상태값
   const [timeList, setTimeList] = useState<any>(params?.timeList || []); // 저장된 근무 시간 목록
   const [startDate, setStartDate] = useState<string>(
@@ -166,7 +165,6 @@ export default ({route: {params}}) => {
   // STEP3 출퇴근 시간 삭제
   const removeTimeFn = (index) => {
     let timeListed = timeList;
-    console.log(index);
     timeListed.splice(index, 1);
     for (let i = 0; i < timeListed.length; i++) {
       const color = constant.COLOR[i];
@@ -193,7 +191,6 @@ export default ({route: {params}}) => {
         }
       }
     }
-    console.log(count, index);
     if (index > -1) {
       for (const innerDay of timeList[index].dayList) {
         if (innerDay.isChecked) {
@@ -208,6 +205,9 @@ export default ({route: {params}}) => {
 
   // 추가 완료 & 수정 완료
   const submitFn = async () => {
+    if (!startDate || (!checkNoEndDate && (!endDate || endDate == null))) {
+      return alertModal('일정 기간을 입력해주세요');
+    }
     try {
       dispatch(setSplashVisible(true));
       const params = {
@@ -216,9 +216,6 @@ export default ({route: {params}}) => {
         END: endDate,
         empSchedules: [],
       };
-      if (!startDate || (!checkNoEndDate && (!endDate || endDate == null))) {
-        return alertModal('일정 기간을 입력해주세요');
-      }
       for (const time of timeList) {
         for (const day of time.dayList) {
           if (day.isChecked) {
@@ -256,7 +253,6 @@ export default ({route: {params}}) => {
       setSplashVisible(false);
     }
   };
-
   const initialize = () => {
     const hourListed = Array.apply(null, Array(24)).map(
       (_, index) => index + 0,

@@ -191,7 +191,7 @@ export default ({
   EMPLOYEE_INFO_DATA,
   getPeriod,
   numberComma,
-  workTypeCheck,
+  isFreeWorkingType,
   timeTable,
   setTimeTableIndex,
   setTimeListIndex,
@@ -435,7 +435,7 @@ export default ({
               <WorkTypeAndSalaryBox>
                 <WorkTypeAndSalaryBoxTitle>근무일정</WorkTypeAndSalaryBoxTitle>
               </WorkTypeAndSalaryBox>
-              {!workTypeCheck && (
+              {!isFreeWorkingType && (
                 <WorkTypeCheckSection>
                   <RenderScheduleList />
                   <RenderDayList />

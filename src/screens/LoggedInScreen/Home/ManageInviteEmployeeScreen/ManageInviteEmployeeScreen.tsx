@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Component} from 'react';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {RefreshControl} from 'react-native';
 import styled from 'styled-components/native';
@@ -123,10 +123,12 @@ export default () => {
               {RESPONSE_EMPLOYEE?.map((data, index) => (
                 <ManageInviteEmployeeCard1
                   key={index}
+                  data={data}
                   EMP_NAME={data.EMP_NAME}
                   EMP_SEQ={data.EMP_SEQ}
                   PHONE={data.MobileNo}
                   STORE_SEQ={STORE_SEQ}
+                  onRefresh={onRefresh}
                 />
               ))}
             </EmployeeListBox>
