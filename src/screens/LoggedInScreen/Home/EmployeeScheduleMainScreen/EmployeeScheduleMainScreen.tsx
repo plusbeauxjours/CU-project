@@ -100,26 +100,11 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
-  const changeModeFn = async () => {
-    try {
-      const {data} = await api.toggleCalendar({
-        CALENDAR: isFreeWorkingType ? '0' : '1',
-        EMP_SEQ,
-      });
-    } catch (e) {
-      console.log(e);
-      alertModal('', '통신이 원활하지 않습니다.');
-    }
-  };
-
   const WorkType = ({selection, text}) => (
     <React.Fragment>
       <Row>
         {selection === 0 ? (
-          <RowTouchable
-            onPress={() => {
-              setIsFreeWorkingType(!isFreeWorkingType);
-            }}>
+          <RowTouchable onPress={() => setIsFreeWorkingType(false)}>
             {!isFreeWorkingType ? (
               <RadioBtnOnIcon size={22} />
             ) : (
@@ -128,10 +113,7 @@ export default ({route: {params}}) => {
             <Bold>{text}</Bold>
           </RowTouchable>
         ) : (
-          <RowTouchable
-            onPress={() => {
-              setIsFreeWorkingType(!isFreeWorkingType);
-            }}>
+          <RowTouchable onPress={() => setIsFreeWorkingType(true)}>
             {isFreeWorkingType ? (
               <RadioBtnOnIcon size={22} />
             ) : (
@@ -187,7 +169,6 @@ export default ({route: {params}}) => {
       <SubmitBtn
         text={'선택 완료'}
         onPress={() => {
-          changeModeFn();
           navigation.navigate('EmployeeScheduleInfoScreen', {
             isFreeWorkingType,
             EMP_SEQ,

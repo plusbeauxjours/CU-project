@@ -51,7 +51,7 @@ export default ({route: {params}}) => {
   ); // 분 직접 입력 포커싱 여부
   const [calendarModalType, setCalendarModalType] = useState<string>(null); // 캘린더 모달 종류 (start: 근무 시작일, end: 근무 종료일)
   const [checkNoEndDate, setCheckNoEndDate] = useState<boolean>(
-    params?.endDate ? true : false,
+    params?.endDate ? false : true,
   ); // 일정 종료일 없음 체크
   const [deleteList, setDeleteList] = useState<any>([]); // 삭제 대상 목록
   const [isStartDayModalVisible, setIsStartDayModalVisible] = useState<boolean>(
@@ -205,7 +205,7 @@ export default ({route: {params}}) => {
 
   // 추가 완료 & 수정 완료
   const submitFn = async () => {
-    if (!startDate || (!checkNoEndDate && (!endDate || endDate == null))) {
+    if (!startDate || (!checkNoEndDate && !endDate)) {
       return alertModal('일정 기간을 입력해주세요');
     }
     try {

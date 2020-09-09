@@ -593,7 +593,7 @@ export default ({
                 display="default"
               />
               <DateTouchable
-                disabled={!checkNoEndDate}
+                disabled={checkNoEndDate}
                 onPress={() => setIsEndDayModalVisible(true)}>
                 <Text>{endDate}</Text>
               </DateTouchable>
@@ -606,9 +606,9 @@ export default ({
                 }}>
                 <SideBox>
                   {checkNoEndDate ? (
-                    <CheckBoxIcon size={25} color="#CCCCCC" />
-                  ) : (
                     <CheckBoxIcon size={25} color="#642A8C" />
+                  ) : (
+                    <CheckBoxIcon size={25} color="#CCCCCC" />
                   )}
                   <SideText>일정 종료일 없음</SideText>
                 </SideBox>
