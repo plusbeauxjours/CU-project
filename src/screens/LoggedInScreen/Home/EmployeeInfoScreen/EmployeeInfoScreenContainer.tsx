@@ -297,6 +297,7 @@ export default ({route: {params}}) => {
   const gotoSetInfo = (data) => {
     navigation.navigate('SetEmployeeInfoScreen', {
       from: 'EmployeeInfoScreen',
+      onRefresh: fetchData,
       data,
     });
   };

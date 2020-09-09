@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import moment from 'moment';
-import {
-  Keyboard,
-  TouchableWithoutFeedback,
-  KeyboardAvoidingView,
-} from 'react-native';
+import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 import Modal from 'react-native-modal';
 import DatePickerModal from 'react-native-modal-datetime-picker';
 import {
@@ -82,9 +78,8 @@ const DivideLine = styled(Line)`
 const TextInput = styled.TextInput`
   font-size: 15px;
   margin-left: 5px;
-  flex: 1;
   text-align: center;
-  margin-right: 5px;
+  margin-right: 20px;
 `;
 
 const EmployeeBox = styled.View`
@@ -130,6 +125,11 @@ const BoxTitle = styled.View`
   align-items: center;
   justify-content: space-between;
 `;
+
+const CheckBox = styled.View`
+  flex-direction: row;
+`;
+
 const WorkTypeRow = styled(BoxTitle)`
   margin-top: 20px;
   padding: 0;
@@ -213,12 +213,6 @@ const SideText = styled.Text`
   color: #212121;
 `;
 
-const ProbationBox = styled.View`
-  margin-top: 20px;
-  width: ${wp('90%')};
-  padding: 0 10px;
-`;
-
 const PayBox = styled.View`
   width: 100%;
   padding: 30px 50px;
@@ -228,6 +222,16 @@ const PayBox = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
+  margin: 10px 0;
+`;
+
+const ColumnPayBox = styled.View`
+  width: 100%;
+  padding: 30px 50px;
+  border-width: 1px;
+  border-radius: 20px;
+  border-color: #cccccc;
+  align-items: center;
   margin: 10px 0;
 `;
 
@@ -317,7 +321,9 @@ export default ({
   payMonthModal,
   setPayMonthModal,
   startDay,
+  setStartDay,
   endDay,
+  setEndDay,
   endDayCheck,
   setEndDayCheck,
   setPayDay,
@@ -340,7 +346,6 @@ export default ({
   setRestTypeCheck,
   restTime,
   setRestTime,
-  setMarkedDatesE,
   isStartDayModalVisible,
   setIsStartDayModalVisible,
   isEndDayModalVisible,
@@ -467,9 +472,9 @@ export default ({
                     mode="date"
                     locale="ko_KRus_EN"
                     onConfirm={(date) => {
-                      startDay(date),
-                        setEndDayCheck(false),
-                        setIsStartDayModalVisible(false);
+                      setStartDay(moment(date).format('YYYY-MM-DD'));
+                      setEndDayCheck(false);
+                      setIsStartDayModalVisible(false);
                     }}
                     onCancel={() => {
                       setIsStartDayModalVisible(false);
@@ -504,16 +509,18 @@ export default ({
                     mode="date"
                     locale="ko_KRus_EN"
                     onConfirm={(date) => {
-                      endDay(date),
-                        setEndDayCheck(false),
-                        setIsEndDayModalVisible(false);
+                      setEndDay(moment(date).format('YYYY=MM-DD'));
+                      setEndDayCheck(false);
+                      setIsEndDayModalVisible(false);
                     }}
                     onCancel={() => {
                       setEndDayCheck(false), setIsEndDayModalVisible(false);
                     }}
                     display="default"
                   />
-                  <DateTouchable onPress={() => setIsEndDayModalVisible(true)}>
+                  <DateTouchable
+                    onPress={() => setIsEndDayModalVisible(true)}
+                    disabled={endDayCheck}>
                     <Text>{endDay ?? ''}</Text>
                   </DateTouchable>
                   <InputLine isBefore={endDay === ''} />
@@ -521,7 +528,7 @@ export default ({
                     style={{marginTop: 20}}
                     onPress={() => {
                       setEndDayCheck(!endDayCheck);
-                      setMarkedDatesE({});
+                      setEndDay('');
                     }}>
                     <SideBox>
                       {endDayCheck ? (
@@ -538,7 +545,7 @@ export default ({
             <Box
               isBold={click2}
               onPress={() => {
-                setClick2(!click2), setPayMonth(payDay.format('MM'));
+                setClick2(!click2), setPayMonth(moment(payDay).format('MM'));
               }}>
               <BoxTitle>
                 <TitleText>
@@ -638,89 +645,105 @@ export default ({
                     </PayBox>
                   )}
                   {payCheck[2] && (
-                    <PayBox>
+                    <ColumnPayBox>
                       <BoxTitle>
                         <Text>기본급</Text>
-                        <TextInput
-                          placeholder={'금액을 입력해주세요.'}
-                          placeholderTextColor={'#E5E5E5'}
-                          onChangeText={(text) => {
-                            setPay1(text.replace(/,/g, ''));
-                          }}
-                          value={pay1
-                            .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                          keyboardType={'number-pad'}
-                        />
-                        <Text>원</Text>
+                        <CheckBox>
+                          <TextInput
+                            placeholder={'금액을 입력해주세요.'}
+                            placeholderTextColor={'#E5E5E5'}
+                            onChangeText={(text) => {
+                              setPay1(text.replace(/,/g, ''));
+                            }}
+                            value={pay1
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            keyboardType={'number-pad'}
+                          />
+                          <Text>원</Text>
+                        </CheckBox>
                       </BoxTitle>
+                      <WhiteSpace />
                       <BoxTitle>
                         <Text>식대</Text>
-                        <TextInput
-                          placeholder={'금액을 입력해주세요.'}
-                          placeholderTextColor={'#E5E5E5'}
-                          onChangeText={(text) => {
-                            setPay3(text.replace(/,/g, ''));
-                          }}
-                          value={pay2
-                            .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                          keyboardType={'number-pad'}
-                        />
-                        <Text>원</Text>
+                        <CheckBox>
+                          <TextInput
+                            placeholder={'금액을 입력해주세요.'}
+                            placeholderTextColor={'#E5E5E5'}
+                            onChangeText={(text) => {
+                              setPay3(text.replace(/,/g, ''));
+                            }}
+                            value={pay2
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            keyboardType={'number-pad'}
+                          />
+                          <Text>원</Text>
+                        </CheckBox>
                       </BoxTitle>
+                      <WhiteSpace />
                       <BoxTitle>
                         <Text>자가운전</Text>
-                        <TextInput
-                          placeholder={'금액을 입력해주세요.'}
-                          placeholderTextColor={'#E5E5E5'}
-                          onChangeText={(text) => {
-                            setPay3(text.replace(/,/g, ''));
-                          }}
-                          value={pay3
-                            .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                          keyboardType={'number-pad'}
-                        />
-                        <Text>원</Text>
+                        <CheckBox>
+                          <TextInput
+                            placeholder={'금액을 입력해주세요.'}
+                            placeholderTextColor={'#E5E5E5'}
+                            onChangeText={(text) => {
+                              setPay3(text.replace(/,/g, ''));
+                            }}
+                            value={pay3
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            keyboardType={'number-pad'}
+                          />
+                          <Text>원</Text>
+                        </CheckBox>
                       </BoxTitle>
+                      <WhiteSpace />
                       <BoxTitle>
                         <Text>상여</Text>
-                        <TextInput
-                          placeholder={'금액을 입력해주세요.'}
-                          placeholderTextColor={'#E5E5E5'}
-                          onChangeText={(text) => {
-                            setPay4(text.replace(/,/g, ''));
-                          }}
-                          value={pay4
-                            .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                          keyboardType={'number-pad'}
-                        />
-                        <Text>원</Text>
+                        <CheckBox>
+                          <TextInput
+                            placeholder={'금액을 입력해주세요.'}
+                            placeholderTextColor={'#E5E5E5'}
+                            onChangeText={(text) => {
+                              setPay4(text.replace(/,/g, ''));
+                            }}
+                            value={pay4
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            keyboardType={'number-pad'}
+                          />
+                          <Text>원</Text>
+                        </CheckBox>
                       </BoxTitle>
+                      <WhiteSpace />
                       <BoxTitle>
                         <Text>성과급</Text>
-                        <TextInput
-                          placeholder={'금액을 입력해주세요.'}
-                          placeholderTextColor={'#E5E5E5'}
-                          onChangeText={(text) => {
-                            setPay5(text.replace(/,/g, ''));
-                          }}
-                          value={pay5
-                            .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                          keyboardType={'number-pad'}
-                        />
-                        <Text>원</Text>
+                        <CheckBox>
+                          <TextInput
+                            placeholder={'금액을 입력해주세요.'}
+                            placeholderTextColor={'#E5E5E5'}
+                            onChangeText={(text) => {
+                              setPay5(text.replace(/,/g, ''));
+                            }}
+                            value={pay5
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            keyboardType={'number-pad'}
+                          />
+                          <Text>원</Text>
+                        </CheckBox>
                       </BoxTitle>
                       <Line />
                       <BoxTitle>
                         <Text>합계</Text>
-                        <TextInput editable={false}>{total()}</TextInput>
-                        <Text>원</Text>
+                        <CheckBox>
+                          <TextInput editable={false}>{total()}</TextInput>
+                          <Text>원</Text>
+                        </CheckBox>
                       </BoxTitle>
-                    </PayBox>
+                    </ColumnPayBox>
                   )}
                   {payCheck[0] && (
                     <>
@@ -788,7 +811,10 @@ export default ({
                                 mode="date"
                                 locale="ko_KRus_EN"
                                 onConfirm={(date) => {
-                                  setProbationPeriod(date);
+                                  setIsProbationPeriodModalVisible(false);
+                                  setProbationPeriod(
+                                    moment(date).format('YYYY-MM-DD'),
+                                  );
                                 }}
                                 onCancel={() => {
                                   setIsProbationPeriodModalVisible(false);
@@ -871,6 +897,8 @@ export default ({
                       <DivideLine />
                       <SalarySystem
                         selection={1}
+                        weekTime={weekTime}
+                        restTime={restTime}
                         text={'주휴수당 자동 가산'}
                         setRestTypeCheck={setRestTypeCheck}
                         setRestTime={setRestTime}
@@ -888,6 +916,8 @@ export default ({
                       />
                       <SalarySystem
                         selection={2}
+                        weekTime={weekTime}
+                        restTime={restTime}
                         text={'휴게시간 자동 차감'}
                         setRestTypeCheck={setRestTypeCheck}
                         setRestTime={setRestTime}
@@ -905,6 +935,8 @@ export default ({
                       />
                       <SalarySystem
                         selection={0}
+                        weekTime={weekTime}
+                        restTime={restTime}
                         text={'추가, 야간, 휴일수당 50% 자동 가산'}
                         setRestTypeCheck={setRestTypeCheck}
                         setRestTime={setRestTime}

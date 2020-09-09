@@ -115,7 +115,7 @@ export const WeekType = ({
           value.fill(false);
           value[selection] = true;
           setWeekTypeCheck(value);
-          setWeekTime('0');
+          setWeekTime(null);
         }}>
         {weekTypeCheck[selection] ? (
           <RadioBtnOnIcon size={22} />
@@ -161,7 +161,7 @@ export const RestType = ({
           value.fill(false);
           value[selection] = true;
           setRestTypeCheck(value);
-          setRestTime('0');
+          setRestTime(null);
         }}>
         {restTypeCheck[selection] ? (
           <RadioBtnOnIcon size={22} />

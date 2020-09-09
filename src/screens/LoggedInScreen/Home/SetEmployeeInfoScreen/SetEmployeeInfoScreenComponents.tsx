@@ -156,6 +156,8 @@ export const SalarySystem = ({
   setRestTypeCheck,
   setRestTime,
   setWeekTypeCheck,
+  weekTime,
+  restTime,
   setWeekTime,
   salarySystemCheck,
   setSalarySystemCheck,
@@ -176,11 +178,11 @@ export const SalarySystem = ({
           value[selection] = !value[selection];
           if (selection === 1 && value[selection] === false) {
             setWeekTypeCheck([false, true]);
-            setWeekTime('0');
+            setWeekTime(null);
           }
           if (selection === 2 && value[selection] === false) {
             setRestTypeCheck([false, true]);
-            setRestTime('0');
+            setRestTime(null);
           }
           setSalarySystemCheck(value);
         }}>
@@ -259,13 +261,17 @@ export const SalarySystem = ({
       {selection === 1 && salarySystemCheck[1] === true && (
         <SalarySystemSettingButton
           onPress={() => setIsSalaryModalVisible1(!isSalaryModalVisible1)}>
-          <SalarySystemSettingText>설정</SalarySystemSettingText>
+          <SalarySystemSettingText>
+            {weekTime ? `${weekTime}시간` : '설정'}
+          </SalarySystemSettingText>
         </SalarySystemSettingButton>
       )}
       {selection === 2 && salarySystemCheck[2] === true && (
         <SalarySystemSettingButton
           onPress={() => setIsSalaryModalVisible2(!isSalaryModalVisible2)}>
-          <SalarySystemSettingText>설정</SalarySystemSettingText>
+          <SalarySystemSettingText>
+            {restTime ? `${restTime}분` : '설정'}
+          </SalarySystemSettingText>
         </SalarySystemSettingButton>
       )}
     </Row>
@@ -297,6 +303,7 @@ export const PayCheck = ({
           setPay3('');
           setPay4('');
           setPay5('');
+          console.log(value);
           setPayCheck(value);
         } else if (selection === 2) {
           setPay('');
