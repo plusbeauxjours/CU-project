@@ -3,21 +3,23 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import PaymentInfoScreenPresenter from './PaymentInfoScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import api from '../../../../constants/LoggedInApi';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
+import {getTOTAL_PAYMENT_WORKING_EMP} from '../../../../redux/paymentSlice';
 
 export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {STORE} = useSelector((state: any) => state.userReducer);
+  const {EMPLOYEE_LIST} = useSelector((state: any) => state.employeeReducer);
+  const {TOTAL_PAYMENT_WORKING_EMP} = useSelector(
+    (state: any) => state.paymentReducer,
+  );
   const {STORE_SEQ, STORE_DATA: {STOREPAY_SHOW = null} = {}} = useSelector(
     (state: any) => state.storeReducer,
   );
-
+  const [loading, setLoading] = useState<boolean>(false);
   const [employeeNowOn, setEmployeeNowOn] = useState<any>([]);
-  const [maindata, setMaindata] = useState<any>({});
   const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
 
   const alertModal = (title, text) => {
@@ -50,72 +52,52 @@ export default () => {
 
   const nextpay = async () => {
     try {
-      dispatch(setSplashVisible(true));
-      const {data} = await api.getWorkingEmpTotalPay(
-        Number(moment(date).add(1, 'month').format('YYYY')),
-        Number(moment(date).add(1, 'month').format('MM')),
-        STORE_SEQ,
+      await setDate(moment(date).add(1, 'month').format('YYYY-MM-DD'));
+      await setLoading(true);
+      await dispatch(
+        getTOTAL_PAYMENT_WORKING_EMP(
+          moment(date).add(1, 'month').format('YYYY'),
+          moment(date).add(1, 'month').format('MM'),
+        ),
       );
-      if (data.message === 'SUCCESS') {
-        setMaindata(data.result);
-        setDate(moment(date).add(1, 'month').format('YYYY-MM-DD'));
-      }
     } catch (e) {
       console.log(e);
       alertModal('', '통신이 원활하지 않습니다.');
       navigation.goBack();
     } finally {
-      dispatch(setSplashVisible(false));
+      setLoading(false);
     }
   };
 
   const backpay = async () => {
     try {
-      dispatch(setSplashVisible(true));
-      const {data} = await api.getWorkingEmpTotalPay(
-        Number(moment(date).subtract(1, 'month').format('YYYY')),
-        Number(moment(date).subtract(1, 'month').format('MM')),
-        STORE_SEQ,
+      await setDate(moment(date).subtract(1, 'month').format('YYYY-MM-DD'));
+      await setLoading(true);
+      await dispatch(
+        getTOTAL_PAYMENT_WORKING_EMP(
+          moment(date).subtract(1, 'month').format('YYYY'),
+          moment(date).subtract(1, 'month').format('MM'),
+        ),
       );
-      if (data.message === 'SUCCESS') {
-        setMaindata(data.result);
-        setDate(moment(date).subtract(1, 'month').format('YYYY-MM-DD'));
-      }
     } catch (e) {
       console.log(e);
       alertModal('', '통신이 원활하지 않습니다.');
       navigation.goBack();
     } finally {
-      dispatch(setSplashVisible(false));
+      setLoading(false);
     }
   };
 
   const fetchData = async () => {
     try {
-      dispatch(setSplashVisible(true));
-      const {data} = await api.getWorkingEmpTotalPay(
-        Number(moment().format('YYYY')),
-        Number(moment().format('MM')),
-        STORE_SEQ,
-      );
-      if (data.message === 'SUCCESS') {
-        setMaindata(data.result);
-        setDate(moment().format('YYYY-MM-DD'));
-      }
-    } catch (e) {
-      console.log(e);
-      alertModal('', '통신이 원활하지 않습니다.');
-      navigation.goBack();
-    }
-    try {
-      const {data} = await api.getEmpLists(STORE_SEQ);
-      if (data.message == 'SUCCESS') {
-        setEmployeeNowOn(data?.workinglist);
-      }
+      await setEmployeeNowOn(EMPLOYEE_LIST?.workinglist);
+      await setLoading(true);
+      await dispatch(getTOTAL_PAYMENT_WORKING_EMP());
     } catch (e) {
       console.log(e);
     } finally {
-      dispatch(setSplashVisible(false));
+      setLoading(false);
+      setDate(moment().format('YYYY-MM-DD'));
     }
   };
 
@@ -131,9 +113,10 @@ export default () => {
       STORE_SEQ={STORE_SEQ}
       STOREPAY_SHOW={STOREPAY_SHOW}
       backpay={backpay}
-      maindata={maindata}
+      TOTAL_PAYMENT_WORKING_EMP={TOTAL_PAYMENT_WORKING_EMP}
       explainModal={explainModal}
       employeeNowOn={employeeNowOn}
+      loading={loading}
     />
   );
 };

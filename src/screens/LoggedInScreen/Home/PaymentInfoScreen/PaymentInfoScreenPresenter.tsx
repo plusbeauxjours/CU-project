@@ -5,6 +5,7 @@ import {
 } from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
 import PaymentInfoScreenCard from './PaymentInfoScreenCard';
+import {ActivityIndicator} from 'react-native';
 import {
   ForwardIcon,
   BackIcon,
@@ -23,11 +24,15 @@ const ScrollView = styled.ScrollView``;
 const Container = styled.View`
   padding: 0 20px;
   align-items: center;
-  margin-top: ${hp('5%')}px;
 `;
 
-const Box = styled.View`
-  align-items: center;
+const Section = styled.View`
+  width: ${wp('100%') - 40}px;
+  margin-top: 20px;
+  border-radius: 20px;
+  background-color: white;
+  justify-content: center;
+  padding: 20px;
 `;
 
 const Row = styled.View`
@@ -37,6 +42,8 @@ const Row = styled.View`
 
 const DateBox = styled(Row)`
   padding: 20px 15px;
+  height: 100px;
+  flex: 1;
 `;
 
 const DateArrow = styled.TouchableOpacity`
@@ -74,12 +81,14 @@ const DateReload = styled.TouchableOpacity`
 `;
 
 const PayBox = styled.View`
+  flex: 1;
   align-items: center;
   justify-content: center;
+  height: 100px;
 `;
 
 const Line = styled.View`
-  height: 2px;
+  height: 1px;
   width: ${wp('80%')};
   margin-bottom: 10px;
   background-color: #f2f2f2;
@@ -109,9 +118,10 @@ export default ({
   STORE_SEQ,
   STOREPAY_SHOW,
   backpay,
-  maindata,
+  TOTAL_PAYMENT_WORKING_EMP,
   explainModal,
   employeeNowOn,
+  loading,
 }) => {
   return (
     <BackGround>
@@ -120,14 +130,15 @@ export default ({
         contentContainerStyle={{alignItems: 'center'}}
         showsVerticalScrollIndicator={false}>
         <Container>
-          <Box>
+          <Section>
             <DateBox>
               <DateArrow onPress={() => backpay()}>
                 <BackIcon size={22} color={'black'} />
               </DateArrow>
               <Date>
                 <DateText>
-                  {maindata.start} ~ {maindata.end}
+                  {TOTAL_PAYMENT_WORKING_EMP.start} ~{' '}
+                  {TOTAL_PAYMENT_WORKING_EMP.end}
                 </DateText>
               </Date>
               <DateReload onPress={() => onRefresh()}>
@@ -137,33 +148,45 @@ export default ({
                 <ForwardIcon size={22} color={'black'} />
               </DateArrow>
             </DateBox>
+            <Line />
             <PayBox>
-              <Line />
-              <Pay>
-                <Row>
-                  <Touchable
-                    onPress={() => {
-                      explainModal(
-                        '[ 예상급여 미포함 내역 ]',
-                        '-자율출퇴근 급여\n-근무시간 수정(근무시간 연장시)\n-추가일정 급여\n\n*근무일정 삭제시 과거 예상급여는 차감됩니다',
-                      );
-                    }}>
-                    <BoxTitleText3>예상급여</BoxTitleText3>
-                    <HelpCircleIcon size={20} />
-                  </Touchable>
-                </Row>
-                <BoxTitleText3>{maindata.stackedpay}</BoxTitleText3>
-              </Pay>
-              <Pay>
-                <BoxTitleText3>누적급여</BoxTitleText3>
-                <BoxTitleText3>{maindata.total}</BoxTitleText3>
-              </Pay>
-              <Pay>
-                <BoxTitleText3>주휴수당</BoxTitleText3>
-                <BoxTitleText3>{maindata.weekpay}</BoxTitleText3>
-              </Pay>
+              {loading ? (
+                <ActivityIndicator size={'large'} />
+              ) : (
+                <>
+                  <Pay>
+                    <Row>
+                      <Touchable
+                        onPress={() => {
+                          explainModal(
+                            '[ 예상급여 미포함 내역 ]',
+                            '-자율출퇴근 급여\n-근무시간 수정(근무시간 연장시)\n-추가일정 급여\n\n*근무일정 삭제시 과거 예상급여는 차감됩니다',
+                          );
+                        }}>
+                        <BoxTitleText3>예상급여</BoxTitleText3>
+                        <HelpCircleIcon size={20} />
+                      </Touchable>
+                    </Row>
+                    <BoxTitleText3>
+                      {TOTAL_PAYMENT_WORKING_EMP.stackedpay}
+                    </BoxTitleText3>
+                  </Pay>
+                  <Pay>
+                    <BoxTitleText3>누적급여</BoxTitleText3>
+                    <BoxTitleText3>
+                      {TOTAL_PAYMENT_WORKING_EMP.total}
+                    </BoxTitleText3>
+                  </Pay>
+                  <Pay>
+                    <BoxTitleText3>주휴수당</BoxTitleText3>
+                    <BoxTitleText3>
+                      {TOTAL_PAYMENT_WORKING_EMP.weekpay}
+                    </BoxTitleText3>
+                  </Pay>
+                </>
+              )}
             </PayBox>
-          </Box>
+          </Section>
           <EmployeeListBox>
             {employeeNowOn?.map((data) => (
               <PaymentInfoScreenCard

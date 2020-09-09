@@ -8,8 +8,8 @@ import {ForwardIcon} from '../../../../constants/Icons';
 
 const Touchable = styled.TouchableOpacity`
   margin-top: 10px;
-  padding: 10px 0;
-  width: ${wp('85%')}px;
+  padding: 10px;
+  width: ${wp('100%') - 40}px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;

@@ -13,6 +13,7 @@ import calendarReducer from "./calendarSlice";
 import checklistshareReducer from "./checklistshareSlice";
 import mypageReducer from "./mypageSlice";
 import checklistReducer from "./checklistSlice";
+import paymentReducer from "./paymentSlice";
 
 export default combineReducers({
     userReducer,
@@ -29,4 +30,5 @@ export default combineReducers({
     checklistshareReducer,
     mypageReducer,
     checklistReducer,
+    paymentReducer,
 });
