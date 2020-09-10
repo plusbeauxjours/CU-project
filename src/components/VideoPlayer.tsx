@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import styled from 'styled-components/native';
-import {StatusBar} from 'react-native';
+import {StatusBar, ActivityIndicator} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -50,6 +50,7 @@ export default ({url, setModalVisible}) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [duration, setDuration] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
   const [isShowedControls, setIsShowedControls] = useState<boolean>(true);
 
   function handleOrientation(orientation: string) {
@@ -90,8 +91,13 @@ export default ({url, setModalVisible}) => {
   }
 
   function onLoadEnd(data: OnLoadData) {
+    setLoading(false);
     setDuration(data.duration);
     setCurrentTime(data.currentTime);
+  }
+
+  function onLoadStart() {
+    setLoading(true);
   }
 
   function onProgress(data: OnProgressData) {
@@ -132,6 +138,7 @@ export default ({url, setModalVisible}) => {
         controls={false}
         resizeMode={'contain'}
         onLoad={onLoadEnd}
+        onLoadStart={onLoadStart}
         onProgress={onProgress}
         onEnd={onEnd}
         paused={!isPlaying}
@@ -147,7 +154,7 @@ export default ({url, setModalVisible}) => {
           ) : (
             <>
               <FullScreenIconContainer
-                style={{rigth: 50}}
+                style={{right: 50}}
                 isFullScreen={isFullScreen}
                 onPress={handleFullscreen}>
                 <LandscapeIcon />
@@ -164,25 +171,39 @@ export default ({url, setModalVisible}) => {
           <ControlOverlay
             style={
               isFullScreen
-                ? {width: hp('100%'), height: wp('100%')}
-                : {width: wp('100%'), height: wp('100%') * (9 / 16)}
+                ? {
+                    justifyContent: 'center',
+                    width: hp('100%'),
+                    height: wp('100%'),
+                  }
+                : {
+                    justifyContent: 'center',
+                    width: wp('100%'),
+                    height: wp('100%') * (9 / 16),
+                  }
             }>
-            <PlayerControls
-              onPlay={handlePlayPause}
-              onPause={handlePlayPause}
-              playing={isPlaying}
-              showSkip={true}
-              skipBackwards={skipBackward}
-              skipForwards={skipForward}
-              isFullScreen={isFullScreen}
-            />
-            <ProgressBar
-              currentTime={currentTime}
-              duration={duration > 0 ? duration : 0}
-              onSlideStart={handlePlayPause}
-              onSlideComplete={handlePlayPause}
-              onSlideCapture={onSeek}
-            />
+            {loading ? (
+              <ActivityIndicator />
+            ) : (
+              <>
+                <PlayerControls
+                  onPlay={handlePlayPause}
+                  onPause={handlePlayPause}
+                  playing={isPlaying}
+                  showSkip={true}
+                  skipBackwards={skipBackward}
+                  skipForwards={skipForward}
+                  isFullScreen={isFullScreen}
+                />
+                <ProgressBar
+                  currentTime={currentTime}
+                  duration={duration > 0 ? duration : 0}
+                  onSlideStart={handlePlayPause}
+                  onSlideComplete={handlePlayPause}
+                  onSlideCapture={onSeek}
+                />
+              </>
+            )}
           </ControlOverlay>
         </>
       )}

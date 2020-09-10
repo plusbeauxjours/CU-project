@@ -130,12 +130,14 @@ export default ({
       )}
       <ScrollView
         showsVerticalScrollIndicator={false}
+        conte
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         contentContainerStyle={{
           alignItems: 'center',
           justifyContent: 'flex-start',
+          paddingBottom: 60,
         }}>
         <StoreList />
       </ScrollView>

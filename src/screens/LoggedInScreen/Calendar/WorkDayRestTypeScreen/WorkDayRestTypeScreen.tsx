@@ -1,19 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
 import Modal from 'react-native-modal';
 
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {toggleVACATION} from '../../../../redux/calendarSlice';
 import api from '../../../../constants/LoggedInApi';
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import moment from 'moment';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -114,48 +110,14 @@ export default ({route: {params}}) => {
       MEMBER_SEQ = null,
       EMP_ID = null,
       NAME = null,
-      YEAR = moment().format('YYYY'),
       START = '',
       END = '',
     } = {},
     STORE_SEQ = null,
     date = null,
   } = params;
-
   const [isHelpModalVisible, setisHelpModalVisible] = useState<boolean>(false);
-  const [totalVacation, setTotalVacation] = useState<string>('');
-  const [useVacation, setUseVacation] = useState<string>('');
-  const [remainderVacation, setRemainderVacation] = useState<string>('');
   const [restType, setRestType] = useState<string>('0');
-  const [restTypeCheck, setRestTypeCheck] = useState<[boolean, boolean]>([
-    true,
-    false,
-  ]); //  [무급휴가, 유급휴가]
-
-  // 삭제예정
-  const fetchData = async () => {
-    const {data} = await api.getEmpAnnual(EMP_ID, YEAR);
-    if (Array.isArray(data.message) && data.message.length > 0) {
-      const annual = data.message[0];
-      let totalVacationed = totalVacation;
-      let useVacationed = useVacation;
-      let remainderVacationed = remainderVacation;
-
-      totalVacationed = annual.ANNUAL || '';
-      useVacationed = annual.USE_ANNUAL || '';
-
-      if (!totalVacationed && !useVacationed) {
-        remainderVacationed = '';
-      } else {
-        remainderVacationed = (
-          Number(totalVacationed || 0) - Number(useVacationed || 0)
-        ).toString();
-      }
-      setTotalVacation(totalVacationed);
-      setUseVacation(useVacationed);
-      setRemainderVacation(remainderVacationed);
-    }
-  };
 
   const alertModal = (text) => {
     const params = {
@@ -168,15 +130,6 @@ export default ({route: {params}}) => {
   };
 
   const registerFn = async () => {
-    if (!restType) {
-      return alertModal('휴무유형을 선택해주세요.');
-    } else if (totalVacation && isNaN(Number(totalVacation))) {
-      return alertModal('총 연차 값이 올바르지 않습니다.');
-    } else if (useVacation && isNaN(Number(useVacation))) {
-      return alertModal('사용 연차 값이 올바르지 않습니다.');
-    } else if (remainderVacation && isNaN(Number(remainderVacation))) {
-      return alertModal('남은 연차 값이 올바르지 않습니다.');
-    }
     try {
       dispatch(
         toggleVACATION({
@@ -201,10 +154,6 @@ export default ({route: {params}}) => {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const Vacation = ({key, title}) => (
     <TextWrapper>
       <Text style={{marginLeft: 10}}>{title}</Text>
@@ -214,18 +163,13 @@ export default ({route: {params}}) => {
   );
 
   const RestType = ({selection, text}) => {
-    let value = JSON.parse(JSON.stringify(restTypeCheck));
     return (
       <Row>
         <Touchable
           onPress={() => {
-            value.fill(false);
-            value[selection] = true;
             if (selection === 0) {
-              setRestTypeCheck(value);
               setRestType('0');
             } else if (selection === 1) {
-              setRestTypeCheck(value);
               setRestType('1');
             }
           }}>

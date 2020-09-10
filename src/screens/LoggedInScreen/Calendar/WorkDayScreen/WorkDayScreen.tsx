@@ -50,7 +50,6 @@ export default ({route: {params}}) => {
     date = null,
     addWork = null,
   } = params;
-  console.log(SCH_ID, STORE_SEQ, date, addWork);
   const alertModal = (text) => {
     const params = {
       alertType: 'alert',
@@ -100,11 +99,12 @@ export default ({route: {params}}) => {
         keyboardDismissMode="on-drag"
         contentContainerStyle={{alignItems: 'center'}}>
         <Container>
+          {console.log(SCH_ID)}
           <Touchable
             activeOpacity={1}
             onPress={() =>
               navigation.navigate('WorkDayRestTypeScreen', {
-                data: SCH_ID,
+                data: params?.data,
                 STORE_SEQ,
                 date,
               })
@@ -119,7 +119,7 @@ export default ({route: {params}}) => {
             activeOpacity={1}
             onPress={() =>
               navigation.navigate('WorkDayRestTimeScreen', {
-                data: SCH_ID,
+                data: params?.data,
                 STORE_SEQ,
                 date,
               })
