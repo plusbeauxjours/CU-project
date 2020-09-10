@@ -1,5 +1,5 @@
 import React from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
 
@@ -44,9 +44,9 @@ const Container = styled.View`
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const {STORE_SEQ} = useSelector((state: any) => state.userReducer);
   const {
     data: {SCH_ID = null, MEMBER_SEQ = null} = {},
-    STORE_SEQ = null,
     date = null,
     addWork = null,
   } = params;

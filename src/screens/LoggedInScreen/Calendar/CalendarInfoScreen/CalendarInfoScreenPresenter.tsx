@@ -128,17 +128,17 @@ export default ({
       renderDay={(day, item) => {
         if (day !== undefined) {
           let DAY = '0';
-          if (moment(day).format('M') == '0') {
+          if (new Date(day.timestamp).getDay().toString() == '0') {
             DAY = '일';
-          } else if (moment(day).format('M') == '1') {
+          } else if (new Date(day.timestamp).getDay().toString() == '1') {
             DAY = '월';
-          } else if (moment(day).format('M') == '2') {
+          } else if (new Date(day.timestamp).getDay().toString() == '2') {
             DAY = '화';
-          } else if (moment(day).format('M') == '3') {
+          } else if (new Date(day.timestamp).getDay().toString() == '3') {
             DAY = '수';
-          } else if (moment(day).format('M') == '4') {
+          } else if (new Date(day.timestamp).getDay().toString() == '4') {
             DAY = '목';
-          } else if (moment(day).format('M') == '5') {
+          } else if (new Date(day.timestamp).getDay().toString() == '5') {
             DAY = '금';
           } else {
             DAY = '토';

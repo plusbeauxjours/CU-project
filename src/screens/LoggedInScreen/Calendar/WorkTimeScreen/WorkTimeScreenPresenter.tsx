@@ -40,9 +40,10 @@ const Container = styled.View`
 const Section = styled.View`
   width: 100%;
   border-radius: 20px;
-  margin-top: 20px;
+  margin-bottom: 20px;
   padding: 20px;
   background-color: white;
+  background-color: red;
 `;
 
 const Row = styled.View`
@@ -298,7 +299,7 @@ export default ({
               <WorkTitleText>근무시간 </WorkTitleText>
               <WorkTimeText>
                 {(ATTENDANCE_TIME || START)?.substring(0, 5)} ~&nbsp;
-                {(WORK_OFF_TIME || END)?.substring(0, 5)} >&nbsp;
+                {(WORK_OFF_TIME || END)?.substring(0, 5)}`{'>'}`
                 {CHANGE_START == null ? '' : CHANGE_START?.substring(0, 5)}{' '}
                 ~&nbsp;
                 {CHANGE_END == null ? '' : CHANGE_END?.substring(0, 5)}
@@ -318,7 +319,7 @@ export default ({
               <WorkTitleText>출퇴근시간 </WorkTitleText>
               <WorkTimeText>
                 {(START_TIME || '미출근')?.substring(0, 5)} ~&nbsp;
-                {(END_TIME || '미퇴근')?.substring(0, 5)} >&nbsp;
+                {(END_TIME || '미퇴근')?.substring(0, 5)}`{'>'}`
                 {(UPDATED_START || '미출근')?.substring(0, 5)} ~&nbsp;
                 {(UPDATED_END || '미퇴근')?.substring(0, 5)}
               </WorkTimeText>
@@ -440,17 +441,9 @@ export default ({
           {RenderHourRow([12, 13, 14, 15], 4)}
           {RenderHourRow([16, 17, 18, 19], 5)}
           {RenderHourRow([20, 21, 22, 23], 6)}
-          {/* <RenderHourRow rowData={[0, 1, 2, 3]} rowNum={1} />
-          <RenderHourRow rowData={[4, 5, 6, 7]} rowNum={2} />
-          <RenderHourRow rowData={[8, 9, 10, 11]} rowNum={3} />
-          <RenderHourRow rowData={[12, 13, 14, 15]} rowNum={4} />
-          <RenderHourRow rowData={[16, 17, 18, 19]} rowNum={5} />
-          <RenderHourRow rowData={[20, 21, 22, 23]} rowNum={6} /> */}
           <ModalText>분 선택</ModalText>
           {RenderMinuteRow([0, 10, 20, 30], 1)}
           {RenderMinuteRow([40, 50, 'directInput'], 2)}
-          {/* <RenderMinuteRow rowData={[0, 10, 20, 30]} rowNum={1} />
-          <RenderMinuteRow rowData={[40, 50, 'directInput']} rowNum={2} /> */}
         </ModalContainer>
         <ModalFooter>
           <ModalButton

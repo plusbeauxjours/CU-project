@@ -309,7 +309,7 @@ export default ({
               <WorkTitleText>근무시간 </WorkTitleText>
               <WorkTimeText>
                 {(ATTENDANCE_TIME || START)?.substring(0, 5)} ~&nbsp;
-                {(WORK_OFF_TIME || END)?.substring(0, 5)} >&nbsp;
+                {(WORK_OFF_TIME || END)?.substring(0, 5)}`{'>'}`
                 {CHANGE_START == null ? '' : CHANGE_START?.substring(0, 5)}{' '}
                 ~&nbsp;
                 {CHANGE_END == null ? '' : CHANGE_END?.substring(0, 5)}
@@ -329,7 +329,7 @@ export default ({
               <WorkTitleText>출퇴근시간 </WorkTitleText>
               <WorkTimeText>
                 {(START_TIME || '미출근')?.substring(0, 5)} ~&nbsp;
-                {(END_TIME || '미퇴근')?.substring(0, 5)} >&nbsp;
+                {(END_TIME || '미퇴근')?.substring(0, 5)}`{'>'}`
                 {(UPDATED_START || '미출근')?.substring(0, 5)} ~&nbsp;
                 {(UPDATED_END || '미퇴근')?.substring(0, 5)}
               </WorkTimeText>

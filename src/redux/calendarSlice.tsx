@@ -50,6 +50,33 @@ const calendarSlice = createSlice({
         },
       };
     },
+    updateWORKTIME(state, action) {
+      const {
+        payload: {date, EMP_ID, START, END, CHANGE_START, CHANGE_END},
+      } = action;
+      const item = state.CALENDAR_DATA[date].find((i) => i.EMP_ID === EMP_ID);
+      item.START = START;
+      item.END = END;
+      item.CHANGE_START = CHANGE_START;
+      item.CHANGE_END = CHANGE_END;
+    },
+    updateSCHEDULE(state, action) {
+      const {
+        payload: {
+          date,
+          EMP_ID,
+          UPDATED_START,
+          UPDATED_END,
+          START_TIME,
+          END_TIME,
+        },
+      } = action;
+      const item = state.CALENDAR_DATA[date].find((i) => i.EMP_ID === EMP_ID);
+      item.START = UPDATED_START;
+      item.END = UPDATED_END;
+      item.START_TIME = START_TIME;
+      item.END_TIME = END_TIME;
+    },
   },
 });
 
@@ -58,6 +85,8 @@ export const {
   toggleVACATION,
   updateREST_TIME,
   removeAddWork,
+  updateSCHEDULE,
+  updateWORKTIME,
 } = calendarSlice.actions;
 
 export default calendarSlice.reducer;

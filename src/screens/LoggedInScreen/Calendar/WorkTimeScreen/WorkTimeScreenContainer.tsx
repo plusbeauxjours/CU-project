@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import WorkTimeScreenPresenter from './WorkTimeScreenPresenter';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -6,24 +6,53 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import api from '../../../../constants/LoggedInApi';
+import {updateWORKTIME} from '../../../../redux/calendarSlice';
 
 export default ({route: {params}}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const {data: DATA, date} = params;
+  const {
+    data: {
+      SCH_ID = null,
+      EMP_ID = null,
+      NAME = null,
+      IMAGE = null,
+      START = null,
+      END = null,
+      ATTENDANCE_TIME = null,
+      WORK_OFF_TIME = null,
+      CHANGE_START = null,
+      CHANGE_END = null,
+      START_TIME = null,
+      END_TIME = null,
+      UPDATED_START = null,
+      UPDATED_END = null,
+    },
+    date,
+  } = params;
   const {STORE_SEQ} = useSelector((state: any) => state.userReducer);
 
   const [isTimeCheckModalVisible, setIsTimeCheckModalVisible] = useState<
     boolean
   >(false);
-  const [hourCheck, setHourCheck] = useState<any>(new Array(24));
+  const [hourCheck, setHourCheck] = useState<any>(
+    JSON.parse(JSON.stringify(new Array(24))),
+  );
   const [minuteCheck, setMinuteCheck] = useState<
     [boolean, boolean, boolean, boolean, boolean, boolean, boolean]
   >([false, false, false, false, false, false, false]); // [00분, 10분, 20분, 30분, 40분, 50분, 직접 입력]]
   const [minuteDirectInput, setMinuteDirectInput] = useState<any>(null);
-  const [startTime, setStartTime] = useState<string>(null);
-  const [endTime, setEndTime] = useState<string>(null);
+  const [startTime, setStartTime] = useState<string>(
+    params?.data?.CHANGE_START?.substring(0, 5) ??
+      params?.data?.ATTENDANCE_TIME?.substring(0, 5) ??
+      params?.data?.START?.substring(0, 5),
+  );
+  const [endTime, setEndTime] = useState<string>(
+    params?.data?.CHANGE_END?.substring(0, 5) ??
+      params?.data?.WORK_OFF_TIME?.substring(0, 5) ??
+      params?.data?.END?.substring(0, 5),
+  );
   const [timeSwitch, setTimeSwitch] = useState<any>(null); // startTime: 출근시간, endTime: 퇴근시간]= useState<>( startTime: 출근시간, endTime: 퇴근시)
   const [stepFourClick, setStepFourClick] = useState<boolean>(false);
   const [incentiveCheck, setIncentiveCheck] = useState<
@@ -87,13 +116,13 @@ export default ({route: {params}}) => {
   };
 
   const registerFn = async () => {
-    if (DATA.SCH_ID == undefined) {
+    if (!SCH_ID) {
       try {
         dispatch(setSplashVisible(true));
         const {data} = await api.createSchedule({
           STORE_ID: STORE_SEQ,
-          EMP_ID: DATA.EMP_ID,
-          EMP_NAME: DATA.NAME,
+          EMP_ID,
+          EMP_NAME: NAME,
           START: startTime,
           END: endTime,
           DATE: date,
@@ -112,61 +141,32 @@ export default ({route: {params}}) => {
       }
     } else {
       try {
-        dispatch(setSplashVisible(true));
-        const {data} = await api.updateSchedule({
-          SCH_ID: DATA.SCH_ID,
-          EMP_ID: DATA.EMP_ID,
+        dispatch(
+          updateWORKTIME({
+            date,
+            EMP_ID,
+            START,
+            END,
+            CHANGE_START: startTime,
+            CHANGE_END: endTime,
+          }),
+        );
+        navigation.goBack();
+        alertModal('근무시간이 변경되었습니다.');
+        await api.updateSchedule({
+          SCH_ID,
+          EMP_ID,
           START: startTime,
           END: endTime,
           TYPE: '1',
           STATUS: '0',
           STYPE: '',
         });
-        if (data.message === 'SUCCESS' || data.message === 'ALREADY_SUCCESS') {
-          navigation.goBack();
-          alertModal('근무시간이 변경되었습니다.');
-        }
       } catch (e) {
         console.log(e);
-      } finally {
-        dispatch(setSplashVisible(false));
       }
     }
   };
-
-  const init = () => {
-    const {
-      CHANGE_START,
-      CHANGE_END,
-      ATTENDANCE_TIME,
-      WORK_OFF_TIME,
-      START,
-      END,
-    } = DATA;
-    if (CHANGE_START) {
-      setStartTime(CHANGE_START.substring(0, 5));
-    } else {
-      if (ATTENDANCE_TIME) {
-        setStartTime(ATTENDANCE_TIME.substring(0, 5));
-      } else {
-        setStartTime(START.substring(0, 5));
-      }
-    }
-    if (CHANGE_END) {
-      setEndTime(CHANGE_END.substring(0, 5));
-    } else {
-      if (WORK_OFF_TIME) {
-        setEndTime(WORK_OFF_TIME.substring(0, 5));
-      } else {
-        setEndTime(END.substring(0, 5));
-      }
-    }
-  };
-
-  useEffect(() => {
-    setHourCheck(JSON.parse(JSON.stringify(hourCheck)));
-    init();
-  }, []);
 
   return (
     <WorkTimeScreenPresenter
@@ -186,18 +186,18 @@ export default ({route: {params}}) => {
       setStepFourClick={setStepFourClick}
       incentiveCheck={incentiveCheck}
       setIncentiveCheck={setIncentiveCheck}
-      IMAGE={DATA.IMAGE}
-      NAME={DATA.NAME}
-      START={DATA.START}
-      END={DATA.END}
-      ATTENDANCE_TIME={DATA.ATTENDANCE_TIME}
-      WORK_OFF_TIME={DATA.WORK_OFF_TIME}
-      CHANGE_START={DATA.CHANGE_START}
-      CHANGE_END={DATA.CHANGE_END}
-      START_TIME={DATA.START_TIME}
-      END_TIME={DATA.END_TIME}
-      UPDATED_START={DATA.UPDATED_START}
-      UPDATED_END={DATA.UPDATED_END}
+      IMAGE={IMAGE}
+      NAME={NAME}
+      START={START}
+      END={END}
+      ATTENDANCE_TIME={ATTENDANCE_TIME}
+      WORK_OFF_TIME={WORK_OFF_TIME}
+      CHANGE_START={CHANGE_START}
+      CHANGE_END={CHANGE_END}
+      START_TIME={START_TIME}
+      END_TIME={END_TIME}
+      UPDATED_START={UPDATED_START}
+      UPDATED_END={UPDATED_END}
       registerFn={registerFn}
     />
   );
