@@ -6,7 +6,7 @@ const storeSlice = createSlice({
     STORE_SEQ: '',
     STORE_NAME: '',
     EMP_SEQ: '',
-    STORE_DATA: null,
+    STORE_DATA: {},
   },
   reducers: {
     setEMP_SEQ(state, action) {
@@ -63,7 +63,7 @@ const storeSlice = createSlice({
         STORE_SEQ: '',
         STORE_NAME: '',
         EMP_SEQ: '',
-        STORE_DATA: null,
+        STORE_DATA: {},
       };
     },
   },

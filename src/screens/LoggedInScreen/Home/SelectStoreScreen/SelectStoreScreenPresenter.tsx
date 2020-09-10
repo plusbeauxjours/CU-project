@@ -137,7 +137,7 @@ export default ({
         contentContainerStyle={{
           alignItems: 'center',
           justifyContent: 'flex-start',
-          paddingBottom: 60,
+          paddingBottom: 0,
         }}>
         <StoreList />
       </ScrollView>

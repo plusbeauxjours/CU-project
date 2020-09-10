@@ -13,6 +13,8 @@ import {CloseCircleIcon} from '../constants/Icons';
 const IconContainer = styled.TouchableOpacity`
   z-index: 5;
   position: absolute;
+  width: 30px;
+  height: 30px;
   right: 0;
   top: 25px;
 `;
@@ -25,15 +27,12 @@ export default ({url, setModalVisible}) => {
         justifyContent: 'flex-start',
         alignItems: 'center',
       }}>
-      <IconContainer
-        onPress={() => {
-          setModalVisible(false);
-        }}>
+      <IconContainer onPress={() => setModalVisible(false)}>
         <CloseCircleIcon size={33} color={'white'} />
       </IconContainer>
       <Pdf
         source={{uri: url}}
-        onError={(error) => {
+        onError={(e) => {
           console.log(e);
           setModalVisible(false);
         }}

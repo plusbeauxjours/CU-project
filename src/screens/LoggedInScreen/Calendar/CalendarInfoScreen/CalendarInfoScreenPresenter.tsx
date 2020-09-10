@@ -105,12 +105,10 @@ export default ({
       </GreyText>
     </View>
   );
-  console.log(CALENDAR_DATA);
   return (
     <Agenda
       items={CALENDAR_DATA}
       renderItem={renderItem}
-      onDayPress={(date) => onDayPressFn(date)}
       renderEmptyDate={renderEmptyDate}
       renderKnob={renderKnob}
       markedDates={markedDates}
@@ -167,6 +165,7 @@ export default ({
         }
       }}
       rowHasChanged={rowHasChanged}
+      onDayPress={(date) => onDayPressFn(date)}
       loadItemsForMonth={(date) => onChangeMonth(date)}
       markingType={'multi-dot'}
     />

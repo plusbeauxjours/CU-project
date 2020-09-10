@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
+import ImagePicker from 'react-native-image-picker';
 
 import ChecklistShareInsertScreenPresenter from './ChecklistShareInsertScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
@@ -39,6 +40,38 @@ export default ({route: {params}}) => {
 
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
+  };
+
+  const onPressImageFn = (item) => {
+    setCameraPictureList(
+      cameraPictureList.filter(
+        (cameraPictureItem) => cameraPictureItem.uri !== item.uri,
+      ),
+    );
+  };
+
+  const launchImageLibraryFn = () => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.launchImageLibrary(options, (response) => {
+      setCameraPictureList([...cameraPictureList, {uri: response.uri}]);
+    });
+  };
+
+  const launchCameraFn = () => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.launchCamera(options, (response) => {
+      console.log('response', JSON.stringify(response));
+    });
   };
 
   // const getPermissions = async () => {
@@ -174,7 +207,6 @@ export default ({route: {params}}) => {
       date={date}
       setDate={setDate}
       cameraPictureList={cameraPictureList}
-      setCameraPictureList={setCameraPictureList}
       title={title}
       setTitle={setTitle}
       content={content}
@@ -183,7 +215,9 @@ export default ({route: {params}}) => {
       setIsCameraModalVisible={setIsCameraModalVisible}
       TITLE={params?.TITLE}
       registerFn={registerFn}
-      openImagePickerFn={openImagePickerFn}
+      onPressImageFn={onPressImageFn}
+      launchImageLibraryFn={launchImageLibraryFn}
+      launchCameraFn={launchCameraFn}
     />
   );
 };

@@ -33,6 +33,8 @@ const ControlOverlay = styled.View`
 const FullScreenIconContainer = styled.TouchableOpacity<IsFullScreen>`
   z-index: 5;
   position: absolute;
+  width: 30px;
+  height: 30px;
   right: 0;
   top: ${(props) => (props.isFullScreen ? -20 : 25)};
 `;
@@ -40,6 +42,8 @@ const FullScreenIconContainer = styled.TouchableOpacity<IsFullScreen>`
 const CloseIconContainer = styled.TouchableOpacity<IsFullScreen>`
   z-index: 5;
   position: absolute;
+  width: 30px;
+  height: 30px;
   right: 0;
   top: ${(props) => (props.isFullScreen ? -20 : 25)};
 `;

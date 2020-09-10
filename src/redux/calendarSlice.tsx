@@ -42,7 +42,6 @@ const calendarSlice = createSlice({
       const item = state.CALENDAR_DATA[DATE].filter(
         (i) => i.MEMBER_SEQ !== MEMBER_SEQ,
       );
-      console.log(item);
       return {
         ...state,
         CALENDAR_DATA: {

@@ -177,11 +177,11 @@ export default ({route: {params}}) => {
       if (data.message == 'SUCCESS') {
         if (sign == 'close') {
           alertModal('', '매장의 폐업처리가 완료되었습니다.');
-          dispatch(closeSTORE_DATA());
           navigation.reset({
             index: 0,
             routes: [{name: 'SelectStoreScreen'}],
           });
+          dispatch(closeSTORE_DATA());
         } else {
           alertModal('', '수정이 완료됐습니다.');
           dispatch(

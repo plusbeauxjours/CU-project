@@ -131,6 +131,9 @@ export default ({
   registerFn,
   openImagePickerFn,
   confirmModal,
+  onPressImageFn,
+  launchImageLibraryFn,
+  launchCameraFn,
 }) => {
   const renderImage = (item, index) => (
     <Touchable
@@ -194,7 +197,7 @@ export default ({
               <RowCenter>
                 <IconContainer>
                   <Text>촬영</Text>
-                  <Touchable onPress={() => setIsCameraModalVisible(true)}>
+                  <Touchable onPress={() => launchCameraFn(true)}>
                     <IconBox>
                       <CameraIcon size={40} />
                     </IconBox>
@@ -202,7 +205,7 @@ export default ({
                 </IconContainer>
                 <IconContainer>
                   <Text>보관함</Text>
-                  <Touchable onPress={() => openImagePickerFn()}>
+                  <Touchable onPress={() => launchImageLibraryFn()}>
                     <IconBox>
                       <PictureIcon />
                     </IconBox>
@@ -210,6 +213,7 @@ export default ({
                 </IconContainer>
               </RowCenter>
               {!cameraPictureList && <ActivityIndicator size={'small'} />}
+              {console.log(cameraPictureList)}
               {cameraPictureList?.length > 0 && (
                 <FlatList
                   horizontal
@@ -218,7 +222,24 @@ export default ({
                   contentContainerStyle={{justifyContent: 'center'}}
                   data={cameraPictureList}
                   showsHorizontalScrollIndicator={false}
-                  renderItem={({item, index}) => renderImage(item, index)}
+                  renderItem={({item, index}) => (
+                    <Touchable key={index} onPress={() => onPressImageFn(item)}>
+                      <FastImage
+                        style={{
+                          width: 100,
+                          height: 100,
+                          borderRadius: 10,
+                          marginRight: 10,
+                        }}
+                        source={{
+                          uri: item.uri,
+                          headers: {Authorization: 'someAuthToken'},
+                          priority: FastImage.priority.low,
+                        }}
+                        resizeMode={FastImage.resizeMode.cover}
+                      />
+                    </Touchable>
+                  )}
                 />
               )}
             </Section>

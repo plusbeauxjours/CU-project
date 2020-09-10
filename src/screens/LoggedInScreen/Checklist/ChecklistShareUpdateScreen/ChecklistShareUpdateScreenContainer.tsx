@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
+import ImagePicker from 'react-native-image-picker';
 
 import ChecklistShareUpdateScreenPresenter from './ChecklistShareUpdateScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
@@ -44,25 +45,37 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
-  // const getPermissions = async () => {
-  //   const {status} = await Camera.requestPermissionsAsync();
-  //   if (status !== 'granted') {
-  //     alertModal(
-  //       '앱을 사용하기 위해서는 반드시 권한을 허용해야 합니다.\n거부시 설정에서 "퇴근해씨유" 앱의 권한 허용을 해야 합니다.',
-  //     );
-  //     return false;
-  //   } else {
-  //     setHasCameraPermission(status === 'granted');
-  //   }
-  //   return true;
-  // };
+  const onPressImageFn = (item) => {
+    setCameraPictureList(
+      cameraPictureList.filter(
+        (cameraPictureItem) => cameraPictureItem.uri !== item.uri,
+      ),
+    );
+  };
 
-  // const openCamera = async () => {
-  //   const permission = await getPermissions();
-  //   if (!permission) {
-  //     return;
-  //   }
-  // };
+  const launchImageLibraryFn = () => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.launchImageLibrary(options, (response) => {
+      setCameraPictureList([...cameraPictureList, {uri: response.uri}]);
+    });
+  };
+
+  const launchCameraFn = () => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.launchCamera(options, (response) => {
+      console.log('response', JSON.stringify(response));
+    });
+  };
 
   const openImagePickerFn = async () => {
     // let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -172,7 +185,7 @@ export default ({route: {params}}) => {
       for (let i = 0; i < allimg.length; i++) {
         setCameraPictureList([
           ...cameraPictureList,
-          'http://cuapi.shop-sol.com/uploads/' + allimg[i],
+          {uri: 'http://cuapi.shop-sol.com/uploads/' + allimg[i]},
         ]);
       }
     }
@@ -199,6 +212,9 @@ export default ({route: {params}}) => {
       registerFn={registerFn}
       openImagePickerFn={openImagePickerFn}
       confirmModal={confirmModal}
+      onPressImageFn={onPressImageFn}
+      launchImageLibraryFn={launchImageLibraryFn}
+      launchCameraFn={launchCameraFn}
     />
   );
 };

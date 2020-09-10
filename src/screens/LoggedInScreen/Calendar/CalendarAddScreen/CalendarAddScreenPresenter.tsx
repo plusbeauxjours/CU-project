@@ -61,7 +61,6 @@ const Section = styled.View`
   margin-bottom: 20px;
   padding: 20px;
   background-color: white;
-  background-color: red;
 `;
 
 const Row = styled.View`

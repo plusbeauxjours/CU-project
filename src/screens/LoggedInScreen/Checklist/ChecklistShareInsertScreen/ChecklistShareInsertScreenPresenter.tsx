@@ -1,7 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import styled from 'styled-components/native';
-import {Keyboard, FlatList} from 'react-native';
+import {FlatList} from 'react-native';
+import FastImage from 'react-native-fast-image';
 import DatePickerModal from 'react-native-modal-datetime-picker';
 import {
   widthPercentageToDP as wp,
@@ -11,10 +12,6 @@ import {
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
 import InputLine from '../../../../components/InputLine';
 import {CameraIcon, PictureIcon} from '../../../../constants/Icons';
-
-interface IsSelected {
-  isSelected: boolean;
-}
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -78,11 +75,6 @@ const DateText = styled.Text`
   margin-top: 10px;
 `;
 
-const ImageContainer = styled.View`
-  width: 30px;
-  height: 30px;
-`;
-
 const Image = styled.Image`
   width: 100%;
   height: 100%;
@@ -116,13 +108,23 @@ const IconBox = styled.View`
   align-items: center;
 `;
 
+const LoadingBox = styled.View`
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
+  border-radius: 10px;
+  border-width: 0.7px;
+  border-color: #ccc;
+  justify-content: center;
+  align-items: center;
+`;
+
 export default ({
   isDateModalVisible,
   setIsDateModalVisible,
   date,
   setDate,
   cameraPictureList,
-  setCameraPictureList,
   title,
   setTitle,
   content,
@@ -131,7 +133,9 @@ export default ({
   setIsCameraModalVisible,
   TITLE,
   registerFn,
-  openImagePickerFn,
+  onPressImageFn,
+  launchImageLibraryFn,
+  launchCameraFn,
 }) => {
   return (
     <>
@@ -186,7 +190,7 @@ export default ({
               <RowCenter>
                 <IconContainer>
                   <Text>촬영</Text>
-                  <Touchable onPress={() => setIsCameraModalVisible(true)}>
+                  <Touchable onPress={() => launchCameraFn(true)}>
                     <IconBox>
                       <CameraIcon size={40} />
                     </IconBox>
@@ -194,7 +198,7 @@ export default ({
                 </IconContainer>
                 <IconContainer>
                   <Text>보관함</Text>
-                  <Touchable onPress={() => openImagePickerFn()}>
+                  <Touchable onPress={() => launchImageLibraryFn()}>
                     <IconBox>
                       <PictureIcon />
                     </IconBox>
@@ -207,25 +211,27 @@ export default ({
                   keyExtractor={(_, index) => index.toString()}
                   style={{
                     marginTop: 40,
-                    marginHorizontal: 20,
                     flexDirection: 'row',
                   }}
                   data={cameraPictureList}
-                  renderItem={({item, index}) => {
-                    return (
-                      <Touchable
-                        key={index}
-                        onPress={() => {
-                          const cameraPictureListed = cameraPictureList;
-                          cameraPictureListed.splice(item.index, 1);
-                          setCameraPictureList(cameraPictureListed);
-                        }}>
-                        <ImageContainer>
-                          <Image source={{uri: item.item}} />
-                        </ImageContainer>
-                      </Touchable>
-                    );
-                  }}
+                  renderItem={({item, index}) => (
+                    <Touchable key={index} onPress={() => onPressImageFn(item)}>
+                      <FastImage
+                        style={{
+                          width: 100,
+                          height: 100,
+                          borderRadius: 10,
+                          marginRight: 10,
+                        }}
+                        source={{
+                          uri: item.uri,
+                          headers: {Authorization: 'someAuthToken'},
+                          priority: FastImage.priority.low,
+                        }}
+                        resizeMode={FastImage.resizeMode.cover}
+                      />
+                    </Touchable>
+                  )}
                 />
               )}
             </Section>

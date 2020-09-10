@@ -99,7 +99,6 @@ export default ({route: {params}}) => {
         keyboardDismissMode="on-drag"
         contentContainerStyle={{alignItems: 'center'}}>
         <Container>
-          {console.log(SCH_ID)}
           <Touchable
             activeOpacity={1}
             onPress={() =>

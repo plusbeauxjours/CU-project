@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import ChecklistSpecificationScreenPresenter from './ChecklistSpecificationScreenPresenter';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
+import ImagePicker from 'react-native-image-picker';
 
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
@@ -112,6 +113,38 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
+  const onPressImageFn = (item) => {
+    setCameraPictureList(
+      cameraPictureList.filter(
+        (cameraPictureItem) => cameraPictureItem.uri !== item.uri,
+      ),
+    );
+  };
+
+  const launchImageLibraryFn = () => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.launchImageLibrary(options, (response) => {
+      setCameraPictureList([...cameraPictureList, {uri: response.uri}]);
+    });
+  };
+
+  const launchCameraFn = () => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.launchCamera(options, (response) => {
+      console.log('response', JSON.stringify(response));
+    });
+  };
+
   // const getPermissionsAsync = async () => {
   //   const {status} = await Camera.requestPermissionsAsync();
 
@@ -132,10 +165,6 @@ export default ({route: {params}}) => {
   //     return;
   //   }
   // };
-
-  const openImagePickerFn = () => {
-    console.log('openImagePickerFn');
-  };
 
   const gotoChecklistAdd = () => {
     navigation.navigate('ChecklistAddScreen', {
@@ -308,7 +337,6 @@ export default ({route: {params}}) => {
       scan={scan}
       hasCHECK_TITLE={params?.data.CHECK_TITLE}
       gotoChecklistAdd={gotoChecklistAdd}
-      openImagePickerFn={openImagePickerFn}
       CHECK_TITLE={CHECK_TITLE}
       setCHECK_TITLE={setCHECK_TITLE}
       TITLE={TITLE}
@@ -329,6 +357,9 @@ export default ({route: {params}}) => {
       setChecklistGoodState={setChecklistGoodState}
       checklistBadState={checklistBadState}
       setChecklistBadState={setChecklistBadState}
+      onPressImageFn={onPressImageFn}
+      launchImageLibraryFn={launchImageLibraryFn}
+      launchCameraFn={launchCameraFn}
     />
   );
 };

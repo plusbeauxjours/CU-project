@@ -16,17 +16,18 @@ const Text = styled.Text`
 `;
 
 export default () => {
+  const navigation = useNavigation();
+
   const {STORE} = useSelector((state: any) => state.userReducer);
   const {
-    STORE_SEQ,
-    STORE_NAME,
+    STORE_SEQ = null,
+    STORE_NAME = null,
     STORE_DATA: {
       workinglist: WORKING_COUNT = null,
       emplist: TOTAL_COUNT = null,
-    },
+    } = {},
   } = useSelector((state: any) => state.storeReducer);
 
-  const navigation = useNavigation();
   return (
     <Touchable
       onPress={() => {

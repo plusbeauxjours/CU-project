@@ -5,7 +5,7 @@ import moment from 'moment';
 const shelflifetSlice = createSlice({
   name: 'shelflife',
   initialState: {
-    SHELFLIFE_DATA: null,
+    SHELFLIFE_DATA: {},
     SHELFLIFE_MARKED: {},
   },
   reducers: {

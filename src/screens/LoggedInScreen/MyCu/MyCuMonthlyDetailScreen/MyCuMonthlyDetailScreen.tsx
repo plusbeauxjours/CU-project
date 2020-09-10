@@ -11,7 +11,7 @@ import FastImage from 'react-native-fast-image';
 import api from '../../../../constants/LoggedInApi';
 import PDFViewer from '../../../../components/PDFViewer';
 
-const BackGround = styled.SafeAreaView`
+const BackGround = styled.View`
   flex: 1;
   background-color: white;
 `;
@@ -62,36 +62,38 @@ export default ({route: {params}}) => {
   };
 
   return (
-    <BackGround>
-      <ScrollView
-        keyboardDismissMode="on-drag"
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{alignItems: 'center'}}>
-        {IMG_URL2 && (
+    <>
+      <BackGround>
+        <ScrollView
+          keyboardDismissMode="on-drag"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{alignItems: 'center'}}>
+          {IMG_URL2 && (
+            <Wrapper>
+              <FastImage
+                style={{width: wp('100%'), height: hp('30%')}}
+                source={{
+                  uri: IMG_URL2,
+                  headers: {Authorization: 'someAuthToken'},
+                  priority: FastImage.priority.low,
+                }}
+                resizeMode={FastImage.resizeMode.stretch}
+              />
+            </Wrapper>
+          )}
+          <PdfButtonWrapper>
+            <PdfButton
+              onPress={() => {
+                checkPdf();
+              }}>
+              <PdfButtonText>PDF 보기</PdfButtonText>
+            </PdfButton>
+          </PdfButtonWrapper>
           <Wrapper>
-            <FastImage
-              style={{width: wp('100%'), height: hp('30%')}}
-              source={{
-                uri: IMG_URL2,
-                headers: {Authorization: 'someAuthToken'},
-                priority: FastImage.priority.low,
-              }}
-              resizeMode={FastImage.resizeMode.stretch}
-            />
+            <Text>{CONTENTS2}</Text>
           </Wrapper>
-        )}
-        <PdfButtonWrapper>
-          <PdfButton
-            onPress={() => {
-              checkPdf();
-            }}>
-            <PdfButtonText>PDF 보기</PdfButtonText>
-          </PdfButton>
-        </PdfButtonWrapper>
-        <Wrapper>
-          <Text>{CONTENTS2}</Text>
-        </Wrapper>
-      </ScrollView>
+        </ScrollView>
+      </BackGround>
       <Modal
         isVisible={modalVisible}
         style={{
@@ -102,6 +104,6 @@ export default ({route: {params}}) => {
         }}>
         <PDFViewer url={PDF_URL} setModalVisible={setModalVisible} />
       </Modal>
-    </BackGround>
+    </>
   );
 };

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -117,7 +117,6 @@ export default () => {
       }
       marked = staticMarked;
     }
-    // setStaticmarkedDates(staticMarked);
     setMarkedDates(Object.assign(marked, markedDates));
   };
 
@@ -161,6 +160,10 @@ export default () => {
   const onChangeMonth = async (date) => {
     fetchData(date.dateString);
   };
+
+  // useEffect(() => {
+  //   fetchData(moment().format('YYYY-MM-DD'));
+  // });
 
   return (
     <CalendarInfoScreenPresenter
