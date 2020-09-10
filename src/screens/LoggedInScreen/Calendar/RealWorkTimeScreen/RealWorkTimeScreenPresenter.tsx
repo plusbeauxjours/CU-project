@@ -34,7 +34,7 @@ const Container = styled.View`
 const Section = styled.View`
   width: 100%;
   border-radius: 20px;
-  margin-top: 20px;
+  margin-bottom: 20px;
   padding: 20px;
   background-color: white;
 `;
@@ -134,10 +134,6 @@ const WhiteSpace = styled.View`
   height: 30px;
 `;
 
-const IncentiveText = styled.Text`
-  margin-left: 10;
-  font-size: 15px;
-`;
 const NormalContainer = styled.View`
   width: 100%;
   flex-direction: row;
@@ -145,15 +141,20 @@ const NormalContainer = styled.View`
   align-items: center;
 `;
 
-const NormalBox = styled.TouchableOpacity`
+const NormalBox = styled.TouchableOpacity<IsSelected>`
   width: ${(wp('100%') - 130) / 4}px;
   height: 50px;
   margin: 0 5px;
   border-radius: 10px;
   border-width: 1px;
-  border-color: #642a8c;
+  border-color: ${(props) => (props.isSelected ? '#ccc' : '#642a8c')};
   align-items: center;
   justify-content: center;
+`;
+
+const NormalText = styled.Text<IsSelected>`
+  color: ${(props) => (props.isSelected ? '#ccc' : '#642a8c')};
+  font-size: 14px;
 `;
 
 const WorkTime = styled.View`
@@ -296,12 +297,15 @@ export default ({
         />
         <CntArea>
           <NameText style={{marginBottom: 10}}>{NAME}</NameText>
-          {CHANGE_START != null ? (
+          {CHANGE_START ? (
             <WorkTime>
               <WorkTitleText>근무시간 </WorkTitleText>
               <WorkTimeText>
                 {(ATTENDANCE_TIME || START)?.substring(0, 5)} ~&nbsp;
-                {(WORK_OFF_TIME || END)?.substring(0, 5)}
+                {(WORK_OFF_TIME || END)?.substring(0, 5)} >&nbsp;
+                {CHANGE_START == null ? '' : CHANGE_START?.substring(0, 5)}{' '}
+                ~&nbsp;
+                {CHANGE_END == null ? '' : CHANGE_END?.substring(0, 5)}
               </WorkTimeText>
             </WorkTime>
           ) : (
@@ -309,10 +313,7 @@ export default ({
               <WorkTitleText>근무시간 </WorkTitleText>
               <WorkTimeText>
                 {(ATTENDANCE_TIME || START)?.substring(0, 5)} ~&nbsp;
-                {(WORK_OFF_TIME || END)?.substring(0, 5)}`{'>'}`
-                {CHANGE_START == null ? '' : CHANGE_START?.substring(0, 5)}{' '}
-                ~&nbsp;
-                {CHANGE_END == null ? '' : CHANGE_END?.substring(0, 5)}
+                {(WORK_OFF_TIME || END)?.substring(0, 5)}
               </WorkTimeText>
             </WorkTime>
           )}
@@ -329,7 +330,7 @@ export default ({
               <WorkTitleText>출퇴근시간 </WorkTitleText>
               <WorkTimeText>
                 {(START_TIME || '미출근')?.substring(0, 5)} ~&nbsp;
-                {(END_TIME || '미퇴근')?.substring(0, 5)}`{'>'}`
+                {(END_TIME || '미퇴근')?.substring(0, 5)} >&nbsp;
                 {(UPDATED_START || '미출근')?.substring(0, 5)} ~&nbsp;
                 {(UPDATED_END || '미퇴근')?.substring(0, 5)}
               </WorkTimeText>
@@ -350,7 +351,8 @@ export default ({
           onPress={() => {
             setIsTimeCheckModalVisible(true);
             setTimeSwitch('start');
-          }}>
+          }}
+          disabled={startTime === '미출근'}>
           <Text>출근시간</Text>
           <Text color={startTime}>{startTime ?? '00:00'}</Text>
         </RowSpaceTouchable>
@@ -359,35 +361,37 @@ export default ({
           onPress={() => {
             setIsTimeCheckModalVisible(true);
             setTimeSwitch('end');
-          }}>
+          }}
+          disabled={endTime === '미퇴근'}>
           <Text>퇴근시간</Text>
           <Text color={endTime}>{endTime ?? '00:00'}</Text>
         </RowSpaceTouchable>
       </TimePickBox>
+      <WhiteSpace />
       <NormalContainer>
         <NormalBox
-          onPress={() => {
-            nomalTimeFn('start');
-          }}>
-          <Text style={{color: '#642a8c', fontSize: 14}}>정상출근</Text>
+          disabled={startTime !== '미출근'}
+          onPress={() => nomalTimeFn('start')}
+          isSelected={startTime !== '미출근'}>
+          <NormalText isSelected={startTime !== '미출근'}>정상출근</NormalText>
         </NormalBox>
         <NormalBox
-          onPress={() => {
-            nomalTimeFn('end');
-          }}>
-          <Text style={{color: '#642a8c', fontSize: 14}}>정상퇴근</Text>
+          disabled={endTime !== '미퇴근'}
+          onPress={() => nomalTimeFn('end')}
+          isSelected={endTime !== '미퇴근'}>
+          <NormalText isSelected={endTime !== '미퇴근'}>정상퇴근</NormalText>
         </NormalBox>
         <NormalBox
-          onPress={() => {
-            nomalTimeFn('deleteStart');
-          }}>
-          <Text style={{color: '#642a8c', fontSize: 14}}>미출근</Text>
+          disabled={startTime === '미출근'}
+          onPress={() => nomalTimeFn('deleteStart')}
+          isSelected={startTime === '미출근'}>
+          <NormalText isSelected={startTime === '미출근'}>미출근</NormalText>
         </NormalBox>
         <NormalBox
-          onPress={() => {
-            nomalTimeFn('deleteEnd');
-          }}>
-          <Text style={{color: '#642a8c', fontSize: 14}}>미퇴근</Text>
+          disabled={endTime === '미퇴근'}
+          onPress={() => nomalTimeFn('deleteEnd')}
+          isSelected={endTime === '미퇴근'}>
+          <NormalText isSelected={endTime === '미퇴근'}>미퇴근</NormalText>
         </NormalBox>
       </NormalContainer>
     </Section>
@@ -429,17 +433,9 @@ export default ({
           {RenderHourRow([12, 13, 14, 15], 4)}
           {RenderHourRow([16, 17, 18, 19], 5)}
           {RenderHourRow([20, 21, 22, 23], 6)}
-          {/* <RenderHourRow rowData={[0, 1, 2, 3]} rowNum={1} />
-          <RenderHourRow rowData={[4, 5, 6, 7]} rowNum={2} />
-          <RenderHourRow rowData={[8, 9, 10, 11]} rowNum={3} />
-          <RenderHourRow rowData={[12, 13, 14, 15]} rowNum={4} />
-          <RenderHourRow rowData={[16, 17, 18, 19]} rowNum={5} />
-          <RenderHourRow rowData={[20, 21, 22, 23]} rowNum={6} /> */}
           <ModalText>분 선택</ModalText>
           {RenderMinuteRow([0, 10, 20, 30], 1)}
           {RenderMinuteRow([40, 50, 'directInput'], 2)}
-          {/* <RenderMinuteRow rowData={[0, 10, 20, 30]} rowNum={1} />
-          <RenderMinuteRow rowData={[40, 50, 'directInput']} rowNum={2} /> */}
         </ModalContainer>
         <ModalFooter>
           <ModalButton

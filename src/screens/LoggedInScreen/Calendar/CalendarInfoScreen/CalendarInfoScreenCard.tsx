@@ -72,7 +72,7 @@ const ContentBox = styled.View`
 `;
 
 const WorkTime = styled.View`
-  height: ${hp('2.5%')};
+  height: 15px;
   flex-direction: row;
   justify-content: flex-start;
 `;
@@ -292,8 +292,10 @@ export default ({
                 <WorkTitleText>근무시간 </WorkTitleText>
                 <WorkTimeText>
                   {(ATTENDANCE_TIME || START)?.substring(0, 5)} ~&nbsp;
-                  {(WORK_OFF_TIME || END)?.substring(0, 5)}`{'>'}`
-                  {CHANGE_START == null ? '' : CHANGE_START?.substring(0, 5)}{' '}
+                  {(WORK_OFF_TIME || END)?.substring(0, 5)} >&nbsp;
+                  {CHANGE_START == null
+                    ? ''
+                    : CHANGE_START?.substring(0, 5)}{' '}
                   ~&nbsp;
                   {CHANGE_END == null ? '' : CHANGE_END?.substring(0, 5)}
                 </WorkTimeText>
@@ -312,7 +314,7 @@ export default ({
                 <WorkTitleText>출퇴근시간 </WorkTitleText>
                 <WorkTimeText>
                   {(START_TIME || '미출근')?.substring(0, 5)} ~&nbsp;
-                  {(END_TIME || '미퇴근')?.substring(0, 5)}`{'>'}`
+                  {(END_TIME || '미퇴근')?.substring(0, 5)} >&nbsp;
                   {(UPDATED_START || '미출근')?.substring(0, 5)} ~&nbsp;
                   {(UPDATED_END || '미퇴근')?.substring(0, 5)}
                 </WorkTimeText>
@@ -321,7 +323,9 @@ export default ({
 
             <WorkTime>
               <WorkTitleText>휴게시간 </WorkTitleText>
-              <WorkTitleText>{REST_TIME}분</WorkTitleText>
+              <WorkTitleText style={{marginLeft: 0}}>
+                {REST_TIME}분
+              </WorkTitleText>
             </WorkTime>
           </CntArea>
         </Row>

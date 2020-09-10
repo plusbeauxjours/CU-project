@@ -31,7 +31,7 @@ export default ({route: {params}}) => {
     },
     date,
   } = params;
-  const {STORE_SEQ} = useSelector((state: any) => state.userReducer);
+  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
 
   const [isTimeCheckModalVisible, setIsTimeCheckModalVisible] = useState<
     boolean

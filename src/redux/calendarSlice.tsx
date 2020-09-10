@@ -72,8 +72,8 @@ const calendarSlice = createSlice({
         },
       } = action;
       const item = state.CALENDAR_DATA[date].find((i) => i.EMP_ID === EMP_ID);
-      item.START = UPDATED_START;
-      item.END = UPDATED_END;
+      item.UPDATED_START = UPDATED_START;
+      item.UPDATED_END = UPDATED_END;
       item.START_TIME = START_TIME;
       item.END_TIME = END_TIME;
     },
