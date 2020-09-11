@@ -136,7 +136,9 @@ const checklistshareSlice = createSlice({
             );
             basicItem.TITLE = title;
             basicItem.CONTENTS = content;
-            basicItem.IMG_LIST = image ?? null;
+            if (image) {
+              basicItem.IMG_LIST = image;
+            }
           }
         }
       } else {
@@ -180,7 +182,6 @@ const checklistshareSlice = createSlice({
           }
         }
       }
-      return null;
     },
   },
 });
