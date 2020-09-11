@@ -61,7 +61,6 @@ const CalendarText = styled.Text`
 export default ({key, date, data}) => {
   const navigation = useNavigation();
   const [willCheck, setWillCheck] = useState<boolean>(false);
-  const [checkYes, setCheckYes] = useState<boolean>(false);
   const [checkNo, setCheckNo] = useState<boolean>(false);
 
   let done = false;
@@ -88,29 +87,29 @@ export default ({key, date, data}) => {
   };
 
   const checkState = (check) => {
-    if (check !== null) {
+    let willChecked = false;
+    let checkedNo = false;
+    if (check) {
       check = check.split('@');
       for (var i = 0; i < check.length / 2; i++) {
         var temp = 2 * i + 1;
-        if (check[temp] === '1') {
-          setCheckYes(true);
-        }
         if (check[temp] === '2') {
-          setCheckNo(true);
+          checkedNo = true;
         }
       }
     } else {
-      setWillCheck(true);
+      willChecked = true;
     }
+    setWillCheck(willChecked);
+    setCheckNo(checkedNo);
   };
 
   useEffect(() => {
     checkState(data.CHECK_LIST);
   }, []);
-
   useEffect(() => {
     checkState(data.CHECK_LIST);
-  }, [data.CHECK_LIST]);
+  }, [data]);
 
   return (
     <Touchable

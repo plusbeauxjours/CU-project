@@ -268,11 +268,10 @@ export default ({
   onDayPress,
   onMonthChange,
   CHECKLIST_DATA,
-  STORE_SEQ,
   adviceModal,
   gotoChecklistAdd,
   selectCheckListFn,
-  gotoChecklistSpecification,
+  checkdataFn,
   fetchData,
 }) => {
   const yesterday = moment(date).subtract(1, 'days').format('YYYY-MM-DD');
@@ -322,9 +321,7 @@ export default ({
   };
 
   const ModalItem = ({item, key}) => (
-    <ModalItemTouchable
-      key={key}
-      onPress={() => gotoChecklistSpecification(item)}>
+    <ModalItemTouchable key={key} onPress={() => checkdataFn(item)}>
       <ChecklistModalBox>
         <RowSpace>
           {item.CHECK_TYPE == '0' ? (

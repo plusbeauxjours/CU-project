@@ -179,7 +179,7 @@ export default ({route: {params}}) => {
             LIST: newlist,
             STORE_SEQ,
             TITLE,
-            createdData: isNoCheckedtime ? '' : customChecktime.toString(),
+            createdData: isNoCheckedtime ? '' : customChecktime,
             PHOTO_CHECK: isCheckedCamera ? '1' : '0',
             EMP_SEQ: newChoiceEmp,
           });
@@ -196,7 +196,7 @@ export default ({route: {params}}) => {
             LIST: newlist,
             STORE_SEQ,
             TITLE,
-            createdData: isNoCheckedtime ? '' : customChecktime.toString(),
+            createdData: isNoCheckedtime ? '' : customChecktime,
             PHOTO_CHECK: isCheckedCamera ? '1' : '0',
           });
           if (data.message === 'SUCCESS') {
@@ -224,7 +224,7 @@ export default ({route: {params}}) => {
             LIST: newlist,
             CHECK_SEQ,
             TITLE,
-            createdData: isNoCheckedtime ? '' : customChecktime.toString(),
+            createdData: isNoCheckedtime ? '' : customChecktime,
             PHOTO_CHECK: isCheckedCamera ? '1' : '0',
             EMP_SEQ: newChoiceEmp,
           });
@@ -243,7 +243,7 @@ export default ({route: {params}}) => {
             LIST: newlist,
             CHECK_SEQ,
             TITLE,
-            createdData: isNoCheckedtime ? '' : customChecktime.toString(),
+            createdData: isNoCheckedtime ? '' : customChecktime,
             PHOTO_CHECK: isCheckedCamera ? '1' : '0',
           });
           if (data.result === 'SUCCESS') {

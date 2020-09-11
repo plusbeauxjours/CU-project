@@ -10,7 +10,6 @@ import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import {ActivityIndicator} from 'react-native';
 import {
   CheckBoxIcon,
   CameraIcon,
@@ -132,7 +131,6 @@ const IconBox = styled.View`
 
 export default ({
   scan,
-  hasCHECK_TITLE,
   gotoChecklistAdd,
   CHECK_TITLE,
   setCHECK_TITLE,
@@ -157,221 +155,211 @@ export default ({
   onPressImageFn,
   launchImageLibraryFn,
   launchCameraFn,
-}) => {
-  const renderImage = (item, index) => (
-    <Touchable
-      onPress={() => {
-        setIsCameraModalVisible(true);
-      }}
-      key={index}>
-      <FastImage
-        style={{width: 120, height: 120, borderRadius: 10, marginHorizontal: 5}}
-        source={{
-          uri: item,
-          headers: {Authorization: 'someAuthToken'},
-          priority: FastImage.priority.low,
-        }}
-        resizeMode={FastImage.resizeMode.cover}
-      />
-    </Touchable>
-  );
-
-  return (
-    <BackGround>
-      <ScrollView
-        keyboardShouldPersistTaps={'handled'}
-        keyboardDismissMode="on-drag"
-        contentContainerStyle={{alignItems: 'center'}}>
-        <Container>
-          <Section>
-            <RowSpace>
-              <SectionText>체크항목</SectionText>
-              <Text>{TITLE}</Text>
-            </RowSpace>
-            <WhiteSpace />
-            <RowSpace>
-              <SectionText>체크예정시간</SectionText>
-              <Text>{END_TIME == '' ? '미사용' : END_TIME}</Text>
-            </RowSpace>
-          </Section>
-          <Section>
-            <RowSpace>
-              <SectionText>{NAME ? '담당직원' : '확인직원'}</SectionText>
-              <Text style={{color: '#642A8C', fontWeight: 'bold'}}>
-                {NAME ? NAME.split('@').join(' / ') : EMP_NAME ?? '체크전'}
-              </Text>
-            </RowSpace>
-            <WhiteSpace />
-            <RowSpace>
-              <SectionText>확인시간</SectionText>
-              <Text style={{color: '#642A8C', fontWeight: 'bold'}}>
-                {CHECK_TIME ? moment(CHECK_TIME).format('HH:mm') : '체크전'}
-              </Text>
-            </RowSpace>
-          </Section>
-          <Section>
-            <SectionText>체크리스트 목록</SectionText>
-            <WhiteSpace />
-            <Box>
-              <ChecklistTitle>
-                {LIST?.length === 0 ? (
-                  <ChecklistItem>
-                    <ChecklistText>ex. 가스벨브 잠그기</ChecklistText>
-                  </ChecklistItem>
-                ) : (
-                  <CheckBoxIconContainer>
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        color: scan == '0' ? '#CCCCCC' : '#642A8C',
-                      }}>
-                      정상
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        color: scan == '0' ? '#CCCCCC' : '#B91C1B',
-                      }}>
-                      이상
-                    </Text>
-                  </CheckBoxIconContainer>
-                )}
-              </ChecklistTitle>
-              {LIST?.map((data, index) => (
-                <ChecklistItem key={index}>
-                  <ChecklistText>{data}</ChecklistText>
-                  <CheckBoxIconContainer>
-                    <Touchable
-                      onPress={() => {
-                        let checklistGoodStated = JSON.parse(
-                          JSON.stringify(checklistGoodState),
-                        );
-                        let checklistBadStated = JSON.parse(
-                          JSON.stringify(checklistBadState),
-                        );
-                        checklistGoodStated[index] = !checklistGoodState[index];
-                        checklistBadStated[index] = !checklistBadState[index];
-                        setChecklistGoodState(checklistGoodStated);
-                        setChecklistBadState(checklistBadStated);
-                      }}
-                      disabled={scan == '1' ? false : true}>
-                      <CheckBoxIcon
-                        size={25}
-                        color={
-                          checklistGoodState[index] ? '#642A8C' : '#CCCCCC'
-                        }
-                      />
-                    </Touchable>
-                    <WhiteSpace />
-                    <Touchable
-                      onPress={() => {
-                        let checklistGoodStated = JSON.parse(
-                          JSON.stringify(checklistGoodState),
-                        );
-                        let checklistBadStated = JSON.parse(
-                          JSON.stringify(checklistBadState),
-                        );
-                        checklistGoodStated[index] = !checklistGoodState[index];
-                        checklistBadStated[index] = !checklistBadState[index];
-                        setChecklistGoodState(checklistGoodStated);
-                        setChecklistBadState(checklistBadStated);
-                      }}
-                      disabled={scan == '1' ? false : true}>
-                      <CheckBoxIcon
-                        size={25}
-                        color={checklistBadState[index] ? '#B91C1B' : '#CCCCCC'}
-                      />
-                    </Touchable>
-                  </CheckBoxIconContainer>
+  registerFn,
+}) => (
+  <BackGround>
+    <ScrollView
+      keyboardShouldPersistTaps={'handled'}
+      keyboardDismissMode="on-drag"
+      contentContainerStyle={{alignItems: 'center'}}>
+      <Container>
+        <Section>
+          <RowSpace>
+            <SectionText>체크항목</SectionText>
+            <Text>{TITLE}</Text>
+          </RowSpace>
+          <WhiteSpace />
+          <RowSpace>
+            <SectionText>체크예정시간</SectionText>
+            <Text>{END_TIME == '' ? '미사용' : END_TIME}</Text>
+          </RowSpace>
+        </Section>
+        <Section>
+          <RowSpace>
+            <SectionText>{NAME ? '담당직원' : '확인직원'}</SectionText>
+            <Text style={{color: '#642A8C', fontWeight: 'bold'}}>
+              {NAME ? NAME.split('@').join(' / ') : EMP_NAME ?? '체크전'}
+            </Text>
+          </RowSpace>
+          <WhiteSpace />
+          <RowSpace>
+            <SectionText>확인시간</SectionText>
+            <Text style={{color: '#642A8C', fontWeight: 'bold'}}>
+              {CHECK_TIME ? moment(CHECK_TIME).format('HH:mm') : '체크전'}
+            </Text>
+          </RowSpace>
+        </Section>
+        <Section>
+          <SectionText>체크리스트 목록</SectionText>
+          <WhiteSpace />
+          <Box>
+            <ChecklistTitle>
+              {LIST?.length === 0 ? (
+                <ChecklistItem>
+                  <ChecklistText>ex. 가스벨브 잠그기</ChecklistText>
                 </ChecklistItem>
-              ))}
-            </Box>
-          </Section>
-
-          {hasCHECK_TITLE?.length > 0 && (
-            <Section>
-              <SectionText>메모</SectionText>
-              <WhiteSpace />
-              <Box>
-                <TextInput
-                  onChangeText={(text) => setCHECK_TITLE(text)}
-                  value={CHECK_TITLE}
-                  placeholder={'내용를 입력하세요.'}
-                  placeholderTextColor={'#CCCCCC'}
-                  multiline={true}
-                />
-              </Box>
-            </Section>
-          )}
-          {PHOTO_CHECK === '1' && STORE === '0' && scan === '1' && (
-            <Section>
-              <TitleText>사진</TitleText>
-              {cameraPictureList?.length > 0 && (
-                <GreyText>
-                  등록된 사진을 클릭하면 리스트에서 제거됩니다
-                </GreyText>
+              ) : (
+                <CheckBoxIconContainer>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: scan == '0' ? '#CCCCCC' : '#642A8C',
+                    }}>
+                    정상
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: scan == '0' ? '#CCCCCC' : '#B91C1B',
+                    }}>
+                    이상
+                  </Text>
+                </CheckBoxIconContainer>
               )}
-              <RowCenter>
-                <IconContainer>
-                  <Text>촬영</Text>
-                  <Touchable onPress={() => launchCameraFn(true)}>
-                    <IconBox>
-                      <CameraIcon size={40} />
-                    </IconBox>
+            </ChecklistTitle>
+            {LIST?.map((data, index) => (
+              <ChecklistItem key={index}>
+                <ChecklistText>{data}</ChecklistText>
+                <CheckBoxIconContainer>
+                  <Touchable
+                    onPress={() => {
+                      console.log('good', checklistGoodState);
+                      let checklistGoodStated = JSON.parse(
+                        JSON.stringify(checklistGoodState),
+                      );
+                      let checklistBadStated = JSON.parse(
+                        JSON.stringify(checklistBadState),
+                      );
+                      checklistGoodStated[index] = true;
+                      checklistBadStated[index] = false;
+                      setChecklistGoodState(checklistGoodStated);
+                      setChecklistBadState(checklistBadStated);
+                    }}
+                    disabled={scan == '1' ? false : true}>
+                    <CheckBoxIcon
+                      size={25}
+                      color={
+                        JSON.parse(JSON.stringify(checklistGoodState))[index]
+                          ? '#642A8C'
+                          : '#CCCCCC'
+                      }
+                    />
                   </Touchable>
-                </IconContainer>
-                <IconContainer>
-                  <Text>보관함</Text>
-                  <Touchable onPress={() => launchImageLibraryFn()}>
-                    <IconBox>
-                      <PictureIcon />
-                    </IconBox>
+                  <WhiteSpace />
+                  <Touchable
+                    onPress={() => {
+                      console.log('bad', checklistBadState);
+                      let checklistGoodStated = JSON.parse(
+                        JSON.stringify(checklistGoodState),
+                      );
+                      let checklistBadStated = JSON.parse(
+                        JSON.stringify(checklistBadState),
+                      );
+                      checklistGoodStated[index] = false;
+                      checklistBadStated[index] = true;
+                      setChecklistGoodState(checklistGoodStated);
+                      setChecklistBadState(checklistBadStated);
+                    }}
+                    disabled={scan == '1' ? false : true}>
+                    <CheckBoxIcon
+                      size={25}
+                      color={
+                        JSON.parse(JSON.stringify(checklistBadState))[index]
+                          ? '#B91C1B'
+                          : '#CCCCCC'
+                      }
+                    />
                   </Touchable>
-                </IconContainer>
-              </RowCenter>
-              {!cameraPictureList && <ActivityIndicator size={'small'} />}
-              {cameraPictureList?.length > 0 && (
-                <FlatList
-                  horizontal
-                  keyExtractor={(_, index) => index.toString()}
-                  style={{
-                    marginTop: 40,
-                    flexDirection: 'row',
-                  }}
-                  data={cameraPictureList}
-                  renderItem={({item, index}) => (
-                    <Touchable key={index} onPress={() => onPressImageFn(item)}>
-                      <FastImage
-                        style={{
-                          width: 100,
-                          height: 100,
-                          borderRadius: 10,
-                          marginRight: 10,
-                        }}
-                        source={{
-                          uri: item.uri,
-                          headers: {Authorization: 'someAuthToken'},
-                          priority: FastImage.priority.low,
-                        }}
-                        resizeMode={FastImage.resizeMode.cover}
-                      />
-                    </Touchable>
-                  )}
-                />
-              )}
-            </Section>
-          )}
-          {STORE == '1' && (
-            <SubmitBtn
-              text={'수정하기'}
-              onPress={() => gotoChecklistAdd()}
-              isRegisted={true}
+                </CheckBoxIconContainer>
+              </ChecklistItem>
+            ))}
+          </Box>
+        </Section>
+        <Section>
+          <SectionText>메모</SectionText>
+          <WhiteSpace />
+          <Box>
+            <TextInput
+              onChangeText={(text) => setCHECK_TITLE(text)}
+              value={CHECK_TITLE}
+              placeholder={'내용를 입력하세요.'}
+              placeholderTextColor={'#CCCCCC'}
+              multiline={true}
             />
-          )}
-        </Container>
-      </ScrollView>
+          </Box>
+        </Section>
+        {PHOTO_CHECK === '1' && STORE === '0' && scan === '1' && (
+          <Section>
+            <TitleText>사진</TitleText>
+            {cameraPictureList?.length > 0 && (
+              <GreyText>등록된 사진을 클릭하면 리스트에서 제거됩니다</GreyText>
+            )}
+            <RowCenter>
+              <IconContainer>
+                <Text>촬영</Text>
+                <Touchable onPress={() => launchCameraFn(true)}>
+                  <IconBox>
+                    <CameraIcon size={40} />
+                  </IconBox>
+                </Touchable>
+              </IconContainer>
+              <IconContainer>
+                <Text>보관함</Text>
+                <Touchable onPress={() => launchImageLibraryFn()}>
+                  <IconBox>
+                    <PictureIcon />
+                  </IconBox>
+                </Touchable>
+              </IconContainer>
+            </RowCenter>
+            {cameraPictureList?.length > 0 && (
+              <FlatList
+                horizontal
+                keyExtractor={(_, index) => index.toString()}
+                style={{flexDirection: 'row'}}
+                contentContainerStyle={{justifyContent: 'center'}}
+                data={cameraPictureList}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({item, index}: any) => (
+                  <Touchable key={index} onPress={() => onPressImageFn(item)}>
+                    <FastImage
+                      style={{
+                        width: 100,
+                        height: 100,
+                        borderRadius: 10,
+                        marginRight: 10,
+                      }}
+                      source={{
+                        uri: item.uri,
+                        headers: {Authorization: 'someAuthToken'},
+                        priority: FastImage.priority.low,
+                      }}
+                      resizeMode={FastImage.resizeMode.cover}
+                    />
+                  </Touchable>
+                )}
+              />
+            )}
+          </Section>
+        )}
+        {STORE == '0' && scan === '1' && (
+          <SubmitBtn
+            text={'체크완료'}
+            onPress={() => registerFn()}
+            isRegisted={true}
+          />
+        )}
+        {STORE == '1' && (
+          <SubmitBtn
+            text={'수정하기'}
+            onPress={() => gotoChecklistAdd()}
+            isRegisted={true}
+          />
+        )}
+      </Container>
+    </ScrollView>
 
-      {/* <Modal
+    {/* <Modal
         isVisible={isCameraModalVisible}
         style={{margin: 0}}
         onBackButtonPress={() => setIsCameraModalVisible(false)}>
@@ -517,6 +505,5 @@ export default ({
           )}
         </View>
       </Modal> */}
-    </BackGround>
-  );
-};
+  </BackGround>
+);

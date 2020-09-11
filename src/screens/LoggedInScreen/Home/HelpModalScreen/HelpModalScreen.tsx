@@ -55,7 +55,9 @@ export default () => {
 
   const fetchData = async () => {
     try {
-      dispatch(setSplashVisible(true));
+      if (!helpCategory) {
+        dispatch(setSplashVisible(true));
+      }
       const {data} = await api.help();
       dispatch(setHelpCategory(data.result));
     } catch (e) {
@@ -66,7 +68,7 @@ export default () => {
   };
 
   useEffect(() => {
-    helpCategory.length === 0 && fetchData();
+    fetchData();
   }, []);
 
   return (

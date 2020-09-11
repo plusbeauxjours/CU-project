@@ -32,7 +32,9 @@ export default ({route: {params}}) => {
   const [isTimeCheckModalVisible, setIsTimeCheckModalVisible] = useState<
     boolean
   >(false);
-  const [hourCheck, setHourCheck] = useState<any>(new Array(24));
+  const [hourCheck, setHourCheck] = useState<any>(
+    JSON.parse(JSON.stringify(new Array(24))),
+  );
   const [minuteCheck, setMinuteCheck] = useState<
     [boolean, boolean, boolean, boolean, boolean, boolean, boolean]
   >([false, false, false, false, false, false, false]); // [00분, 10분, 20분, 30분, 40분, 50분, 직접 입력]]
@@ -260,7 +262,6 @@ export default ({route: {params}}) => {
   };
 
   useEffect(() => {
-    setHourCheck(JSON.parse(JSON.stringify(hourCheck)));
     fetchData();
   }, []);
 

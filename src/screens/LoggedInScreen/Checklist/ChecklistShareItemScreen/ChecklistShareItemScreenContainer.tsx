@@ -33,7 +33,7 @@ export default ({route: {params}}) => {
   const [imgarr, setImgarr] = useState<any>([]);
   const [modalImgarr, setModalImgarr] = useState<any>([]);
   const [item, setItem] = useState<any>({});
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const alertModal = (title, text) => {
     const params = {

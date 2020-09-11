@@ -58,7 +58,14 @@ export default ({route: {params}}) => {
       },
     };
     ImagePicker.launchImageLibrary(options, (response) => {
-      setCameraPictureList([...cameraPictureList, {uri: response.uri}]);
+      if (response.didCancel) {
+        setCameraPictureList([]);
+      } else if (response.error) {
+        setCameraPictureList([]);
+      } else {
+        console.log(response.uri);
+        setCameraPictureList([...cameraPictureList, {uri: response.uri}]);
+      }
     });
   };
 

@@ -175,6 +175,7 @@ export default () => {
 
   const changePassword = async () => {
     try {
+      console.log(mobileNo, password);
       const {data} = await api.findPwd({
         MOBILENO: mobileNo,
         PASSWORD: password,

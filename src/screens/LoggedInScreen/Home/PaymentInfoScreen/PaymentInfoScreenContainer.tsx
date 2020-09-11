@@ -6,6 +6,9 @@ import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 import {getTOTAL_PAYMENT_WORKING_EMP} from '../../../../redux/paymentSlice';
+import {setSplashVisible} from '../../../../redux/splashSlice';
+import api from '../../../../constants/LoggedInApi';
+import {setEMPLOYEE_LIST} from '../../../../redux/employeeSlice';
 
 export default () => {
   const dispatch = useDispatch();
@@ -90,7 +93,13 @@ export default () => {
 
   const fetchData = async () => {
     try {
-      await setEmployeeNowOn(EMPLOYEE_LIST?.workinglist);
+      if (!EMPLOYEE_LIST) {
+        dispatch(setSplashVisible(true));
+      }
+      const {data} = await api.getEmpLists(STORE_SEQ);
+      if (data.message == 'SUCCESS') {
+        dispatch(setEMPLOYEE_LIST(data));
+      }
       await setLoading(true);
       await dispatch(getTOTAL_PAYMENT_WORKING_EMP());
     } catch (e) {
@@ -98,6 +107,7 @@ export default () => {
     } finally {
       setLoading(false);
       setDate(moment().format('YYYY-MM-DD'));
+      dispatch(setSplashVisible(false));
     }
   };
 
@@ -115,7 +125,7 @@ export default () => {
       backpay={backpay}
       TOTAL_PAYMENT_WORKING_EMP={TOTAL_PAYMENT_WORKING_EMP}
       explainModal={explainModal}
-      employeeNowOn={employeeNowOn}
+      EMPLOYEE_LIST={EMPLOYEE_LIST}
       loading={loading}
     />
   );

@@ -284,61 +284,51 @@ export default ({route: {params}}) => {
     }
     try {
       dispatch(setSplashVisible(true));
-      let response = await fetch(
-        'http://133.186.209.113:80/api/v2/Employee/update',
-        {
-          method: 'PUT',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            FIRST: MODIFYCOUNT,
-            START_TYPE,
-            STORE_SEQ,
-            EMP_SEQ,
-            // ↓ STEP 1
-            START: startDay,
-            END: endDayCheck === true ? null : endDay,
-            // ↓ STEP 2
-            PAY_TYPE: payChecked,
-            MEALS: payCheck[2] === true ? pay2 : '0',
-            SELF_DRIVING: payCheck[2] === true ? pay3 : '0',
-            BONUS: payCheck[2] === true ? pay4 : '0',
-            INCENTIVE: payCheck[2] === true ? pay5 : '0',
-            PAY: payCheck[2] === true ? pay1 : pay,
-            PAY_START: payDay,
-            // ↓ STEP 3
-            THREE_ALLOWANCE: salarySystemCheck[0] === true ? '1' : '0',
-            WEEKEND_ALLOWANCE: salarySystemCheck[1] === true ? '1' : '0',
-            WeekType: weekTypeChecked,
-            WeekTime: weekTime || '0',
-            REST_ALLOWANCE: salarySystemCheck[2] === true ? '1' : '0',
-            RestType: restTypeChecked,
-            RestTime: restTime || '0',
-            Week_START: payDay,
-            insurance: deductionTypeChecked,
-            insurance_START: payDay,
-            // 수습
-            probation: probation ? '1' : '0',
-            probationDATE: probationPeriod,
-            probationPercent: probationPercent,
-            health: insuranceCheck[1] ? '1' : '0',
-            pension: insuranceCheck[0] ? '1' : '0',
-            employment: insuranceCheck[2] ? '1' : '0',
-            accident: insuranceCheck[3] ? '1' : '0',
-            // ↓ STEP 5
-            IS_MANAGER: positionChecked !== -1 ? positionChecked : '0',
-            PAY_SHOW: authorityCheck[0] === true ? '1' : '0',
-            OTHERPAY_SHOW: authorityCheck[1] === true ? '1' : '0',
-            CalendarEdit: authorityCheck[2] === true ? '1' : '0',
-            PUSH: authorityCheck[3] === true ? '1' : '0',
-            STOREPAY_SHOW: authorityCheck[4] === true ? '1' : '0',
-          }),
-        },
-      );
-      const json = await response.json();
-      if (json.message == 'SUCCESS') {
+      const {data} = await api.updateEmp({
+        FIRST: MODIFYCOUNT,
+        START_TYPE,
+        STORE_SEQ,
+        EMP_SEQ,
+        // ↓ STEP 1
+        START: startDay,
+        END: endDayCheck === true ? null : endDay,
+        // ↓ STEP 2
+        PAY_TYPE: payChecked,
+        MEALS: payCheck[2] === true ? pay2 : '0',
+        SELF_DRIVING: payCheck[2] === true ? pay3 : '0',
+        BONUS: payCheck[2] === true ? pay4 : '0',
+        INCENTIVE: payCheck[2] === true ? pay5 : '0',
+        PAY: payCheck[2] === true ? pay1 : pay,
+        PAY_START: payDay,
+        // ↓ STEP 3
+        THREE_ALLOWANCE: salarySystemCheck[0] === true ? '1' : '0',
+        WEEKEND_ALLOWANCE: salarySystemCheck[1] === true ? '1' : '0',
+        WeekType: weekTypeChecked,
+        WeekTime: weekTime || '0',
+        REST_ALLOWANCE: salarySystemCheck[2] === true ? '1' : '0',
+        RestType: restTypeChecked,
+        RestTime: restTime || '0',
+        Week_START: payDay,
+        insurance: deductionTypeChecked,
+        insurance_START: payDay,
+        // 수습
+        probation: probation ? '1' : '0',
+        probationDATE: probationPeriod,
+        probationPercent: probationPercent,
+        health: insuranceCheck[1] ? '1' : '0',
+        pension: insuranceCheck[0] ? '1' : '0',
+        employment: insuranceCheck[2] ? '1' : '0',
+        accident: insuranceCheck[3] ? '1' : '0',
+        // ↓ STEP 5
+        IS_MANAGER: positionChecked !== -1 ? positionChecked : '0',
+        PAY_SHOW: authorityCheck[0] === true ? '1' : '0',
+        OTHERPAY_SHOW: authorityCheck[1] === true ? '1' : '0',
+        CalendarEdit: authorityCheck[2] === true ? '1' : '0',
+        PUSH: authorityCheck[3] === true ? '1' : '0',
+        STOREPAY_SHOW: authorityCheck[4] === true ? '1' : '0',
+      });
+
+      if (data.message == 'SUCCESS') {
         if (from === 'EmployeeInfoScreen') {
           alertModal('직원정보가 수정되었습니다.');
           navigation.goBack();

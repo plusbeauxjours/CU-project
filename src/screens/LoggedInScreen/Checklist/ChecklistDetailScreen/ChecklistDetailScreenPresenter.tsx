@@ -161,7 +161,7 @@ export default ({
       }}
       key={index}>
       <FastImage
-        style={{width: 120, height: 120, borderRadius: 10, marginHorizontal: 5}}
+        style={{width: 100, height: 100, borderRadius: 10, marginHorizontal: 5}}
         source={{
           uri: item,
           headers: {Authorization: 'someAuthToken'},

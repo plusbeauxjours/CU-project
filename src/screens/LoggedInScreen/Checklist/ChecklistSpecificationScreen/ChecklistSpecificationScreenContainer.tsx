@@ -96,8 +96,12 @@ export default ({route: {params}}) => {
   const [cameraPictureList, setCameraPictureList] = useState<any>([]);
   const [cameraPictureLast, setCameraPictureLast] = useState<any>(null);
   const [LIST, setLIST] = useState<any>([]);
-  const [checklistGoodState, setChecklistGoodState] = useState<any>([]);
-  const [checklistBadState, setChecklistBadState] = useState<any>([]);
+  const [checklistGoodState, setChecklistGoodState] = useState<any>(
+    new Array(params?.data.LIST.split('@@').length),
+  );
+  const [checklistBadState, setChecklistBadState] = useState<any>(
+    new Array(params?.data.LIST.split('@@').length),
+  );
   const [CHECK_TITLE, setCHECK_TITLE] = useState<string>();
   const [modalImgarr, setModalImgarr] = useState<any>([]);
   const [imgModalIdx, setImgModalIdx] = useState<string>('');
@@ -129,7 +133,14 @@ export default ({route: {params}}) => {
       },
     };
     ImagePicker.launchImageLibrary(options, (response) => {
-      setCameraPictureList([...cameraPictureList, {uri: response.uri}]);
+      if (response.didCancel) {
+        setCameraPictureList([]);
+      } else if (response.error) {
+        setCameraPictureList([]);
+      } else {
+        console.log(response.uri);
+        setCameraPictureList([...cameraPictureList, {uri: response.uri}]);
+      }
     });
   };
 
@@ -161,7 +172,7 @@ export default ({route: {params}}) => {
 
   // const openCamera = async () => {
   //   const permission = await getPermissionsAsync();
-  //   if (!permission) {
+  //   if (!permission) {ㄹ
   //     return;
   //   }
   // };
@@ -180,7 +191,6 @@ export default ({route: {params}}) => {
 
   const registerFn = async () => {
     let newList = [];
-    let memostr;
     let badflag = false;
 
     for (let i = 0; i < LIST?.length; i++) {
@@ -196,7 +206,7 @@ export default ({route: {params}}) => {
         return alertModal('체크리스트 항목을 모두 체크해주세요.');
       }
     }
-    if (badflag === true && memostr == null) {
+    if (badflag === true && CHECK_TITLE == null) {
       return alertModal('체크리스트 항목에 이상이 있을시 메모를 입력해주세요.');
     }
     if (Number(PHOTO_CHECK || 0) === 1 && cameraPictureList.length === 0) {
@@ -207,14 +217,14 @@ export default ({route: {params}}) => {
       const formData: any = new FormData();
 
       formData.append('LIST', JSON.stringify(newList));
-      formData.append('CHECK_TITLE', memostr);
+      formData.append('CHECK_TITLE', CHECK_TITLE);
       formData.append('CHECK_SEQ', CHECK_SEQ);
       formData.append('NAME', NAME);
       formData.append('CS_SEQ', CS_SEQ);
 
       for (let i = 0; i < cameraPictureList.length; i++) {
         const cameraPicture = cameraPictureList[i];
-        const fileInfoArr = cameraPicture.split('/');
+        const fileInfoArr = cameraPicture.uri.split('/');
         const fileInfo = fileInfoArr[fileInfoArr.length - 1];
         const extensionIndex = fileInfo.indexOf('.');
         let fileName = fileInfo;
@@ -238,14 +248,6 @@ export default ({route: {params}}) => {
         dispatch(setSplashVisible(true));
         const {data} = await api.setCheckListImg2({formData});
         if (data.result === 'SUCCESS') {
-          // for (const cameraPicture of this.state.cameraPictureList) {
-          //   if (!cameraPicture.startsWith('http')) {
-          //     const info = await FileSystem.getInfoAsync(cameraPicture);
-          //     if (info && info.exists) {
-          //       await FileSystem.deleteAsync(cameraPicture);
-          //     }
-          //   }
-          // }
           navigation.goBack();
           alertModal('체크가 완료되었습니다.');
         }
@@ -255,11 +257,12 @@ export default ({route: {params}}) => {
         dispatch(setSplashVisible(false));
       }
     } else {
+      console.log('koko');
       try {
         dispatch(setSplashVisible(true));
         const {data} = await api.setCheckList2({
           LIST: JSON.stringify(newList),
-          CHECK_TITLE: memostr,
+          CHECK_TITLE,
           CHECK_SEQ,
           NAME,
           CS_SEQ,
@@ -267,14 +270,6 @@ export default ({route: {params}}) => {
           MEMBER_SEQ,
         });
         if (data.result === 'SUCCESS') {
-          // for (const cameraPicture of this.state.cameraPictureList) {
-          //   if (!cameraPicture.startsWith('http')) {
-          //     const info = await FileSystem.getInfoAsync(cameraPicture);
-          //     if (info && info.exists) {
-          //       await FileSystem.deleteAsync(cameraPicture);
-          //     }
-          //   }
-          // }
           navigation.goBack();
           alertModal('체크가 완료되었습니다.');
         }
@@ -288,15 +283,14 @@ export default ({route: {params}}) => {
 
   // 체크리스트 ON/OFF
   const initialize = async () => {
-    let checklistGoodStat = new Array(params?.data.LIST.length);
-    let checklistBadState = new Array(params?.data.LIST.length);
+    let checklistGoodStat = checklistGoodState;
+    let checklistBadStat = checklistBadState;
     let checklist = params?.data.CHECK_LIST;
     let list = params?.data.LIST;
     checklistGoodStat.fill(false);
-    checklistBadState.fill(false);
-
+    checklistBadStat.fill(false);
     if (params?.data.CHECK_LIST) {
-      checklist = params?.data.LIST.split('@');
+      checklist = params?.data.CHECK_LIST.split('@');
       const size = checklist.length / 2;
       list = new Array();
       checklist = params?.data.CHECK_LIST.split('@');
@@ -308,7 +302,7 @@ export default ({route: {params}}) => {
           checklistGoodStat[i] = true;
         }
         if (checklist[temp] === '2') {
-          checklistBadState[i] = true;
+          checklistBadStat[i] = true;
         }
       }
     } else {
@@ -316,7 +310,7 @@ export default ({route: {params}}) => {
       list[list.length - 1] = list[list.length - 1].replace('@', '');
     }
     setChecklistGoodState(checklistGoodStat);
-    setChecklistBadState(checklistBadState);
+    setChecklistBadState(checklistBadStat);
     setCHECK_LIST(checklist);
     setLIST(list);
   };
@@ -335,7 +329,6 @@ export default ({route: {params}}) => {
   return (
     <ChecklistSpecificationScreenPresenter
       scan={scan}
-      hasCHECK_TITLE={params?.data.CHECK_TITLE}
       gotoChecklistAdd={gotoChecklistAdd}
       CHECK_TITLE={CHECK_TITLE}
       setCHECK_TITLE={setCHECK_TITLE}
@@ -360,6 +353,7 @@ export default ({route: {params}}) => {
       onPressImageFn={onPressImageFn}
       launchImageLibraryFn={launchImageLibraryFn}
       launchCameraFn={launchCameraFn}
+      registerFn={registerFn}
     />
   );
 };

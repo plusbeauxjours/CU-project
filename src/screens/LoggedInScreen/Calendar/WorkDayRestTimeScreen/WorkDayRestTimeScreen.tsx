@@ -69,15 +69,15 @@ export default ({route: {params}}) => {
       MEMBER_SEQ = null,
       EMP_ID = null,
       REST_TIME = null,
-      STORE_SEQ = null,
       SCH_ID = null,
       NAME = null,
       ATTENDANCE_TIME = null,
       WORK_OFF_TIME = null,
     },
+    STORE_SEQ = null,
     date = null,
   } = params;
-
+  console.log(params);
   const [restTime, setRestTime] = useState<string>('');
 
   const alertModal = (text) => {

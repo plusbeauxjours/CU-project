@@ -120,7 +120,7 @@ export default ({
   backpay,
   TOTAL_PAYMENT_WORKING_EMP,
   explainModal,
-  employeeNowOn,
+  EMPLOYEE_LIST,
   loading,
 }) => {
   return (
@@ -188,7 +188,7 @@ export default ({
             </PayBox>
           </Section>
           <EmployeeListBox>
-            {employeeNowOn?.map((data) => (
+            {EMPLOYEE_LIST?.workinglist?.map((data) => (
               <PaymentInfoScreenCard
                 key={data.MEMBER_SEQ}
                 name={data.EMP_NAME}

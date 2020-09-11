@@ -134,148 +134,123 @@ export default ({
   onPressImageFn,
   launchImageLibraryFn,
   launchCameraFn,
-}) => {
-  const renderImage = (item, index) => (
-    <Touchable
-      key={index}
-      onPress={() => {
-        const cameraPictureListed = cameraPictureList;
-        cameraPictureListed.splice(item.index, 1);
-        setCameraPictureList(cameraPictureListed);
-      }}>
-      <FastImage
-        style={{width: 120, height: 120, borderRadius: 10, marginHorizontal: 5}}
-        source={{
-          uri: item,
-          headers: {Authorization: 'someAuthToken'},
-          priority: FastImage.priority.low,
-        }}
-        resizeMode={FastImage.resizeMode.cover}
-      />
-    </Touchable>
-  );
-  return (
-    <>
-      <BackGround>
-        <ScrollView
-          keyboardShouldPersistTaps={'handled'}
-          keyboardDismissMode="on-drag"
-          contentContainerStyle={{alignItems: 'center'}}>
-          <Container>
-            <Section>
-              <TitleText>제목</TitleText>
-              <TextInput
-                placeholder={'최대 글자수는 15자 입니다'}
-                selectionColor={'#642A8C'}
-                placeholderTextColor={'#E5E5E5'}
-                onChangeText={(text) => {
-                  setTitle(text);
-                }}
-                value={title}
-                maxLength={15}
-              />
-            </Section>
-
-            <Section>
-              <TitleText>내용</TitleText>
-              <ContentTextInput
-                placeholder={'내용을 입력해주세요'}
-                selectionColor={'#642A8C'}
-                blurOnSubmit={false}
-                multiline={true}
-                placeholderTextColor={'#E5E5E5'}
-                onChangeText={(text) => {
-                  setContent(text);
-                }}
-                value={content}
-              />
-            </Section>
-
-            <Section>
-              <TitleText>사진</TitleText>
-              <GreyText>등록된 사진을 클릭하면 리스트에서 제거됩니다</GreyText>
-              <RowCenter>
-                <IconContainer>
-                  <Text>촬영</Text>
-                  <Touchable onPress={() => launchCameraFn(true)}>
-                    <IconBox>
-                      <CameraIcon size={40} />
-                    </IconBox>
-                  </Touchable>
-                </IconContainer>
-                <IconContainer>
-                  <Text>보관함</Text>
-                  <Touchable onPress={() => launchImageLibraryFn()}>
-                    <IconBox>
-                      <PictureIcon />
-                    </IconBox>
-                  </Touchable>
-                </IconContainer>
-              </RowCenter>
-              {!cameraPictureList && <ActivityIndicator size={'small'} />}
-              {console.log(cameraPictureList)}
-              {cameraPictureList?.length > 0 && (
-                <FlatList
-                  horizontal
-                  keyExtractor={(_, index) => index.toString()}
-                  style={{flexDirection: 'row'}}
-                  contentContainerStyle={{justifyContent: 'center'}}
-                  data={cameraPictureList}
-                  showsHorizontalScrollIndicator={false}
-                  renderItem={({item, index}) => (
-                    <Touchable key={index} onPress={() => onPressImageFn(item)}>
-                      <FastImage
-                        style={{
-                          width: 100,
-                          height: 100,
-                          borderRadius: 10,
-                          marginRight: 10,
-                        }}
-                        source={{
-                          uri: item.uri,
-                          headers: {Authorization: 'someAuthToken'},
-                          priority: FastImage.priority.low,
-                        }}
-                        resizeMode={FastImage.resizeMode.cover}
-                      />
-                    </Touchable>
-                  )}
-                />
-              )}
-            </Section>
-
-            <SubmitBtn
-              text={`${TITLE} 수정완료`}
-              onPress={() =>
-                confirmModal(`${TITLE}을 수정하시겠습니까?`, '수정', 'no', () =>
-                  registerFn(),
-                )
-              }
-              isRegisted={title && content}
+}) => (
+  <>
+    <BackGround>
+      <ScrollView
+        keyboardShouldPersistTaps={'handled'}
+        keyboardDismissMode="on-drag"
+        contentContainerStyle={{alignItems: 'center'}}>
+        <Container>
+          <Section>
+            <TitleText>제목</TitleText>
+            <TextInput
+              placeholder={'최대 글자수는 15자 입니다'}
+              selectionColor={'#642A8C'}
+              placeholderTextColor={'#E5E5E5'}
+              onChangeText={(text) => {
+                setTitle(text);
+              }}
+              value={title}
+              maxLength={15}
             />
-            <DeleteButton
-              onPress={() => {
-                confirmModal(
-                  `${TITLE}을 삭제하시겠습니까?`,
-                  '삭제',
-                  'yes',
-                  () => registerFn('close'),
-                );
+          </Section>
+
+          <Section>
+            <TitleText>내용</TitleText>
+            <ContentTextInput
+              placeholder={'내용을 입력해주세요'}
+              selectionColor={'#642A8C'}
+              blurOnSubmit={false}
+              multiline={true}
+              placeholderTextColor={'#E5E5E5'}
+              onChangeText={(text) => {
+                setContent(text);
+              }}
+              value={content}
+            />
+          </Section>
+
+          <Section>
+            <TitleText>사진</TitleText>
+            <GreyText>등록된 사진을 클릭하면 리스트에서 제거됩니다</GreyText>
+            <RowCenter>
+              <IconContainer>
+                <Text>촬영</Text>
+                <Touchable onPress={() => launchCameraFn(true)}>
+                  <IconBox>
+                    <CameraIcon size={40} />
+                  </IconBox>
+                </Touchable>
+              </IconContainer>
+              <IconContainer>
+                <Text>보관함</Text>
+                <Touchable onPress={() => launchImageLibraryFn()}>
+                  <IconBox>
+                    <PictureIcon />
+                  </IconBox>
+                </Touchable>
+              </IconContainer>
+            </RowCenter>
+            {cameraPictureList?.length > 0 && (
+              <FlatList
+                horizontal
+                keyExtractor={(_, index) => index.toString()}
+                style={{flexDirection: 'row'}}
+                contentContainerStyle={{justifyContent: 'center'}}
+                data={cameraPictureList}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({item, index}) => (
+                  <Touchable key={index} onPress={() => onPressImageFn(item)}>
+                    <FastImage
+                      style={{
+                        width: 100,
+                        height: 100,
+                        borderRadius: 10,
+                        marginRight: 10,
+                      }}
+                      source={{
+                        uri: item.uri,
+                        headers: {Authorization: 'someAuthToken'},
+                        priority: FastImage.priority.low,
+                      }}
+                      resizeMode={FastImage.resizeMode.cover}
+                    />
+                  </Touchable>
+                )}
+              />
+            )}
+          </Section>
+
+          <SubmitBtn
+            text={`${TITLE} 수정완료`}
+            onPress={() =>
+              confirmModal(`${TITLE}을 수정하시겠습니까?`, '수정', 'no', () =>
+                registerFn(),
+              )
+            }
+            isRegisted={title && content}
+          />
+          <DeleteButton
+            onPress={() => {
+              confirmModal(`${TITLE}을 삭제하시겠습니까?`, '삭제', 'yes', () =>
+                registerFn('close'),
+              );
+            }}>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 'bold',
+                color: '#FF3D3D',
+                textDecorationLine: 'underline',
               }}>
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  color: '#FF3D3D',
-                  textDecorationLine: 'underline',
-                }}>
-                {TITLE} 삭제하기
-              </Text>
-            </DeleteButton>
-          </Container>
-        </ScrollView>
-      </BackGround>
-      {/* <Modal
+              {TITLE} 삭제하기
+            </Text>
+          </DeleteButton>
+        </Container>
+      </ScrollView>
+    </BackGround>
+    {/* <Modal
         isVisible={this.state.isCameraModalVisible}
         style={{margin: 0}}
         onBackButtonPress={() => {
@@ -425,6 +400,5 @@ export default ({
           )}
         </View>
       </Modal> */}
-    </>
-  );
-};
+  </>
+);

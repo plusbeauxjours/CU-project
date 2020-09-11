@@ -20,6 +20,7 @@ export default () => {
   );
   const {STORE} = useSelector((state: any) => state.userReducer);
   const {
+    EMP_SEQ,
     STORE_SEQ,
     STORE_DATA: {
       check_count: CHECK_COUNT = null,
@@ -193,12 +194,24 @@ export default () => {
   };
 
   // 직원이 체크 버튼을 실행한 뒤 모달에서 아이템을 눌렀을 때
-  const gotoChecklistSpecification = (item) => {
-    setIsChecklistModalVisible(false);
-    navigation.navigate('ChecklistSpecificationScreen', {
-      data: item,
-      scan: '1',
-    });
+  const checkdataFn = (item) => {
+    let flag = true;
+    if (item.EMP_SEQ != null) {
+      flag = false;
+      let emparr = item.EMP_SEQ.split('@');
+      for (let index = 0; index < emparr.length; index++) {
+        if (emparr[index] == EMP_SEQ) {
+          flag = true;
+        }
+      }
+    }
+    if (flag) {
+      setIsChecklistModalVisible(false);
+      navigation.navigate('ChecklistSpecificationScreen', {
+        data: item,
+        scan: '1',
+      });
+    }
   };
 
   const fetchData = (date) => {
@@ -236,11 +249,10 @@ export default () => {
       onDayPress={(date) => onDayPress(date)}
       onMonthChange={onMonthChange}
       CHECKLIST_DATA={CHECKLIST_DATA}
-      STORE_SEQ={STORE_SEQ}
       adviceModal={adviceModal}
       gotoChecklistAdd={gotoChecklistAdd}
       selectCheckListFn={selectCheckListFn}
-      gotoChecklistSpecification={gotoChecklistSpecification}
+      checkdataFn={checkdataFn}
       fetchData={fetchData}
     />
   );

@@ -746,7 +746,6 @@ export default ({
             <Touchable
               onPress={() => {
                 navigation.navigate('ChecklistShareMainScreen', {
-                  STOREDATA: STORE_DATA,
                   notice: '1',
                 });
               }}>
