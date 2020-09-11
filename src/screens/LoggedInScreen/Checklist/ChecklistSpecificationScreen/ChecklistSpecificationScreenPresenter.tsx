@@ -146,8 +146,6 @@ export default ({
   setIsCameraModalVisible,
   cameraPictureList,
   setCameraPictureList,
-  imgModalIdx,
-  setImgModalIdx,
   checklistGoodState,
   setChecklistGoodState,
   checklistBadState,
@@ -305,7 +303,11 @@ export default ({
               </IconContainer>
               <IconContainer>
                 <Text>보관함</Text>
-                <Touchable onPress={() => launchImageLibraryFn()}>
+                <Touchable
+                  onPress={() => {
+                    console.log(cameraPictureList);
+                    launchImageLibraryFn();
+                  }}>
                   <IconBox>
                     <PictureIcon />
                   </IconBox>

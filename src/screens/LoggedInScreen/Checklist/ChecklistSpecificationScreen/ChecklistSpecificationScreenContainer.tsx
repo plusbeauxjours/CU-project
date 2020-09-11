@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import ChecklistSpecificationScreenPresenter from './ChecklistSpecificationScreenPresenter';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
@@ -103,8 +103,6 @@ export default ({route: {params}}) => {
     new Array(params?.data.LIST.split('@@').length),
   );
   const [CHECK_TITLE, setCHECK_TITLE] = useState<string>();
-  const [modalImgarr, setModalImgarr] = useState<any>([]);
-  const [imgModalIdx, setImgModalIdx] = useState<string>('');
   const [CHECK_LIST, setCHECK_LIST] = useState<any>(null);
 
   const alertModal = (text) => {
@@ -126,33 +124,42 @@ export default ({route: {params}}) => {
   };
 
   const launchImageLibraryFn = () => {
-    let options = {
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    ImagePicker.launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        setCameraPictureList([]);
-      } else if (response.error) {
-        setCameraPictureList([]);
-      } else {
-        console.log(response.uri);
-        setCameraPictureList([...cameraPictureList, {uri: response.uri}]);
-      }
+    ImagePicker.openPicker({
+      mediaType: 'photo',
+      multiple: true,
+      includeBase64: true,
+      compressImageQuality: 0.8,
+      compressImageMaxWidth: 720,
+      compressImageMaxHeight: 720,
+      cropperChooseText: '선택',
+      cropperCancelText: '취소',
+    }).then((images: any) => {
+      images.map((i) => {
+        console.log(cameraPictureList, i.path);
+        setCameraPictureList((cameraPictureList) => [
+          ...cameraPictureList,
+          {uri: i.path},
+        ]);
+      });
     });
   };
 
   const launchCameraFn = () => {
-    let options = {
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    ImagePicker.launchCamera(options, (response) => {
-      console.log('response', JSON.stringify(response));
+    ImagePicker.openCamera({
+      width: 600,
+      height: 800,
+      cropping: true,
+      mediaType: 'photo',
+      includeBase64: true,
+      cropperToolbarTitle: '',
+      cropperCircleOverlay: false,
+      compressImageQuality: 0.8,
+      compressImageMaxWidth: 720,
+      compressImageMaxHeight: 720,
+      cropperChooseText: '선택',
+      cropperCancelText: '취소',
+    }).then((image) => {
+      console.log(image);
     });
   };
 
@@ -221,32 +228,44 @@ export default ({route: {params}}) => {
       formData.append('CHECK_SEQ', CHECK_SEQ);
       formData.append('NAME', NAME);
       formData.append('CS_SEQ', CS_SEQ);
+      formData.append('STORE_SEQ', STORE_SEQ);
+      formData.append('MEMBER_SEQ', MEMBER_SEQ);
 
-      for (let i = 0; i < cameraPictureList.length; i++) {
-        const cameraPicture = cameraPictureList[i];
-        const fileInfoArr = cameraPicture.uri.split('/');
-        const fileInfo = fileInfoArr[fileInfoArr.length - 1];
-        const extensionIndex = fileInfo.indexOf('.');
-        let fileName = fileInfo;
-        let fileType = '';
-        if (extensionIndex > -1) {
-          fileName = fileInfo;
-          fileType = `image/${fileInfo.substring(extensionIndex + 1)}`;
-          if (fileType === 'image/jpg') {
-            fileType = 'image/jpeg';
-          }
-        }
-        formData.append('image', {
-          uri: utils.isAndroid
-            ? cameraPicture
-            : cameraPicture.replace('file://', ''),
-          name: fileName,
-          type: fileType,
-        });
-      }
       try {
+        const image = [];
         dispatch(setSplashVisible(true));
-        const {data} = await api.setCheckListImg2({formData});
+        for (let i = 0; i < cameraPictureList.length; i++) {
+          const cameraPicture = cameraPictureList[i];
+          const fileInfoArr = cameraPicture.uri.split('/');
+          const fileInfo = fileInfoArr[fileInfoArr.length - 1];
+          const extensionIndex = fileInfo.indexOf('.');
+          let fileName = fileInfo;
+          let fileType = '';
+          if (extensionIndex > -1) {
+            fileName = fileInfo;
+            fileType = `image/${fileInfo.substring(extensionIndex + 1)}`;
+            if (fileType === 'image/jpg') {
+              fileType = 'image/jpeg';
+            }
+          }
+          image.push({
+            uri: utils.isAndroid
+              ? cameraPicture.uri
+              : cameraPicture.uri.replace('file://', ''),
+            name: fileName,
+            type: fileType,
+          });
+        }
+        const {data} = await api.setCheckListImg2({
+          LIST: JSON.stringify(newList),
+          CHECK_TITLE,
+          CHECK_SEQ,
+          NAME,
+          CS_SEQ,
+          STORE_SEQ,
+          MEMBER_SEQ,
+          image,
+        });
         if (data.result === 'SUCCESS') {
           navigation.goBack();
           alertModal('체크가 완료되었습니다.');
@@ -344,8 +363,6 @@ export default ({route: {params}}) => {
       setIsCameraModalVisible={setIsCameraModalVisible}
       cameraPictureList={cameraPictureList}
       setCameraPictureList={setCameraPictureList}
-      imgModalIdx={imgModalIdx}
-      setImgModalIdx={setImgModalIdx}
       checklistGoodState={checklistGoodState}
       setChecklistGoodState={setChecklistGoodState}
       checklistBadState={checklistBadState}

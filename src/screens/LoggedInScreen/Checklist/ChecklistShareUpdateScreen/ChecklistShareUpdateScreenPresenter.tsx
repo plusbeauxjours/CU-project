@@ -155,7 +155,6 @@ export default ({
               maxLength={15}
             />
           </Section>
-
           <Section>
             <TitleText>내용</TitleText>
             <ContentTextInput
@@ -170,7 +169,6 @@ export default ({
               value={content}
             />
           </Section>
-
           <Section>
             <TitleText>사진</TitleText>
             <GreyText>등록된 사진을 클릭하면 리스트에서 제거됩니다</GreyText>

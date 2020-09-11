@@ -213,7 +213,9 @@ export default ({
                     marginTop: 40,
                     flexDirection: 'row',
                   }}
+                  contentContainerStyle={{justifyContent: 'center'}}
                   data={cameraPictureList}
+                  showsHorizontalScrollIndicator={false}
                   renderItem={({item, index}) => (
                     <Touchable key={index} onPress={() => onPressImageFn(item)}>
                       <FastImage

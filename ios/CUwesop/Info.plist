@@ -2,8 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Some ad content may access calendar</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>Some ad content may access reminder</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Some ad content may access Microphone</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Some ad content may access PhotoLibrary</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Your own description of the purpose</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>$(PRODUCT_NAME) Need permission to access to your Photo library</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

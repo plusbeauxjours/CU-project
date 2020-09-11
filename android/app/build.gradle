@@ -121,7 +121,9 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    // compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     packagingOptions {
         pickFirst 'lib/x86/libc++_shared.so'
@@ -143,11 +145,13 @@ android {
     }
 
     defaultConfig {
+        targetSdkVersion 27
         applicationId "com.cuwesop"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         missingDimensionStrategy 'react-native-camera', 'mlkit'
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
         versionCode 1
         versionName "1.0"
     }

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 
 import ChecklistShareUpdateScreenPresenter from './ChecklistShareUpdateScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
@@ -54,33 +54,42 @@ export default ({route: {params}}) => {
   };
 
   const launchImageLibraryFn = () => {
-    let options = {
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    ImagePicker.launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        setCameraPictureList(null);
-      } else if (response.error) {
-        setCameraPictureList(null);
-      } else {
-        console.log(response.uri);
-        setCameraPictureList([...cameraPictureList, {uri: response.uri}]);
-      }
+    ImagePicker.openPicker({
+      mediaType: 'photo',
+      multiple: true,
+      includeBase64: true,
+      compressImageQuality: 0.8,
+      compressImageMaxWidth: 720,
+      compressImageMaxHeight: 720,
+      cropperChooseText: '선택',
+      cropperCancelText: '취소',
+    }).then((images: any) => {
+      images.map((i) => {
+        console.log(cameraPictureList, i.path);
+        setCameraPictureList((cameraPictureList) => [
+          ...cameraPictureList,
+          {uri: i.path},
+        ]);
+      });
     });
   };
 
   const launchCameraFn = () => {
-    let options = {
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    ImagePicker.launchCamera(options, (response) => {
-      console.log('response', JSON.stringify(response));
+    ImagePicker.openCamera({
+      width: 600,
+      height: 800,
+      cropping: true,
+      mediaType: 'photo',
+      includeBase64: true,
+      cropperToolbarTitle: '',
+      cropperCircleOverlay: false,
+      compressImageQuality: 0.8,
+      compressImageMaxWidth: 720,
+      compressImageMaxHeight: 720,
+      cropperChooseText: '선택',
+      cropperCancelText: '취소',
+    }).then((image) => {
+      console.log(image);
     });
   };
 

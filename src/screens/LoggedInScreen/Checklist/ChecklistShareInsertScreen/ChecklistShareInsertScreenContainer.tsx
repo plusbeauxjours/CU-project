@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 
 import ChecklistShareInsertScreenPresenter from './ChecklistShareInsertScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
@@ -51,36 +51,43 @@ export default ({route: {params}}) => {
   };
 
   const launchImageLibraryFn = () => {
-    let options = {
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    ImagePicker.launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        setCameraPictureList([]);
-      } else if (response.error) {
-        setCameraPictureList([]);
-      } else {
-        console.log(response.uri);
-        setCameraPictureList([...cameraPictureList, {uri: response.uri}]);
-      }
+    ImagePicker.openPicker({
+      mediaType: 'photo',
+      multiple: true,
+      includeBase64: true,
+      compressImageQuality: 0.8,
+      compressImageMaxWidth: 720,
+      compressImageMaxHeight: 720,
+      cropperChooseText: '선택',
+      cropperCancelText: '취소',
+    }).then((images: any) => {
+      images.map((i) => {
+        setCameraPictureList((cameraPictureList) => [
+          ...cameraPictureList,
+          {uri: i.path},
+        ]);
+      });
     });
   };
 
   const launchCameraFn = () => {
-    let options = {
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    ImagePicker.launchCamera(options, (response) => {
-      console.log('response', JSON.stringify(response));
+    ImagePicker.openCamera({
+      width: 600,
+      height: 800,
+      cropping: true,
+      mediaType: 'photo',
+      includeBase64: true,
+      cropperToolbarTitle: '',
+      cropperCircleOverlay: false,
+      compressImageQuality: 0.8,
+      compressImageMaxWidth: 720,
+      compressImageMaxHeight: 720,
+      cropperChooseText: '선택',
+      cropperCancelText: '취소',
+    }).then((image) => {
+      console.log(image);
     });
   };
-
   // const getPermissions = async () => {
   //   const {status} = await Camera.requestPermissionsAsync();
   //   if (status !== 'granted') {
@@ -117,20 +124,11 @@ export default ({route: {params}}) => {
   const registerFn = async () => {
     if (cameraPictureList?.length > 0) {
       try {
+        const image = [];
         dispatch(setSplashVisible(true));
-        const formData: any = new FormData();
-
-        formData.append('TITLE', title);
-        formData.append('CONTENTS', content);
-        formData.append('ADDDATE', date);
-        formData.append('STORE_SEQ', STORE_SEQ);
-        formData.append('STORE', STORE);
-        formData.append('EMP_NAME', MEMBER_NAME);
-        formData.append('MEMBER_SEQ', MEMBER_SEQ);
-
-        for (let i = 0; i < cameraPictureList?.length; i++) {
+        for (let i = 0; i < cameraPictureList.length; i++) {
           const cameraPicture = cameraPictureList[i];
-          const fileInfoArr = cameraPicture.split('/');
+          const fileInfoArr = cameraPicture.uri.split('/');
           const fileInfo = fileInfoArr[fileInfoArr.length - 1];
           const extensionIndex = fileInfo.indexOf('.');
           let fileName = fileInfo;
@@ -138,20 +136,28 @@ export default ({route: {params}}) => {
           if (extensionIndex > -1) {
             fileName = fileInfo;
             fileType = `image/${fileInfo.substring(extensionIndex + 1)}`;
-
             if (fileType === 'image/jpg') {
               fileType = 'image/jpeg';
             }
           }
-          formData.append('image', {
+          image.push({
             uri: utils.isAndroid
-              ? cameraPicture
-              : cameraPicture.replace('file://', ''),
+              ? cameraPicture.uri
+              : cameraPicture.uri.replace('file://', ''),
             name: fileName,
             type: fileType,
           });
         }
-        const {data} = await api.setNoticeImg2({formData});
+        const {data} = await api.setNoticeImg2({
+          TITLE: title,
+          CONTENTS: content,
+          STORE_SEQ,
+          STORE,
+          EMP_NAME: MEMBER_NAME,
+          MEMBER_SEQ,
+          ADDDATE: date,
+          image,
+        });
         if (data.result === 'SUCCESS') {
           navigation.goBack();
         } else {
