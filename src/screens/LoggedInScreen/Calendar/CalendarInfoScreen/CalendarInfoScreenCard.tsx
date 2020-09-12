@@ -4,9 +4,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Avatar} from 'react-native-elements';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 
 import api from '../../../../constants/LoggedInApi';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
@@ -270,14 +270,16 @@ export default ({
           </Row>
         </RowSpace>
         <Row>
-          <Avatar
-            rounded
-            size={50}
+          <FastImage
+            style={{width: 60, height: 60, borderRadius: 30}}
             source={{
-              uri: `http://133.186.209.113/uploads/${image}`,
+              uri: 'http://cuapi.shop-sol.com/uploads/' + image,
+              headers: {Authorization: 'someAuthToken'},
+              priority: FastImage.priority.low,
             }}
-            containerStyle={{borderWidth: 1, borderColor: '#ccc'}}
+            resizeMode={FastImage.resizeMode.cover}
           />
+
           <CntArea>
             {CHANGE_START == null && CHANGE_END == null ? (
               <WorkTime>

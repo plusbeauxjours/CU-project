@@ -8,6 +8,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import FastImage from 'react-native-fast-image';
 
 import {
   WeekType,
@@ -34,7 +35,6 @@ import {
 } from '../../../../constants/Icons';
 import InputLine from '../../../../components/InputLine';
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import {Avatar} from 'react-native-elements';
 
 interface IBox {
   isBold: boolean;
@@ -422,17 +422,14 @@ export default ({
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <Container>
             <EmployeeBox>
-              <Avatar
-                rounded
-                size={60}
+              <FastImage
+                style={{width: 60, height: 60, borderRadius: 30}}
                 source={{
-                  uri: `http://133.186.209.113/uploads/${image}`,
+                  uri: 'http://cuapi.shop-sol.com/uploads/' + image,
+                  headers: {Authorization: 'someAuthToken'},
+                  priority: FastImage.priority.low,
                 }}
-                containerStyle={{
-                  borderWidth: 1,
-                  borderColor: '#ccc',
-                  marginHorizontal: 5,
-                }}
+                resizeMode={FastImage.resizeMode.cover}
               />
               <EmployeeText>{name}</EmployeeText>
             </EmployeeBox>

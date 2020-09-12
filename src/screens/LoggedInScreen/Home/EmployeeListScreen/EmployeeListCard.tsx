@@ -5,8 +5,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import FastImage from 'react-native-fast-image';
+
 import {ForwardIcon} from '../../../../constants/Icons';
-import {Avatar} from 'react-native-elements';
 
 const Touchable = styled.TouchableOpacity`
   padding: 0 20px;
@@ -64,13 +65,14 @@ export default ({
       onPress={() => {
         navigation.navigate('EmployeeInfoScreen', {data});
       }}>
-      <Avatar
-        rounded
-        size={60}
+      <FastImage
+        style={{width: 60, height: 60, borderRadius: 30}}
         source={{
-          uri: `http://133.186.209.113/uploads/${image}`,
+          uri: 'http://cuapi.shop-sol.com/uploads/' + image,
+          headers: {Authorization: 'someAuthToken'},
+          priority: FastImage.priority.low,
         }}
-        containerStyle={{borderWidth: 1, borderColor: '#ccc', marginRight: 10}}
+        resizeMode={FastImage.resizeMode.cover}
       />
       <ContentBox>
         <NameBox>

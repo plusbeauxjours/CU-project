@@ -244,8 +244,8 @@ export default ({
   markingFn,
   fixControlFn,
   fetchData,
-  index,
   MEMBER_SEQ,
+  IS_MANAGER,
   isCalendarModalVisible,
   setIsCalendarModalVisible,
 }) => {
@@ -370,7 +370,7 @@ export default ({
           )}
         </Container>
       </ScrollView>
-      {STORE == '1' && (
+      {(STORE == '1' || IS_MANAGER === true) && (
         <AddButtonContainer>
           <AddButton onPress={() => onPressAddButtonFn('지시사항')}>
             <AddIcon />
@@ -494,7 +494,18 @@ export default ({
           </EmptyBox>
         </Touchable>
       )}
-
+      {STORE === '0' && !IS_MANAGER && TITLE == '지시사항' && (
+        <EmptyBox>
+          <EmptyTitle>
+            <CreateIcon size={22} color={'#999'} />
+            <Text style={{marginLeft: 10}}>{TITLE}이 없습니다.</Text>
+          </EmptyTitle>
+          <GreyText>
+            점포운영에 관련된 사항을 작성하는 업무일지로 점주가 작성하여
+            공유합니다.
+          </GreyText>
+        </EmptyBox>
+      )}
       {STORE === '1' && TITLE == '특이사항' && (
         <EmptyBox>
           <EmptyTitle>
@@ -507,21 +518,7 @@ export default ({
           </GreyText>
         </EmptyBox>
       )}
-
-      {STORE === '0' && TITLE == '지시사항' && (
-        <EmptyBox>
-          <EmptyTitle>
-            <CreateIcon size={22} color={'#999'} />
-            <Text style={{marginLeft: 10}}>{TITLE}이 없습니다.</Text>
-          </EmptyTitle>
-          <GreyText>
-            점포운영에 관련된 사항을 작성하는 업무일지로 점주가 작성하여
-            공유합니다.
-          </GreyText>
-        </EmptyBox>
-      )}
-
-      {STORE === '1' && TITLE == '지시사항' && (
+      {(STORE === '1' || IS_MANAGER) && TITLE == '지시사항' && (
         <Touchable onPress={() => onPressAddButtonFn(TITLE)}>
           <EmptyBox>
             <EmptyTitle>
@@ -535,7 +532,6 @@ export default ({
           </EmptyBox>
         </Touchable>
       )}
-
       {TITLE == 'CU소식' && (
         <EmptyBox>
           <CreateIcon size={22} color={'#999'} />

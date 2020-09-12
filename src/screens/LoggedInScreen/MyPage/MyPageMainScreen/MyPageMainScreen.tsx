@@ -7,7 +7,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Avatar} from 'react-native-elements';
+import FastImage from 'react-native-fast-image';
 
 import {userLogout} from '../../../../redux/userSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
@@ -132,17 +132,14 @@ export default () => {
     <BackGround>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Info>
-          <Avatar
-            rounded
-            size={60}
+          <FastImage
+            style={{width: 60, height: 60, borderRadius: 30}}
             source={{
-              uri: `http://133.186.209.113/uploads/3.png`,
+              uri: 'http://cuapi.shop-sol.com/uploads/3.png',
+              headers: {Authorization: 'someAuthToken'},
+              priority: FastImage.priority.low,
             }}
-            containerStyle={{
-              borderWidth: 1,
-              borderColor: '#ccc',
-              marginLeft: 40,
-            }}
+            resizeMode={FastImage.resizeMode.cover}
           />
           <PersonInfo>
             <Name>

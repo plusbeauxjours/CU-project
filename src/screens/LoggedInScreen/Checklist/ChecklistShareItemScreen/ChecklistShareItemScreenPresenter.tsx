@@ -4,7 +4,6 @@ import moment from 'moment';
 import {FlatList} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
-import {Avatar} from 'react-native-elements';
 import Modal from 'react-native-modal';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import {
@@ -252,18 +251,16 @@ export default ({
                     CHECKLIST_SHARE_COMMENTS?.map((data, index) => (
                       <CommentBox key={index}>
                         <Row>
-                          <Avatar
-                            rounded
-                            size={60}
+                          <FastImage
+                            style={{width: 60, height: 60, borderRadius: 30}}
                             source={{
-                              uri: `http://133.186.209.113/uploads/3.png`,
+                              uri: 'http://cuapi.shop-sol.com/uploads/' + image,
+                              headers: {Authorization: 'someAuthToken'},
+                              priority: FastImage.priority.low,
                             }}
-                            containerStyle={{
-                              borderWidth: 1,
-                              borderColor: '#ccc',
-                              marginRight: 10,
-                            }}
+                            resizeMode={FastImage.resizeMode.cover}
                           />
+
                           <Column>
                             <Row>
                               <Text

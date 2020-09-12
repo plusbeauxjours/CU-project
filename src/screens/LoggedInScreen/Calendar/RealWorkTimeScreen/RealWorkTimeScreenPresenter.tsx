@@ -6,9 +6,9 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Modal from 'react-native-modal';
+import FastImage from 'react-native-fast-image';
 
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import {Avatar} from 'react-native-elements';
 
 interface IsSelected {
   isSelected: boolean;
@@ -287,13 +287,14 @@ export default ({
   const FixScheduleStepOne = () => (
     <Section>
       <Row>
-        <Avatar
-          rounded
-          size={60}
+        <FastImage
+          style={{width: 60, height: 60, borderRadius: 30}}
           source={{
-            uri: `http://133.186.209.113/uploads/${IMAGE}`,
+            uri: 'http://cuapi.shop-sol.com/uploads/' + image,
+            headers: {Authorization: 'someAuthToken'},
+            priority: FastImage.priority.low,
           }}
-          containerStyle={{borderWidth: 1, borderColor: '#ccc'}}
+          resizeMode={FastImage.resizeMode.cover}
         />
         <CntArea>
           <NameText style={{marginBottom: 10}}>{NAME}</NameText>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {Avatar} from 'react-native-elements';
+import FastImage from 'react-native-fast-image';
 
 const Container = styled.View`
   justify-content: center;
@@ -13,13 +13,14 @@ const Text = styled.Text``;
 export default ({name, image}) => {
   return (
     <Container>
-      <Avatar
-        rounded
-        size={60}
+      <FastImage
+        style={{width: 60, height: 60, borderRadius: 30}}
         source={{
-          uri: `http://133.186.209.113/uploads/${image}`,
+          uri: 'http://cuapi.shop-sol.com/uploads/' + image,
+          headers: {Authorization: 'someAuthToken'},
+          priority: FastImage.priority.low,
         }}
-        containerStyle={{borderWidth: 1, borderColor: '#ccc', marginBottom: 5}}
+        resizeMode={FastImage.resizeMode.cover}
       />
       <Text>{name}</Text>
     </Container>

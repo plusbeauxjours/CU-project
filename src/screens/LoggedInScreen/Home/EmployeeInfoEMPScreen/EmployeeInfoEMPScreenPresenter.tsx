@@ -7,7 +7,7 @@ import {
   Keyboard,
   TouchableHighlight,
 } from 'react-native';
-import {Avatar} from 'react-native-elements';
+import FastImage from 'react-native-fast-image';
 
 import {BackIcon, ForwardIcon, EllipseIcon} from '../../../../constants/Icons';
 
@@ -373,17 +373,14 @@ export default ({
           <Container>
             <Section>
               <EmployeeBox>
-                <Avatar
-                  rounded
-                  size={60}
+                <FastImage
+                  style={{width: 60, height: 60, borderRadius: 30}}
                   source={{
-                    uri: 'http://133.186.209.113/uploads/3.png',
+                    uri: 'http://cuapi.shop-sol.com/uploads/' + image,
+                    headers: {Authorization: 'someAuthToken'},
+                    priority: FastImage.priority.low,
                   }}
-                  containerStyle={{
-                    borderWidth: 1,
-                    borderColor: '#ccc',
-                    marginRight: 10,
-                  }}
+                  resizeMode={FastImage.resizeMode.cover}
                 />
                 <NameBox>
                   <Row>

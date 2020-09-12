@@ -17,7 +17,9 @@ export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {STORE, MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
-  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
+  const {STORE_SEQ, STORE_DATA: {IS_MANAGER = null} = {}} = useSelector(
+    (state: any) => state.storeReducer,
+  );
   const {
     CHECKLIST_SHARE_DATA1,
     NEW_CNT1,
@@ -224,8 +226,8 @@ export default ({route: {params}}) => {
       markingFn={markingFn}
       fixControlFn={fixControlFn}
       fetchData={fetchData}
-      index={index}
       MEMBER_SEQ={MEMBER_SEQ}
+      IS_MANAGER={IS_MANAGER === 1 ? true : false}
       isCalendarModalVisible={isCalendarModalVisible}
       setIsCalendarModalVisible={setIsCalendarModalVisible}
     />
