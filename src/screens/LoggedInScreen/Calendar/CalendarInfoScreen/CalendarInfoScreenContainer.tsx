@@ -140,7 +140,7 @@ export default () => {
         }
         if (STORE == '0' && CALENDAR_EDIT !== 1) {
           for (const key of iterator) {
-            buffer[key] = buffer[key].Dlter((info) => info.EMP_ID == EMP_SEQ);
+            buffer[key] = buffer[key]?.filter((info) => info.EMP_ID == EMP_SEQ);
           }
         }
         dispatch(setCALENDAR_DATA(buffer));

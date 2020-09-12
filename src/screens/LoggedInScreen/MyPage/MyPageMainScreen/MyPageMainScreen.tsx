@@ -15,15 +15,17 @@ import {ForwardIcon, LogoutIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.View`
   flex: 1;
-  background-color: white;
+  background-color: #f6f6f6;
 `;
 
 const Info = styled.View`
-  height: ${hp('15%')}px;
+  height: 100px;
   width: ${wp('100%')}px;
   flex-direction: row;
   align-items: center;
+  padding: 10px 20px;
   background-color: white;
+  background-color: red;
 `;
 
 const BoxArea = styled.View`

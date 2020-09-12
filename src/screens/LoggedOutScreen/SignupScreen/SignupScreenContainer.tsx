@@ -26,10 +26,10 @@ export default ({route: {params}}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const [id, setId] = useState<string>('');
+  const {mobileNo = null, verifyCode = null} = params;
   const [name, setName] = useState<string>('');
   const [sexTypeCheck, setSexTypeCheck] = useState<[boolean, boolean]>([
-    true,
+    false,
     false,
   ]);
   const [positionTypeCheck, setPositionTypeCheck] = useState<
@@ -40,7 +40,6 @@ export default ({route: {params}}) => {
   const [birthDate, setBirthDate] = useState<string>('');
   const [passwordCheck, setPasswordCheck] = useState<string>('');
   const [isPasswordSeen, setIsPasswordSeen] = useState<boolean>(false);
-  const [isRegisted, setIsRegisted] = useState<boolean>(false);
   const [appVersion, setAppVersion] = useState<string>('');
   const [platform, setPlatform] = useState<string>('');
 
@@ -88,58 +87,42 @@ export default ({route: {params}}) => {
   };
 
   const regist = async () => {
-    dispatch(setSplashVisible(true));
     if (password !== passwordCheck) {
       alertModal('비밀번호가 동일하지 않습니다.');
-      dispatch(setSplashVisible(false));
     }
     if (checkPassword(password) === false) {
-      dispatch(setSplashVisible(false));
       return false;
     } else {
-      // try {
-      //   const {data} = await api.logIn({
-      //     MOBILENO: params?.mobileNo,
-      //     STORE: type,
-      // BIRTHDATE: birthDate,
-      //     NAME: name,
-      //     PASSWORD: password,
-      //   });
-      //   const json = await response.json();
-      //   if (json.message === 'ALREADY_SUCCESS') {
-      //     dispatch(setSplashVisible(false));
-      //     const params = {
-      //       alertType: 'alert',
-      //       content: '이미 가입한 휴대폰번호입니다.',
-      //     };
-      //     dispatch(setAlertInfo(params));
-      //     dispatch(setAlertVisible(true));
-      //     navigation.goBack();
-      //   } else if (json.message === 'SMSERROR') {
-      //     dispatch(setSplashVisible(false));
-      //     const params = {
-      //       alertType: 'alert',
-      //       content: '인증번호 오류입니다.',
-      //     };
-      //     dispatch(setAlertInfo(params));
-      //     dispatch(setAlertVisible(true));
-      //     navigation.goBack();
-      //   } else {
-      //     dispatch(setSplashVisible(false));
-      //     const params = {
-      //       alertType: 'alert',
-      //       content: '회원가입이 완료되었습니다. 다시 로그인해 주세요.',
-      //     };
-      //     dispatch(setAlertInfo(params));
-      //     dispatch(setAlertVisible(true));
-      //     navigation.navigate('LogIn', {
-      //       appVersion,
-      //       platform,
-      //     });
-      //   }
-      // } catch (e) {
-      //   console.log(e);
-      // }
+      try {
+        dispatch(setSplashVisible(true));
+        const {data} = await api.signUp({
+          NAME: name,
+          BIRTHDATE: birthDate,
+          GENDER: '',
+          MobileNo: mobileNo,
+          SMSNUMBER: verifyCode,
+          STORE: type,
+          PASSWORD: password,
+          DEVICE_TOKEN: '',
+        });
+        if (data.message === 'ALREADY_SUCCESS') {
+          alertModal('이미 가입한 휴대폰번호입니다.');
+          navigation.goBack();
+        } else if (data.message === 'SMSERROR') {
+          alertModal('인증번호 오류입니다.');
+          navigation.goBack();
+        } else {
+          alertModal('회원가입이 완료되었습니다. 로그인해 주세요.');
+          navigation.navigate('LogInScreen', {
+            appVersion,
+            platform,
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      } finally {
+        dispatch(setSplashVisible(false));
+      }
     }
   };
 
@@ -151,65 +134,31 @@ export default ({route: {params}}) => {
     }
   };
 
-  const onChangePassword = (isPasswordCheck, text) => {
-    if (isPasswordCheck) {
-      setPasswordCheck(text);
-      checkValidationRegistButton();
-    } else {
-      setPassword(text);
-      setPasswordCheck('');
-    }
-  };
-
-  const onBlurPassword = (text) => {
-    checkValidationRegistButton();
-    if (password !== '' && password.length < 6) {
-      alertModal('비밀번호를 6자리 이상 입력하세요.');
-    }
-  };
-
-  const checkValidationRegistButton = () => {
-    const checkedPositionType = !!positionTypeCheck.filter((flag) => flag)
-      .length;
-    if (
-      !id ||
-      !name ||
-      !password ||
-      password.length < 6 ||
-      !checkedPositionType
-    ) {
-      setIsRegisted(false);
-    } else {
-      setIsRegisted(true);
-    }
-  };
-
   useEffect(() => {
     if (utils.isAndroid) {
       setPlatform('android');
     } else {
       setPlatform('ios');
     }
-    setId(params?.phone);
     setAppVersion('1.3.7');
   }, []);
 
   return (
     <SignupScreenPresenter
-      id={id}
+      mobileNo={mobileNo}
       name={name}
       confirmModal={confirmModal}
-      onChangePassword={onChangePassword}
       onChangeName={onChangeName}
-      onBlurPassword={onBlurPassword}
       toggleIsPasswordSeen={toggleIsPasswordSeen}
-      isRegisted={isRegisted}
       isPasswordSeen={isPasswordSeen}
       password={password}
       passwordCheck={passwordCheck}
       sexTypeCheck={sexTypeCheck}
+      setSexTypeCheck={setSexTypeCheck}
       positionTypeCheck={positionTypeCheck}
-      checkValidationRegistButton={checkValidationRegistButton}
+      setPositionTypeCheck={setPositionTypeCheck}
+      setPassword={setPassword}
+      setPasswordCheck={setPasswordCheck}
     />
   );
 };

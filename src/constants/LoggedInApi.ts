@@ -119,7 +119,6 @@ export default {
         YEAR: string,
         MONTH: string
     ) => oldApi("get", `/Store/ChecklistAll?STORE=${storeID}&YEAR=${YEAR}&MONTH=${MONTH}`),
-    // getChecklistAll: (data: any) => callApi("post", "/auth/getAllchecklist", data),
     checkRegister: (data: any) => oldApi("post", "/Store/CheckRegister/", data),
     checkUpdate: (data: any) => oldApi("post", "/Store/CheckUpdate/", data),
     getEmployeeList: (data: any) => oldApi("post", "/Employee/getEmpList/", data),

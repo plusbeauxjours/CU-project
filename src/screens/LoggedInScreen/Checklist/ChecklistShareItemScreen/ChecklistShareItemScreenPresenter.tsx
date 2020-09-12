@@ -122,6 +122,7 @@ const CommentBox = styled.View`
 `;
 
 const Column = styled.View`
+  margin-left: 10px;
   flex-direction: column;
   justify-content: center;
 `;
@@ -224,7 +225,12 @@ export default ({
                 <FlatList
                   horizontal
                   keyExtractor={(_, index) => index.toString()}
-                  style={{flexDirection: 'row'}}
+                  style={{
+                    marginTop: 40,
+                    flexDirection: 'row',
+                  }}
+                  contentContainerStyle={{justifyContent: 'center'}}
+                  showsHorizontalScrollIndicator={false}
                   data={imgarr}
                   renderItem={({item, index}) => renderImage(item, index)}
                 />
@@ -254,13 +260,12 @@ export default ({
                           <FastImage
                             style={{width: 60, height: 60, borderRadius: 30}}
                             source={{
-                              uri: 'http://cuapi.shop-sol.com/uploads/' + image,
+                              uri: 'http://cuapi.shop-sol.com/uploads/3.png',
                               headers: {Authorization: 'someAuthToken'},
                               priority: FastImage.priority.low,
                             }}
                             resizeMode={FastImage.resizeMode.cover}
                           />
-
                           <Column>
                             <Row>
                               <Text

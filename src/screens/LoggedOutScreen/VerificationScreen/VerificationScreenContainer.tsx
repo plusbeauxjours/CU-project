@@ -99,13 +99,11 @@ export default () => {
 
   const requireVerifyCode = async () => {
     if (mobileNo.length == 0) {
-      alertModal('휴대폰번호를 입력해주세요.');
-      return;
+      return alertModal('휴대폰번호를 입력해주세요.');
     }
     const regExp_ctn = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
     if (!regExp_ctn.test(mobileNo)) {
-      alertModal('올바른 휴대폰번호 11자리를 입력해주세요.');
-      return;
+      return alertModal('올바른 휴대폰번호 11자리를 입력해주세요.');
     }
     setHasCheckedVerifyCode(true);
     setIsCountDownStarted(true);

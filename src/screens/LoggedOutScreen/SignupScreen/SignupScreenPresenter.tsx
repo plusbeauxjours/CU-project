@@ -6,6 +6,7 @@ import {View, ScrollView} from 'react-native';
 import SubmitBtn from '../../../components/Btn/SubmitBtn';
 import CheckPasswordBtn from '../../../components/Btn/CheckPasswordBtn';
 import InputLine from '../../../components/InputLine';
+import {RadioBtnOnIcon, RadioBtnOffIcon} from '../../../constants/Icons';
 
 interface IPositionTypeRadioButtonOff {
   borderColor: boolean;
@@ -55,6 +56,11 @@ const NameText = styled.Text`
   font-weight: bold;
   font-size: 18px;
 `;
+
+const Row = styled.View`
+  flex-direction: row;
+`;
+
 const TextId = styled.Text`
   flex: 1;
   padding-left: 5px;
@@ -73,6 +79,7 @@ const TextInput = styled.TextInput`
 
 const TypeCheckCase = styled.View`
   flex-direction: row;
+  justify-content: space-around;
   margin-top: 20;
 `;
 
@@ -98,20 +105,20 @@ const GreyText = styled.Text`
 `;
 
 export default ({
-  id,
+  mobileNo,
   name,
   confirmModal,
-  onChangePassword,
   onChangeName,
-  onBlurPassword,
   toggleIsPasswordSeen,
-  isRegisted,
   isPasswordSeen,
   password,
   passwordCheck,
   sexTypeCheck,
+  setSexTypeCheck,
   positionTypeCheck,
-  checkValidationRegistButton,
+  setPositionTypeCheck,
+  setPassword,
+  setPasswordCheck,
 }) => {
   const sexType = (selection, text) => {
     let value = JSON.parse(JSON.stringify(sexTypeCheck));
@@ -120,20 +127,15 @@ export default ({
         onPress={() => {
           value.fill(false);
           value[selection] = true;
-          const params = {
-            sexTypeCheck: value,
-            gender: '',
-          };
-          if (selection === 0) {
-            params.gender = '남성';
-          } else if (selection === 1) {
-            params.gender = '남성';
-          }
-          checkValidationRegistButton();
+          setSexTypeCheck(value);
         }}>
-        <PositionTypeRadioButtonOff borderColor={sexTypeCheck[selection]}>
-          {sexTypeCheck[selection] && <PositionTypeRadioButtonOn />}
-        </PositionTypeRadioButtonOff>
+        <Row>
+          {sexTypeCheck[selection] ? (
+            <RadioBtnOnIcon size={25} color="#642A8C" />
+          ) : (
+            <RadioBtnOffIcon size={25} color="#CCCCCC" />
+          )}
+        </Row>
         <TypeText>{text}</TypeText>
       </TypeContainer>
     );
@@ -146,20 +148,15 @@ export default ({
         onPress={() => {
           value.fill(false);
           value[selection] = true;
-          const params = {
-            positionTypeCheck: value,
-            type: '',
-          };
-          if (selection === 0) {
-            params.type = '0';
-          } else if (selection === 1) {
-            params.type = '1';
-          }
-          checkValidationRegistButton();
+          setPositionTypeCheck(value);
         }}>
-        <PositionTypeRadioButtonOff borderColor={sexTypeCheck[selection]}>
-          {positionTypeCheck[selection] && <PositionTypeRadioButtonOn />}
-        </PositionTypeRadioButtonOff>
+        <Row>
+          {positionTypeCheck[selection] ? (
+            <RadioBtnOnIcon size={25} color="#642A8C" />
+          ) : (
+            <RadioBtnOffIcon size={25} color="#CCCCCC" />
+          )}
+        </Row>
         <TypeText>{text}</TypeText>
       </TypeContainer>
     );
@@ -176,7 +173,7 @@ export default ({
             <Case>
               <NameText>ID</NameText>
               <TextinputCase>
-                <TextId>{id}</TextId>
+                <TextId>{mobileNo}</TextId>
               </TextinputCase>
               <InputLine isBefore={false} />
             </Case>
@@ -189,7 +186,6 @@ export default ({
                   placeholderTextColor={'#E5E5E5'}
                   onChangeText={(text) => {
                     onChangeName(text);
-                    checkValidationRegistButton();
                   }}
                   value={name}
                 />
@@ -200,8 +196,8 @@ export default ({
             <Case>
               <NameText>가입유형</NameText>
               <TypeCheckCase>
-                <View style={{flex: 1}}>{positionType(1, '점주')}</View>
-                <View style={{flex: 1}}>{positionType(0, '직원')}</View>
+                <View>{positionType(1, '점주')}</View>
+                <View>{positionType(0, '직원')}</View>
               </TypeCheckCase>
             </Case>
             <WhiteSpace />
@@ -213,10 +209,12 @@ export default ({
                   placeholderTextColor={'#E5E5E5'}
                   selectionColor={'#642A8C'}
                   onFocus={() => {
-                    onChangePassword(false, '');
+                    setPassword('');
+                    setPasswordCheck('');
                   }}
                   onChangeText={(text) => {
-                    onChangePassword(false, text);
+                    setPassword(text);
+                    setPasswordCheck('');
                   }}
                   value={password}
                   secureTextEntry={isPasswordSeen === true ? false : true}
@@ -236,7 +234,7 @@ export default ({
                   placeholder={'새 비밀번호 확인'}
                   placeholderTextColor={'#E5E5E5'}
                   selectionColor={'#642A8C'}
-                  onChangeText={(text) => onChangePassword(true, text)}
+                  onChangeText={(text) => setPasswordCheck(text)}
                   value={passwordCheck}
                   secureTextEntry={isPasswordSeen === true ? false : true}
                   onFocus={() => {}}
@@ -258,7 +256,14 @@ export default ({
                 '점주 : 점주\n직원 : 점장 또는 스태프',
               )
             }
-            isRegisted={isRegisted}
+            isRegisted={
+              mobileNo &&
+              name &&
+              password &&
+              passwordCheck &&
+              password === passwordCheck &&
+              passwordCheck.length > 6
+            }
           />
         </ScrollView>
       </KeyboardAwareScrollView>

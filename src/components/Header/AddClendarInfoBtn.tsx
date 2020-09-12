@@ -20,7 +20,7 @@ export default () => {
   const navigation = useNavigation();
   const {STORE_DATA} = useSelector((state: any) => state.storeReducer);
   const {STORE} = useSelector((state: any) => state.userReducer);
-  if (STORE == '1' || STORE_DATA.CalendarEdit == '1' || undefined) {
+  if (STORE == '1' || STORE_DATA.CalendarEdit == '1') {
     return (
       <Touchable
         onPress={() => {
@@ -30,5 +30,7 @@ export default () => {
         <Text>일정추가</Text>
       </Touchable>
     );
+  } else {
+    return null;
   }
 };
