@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import styled from 'styled-components/native';
 import {FlatList, ActivityIndicator} from 'react-native';
 import {
@@ -6,9 +6,16 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import FastImage from 'react-native-fast-image';
+import {RNCamera} from 'react-native-camera';
+import Modal from 'react-native-modal';
 
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import {CameraIcon, PictureIcon} from '../../../../constants/Icons';
+import {
+  CameraIcon,
+  PictureIcon,
+  FlashIcon,
+  NoFlashIcon,
+} from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -60,30 +67,6 @@ const TextInput = styled.TextInput`
   margin-top: 10px;
 `;
 
-const TextInputContainer = styled.View`
-  align-items: flex-start;
-  justify-content: center;
-  margin-left: 5px;
-  margin-bottom: 5px;
-`;
-
-const DateText = styled.Text`
-  width: 100%;
-  font-size: 17px;
-  margin-left: 5px;
-  margin-top: 10px;
-`;
-
-const ImageContainer = styled.View`
-  width: 120px;
-  height: 120px;
-`;
-
-const Image = styled.Image`
-  width: 100%;
-  height: 100%;
-`;
-
 const ContentTextInput = styled.TextInput`
   padding: 10px;
   min-height: 120px;
@@ -118,9 +101,62 @@ const DeleteButton = styled.TouchableOpacity`
   align-items: center;
 `;
 
+const CameraFlashButton = styled.TouchableOpacity`
+  top: 50px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  justify-content: center;
+  align-items: center;
+  background-color: grey;
+  position: absolute;
+`;
+
+const CameraPictureCloseButtonText = styled.Text`
+  font-size: 16px;
+  color: #ffffff;
+`;
+
+const CameraPictureCloseButton = styled.TouchableOpacity`
+  height: 60px;
+  width: 100%;
+  background-color: #642a8c;
+  align-self: flex-end;
+  align-items: center;
+  justify-content: center;
+`;
+
+const CameraPictureButton = styled.TouchableOpacity`
+  width: 60px;
+  height: 60px;
+  border-radius: 60px;
+  border-color: #642a8c;
+  background-color: #ffffff;
+  align-items: center;
+  justify-content: center;
+`;
+
+const HalfBotton = styled.TouchableOpacity`
+  width: 50%;
+  height: 60px;
+  margin-top: 20px;
+  align-self: flex-end;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+`;
+
+const HalfBottonText = styled.Text`
+  font-size: 16px;
+`;
+
+const CameraLastPictureContainer = styled.View`
+  flex: 1;
+  align-items: center;
+`;
+
 export default ({
-  cameraPictureList,
-  setCameraPictureList,
   title,
   setTitle,
   content,
@@ -129,274 +165,224 @@ export default ({
   setIsCameraModalVisible,
   TITLE,
   registerFn,
-  openImagePickerFn,
   confirmModal,
   onPressImageFn,
   launchImageLibraryFn,
-  launchCameraFn,
-}) => (
-  <>
-    <BackGround>
-      <ScrollView
-        keyboardShouldPersistTaps={'handled'}
-        keyboardDismissMode="on-drag"
-        contentContainerStyle={{alignItems: 'center'}}>
-        <Container>
-          <Section>
-            <TitleText>제목</TitleText>
-            <TextInput
-              placeholder={'최대 글자수는 15자 입니다'}
-              selectionColor={'#642A8C'}
-              placeholderTextColor={'#E5E5E5'}
-              onChangeText={(text) => {
-                setTitle(text);
-              }}
-              value={title}
-              maxLength={15}
-            />
-          </Section>
-          <Section>
-            <TitleText>내용</TitleText>
-            <ContentTextInput
-              placeholder={'내용을 입력해주세요'}
-              selectionColor={'#642A8C'}
-              blurOnSubmit={false}
-              multiline={true}
-              placeholderTextColor={'#E5E5E5'}
-              onChangeText={(text) => {
-                setContent(text);
-              }}
-              value={content}
-            />
-          </Section>
-          <Section>
-            <TitleText>사진</TitleText>
-            <GreyText>등록된 사진을 클릭하면 리스트에서 제거됩니다</GreyText>
-            <RowCenter>
-              <IconContainer>
-                <Text>촬영</Text>
-                <Touchable onPress={() => launchCameraFn(true)}>
-                  <IconBox>
-                    <CameraIcon size={40} />
-                  </IconBox>
-                </Touchable>
-              </IconContainer>
-              <IconContainer>
-                <Text>보관함</Text>
-                <Touchable onPress={() => launchImageLibraryFn()}>
-                  <IconBox>
-                    <PictureIcon />
-                  </IconBox>
-                </Touchable>
-              </IconContainer>
-            </RowCenter>
-            {cameraPictureList?.length > 0 && (
-              <FlatList
-                horizontal
-                keyExtractor={(_, index) => index.toString()}
-                style={{flexDirection: 'row'}}
-                contentContainerStyle={{justifyContent: 'center'}}
-                data={cameraPictureList}
-                showsHorizontalScrollIndicator={false}
-                renderItem={({item, index}) => (
-                  <Touchable key={index} onPress={() => onPressImageFn(item)}>
-                    <FastImage
-                      style={{
-                        width: 100,
-                        height: 100,
-                        borderRadius: 10,
-                        marginRight: 10,
-                      }}
-                      source={{
-                        uri: item.uri,
-                        headers: {Authorization: 'someAuthToken'},
-                        priority: FastImage.priority.low,
-                      }}
-                      resizeMode={FastImage.resizeMode.cover}
-                    />
-                  </Touchable>
-                )}
+  cameraPictureFlash,
+  setCameraPictureFlash,
+  takePictureFn,
+  cameraPictureLast,
+  setCameraPictureLast,
+  cameraPictureList,
+  setCameraPictureList,
+}) => {
+  const cameraRef = useRef(null);
+  return (
+    <>
+      <BackGround>
+        <ScrollView
+          keyboardShouldPersistTaps={'handled'}
+          keyboardDismissMode="on-drag"
+          contentContainerStyle={{alignItems: 'center'}}>
+          <Container>
+            <Section>
+              <TitleText>제목</TitleText>
+              <TextInput
+                placeholder={'최대 글자수는 15자 입니다'}
+                selectionColor={'#642A8C'}
+                placeholderTextColor={'#E5E5E5'}
+                onChangeText={(text) => {
+                  setTitle(text);
+                }}
+                value={title}
+                maxLength={15}
               />
-            )}
-          </Section>
-
-          <SubmitBtn
-            text={`${TITLE} 수정완료`}
-            onPress={() =>
-              confirmModal(`${TITLE}을 수정하시겠습니까?`, '수정', 'no', () =>
-                registerFn(),
-              )
-            }
-            isRegisted={title && content}
-          />
-          <DeleteButton
-            onPress={() => {
-              confirmModal(`${TITLE}을 삭제하시겠습니까?`, '삭제', 'yes', () =>
-                registerFn('close'),
-              );
-            }}>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 'bold',
-                color: '#FF3D3D',
-                textDecorationLine: 'underline',
-              }}>
-              {TITLE} 삭제하기
-            </Text>
-          </DeleteButton>
-        </Container>
-      </ScrollView>
-    </BackGround>
-    {/* <Modal
-        isVisible={this.state.isCameraModalVisible}
-        style={{margin: 0}}
-        onBackButtonPress={() => {
-          this.setState({isCameraModalVisible: false});
-        }}>
-        <View style={{flex: 1}}>
-          {this.state.cameraPictureLast ? (
-            <>
-              <View
-                style={{
-                  flex: 1,
-                  paddingHorizontal: 16,
-                  paddingTop: isIphoneX() ? 50 : 30,
-                }}>
-                <View style={{flex: 1, marginBottom: 22}}>
-                  <Image
-                    source={{uri: this.state.cameraPictureLast}}
-                    style={{width: '100%', height: '100%', borderRadius: 5}}
-                  />
-                </View>
-              </View>
-              <View style={{flexDirection: 'row'}}>
-                <View style={{width: '50%', flexDirection: 'row'}}>
-                  <TouchableOpacity
-                    style={styles.cameraPictureRetryButton}
+            </Section>
+            <Section>
+              <TitleText>내용</TitleText>
+              <ContentTextInput
+                placeholder={'내용을 입력해주세요'}
+                selectionColor={'#642A8C'}
+                blurOnSubmit={false}
+                multiline={true}
+                placeholderTextColor={'#E5E5E5'}
+                onChangeText={(text) => {
+                  setContent(text);
+                }}
+                value={content}
+              />
+            </Section>
+            <Section>
+              <TitleText>사진</TitleText>
+              <GreyText>등록된 사진을 클릭하면 리스트에서 제거됩니다</GreyText>
+              <RowCenter>
+                <IconContainer>
+                  <Text>촬영</Text>
+                  <Touchable
                     onPress={() => {
-                      this.setState({
-                        cameraPictureLast: null,
-                      });
+                      setCameraPictureLast(null);
+                      setIsCameraModalVisible(true);
                     }}>
-                    <Text style={{fontSize: 16, color: '#642A8C'}}>
-                      {' '}
-                      재촬영{' '}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={{width: '50%', flexDirection: 'row'}}>
-                  <TouchableOpacity
-                    style={{
-                      ...styles.cameraPictureChoiceButton,
-                      backgroundColor: '#642A8C',
-                    }}
-                    onPress={async () => {
-                      const cameraPictureLast = this.state.cameraPictureLast;
-                      const name = cameraPictureLast.substring(
-                        cameraPictureLast.lastIndexOf('/') + 1,
-                      );
-                      const cameraPictureList = this.state.cameraPictureList;
-                      const savePicturePath =
-                        this.defaultPictureUploadPath + name;
+                    <IconBox>
+                      <CameraIcon size={40} />
+                    </IconBox>
+                  </Touchable>
+                </IconContainer>
+                <IconContainer>
+                  <Text>보관함</Text>
+                  <Touchable onPress={() => launchImageLibraryFn()}>
+                    <IconBox>
+                      <PictureIcon />
+                    </IconBox>
+                  </Touchable>
+                </IconContainer>
+              </RowCenter>
+              {cameraPictureList?.length > 0 && (
+                <FlatList
+                  horizontal
+                  keyExtractor={(_, index) => index.toString()}
+                  style={{flexDirection: 'row'}}
+                  contentContainerStyle={{justifyContent: 'center'}}
+                  data={cameraPictureList}
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({item, index}) => (
+                    <Touchable key={index} onPress={() => onPressImageFn(item)}>
+                      <FastImage
+                        style={{
+                          width: 100,
+                          height: 100,
+                          borderRadius: 10,
+                          marginRight: 10,
+                        }}
+                        source={{
+                          uri: item.uri,
+                          headers: {Authorization: 'someAuthToken'},
+                          priority: FastImage.priority.low,
+                        }}
+                        resizeMode={FastImage.resizeMode.cover}
+                      />
+                    </Touchable>
+                  )}
+                />
+              )}
+            </Section>
 
-                      await FileSystem.moveAsync({
-                        from: cameraPictureLast,
-                        to: savePicturePath,
-                      });
-                      cameraPictureList.push(savePicturePath);
-
-                      this.setState({
-                        isCameraModalVisible: false,
-                        cameraPictureList,
-                        cameraPictureLast: null,
-                      });
-                    }}>
-                    <Text style={{fontSize: 16, color: '#fff'}}> 선택 </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </>
-          ) : (
-            <Camera
-              ref={(ref) => {
-                this.cameraRef = ref;
-              }}
-              ratio={
-                this.state.cameraRatioList.length > 0
-                  ? this.state.cameraRatioList[
-                      this.state.cameraRatioList.length - 1
-                    ]
-                  : '16:9'
+            <SubmitBtn
+              text={`${TITLE} 수정완료`}
+              onPress={() =>
+                confirmModal(`${TITLE}을 수정하시겠습니까?`, '수정', 'no', () =>
+                  registerFn(),
+                )
               }
-              autoFocus={Camera.Constants.AutoFocus.on}
-              style={{flex: 1}}
-              onCameraReady={async () => {
-                this.setState({
-                  cameraRatioList: ['16:9'],
-                });
-              }}
-              flashMode={
-                this.state.cameraPictureFlash
-                  ? Camera.Constants.FlashMode.torch
-                  : Camera.Constants.FlashMode.off
-              }>
-              <View
+              isRegisted={title && content}
+            />
+            <DeleteButton
+              onPress={() => {
+                confirmModal(
+                  `${TITLE}을 삭제하시겠습니까?`,
+                  '삭제',
+                  'yes',
+                  () => registerFn('close'),
+                );
+              }}>
+              <Text
                 style={{
-                  flex: 1,
-                  flexDirection: 'row',
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                  color: '#FF3D3D',
+                  textDecorationLine: 'underline',
                 }}>
-                <TouchableOpacity
-                  style={styles.cameraPictureCloseButton}
+                {TITLE} 삭제하기
+              </Text>
+            </DeleteButton>
+          </Container>
+        </ScrollView>
+      </BackGround>
+      <Modal
+        isVisible={isCameraModalVisible}
+        style={{margin: 0}}
+        onBackButtonPress={() => setIsCameraModalVisible(false)}>
+        {cameraPictureLast ? (
+          <>
+            <CameraLastPictureContainer>
+              <FastImage
+                style={{
+                  width: wp('100%') - 40,
+                  height: hp('100%') - 120,
+                  borderRadius: 10,
+                  marginTop: 20,
+                }}
+                source={{
+                  uri: cameraPictureLast,
+                  headers: {Authorization: 'someAuthToken'},
+                  priority: FastImage.priority.low,
+                }}
+                resizeMode={FastImage.resizeMode.cover}
+              />
+              <Row style={{flexDirection: 'row'}}>
+                <HalfBotton onPress={() => setCameraPictureLast(null)}>
+                  <HalfBottonText style={{color: '#642A8C'}}>
+                    재촬영
+                  </HalfBottonText>
+                </HalfBotton>
+                <HalfBotton
+                  style={{backgroundColor: '#642A8C'}}
                   onPress={() => {
-                    this.setState({
-                      isCameraModalVisible: false,
-                    });
+                    console.log(cameraPictureList, cameraPictureLast);
+                    setCameraPictureList([
+                      ...cameraPictureList,
+                      {uri: cameraPictureLast},
+                    ]);
+                    setIsCameraModalVisible(false);
+                    setCameraPictureLast(null);
                   }}>
-                  <Text style={{fontSize: 16, color: '#FFFFFF'}}> 닫기 </Text>
-                </TouchableOpacity>
-              </View>
-              {this.state.cameraRatioList.length > 0 ? (
-                <>
-                  <TouchableOpacity
-                    style={styles.cameraPictureButton}
-                    onPress={async () => {
-                      const capturedPicture = await this.cameraRef.takePictureAsync();
-
-                      this.setState({
-                        cameraPictureLast: capturedPicture.uri,
-                      });
-                    }}>
-                    <AntDesign
-                      name="camerao"
-                      size={32}
-                      color="#642A8C"
-                      style={{paddingTop: 3}}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.cameraPictureFlashButton}
-                    onPress={async () => {
-                      this.setState({
-                        cameraPictureFlash: !this.state.cameraPictureFlash,
-                      });
-                    }}>
-                    <Ionicons
-                      name={
-                        this.state.cameraPictureFlash
-                          ? 'ios-flash-off'
-                          : 'ios-flash'
-                      }
-                      size={20}
-                      color="#FFFFFF"
-                      style={{paddingTop: 3}}
-                    />
-                  </TouchableOpacity>
-                </>
-              ) : null}
-            </Camera>
-          )}
-        </View>
-      </Modal> */}
-  </>
-);
+                  <HalfBottonText style={{color: '#fff'}}>선택</HalfBottonText>
+                </HalfBotton>
+              </Row>
+            </CameraLastPictureContainer>
+          </>
+        ) : (
+          <RNCamera
+            ref={cameraRef}
+            style={{
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+            }}
+            type={RNCamera.Constants.Type.back}
+            flashMode={
+              cameraPictureFlash
+                ? RNCamera.Constants.FlashMode.on
+                : RNCamera.Constants.FlashMode.off
+            }
+            androidCameraPermissionOptions={{
+              title: 'Permission to use camera',
+              message: 'We need your permission to use your camera',
+              buttonPositive: 'Ok',
+              buttonNegative: 'Cancel',
+            }}>
+            <CameraFlashButton
+              onPress={() => setCameraPictureFlash(!cameraPictureFlash)}>
+              {cameraPictureFlash ? <FlashIcon /> : <NoFlashIcon />}
+            </CameraFlashButton>
+            <Row
+              style={{
+                justifyContent: 'center',
+                position: 'absolute',
+                right: wp('50%') - 30,
+                bottom: 80,
+              }}>
+              <CameraPictureButton onPress={() => takePictureFn(cameraRef)}>
+                <CameraIcon size={40} />
+              </CameraPictureButton>
+            </Row>
+            <CameraPictureCloseButton
+              onPress={() => setIsCameraModalVisible(false)}>
+              <CameraPictureCloseButtonText>닫기</CameraPictureCloseButtonText>
+            </CameraPictureCloseButton>
+          </RNCamera>
+        )}
+      </Modal>
+    </>
+  );
+};

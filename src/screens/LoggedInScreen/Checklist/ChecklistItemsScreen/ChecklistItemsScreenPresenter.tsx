@@ -504,6 +504,7 @@ export default ({
           <WhiteText>체크</WhiteText>
         </QrTouchable>
       )}
+      {console.log('CHECKLIST_DATA', CHECKLIST_DATA)}
       <Modal
         isVisible={isChecklistModalVisible}
         style={{marginTop: 60}}

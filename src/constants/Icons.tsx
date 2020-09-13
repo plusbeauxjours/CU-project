@@ -327,3 +327,9 @@ export const PauseIcon: React.FC<IProps> = ({size, color}) => (
 export const PlayIcon: React.FC<IProps> = ({size, color}) => (
   <Ionicons name={'play-sharp'} size={size ?? 42} color={color ?? 'white'} />
 );
+export const FlashIcon: React.FC<IProps> = ({size, color}) => (
+  <Ionicons name={'flash'} size={size ?? 25} color={color ?? 'white'} />
+);
+export const NoFlashIcon: React.FC<IProps> = ({size, color}) => (
+  <Ionicons name={'flash-off'} size={size ?? 25} color={color ?? 'white'} />
+);

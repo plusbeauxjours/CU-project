@@ -117,7 +117,9 @@ const checklistshareSlice = createSlice({
             );
             favoriteItem.TITLE = title;
             favoriteItem.CONTENTS = content;
-            favoriteItem.IMG_LIST = image ?? null;
+            if (image) {
+              favoriteItem.IMG_LIST = image;
+            }
           }
         } else {
           if (CLOSE_FLAG == '1') {
@@ -154,12 +156,14 @@ const checklistshareSlice = createSlice({
               },
             };
           } else {
-            const basicItem = state.CHECKLIST_SHARE_DATA2.favorite.find(
+            const favoriteItem = state.CHECKLIST_SHARE_DATA2.favorite.find(
               (i) => i.NOTICE_SEQ === NOTICE_SEQ,
             );
-            basicItem.TITLE = title;
-            basicItem.CONTENTS = content;
-            basicItem.IMG_LIST = image;
+            favoriteItem.TITLE = title;
+            favoriteItem.CONTENTS = content;
+            if (image) {
+              favoriteItem.IMG_LIST = image;
+            }
           }
         } else {
           if (CLOSE_FLAG == '1') {
@@ -173,12 +177,14 @@ const checklistshareSlice = createSlice({
               },
             };
           } else {
-            const favoriteItem = state.CHECKLIST_SHARE_DATA2.basic.find(
+            const basicItem = state.CHECKLIST_SHARE_DATA2.basic.find(
               (i) => i.NOTICE_SEQ === NOTICE_SEQ,
             );
-            favoriteItem.TITLE = title;
-            favoriteItem.CONTENTS = content;
-            favoriteItem.IMG_LIST = image;
+            basicItem.TITLE = title;
+            basicItem.CONTENTS = content;
+            if (image) {
+              basicItem.IMG_LIST = image;
+            }
           }
         }
       }

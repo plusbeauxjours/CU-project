@@ -1,19 +1,22 @@
 import React, {useState, useEffect} from 'react';
-import ChecklistSpecificationScreenPresenter from './ChecklistSpecificationScreenPresenter';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
 
+import ChecklistSpecificationScreenPresenter from './ChecklistSpecificationScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import utils from '../../../../constants/utils';
 import api from '../../../../constants/LoggedInApi';
+import {getCHECKLIST_DATA} from '../../../../redux/checklistSlice';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const {STORE, MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
+  const {STORE, MEMBER_SEQ, MEMBER_NAME} = useSelector(
+    (state: any) => state.userReducer,
+  );
   const {STORE_SEQ, EMP_SEQ} = useSelector((state: any) => state.storeReducer);
 
   const {
@@ -27,6 +30,7 @@ export default ({route: {params}}) => {
       CHECK_DATE = null,
       PHOTO_CHECK = null,
       NAME = null,
+      IMAGE_LIST = [],
     } = {},
     scan,
   } = params;
@@ -88,11 +92,7 @@ export default ({route: {params}}) => {
   const [isCameraModalVisible, setIsCameraModalVisible] = useState<boolean>(
     false,
   );
-  const [isCameraPictureFlash, setIsCameraPictureFlash] = useState<boolean>(
-    false,
-  );
-  const [hasCameraPermission, setHasCameraPermission] = useState<string>('');
-  const [cameraRatioList, setCameraRatioList] = useState<any>([]);
+  const [cameraPictureFlash, setCameraPictureFlash] = useState<boolean>(false);
   const [cameraPictureList, setCameraPictureList] = useState<any>([]);
   const [cameraPictureLast, setCameraPictureLast] = useState<any>(null);
   const [LIST, setLIST] = useState<any>([]);
@@ -102,7 +102,9 @@ export default ({route: {params}}) => {
   const [checklistBadState, setChecklistBadState] = useState<any>(
     new Array(params?.data.LIST.split('@@').length),
   );
-  const [CHECK_TITLE, setCHECK_TITLE] = useState<string>();
+  const [CHECK_TITLE, setCHECK_TITLE] = useState<string>(
+    params?.data?.CHECK_TITLE || null,
+  );
   const [CHECK_LIST, setCHECK_LIST] = useState<any>(null);
 
   const alertModal = (text) => {
@@ -144,52 +146,19 @@ export default ({route: {params}}) => {
     });
   };
 
-  const launchCameraFn = () => {
-    ImagePicker.openCamera({
-      width: 600,
-      height: 800,
-      cropping: true,
-      mediaType: 'photo',
-      includeBase64: true,
-      cropperToolbarTitle: '',
-      cropperCircleOverlay: false,
-      compressImageQuality: 0.8,
-      compressImageMaxWidth: 720,
-      compressImageMaxHeight: 720,
-      cropperChooseText: '선택',
-      cropperCancelText: '취소',
-    }).then((image) => {
-      console.log(image);
-    });
+  const takePictureFn = async (cameraRef) => {
+    const options = {quality: 0.8, base64: true, width: 720, height: 720};
+    const data = await cameraRef.current.takePictureAsync(options);
+    console.log(data);
+    setCameraPictureLast(data.uri);
   };
-
-  // const getPermissionsAsync = async () => {
-  //   const {status} = await Camera.requestPermissionsAsync();
-
-  //   if (status !== 'granted') {
-  //     alertModal(
-  //       '앱을 사용하기 위해서는 반드시 권한을 허용해야 합니다.\n거부시 설정에서 "퇴근해씨유" 앱의 권한 허용을 해야 합니다.',
-  //     );
-  //     return false;
-  //   } else {
-  //     setHasCameraPermission('granted');
-  //   }
-  //   return true;
-  // };
-
-  // const openCamera = async () => {
-  //   const permission = await getPermissionsAsync();
-  //   if (!permission) {ㄹ
-  //     return;
-  //   }
-  // };
 
   const gotoChecklistAdd = () => {
     navigation.navigate('ChecklistAddScreen', {
       CHECK_SEQ,
       PHOTO_CHECK,
       EMP_SEQ,
-      NAME,
+      NAME: MEMBER_NAME,
       DATE: CHECK_DATE,
       type: '수정',
       CHECK_LIST,
@@ -221,19 +190,18 @@ export default ({route: {params}}) => {
     }
 
     if (Number(PHOTO_CHECK || 0) === 1) {
-      const formData: any = new FormData();
-
-      formData.append('LIST', JSON.stringify(newList));
-      formData.append('CHECK_TITLE', CHECK_TITLE);
-      formData.append('CHECK_SEQ', CHECK_SEQ);
-      formData.append('NAME', NAME);
-      formData.append('CS_SEQ', CS_SEQ);
-      formData.append('STORE_SEQ', STORE_SEQ);
-      formData.append('MEMBER_SEQ', MEMBER_SEQ);
-
       try {
-        const image = [];
         dispatch(setSplashVisible(true));
+        const formData: any = new FormData();
+
+        formData.append('LIST', JSON.stringify(newList));
+        formData.append('CHECK_TITLE', CHECK_TITLE);
+        formData.append('CHECK_SEQ', CHECK_SEQ);
+        formData.append('NAME', MEMBER_NAME);
+        formData.append('CS_SEQ', CS_SEQ);
+        formData.append('STORE_SEQ', STORE_SEQ);
+        formData.append('MEMBER_SEQ', MEMBER_SEQ);
+
         for (let i = 0; i < cameraPictureList.length; i++) {
           const cameraPicture = cameraPictureList[i];
           const fileInfoArr = cameraPicture.uri.split('/');
@@ -248,7 +216,7 @@ export default ({route: {params}}) => {
               fileType = 'image/jpeg';
             }
           }
-          image.push({
+          formData.append('image', {
             uri: utils.isAndroid
               ? cameraPicture.uri
               : cameraPicture.uri.replace('file://', ''),
@@ -256,46 +224,38 @@ export default ({route: {params}}) => {
             type: fileType,
           });
         }
-        const {data} = await api.setCheckListImg2({
-          LIST: JSON.stringify(newList),
-          CHECK_TITLE,
-          CHECK_SEQ,
-          NAME,
-          CS_SEQ,
-          STORE_SEQ,
-          MEMBER_SEQ,
-          image,
-        });
+        const {data} = await api.setCheckListImg2(formData);
         if (data.result === 'SUCCESS') {
           navigation.goBack();
           alertModal('체크가 완료되었습니다.');
         }
       } catch (e) {
+        alertModal('연결에 실패하였습니다.');
+        dispatch(setSplashVisible(false));
+        navigation.goBack();
         console.log(e);
       } finally {
+        dispatch(getCHECKLIST_DATA(params?.data.CHECK_DAT));
         dispatch(setSplashVisible(false));
       }
     } else {
-      console.log('koko');
       try {
-        dispatch(setSplashVisible(true));
+        dispatch(getCHECKLIST_DATA(params?.data.CHECK_DAT));
+        navigation.goBack();
+        alertModal('체크가 완료되었습니다.');
         const {data} = await api.setCheckList2({
           LIST: JSON.stringify(newList),
           CHECK_TITLE,
           CHECK_SEQ,
-          NAME,
+          NAME: MEMBER_NAME,
           CS_SEQ,
           STORE_SEQ,
           MEMBER_SEQ,
         });
-        if (data.result === 'SUCCESS') {
-          navigation.goBack();
-          alertModal('체크가 완료되었습니다.');
-        }
       } catch (e) {
         console.log(e);
-      } finally {
-        dispatch(setSplashVisible(false));
+        alertModal('연결에 실패하였습니다.');
+        navigation.goBack();
       }
     }
   };
@@ -332,17 +292,19 @@ export default ({route: {params}}) => {
     setChecklistBadState(checklistBadStat);
     setCHECK_LIST(checklist);
     setLIST(list);
+    if (cameraPictureList?.length === 0 && IMAGE_LIST) {
+      const allimg = IMAGE_LIST.split('@');
+      for (let i = 0; i < allimg.length; i++) {
+        setCameraPictureList((cameraPictureList) => [
+          ...cameraPictureList,
+          {uri: 'http://cuapi.shop-sol.com/uploads/' + allimg[i]},
+        ]);
+      }
+    }
   };
 
   useEffect(() => {
     initialize();
-    //     this.defaultPictureUploadPath = FileSystem.documentDirectory + 'picture/';
-    //     await FileSystem.makeDirectoryAsync(this.defaultPictureUploadPath, {
-    //       intermediates: true,
-    //     });
-    //   }
-    // }
-    // getPermissionsAsync();
   }, []);
 
   return (
@@ -361,16 +323,20 @@ export default ({route: {params}}) => {
       EMP_NAME={EMP_NAME}
       isCameraModalVisible={isCameraModalVisible}
       setIsCameraModalVisible={setIsCameraModalVisible}
-      cameraPictureList={cameraPictureList}
-      setCameraPictureList={setCameraPictureList}
       checklistGoodState={checklistGoodState}
       setChecklistGoodState={setChecklistGoodState}
       checklistBadState={checklistBadState}
       setChecklistBadState={setChecklistBadState}
       onPressImageFn={onPressImageFn}
       launchImageLibraryFn={launchImageLibraryFn}
-      launchCameraFn={launchCameraFn}
       registerFn={registerFn}
+      cameraPictureFlash={cameraPictureFlash}
+      setCameraPictureFlash={setCameraPictureFlash}
+      takePictureFn={takePictureFn}
+      cameraPictureLast={cameraPictureLast}
+      setCameraPictureLast={setCameraPictureLast}
+      cameraPictureList={cameraPictureList}
+      setCameraPictureList={setCameraPictureList}
     />
   );
 };

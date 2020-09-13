@@ -25,7 +25,6 @@ const Info = styled.View`
   align-items: center;
   padding: 10px 20px;
   background-color: white;
-  background-color: red;
 `;
 
 const BoxArea = styled.View`

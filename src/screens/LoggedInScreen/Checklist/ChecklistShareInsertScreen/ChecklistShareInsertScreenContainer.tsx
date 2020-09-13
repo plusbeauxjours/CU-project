@@ -21,8 +21,9 @@ export default ({route: {params}}) => {
     (state: any) => state.userReducer,
   );
   const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
-
+  const [cameraPictureFlash, setCameraPictureFlash] = useState<boolean>(false);
   const [cameraPictureList, setCameraPictureList] = useState<any>([]);
+  const [cameraPictureLast, setCameraPictureLast] = useState<any>(null);
   const [isCameraModalVisible, setIsCameraModalVisible] = useState<boolean>(
     false,
   );
@@ -70,62 +71,24 @@ export default ({route: {params}}) => {
     });
   };
 
-  const launchCameraFn = () => {
-    ImagePicker.openCamera({
-      width: 600,
-      height: 800,
-      cropping: true,
-      mediaType: 'photo',
-      includeBase64: true,
-      cropperToolbarTitle: '',
-      cropperCircleOverlay: false,
-      compressImageQuality: 0.8,
-      compressImageMaxWidth: 720,
-      compressImageMaxHeight: 720,
-      cropperChooseText: '선택',
-      cropperCancelText: '취소',
-    }).then((image) => {
-      console.log(image);
-    });
-  };
-  // const getPermissions = async () => {
-  //   const {status} = await Camera.requestPermissionsAsync();
-  //   if (status !== 'granted') {
-  //     alertModal(
-  //       '앱을 사용하기 위해서는 반드시 권한을 허용해야 합니다.\n거부시 설정에서 "퇴근해씨유" 앱의 권한 허용을 해야 합니다.',
-  //     );
-  //     return false;
-  //   } else {
-  //     setHasCameraPermission(status === 'granted');
-  //   }
-  //   return true;
-  // };
-
-  // const openCamera = async () => {
-  //   const permission = await getPermissions();
-  //   if (!permission) {
-  //     return;
-  //   }
-  // };
-
-  const openImagePickerFn = async () => {
-    // let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-    // if (permissionResult.granted === false) {
-    //   return alertModal('보관함을 사용하기위해서 권한을 수락해주세요.');
-    // }
-    // let pickerResult = await ImagePicker.launchImageLibraryAsync();
-    // const cameraPictureListed = cameraPictureList;
-    // if (pickerResult.cancelled == false) {
-    //   cameraPictureList.push(pickerResult.uri);
-    //   setCameraPictureList(cameraPictureListed);
-    // }
+  const takePictureFn = async (cameraRef) => {
+    const options = {quality: 0.5, base64: true};
+    const data = await cameraRef.current.takePictureAsync(options);
+    setCameraPictureLast(data.uri);
   };
 
   const registerFn = async () => {
     if (cameraPictureList?.length > 0) {
       try {
-        const image = [];
         dispatch(setSplashVisible(true));
+        const formData: any = new FormData();
+        formData.append('TITLE', title);
+        formData.append('CONTENTS', content);
+        formData.append('ADDDATE', date);
+        formData.append('STORE_SEQ', STORE_SEQ);
+        formData.append('STORE', STORE);
+        formData.append('EMP_NAME', MEMBER_NAME);
+        formData.append('MEMBER_SEQ', MEMBER_SEQ);
         for (let i = 0; i < cameraPictureList.length; i++) {
           const cameraPicture = cameraPictureList[i];
           const fileInfoArr = cameraPicture.uri.split('/');
@@ -140,7 +103,7 @@ export default ({route: {params}}) => {
               fileType = 'image/jpeg';
             }
           }
-          image.push({
+          formData.append('image', {
             uri: utils.isAndroid
               ? cameraPicture.uri
               : cameraPicture.uri.replace('file://', ''),
@@ -148,16 +111,7 @@ export default ({route: {params}}) => {
             type: fileType,
           });
         }
-        const {data} = await api.setNoticeImg2({
-          TITLE: title,
-          CONTENTS: content,
-          STORE_SEQ,
-          STORE,
-          EMP_NAME: MEMBER_NAME,
-          MEMBER_SEQ,
-          ADDDATE: date,
-          image,
-        });
+        const {data} = await api.setNoticeImg2(formData);
         if (data.result === 'SUCCESS') {
           navigation.goBack();
         } else {
@@ -166,6 +120,7 @@ export default ({route: {params}}) => {
       } catch (e) {
         console.log(e);
       } finally {
+        alertModal(`${params.TITLE}이 등록되었습니다.`);
         dispatch(setSplashVisible(false));
         if (params.TITLE === '지시사항') {
           dispatch(getCHECKLIST_SHARE_DATA1(date));
@@ -193,6 +148,7 @@ export default ({route: {params}}) => {
       } catch (e) {
         console.log(e);
       } finally {
+        alertModal(`${params.TITLE}이 등록되었습니다.`);
         dispatch(setSplashVisible(false));
         if (params.TITLE === '지시사항') {
           dispatch(getCHECKLIST_SHARE_DATA1(date));
@@ -203,23 +159,12 @@ export default ({route: {params}}) => {
     }
   };
 
-  useEffect(() => {
-    //     this.defaultPictureUploadPath = FileSystem.documentDirectory + 'picture/';
-    //     await FileSystem.makeDirectoryAsync(this.defaultPictureUploadPath, {
-    //       intermediates: true,
-    //     });
-    //   }
-    // }
-    // getPermissions();
-  }, []);
-
   return (
     <ChecklistShareInsertScreenPresenter
       isDateModalVisible={isDateModalVisible}
       setIsDateModalVisible={setIsDateModalVisible}
       date={date}
       setDate={setDate}
-      cameraPictureList={cameraPictureList}
       title={title}
       setTitle={setTitle}
       content={content}
@@ -230,7 +175,13 @@ export default ({route: {params}}) => {
       registerFn={registerFn}
       onPressImageFn={onPressImageFn}
       launchImageLibraryFn={launchImageLibraryFn}
-      launchCameraFn={launchCameraFn}
+      cameraPictureFlash={cameraPictureFlash}
+      setCameraPictureFlash={setCameraPictureFlash}
+      takePictureFn={takePictureFn}
+      cameraPictureLast={cameraPictureLast}
+      setCameraPictureLast={setCameraPictureLast}
+      cameraPictureList={cameraPictureList}
+      setCameraPictureList={setCameraPictureList}
     />
   );
 };

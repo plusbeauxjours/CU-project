@@ -153,14 +153,13 @@ export default ({key, date, data}) => {
             )}
           </Row>
           <CheckpointText>{data.TITLE}</CheckpointText>
-
-          {data.NAME ? ( // 체크한 상태
+          {data.EMP_NAME ? ( // 체크한 상태
             <>
               <CheckpointBox>
                 <ChecktimeText>체크시간</ChecktimeText>
                 <GreyText>{data.CHECK_TIME}</GreyText>
               </CheckpointBox>
-              {data.NAME ? (
+              {data.EMP_SEQ ? (
                 <CheckpointBox>
                   <ChecktimeText>담당직원</ChecktimeText>
                   <GreyText numberOfLines={1} ellipsizeMode="tail">
@@ -182,7 +181,7 @@ export default ({key, date, data}) => {
                   {data.END_TIME === '' ? '미사용' : data.END_TIME}
                 </GreyText>
               </CheckpointBox>
-              {data.NAME && (
+              {data.EMP_SEQ && (
                 <CheckpointBox>
                   <ChecktimeText>담당직원</ChecktimeText>
                   <GreyText numberOfLines={1} ellipsizeMode="tail">
