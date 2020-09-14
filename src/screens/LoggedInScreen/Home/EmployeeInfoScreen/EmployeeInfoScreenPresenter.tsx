@@ -57,7 +57,10 @@ const Section = styled.View`
   padding: 20px 0;
   background-color: white;
 `;
-const NameBox = styled.View``;
+const NameBox = styled.View`
+  margin-left: 10px;
+`;
+
 const EmployeeBox = styled.View`
   padding: 0 20px;
   align-items: center;

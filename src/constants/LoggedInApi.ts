@@ -50,7 +50,8 @@ export default {
     checkApp: (data: any) => callApi("post", "/auth/checkApp/", data),
     help: () => callApi("post", "/auth/help/"),
     logIn: (data: any) => callApi("post", "/auth/signin/", data),
-    signUp: (data: any) => callApi("post", "/auth/signin3/", data),
+    // signUp: (data: any) => callApi("post", "/auth/signin3/", data),
+    signUp: (data: any) => oldApi("post", "/Auth/signup3/", data),
     checkSMS: (data: any) => callApi("post", "/auth/checksms/", data),
     getSMS: (data: any) => callApi("post", "/auth/getsms/", data),
     findPwd: (data: any) => callApi("post", "/auth/findPwd/", data),
@@ -175,4 +176,5 @@ export default {
     insertEmpSchedule: (data: any) => oldApi("post", '/Employee/insert_emp_schedules', data),
     setEmpType: (EMP_SEQ: string) => oldApi("get", `/Employee/setEmpType?EMP_SEQ=${EMP_SEQ}`),
     updateEmp: (data: any) => oldApi("put", '/Employee/update', data),
+    checkChecklist: (data: any) => oldApi("post", '/StoreAuth/checklist', data),
 }

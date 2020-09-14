@@ -70,7 +70,6 @@ export default ({route: {params}}) => {
       cropperCancelText: '취소',
     }).then((images: any) => {
       images.map((i) => {
-        console.log(cameraPictureList, i.path);
         setCameraPictureList((cameraPictureList) => [
           ...cameraPictureList,
           {uri: i.path},
@@ -80,7 +79,7 @@ export default ({route: {params}}) => {
   };
 
   const takePictureFn = async (cameraRef) => {
-    const options = {quality: 0.5, base64: true};
+    const options = {quality: 0.8, base64: true, width: 720, height: 720};
     const data = await cameraRef.current.takePictureAsync(options);
     setCameraPictureLast(data.uri);
   };

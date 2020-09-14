@@ -103,7 +103,7 @@ export default ({route: {params}}) => {
     new Array(params?.data.LIST.split('@@').length),
   );
   const [CHECK_TITLE, setCHECK_TITLE] = useState<string>(
-    params?.data?.CHECK_TITLE || null,
+    params?.scan === '1' ? null : params?.data?.CHECK_TITLE,
   );
   const [CHECK_LIST, setCHECK_LIST] = useState<any>(null);
 
@@ -137,7 +137,6 @@ export default ({route: {params}}) => {
       cropperCancelText: '취소',
     }).then((images: any) => {
       images.map((i) => {
-        console.log(cameraPictureList, i.path);
         setCameraPictureList((cameraPictureList) => [
           ...cameraPictureList,
           {uri: i.path},
@@ -149,7 +148,6 @@ export default ({route: {params}}) => {
   const takePictureFn = async (cameraRef) => {
     const options = {quality: 0.8, base64: true, width: 720, height: 720};
     const data = await cameraRef.current.takePictureAsync(options);
-    console.log(data);
     setCameraPictureLast(data.uri);
   };
 

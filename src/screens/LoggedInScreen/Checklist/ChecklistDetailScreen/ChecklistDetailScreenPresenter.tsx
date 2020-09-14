@@ -153,10 +153,14 @@ export default ({
   setCameraPictureList,
   setModalImgarr,
   data,
+  imageIndex,
+  setImageIndex,
 }) => {
   const renderImage = (item, index) => (
     <Touchable
       onPress={() => {
+        console.log(index);
+        setImageIndex(index);
         setIsImageViewVisible(true);
       }}
       key={index}>
@@ -408,6 +412,7 @@ export default ({
             height: '100%',
           }}>
           <ImageViewer
+            index={imageIndex}
             imageUrls={modalImgarr}
             onSwipeDown={() => setIsImageViewVisible(false)}
             backgroundColor={'transparent'}

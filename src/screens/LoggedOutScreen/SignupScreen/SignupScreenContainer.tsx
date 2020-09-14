@@ -8,24 +8,11 @@ import utils from '../../../constants/utils';
 import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
 import {setSplashVisible} from '../../../redux/splashSlice';
 
-////////////////////////////////////////
-// import {Platform} from '@unimodules/core';
 import api from '../../../constants/LoggedInApi';
-
-// gender
-// birth
-// sexTypeCheck
-// positionTypeCheck
-// type
-
-// Position Issue
-//
-////////////////////////////////////////
 
 export default ({route: {params}}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-
   const {mobileNo = null, verifyCode = null} = params;
   const [name, setName] = useState<string>('');
   const [sexTypeCheck, setSexTypeCheck] = useState<[boolean, boolean]>([
@@ -35,7 +22,6 @@ export default ({route: {params}}) => {
   const [positionTypeCheck, setPositionTypeCheck] = useState<
     [boolean, boolean]
   >([false, false]);
-  const [type, setType] = useState<string>('1');
   const [password, setPassword] = useState<string>('');
   const [birthDate, setBirthDate] = useState<string>('');
   const [passwordCheck, setPasswordCheck] = useState<string>('');
@@ -66,63 +52,52 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
-  const checkPassword = (password) => {
+  const regist = async () => {
+    if (password !== passwordCheck) {
+      alertModal('비밀번호가 동일하지 않습니다.');
+    }
     if (!/^[a-zA-Z0-9]{6,15}$/.test(password)) {
-      alertModal('숫자와 영문자 조합으로 6~15자리를 사용해야 합니다.');
-      return false;
+      return alertModal('숫자와 영문자 조합으로 6~15자리를 사용해야 합니다.');
     }
 
     const checkNumber = password.search(/[0-9]/g);
     const checkEnglish = password.search(/[a-z]/gi);
 
     if (checkNumber < 0 || checkEnglish < 0) {
-      alertModal('숫자와 영문자를 혼용하여야 합니다.');
-      return false;
+      return alertModal('숫자와 영문자를 혼용하여야 합니다.');
     }
     if (/(\w)\1\1\1/.test(password)) {
-      alertModal('444같은 문자를 4번 이상 사용하실 수 없습니다.');
-      return false;
+      return alertModal('444같은 문자를 4번 이상 사용하실 수 없습니다.');
     }
-    return true;
-  };
-
-  const regist = async () => {
-    if (password !== passwordCheck) {
-      alertModal('비밀번호가 동일하지 않습니다.');
-    }
-    if (checkPassword(password) === false) {
-      return false;
-    } else {
-      try {
-        dispatch(setSplashVisible(true));
-        const {data} = await api.signUp({
-          NAME: name,
-          BIRTHDATE: birthDate,
-          GENDER: '',
-          MobileNo: mobileNo,
-          SMSNUMBER: verifyCode,
-          STORE: type,
-          PASSWORD: password,
-          DEVICE_TOKEN: '',
+    try {
+      dispatch(setSplashVisible(true));
+      const {data} = await api.signUp({
+        NAME: name,
+        BIRTHDATE: birthDate,
+        GENDER: '',
+        MobileNo: mobileNo,
+        SMSNUMBER: verifyCode,
+        STORE: positionTypeCheck.indexOf(true).toString(),
+        PASSWORD: password,
+        DEVICE_TOKEN: '',
+      });
+      if (data.message === 'ALREADY_SUCCESS') {
+        alertModal('이미 가입한 휴대폰번호입니다.');
+        navigation.goBack();
+      } else if (data.message === 'SMSERROR') {
+        alertModal('인증번호 오류입니다.');
+        navigation.goBack();
+      } else {
+        alertModal('회원가입이 완료되었습니다. 로그인해 주세요.');
+        navigation.navigate('LogInScreen', {
+          appVersion,
+          platform,
         });
-        if (data.message === 'ALREADY_SUCCESS') {
-          alertModal('이미 가입한 휴대폰번호입니다.');
-          navigation.goBack();
-        } else if (data.message === 'SMSERROR') {
-          alertModal('인증번호 오류입니다.');
-          navigation.goBack();
-        } else {
-          alertModal('회원가입이 완료되었습니다. 로그인해 주세요.');
-          navigation.navigate('LogInScreen', {
-            appVersion,
-            platform,
-          });
-        }
-      } catch (e) {
-        console.log(e);
-      } finally {
-        dispatch(setSplashVisible(false));
       }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      dispatch(setSplashVisible(false));
     }
   };
 

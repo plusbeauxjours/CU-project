@@ -11,10 +11,9 @@ import api from '../../../../constants/LoggedInApi';
 import {getRESPONSE_EMPLOYEE} from '../../../../redux/employeeSlice';
 import {getHEALTH_CERTIFICATE_DATA} from '../../../../redux/healthSlice';
 
-let modalInterval;
-
 export default ({route: {params}}) => {
   const modalRef = useRef(null);
+  const cameraRef = useRef(null);
   const dispatch = useDispatch();
   const {STORE_SEQ, STORE, STORE_NAME, WORKING_COUNT, TOTAL_COUNT} = params;
   const {MEMBER_SEQ, MEMBER_NAME} = useSelector(
@@ -23,14 +22,10 @@ export default ({route: {params}}) => {
   const {STORE_DATA} = useSelector((state: any) => state.storeReducer);
   const [appVersion, setAppVersion] = useState<string>('');
   const [platform, setPlatform] = useState<string>('');
-  const [pictureModalOpen, setPictureModalOpen] = useState<boolean>(false);
-  const [barcodeModalOpen, setBarcodeModalOpen] = useState<boolean>(false);
+  const [qrModalOpen, setQrModalOpen] = useState<boolean>(false);
   const [workingModalOpen, setWorkingModalOpen] = useState<boolean>(false);
-  const [hasCameraPermission, setHasCameraPermission] = useState<boolean>(
-    false,
-  );
+
   const [showPictureModal, setShowPictureModal] = useState<boolean>(false);
-  const [isScanned, setIsScanned] = useState<boolean>(false);
   const [lat, setLat] = useState<number>(0);
   const [long, setLong] = useState<number>(0);
   const [QR, setQR] = useState<string>('');
@@ -90,132 +85,88 @@ export default ({route: {params}}) => {
     }
   };
 
-  // QR 퇴근하기
-  const goWork = async () => {
-    setIsScanned(false);
+  // QR 출근하기
+  const goWorkFn = async () => {
     setWorkingModalOpen(false);
-    const callback = async () => {
-      if (modalRef && !modalRef.current.isVisible) {
-        try {
-          dispatch(setSplashVisible(true));
-          const {data} = await api.attendanceWork({
-            STORE_ID: QR,
-            LAT: lat,
-            LONG: long,
-            MEMBER_SEQ,
-            TYPE: 'qr',
-          });
-          if (data.message === 'CONTRACT_END') {
-            alertModal('', '정확한 사업장 QR코드가 아닙니다');
-          } else if (data.message === 'WORK_ON_SUCCESS') {
-            if (data.resultCode == '2') {
-              alertModal('', '출근하였습니다');
-            } else {
-              alertModal('', '출근하였습니다');
-            }
-          } else if (data.message === 'SCHEDULE_EMPTY') {
-            alertModal('', '오늘은 근무일이 아닙니다');
-          } else if (data.message === 'SCHEDULE_EXIST') {
-            alertModal('', '이미 출근처리를 완료했습니다');
-          } else if (data.message === 'ALREADY_SUCCESS') {
-            alertModal('', '이미 출근처리를 완료했습니다');
-          } else if (data.message === 'FAIL') {
-            alertModal('', data.result);
-          } else {
-            alertModal('', data.result);
-          }
-        } catch (e) {
-          console.log(e);
-        } finally {
-          dispatch(setSplashVisible(false));
+    try {
+      dispatch(setSplashVisible(true));
+      const {data} = await api.attendanceWork({
+        STORE_ID: STORE_SEQ,
+        LAT: lat,
+        LONG: long,
+        MEMBER_SEQ,
+        TYPE: 'qr',
+      });
+      if (data.message === 'CONTRACT_END') {
+        alertModal('', '정확한 사업장 QR코드가 아닙니다');
+      } else if (data.message === 'WORK_ON_SUCCESS') {
+        if (data.resultCode == '2') {
+          alertModal('', '출근하였습니다');
+        } else {
+          alertModal('', '출근하였습니다');
         }
-        if (modalInterval) {
-          clearInterval(modalInterval);
-          modalInterval = null;
-        }
+      } else if (data.message === 'SCHEDULE_EMPTY') {
+        alertModal('', '오늘은 근무일이 아닙니다');
+      } else if (data.message === 'SCHEDULE_EXIST') {
+        alertModal('', '이미 출근처리를 완료했습니다');
+      } else if (data.message === 'ALREADY_SUCCESS') {
+        alertModal('', '이미 출근처리를 완료했습니다');
+      } else if (data.message === 'FAIL') {
+        alertModal('', data.result);
+      } else {
+        alertModal('', data.result);
       }
-    };
-    if (!modalInterval) {
-      modalInterval = setTimeout(callback, 500);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      dispatch(setSplashVisible(false));
     }
   };
 
   // QR 퇴근하기
-  const leaveWork = async (a) => {
-    setIsScanned(false);
+  const leaveWorkFn = async (a) => {
     setWorkingModalOpen(false);
-    const callback = async () => {
-      if (modalRef && !modalRef.current.isVisible) {
-        try {
-          dispatch(setSplashVisible(true));
-          const {data} = await api.attendanceOffWork({
-            STORE_ID: QR,
-            LAT: lat,
-            LONG: long,
-            MEMBER_SEQ,
-            TYPE: 'qr',
-          });
-          if (data.message == 'CONTRACT_END') {
-            alertModal('', '정확한 사업장 QR코드가 아닙니다');
-          } else if (data.message == 'FAIL') {
-            alertModal('', data.result);
-          } else if (data.message == 'SCHEDULE_EMPTY') {
-            alertModal('', '일하는 시간이 아닙니다.');
-          } else if (data.message == 'ALREADY_SUCCESS') {
-            alertModal('', '이미 퇴근하였습니다.');
-          } else if (data.message == 'WORK_OFF_SUCCESS') {
-            alertModal('', '퇴근하였습니다.');
-          } else if (data.message == 'NOWORK') {
-            alertModal('', '출근기록이 없습니다.');
-          }
-        } catch (e) {
-          console.log(e);
-        } finally {
-          dispatch(setSplashVisible(false));
-        }
-        if (modalInterval) {
-          clearInterval(modalInterval);
-          modalInterval = null;
-        }
+    try {
+      dispatch(setSplashVisible(true));
+      const {data} = await api.attendanceOffWork({
+        STORE_ID: STORE_SEQ,
+        LAT: lat,
+        LONG: long,
+        MEMBER_SEQ,
+        TYPE: 'qr',
+      });
+      if (data.message == 'CONTRACT_END') {
+        alertModal('', '정확한 사업장 QR코드가 아닙니다');
+      } else if (data.message == 'FAIL') {
+        alertModal('', data.result);
+      } else if (data.message == 'SCHEDULE_EMPTY') {
+        alertModal('', '일하는 시간이 아닙니다.');
+      } else if (data.message == 'ALREADY_SUCCESS') {
+        alertModal('', '이미 퇴근하였습니다.');
+      } else if (data.message == 'WORK_OFF_SUCCESS') {
+        alertModal('', '퇴근하였습니다.');
+      } else if (data.message == 'NOWORK') {
+        alertModal('', '출근기록이 없습니다.');
       }
-    };
-    if (!modalInterval) {
-      modalInterval = setTimeout(callback, 500);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      dispatch(setSplashVisible(false));
     }
   };
 
   // QR 스캔
-  const handleBarCodeScanned = ({type, data}) => {
-    if (isNaN(data)) {
-      setBarcodeModalOpen(false);
-      setTimeout(() => {
-        alertModal('', '정확한 사업장 QR코드가 아닙니다');
-      }, 400);
+  const handleBarCodeScanned = ({bounds}) => {
+    if (isNaN(bounds.data)) {
+      alertModal('', '정확한 사업장 QR코드가 아닙니다');
     }
-    if (STORE_SEQ != data) {
-      setBarcodeModalOpen(false);
-      setTimeout(() => {
-        alertModal('', '정확한 사업장 QR코드가 아닙니다');
-      }, 400);
-    }
-    setIsScanned(true);
-    setBarcodeModalOpen(false);
-    setTimeout(() => {
+    if (STORE_SEQ != bounds.data) {
+      alertModal('', '정확한 사업장 QR코드가 아닙니다');
+    } else {
       setWorkingModalOpen(true);
-    }, 500);
-  };
-
-  const checkPermissions = async () => {
-    // const {status} = await Camera.requestPermissionsAsync();
-    // if (status !== 'granted') {
-    //   alertModal(
-    //     '앱을 사용하기 위해서는 반드시 권한을 허용해야 합니다.\n거부시 설정에서 "퇴근해씨유" 앱의 권한 허용을 해야 합니다.',
-    //   );
-    //   return false;
-    // } else {
-    //   setHasCameraPermission(status === 'granted');
-    // }
-    return true;
+    }
+    setWorkingModalOpen(true);
+    setQrModalOpen(false);
   };
 
   const fetchData = async () => {
@@ -258,15 +209,6 @@ export default ({route: {params}}) => {
     checkVersion();
   }, []);
 
-  useEffect(() => {
-    return () => {
-      if (modalInterval) {
-        clearInterval(modalInterval);
-        modalInterval = null;
-      }
-    };
-  });
-
   return (
     <HomeScreenPresenter
       notice={notice}
@@ -276,24 +218,21 @@ export default ({route: {params}}) => {
       STORE_NAME={STORE_NAME}
       TOTAL_COUNT={TOTAL_COUNT}
       WORKING_COUNT={WORKING_COUNT}
-      hasCameraPermission={hasCameraPermission}
-      barcodeModalOpen={barcodeModalOpen}
-      setBarcodeModalOpen={setBarcodeModalOpen}
-      pictureModalOpen={pictureModalOpen}
       setShowPictureModal={setShowPictureModal}
       showPictureModal={showPictureModal}
-      setPictureModalOpen={setPictureModalOpen}
       workingModalOpen={workingModalOpen}
       setWorkingModalOpen={setWorkingModalOpen}
       modalRef={modalRef}
-      goWork={goWork}
-      leaveWork={leaveWork}
+      cameraRef={cameraRef}
+      goWorkFn={goWorkFn}
+      leaveWorkFn={leaveWorkFn}
       handleBarCodeScanned={handleBarCodeScanned}
-      checkPermissions={checkPermissions}
       invitedEmpCount={invitedEmpCount}
       checklistCount={checklistCount}
       noticeCount={noticeCount}
       QR={QR}
+      qrModalOpen={qrModalOpen}
+      setQrModalOpen={setQrModalOpen}
     />
   );
 };

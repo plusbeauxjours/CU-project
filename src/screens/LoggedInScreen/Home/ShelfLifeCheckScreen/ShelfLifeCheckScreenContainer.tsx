@@ -4,7 +4,6 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import api from '../../../../constants/LoggedInApi';
 import ShelfLifeCheckScreenPresenter from './ShelfLifeCheckScreenPresenter';
-import {setSplashVisible} from '../../../../redux/splashSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {
   getSHELFLIFE_DATA,
@@ -39,10 +38,10 @@ export default () => {
     dispatch(setAlertVisible(true));
   };
 
-  const alertModal = (title, text) => {
+  const alertModal = (text) => {
     const params = {
       alertType: 'alert',
-      title: title,
+      title: '',
       content: text,
     };
     dispatch(setAlertInfo(params));
@@ -59,32 +58,30 @@ export default () => {
 
   const updateShelfLife = async (shelfLife_SEQ, shelfLifeDate) => {
     try {
-      dispatch(setSplashVisible(true));
+      alertModal('상품의 폐기 또는 처리 완료 하였습니다.');
+      dispatch(
+        udpateSHELFLIFE({
+          shelfLife_SEQ,
+          shelfLifeDate,
+        }),
+      );
       const {data} = await api.checkShelfLifeData({
         STORE,
         EMP_SEQ,
         shelfLife_SEQ,
       });
-      if (data.resultmsg === '1') {
-        alertModal('', '상품의 폐기 또는 처리 완료 하였습니다.');
+      if (data.resultmsg !== '1') {
+        alertModal('연결에 실패하였습니다.');
         dispatch(
-          udpateSHELFLIFE({
-            shelfLife_SEQ,
-            shelfLifeDate,
-          }),
+          getSHELFLIFE_DATA(
+            moment(shelfLifeDate).format('YYYY'),
+            moment(shelfLifeDate).format('MM'),
+            moment(shelfLifeDate).format('DD'),
+          ),
         );
-        // dispatch(
-        //   getSHELFLIFE_DATA(
-        //     moment(shelfLifeDate).format('YYYY'),
-        //     moment(shelfLifeDate).format('MM'),
-        //     moment(shelfLifeDate).format('DD'),
-        //   ),
-        // );
       }
     } catch (e) {
       console.log(e);
-    } finally {
-      dispatch(setSplashVisible(false));
     }
   };
 

@@ -162,7 +162,7 @@ const EmptyText = styled.Text`
   margin-left: 5px;
 `;
 
-const QrTouchable = styled.TouchableOpacity`
+const CircleBotton = styled.TouchableOpacity`
   height: 60px;
   width: 60px;
   border-radius: 30px;
@@ -500,11 +500,10 @@ export default ({
         </Container>
       </ScrollView>
       {STORE == 0 && (
-        <QrTouchable onPress={() => selectCheckListFn()}>
+        <CircleBotton onPress={() => selectCheckListFn()}>
           <WhiteText>체크</WhiteText>
-        </QrTouchable>
+        </CircleBotton>
       )}
-      {console.log('CHECKLIST_DATA', CHECKLIST_DATA)}
       <Modal
         isVisible={isChecklistModalVisible}
         style={{marginTop: 60}}

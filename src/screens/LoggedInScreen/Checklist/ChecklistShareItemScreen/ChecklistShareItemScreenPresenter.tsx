@@ -165,12 +165,15 @@ export default ({
   CHECKLIST_SHARE_COMMENTS,
   loading,
   isFavorite,
+  imageIndex,
+  setImageIndex,
 }) => {
   const navigation = useNavigation();
 
   const renderImage = (item, index) => (
     <Touchable
       onPress={() => {
+        setImageIndex(index);
         setIsImageViewVisible(true);
       }}
       key={index}>
@@ -376,6 +379,7 @@ export default ({
           height: '100%',
         }}>
         <ImageViewer
+          index={imageIndex}
           imageUrls={modalImgarr}
           onSwipeDown={() => setIsImageViewVisible(false)}
           backgroundColor={'transparent'}

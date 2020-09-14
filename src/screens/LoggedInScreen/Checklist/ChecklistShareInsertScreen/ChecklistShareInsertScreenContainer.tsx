@@ -72,7 +72,7 @@ export default ({route: {params}}) => {
   };
 
   const takePictureFn = async (cameraRef) => {
-    const options = {quality: 0.5, base64: true};
+    const options = {quality: 0.8, base64: true, width: 720, height: 720};
     const data = await cameraRef.current.takePictureAsync(options);
     setCameraPictureLast(data.uri);
   };

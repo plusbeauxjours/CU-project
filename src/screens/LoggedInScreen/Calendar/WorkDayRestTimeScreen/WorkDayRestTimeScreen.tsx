@@ -77,7 +77,6 @@ export default ({route: {params}}) => {
     STORE_SEQ = null,
     date = null,
   } = params;
-  console.log(params);
   const [restTime, setRestTime] = useState<string>('');
 
   const alertModal = (text) => {

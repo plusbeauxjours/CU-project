@@ -18,7 +18,7 @@ export default () => {
   const {CHECKLIST_DATA, CHECKLIST_MARKED} = useSelector(
     (state: any) => state.checklistReducer,
   );
-  const {STORE} = useSelector((state: any) => state.userReducer);
+  const {STORE, MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
   const {
     EMP_SEQ,
     STORE_SEQ,
@@ -49,6 +49,8 @@ export default () => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD') || '');
   const [staticmarkedDates, setStaticmarkedDates] = useState<any>({});
+  const [lat, setLat] = useState<string>('0');
+  const [long, setLong] = useState<string>('0');
 
   const onRefresh = () => {
     try {
@@ -194,7 +196,7 @@ export default () => {
   };
 
   // 직원이 체크 버튼을 실행한 뒤 모달에서 아이템을 눌렀을 때
-  const checkdataFn = (item) => {
+  const checkdataFn = async (item) => {
     let flag = true;
     if (item.EMP_SEQ != null) {
       flag = false;
@@ -207,10 +209,20 @@ export default () => {
     }
     if (flag) {
       setIsChecklistModalVisible(false);
-      navigation.navigate('ChecklistSpecificationScreen', {
-        data: item,
-        scan: '1',
+      const {data} = await api.checkChecklist({
+        STORE_ID: STORE_SEQ + '-' + item.QR_SEQ,
+        LAT: lat,
+        LONG: long,
+        MEMBER_SEQ,
       });
+      if (data.message == 'SUCCESS' && data.result.length > 0) {
+        navigation.navigate('ChecklistSpecificationScreen', {
+          data: data.result[0],
+          scan: '1',
+        });
+      }
+    } else {
+      alertModal('담당직원이 아닙니다.');
     }
   };
 

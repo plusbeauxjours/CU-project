@@ -328,7 +328,6 @@ export default ({
                 <HalfBotton
                   style={{backgroundColor: '#642A8C'}}
                   onPress={() => {
-                    console.log(cameraPictureList, cameraPictureLast);
                     setCameraPictureList([
                       ...cameraPictureList,
                       {uri: cameraPictureLast},

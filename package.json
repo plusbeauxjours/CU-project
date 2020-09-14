@@ -40,6 +40,8 @@
     "react-native-modal-datetime-picker": "8.9.3",
     "react-native-orientation-locker": "1.2.0",
     "react-native-pdf": "6.2.0",
+    "react-native-permissions": "2.2.0",
+    "react-native-qrcode-scanner": "1.4.1",
     "react-native-raw-bottom-sheet": "2.2.0",
     "react-native-reanimated": "1.10.2",
     "react-native-responsive-screen": "1.4.1",

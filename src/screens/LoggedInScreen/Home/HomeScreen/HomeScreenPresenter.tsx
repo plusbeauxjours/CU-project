@@ -7,6 +7,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import FastImage from 'react-native-fast-image';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import {RNCamera} from 'react-native-camera';
 
 import {
   ForwardIcon,
@@ -135,7 +137,6 @@ const NoticeTitle = styled.Text`
 const Row = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-bottom: 5px;
 `;
 
 const NoticeContainer = styled.View`
@@ -283,6 +284,8 @@ const BarcodeLayerBottom = styled.View`
 `;
 
 const WorkingModalContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
   background-color: white;
 `;
 
@@ -295,21 +298,18 @@ const WorkingModalBox = styled.View`
   justify-content: center;
 `;
 
-const Work = styled.View`
-  width: ${wp('100%')}px;
-  flex-direction: row;
-`;
-
 const GoWork = styled.TouchableOpacity`
   width: ${wp('100%')}px;
-  height: 52px;
+  height: 60px;
+  position: absolute;
+  bottom: 0;
   justify-content: center;
   align-items: center;
   background-color: #642a8c;
 `;
 
 const WorkText = styled.Text`
-  color: '#FFFFFF';
+  color: #ffffff;
   font-size: 15px;
   margin-top: 15px;
   margin-bottom: 15px;
@@ -349,20 +349,17 @@ export default ({
   STORE_NAME,
   TOTAL_COUNT,
   WORKING_COUNT,
-  hasCameraPermission,
-  barcodeModalOpen,
-  setBarcodeModalOpen,
-  pictureModalOpen,
+  qrModalOpen,
+  setQrModalOpen,
   setShowPictureModal,
   showPictureModal,
-  setPictureModalOpen,
   workingModalOpen,
   setWorkingModalOpen,
   modalRef,
-  goWork,
-  leaveWork,
+  cameraRef,
+  goWorkFn,
+  leaveWorkFn,
   handleBarCodeScanned,
-  checkPermissions,
   invitedEmpCount,
   checklistCount,
   noticeCount,
@@ -376,7 +373,7 @@ export default ({
       activeOpacity={0.6}
       onPress={() => {
         selection == 'QR보기'
-          ? setPictureModalOpen(true)
+          ? setShowPictureModal(true)
           : navigation.navigate(`${paging}`);
       }}>
       {(selection == '직원합류승인' || selection == '업무일지') &&
@@ -526,11 +523,7 @@ export default ({
         </ImageBackground>
         <MenuBox style={{zIndex: 1}}>
           {STORE == 0 && (
-            <Qr
-              onPress={async () => {
-                setBarcodeModalOpen(true);
-                await checkPermissions();
-              }}>
+            <Qr onPress={async () => setQrModalOpen(true)}>
               <QrText>출퇴근하기</QrText>
               <QrCodeIcon />
             </Qr>
@@ -776,52 +769,37 @@ export default ({
         onBackdropPress={() => setWorkingModalOpen(false)}
         style={{margin: 0, justifyContent: 'flex-end'}}>
         <WorkingModalContainer>
-          <WorkingModalBox
-            style={{
-              height: hp('8%'),
-              borderBottomWidth: 1,
-              borderColor: '#ddd',
-            }}>
-            <WorkingModalText style={{}}>출퇴근하기</WorkingModalText>
-          </WorkingModalBox>
-
-          <Row style={{flexDirection: 'row'}}>
-            <WorkStartButton onPress={() => goWork()}>
-              <WorkStartBtnText>출근</WorkStartBtnText>
-            </WorkStartButton>
-            <WorkEndButton onPress={() => leaveWork()}>
-              <WorkEndBtnText>퇴근</WorkEndBtnText>
-            </WorkEndButton>
-          </Row>
+          <WorkStartButton onPress={() => goWorkFn()}>
+            <WorkStartBtnText>출근</WorkStartBtnText>
+          </WorkStartButton>
+          <WorkEndButton onPress={() => leaveWorkFn()}>
+            <WorkEndBtnText>퇴근</WorkEndBtnText>
+          </WorkEndButton>
         </WorkingModalContainer>
       </Modal>
       <Modal
-        isVisible={barcodeModalOpen && hasCameraPermission}
-        onBackdropPress={() => setBarcodeModalOpen(false)}
-        onBackButtonPress={() => setBarcodeModalOpen(false)}
-        style={{margin: 0, justifyContent: 'flex-end'}}
+        isVisible={qrModalOpen}
+        onBackButtonPress={() => setQrModalOpen(false)}
+        style={{margin: 0}}
         avoidKeyboard={true}>
-        <Container>
-          {/* <BarcodeContainer>
-            <BarCodeScanner onBarCodeScanned={handleBarCodeScanned}>
-              <BarcodeLayerTop />
-              <BarcodeLayerCenter>
-                <BarcodeLayerLeft />
-                <Focused />
-                <BarcodeLayerRight />
-              </BarcodeLayerCenter>
-              <BarcodeLayerBottom />
-            </BarCodeScanner>
-          </BarcodeContainer> */}
-          <Work>
-            <GoWork
-              onPress={() => {
-                setBarcodeModalOpen(false);
-              }}>
+        <QRCodeScanner
+          containerStyle={{width: wp('100%'), height: hp('100%')}}
+          onRead={handleBarCodeScanned}
+          flashMode={RNCamera.Constants.FlashMode.off}
+          androidCameraPermissionOptions={{
+            title: 'Permission to use camera',
+            message: 'We need your permission to use your camera',
+            buttonPositive: 'Ok',
+            buttonNegative: 'Cancel',
+          }}
+          permissionDialogTitle={''}
+          permissionDialogMessage={''}
+          bottomContent={
+            <GoWork onPress={() => setQrModalOpen(false)}>
               <WorkText>닫기</WorkText>
             </GoWork>
-          </Work>
-        </Container>
+          }
+        />
       </Modal>
       <Modal
         animationIn={'fadeIn'}

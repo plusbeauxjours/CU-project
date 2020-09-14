@@ -148,6 +148,7 @@ android {
         targetSdkVersion 29
         applicationId "com.cuwesop"
         minSdkVersion rootProject.ext.minSdkVersion
+        missingDimensionStrategy 'react-native-camera', 'general'
         targetSdkVersion rootProject.ext.targetSdkVersion
         missingDimensionStrategy 'react-native-camera', 'mlkit'
         multiDexEnabled true

@@ -34,6 +34,7 @@ export default ({route: {params}}) => {
   const [modalImgarr, setModalImgarr] = useState<any>([]);
   const [item, setItem] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
+  const [imageIndex, setImageIndex] = useState<number>(0);
 
   const alertModal = (title, text) => {
     const params = {
@@ -184,6 +185,8 @@ export default ({route: {params}}) => {
       CHECKLIST_SHARE_COMMENTS={CHECKLIST_SHARE_COMMENTS}
       loading={loading}
       isFavorite={isFavorite}
+      imageIndex={imageIndex}
+      setImageIndex={setImageIndex}
     />
   );
 };

@@ -38,7 +38,10 @@ const Section = styled.View`
   padding: 20px 0;
   background-color: white;
 `;
-const NameBox = styled.View``;
+const NameBox = styled.View`
+  margin-left: 10px;
+`;
+
 const EmployeeBox = styled.View`
   padding: 0 20px;
   align-items: center;
@@ -181,6 +184,16 @@ const TimeListBold = styled.Text`
   margin-left: 15px;
   margin: 0 20px;
 `;
+
+const FreeTypeInfoBox = styled.View`
+  margin: 10px 20px;
+  padding: 20px 0;
+  align-items: center;
+  justify-content: center;
+  border-color: #e5e5e5;
+  border-width: 1px;
+`;
+
 export default ({
   originalDayList,
   timeTableIndex,
@@ -432,7 +445,11 @@ export default ({
               <WorkTypeAndSalaryBox>
                 <WorkTypeAndSalaryBoxTitle>근무일정</WorkTypeAndSalaryBoxTitle>
               </WorkTypeAndSalaryBox>
-              {!isFreeWorkingType && (
+              {isFreeWorkingType ? (
+                <FreeTypeInfoBox>
+                  <GreyText>자율출퇴근 근무 중</GreyText>
+                </FreeTypeInfoBox>
+              ) : (
                 <WorkTypeCheckSection>
                   <RenderScheduleList />
                   <RenderDayList />

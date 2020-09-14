@@ -286,7 +286,6 @@ export default ({
                     <CheckBoxIconContainer>
                       <Touchable
                         onPress={() => {
-                          console.log('good', checklistGoodState);
                           let checklistGoodStated = JSON.parse(
                             JSON.stringify(checklistGoodState),
                           );
@@ -313,7 +312,6 @@ export default ({
                       <WhiteSpace />
                       <Touchable
                         onPress={() => {
-                          console.log('bad', checklistBadState);
                           let checklistGoodStated = JSON.parse(
                             JSON.stringify(checklistGoodState),
                           );
@@ -340,19 +338,21 @@ export default ({
                 ))}
               </Box>
             </Section>
-            <Section>
-              <SectionText>메모</SectionText>
-              <WhiteSpace />
-              <Box>
-                <TextInput
-                  onChangeText={(text) => setCHECK_TITLE(text)}
-                  value={CHECK_TITLE}
-                  placeholder={'내용를 입력하세요.'}
-                  placeholderTextColor={'#CCCCCC'}
-                  multiline={true}
-                />
-              </Box>
-            </Section>
+            {scan == '1' && (
+              <Section>
+                <SectionText>메모</SectionText>
+                <WhiteSpace />
+                <Box>
+                  <TextInput
+                    onChangeText={(text) => setCHECK_TITLE(text)}
+                    value={CHECK_TITLE}
+                    placeholder={'내용를 입력하세요.'}
+                    placeholderTextColor={'#CCCCCC'}
+                    multiline={true}
+                  />
+                </Box>
+              </Section>
+            )}
             {PHOTO_CHECK === '1' && STORE === '0' && scan === '1' && (
               <Section>
                 <TitleText>사진</TitleText>
@@ -378,7 +378,6 @@ export default ({
                     <Text>보관함</Text>
                     <Touchable
                       onPress={() => {
-                        console.log(cameraPictureList);
                         launchImageLibraryFn();
                       }}>
                       <IconBox>
@@ -467,7 +466,6 @@ export default ({
                 <HalfBotton
                   style={{backgroundColor: '#642A8C'}}
                   onPress={() => {
-                    console.log(cameraPictureList, cameraPictureLast);
                     setCameraPictureList([
                       ...cameraPictureList,
                       {uri: cameraPictureLast},

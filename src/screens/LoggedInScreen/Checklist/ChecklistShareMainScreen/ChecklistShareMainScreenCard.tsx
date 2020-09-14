@@ -120,7 +120,6 @@ export default ({key, data, ME, type, confirmModal}) => {
 
   let imgarr = [];
   let allimg = [];
-  console.log('-=-=-=-=', data.IMG_LIST);
   if (data.IMG_LIST != null) {
     allimg = data.IMG_LIST.split('@');
     imgarr.push(allimg[0]);

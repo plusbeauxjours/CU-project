@@ -81,7 +81,7 @@ export default ({key, date, data}) => {
     } else {
       navigation.navigate('ChecklistSpecificationScreen', {
         data,
-        scan: 0,
+        scan: '0',
       });
     }
   };

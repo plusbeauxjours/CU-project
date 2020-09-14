@@ -26,6 +26,7 @@ export default ({route: {params}}) => {
   const [isImageViewVisible, setIsImageViewVisible] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('1');
   const [categoryList, setCategoryList] = useState<any>([]);
+  const [imageIndex, setImageIndex] = useState<number>(0);
 
   const fetchData = async () => {
     try {
@@ -148,6 +149,8 @@ export default ({route: {params}}) => {
       setCameraPictureList={setCameraPictureList}
       setModalImgarr={setModalImgarr}
       data={data}
+      imageIndex={imageIndex}
+      setImageIndex={setImageIndex}
     />
   );
 };
