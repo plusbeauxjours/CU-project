@@ -164,9 +164,8 @@ export default ({route: {params}}) => {
       alertModal('', '정확한 사업장 QR코드가 아닙니다');
     } else {
       setWorkingModalOpen(true);
+      setQrModalOpen(false);
     }
-    setWorkingModalOpen(true);
-    setQrModalOpen(false);
   };
 
   const fetchData = async () => {

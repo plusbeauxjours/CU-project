@@ -341,6 +341,10 @@ const WorkEndBtnText = styled(WorkStartBtnText)`
   color: #aace36;
 `;
 
+const WhiteSpace = styled.View`
+  height: 20px;
+`;
+
 export default ({
   notice,
   STORE_DATA,
@@ -500,6 +504,7 @@ export default ({
                 </Text>
               )}
             </Row>
+            <WhiteSpace />
             <Row>
               <StoreUpdateBtn
                 onPress={() => {
@@ -783,7 +788,10 @@ export default ({
         style={{margin: 0}}
         avoidKeyboard={true}>
         <QRCodeScanner
-          containerStyle={{width: wp('100%'), height: hp('100%')}}
+          topViewStyle={{height: 0, flex: 0}}
+          reactivate={true}
+          reactivateTimeout={1500}
+          cameraStyle={{width: wp('100%'), height: hp('100%')}}
           onRead={handleBarCodeScanned}
           flashMode={RNCamera.Constants.FlashMode.off}
           androidCameraPermissionOptions={{

@@ -142,8 +142,8 @@ export default () => {
           name="SelectStoreScreen"
           component={SelectStoreScreen}
           options={{
-            title: '점포 선택',
             headerLeft: () => <SettingBtn />,
+            title: '    점포 선택',
             headerRight: () => <LogOutBtn />,
           }}
         />
