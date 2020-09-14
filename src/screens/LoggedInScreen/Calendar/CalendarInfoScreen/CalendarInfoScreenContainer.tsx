@@ -127,7 +127,6 @@ export default () => {
         moment(date).format('YYYY'),
         moment(date).format('M'),
       );
-      console.log(data);
       if (data.message === 'SUCCESS') {
         let buffer = {};
         const iterator = Object.keys(data.result);

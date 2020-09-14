@@ -90,9 +90,9 @@ export default ({route: {params}}) => {
   };
 
   const registerFn = async () => {
-    setSplashVisible(true);
+    dispatch(setSplashVisible(true));
     if (!restTime) {
-      setSplashVisible(false);
+      dispatch(setSplashVisible(false));
       return alertModal('수정할 휴게시간을 입력해주세요.');
     }
     navigation.pop(2);

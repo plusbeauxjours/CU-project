@@ -68,7 +68,6 @@ export default ({route: {params}}) => {
         DEVICE_TOKEN: push,
         PASSWORD: password,
       });
-      console.log(data);
       switch (data.RESULT_CODE) {
         case '0':
           dispatch(setUSER(data.RESULT_DATA));

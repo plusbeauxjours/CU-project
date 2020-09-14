@@ -81,11 +81,6 @@ const DateText = styled.Text`
   margin-top: 10px;
 `;
 
-const Image = styled.Image`
-  width: 100%;
-  height: 100%;
-`;
-
 const ContentTextInput = styled.TextInput`
   padding: 10px;
   min-height: 120px;
@@ -210,6 +205,7 @@ export default ({
         <ScrollView
           keyboardShouldPersistTaps={'handled'}
           keyboardDismissMode="on-drag"
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{alignItems: 'center'}}>
           <Container>
             <Section>
@@ -353,7 +349,7 @@ export default ({
                 }}
                 resizeMode={FastImage.resizeMode.cover}
               />
-              <Row style={{flexDirection: 'row'}}>
+              <Row>
                 <HalfBotton onPress={() => setCameraPictureLast(null)}>
                   <HalfBottonText style={{color: '#642A8C'}}>
                     재촬영

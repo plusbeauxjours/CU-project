@@ -159,7 +159,6 @@ export default ({
   const renderImage = (item, index) => (
     <Touchable
       onPress={() => {
-        console.log(index);
         setImageIndex(index);
         setIsImageViewVisible(true);
       }}

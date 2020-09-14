@@ -250,7 +250,7 @@ export default ({route: {params}}) => {
     } finally {
       params?.fetchData();
       navigation.goBack();
-      setSplashVisible(false);
+      dispatch(setSplashVisible(false));
     }
   };
   const initialize = () => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import {RefreshControl} from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
 
 import {
@@ -21,7 +22,6 @@ const BackGround = styled.SafeAreaView`
 const ScrollView = styled.ScrollView``;
 
 const Container = styled.View`
-  margin-top: 20px;
   padding: 20px;
 `;
 
@@ -32,10 +32,11 @@ const Text = styled.Text<IText>`
 `;
 
 const Section = styled.TouchableOpacity`
+  width: ${wp('100%') - 40}px;
   padding: 20px;
   border-radius: 20px;
   background-color: white;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;
 
 const Touchable = styled.TouchableOpacity``;
@@ -126,12 +127,15 @@ export default ({
   if (STORE == '0') {
     return (
       <BackGround>
-        <Container>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }>
+        <ScrollView
+          keyboardShouldPersistTaps={'handled'}
+          keyboardDismissMode="on-drag"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{alignItems: 'center'}}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
+          <Container>
             <Section
               onPress={() =>
                 navigation.navigate('HealthCertificateEmpListScreen')
@@ -149,7 +153,7 @@ export default ({
               </TypeTitle>
               {HEALTH_CERTIFICATE_APPLY == 0 ? (
                 <IconContainer>
-                  <EllipseIcon size={22} color={'#CE0505'} />
+                  <EllipseIcon size={8} color={'#CE0505'} />
                   <Text isSubmited={false}> 미등록</Text>
                 </IconContainer>
               ) : (
@@ -159,7 +163,7 @@ export default ({
                     alignItems: 'flex-start',
                   }}>
                   <Row>
-                    <EllipseIcon size={22} color={'#642A8C'} />
+                    <EllipseIcon size={8} color={'#642A8C'} />
                     <Text isSubmited={true}>위생교육증 등록완료</Text>
                   </Row>
                   <Row>
@@ -187,116 +191,117 @@ export default ({
                 앱푸시 및 문자메시지로 알림을 보내드립니다
               </FooterText>
             </Footer>
-          </ScrollView>
-        </Container>
+          </Container>
+        </ScrollView>
       </BackGround>
     );
   } else {
     return (
       <BackGround>
-        <Container>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }>
-            <>
-              {EDUCATION_CERTIFICATE != 0 ? (
-                <Section
-                  onPress={() =>
-                    navigation.navigate('HealthCertificateStoreDetailScreen')
-                  }>
-                  <SanitaryEducation />
-                  <IconContainer
-                    style={{
-                      flexDirection: 'column',
-                      alignItems: 'flex-start',
-                    }}>
-                    <Row>
-                      <EllipseIcon size={22} color={'#642A8C'} />
-                      <Text isSubmited={true}>위생교육증 등록완료</Text>
-                    </Row>
-                    <Text
-                      style={
-                        dday <= 0
-                          ? {
-                              textDecorationLine: 'underline',
-                              marginTop: 5,
-                              color: 'red',
-                            }
-                          : {marginTop: 5, color: '#aaa'}
-                      }>
-                      교육일시: {EDUCATION_DATA} (갱신 D{dday <= 0 ? '+' : '-'}
-                      {Math.abs(Math.floor(dday))})
-                    </Text>
-                  </IconContainer>
-                </Section>
-              ) : (
-                <Section
-                  onPress={() =>
-                    navigation.navigate('HealthCertificateStoreFormScreen', {
-                      count: 3,
-                    })
-                  }>
-                  <SanitaryEducation />
-
-                  <IconContainer>
-                    <EllipseIcon size={22} color={'#CE0505'} />
-                    <Text isSubmited={false}>위생교육증 미등록</Text>
-                  </IconContainer>
-                </Section>
-              )}
+        <ScrollView
+          keyboardShouldPersistTaps={'handled'}
+          keyboardDismissMode="on-drag"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{alignItems: 'center'}}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
+          <Container>
+            {EDUCATION_CERTIFICATE != 0 ? (
               <Section
                 onPress={() =>
-                  navigation.navigate('HealthCertificateEmpListScreen', {
-                    type: '1',
+                  navigation.navigate('HealthCertificateStoreDetailScreen')
+                }>
+                <SanitaryEducation />
+                <IconContainer
+                  style={{
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                  }}>
+                  <Row>
+                    <EllipseIcon size={8} color={'#642A8C'} />
+                    <Text isSubmited={true}>위생교육증 등록완료</Text>
+                  </Row>
+                  <Text
+                    style={
+                      dday <= 0
+                        ? {
+                            textDecorationLine: 'underline',
+                            marginTop: 5,
+                            color: 'red',
+                          }
+                        : {marginTop: 5, color: '#aaa'}
+                    }>
+                    교육일시: {EDUCATION_DATA} (갱신 D{dday <= 0 ? '+' : '-'}
+                    {Math.abs(Math.floor(dday))})
+                  </Text>
+                </IconContainer>
+              </Section>
+            ) : (
+              <Section
+                onPress={() =>
+                  navigation.navigate('HealthCertificateStoreFormScreen', {
+                    count: 3,
                   })
                 }>
-                <TypeTitle>
-                  <Row>
-                    <TypeTitleBox>
-                      <TypeTitleText>보건증</TypeTitleText>
-                    </TypeTitleBox>
-                    <Touchable
-                      onPress={() => {
-                        explainModal(
-                          '',
-                          '직원별 보건증 등록이 가능하며, 등록 후 갱신시점 알람 및 보건증 이력관리가 가능합니다.',
-                        );
-                      }}>
-                      <HelpCircleIcon color="#bbb" />
-                    </Touchable>
-                  </Row>
-                  <Row>
-                    <ViewBtnText>등록 및 상세</ViewBtnText>
-                    <ForwardIcon />
-                  </Row>
-                </TypeTitle>
-                {HEALTH_CERTIFICATE_APPLY == 0 ? (
-                  <IconContainer>
-                    <EllipseIcon size={22} color={'#CE0505'} />
-                    <Text isSubmited={false}>미등록</Text>
-                  </IconContainer>
-                ) : Number(HEALTH_CERTIFICATE_APPLY) ==
-                  Number(HEALTH_CERTIFICATE_TARGET) ? (
-                  <IconContainer>
-                    <EllipseIcon size={22} color={'#642A8C'} />
-                    <Text isSubmited={true}>
-                      등록 중({HEALTH_CERTIFICATE_TARGET}명 중&nbsp;
-                      {HEALTH_CERTIFICATE_APPLY}명 완료)
-                    </Text>
-                  </IconContainer>
-                ) : (
-                  <IconContainer>
-                    <EllipseIcon size={22} color={'#CE0505'} />
-                    <Text isSubmited={false}>
-                      등록 중({HEALTH_CERTIFICATE_TARGET}명 중&nbsp;
-                      {HEALTH_CERTIFICATE_APPLY}명 완료)
-                    </Text>
-                  </IconContainer>
-                )}
+                <SanitaryEducation />
+
+                <IconContainer>
+                  <EllipseIcon size={8} color={'#CE0505'} />
+                  <Text isSubmited={false}>위생교육증 미등록</Text>
+                </IconContainer>
               </Section>
-            </>
+            )}
+            <Section
+              onPress={() =>
+                navigation.navigate('HealthCertificateEmpListScreen', {
+                  type: '1',
+                })
+              }>
+              <TypeTitle>
+                <Row>
+                  <TypeTitleBox>
+                    <TypeTitleText>보건증</TypeTitleText>
+                  </TypeTitleBox>
+                  <Touchable
+                    onPress={() => {
+                      explainModal(
+                        '',
+                        '직원별 보건증 등록이 가능하며, 등록 후 갱신시점 알람 및 보건증 이력관리가 가능합니다.',
+                      );
+                    }}>
+                    <HelpCircleIcon color="#bbb" />
+                  </Touchable>
+                </Row>
+                <Row>
+                  <ViewBtnText>등록 및 상세</ViewBtnText>
+                  <ForwardIcon />
+                </Row>
+              </TypeTitle>
+              {HEALTH_CERTIFICATE_APPLY == 0 ? (
+                <IconContainer>
+                  <EllipseIcon size={8} color={'#CE0505'} />
+                  <Text isSubmited={false}>미등록</Text>
+                </IconContainer>
+              ) : Number(HEALTH_CERTIFICATE_APPLY) ==
+                Number(HEALTH_CERTIFICATE_TARGET) ? (
+                <IconContainer>
+                  <EllipseIcon size={8} color={'#642A8C'} />
+                  <Text isSubmited={true}>
+                    등록 중({HEALTH_CERTIFICATE_TARGET}명 중&nbsp;
+                    {HEALTH_CERTIFICATE_APPLY}명 완료)
+                  </Text>
+                </IconContainer>
+              ) : (
+                <IconContainer>
+                  <EllipseIcon size={8} color={'#CE0505'} />
+                  <Text isSubmited={false}>
+                    등록 중({HEALTH_CERTIFICATE_TARGET}명 중&nbsp;
+                    {HEALTH_CERTIFICATE_APPLY}명 완료)
+                  </Text>
+                </IconContainer>
+              )}
+            </Section>
             <Section disabled={true}>
               <TypeTitleBox style={{alignItems: 'flex-start'}}>
                 <TypeTitleText>영업신고증</TypeTitleText>
@@ -312,8 +317,8 @@ export default ({
                 앱푸시 및 문자메시지로 알림을 보내드립니다
               </FooterText>
             </Footer>
-          </ScrollView>
-        </Container>
+          </Container>
+        </ScrollView>
       </BackGround>
     );
   }

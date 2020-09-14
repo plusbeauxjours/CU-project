@@ -195,199 +195,228 @@ const FooterText = styled.Text`
 `;
 
 export default ({
+  fetchData,
   onRefresh,
-  nextdata,
-  backdata,
   alertModal,
-  EDUCATION_TYPE,
-  TESTING_CERTIFICATE,
-  REAL_NAME,
-  EMP_SEQ,
-  STORE_SEQ,
-  position,
-  owner,
-  storename,
-  businesstype,
-  SETTIME,
-  selectindex,
   HEALTH_STORE_DETAIL,
-  EDUCATION_DATE,
-  CEO_HEALTH_SEQ,
   isImageViewVisible,
   setIsImageViewVisible,
+  SELECT_INDEX,
+  decreaseSELECT_INDEX,
+  increaseSELECT_INDEX,
 }) => {
-  const navigation = useNavigation();
-  const images = [
-    {url: 'http://cuapi.shop-sol.com/uploads/ocr/' + TESTING_CERTIFICATE},
-  ];
+  if (HEALTH_STORE_DETAIL) {
+    const navigation = useNavigation();
+    const images = [
+      {
+        url:
+          'http://cuapi.shop-sol.com/uploads/ocr/' +
+          HEALTH_STORE_DETAIL[SELECT_INDEX]?.IMG_LIST,
+      },
+    ];
 
-  const renderFooter = (index: number) => (
-    <Footer>
-      <FooterText>1 / 1</FooterText>
-    </Footer>
-  );
+    const renderFooter = () => (
+      <Footer>
+        <FooterText>1 / 1</FooterText>
+      </Footer>
+    );
 
-  const GetContent = ({label, data}) => (
-    <ContentLine>
-      <ContentLabelWrapper>
-        <ContentLabelText>{label}</ContentLabelText>
-      </ContentLabelWrapper>
-      <ContentDataWrapper>
-        <ContentDataText>{data}</ContentDataText>
-      </ContentDataWrapper>
-    </ContentLine>
-  );
-
-  const GetContentComponent = ({label}) => (
-    <ContentLine>
-      <ContentLabelWrapper>
-        <ContentLabelText>{label}</ContentLabelText>
-      </ContentLabelWrapper>
-      {label == '교육 구분' ? (
+    const GetContent = ({label, data}) => (
+      <ContentLine>
+        <ContentLabelWrapper>
+          <ContentLabelText>{label}</ContentLabelText>
+        </ContentLabelWrapper>
         <ContentDataWrapper>
-          <ContentDataText>
-            {EDUCATION_TYPE === 'online' ? '온라인교육' : '집체교육'}
-          </ContentDataText>
+          <ContentDataText>{data}</ContentDataText>
         </ContentDataWrapper>
-      ) : (
-        <ImageButtonWrapper
-          onPress={() => {
-            setIsImageViewVisible(true);
-          }}>
-          <ImageButtonText>사진 보기</ImageButtonText>
-          <ImageIconContainer>
-            <ForwardIcon size={22} />
-          </ImageIconContainer>
-        </ImageButtonWrapper>
-      )}
-    </ContentLine>
-  );
+      </ContentLine>
+    );
 
-  return (
-    <BackGround>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Container>
-          <HelpWrapper>
-            <HelpText>보건증 조기경보시스템</HelpText>
-          </HelpWrapper>
-          <Box>
-            <Date>
-              <DateArrowLeft
+    const GetContentComponent = ({label}) => (
+      <ContentLine>
+        <ContentLabelWrapper>
+          <ContentLabelText>{label}</ContentLabelText>
+        </ContentLabelWrapper>
+        {label == '교육 구분' ? (
+          <ContentDataWrapper>
+            <ContentDataText>
+              {HEALTH_STORE_DETAIL[SELECT_INDEX]?.EDUCATION_TYPE === 'online'
+                ? '온라인교육'
+                : '집체교육'}
+            </ContentDataText>
+          </ContentDataWrapper>
+        ) : (
+          <ImageButtonWrapper
+            onPress={() => {
+              setIsImageViewVisible(true);
+            }}>
+            <ImageButtonText>사진 보기</ImageButtonText>
+            <ImageIconContainer>
+              <ForwardIcon size={22} />
+            </ImageIconContainer>
+          </ImageButtonWrapper>
+        )}
+      </ContentLine>
+    );
+
+    return (
+      <BackGround>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Container>
+            <HelpWrapper>
+              <HelpText>보건증 조기경보시스템</HelpText>
+            </HelpWrapper>
+            <Box>
+              <Date>
+                <DateArrowLeft
+                  onPress={() => {
+                    if (SELECT_INDEX == HEALTH_STORE_DETAIL?.length - 1) {
+                      alertModal('', '최초데이터 입니다.');
+                    } else {
+                      increaseSELECT_INDEX();
+                    }
+                  }}>
+                  <BackIcon size={22} color={'#000'} />
+                </DateArrowLeft>
+                <DateTextArea onPress={() => onRefresh()}>
+                  <DateText>
+                    {
+                      HEALTH_STORE_DETAIL[SELECT_INDEX]?.probationDATE.split(
+                        '-',
+                      )[0]
+                    }
+                    년
+                  </DateText>
+                </DateTextArea>
+                <DateToday
+                  onPress={() => {
+                    onRefresh();
+                  }}>
+                  <ReloadCircleIcon size={22} />
+                </DateToday>
+                <DateArrowRight
+                  onPress={() => {
+                    if (SELECT_INDEX == 0) {
+                      alertModal('', '최신데이터 입니다.');
+                    } else {
+                      decreaseSELECT_INDEX();
+                    }
+                  }}>
+                  <ForwardIcon size={22} color={'#000'} />
+                </DateArrowRight>
+              </Date>
+              <ContentWrapper>
+                <GetContent
+                  label={'교육 이수자'}
+                  data={HEALTH_STORE_DETAIL[SELECT_INDEX]?.NAME}
+                />
+                <GetContent
+                  label={'직책'}
+                  data={HEALTH_STORE_DETAIL[SELECT_INDEX]?.position}
+                />
+                <GetContent
+                  label={'대표자성명'}
+                  data={HEALTH_STORE_DETAIL[SELECT_INDEX]?.owner}
+                />
+                <GetContent
+                  label={'영업소명칭'}
+                  data={HEALTH_STORE_DETAIL[SELECT_INDEX]?.storename}
+                />
+                <GetContent
+                  label={'교육 일시'}
+                  data={HEALTH_STORE_DETAIL[SELECT_INDEX]?.probationDATE}
+                />
+                <GetContent
+                  label={'영업의종류'}
+                  data={HEALTH_STORE_DETAIL[SELECT_INDEX]?.businesstype}
+                />
+                <GetContentComponent label={'교육 구분'} />
+                <GetContentComponent label={'사진'} />
+              </ContentWrapper>
+              <RegDateContainer>
+                <RegDate>
+                  ※ 입력일자 : {HEALTH_STORE_DETAIL[SELECT_INDEX]?.CREATE_TIME}
+                </RegDate>
+              </RegDateContainer>
+            </Box>
+          </Container>
+          <Container style={{marginTop: 20, alignItems: 'center'}}>
+            <Row>
+              <ModifyButton
                 onPress={() => {
-                  if (selectindex == HEALTH_STORE_DETAIL?.length - 1) {
-                    alertModal('', '최초데이터 입니다.');
-                  } else {
-                    backdata();
-                  }
+                  navigation.navigate('HealthCertificateStoreUpdateScreen', {
+                    fetchData,
+                    CEO_HEALTH_SEQ:
+                      HEALTH_STORE_DETAIL[SELECT_INDEX]?.CEO_HEALTH_SEQ,
+                    NAME: HEALTH_STORE_DETAIL[SELECT_INDEX]?.NAME,
+                    position: HEALTH_STORE_DETAIL[SELECT_INDEX]?.position,
+                    owner: HEALTH_STORE_DETAIL[SELECT_INDEX]?.owner,
+                    storename: HEALTH_STORE_DETAIL[SELECT_INDEX]?.storename,
+                    EDUCATION_DATE:
+                      HEALTH_STORE_DETAIL[SELECT_INDEX]?.probationDATE,
+                    businesstype:
+                      HEALTH_STORE_DETAIL[SELECT_INDEX]?.businesstype,
+                    EDUCATION_TYPE:
+                      HEALTH_STORE_DETAIL[SELECT_INDEX]?.probationTYPE,
+                    IMG_LIST:
+                      'http://cuapi.shop-sol.com/uploads/ocr/' +
+                      HEALTH_STORE_DETAIL[SELECT_INDEX]?.IMG_LIST,
+                  });
                 }}>
-                <BackIcon size={22} color={'#000'} />
-              </DateArrowLeft>
-              <DateTextArea
+                <Text style={{fontSize: 16, color: 'white'}}>수정하기</Text>
+              </ModifyButton>
+              <SaveButton
                 onPress={() => {
-                  onRefresh();
+                  navigation.navigate('HealthCertificateStoreFormScreen', {
+                    fetchData,
+                    NAME: HEALTH_STORE_DETAIL[SELECT_INDEX]?.NAME,
+                    IMG_LIST:
+                      'http://cuapi.shop-sol.com/uploads/ocr/' +
+                      HEALTH_STORE_DETAIL[SELECT_INDEX]?.IMG_LIST,
+                  });
                 }}>
-                <DateText>{EDUCATION_DATE.split('-')[0]}년</DateText>
-              </DateTextArea>
-              <DateToday
-                onPress={() => {
-                  onRefresh();
-                }}>
-                <ReloadCircleIcon size={22} />
-              </DateToday>
-              <DateArrowRight
-                onPress={() => {
-                  if (selectindex == 0) {
-                    alertModal('', '최신데이터 입니다.');
-                  } else {
-                    nextdata();
-                  }
-                }}>
-                <ForwardIcon size={22} color={'#000'} />
-              </DateArrowRight>
-            </Date>
-            <ContentWrapper>
-              <GetContent label={'교육 이수자'} data={REAL_NAME} />
-              <GetContent label={'직책'} data={position} />
-              <GetContent label={'대표자성명'} data={owner} />
-              <GetContent label={'영업소명칭'} data={storename} />
-              <GetContent label={'교육 일시'} data={EDUCATION_DATE} />
-              <GetContent label={'영업의종류'} data={businesstype} />
-              <GetContentComponent label={'교육 구분'} />
-              <GetContentComponent label={'사진'} />
-            </ContentWrapper>
-            <RegDateContainer>
-              <RegDate>※ 입력일자 : {SETTIME}</RegDate>
-            </RegDateContainer>
-          </Box>
-        </Container>
-        <Container style={{marginTop: 20, alignItems: 'center'}}>
-          <Row>
-            <ModifyButton
-              onPress={() => {
-                navigation.navigate('HealthCertificateStoreUpdateScreen', {
-                  STORE_SEQ,
-                  CEO_HEALTH_SEQ,
-                  NAME: REAL_NAME,
-                  position,
-                  owner,
-                  storename,
-                  EDUCATION_DATE,
-                  businesstype,
-                  EDUCATION_TYPE,
-                });
-              }}>
-              <Text style={{fontSize: 16, color: 'white'}}>수정하기</Text>
-            </ModifyButton>
-            <SaveButton
-              onPress={() => {
-                navigation.navigate('HealthCertificateStoreFormScreen', {
-                  NAME: REAL_NAME,
-                  EMP_SEQ,
-                  STORE_SEQ,
-                  TESTING_CERTIFICATE:
-                    'http://cuapi.shop-sol.com/uploads/ocr/' +
-                    TESTING_CERTIFICATE,
-                });
-              }}>
-              <Text style={{fontSize: 16, color: 'white'}}>갱신하기</Text>
-            </SaveButton>
-          </Row>
-          <WhiteSpace />
-        </Container>
-      </ScrollView>
-      <Modal
-        onBackdropPress={() => setIsImageViewVisible(false)}
-        isVisible={isImageViewVisible}
-        style={{
-          margin: 0,
-          justifyContent: 'flex-end',
-          width: '100%',
-          height: '100%',
-        }}>
-        <ImageViewer
-          imageUrls={images}
-          onSwipeDown={() => setIsImageViewVisible(false)}
-          backgroundColor={'transparent'}
-          saveToLocalByLongPress={false}
-          enableSwipeDown
-          useNativeDriver
-          enablePreload
-          renderFooter={renderFooter}
-          loadingRender={() => <ActivityIndicator />}
-          renderIndicator={() => null}
-          renderImage={(props) => (
-            <FastImage
-              style={{width: '100%', height: '100%'}}
-              source={{
-                uri: props.source.uri,
-                headers: {Authorization: 'someAuthToken'},
-                priority: FastImage.priority.low,
-              }}
-              resizeMode={FastImage.resizeMode.cover}
-            />
-          )}
-        />
-      </Modal>
-    </BackGround>
-  );
+                <Text style={{fontSize: 16, color: 'white'}}>갱신하기</Text>
+              </SaveButton>
+            </Row>
+            <WhiteSpace />
+          </Container>
+        </ScrollView>
+        <Modal
+          onBackdropPress={() => setIsImageViewVisible(false)}
+          isVisible={isImageViewVisible}
+          style={{
+            margin: 0,
+            justifyContent: 'flex-end',
+            width: '100%',
+            height: '100%',
+          }}>
+          <ImageViewer
+            imageUrls={images}
+            onSwipeDown={() => setIsImageViewVisible(false)}
+            backgroundColor={'transparent'}
+            saveToLocalByLongPress={false}
+            enableSwipeDown
+            useNativeDriver
+            enablePreload
+            renderFooter={renderFooter}
+            loadingRender={() => <ActivityIndicator />}
+            renderIndicator={() => null}
+            renderImage={(props) => (
+              <FastImage
+                style={{width: '100%', height: '100%'}}
+                source={{
+                  uri: props.source.uri,
+                  headers: {Authorization: 'someAuthToken'},
+                  priority: FastImage.priority.low,
+                }}
+                resizeMode={FastImage.resizeMode.cover}
+              />
+            )}
+          />
+        </Modal>
+      </BackGround>
+    );
+  } else {
+    return <ActivityIndicator size={'large'} />;
+  }
 };

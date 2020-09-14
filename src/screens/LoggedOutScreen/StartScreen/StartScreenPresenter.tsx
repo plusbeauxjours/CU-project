@@ -6,6 +6,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import FastImage from 'react-native-fast-image';
 
 import {getText1, getText2, getText3} from '../../../constants/getText';
 
@@ -139,9 +140,10 @@ export default ({gotoLogin, gotoVerification}) => {
     <>
       <Container>
         <Logo>
-          <Image
-            resizeMode="stretch"
+          <FastImage
+            style={{height: 175, width: 350}}
             source={require('../../../assets/images/logo_cu.png')}
+            resizeMode={FastImage.resizeMode.stretch}
           />
           <AddStoreBox>
             <AddStoreButton onPress={() => gotoLogin()}>

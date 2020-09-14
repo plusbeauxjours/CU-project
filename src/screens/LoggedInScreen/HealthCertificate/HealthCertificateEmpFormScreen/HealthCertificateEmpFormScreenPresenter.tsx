@@ -6,20 +6,20 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import FastImage from 'react-native-fast-image';
+import {RNCamera} from 'react-native-camera';
+import moment from 'moment';
 
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
 import InputLine from '../../../../components/InputLine';
-import {
-  CameraIcon,
-  FlashOffIcon,
-  FlashOnIcon,
-} from '../../../../constants/Icons';
+import {CameraIcon} from '../../../../constants/Icons';
 
-interface IButton {
-  isRight: boolean;
-}
 const WhiteSpace = styled.View`
-  height: 30px;
+  height: 20px;
+`;
+
+const SmallWhiteSpace = styled.View`
+  height: 10px;
 `;
 
 const BackGround = styled.SafeAreaView`
@@ -43,7 +43,7 @@ const TitleText = styled.Text`
 const CameraBox = styled.TouchableOpacity`
   margin: 20px;
   width: 300px;
-  height: 100px;
+  height: 120px;
   align-items: center;
   justify-content: center;
   border-width: 2px;
@@ -67,7 +67,7 @@ const TextInput = styled.TextInput`
   width: 100%;
   font-size: 17px;
   margin-left: 5px;
-  margin-top: 10px;
+  height: 40px;
 `;
 
 const Bold = styled(Text)``;
@@ -83,7 +83,6 @@ const TextInputContainer = styled.View`
   align-items: flex-start;
   justify-content: center;
   margin-left: 5px;
-  margin-bottom: 5px;
 `;
 
 const TextInputBox = styled.View`
@@ -98,58 +97,29 @@ const GreyText = styled.Text`
   font-weight: bold;
 `;
 
-const PictureSection = styled.View`
-  flex: 1;
-  padding: 30px 16px;
-`;
-
-const Image = styled.Image`
-  width: 100%;
-  height: 100%;
-  border-radius: 5px;
-`;
-
 const Touchable = styled.TouchableOpacity``;
 
 const Row = styled.View`
   flex-direction: row;
-`;
-
-const Button = styled.TouchableOpacity<IButton>`
-  width: 50%;
-  height: 50px;
-  background-color: ${(props) => (props.isRight ? '#642A8C' : '#FFF')};
-`;
-
-const BarButton = styled.TouchableOpacity`
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 50px;
-  align-items: center;
   justify-content: center;
-  background-color: #642a8c;
+  align-items: center;
 `;
 
-const ButtonText = styled.Text<IButton>`
+const CameraPictureCloseButtonText = styled.Text`
   font-size: 16px;
-  color: ${(props) => (props.isRight ? '#FFF' : '#642A8C')};
+  color: #ffffff;
 `;
 
-const FlashButton = styled.TouchableOpacity`
-  width: 45px;
-  height: 45px;
-  border-radius: 60px;
-  border-color: #642a8c;
-  background-color: rgba(100, 100, 100, 0.5);
+const CameraPictureCloseButton = styled.TouchableOpacity`
+  height: 60px;
+  width: 100%;
+  background-color: #642a8c;
+  align-self: flex-end;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  right: ${wp('5%')}px;
-  top: 30px;
 `;
 
-const CameraButton = styled.TouchableOpacity`
+const CameraPictureButton = styled.TouchableOpacity`
   width: 60px;
   height: 60px;
   border-radius: 60px;
@@ -157,28 +127,30 @@ const CameraButton = styled.TouchableOpacity`
   background-color: #ffffff;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  right: ${wp('50%') - 50}px;
-  bottom: 90px;
 `;
 
-const CameraGuide = styled.View`
-  position: absolute;
-  top: ${hp('10%')}px;
-  left: ${wp('5%')}px;
-  right: ${wp('5%')}px;
-  bottom: ${hp('20%')}px;
+const HalfBotton = styled.TouchableOpacity`
+  width: 50%;
+  height: 60px;
+  margin-top: 20px;
+  align-self: flex-end;
   align-items: center;
   justify-content: center;
+  background-color: #fff;
+`;
+
+const HalfBottonText = styled.Text`
+  font-size: 16px;
+`;
+
+const CameraLastPictureContainer = styled.View`
+  flex: 1;
+  align-items: center;
 `;
 
 export default ({
   submitFn,
-  cameraPicture,
-  setCameraPicture,
   checkOrcFn,
-  cameraModalVisible,
-  setCameraModalVisible,
   dateModalVisible,
   setDateModalVisible,
   NAME,
@@ -187,10 +159,11 @@ export default ({
   setRESULT_COUNT,
   EDUCATION_DATE,
   setEDUCATION_DATE,
-  cameraRatioList,
-  setCameraRatioList,
-  cameraPictureFlash,
-  setCameraPictureFlash,
+  isCameraModalVisible,
+  setIsCameraModalVisible,
+  cameraPictureLast,
+  setCameraPictureLast,
+  takePictureFn,
 }) => {
   const cameraRef = useRef(null);
   return (
@@ -198,7 +171,8 @@ export default ({
       <ScrollView
         keyboardShouldPersistTaps={'handled'}
         keyboardDismissMode="on-drag"
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{alignItems: 'center'}}>
         <Container>
           <Section>
             <TextContainer>
@@ -206,10 +180,29 @@ export default ({
               <Text>문자인식(OCR) 기술로</Text>
               <Text>정보를 자동으로 입력할 수 있습니다</Text>
             </TextContainer>
-            <CameraBox onPress={() => setCameraModalVisible(true)}>
-              <Bold style={{color: '#642A8C'}}>촬영하기</Bold>
-              <CameraIcon />
-            </CameraBox>
+            {cameraPictureLast ? (
+              <CameraBox onPress={() => setCameraPictureLast(null)}>
+                <FastImage
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: 10,
+                    marginHorizontal: 5,
+                  }}
+                  source={{
+                    uri: cameraPictureLast,
+                    headers: {Authorization: 'someAuthToken'},
+                    priority: FastImage.priority.low,
+                  }}
+                  resizeMode={FastImage.resizeMode.cover}
+                />
+              </CameraBox>
+            ) : (
+              <CameraBox onPress={() => setIsCameraModalVisible(true)}>
+                <Bold style={{color: '#642A8C'}}>촬영하기</Bold>
+                <CameraIcon size={40} />
+              </CameraBox>
+            )}
             <Bold>* 인식이 불안정할 경우 직접입력하여 진행해 주세요.</Bold>
           </Section>
           <WhiteSpace />
@@ -249,6 +242,7 @@ export default ({
                 <DateText>{EDUCATION_DATE}</DateText>
               </Touchable>
             </TextInputContainer>
+            <SmallWhiteSpace />
             <InputLine isBefore={EDUCATION_DATE == '' ? true : false} />
           </TextInputBox>
           <DatePickerModal
@@ -259,7 +253,8 @@ export default ({
             mode="date"
             locale="ko_KRus_EN"
             onConfirm={(date) => {
-              setEDUCATION_DATE(date), setDateModalVisible(false);
+              setEDUCATION_DATE(moment(date).format('YYYY-MM-DD'));
+              setDateModalVisible(false);
             }}
             onCancel={() => setDateModalVisible(false)}
             display="default"
@@ -267,76 +262,84 @@ export default ({
           <SubmitBtn
             text={'입력완료'}
             onPress={() => submitFn()}
-            isRegisted={true}
+            isRegisted={
+              cameraPictureLast && RESULT_COUNT && NAME && EDUCATION_DATE
+            }
           />
         </Container>
       </ScrollView>
-      {/* <Modal
-        isVisible={cameraModalVisible}
-        onBackButtonPress={() => {
-          setCameraModalVisible(false);
-        }}
-        style={{flex: 1}}>
-        {cameraPicture ? (
+      <Modal
+        isVisible={isCameraModalVisible}
+        style={{margin: 0}}
+        onBackButtonPress={() => setIsCameraModalVisible(false)}>
+        {cameraPictureLast ? (
           <>
-            <PictureSection>
-              <Image source={{uri: cameraPicture}} />
-            </PictureSection>
-            <Row>
-              <Button isRight={false} onPress={() => setCameraPicture(null)}>
-                <ButtonText isRight={false}>재촬영</ButtonText>
-              </Button>
-              <Button isRight={true} onPress={() => checkOrcFn()}>
-                <ButtonText isRight={true}>선택</ButtonText>
-              </Button>
-            </Row>
+            <CameraLastPictureContainer>
+              <FastImage
+                style={{
+                  width: wp('100%') - 40,
+                  height: hp('100%') - 120,
+                  borderRadius: 10,
+                  marginTop: 20,
+                }}
+                source={{
+                  uri: cameraPictureLast,
+                  headers: {Authorization: 'someAuthToken'},
+                  priority: FastImage.priority.low,
+                }}
+                resizeMode={FastImage.resizeMode.cover}
+              />
+              <Row>
+                <HalfBotton onPress={() => setCameraPictureLast(null)}>
+                  <HalfBottonText style={{color: '#642A8C'}}>
+                    재촬영
+                  </HalfBottonText>
+                </HalfBotton>
+                <HalfBotton
+                  style={{backgroundColor: '#642A8C'}}
+                  onPress={() => {
+                    checkOrcFn();
+                    setIsCameraModalVisible(false);
+                  }}>
+                  <HalfBottonText style={{color: '#fff'}}>선택</HalfBottonText>
+                </HalfBotton>
+              </Row>
+            </CameraLastPictureContainer>
           </>
         ) : (
-          <Camera
+          <RNCamera
             ref={cameraRef}
-            ratio={
-              cameraRatioList.length > 0
-                ? cameraRatioList[cameraRatioList.length - 1]
-                : '16:9'
-            }
-            autoFocus={Camera.Constants.AutoFocus.on}
-            style={{flex: 1}}
-            onCameraReady={async () => setCameraRatioList(['16:9'])}
-            flashMode={
-              cameraPictureFlash
-                ? Camera.Constants.FlashMode.torch
-                : Camera.Constants.FlashMode.off
-            }>
-            <CameraGuide>
-              <Image
-                style={{height: '100%', width: '100%', opacity: 0.4}}
-                source={require('../../../../assets/images/camera.png')}
-                resizeMode="contain"
-              />
-            </CameraGuide>
-            <BarButton onPress={() => setCameraModalVisible(false)}>
-              <ButtonText isRight={true}> 닫기 </ButtonText>
-            </BarButton>
-            {cameraRatioList.length > 0 && (
-              <>
-                <CameraButton
-                  onPress={async () => {
-                    const capturedPicture = await cameraRef.current.takePictureAsync();
-                    setCameraPicture(capturedPicture.uri);
-                  }}>
-                  <CameraIcon color="#642A8C" />
-                </CameraButton>
-                <FlashButton
-                  onPress={async () =>
-                    setCameraPictureFlash(!cameraPictureFlash)
-                  }>
-                  {cameraPictureFlash ? <FlashOffIcon /> : <FlashOnIcon />}
-                </FlashButton>
-              </>
-            )}
-          </Camera>
+            style={{
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+            }}
+            type={RNCamera.Constants.Type.back}
+            flashMode={RNCamera.Constants.FlashMode.auto}
+            androidCameraPermissionOptions={{
+              title: 'Permission to use camera',
+              message: 'We need your permission to use your camera',
+              buttonPositive: 'Ok',
+              buttonNegative: 'Cancel',
+            }}>
+            <Row
+              style={{
+                justifyContent: 'center',
+                position: 'absolute',
+                right: wp('50%') - 30,
+                bottom: 80,
+              }}>
+              <CameraPictureButton onPress={() => takePictureFn(cameraRef)}>
+                <CameraIcon size={40} />
+              </CameraPictureButton>
+            </Row>
+            <CameraPictureCloseButton
+              onPress={() => setIsCameraModalVisible(false)}>
+              <CameraPictureCloseButtonText>닫기</CameraPictureCloseButtonText>
+            </CameraPictureCloseButton>
+          </RNCamera>
         )}
-      </Modal> */}
+      </Modal>
     </BackGround>
   );
 };

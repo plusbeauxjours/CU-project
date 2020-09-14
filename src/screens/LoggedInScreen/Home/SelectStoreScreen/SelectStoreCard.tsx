@@ -83,7 +83,7 @@ export default ({
   return (
     <Touchable
       key={key}
-      style={{alignItems: 'center', marginTop: 30}}
+      style={{alignItems: 'center', marginBottom: 30}}
       activeOpacity={1}
       onPress={() => gotoHomeScreen(data)}>
       <Container isStore={STORE == 1}>

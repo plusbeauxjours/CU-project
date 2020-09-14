@@ -1,5 +1,4 @@
 import React from 'react';
-import {Image} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -7,6 +6,8 @@ import {
 import styled from 'styled-components/native';
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import FastImage from 'react-native-fast-image';
+
 import InputLine from '../../../components/InputLine';
 
 const BackGround = styled.View`
@@ -108,10 +109,10 @@ export default ({
       <KeyboardAwareScrollView>
         <Container>
           <LogoText isIphoneX={isIphoneX()}>
-            <Image
+            <FastImage
               style={{height: 175, width: 350}}
-              resizeMode="stretch"
               source={require('../../../assets/images/logo_cu.png')}
+              resizeMode={FastImage.resizeMode.stretch}
             />
           </LogoText>
           <TextInputBox>

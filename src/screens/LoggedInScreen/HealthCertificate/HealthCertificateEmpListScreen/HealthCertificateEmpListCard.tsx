@@ -16,12 +16,8 @@ const AddressBox = styled.View`
 `;
 const AddressText = styled.Text<IText>`
   font-size: 13px;
+  margin-left: 3px;
   color: ${(props) => props.color};
-`;
-const Touchable = styled.TouchableOpacity``;
-const IconContainer = styled.View`
-  width: 20px;
-  align-items: center;
 `;
 
 const NameText = styled.Text`
@@ -29,17 +25,13 @@ const NameText = styled.Text`
   font-weight: bold;
 `;
 
-const Container = styled.View`
-  width: ${wp('100%')}px;
-  padding: 20px 0;
-  background-color: white;
-  flex-direction: row;
-  margin-bottom: 20px;
-`;
-const ContainerBox = styled.View`
+const Container = styled.TouchableOpacity`
   flex: 1;
+  width: ${wp('100%') - 40}px;
   padding: 20px;
+  background-color: white;
   justify-content: center;
+  margin-bottom: 20px;
 `;
 
 export default ({
@@ -51,85 +43,68 @@ export default ({
   const dday = moment(data?.PUSH_DAY).diff(moment(), 'days');
   if (data.RESULT_DATE) {
     return (
-      <Touchable
-        key={key}
-        activeOpacity={1}
-        onPress={() => gotoHealthCertificateEmpDetail(data)}>
-        <Container>
-          <ContainerBox>
-            <NameText>
-              {data?.NAME}[{data?.IS_MANAGER === '1' ? '점장' : '스태프'}]
-            </NameText>
-            <AddressBox>
-              <IconContainer>
-                {data?.RESULT_DATE && dday > 0 ? (
-                  <EllipseIcon color={'#642A8C'} />
-                ) : (
-                  <EllipseIcon color={'#CE0505'} />
-                )}
-              </IconContainer>
-              {data?.RESULT_DATE ? (
-                <AddressText
-                  color={dday <= 0 ? '#CE0505' : '#642A8C'}
-                  style={dday <= 0 && {textDecorationLine: 'underline'}}>
-                  검진일 : {data?.RESULT_DATE} (갱신 D{dday <= 0 ? '+' : '-'}
-                  {Math.abs(Math.floor(dday))})
-                </AddressText>
-              ) : (
-                <AddressText
-                  color={'#CE0505'}
-                  style={{textDecorationLine: 'underline'}}>
-                  보건증 미등록
-                </AddressText>
-              )}
-            </AddressBox>
-          </ContainerBox>
-        </Container>
-      </Touchable>
+      <Container key={key} onPress={() => gotoHealthCertificateEmpDetail(data)}>
+        <NameText>
+          {data?.NAME}[{data?.IS_MANAGER === '1' ? '점장' : '스태프'}]
+        </NameText>
+        <AddressBox>
+          {data?.RESULT_DATE && dday > 0 ? (
+            <EllipseIcon size={8} color={'#642A8C'} />
+          ) : (
+            <EllipseIcon size={8} color={'#CE0505'} />
+          )}
+          {data?.RESULT_DATE ? (
+            <AddressText
+              color={dday <= 0 ? '#CE0505' : '#642A8C'}
+              style={dday <= 0 && {textDecorationLine: 'underline'}}>
+              검진일 : {data?.RESULT_DATE} (갱신 D{dday <= 0 ? '+' : '-'}
+              {Math.abs(Math.floor(dday))})
+            </AddressText>
+          ) : (
+            <AddressText
+              color={'#CE0505'}
+              style={{textDecorationLine: 'underline'}}>
+              보건증 미등록
+            </AddressText>
+          )}
+        </AddressBox>
+      </Container>
     );
   } else {
     return (
-      <Touchable
+      <Container
         key={key}
-        activeOpacity={1}
         onPress={() =>
           gotoHealthCertificateEmpForm(
             data.NAME,
             data.EMP_SEQ,
             data.RESULT_COUNT,
-            data.IMG_LIST,
           )
         }>
-        <Container>
-          <ContainerBox>
-            <NameText>
-              {data?.NAME}[{data?.IS_MANAGER == '1' ? '점장' : '스태프'}]
-            </NameText>
-            <AddressBox>
-              <IconContainer>
-                {data?.RESULT_DATE ? (
-                  <EllipseIcon color={'#642A8C'} />
-                ) : (
-                  <EllipseIcon color={'#CE0505'} />
-                )}
-              </IconContainer>
-              {data?.RESULT_DATE ? (
-                <AddressText
-                  color={dday <= 0 ? '#CE0505' : '#642A8C'}
-                  style={dday <= 0 && {textDecorationLine: 'underline'}}>
-                  검진일 : {data?.RESULT_DATE}
-                </AddressText>
-              ) : (
-                <AddressText
-                  color={'#CE0505'}
-                  style={{textDecorationLine: 'underline'}}>
-                  보건증 미등록
-                </AddressText>
-              )}
-            </AddressBox>
-          </ContainerBox>
-        </Container>
-      </Touchable>
+        <NameText>
+          {data?.NAME}[{data?.IS_MANAGER == '1' ? '점장' : '스태프'}]
+        </NameText>
+        <AddressBox>
+          {data?.RESULT_DATE ? (
+            <EllipseIcon size={8} color={'#642A8C'} />
+          ) : (
+            <EllipseIcon size={8} color={'#CE0505'} />
+          )}
+          {data?.RESULT_DATE ? (
+            <AddressText
+              color={dday <= 0 ? '#CE0505' : '#642A8C'}
+              style={dday <= 0 && {textDecorationLine: 'underline'}}>
+              검진일 : {data?.RESULT_DATE}
+            </AddressText>
+          ) : (
+            <AddressText
+              color={'#CE0505'}
+              style={{textDecorationLine: 'underline'}}>
+              보건증 미등록
+            </AddressText>
+          )}
+        </AddressBox>
+      </Container>
     );
   }
 };

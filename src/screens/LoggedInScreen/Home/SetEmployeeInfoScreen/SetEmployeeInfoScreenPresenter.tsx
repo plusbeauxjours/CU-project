@@ -506,7 +506,7 @@ export default ({
                     mode="date"
                     locale="ko_KRus_EN"
                     onConfirm={(date) => {
-                      setEndDay(moment(date).format('YYYY=MM-DD'));
+                      setEndDay(moment(date).format('YYYY-MM-DD'));
                       setEndDayCheck(false);
                       setIsEndDayModalVisible(false);
                     }}

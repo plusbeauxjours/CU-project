@@ -103,6 +103,7 @@ export default () => {
             borderColor: '#fff',
             borderWidth: 0,
           },
+          headerTitleAlign: 'center',
           headerTintColor: '#fff',
           headerBackTitleVisible: false,
           headerBackImage: () => <BackBtn />,
@@ -143,7 +144,7 @@ export default () => {
           component={SelectStoreScreen}
           options={{
             headerLeft: () => <SettingBtn />,
-            title: '    점포 선택',
+            title: '점포 선택',
             headerRight: () => <LogOutBtn />,
           }}
         />

@@ -11,14 +11,11 @@ import {AddCircleIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.View`
   flex: 1;
+  padding-top: 20px;
   background-color: #f6f6f6;
 `;
 
 const ScrollView = styled.ScrollView``;
-const Container = styled.View`
-  padding: 20px;
-  flex: 1;
-`;
 
 const EmptyListWrapper = styled.View`
   margin-top: ${hp('10%')}px;
@@ -47,6 +44,7 @@ const AddStoreBox = styled.View`
   align-items: center;
   margin-top: 10px;
   background-color: transparent;
+  margin-bottom: 30px;
 `;
 
 const AddStoreButton = styled.TouchableOpacity`

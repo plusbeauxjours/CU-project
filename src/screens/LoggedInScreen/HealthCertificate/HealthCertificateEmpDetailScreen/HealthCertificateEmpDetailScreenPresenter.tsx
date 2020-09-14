@@ -188,185 +188,207 @@ const FooterText = styled.Text`
 `;
 
 export default ({
-  setIsImageViewVisible,
-  isImageViewVisible,
-  onRefresh,
-  nextdata,
-  backdata,
-  alertModal,
-  EDUCATION_TYPE,
-  STORE_HEALTH_SEQ,
-  TESTING_CERTIFICATE,
-  REAL_NAME,
+  fetchData,
   EMP_SEQ,
-  TESTING_COUNT,
-  TESTING_DATE,
-  SETTIME,
-  selectIndex,
+  onRefresh,
+  alertModal,
   HEALTH_EMP_DETAIL,
+  isImageViewVisible,
+  setIsImageViewVisible,
+  SELECT_INDEX,
+  decreaseSELECT_INDEX,
+  increaseSELECT_INDEX,
 }) => {
-  const navigation = useNavigation();
+  if (HEALTH_EMP_DETAIL) {
+    const navigation = useNavigation();
+    const images = [
+      {
+        url:
+          'http://cuapi.shop-sol.com/uploads/ocr/' +
+          HEALTH_EMP_DETAIL[SELECT_INDEX]?.IMG_LIST,
+      },
+    ];
 
-  const images = [
-    {url: 'http://cuapi.shop-sol.com/uploads/ocr/' + TESTING_CERTIFICATE},
-  ];
+    const renderFooter = (index: number) => (
+      <Footer>
+        <FooterText>1 / 1</FooterText>
+      </Footer>
+    );
 
-  const renderFooter = (index: number) => (
-    <Footer>
-      <FooterText>1 / 1</FooterText>
-    </Footer>
-  );
-
-  const GetContent = ({label, data}) => (
-    <ContentLine>
-      <ContentLabelWrapper>
-        <ContentLabelText>{label}</ContentLabelText>
-      </ContentLabelWrapper>
-      <ContentDataWrapper>
-        <ContentDataText>{data}</ContentDataText>
-      </ContentDataWrapper>
-    </ContentLine>
-  );
-
-  const GetContentComponent = ({label}) => (
-    <ContentLine>
-      <ContentLabelWrapper>
-        <ContentLabelText>{label}</ContentLabelText>
-      </ContentLabelWrapper>
-      {label == '교육 구분' ? (
+    const GetContent = ({label, data}) => (
+      <ContentLine>
+        <ContentLabelWrapper>
+          <ContentLabelText>{label}</ContentLabelText>
+        </ContentLabelWrapper>
         <ContentDataWrapper>
-          <ContentDataText>
-            {EDUCATION_TYPE == 'online' ? '온라인교육' : '집체교육'}
-          </ContentDataText>
+          <ContentDataText>{data}</ContentDataText>
         </ContentDataWrapper>
-      ) : (
-        <ImageButtonWrapper
-          onPress={() => {
-            setIsImageViewVisible(true);
-          }}>
-          <ImageButtonText>사진 보기</ImageButtonText>
-          <ImageIconContainer>
-            <ForwardIcon size={22} />
-          </ImageIconContainer>
-        </ImageButtonWrapper>
-      )}
-    </ContentLine>
-  );
+      </ContentLine>
+    );
 
-  return (
-    <BackGround>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Container>
-          <HelpWrapper>
-            <HelpText>보건증 조기경보시스템</HelpText>
-          </HelpWrapper>
-          <Box>
-            <Date>
-              <DateArrowLeft
+    const GetContentComponent = ({label}) => (
+      <ContentLine>
+        <ContentLabelWrapper>
+          <ContentLabelText>{label}</ContentLabelText>
+        </ContentLabelWrapper>
+        {label == '교육 구분' ? (
+          <ContentDataWrapper>
+            <ContentDataText>
+              {HEALTH_EMP_DETAIL[SELECT_INDEX]?.EDUCATION_TYPE == 'online'
+                ? '온라인교육'
+                : '집체교육'}
+            </ContentDataText>
+          </ContentDataWrapper>
+        ) : (
+          <ImageButtonWrapper
+            onPress={() => {
+              setIsImageViewVisible(true);
+            }}>
+            <ImageButtonText>사진 보기</ImageButtonText>
+            <ImageIconContainer>
+              <ForwardIcon size={22} />
+            </ImageIconContainer>
+          </ImageButtonWrapper>
+        )}
+      </ContentLine>
+    );
+
+    return (
+      <BackGround>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Container>
+            <HelpWrapper>
+              <HelpText>보건증 조기경보시스템</HelpText>
+            </HelpWrapper>
+            <Box>
+              <Date>
+                <DateArrowLeft
+                  onPress={() => {
+                    if (
+                      SELECT_INDEX ==
+                      HEALTH_EMP_DETAIL[SELECT_INDEX]?.length - 1
+                    ) {
+                      alertModal('', '최초데이터 입니다.');
+                    } else {
+                      increaseSELECT_INDEX();
+                    }
+                  }}>
+                  <BackIcon size={22} color={'#000'} />
+                </DateArrowLeft>
+                <DateTextArea onPress={() => onRefresh()}>
+                  <DateText>
+                    {HEALTH_EMP_DETAIL[SELECT_INDEX]?.RESULT_COUNT}회차
+                  </DateText>
+                </DateTextArea>
+                <DateToday onPress={() => onRefresh()}>
+                  <ReloadCircleIcon size={22} />
+                </DateToday>
+                <DateArrowRight
+                  onPress={() => {
+                    if (SELECT_INDEX == 0) {
+                      alertModal('', '최신데이터 입니다.');
+                    } else {
+                      decreaseSELECT_INDEX();
+                    }
+                  }}>
+                  <ForwardIcon size={22} color={'#000'} />
+                </DateArrowRight>
+              </Date>
+              <ContentWrapper>
+                <GetContent
+                  label={'성명'}
+                  data={HEALTH_EMP_DETAIL[SELECT_INDEX]?.NAME}
+                />
+                <GetContent
+                  label={'회차'}
+                  data={HEALTH_EMP_DETAIL[SELECT_INDEX]?.RESULT_COUNT}
+                />
+                <GetContent
+                  label={'검진일'}
+                  data={HEALTH_EMP_DETAIL[SELECT_INDEX]?.RESULT_DATE}
+                />
+                <GetContentComponent label={'사진'} />
+              </ContentWrapper>
+              <RegDateContainer>
+                <RegDate>
+                  ※ 입력일자 : {HEALTH_EMP_DETAIL[SELECT_INDEX]?.CREATE_TIME}
+                </RegDate>
+              </RegDateContainer>
+            </Box>
+          </Container>
+          <Container style={{marginTop: 20, alignItems: 'center'}}>
+            <Row>
+              <ModifyButton
                 onPress={() => {
-                  if (selectIndex == HEALTH_EMP_DETAIL.length - 1) {
-                    alertModal('', '최초데이터 입니다.');
-                  } else {
-                    backdata();
-                  }
+                  navigation.navigate('HealthCertificateEmpUpdateScreen', {
+                    fetchData,
+                    NAME: HEALTH_EMP_DETAIL[SELECT_INDEX]?.NAME,
+                    RESULT_COUNT: HEALTH_EMP_DETAIL[SELECT_INDEX]?.RESULT_COUNT,
+                    EDUCATION_DATE:
+                      HEALTH_EMP_DETAIL[SELECT_INDEX]?.RESULT_DATE,
+                    IMG_LIST:
+                      'http://cuapi.shop-sol.com/uploads/ocr/' +
+                      HEALTH_EMP_DETAIL[SELECT_INDEX]?.IMG_LIST,
+                    STORE_HEALTH_SEQ:
+                      HEALTH_EMP_DETAIL[SELECT_INDEX]?.STORE_HEALTH_SEQ,
+                  });
                 }}>
-                <BackIcon size={22} color={'#000'} />
-              </DateArrowLeft>
-              <DateTextArea onPress={() => onRefresh()}>
-                <DateText>{TESTING_COUNT}회차</DateText>
-              </DateTextArea>
-              <DateToday onPress={() => onRefresh()}>
-                <ReloadCircleIcon size={22} />
-              </DateToday>
-              <DateArrowRight
+                <Text style={{fontSize: 16, color: 'white'}}>수정하기</Text>
+              </ModifyButton>
+              <SaveButton
                 onPress={() => {
-                  if (selectIndex == 0) {
-                    alertModal('', '최신데이터 입니다.');
-                  } else {
-                    nextdata();
-                  }
+                  navigation.navigate('HealthCertificateEmpFormScreen', {
+                    fetchData,
+                    EMP_SEQ,
+                    NAME: HEALTH_EMP_DETAIL[SELECT_INDEX]?.NAME,
+                    RESULT_COUNT: HEALTH_EMP_DETAIL[SELECT_INDEX]?.RESULT_COUNT,
+                    IMG_LIST:
+                      'http://cuapi.shop-sol.com/uploads/ocr/' +
+                      HEALTH_EMP_DETAIL[SELECT_INDEX]?.IMG_LIST,
+                  });
                 }}>
-                <ForwardIcon size={22} color={'#000'} />
-              </DateArrowRight>
-            </Date>
-            <ContentWrapper>
-              <GetContent label={'성명'} data={REAL_NAME} />
-              <GetContent label={'회차'} data={TESTING_COUNT} />
-              <GetContent label={'검진일'} data={TESTING_DATE} />
-              <GetContentComponent label={'사진'} />
-            </ContentWrapper>
-            <RegDateContainer>
-              <RegDate>※ 입력일자 : {SETTIME}</RegDate>
-            </RegDateContainer>
-          </Box>
-        </Container>
-        <Container style={{marginTop: 20, alignItems: 'center'}}>
-          <Row>
-            <ModifyButton
-              onPress={() => {
-                navigation.navigate('HealthCertificateEmpUpdateScreen', {
-                  NAME: REAL_NAME,
-                  EMP_SEQ,
-                  RESULT_COUNT: TESTING_COUNT,
-                  EDUCATION_DATE: TESTING_DATE,
-                  TESTING_CERTIFICATE:
-                    'http://cuapi.shop-sol.com/uploads/ocr/' +
-                    TESTING_CERTIFICATE,
-                  STORE_HEALTH_SEQ,
-                });
-              }}>
-              <Text style={{fontSize: 16, color: 'white'}}>수정하기</Text>
-            </ModifyButton>
-            <SaveButton
-              onPress={() => {
-                navigation.navigate('HealthCertificateEmpFormScreen', {
-                  NAME: REAL_NAME,
-                  EMP_SEQ,
-                  RESULT_COUNT: TESTING_COUNT,
-                  TESTING_CERTIFICATE:
-                    'http://cuapi.shop-sol.com/uploads/ocr/' +
-                    TESTING_CERTIFICATE,
-                });
-              }}>
-              <Text style={{fontSize: 16, color: 'white'}}>갱신하기</Text>
-            </SaveButton>
-          </Row>
-          <WhiteSpace />
-        </Container>
-      </ScrollView>
-      <Modal
-        onBackdropPress={() => setIsImageViewVisible(false)}
-        isVisible={isImageViewVisible}
-        style={{
-          margin: 0,
-          justifyContent: 'flex-end',
-          width: '100%',
-          height: '100%',
-        }}>
-        <ImageViewer
-          imageUrls={images}
-          onSwipeDown={() => setIsImageViewVisible(false)}
-          backgroundColor={'transparent'}
-          saveToLocalByLongPress={false}
-          enableSwipeDown
-          useNativeDriver
-          enablePreload
-          renderFooter={renderFooter}
-          loadingRender={() => <ActivityIndicator />}
-          renderIndicator={() => null}
-          renderImage={(props) => (
-            <FastImage
-              style={{width: '100%', height: '100%'}}
-              source={{
-                uri: props.source.uri,
-                headers: {Authorization: 'someAuthToken'},
-                priority: FastImage.priority.low,
-              }}
-              resizeMode={FastImage.resizeMode.cover}
-            />
-          )}
-        />
-      </Modal>
-    </BackGround>
-  );
+                <Text style={{fontSize: 16, color: 'white'}}>갱신하기</Text>
+              </SaveButton>
+            </Row>
+            <WhiteSpace />
+          </Container>
+        </ScrollView>
+        <Modal
+          onBackdropPress={() => setIsImageViewVisible(false)}
+          isVisible={isImageViewVisible}
+          style={{
+            margin: 0,
+            justifyContent: 'flex-end',
+            width: '100%',
+            height: '100%',
+          }}>
+          <ImageViewer
+            imageUrls={images}
+            onSwipeDown={() => setIsImageViewVisible(false)}
+            backgroundColor={'transparent'}
+            saveToLocalByLongPress={false}
+            enableSwipeDown
+            useNativeDriver
+            enablePreload
+            renderFooter={renderFooter}
+            loadingRender={() => <ActivityIndicator />}
+            renderIndicator={() => null}
+            renderImage={(props) => (
+              <FastImage
+                style={{width: '100%', height: '100%'}}
+                source={{
+                  uri: props.source.uri,
+                  headers: {Authorization: 'someAuthToken'},
+                  priority: FastImage.priority.low,
+                }}
+                resizeMode={FastImage.resizeMode.cover}
+              />
+            )}
+          />
+        </Modal>
+      </BackGround>
+    );
+  } else {
+    return <ActivityIndicator size={'large'} />;
+  }
 };

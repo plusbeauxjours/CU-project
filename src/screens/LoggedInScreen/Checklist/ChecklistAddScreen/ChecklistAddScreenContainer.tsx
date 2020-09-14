@@ -72,10 +72,6 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
-  // 체크리스트 삭제
-  const deleteFn = () => {
-    submitFn('close');
-  };
 
   // 담당직원 리스트에서 삭제
   const deleteEmpFn = (KEY) => {

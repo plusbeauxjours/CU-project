@@ -12,7 +12,7 @@ import {setSplashVisible} from '../../../../redux/splashSlice';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
-  background-color: white;
+  background-color: #f6f6f6;
 `;
 
 const ScrollView = styled.ScrollView``;
@@ -81,20 +81,11 @@ export default ({route: {params}}) => {
     navigation.navigate('HealthCertificateEmpDetailScreen', {data});
   };
 
-  const gotoHealthCertificateEmpForm = (
-    NAME,
-    EMP_SEQ,
-    RESULT_COUNT,
-    TESTING_CERTIFICATE,
-  ) => {
+  const gotoHealthCertificateEmpForm = (NAME, EMP_SEQ, RESULT_COUNT) => {
     navigation.navigate('HealthCertificateEmpFormScreen', {
       NAME,
       EMP_SEQ,
       RESULT_COUNT,
-      TESTING_CERTIFICATE,
-      type,
-      FORM: '입력',
-      count: 1,
     });
   };
 
@@ -105,6 +96,8 @@ export default ({route: {params}}) => {
   return (
     <BackGround>
       <ScrollView
+        keyboardShouldPersistTaps={'handled'}
+        keyboardDismissMode="on-drag"
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

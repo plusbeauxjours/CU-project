@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import moment from 'moment';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
 import utils from '../../../../constants/utils';
@@ -12,13 +12,13 @@ import HealthCertificateStoreFormScreenPresenter from './HealthCertificateStoreF
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
 
-  const STORE_SEQ = params?.STORE_SEQ;
   const [dateModalVisible, setDateModalVisible] = useState<boolean>(false);
-  const [cameraModalVisible, setCameraModalVisible] = useState<boolean>(false);
-  const [cameraRatioList, setCameraRatioList] = useState<any>([]);
-  const [cameraPictureFlash, setCameraPictureFlash] = useState<boolean>(false);
-  const [cameraPicture, setCameraPicture] = useState<any>(null);
+  const [cameraPictureLast, setCameraPictureLast] = useState<any>(null);
+  const [isCameraModalVisible, setIsCameraModalVisible] = useState<boolean>(
+    false,
+  );
   const [NAME, setNAME] = useState<string>(''); // 교육이수자성명 / 성명
   const [owner, setOwner] = useState<string>(''); // 대표자성명
   const [storename, setStorename] = useState<string>(''); // 영업소 명칭
@@ -30,19 +30,6 @@ export default ({route: {params}}) => {
   const [EDUCATION_TYPE, setEDUCATION_TYPE] = useState<'online' | 'offline'>(
     'online',
   ); // 교육구분
-  const [TESTING_CERTIFICATE, setTESTING_CERTIFICATE] = useState<any>(''); // 이미지 저장 유무
-
-  // const getPermissionsAsync = async () => {
-  //   const {status} = await Camera.requestPermissionsAsync();
-  //   if (status !== 'granted') {
-  //     alertModal(
-  //       '',
-  //       '앱을 사용하기 위해서는 반드시 권한을 허용해야 합니다.\n거부시 설정에서 "퇴근해씨유" 앱의 권한 허용을 해야 합니다.',
-  //     );
-  //     return false;
-  //   }
-  //   return true;
-  // };
 
   const alertModal = (title, text) => {
     const params = {
@@ -62,6 +49,12 @@ export default ({route: {params}}) => {
     }
   };
 
+  const takePictureFn = async (cameraRef) => {
+    const options = {quality: 1.0, base64: true, width: 900, height: 900};
+    const data = await cameraRef.current.takePictureAsync(options);
+    setCameraPictureLast(data.uri);
+  };
+
   const submitFn = async () => {
     const reg = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
     if (reg.test(EDUCATION_DATE) === false) {
@@ -70,7 +63,7 @@ export default ({route: {params}}) => {
         '교육일시 날짜형식은 "2020-01-01"과 같은 형식이어야 합니다. 사진이 인식되지 않는다면 항목을 눌러 날짜를 직접 선택해주세요.',
       );
     }
-    if (TESTING_CERTIFICATE == undefined) {
+    if (cameraPictureLast == undefined) {
       return alertModal(
         '',
         '위생교육증을 촬영하여 사진을 등록해주세요.\n\n사진촬영 시 인식실패 문구가 나와도 사진은 정상적으로 등록이 됩니다.',
@@ -96,7 +89,16 @@ export default ({route: {params}}) => {
     }
     try {
       dispatch(setSplashVisible(true));
-      const fileInfoArr = cameraPicture.split('/');
+      const formData: any = new FormData();
+      formData.append('businesstype', businesstype);
+      formData.append('position', position);
+      formData.append('owner', owner);
+      formData.append('storename', storename);
+      formData.append('RESULT_DATE', EDUCATION_DATE);
+      formData.append('EDUCATION_TYPE', EDUCATION_TYPE);
+      formData.append('EMP_NAME', NAME);
+      formData.append('STORE_SEQ', STORE_SEQ);
+      const fileInfoArr = cameraPictureLast.split('/');
       const fileInfo = fileInfoArr[fileInfoArr.length - 1];
       const extensionIndex = fileInfo.indexOf('.');
       let fileName;
@@ -108,31 +110,16 @@ export default ({route: {params}}) => {
           fileType = 'image/jpeg';
         }
       }
-      const {data} = await api.saveOcr1({
-        businesstype,
-        position,
-        owner,
-        storename,
-        RESULT_DATE: EDUCATION_DATE,
-        EDUCATION_TYPE,
-        EMP_NAME: NAME,
-        STORE_SEQ,
-        image: {
-          uri: utils.isAndroid
-            ? cameraPicture
-            : cameraPicture.replace('file://', ''),
-          name: fileName,
-          type: fileType,
-        },
+      formData.append('image', {
+        uri: utils.isAndroid
+          ? cameraPictureLast
+          : cameraPictureLast.replace('file://', ''),
+        name: fileName,
+        type: fileType,
       });
-      if (extensionIndex > -1) {
-        fileName = fileInfo;
-        fileType = `image/${fileInfo.substring(extensionIndex + 1)}`;
-        if (fileType === 'image/jpg') {
-          fileType = 'image/jpeg';
-        }
-      }
+      const {data} = await api.saveOcr1(formData);
       if (data.result == '1') {
+        params?.fetchData();
         alertModal('', '저장 완료');
         navigation.goBack();
       }
@@ -146,7 +133,8 @@ export default ({route: {params}}) => {
   const checkOrcFn = async () => {
     try {
       dispatch(setSplashVisible(true));
-      const fileInfoArr = cameraPicture.split('/');
+      const formData: any = new FormData();
+      const fileInfoArr = cameraPictureLast.split('/');
       const fileInfo = fileInfoArr[fileInfoArr.length - 1];
       const extensionIndex = fileInfo.indexOf('.');
       let fileName;
@@ -158,15 +146,14 @@ export default ({route: {params}}) => {
           fileType = 'image/jpeg';
         }
       }
-      const {data} = await api.checkocr1({
-        image: {
-          uri: utils.isAndroid
-            ? cameraPicture
-            : cameraPicture.replace('file://', ''),
-          name: fileName,
-          type: fileType,
-        },
+      formData.append('image', {
+        uri: utils.isAndroid
+          ? cameraPictureLast
+          : cameraPictureLast.replace('file://', ''),
+        name: fileName,
+        type: fileType,
       });
+      const {data} = await api.checkocr1(formData);
       if (data.result == '0') {
         return alertModal(
           '인식 실패',
@@ -199,40 +186,12 @@ export default ({route: {params}}) => {
       );
     } finally {
       dispatch(setSplashVisible(false));
-      setCameraPicture(null);
-      setTESTING_CERTIFICATE(cameraPicture);
     }
   };
-
-  useEffect(() => {
-    const markedDate = {};
-    if (EDUCATION_DATE) {
-      markedDate[EDUCATION_DATE.replace(/\./g, '-')] = {
-        selected: true,
-        selectedColor: '#5887F9',
-      };
-    }
-    //     this.defaultPictureUploadPath = FileSystem.documentDirectory + 'picture/';
-    //     await FileSystem.makeDirectoryAsync(this.defaultPictureUploadPath, {
-    //       intermediates: true,
-    //     });
-    //   }
-    // }
-    // getPermissionsAsync();
-  }, []);
 
   return (
     <HealthCertificateStoreFormScreenPresenter
       submitFn={submitFn}
-      checkOrcFn={checkOrcFn}
-      cameraModalVisible={cameraModalVisible}
-      setCameraModalVisible={setCameraModalVisible}
-      cameraPicture={cameraPicture}
-      setCameraPicture={setCameraPicture}
-      setCameraPictureFlash={setCameraPictureFlash}
-      cameraPictureFlash={cameraPictureFlash}
-      cameraRatioList={cameraRatioList}
-      setCameraRatioList={setCameraRatioList}
       setNAME={setNAME}
       NAME={NAME}
       setPosition={setPosition}
@@ -244,12 +203,17 @@ export default ({route: {params}}) => {
       EDUCATION_DATE={EDUCATION_DATE}
       setEDUCATION_DATE={setEDUCATION_DATE}
       EDUCATION_TYPE={EDUCATION_TYPE}
-      setEDUCATION_TYPE={setEDUCATION_TYPE}
       setBusinesstype={setBusinesstype}
       businesstype={businesstype}
       dateModalVisible={dateModalVisible}
       setDateModalVisible={setDateModalVisible}
       toggleEducationType={toggleEducationType}
+      isCameraModalVisible={isCameraModalVisible}
+      setIsCameraModalVisible={setIsCameraModalVisible}
+      cameraPictureLast={cameraPictureLast}
+      setCameraPictureLast={setCameraPictureLast}
+      takePictureFn={takePictureFn}
+      checkOrcFn={checkOrcFn}
     />
   );
 };

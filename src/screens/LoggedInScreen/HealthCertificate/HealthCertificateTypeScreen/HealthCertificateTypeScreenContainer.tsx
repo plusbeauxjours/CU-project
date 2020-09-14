@@ -40,7 +40,6 @@ export default () => {
     moment().subtract(1, 'year'),
     'days',
   );
-
   return (
     <HealthCertificateTypeScreenPresenter
       refreshing={refreshing}

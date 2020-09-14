@@ -37,11 +37,6 @@ const Container = styled.View`
   align-items: center;
 `;
 
-const WhiteText = styled.Text`
-  font-size: 12px;
-  color: white;
-`;
-
 const Section = styled.View`
   width: 100%;
   border-radius: 20px;
