@@ -169,6 +169,7 @@ export default () => {
           component={EmployeeScheduleMainScreen}
           options={{
             title: '직원 정보',
+            headerRight: () => null,
           }}
         />
         <LoggedInNavigation.Screen

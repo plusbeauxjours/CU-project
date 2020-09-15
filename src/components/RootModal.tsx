@@ -7,6 +7,7 @@ import styled from 'styled-components/native';
 import {useDispatch} from 'react-redux';
 import Modal from 'react-native-modal';
 import {useNavigation} from '@react-navigation/native';
+import Ripple from 'react-native-material-ripple';
 
 import {setAlertVisible} from '../redux/alertSlice';
 
@@ -83,10 +84,9 @@ const HalfTextRight = styled.Text<IWarning>`
   color: ${(props) => (props.warning == 'yes' ? '#B91C1B' : '#fff')};
 `;
 
-const BarBtn = styled.TouchableOpacity`
-  flex: 1;
+const BarBtn = styled(Ripple)`
   height: 60px;
-  width: ${hp('100%')}px;
+  width: ${wp('100%')}px;
   align-items: center;
   justify-content: center;
   background-color: #642a8c;
@@ -167,11 +167,13 @@ export default ({alert}) => {
               </HalfBtnRight>
             </Row>
           ) : (
-            <Row>
-              <BarBtn onPress={() => onOKPress()}>
-                <WhiteText>{alert.okButtonText}</WhiteText>
-              </BarBtn>
-            </Row>
+            <BarBtn
+              onPress={() => onOKPress()}
+              rippleColor={'#ac52eb'}
+              rippleDuration={300}
+              rippleOpacity={0.25}>
+              <WhiteText>{alert.okButtonText}</WhiteText>
+            </BarBtn>
           )}
         </WhiteBox>
       )}

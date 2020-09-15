@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {ScrollView, ActivityIndicator} from 'react-native';
 import Modal from 'react-native-modal';
 import styled from 'styled-components/native';
@@ -96,6 +96,12 @@ export default ({route: {params}}) => {
       setIsModalVisible(false);
     }
   };
+
+  useEffect(() => {
+    params?.from === 'ManageInviteEmployeeScreen' &&
+      navigation.setOptions({headerRight: () => null});
+  }, []);
+
   return (
     <BackGround>
       <ScrollView

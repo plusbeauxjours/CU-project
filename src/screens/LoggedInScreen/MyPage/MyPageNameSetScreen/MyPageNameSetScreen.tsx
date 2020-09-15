@@ -6,6 +6,7 @@ import {setMEMBER_NAME} from '../../../../redux/userSlice';
 import api from '../../../../constants/LoggedInApi';
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
 import InputLine from '../../../../components/InputLine';
+import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -36,28 +37,39 @@ const TextInput = styled.TextInput`
 export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {MEMBER_SEQ, mobileNo, name} = useSelector(
+  const {MEMBER_SEQ, MOBILE_NO, MEMBER_NAME} = useSelector(
     (state: any) => state.userReducer,
   );
 
-  const [NAME, setNAME] = useState<string>('');
+  const [NAME, setNAME] = useState<string>(MEMBER_NAME || '');
   const [GENDER, setGENDER] = useState<string>('0');
 
-  const submit = async () => {
-    if (name === '') {
-      alert('[에러] 이를을 기입해주세요.');
-      return;
+  const alertModal = (text) => {
+    const params = {
+      alertType: 'alert',
+      title: '',
+      content: text,
+    };
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
+  };
+
+  const submitFn = async () => {
+    if (MEMBER_NAME === '') {
+      return alert('[에러] 이를을 기입해주세요.');
     }
     try {
+      alertModal('이름이 변경되었습니다.');
+      navigation.goBack();
+      dispatch(setMEMBER_NAME(NAME));
       const {data} = await api.changeName({
-        MobileNo: mobileNo,
+        MobileNo: MOBILE_NO,
         MEMBER_SEQ,
         NAME,
         GENDER,
       });
-      if (data.message === 'SUCCESS') {
-        navigation.navigate('MyPageMainScreen');
-        dispatch(setMEMBER_NAME(NAME));
+      if (data.message !== 'SUCCESS') {
+        alertModal('연결에 실패하였습니다.');
       }
     } catch (e) {
       console.log(e);
@@ -80,8 +92,12 @@ export default () => {
         />
         <InputLine isBefore={NAME === '' ? true : false} />
         <SubmitBtn
+          // onPressIn={() => {
+          //   alertModal('이름이 변경되었습니다.');
+          //   navigation.goBack();
+          // }}
+          onPress={() => submitFn()}
           text={'수정하기'}
-          onPress={() => submit()}
           isRegisted={NAME !== ''}
         />
       </Container>

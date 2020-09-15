@@ -4,22 +4,23 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
+import Ripple from 'react-native-material-ripple';
 
 interface IIsBefore {
   isBefore: boolean;
 }
 
-const SubmitButton = styled.TouchableOpacity<IIsBefore>`
+const SubmitButton = styled(Ripple)<IIsBefore>`
+  margin-top: 30px;
   width: ${wp('100%') - 40};
   height: 60px;
   align-items: center;
   justify-content: center;
-  background-color: ${(props) => (props.isBefore ? '#CCCCCC' : '#642A8C')};
+  background-color: #cccccc;
 `;
 
-const SubmitButtonContainer = styled.View`
-  margin-top: 30px;
-  align-items: center;
+const NoSubmitButton = styled(SubmitButton)`
+  background-color: #642a8c;
 `;
 
 const WhiteText = styled.Text`
@@ -27,15 +28,29 @@ const WhiteText = styled.Text`
   color: white;
 `;
 
-export default ({text, onPress, isRegisted}) => {
-  return (
-    <SubmitButtonContainer>
+export default ({onPressIn = null, text, onPress = null, isRegisted}) => {
+  if (isRegisted) {
+    return (
+      <NoSubmitButton
+        onPressIn={onPressIn}
+        onPress={onPress}
+        rippleColor={'#ac52eb'}
+        rippleDuration={600}
+        rippleSize={1200}
+        rippleOpacity={0.45}>
+        <WhiteText>{text}</WhiteText>
+      </NoSubmitButton>
+    );
+  } else {
+    return (
       <SubmitButton
-        isBefore={!isRegisted}
-        onPress={() => onPress()}
-        disabled={!isRegisted}>
+        onPress={() => {}}
+        rippleColor={'#fff'}
+        rippleDuration={600}
+        rippleSize={1200}
+        rippleOpacity={0.25}>
         <WhiteText>{text}</WhiteText>
       </SubmitButton>
-    </SubmitButtonContainer>
-  );
+    );
+  }
 };

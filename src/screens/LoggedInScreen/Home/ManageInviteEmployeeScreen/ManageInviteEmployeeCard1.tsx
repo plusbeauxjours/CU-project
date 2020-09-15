@@ -79,7 +79,22 @@ export default ({
     });
   };
 
-  const confirmModal = (EMP_NAME, EMP_SEQ) => {
+  const yesConfirmModal = (EMP_NAME) => {
+    const params = {
+      alertType: 'confirm',
+      title: '',
+      content: `[${EMP_NAME}]의 합류를 합류시키겠습니까?\n\n합류 후 일정입력 단계가 진행됩니다.`,
+      cancelButtonText: '취소',
+      okButtonText: '승인',
+      okCallback: () => {
+        gotoElectronicContracts();
+      },
+    };
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
+  };
+
+  const noConfirmModal = (EMP_NAME, EMP_SEQ) => {
     const params = {
       alertType: 'confirm',
       title: '',
@@ -119,10 +134,10 @@ export default ({
         </ButtonBox>
       ) : (
         <ButtonBox>
-          <TextBox onPress={() => gotoElectronicContracts()}>
+          <TextBox onPress={() => yesConfirmModal(EMP_NAME)}>
             <AdmitText>승인</AdmitText>
           </TextBox>
-          <TextBox onPress={() => confirmModal(EMP_NAME, EMP_SEQ)}>
+          <TextBox onPress={() => noConfirmModal(EMP_NAME, EMP_SEQ)}>
             <RefuseText>거절</RefuseText>
           </TextBox>
         </ButtonBox>

@@ -484,6 +484,8 @@ export default ({route: {params}}) => {
   };
 
   useEffect(() => {
+    params?.from === 'ElectronicContracts' &&
+      navigation.setOptions({headerRight: () => null});
     fetchData();
   }, []);
 
@@ -587,6 +589,7 @@ export default ({route: {params}}) => {
       PYcheckDirectInput={PYcheckDirectInput}
       weekTypeCheck={weekTypeCheck}
       weekTime={weekTime}
+      isEditMode={params?.from !== 'ElectronicContracts'}
     />
   );
 };

@@ -561,21 +561,21 @@ export default ({
                 </WorkTypeCheckSection>
               )}
             </Section>
+            <SubmitBtn
+              text={'합류 완료'}
+              onPress={() => {
+                if (!isFreeWorkingType && !timeTable) {
+                  alertModal(
+                    '일정을 추가한 후에 직원 합류를 완료해주세요.\n정해진 일정없이 출퇴근을 진행하시려면 자율출퇴근으로 전환하기 버튼을 눌러주세요.',
+                  );
+                } else {
+                  joinModal('직원이 합류되었습니다.');
+                }
+              }}
+              isRegisted={isFreeWorkingType || timeTable}
+            />
           </Container>
         </TouchableWithoutFeedback>
-        <SubmitBtn
-          text={'합류 완료'}
-          onPress={() => {
-            if (!isFreeWorkingType && !timeTable) {
-              alertModal(
-                '일정을 추가한 후에 직원 합류를 완료해주세요.\n정해진 일정없이 출퇴근을 진행하시려면 자율출퇴근으로 전환하기 버튼을 눌러주세요.',
-              );
-            } else {
-              joinModal('직원이 합류되었습니다.');
-            }
-          }}
-          isRegisted={isFreeWorkingType || timeTable}
-        />
       </ScrollView>
     </BackGround>
   );

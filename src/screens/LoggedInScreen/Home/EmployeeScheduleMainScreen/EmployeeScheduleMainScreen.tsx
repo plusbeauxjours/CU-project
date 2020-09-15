@@ -2,9 +2,7 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-import api from '../../../../constants/LoggedInApi';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
 import {
@@ -165,19 +163,19 @@ export default ({route: {params}}) => {
           <WhiteSpace />
           <WorkType selection={1} text={'자율출퇴근 직원'} />
         </Section>
+        <SubmitBtn
+          text={'선택 완료'}
+          onPress={() => {
+            navigation.navigate('EmployeeScheduleInfoScreen', {
+              isFreeWorkingType,
+              EMP_SEQ,
+              PAY,
+              PAY_TYPE,
+            });
+          }}
+          isRegisted={true}
+        />
       </Container>
-      <SubmitBtn
-        text={'선택 완료'}
-        onPress={() => {
-          navigation.navigate('EmployeeScheduleInfoScreen', {
-            isFreeWorkingType,
-            EMP_SEQ,
-            PAY,
-            PAY_TYPE,
-          });
-        }}
-        isRegisted={true}
-      />
     </BackGround>
   );
 };

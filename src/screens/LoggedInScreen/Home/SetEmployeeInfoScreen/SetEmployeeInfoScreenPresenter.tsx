@@ -410,6 +410,7 @@ export default ({
   PYcheckDirectInput,
   weekTypeCheck,
   weekTime,
+  isEditMode,
 }) => {
   const DEDUCTION_TYPE_INDEX_INSURANCE = 0;
   const py = Number(moment().format('YY'));
@@ -1364,7 +1365,7 @@ export default ({
             <SubmitBtn
               isRegisted={true}
               onPress={() => submitFn()}
-              text={'수정완료'}
+              text={isEditMode ? '수정완료' : '입력완료'}
             />
           </Container>
         </TouchableWithoutFeedback>
