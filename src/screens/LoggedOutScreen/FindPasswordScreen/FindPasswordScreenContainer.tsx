@@ -12,19 +12,21 @@ let timer = null;
 export default () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [mobileNo, setMobileNo] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [passwordCheck, setPasswordCheck] = useState<string>('');
-  const [verifyCode, setVerifyCode] = useState<string>('');
-  const [countdown, setCountdown] = useState<string>('');
+  const [mobileNo, setMobileNo] = useState<string>(null);
+  const [password, setPassword] = useState<string>(null);
+  const [passwordCheck, setPasswordCheck] = useState<string>(null);
+  const [verifyCode, setVerifyCode] = useState<string>(null);
+  const [countdown, setCountdown] = useState<string>(null);
   const [isCountDownStarted, setIsCountDownStarted] = useState<boolean>(false);
-  const [isRegisted, setIsRegisted] = useState<boolean>(false);
   const [hasCheckedTimeOut, setHasCheckTimeOut] = useState<boolean>(false);
   const [isVerified, setIsVerified] = useState<boolean>(false);
   const [hasCheckedVerifyCode, setHasCheckedVerifyCode] = useState<boolean>(
     false,
   );
   const [isPasswordSeen, setIsPasswordSeen] = useState<boolean>(false);
+  const [isPasswordCheckSeen, setIsPasswordCheckSeen] = useState<boolean>(
+    false,
+  );
 
   const alertModal = (text) => {
     const params = {
@@ -33,10 +35,6 @@ export default () => {
     };
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
-  };
-
-  const toggleIsPasswordSeen = () => {
-    setIsPasswordSeen(!isPasswordSeen);
   };
 
   const onChangeMobileNum = (text) => {
@@ -51,34 +49,26 @@ export default () => {
     setPassword(text);
   };
 
-  const checkPassword = (password) => {
-    if (!/^[a-zA-Z0-9]{6,15}$/.test(password)) {
-      alertModal('숫자와 영문자 조합으로 6~15자리를 사용해야 합니다.');
-      return false;
-    }
-    var checkNumber = password.search(/[0-9]/g);
-    var checkEnglish = password.search(/[a-z]/gi);
-    if (checkNumber < 0 || checkEnglish < 0) {
-      alertModal('숫자와 영문자를 혼용하여야 합니다.');
-      return false;
-    }
-    if (/(\w)\1\1\1/.test(password)) {
-      alertModal('444같은 문자를 4번 이상 사용하실 수 없습니다.');
-      return false;
-    }
-    if (password !== passwordCheck) {
-      alertModal('새로운 비밀번호가 동일하지 않습니다.');
-      return false;
-    }
-    return true;
-  };
-
   const submit = () => {
-    if (checkPassword(password) === false) {
-      return false;
-    } else {
-      changePassword();
-      return true;
+    try {
+      if (!/^[a-zA-Z0-9]{6,15}$/.test(password)) {
+        return alertModal('숫자와 영문자 조합으로 6~15자리를 사용해야 합니다.');
+      }
+      let checkNumber = password.search(/[0-9]/g);
+      let checkEnglish = password.search(/[a-z]/gi);
+      if (checkNumber < 0 || checkEnglish < 0) {
+        return alertModal('숫자와 영문자를 혼용하여야 합니다.');
+      }
+      if (/(\w)\1\1\1/.test(password)) {
+        return alertModal('444같은 문자를 4번 이상 사용하실 수 없습니다.');
+      }
+      if (password !== passwordCheck) {
+        return alertModal('새로운 비밀번호가 동일하지 않습니다.');
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      changePasswordFn();
     }
   };
 
@@ -168,24 +158,22 @@ export default () => {
     }, 1000);
   };
 
-  const changePassword = async () => {
+  const changePasswordFn = async () => {
     try {
+      navigation.goBack();
       const {data} = await api.findPwd({
         MOBILENO: mobileNo,
         PASSWORD: password,
       });
-      switch (data.RESULT_CODE) {
-        case '0':
-          alertModal(data.RESULT_MSG);
-          return navigation.goBack();
-        case '1':
-          alertModal('정보가 정확하지 않습니다.');
-        default:
-          break;
+      if (data.RESULT_CODE == '0') {
+        alertModal('비밀번호가 변경 되었습니다.');
+      }
+      if (data.RESULT_CODE == '1') {
+        alertModal('계정정보가 없습니다.회원가입을 먼저 진행해주세요.');
       }
     } catch (e) {
+      alertModal('연결에 실패하였습니다.');
       console.log(e);
-      alertModal('사용자 정보가 일치하지 않습니다.');
     }
   };
 
@@ -214,7 +202,9 @@ export default () => {
       countdown={countdown}
       password={password}
       isPasswordSeen={isPasswordSeen}
-      toggleIsPasswordSeen={toggleIsPasswordSeen}
+      setIsPasswordSeen={setIsPasswordSeen}
+      isPasswordCheckSeen={isPasswordCheckSeen}
+      setIsPasswordCheckSeen={setIsPasswordCheckSeen}
     />
   );
 };

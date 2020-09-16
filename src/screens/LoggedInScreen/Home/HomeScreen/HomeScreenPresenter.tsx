@@ -464,7 +464,7 @@ export default ({
                     fontSize: 15,
                     alignSelf: 'flex-end',
                   }}>
-                  <WhiteText>{TOTAL_COUNT}</WhiteText>명 중{' '}
+                  <WhiteText>{TOTAL_COUNT}</WhiteText>명 중&nbsp;
                   <WhiteText>{WORKING_COUNT}</WhiteText>명 근무중
                 </Text>
               ) : (

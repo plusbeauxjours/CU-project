@@ -9,6 +9,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FastImage from 'react-native-fast-image';
 
 import InputLine from '../../../components/InputLine';
+import RoundBtn from '../../../components/Btn/RoundBtn';
 
 const BackGround = styled.View`
   flex: 1;
@@ -36,36 +37,14 @@ const TextInput = styled.TextInput`
   margin-top: 10px;
 `;
 
-const Login = styled.View`
-  height: ${hp('7%')}px;
-  width: ${wp('90%')}px;
-  align-items: center;
-  justify-content: center;
-`;
-
 const UnderLineText = styled.Text`
   text-decoration-line: underline;
   font-size: 16px;
 `;
 
-const Button = styled.View`
-  width: ${wp('100%') - 40};
-  height: ${hp('7%')}px;
-  background-color: #642a8c;
-  align-items: center;
-  justify-content: center;
-  border-radius: 70px;
-`;
-
 const GreyText = styled.Text`
   font-size: 18px;
   color: #212121;
-  font-weight: bold;
-`;
-
-const WhiteText = styled.Text`
-  font-size: 16px;
-  color: #ccc;
   font-weight: bold;
 `;
 
@@ -137,24 +116,24 @@ export default ({
               <TextInput
                 placeholder={'영문, 숫자 조합 6자 이상'}
                 placeholderTextColor={'#999'}
-                onChangeText={(text) => {
-                  onChangePassword(text);
-                }}
+                onChangeText={(text) => onChangePassword(text)}
                 value={password}
                 secureTextEntry={true}
                 clearButtonMode={'always'}
+                autoCapitalize="none"
+                autoCorrect={false}
               />
             </TextInputContainer>
             <InputLine isBefore={password == '' ? true : false} />
           </TextInputBox>
           <WhiteSpace />
-          <Login>
-            <Touchable onPress={() => logIn()}>
-              <Button>
-                <WhiteText>로그인</WhiteText>
-              </Button>
-            </Touchable>
-          </Login>
+          <RoundBtn
+            isInSection={true}
+            isWhiteBack={false}
+            text={'로그인'}
+            onPress={() => logIn()}
+            isRegisted={mobileNo || password}
+          />
           <WhiteSpace />
           <Space>
             <Touchable onPress={() => gotoFind()}>

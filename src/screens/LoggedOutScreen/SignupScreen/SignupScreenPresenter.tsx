@@ -22,24 +22,6 @@ const TypeContainer = styled.TouchableOpacity`
   align-items: center;
 `;
 
-const PositionTypeRadioButtonOff = styled.View<IPositionTypeRadioButtonOff>`
-  width: 16px;
-  height: 16px;
-  border-radius: 8px;
-  border-color: ${(props) => (props.borderColor ? '#642A8C' : '#e5e5e5')};
-  border-width: 1px;
-  background-color: white;
-  align-items: center;
-  justify-content: center;
-`;
-
-const PositionTypeRadioButtonOn = styled.View`
-  width: 10px;
-  height: 10px;
-  border-radius: 5px;
-  background-color: #642a8c;
-`;
-
 const TypeText = styled.Text`
   margin-left: 5px;
   font-size: 15px;
@@ -109,8 +91,6 @@ export default ({
   name,
   confirmModal,
   onChangeName,
-  toggleIsPasswordSeen,
-  isPasswordSeen,
   password,
   passwordCheck,
   sexTypeCheck,
@@ -119,6 +99,10 @@ export default ({
   setPositionTypeCheck,
   setPassword,
   setPasswordCheck,
+  isPasswordSeen,
+  setIsPasswordSeen,
+  isPasswordCheckSeen,
+  setIsPasswordCheckSeen,
 }) => {
   const sexType = (selection, text) => {
     let value = JSON.parse(JSON.stringify(sexTypeCheck));
@@ -217,10 +201,12 @@ export default ({
                     setPasswordCheck('');
                   }}
                   value={password}
-                  secureTextEntry={isPasswordSeen === true ? false : true}
+                  secureTextEntry={isPasswordSeen ? false : true}
+                  autoCapitalize="none"
+                  autoCorrect={false}
                 />
                 <CheckPasswordBtn
-                  onPress={toggleIsPasswordSeen}
+                  onPress={setIsPasswordSeen(!isPasswordSeen)}
                   isPasswordSeen={isPasswordSeen}
                 />
               </TextinputCase>
@@ -236,12 +222,14 @@ export default ({
                   selectionColor={'#642A8C'}
                   onChangeText={(text) => setPasswordCheck(text)}
                   value={passwordCheck}
-                  secureTextEntry={isPasswordSeen === true ? false : true}
+                  secureTextEntry={isPasswordCheckSeen ? false : true}
                   onFocus={() => {}}
+                  autoCapitalize="none"
+                  autoCorrect={false}
                 />
                 <CheckPasswordBtn
-                  onPress={toggleIsPasswordSeen}
-                  isPasswordSeen={isPasswordSeen}
+                  onPress={setIsPasswordCheckSeen(!isPasswordCheckSeen)}
+                  isPasswordSeen={isPasswordCheckSeen}
                 />
               </TextinputCase>
               <InputLine isBefore={passwordCheck == '' ? true : false} />

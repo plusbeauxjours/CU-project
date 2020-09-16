@@ -49,11 +49,11 @@ export default ({
         isWhiteBack={isWhiteBack}
         onPressIn={onPressIn}
         onPress={onPress}
-        rippleColor={'#642a8c'}
+        rippleColor={'#ac52eb'}
         rippleDuration={600}
         rippleSize={1200}
         rippleContainerBorderRadius={30}
-        rippleOpacity={0.1}>
+        rippleOpacity={isWhiteBack ? 0.1 : 0.45}>
         <WhiteText isWhiteBack={isWhiteBack}>{text}</WhiteText>
       </NoSubmitButton>
     );

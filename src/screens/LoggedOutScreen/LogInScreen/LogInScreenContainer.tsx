@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-
 import {useDispatch} from 'react-redux';
 import LogInScreenPresenter from './LogInScreenPresenter';
 import {useNavigation} from '@react-navigation/native';
+
 import {
   setUSER,
   setMOBILE_NO,
@@ -12,25 +12,12 @@ import {
 import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
 import api from '../../../constants/LoggedInApi';
 
-////////////////////////////////////////
-// Library
-// expo-device
-// expo-constants
-// expo-permissions
-// Notifications
-
-// ASK PushNotificationPermission
-// CHECK PushNotificationPermission
-////////////////////////////////////////
-
 export default ({route: {params}}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const [mobileNo, setMobileNo] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  // const [deviceVersion, setDeviceVersion] = useState<string>('');
-  // const [modelId, setModelId] = useState<string>(Device.modelId || '');
   const [push, setPush] = useState<string>('');
 
   const alertModal = (text) => {
@@ -87,36 +74,6 @@ export default ({route: {params}}) => {
       alertModal('서버 접속이 원할하지 않습니다.');
     }
   };
-
-  // const initialize = () => {
-  //   const {status} = await Permissions.askAsync(Permissions.READ_PHONE_STATE);
-
-  //   try {
-  //     const granted = await PermissionsAndroid.request(
-  //       PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
-  //       {
-  //         title: 'Cool Photo App Camera Permission',
-  //         message:
-  //           'Cool Photo App needs access to your camera ' +
-  //           'so you can take awesome pictures.',
-  //         buttonNeutral: 'Ask Me Later',
-  //         buttonNegative: 'Cancel',
-  //         buttonPositive: 'OK',
-  //       },
-  //     );
-  //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-  //       console.log('You can use the camera');
-  //     } else {
-  //       console.log('Camera permission denied');
-  //     }
-  //   } catch (err) {
-  //     console.warn(err);
-  //   }
-
-  //   DeviceInfo.getPhoneNumber().then((phoneNumber) => {
-  //     // Android: null return: no permission, empty string: unprogrammed or empty SIM1, e.g. "+15555215558": normal return value
-  //   });
-  // };
 
   return (
     <LogInScreenPresenter

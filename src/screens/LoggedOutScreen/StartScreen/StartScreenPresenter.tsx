@@ -7,6 +7,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import FastImage from 'react-native-fast-image';
+import Ripple from 'react-native-material-ripple';
 
 import {getText1, getText2, getText3} from '../../../constants/getText';
 
@@ -16,30 +17,12 @@ const Container = styled.View`
   background-color: white;
 `;
 
-const AddStoreBox = styled.View`
-  align-items: center;
-  width: ${wp('100%')}px;
-  margin-top: ${hp('10%')}px;
-`;
-
 const ButtonAfter = styled.TouchableOpacity`
   height: ${hp('7%')}px;
   width: ${wp('100%')}px;
   align-items: center;
   justify-content: center;
   background-color: #642a8c;
-`;
-
-const AddStoreButton = styled.TouchableOpacity`
-  height: ${hp('7%')}px;
-  width: ${wp('55%')}px;
-  border-radius: 30;
-  border-color: #bbb;
-  border-width: 1;
-  background-color: #ffffff;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
 `;
 
 const Logo = styled.View`
@@ -56,7 +39,7 @@ const TextBox = styled.View`
   background-color: white;
 `;
 
-const Button = styled.TouchableOpacity`
+const BarButton = styled(Ripple)`
   width: ${wp('100%')}px;
   height: ${hp('8%')}px;
   align-items: center;
@@ -87,14 +70,25 @@ const WhiteText = styled.Text`
   font-size: 16px;
 `;
 
-const Image = styled.Image`
-  height: 200px;
-  width: 400px;
-`;
-
 const Footer = styled.View`
   background-color: white;
   bottom: 0;
+`;
+
+const WhiteSpace = styled.View`
+  height: 30px;
+`;
+
+const LoginButton = styled(Ripple)`
+  margin-top: 30px;
+  width: 200px;
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+  background-color: transparent;
+  border-width: 1px;
+  border-color: grey;
 `;
 
 export default ({gotoLogin, gotoVerification}) => {
@@ -145,11 +139,16 @@ export default ({gotoLogin, gotoVerification}) => {
             source={require('../../../assets/images/logo_cu.png')}
             resizeMode={FastImage.resizeMode.stretch}
           />
-          <AddStoreBox>
-            <AddStoreButton onPress={() => gotoLogin()}>
-              <UnderLineText>회원이신가요?</UnderLineText>
-            </AddStoreButton>
-          </AddStoreBox>
+          <WhiteSpace />
+          <LoginButton
+            onPress={() => gotoLogin()}
+            rippleColor={'#ac52eb'}
+            rippleDuration={600}
+            rippleSize={1200}
+            rippleContainerBorderRadius={30}
+            rippleOpacity={0.1}>
+            <UnderLineText>회원이신가요?</UnderLineText>
+          </LoginButton>
         </Logo>
 
         <Sheet sheetRef={RBSheet1} getText={getText1()} />
@@ -166,9 +165,15 @@ export default ({gotoLogin, gotoVerification}) => {
           <Modal sheetRef={RBSheet3} text={'위치정보'} />
           <SmallText>제공에 동의합니다.</SmallText>
         </TextBox>
-        <Button onPress={() => gotoVerification()}>
+        <BarButton
+          onPress={() => gotoVerification()}
+          rippleColor={'#ac52eb'}
+          rippleDuration={600}
+          rippleSize={1200}
+          rippleContainerBorderRadius={30}
+          rippleOpacity={0.45}>
           <WhiteText>회원가입</WhiteText>
-        </Button>
+        </BarButton>
       </Footer>
     </>
   );

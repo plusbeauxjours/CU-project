@@ -26,12 +26,11 @@ export default ({route: {params}}) => {
   const [birthDate, setBirthDate] = useState<string>('');
   const [passwordCheck, setPasswordCheck] = useState<string>('');
   const [isPasswordSeen, setIsPasswordSeen] = useState<boolean>(false);
+  const [isPasswordCheckSeen, setIsPasswordCheckSeen] = useState<boolean>(
+    false,
+  );
   const [appVersion, setAppVersion] = useState<string>('');
   const [platform, setPlatform] = useState<string>('');
-
-  const toggleIsPasswordSeen = () => {
-    setIsPasswordSeen(!isPasswordSeen);
-  };
 
   const alertModal = (text) => {
     const params = {alertType: 'alert', content: text};
@@ -124,8 +123,6 @@ export default ({route: {params}}) => {
       name={name}
       confirmModal={confirmModal}
       onChangeName={onChangeName}
-      toggleIsPasswordSeen={toggleIsPasswordSeen}
-      isPasswordSeen={isPasswordSeen}
       password={password}
       passwordCheck={passwordCheck}
       sexTypeCheck={sexTypeCheck}
@@ -134,6 +131,10 @@ export default ({route: {params}}) => {
       setPositionTypeCheck={setPositionTypeCheck}
       setPassword={setPassword}
       setPasswordCheck={setPasswordCheck}
+      isPasswordSeen={isPasswordSeen}
+      setIsPasswordSeen={setIsPasswordSeen}
+      isPasswordCheckSeen={isPasswordCheckSeen}
+      setIsPasswordCheckSeen={setIsPasswordCheckSeen}
     />
   );
 };

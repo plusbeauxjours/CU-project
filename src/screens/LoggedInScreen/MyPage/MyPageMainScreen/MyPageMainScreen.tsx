@@ -16,6 +16,7 @@ import {ForwardIcon, LogoutIcon} from '../../../../constants/Icons';
 const BackGround = styled.View`
   flex: 1;
   background-color: #f6f6f6;
+  background-color: red;
 `;
 
 const Info = styled.View`
@@ -29,7 +30,6 @@ const Info = styled.View`
 
 const BoxArea = styled.View`
   margin-top: 20px;
-  padding: 20px 0;
   background-color: white;
 `;
 

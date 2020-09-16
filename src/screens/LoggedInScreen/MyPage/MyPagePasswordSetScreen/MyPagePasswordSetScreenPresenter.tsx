@@ -94,7 +94,6 @@ export default ({
   alertModal,
   password,
   passwordCheck,
-  isPasswordSeen,
   hasCheckedVerifyCode,
   verifyCode,
   mobileNo,
@@ -104,10 +103,13 @@ export default ({
   onChangeVerifyCode,
   onChangePasswordCheck,
   submit,
-  toggleIsPasswordSeen,
   countdown,
   isCountDownStarted,
   hasCheckedTimeOut,
+  isPasswordSeen,
+  setIsPasswordSeen,
+  isPasswordCheckSeen,
+  setIsPasswordCheckSeen,
 }) => {
   const passwordCheckRef = useRef(null);
   return (
@@ -129,10 +131,12 @@ export default ({
                 }}
                 value={password}
                 editable={!hasCheckedVerifyCode}
-                secureTextEntry={isPasswordSeen === true ? false : true}
+                secureTextEntry={isPasswordSeen ? false : true}
+                autoCapitalize="none"
+                autoCorrect={false}
               />
               <CheckPasswordBtn
-                onPress={toggleIsPasswordSeen}
+                onPress={() => setIsPasswordSeen(!isPasswordSeen)}
                 isPasswordSeen={isPasswordSeen}
               />
             </TextinputCase>
@@ -156,11 +160,13 @@ export default ({
                 onChangeText={(text) => onChangePasswordCheck(text)}
                 value={passwordCheck}
                 editable={!hasCheckedVerifyCode}
-                secureTextEntry={isPasswordSeen === true ? false : true}
+                secureTextEntry={isPasswordCheckSeen ? false : true}
+                autoCapitalize="none"
+                autoCorrect={false}
               />
               <CheckPasswordBtn
-                onPress={toggleIsPasswordSeen}
-                isPasswordSeen={isPasswordSeen}
+                onPress={() => setIsPasswordCheckSeen(!isPasswordCheckSeen)}
+                isPasswordSeen={isPasswordCheckSeen}
               />
             </TextinputCase>
             <InputLine isBefore={passwordCheck == '' ? true : false} />

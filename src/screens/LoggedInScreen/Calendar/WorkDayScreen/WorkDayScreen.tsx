@@ -100,7 +100,6 @@ export default ({route: {params}}) => {
         contentContainerStyle={{alignItems: 'center'}}>
         <Container>
           <Touchable
-            activeOpacity={1}
             onPress={() =>
               navigation.navigate('WorkDayRestTypeScreen', {
                 data: params?.data,
@@ -115,7 +114,6 @@ export default ({route: {params}}) => {
             <ForwardIcon size={24} color={'#642A8C'} />
           </Touchable>
           <Touchable
-            activeOpacity={1}
             onPress={() =>
               navigation.navigate('WorkDayRestTimeScreen', {
                 data: params?.data,
@@ -131,7 +129,6 @@ export default ({route: {params}}) => {
           </Touchable>
           {addWork == 'addWork' && (
             <Touchable
-              activeOpacity={1}
               onPress={() =>
                 confirmModal('', `추가일정을 삭제합니다`, '취소', '삭제')
               }>

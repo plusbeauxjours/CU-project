@@ -16,15 +16,17 @@ export default () => {
   const {MEMBER_SEQ, MOBILE_NO} = useSelector(
     (state: any) => state.userReducer,
   );
-
-  const [password, setPassword] = useState<string>('');
-  const [passwordCheck, setPasswordCheck] = useState<string>('');
+  const [password, setPassword] = useState<string>(null);
+  const [passwordCheck, setPasswordCheck] = useState<string>(null);
   const [isPasswordSeen, setIsPasswordSeen] = useState<boolean>(false);
+  const [isPasswordCheckSeen, setIsPasswordCheckSeen] = useState<boolean>(
+    false,
+  );
   const [hasCheckedVerifyCode, setHasCheckedVerifyCode] = useState<boolean>(
     false,
   );
-  const [verifyCode, setVerifyCode] = useState<string>('');
-  const [mobileNo, setMobileNo] = useState<string>(MOBILE_NO || '');
+  const [verifyCode, setVerifyCode] = useState<string>(null);
+  const [mobileNo, setMobileNo] = useState<string>(MOBILE_NO || null);
   const [isRegisted, setIsRegisted] = useState<boolean>(false);
   const [countdown, setCountdown] = useState<string>('');
   const [isCountDownStarted, setIsCountDownStarted] = useState<boolean>(false);
@@ -61,10 +63,6 @@ export default () => {
     } else {
       setIsRegisted(false);
     }
-  };
-
-  const toggleIsPasswordSeen = () => {
-    setIsPasswordSeen(!isPasswordSeen);
   };
 
   const checkPassword = (password) => {
@@ -116,7 +114,7 @@ export default () => {
           if (data.message == 'SMSERROR') {
             alertModal('인증번호 오류입니다.');
           } else {
-            alertModal('비밀번호가 변경 되었습니다 다시 로그인해주세요.');
+            alertModal('비밀번호가 변경 되었습니다. 다시 로그인해주세요.');
             setHasCheckedVerifyCode(false);
             dispatch(userLogout());
             clearInterval(timer);
@@ -193,7 +191,6 @@ export default () => {
       alertModal={alertModal}
       password={password}
       passwordCheck={passwordCheck}
-      isPasswordSeen={isPasswordSeen}
       hasCheckedVerifyCode={hasCheckedVerifyCode}
       verifyCode={verifyCode}
       mobileNo={mobileNo}
@@ -203,10 +200,13 @@ export default () => {
       onChangeVerifyCode={onChangeVerifyCode}
       onChangePasswordCheck={onChangePasswordCheck}
       submit={submit}
-      toggleIsPasswordSeen={toggleIsPasswordSeen}
       countdown={countdown}
       isCountDownStarted={isCountDownStarted}
       hasCheckedTimeOut={hasCheckedTimeOut}
+      isPasswordSeen={isPasswordSeen}
+      setIsPasswordSeen={setIsPasswordSeen}
+      isPasswordCheckSeen={isPasswordCheckSeen}
+      setIsPasswordCheckSeen={setIsPasswordCheckSeen}
     />
   );
 };

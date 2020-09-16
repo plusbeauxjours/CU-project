@@ -125,7 +125,9 @@ export default ({
   countdown,
   password,
   isPasswordSeen,
-  toggleIsPasswordSeen,
+  setIsPasswordSeen,
+  isPasswordCheckSeen,
+  setIsPasswordCheckSeen,
 }) => {
   const scrollRef = useRef(null);
   const passwordCheckRef = useRef(null);
@@ -158,7 +160,7 @@ export default ({
                   <RequestText>인증요청</RequestText>
                 </RequestButton>
               </TextinputCase>
-              <InputLine isBefore={mobileNo == '' ? true : false} />
+              <InputLine isBefore={mobileNo ? false : true} />
             </Case>
             <WhiteSpace />
             <Case>
@@ -176,14 +178,14 @@ export default ({
                   maxLength={6}
                 />
               </TextinputCase>
-              <InputLine isBefore={verifyCode == '' ? true : false} />
+              <InputLine isBefore={verifyCode ? false : true} />
               <VerifyContainer>
                 {isCountDownStarted && <CountText>{countdown}초</CountText>}
                 <VerifyButton
                   onPress={() => {
                     verifyCode !== onVerifyCode();
                   }}
-                  isBefore={verifyCode == '' ? true : false}>
+                  isBefore={verifyCode ? false : true}>
                   <VerifyText>인증확인</VerifyText>
                 </VerifyButton>
               </VerifyContainer>
@@ -213,14 +215,16 @@ export default ({
                         onChangePassword(text);
                       }}
                       value={password}
-                      secureTextEntry={isPasswordSeen === true ? false : true}
+                      secureTextEntry={isPasswordSeen ? false : true}
+                      autoCapitalize="none"
+                      autoCorrect={false}
                     />
                     <CheckPasswordBtn
-                      onPress={toggleIsPasswordSeen}
+                      onPress={() => setIsPasswordSeen(!isPasswordSeen)}
                       isPasswordSeen={isPasswordSeen}
                     />
                   </TextinputCase>
-                  <InputLine isBefore={password == '' ? true : false} />
+                  <InputLine isBefore={password ? false : true} />
                 </Case>
                 <WhiteSpace />
                 <Case>
@@ -233,7 +237,9 @@ export default ({
                       selectionColor={'#642A8C'}
                       onChangeText={(text) => onChangePasswordCheck(text)}
                       value={passwordCheck}
-                      secureTextEntry={isPasswordSeen === true ? false : true}
+                      secureTextEntry={isPasswordCheckSeen ? false : true}
+                      autoCapitalize="none"
+                      autoCorrect={false}
                       onFocus={() => {
                         setTimeout(() => {
                           scrollRef.current.scrollTo(10000);
@@ -241,11 +247,13 @@ export default ({
                       }}
                     />
                     <CheckPasswordBtn
-                      onPress={toggleIsPasswordSeen}
-                      isPasswordSeen={isPasswordSeen}
+                      onPress={() =>
+                        setIsPasswordCheckSeen(!isPasswordCheckSeen)
+                      }
+                      isPasswordSeen={isPasswordCheckSeen}
                     />
                   </TextinputCase>
-                  <InputLine isBefore={passwordCheck == '' ? true : false} />
+                  <InputLine isBefore={passwordCheck ? false : true} />
                   <GreyText>
                     * 영문, 숫자 조합하여 6자 이상 입력해주세요.
                   </GreyText>
@@ -256,7 +264,7 @@ export default ({
               text={'비밀번호 변경'}
               onPress={() => submit()}
               isRegisted={
-                password || passwordCheck || password === passwordCheck
+                password && passwordCheck && password === passwordCheck
               }
             />
           </Container>

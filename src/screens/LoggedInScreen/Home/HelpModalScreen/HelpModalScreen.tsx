@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import styled from 'styled-components/native';
 import {Linking, Image} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import Ripple from 'react-native-material-ripple';
 
 import api from '../../../../constants/LoggedInApi';
 import {setHelpCategory} from '../../../../redux/helpSlice';
@@ -32,7 +33,11 @@ const AdviceText = styled.Text`
   color: #642a8c;
 `;
 
-const KakaoBox = styled.TouchableOpacity`
+const WhiteSpace = styled.View`
+  height: 30px;
+`;
+
+const KakaoBox = styled(Ripple)`
   flex-direction: row;
   height: 70px;
   margin-top: 20px;
@@ -75,9 +80,12 @@ export default () => {
     <BackGround>
       <ScrollView showsVerticalScrollIndicator={false}>
         <KakaoBox
-          onPress={() => {
-            Linking.openURL('http://pf.kakao.com/_kRynxb/chat');
-          }}>
+          onPress={() => Linking.openURL('http://pf.kakao.com/_kRynxb/chat')}
+          rippleColor={'#FFFFCC'}
+          rippleDuration={600}
+          rippleSize={1200}
+          rippleContainerBorderRadius={30}
+          rippleOpacity={0.45}>
           <Row>
             <Image
               source={require('../../../../assets/images/kakaoBtn.png')}
@@ -85,18 +93,24 @@ export default () => {
             />
             <KakaoText>카카오톡 문의</KakaoText>
           </Row>
-          <ForwardIcon size={22} color={'#bbb'} />
+          <ForwardIcon size={22} color={'#000'} />
         </KakaoBox>
         {helpCategory?.map((data: any, index) => (
           <AdviceBox
             key={index}
             onPress={() => {
               Linking.openURL(data?.URL);
-            }}>
+            }}
+            rippleColor={'#ac52eb'}
+            rippleDuration={600}
+            rippleSize={1200}
+            rippleContainerBorderRadius={30}
+            rippleOpacity={0.1}>
             <AdviceText>{data?.TITLE}</AdviceText>
             <ForwardIcon size={22} color={'#bbb'} />
           </AdviceBox>
         ))}
+        <WhiteSpace />
       </ScrollView>
     </BackGround>
   );
