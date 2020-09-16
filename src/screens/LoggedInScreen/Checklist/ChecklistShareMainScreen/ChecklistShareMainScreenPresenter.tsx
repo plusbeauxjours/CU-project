@@ -228,6 +228,7 @@ const EmptyBox = styled.View`
 export default ({
   refreshing,
   onRefresh,
+  notice,
   STORE,
   onDayPress,
   onMonthChange,
@@ -543,7 +544,11 @@ export default ({
 
   return (
     <>
+      {console.log(notice)}
       <Tab.Navigator
+        initialRouteName={
+          notice ? 'CU소식' : STORE === '1' ? '특이사항' : '지시사항'
+        }
         tabBarOptions={{
           labelStyle: {fontSize: 14},
           indicatorStyle: {

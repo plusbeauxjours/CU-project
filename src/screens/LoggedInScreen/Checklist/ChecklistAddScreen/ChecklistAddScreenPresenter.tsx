@@ -332,6 +332,7 @@ export default ({
       <ScrollView
         keyboardShouldPersistTaps={'handled'}
         keyboardDismissMode="on-drag"
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{alignItems: 'center'}}>
         <Container>
           <Section>

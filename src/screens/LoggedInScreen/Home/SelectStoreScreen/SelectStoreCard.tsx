@@ -15,8 +15,8 @@ interface IIsStore {
   isStore?: boolean;
 }
 const Container = styled.View<IIsStore>`
-  height: ${hp('15%')}px;
-  width: ${wp('90%')}px;
+  height: 150px;
+  width: ${wp('100%') - 40}px;
   background-color: white;
   flex-direction: row;
   border-radius: 30px;
@@ -83,7 +83,7 @@ export default ({
   return (
     <Touchable
       key={key}
-      style={{alignItems: 'center', marginBottom: 30}}
+      style={{alignItems: 'center', marginTop: 30}}
       activeOpacity={1}
       onPress={() => gotoHomeScreen(data)}>
       <Container isStore={STORE == 1}>

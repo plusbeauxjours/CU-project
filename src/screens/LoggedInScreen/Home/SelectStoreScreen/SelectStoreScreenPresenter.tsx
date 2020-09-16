@@ -5,22 +5,22 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import Ripple from 'react-native-material-ripple';
 
 import SelectStoreCard from './SelectStoreCard';
 import {AddCircleIcon} from '../../../../constants/Icons';
 
 const BackGround = styled.View`
   flex: 1;
-  padding-top: 20px;
   background-color: #f6f6f6;
 `;
 
 const ScrollView = styled.ScrollView``;
 
 const EmptyListWrapper = styled.View`
-  margin-top: ${hp('10%')}px;
+  margin-top: 100px;
   padding: ${hp('5%')}px ${wp('5%')}px;
-  width: ${wp('90%')}px;
+  width: ${wp('100%') - 40}px;
   justify-content: center;
   align-items: center;
   border-width: 1px;
@@ -39,31 +39,28 @@ const EmptyListTitle = styled.Text`
   margin-bottom: 20px;
 `;
 
-const AddStoreBox = styled.View`
-  width: ${wp('100%')}px;
-  align-items: center;
-  margin-top: 10px;
-  background-color: transparent;
-  margin-bottom: 30px;
-`;
-
-const AddStoreButton = styled.TouchableOpacity`
-  padding: 15px;
-  width: ${wp('100%') - 40}px;
-  border-radius: 30px;
-  border-width: 2px;
-  border-color: #642a8c;
-  background-color: #fff;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-`;
-
 const AddStoreButtonText = styled.Text`
   color: #642a8c;
   font-weight: bold;
 `;
 
+const AddStoreButton = styled(Ripple)`
+  margin-top: 35px;
+  width: ${wp('100%') - 40}px;
+  height: 60px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 30px;
+  background-color: transparent;
+  border-width: 2px;
+  border-color: #642a8c;
+  align-self: center;
+`;
+
+const WhiteSpace = styled.View`
+  height: 30px;
+`;
 export default ({
   STORE,
   STORELIST_DATA,
@@ -119,12 +116,16 @@ export default ({
   return (
     <BackGround>
       {STORE == '1' && (
-        <AddStoreBox>
-          <AddStoreButton onPress={() => gotoAddStore()}>
-            <AddStoreButtonText>점포 등록하기</AddStoreButtonText>
-            <AddCircleIcon />
-          </AddStoreButton>
-        </AddStoreBox>
+        <AddStoreButton
+          onPress={() => gotoAddStore()}
+          rippleColor={'#642a8c'}
+          rippleDuration={600}
+          rippleSize={1200}
+          rippleContainerBorderRadius={30}
+          rippleOpacity={0.1}>
+          <AddStoreButtonText>점포 등록하기</AddStoreButtonText>
+          <AddCircleIcon />
+        </AddStoreButton>
       )}
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -135,9 +136,9 @@ export default ({
         contentContainerStyle={{
           alignItems: 'center',
           justifyContent: 'flex-start',
-          paddingBottom: 0,
         }}>
         <StoreList />
+        <WhiteSpace />
       </ScrollView>
     </BackGround>
   );

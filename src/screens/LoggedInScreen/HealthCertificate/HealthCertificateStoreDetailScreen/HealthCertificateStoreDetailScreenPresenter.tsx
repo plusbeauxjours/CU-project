@@ -14,6 +14,7 @@ import {
   BackIcon,
   ForwardIcon,
   ReloadCircleIcon,
+  CloseCircleIcon,
 } from '../../../../constants/Icons';
 
 const BackGround = styled.SafeAreaView`
@@ -192,6 +193,15 @@ const FooterText = styled.Text`
   color: white;
   font-size: 18px;
   margin-bottom: 20px;
+`;
+
+const CloseIconContainer = styled.TouchableOpacity`
+  z-index: 5;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  right: 20px;
+  top: 50px;
 `;
 
 export default ({
@@ -390,6 +400,9 @@ export default ({
             width: '100%',
             height: '100%',
           }}>
+          <CloseIconContainer onPress={() => setIsImageViewVisible(false)}>
+            <CloseCircleIcon size={33} color={'white'} />
+          </CloseIconContainer>
           <ImageViewer
             imageUrls={images}
             onSwipeDown={() => setIsImageViewVisible(false)}

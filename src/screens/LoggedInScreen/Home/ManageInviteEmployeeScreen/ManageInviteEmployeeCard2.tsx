@@ -7,7 +7,7 @@ import {
 import {useDispatch} from 'react-redux';
 
 import api from '../../../../constants/LoggedInApi';
-import {CloseCircleIcon} from '../../../../constants/Icons';
+import {RemoveCircleIcon} from '../../../../constants/Icons';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 import {getRESPONSE_EMPLOYEE} from '../../../../redux/employeeSlice';
@@ -40,13 +40,17 @@ const PhoneText = styled.Text`
 const SendText = styled.Text`
   font-size: 12px;
 `;
+
 const Touchable = styled.TouchableOpacity`
   margin-left: 5px;
 `;
+
 const Row = styled.View`
   flex-direction: row;
   align-items: center;
+  margin-right: 10px;
 `;
+
 const ButtonBox = styled.TouchableOpacity`
   width: ${wp('35%')}px;
   justify-content: center;
@@ -121,7 +125,7 @@ export default ({key, join_emp_seq, EMP_NAME, PHONE, STORE_SEQ}) => {
           </ButtonBox>
         )}
         <Touchable onPress={() => deleteModal(join_emp_seq)}>
-          <CloseCircleIcon />
+          <RemoveCircleIcon size={36} />
         </Touchable>
       </Row>
     </Container>

@@ -10,6 +10,7 @@ import FastImage from 'react-native-fast-image';
 
 import api from '../../../../constants/LoggedInApi';
 import PDFViewer from '../../../../components/PDFViewer';
+import RoundBtn from '../../../../components/Btn/RoundBtn';
 
 const BackGround = styled.View`
   flex: 1;
@@ -25,23 +26,14 @@ const ScrollView = styled.ScrollView`
   flex: 1;
 `;
 
-const PdfButtonWrapper = styled.View`
-  margin: 16px;
-  justify-content: center;
-  align-items: center;
+const WhiteSpate = styled.View`
+  height: 30px;
 `;
 
-const PdfButton = styled.TouchableOpacity`
-  width: ${wp('75%')}px;
-  height: ${hp('7%')}px;
-  border-radius: 35px;
-  justify-content: center;
-  align-items: center;
-  background-color: #642a8c;
-`;
-
-const PdfButtonText = styled.Text`
-  color: white;
+const TextBox = styled.View`
+  width: 100%;
+  padding: 20px;
+  align-items: flex-start;
 `;
 
 const Text = styled.Text``;
@@ -65,6 +57,7 @@ export default ({route: {params}}) => {
     <>
       <BackGround>
         <ScrollView
+          keyboardShouldPersistTaps={'handled'}
           keyboardDismissMode="on-drag"
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{alignItems: 'center'}}>
@@ -81,17 +74,16 @@ export default ({route: {params}}) => {
               />
             </Wrapper>
           )}
-          <PdfButtonWrapper>
-            <PdfButton
-              onPress={() => {
-                checkPdf();
-              }}>
-              <PdfButtonText>PDF 보기</PdfButtonText>
-            </PdfButton>
-          </PdfButtonWrapper>
-          <Wrapper>
+          <RoundBtn
+            isWhiteBack={false}
+            text={'PDF 보기'}
+            onPress={() => checkPdf()}
+            isRegisted={true}
+          />
+          <WhiteSpate />
+          <TextBox>
             <Text>{CONTENTS2}</Text>
-          </Wrapper>
+          </TextBox>
         </ScrollView>
       </BackGround>
       <Modal

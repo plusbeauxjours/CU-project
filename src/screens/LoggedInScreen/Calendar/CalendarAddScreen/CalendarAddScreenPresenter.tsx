@@ -80,7 +80,6 @@ const RowTouchable = styled.TouchableOpacity<IsSelected>`
   justify-content: space-between;
   align-items: center;
   border-width: 1px;
-  margin-top: 20px;
   border-color: ${(props) => (props.isSelected ? `${props.color}` : '#CCCCCC')};
 `;
 
@@ -375,6 +374,7 @@ export default ({
         </RowSpaceTouchable>
       </TimePickBox>
       <RoundBtn
+        isInSection={true}
         text={'출퇴근 목록에 추가'}
         onPress={() => checkAddTimeFn()}
         isRegisted={true}
@@ -387,7 +387,7 @@ export default ({
           </EmptyBoxText>
         </TimePickBox>
       )}
-
+      <WhiteSpace />
       {timeCheck?.map((data, index) => (
         <RowTouchable
           key={index}
@@ -519,6 +519,7 @@ export default ({
       <ScrollView
         keyboardShouldPersistTaps={'handled'}
         keyboardDismissMode="on-drag"
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{alignItems: 'center'}}>
         <Container>
           <FixScheduleStepOne />

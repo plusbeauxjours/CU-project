@@ -120,7 +120,6 @@ export default ({
   passwordCheck,
   mobileNo,
   submit,
-  isRegisted,
   hasCheckedTimeOut,
   onVerifyCode,
   countdown,
@@ -256,8 +255,9 @@ export default ({
             <SubmitBtn
               text={'비밀번호 변경'}
               onPress={() => submit()}
-              // isRegisted={isRegisted}
-              isRegisted={true}
+              isRegisted={
+                password || passwordCheck || password === passwordCheck
+              }
             />
           </Container>
         </ScrollView>

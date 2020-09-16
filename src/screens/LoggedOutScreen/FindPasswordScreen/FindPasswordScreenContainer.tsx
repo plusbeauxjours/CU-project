@@ -109,11 +109,6 @@ export default () => {
       alertModal('비밀번호를 6자리 이상 입력하세요.');
     }
     setPasswordCheck(text);
-    if (password == passwordCheck) {
-      setIsRegisted(true);
-    } else {
-      setIsRegisted(false);
-    }
   };
 
   const onChangeVerifyCode = (text) => {
@@ -214,7 +209,6 @@ export default () => {
       passwordCheck={passwordCheck}
       mobileNo={mobileNo}
       submit={submit}
-      isRegisted={isRegisted}
       hasCheckedTimeOut={hasCheckedTimeOut}
       onVerifyCode={onVerifyCode}
       countdown={countdown}

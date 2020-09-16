@@ -210,6 +210,7 @@ export default ({route: {params}}) => {
     <ChecklistShareMainScreenPresenter
       refreshing={refreshing}
       onRefresh={onRefresh}
+      notice={params?.notice}
       STORE={STORE}
       onDayPress={onDayPress}
       onMonthChange={onMonthChange}

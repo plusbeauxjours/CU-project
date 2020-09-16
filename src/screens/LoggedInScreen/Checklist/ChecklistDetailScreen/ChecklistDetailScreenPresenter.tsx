@@ -11,7 +11,7 @@ import FastImage from 'react-native-fast-image';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import {ActivityIndicator} from 'react-native';
 
-import {CheckBoxIcon} from '../../../../constants/Icons';
+import {CheckBoxIcon, CloseCircleIcon} from '../../../../constants/Icons';
 
 interface ISelected {
   isSelected: boolean;
@@ -124,6 +124,15 @@ const FooterText = styled.Text`
   color: white;
   font-size: 18px;
   margin-bottom: 20px;
+`;
+
+const CloseIconContainer = styled.TouchableOpacity`
+  z-index: 5;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  right: 20px;
+  top: 50px;
 `;
 
 export default ({
@@ -410,6 +419,10 @@ export default ({
             width: '100%',
             height: '100%',
           }}>
+          {' '}
+          <CloseIconContainer onPress={() => setIsImageViewVisible(false)}>
+            <CloseCircleIcon size={33} color={'white'} />
+          </CloseIconContainer>
           <ImageViewer
             index={imageIndex}
             imageUrls={modalImgarr}

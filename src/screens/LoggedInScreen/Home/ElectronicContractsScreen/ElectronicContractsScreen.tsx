@@ -3,13 +3,12 @@ import {ScrollView, ActivityIndicator} from 'react-native';
 import Modal from 'react-native-modal';
 import styled from 'styled-components/native';
 import {WebView} from 'react-native-webview';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
 
-import {CloseIcon} from '../../../../constants/Icons';
+import {CloseCircleIcon, HelpCircleIcon} from '../../../../constants/Icons';
+import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
 
 const BackGround = styled.View`
   flex: 1;
@@ -56,7 +55,8 @@ const LinkBtn = styled.TouchableOpacity`
 
 const ModalHeader = styled.View`
   width: 100%;
-  flex-direction: row;
+  height: 70px;
+  flex-direction: row-reverse;
   align-items: flex-end;
   justify-content: space-between;
   background-color: #fff;
@@ -67,10 +67,16 @@ const RedText = styled.Text`
 `;
 
 const Column = styled.View`
+  flex: 1;
   flex-direction: column;
 `;
 
+const RowTouchable = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+`;
 const SkipTouchable = styled.TouchableOpacity`
+  width: 40px;
   height: 60px;
   width: ${wp('100%')}px;
   align-items: center;
@@ -80,6 +86,7 @@ const SkipTouchable = styled.TouchableOpacity`
 
 export default ({route: {params}}) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isWebviewSpinnerVisible, setIsWebviewSpinnerVisible] = useState<
     boolean
@@ -97,6 +104,16 @@ export default ({route: {params}}) => {
     }
   };
 
+  const explainModal = (text) => {
+    const params = {
+      type: 'explain',
+      title: '',
+      content: text,
+    };
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
+  };
+
   useEffect(() => {
     params?.from === 'ManageInviteEmployeeScreen' &&
       navigation.setOptions({headerRight: () => null});
@@ -107,13 +124,6 @@ export default ({route: {params}}) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{paddingTop: '15%', paddingHorizontal: 40}}>
-        <ExplainContainer>
-          <ExplainBox>
-            <ExplainTitle>근로기준법</ExplainTitle>
-          </ExplainBox>
-          <ExplainText>이제는 근로기준법에 맞는 근로계약서를</ExplainText>
-          <ExplainText>자동으로 작성하세요.</ExplainText>
-        </ExplainContainer>
         <WhiteSpace />
         <ExplainContainer>
           <ExplainBox>
@@ -138,11 +148,18 @@ export default ({route: {params}}) => {
         <WhiteSpace />
         <WhiteSpace />
         <ExplainContainer>
-          <RedText>
-            {'     '} *중요 : 아래 사항으로 입력해주시기 바랍니다.
-          </RedText>
-          <ExplainText>{'      '} - 회사명 : CU 지점명</ExplainText>
-          <ExplainText>{'      '} - 가입경로 : 자버 담당자 미팅</ExplainText>
+          <RowTouchable
+            onPress={() =>
+              explainModal(
+                '본 서비스는 전자근로계약서 전문업체 <자버>를 통해 제공되고 있습니다. 진행단계에서 결제수단을 등록하더라도 2020년도에는 결제가 진행되지 않습니다.',
+              )
+            }>
+            <RedText>* 중요 : 아래 사항으로 입력해주시기 바랍니다.</RedText>
+            <HelpCircleIcon color={'#bbb'} />
+          </RowTouchable>
+          <ExplainText>- 회사명 : CU 지점명</ExplainText>
+          <ExplainText>- 가입경로 : 자버 담당자 미팅</ExplainText>
+
           <LinkBtn
             onPress={() => {
               setIsModalVisible(true);
@@ -178,35 +195,28 @@ export default ({route: {params}}) => {
                 * 마이페이지에서 추후에 작성 가능합니다.
               </Text>
             )}
-            <Touchable onPress={() => onPress()}>
-              <CloseIcon size={28} />
+            <Touchable onPress={() => onPress(false)}>
+              <CloseCircleIcon size={33} />
             </Touchable>
           </ModalHeader>
-          {isWebviewSpinnerVisible && (
+          {isWebviewSpinnerVisible ? (
             <ActivityIndicator
               color="#009688"
               size="large"
               style={{
                 flex: 1,
-                marginTop: 200,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
             />
+          ) : (
+            <WebView
+              source={{uri: 'https://bit.ly/2WFaeL4'}}
+              onMessage={() => {}}
+              onLoadStart={() => setIsWebviewSpinnerVisible(true)}
+              onLoad={() => setIsWebviewSpinnerVisible(false)}
+            />
           )}
-          <WebView
-            source={{uri: 'https://bit.ly/2WFaeL4'}}
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: wp('100%'),
-              height: hp('100%'),
-            }}
-            onMessage={() => {}}
-            onLoadStart={() => setIsWebviewSpinnerVisible(true)}
-            onLoad={() => setIsWebviewSpinnerVisible(false)}
-          />
         </Column>
       </Modal>
     </BackGround>

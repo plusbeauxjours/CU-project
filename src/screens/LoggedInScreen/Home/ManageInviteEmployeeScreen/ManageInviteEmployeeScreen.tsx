@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {RefreshControl} from 'react-native';
 import styled from 'styled-components/native';

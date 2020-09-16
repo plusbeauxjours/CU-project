@@ -17,6 +17,7 @@ import {
   QrCodeIcon,
 } from '../../../../constants/Icons';
 import utils from '../../../../constants/utils';
+import {Linking} from 'react-native';
 
 interface IImage {
   isCheckListItems?: boolean;
@@ -123,7 +124,7 @@ const NoticeCnt = styled.View`
   flex-direction: row;
   align-items: center;
   margin-top: 15px;
-  padding: 15px;
+  padding: 5px 15px;
   border-radius: 10px;
   background-color: #3f4450;
 `;
@@ -248,54 +249,10 @@ const ShowPictureModalImage = styled.View`
   height: ${wp('90%')}px;
 `;
 
-const BarcodeContainer = styled.View`
-  flex: 1;
-  flex-direction: column;
-  justify-content: flex-end;
-`;
-
-const BarcodeLayerTop = styled.View`
-  flex: 2;
-  background-color: rgba(0, 0, 0, 0.6);
-`;
-
-const BarcodeLayerCenter = styled.View`
-  flex: 3;
-  flex-direction: row;
-`;
-
-const BarcodeLayerLeft = styled.View`
-  flex: 1;
-  background-color: rgba(0, 0, 0, 0.6);
-`;
-
-const Focused = styled.View`
-  flex: 10;
-`;
-
-const BarcodeLayerRight = styled.View`
-  flex: 1;
-  background-color: rgba(0, 0, 0, 0.6);
-`;
-
-const BarcodeLayerBottom = styled.View`
-  flex: 2;
-  background-color: rgba(0, 0, 0, 0.6);
-`;
-
 const WorkingModalContainer = styled.View`
   flex-direction: row;
   align-items: center;
   background-color: white;
-`;
-
-const WorkingModalBox = styled.View`
-  height: ${hp('8%')}px;
-  border-bottom-width: 1px;
-  border-color: #ddd;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
 `;
 
 const GoWork = styled.TouchableOpacity`
@@ -313,12 +270,6 @@ const WorkText = styled.Text`
   font-size: 15px;
   margin-top: 15px;
   margin-bottom: 15px;
-`;
-
-const WorkingModalText = styled.Text`
-  font-size: 22px;
-  color: #333;
-  font-weight: bold;
 `;
 
 const WorkStartButton = styled.TouchableOpacity`
@@ -344,6 +295,24 @@ const WorkEndBtnText = styled(WorkStartBtnText)`
 const WhiteSpace = styled.View`
   height: 20px;
 `;
+
+const EventArea = styled.View`
+  width: ${wp('100%')}px;
+  padding: 0 20px;
+  background-color: #642a8c;
+  border-radius: 8px;
+  margin: 20px 0;
+`;
+
+const ShadowTouchable = styled.TouchableOpacity`
+  margin-top: 10px;
+  border-radius: 8px;
+  shadow-opacity: 0.55;
+  shadow-radius: 5px;
+  shadow-color: grey;
+  shadow-offset: 5px 5px;
+`;
+const bannerHeight = (wp('100%') - 40) * 0.286754400291120815;
 
 export default ({
   notice,
@@ -574,6 +543,29 @@ export default ({
                   />
                 )}
               </Container>
+              {STORE_DATA.arbashow == 1 && (
+                <>
+                  <MenuTitleArea style={{zIndex: 3}}>
+                    <MenuTitle>언제든지,</MenuTitle>
+                    <Bold> 구인관리</Bold>
+                  </MenuTitleArea>
+                  <ShadowTouchable
+                    onPress={() => {
+                      Linking.openURL(STORE_DATA.eventUrl2);
+                    }}>
+                    <FastImage
+                      style={{
+                        width: wp('100%') - 40,
+                        height: bannerHeight,
+                        borderRadius: 8,
+                      }}
+                      source={require('../../../../assets/main/gubgooBanner.png')}
+                      resizeMode={FastImage.resizeMode.contain}
+                    />
+                  </ShadowTouchable>
+                  <WhiteSpace />
+                </>
+              )}
               <MenuTitleArea style={{zIndex: 3}}>
                 <MenuTitle>정확한,</MenuTitle>
                 <Bold> 업무관리</Bold>
@@ -663,6 +655,29 @@ export default ({
                       />
                     )}
                   </Container>
+                  {STORE_DATA.arbashow2 == 1 && (
+                    <>
+                      <MenuTitleArea style={{zIndex: 3}}>
+                        <MenuTitle>언제든지,</MenuTitle>
+                        <Bold> 구인관리</Bold>
+                      </MenuTitleArea>
+                      <ShadowTouchable
+                        onPress={() => {
+                          Linking.openURL(STORE_DATA.eventUrl2);
+                        }}>
+                        <FastImage
+                          style={{
+                            width: wp('100%') - 40,
+                            height: bannerHeight,
+                            borderRadius: 8,
+                          }}
+                          source={require('../../../../assets/main/gubgooBanner.png')}
+                          resizeMode={FastImage.resizeMode.contain}
+                        />
+                      </ShadowTouchable>
+                      <WhiteSpace />
+                    </>
+                  )}
                   <MenuTitleArea style={{zIndex: 3}}>
                     <MenuTitle>정확한,</MenuTitle>
                     <Bold> 업무관리</Bold>
@@ -739,6 +754,42 @@ export default ({
             isTrue={STORE_DATA?.IS_MANAGER == '0'}
           />
         </MenuBox>
+        {STORE == '1' && STORE_DATA.eventShow1 == '1' && (
+          <EventArea>
+            <ShadowTouchable
+              onPress={() => {
+                Linking.openURL(STORE_DATA.eventUrl1);
+              }}>
+              <FastImage
+                style={{
+                  width: wp('100%') - 40,
+                  height: bannerHeight,
+                  borderRadius: 8,
+                }}
+                source={{uri: STORE_DATA.eventImage1}}
+                resizeMode={FastImage.resizeMode.contain}
+              />
+            </ShadowTouchable>
+          </EventArea>
+        )}
+        {STORE == '0' && STORE_DATA.eventShow2 == '1' && (
+          <EventArea>
+            <ShadowTouchable
+              onPress={() => {
+                Linking.openURL(STORE_DATA.eventUrl2);
+              }}>
+              <FastImage
+                style={{
+                  width: wp('100%') - 40,
+                  height: bannerHeight,
+                  borderRadius: 8,
+                }}
+                source={STORE_DATA.eventImage2}
+                resizeMode={FastImage.resizeMode.contain}
+              />
+            </ShadowTouchable>
+          </EventArea>
+        )}
         {STORE == '1' && (
           <NoticeArea>
             <Touchable
@@ -747,16 +798,16 @@ export default ({
                   notice: '1',
                 });
               }}>
-              <Image
+              <FastImage
+                style={{width: '100%', height: 60, marginTop: 30}}
                 source={require('../../../../assets/main/noticeBar.png')}
-                style={{width: '100%', height: wp('10%')}}
-                resizeMode="contain"
+                resizeMode={FastImage.resizeMode.contain}
               />
               <NoticeCnt>
-                <Image
+                <FastImage
+                  style={{width: 80, height: 80}}
                   source={require('../../../../assets/main/cuMark_white.png')}
-                  style={{width: wp('20%'), height: wp('20%')}}
-                  resizeMode="contain"
+                  resizeMode={FastImage.resizeMode.contain}
                 />
                 <NoticeContainer>
                   <NoticeTitle ellipsizeMode="tail">{notice.TITLE}</NoticeTitle>

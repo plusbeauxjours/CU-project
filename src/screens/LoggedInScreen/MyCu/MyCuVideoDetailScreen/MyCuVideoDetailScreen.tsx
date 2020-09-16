@@ -10,6 +10,7 @@ import FastImage from 'react-native-fast-image';
 
 import api from '../../../../constants/LoggedInApi';
 import VideoPlayer from '../../../../components/VideoPlayer';
+import RoundBtn from '../../../../components/Btn/RoundBtn';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -25,23 +26,14 @@ const ScrollView = styled.ScrollView`
   flex: 1;
 `;
 
-const PdfButtonWrapper = styled.View`
-  margin: 16px;
-  justify-content: center;
-  align-items: center;
+const WhiteSpate = styled.View`
+  height: 30px;
 `;
 
-const PdfButton = styled.TouchableOpacity`
-  width: ${wp('75%')}px;
-  height: ${hp('7%')}px;
-  border-radius: 35px;
-  justify-content: center;
-  align-items: center;
-  background-color: #642a8c;
-`;
-
-const PdfButtonText = styled.Text`
-  color: white;
+const TextBox = styled.View`
+  width: 100%;
+  padding: 20px;
+  align-items: flex-start;
 `;
 
 const Text = styled.Text``;
@@ -81,17 +73,16 @@ export default ({route: {params}}) => {
               />
             </Wrapper>
           )}
-          <PdfButtonWrapper>
-            <PdfButton
-              onPress={() => {
-                checkVideo();
-              }}>
-              <PdfButtonText>동영상 보기</PdfButtonText>
-            </PdfButton>
-          </PdfButtonWrapper>
-          <Wrapper>
+          <RoundBtn
+            isWhiteBack={false}
+            text={'동영상 보기'}
+            onPress={() => checkVideo()}
+            isRegisted={true}
+          />
+          <WhiteSpate />
+          <TextBox>
             <Text>{CONTENTS2}</Text>
-          </Wrapper>
+          </TextBox>
         </ScrollView>
       </BackGround>
       <Modal

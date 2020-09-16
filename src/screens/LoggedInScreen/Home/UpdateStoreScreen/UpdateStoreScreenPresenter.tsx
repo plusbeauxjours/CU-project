@@ -410,7 +410,6 @@ export default ({
             ) : (
               <>
                 <NameText>지각 허용시간</NameText>
-
                 <InputText isBefore={timeCheck === false}>
                   {LATE_TIME}분
                 </InputText>
@@ -443,7 +442,6 @@ export default ({
             ) : (
               <>
                 <NameText>조퇴 허용시간</NameText>
-
                 <InputText isBefore={timeCheck === false}>
                   {EARLY_TIME}분
                 </InputText>
@@ -466,6 +464,7 @@ export default ({
                   <NameText>사업장 규모</NameText>
                   <HelpCircleIcon />
                 </RowTouchable>
+                <WhiteSpace />
                 <TypeCheckCase>
                   <SizeType selection={0} text={'5인 미만'} />
                   <SizeType selection={1} text={'5인 이상'} />
@@ -637,25 +636,25 @@ export default ({
               </ModalConfirmArea>
             </ModalContainer>
           </Modal>
+          {STORE == '1' && (
+            <>
+              <SubmitBtn
+                text={'수정하기'}
+                onPress={() => submit()}
+                isRegisted={true}
+              />
+              <InputCase>
+                <DeleteBtn
+                  onPress={() =>
+                    confirmModal('매장을 폐업상태로 변경하시겠습니까?')
+                  }>
+                  <DeleteBtnTExt>매장 폐업하기</DeleteBtnTExt>
+                </DeleteBtn>
+              </InputCase>
+              <WhiteSpace />
+            </>
+          )}
         </Container>
-        {STORE == '1' && (
-          <>
-            <SubmitBtn
-              text={'수정하기'}
-              onPress={() => submit()}
-              isRegisted={true}
-            />
-            <InputCase>
-              <DeleteBtn
-                onPress={() => {
-                  confirmModal('매장을 폐업상태로 변경하시겠습니까?');
-                }}>
-                <DeleteBtnTExt>매장 폐업하기</DeleteBtnTExt>
-              </DeleteBtn>
-            </InputCase>
-            <WhiteSpace />
-          </>
-        )}
       </ScrollView>
     </BackGround>
   );
