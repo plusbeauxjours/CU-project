@@ -69,7 +69,7 @@ export default ({route: {params}}) => {
       okButtonText: okBtn,
       warning: 'yes',
       okCallback: () => {
-        deleteAddWorkFn();
+        // deleteAddWorkFn();
       },
     };
     dispatch(setAlertInfo(params));

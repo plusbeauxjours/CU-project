@@ -202,6 +202,7 @@ export default ({route: {params}}) => {
       setIndex(page ? Number(page) : params?.notice == '1' ? 2 : 0);
     }
   };
+
   useEffect(() => {
     Init(index);
   }, []);

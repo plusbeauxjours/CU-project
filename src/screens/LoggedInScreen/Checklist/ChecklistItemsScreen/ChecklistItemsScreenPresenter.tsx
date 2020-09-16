@@ -403,7 +403,7 @@ export default ({
                 <ReloadCircleIcon size={22} />
               </DateToday>
               <DateTextArea>
-                <DateText>{date}</DateText>
+                <DateText>{moment(date).format('YYYY.MM.DD')}</DateText>
               </DateTextArea>
               <CalendarOpenBtn
                 onPress={() => {

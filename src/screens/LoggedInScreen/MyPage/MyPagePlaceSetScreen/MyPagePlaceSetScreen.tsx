@@ -20,6 +20,7 @@ const Container = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 `;
 
 const Box = styled.View`
@@ -36,6 +37,15 @@ const BoxText = styled.Text`
   font-weight: bold;
   font-size: 15px;
   color: #999999;
+`;
+
+const Section = styled.View`
+  width: ${wp('100%') - 40}px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: white;
+  margin: 20px 20px 0 20px;
 `;
 
 const ScrollView = styled.ScrollView``;
@@ -83,30 +93,28 @@ export default () => {
 
   return (
     <BackGround>
-      <Container>
-        <Box>
-          <BoxText>
-            {STORE == '1' ? '폐업 사업장 목록' : '종료 사업장 목록'}
+      <Section style={{alignItems: 'center'}}>
+        <BoxText>
+          {STORE == '1' ? '폐업 사업장 목록' : '종료 사업장 목록'}
+        </BoxText>
+      </Section>
+      <ScrollView
+        contentContainerStyle={{width: wp('100%'), alignItems: 'center'}}
+        showsVerticalScrollIndicator={false}>
+        {CLOSED_STORE_DATA?.length === 0 && (
+          <BoxText style={{marginTop: 30}}>
+            {STORE == '1' ? '폐업 사업장' : '종료 사업장'}이 없습니다
           </BoxText>
-        </Box>
-        <ScrollView
-          contentContainerStyle={{width: wp('100%'), alignItems: 'center'}}
-          showsVerticalScrollIndicator={false}>
-          {CLOSED_STORE_DATA?.length === 0 && (
-            <BoxText style={{marginTop: 30}}>
-              {STORE == '1' ? '폐업 사업장' : '종료 사업장'}이 없습니다
-            </BoxText>
-          )}
-          {CLOSED_STORE_DATA?.map((data: any, index) => (
-            <MyPagePlaceSetCard
-              key={index}
-              name={data.NAME}
-              addr={data.ADDR1 + data.ADDR2}
-              data={data}
-            />
-          ))}
-        </ScrollView>
-      </Container>
+        )}
+        {CLOSED_STORE_DATA?.map((data: any, index) => (
+          <MyPagePlaceSetCard
+            key={index}
+            name={data.NAME}
+            addr={data.ADDR1 + data.ADDR2}
+            data={data}
+          />
+        ))}
+      </ScrollView>
     </BackGround>
   );
 };

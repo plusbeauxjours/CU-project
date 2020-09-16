@@ -218,6 +218,7 @@ export default ({route: {params}}) => {
       storeCategoryTypeCheckProps[Number(STORE_DATA?.CATEGORY)] = true;
       setStoreCategoryTypeCheck(storeCategoryTypeCheckProps);
     }
+    STORE === '0' && navigation.setOptions({title: '점포 정보'});
   }, []);
 
   useEffect(() => {

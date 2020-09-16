@@ -60,7 +60,7 @@ const WithHelpBtn = styled.TouchableOpacity<IColor>`
   background-color: ${(props) => props.color};
 `;
 
-const HalfBtnLeft = styled.TouchableOpacity<IWarning>`
+const HalfBtnLeft = styled(Ripple)<IWarning>`
   height: 60px;
   width: ${wp('50%')}px;
   align-items: center;
@@ -157,10 +157,20 @@ export default ({alert}) => {
             <Row>
               <HalfBtnLeft
                 warning={alert.warning}
-                onPress={() => onCancelPress()}>
+                onPress={() => onCancelPress()}
+                rippleColor={'#ac52eb'}
+                rippleSize={1200}
+                rippleDuration={600}
+                rippleOpacity={0.1}>
                 <HalfTextLeft>{alert.cancelButtonText}</HalfTextLeft>
               </HalfBtnLeft>
-              <HalfBtnRight warning={alert.warning} onPress={() => onOKPress()}>
+              <HalfBtnRight
+                warning={alert.warning}
+                onPress={() => onOKPress()}
+                rippleColor={'#ff3333'}
+                rippleSize={1200}
+                rippleDuration={600}
+                rippleOpacity={0.1}>
                 <HalfTextRight warning={alert.warning}>
                   {alert.okButtonText}
                 </HalfTextRight>
@@ -170,7 +180,8 @@ export default ({alert}) => {
             <BarBtn
               onPress={() => onOKPress()}
               rippleColor={'#ac52eb'}
-              rippleDuration={300}
+              rippleSize={1200}
+              rippleDuration={600}
               rippleOpacity={0.25}>
               <WhiteText>{alert.okButtonText}</WhiteText>
             </BarBtn>

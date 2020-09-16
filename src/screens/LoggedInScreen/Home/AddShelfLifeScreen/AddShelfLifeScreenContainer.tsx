@@ -5,7 +5,6 @@ import moment from 'moment';
 
 import AddShelfLifeScreenPresenter from './AddShelfLifeScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
 import {getSHELFLIFE_DATA} from '../../../../redux/shelflifeSlice';
 import api from '../../../../constants/LoggedInApi';
 
@@ -81,23 +80,21 @@ export default () => {
       );
     }
     try {
-      dispatch(setSplashVisible(true));
+      alertModal('', '등록이 완료되었습니다.');
+      navigation.goBack();
+      dispatch(
+        getSHELFLIFE_DATA(
+          moment(shelfLifeDate).format('YYYY'),
+          moment(shelfLifeDate).format('MM'),
+          moment(shelfLifeDate).format('DD'),
+        ),
+      );
       const {data} = await api.setShelfLifeData({STORE_SEQ, LIST: list});
-      if (data.result == '1') {
-        alertModal('', '등록이 완료되었습니다.');
-        dispatch(
-          getSHELFLIFE_DATA(
-            moment(shelfLifeDate).format('YYYY'),
-            moment(shelfLifeDate).format('MM'),
-            moment(shelfLifeDate).format('DD'),
-          ),
-        );
-        navigation.goBack();
+      if (data.result == '0') {
+        alertModal('', '연결에 실패하였습니다.');
       }
     } catch (e) {
       console.log(e);
-    } finally {
-      dispatch(setSplashVisible(false));
     }
   };
 

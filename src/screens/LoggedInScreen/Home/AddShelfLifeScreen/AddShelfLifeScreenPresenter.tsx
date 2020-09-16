@@ -14,13 +14,14 @@ interface ITextInput {
 }
 const BackGround = styled.SafeAreaView`
   flex: 1;
-  background-color: white;
+  background-color: #f6f6f6;
 `;
 
 const ScrollView = styled.ScrollView``;
 const Text = styled.Text`
   font-size: 16px;
 `;
+
 const Touchable = styled.TouchableOpacity``;
 
 const Container = styled.View`
@@ -31,16 +32,20 @@ const Container = styled.View`
 
 const Section = styled.View`
   width: 100%;
+  padding: 20px;
   padding-bottom: 10px;
   border-radius: 20px;
   margin-bottom: 20px;
   background-color: white;
 `;
 
+const Center = styled.View`
+  align-items: center;
+`;
+
 const TextContainer = styled.View`
   margin-top: 25px;
   margin-bottom: 15px;
-  padding: 0 30px;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
@@ -66,7 +71,7 @@ const GreyText = styled.Text`
 `;
 
 const InputItem = styled.View`
-  padding: 10px 20px;
+  margin: 10px 0;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -155,25 +160,13 @@ export default ({
                   <Text>기한 </Text>
                   <Text style={{color: '#B91C1B'}}>*</Text>
                 </Row>
-                <Touchable onPress={() => setIsDateModalVisible(true)}>
-                  <DateBox isBefore={shelfLifeDate == ''}>
-                    <DateText>{shelfLifeDate}</DateText>
-                  </DateBox>
-                </Touchable>
-                <DatePickerModal
-                  headerTextIOS={'날짜를 선택하세요.'}
-                  cancelTextIOS={'취소'}
-                  confirmTextIOS={'선택'}
-                  isVisible={isDateModalVisible}
-                  mode="date"
-                  locale="ko_KRus_EN"
-                  onConfirm={(date) => {
-                    setShelfLifeDate(moment(date).format('YYYY-MM-DD')),
-                      setIsDateModalVisible(false);
-                  }}
-                  onCancel={() => setIsDateModalVisible(false)}
-                  display="default"
-                />
+                <DateBox
+                  isBefore={shelfLifeDate == ''}
+                  onPress={() => setIsDateModalVisible(true)}>
+                  <DateText>
+                    {moment(shelfLifeDate).format('YYYY.MM.DD')}
+                  </DateText>
+                </DateBox>
               </InputItem>
               <InputItem>
                 <Row>
@@ -190,16 +183,19 @@ export default ({
                 />
               </InputItem>
             </TextInputBox>
-            <RoundBtn
-              text={'목록에 추가하기'}
-              onPress={() => addFn()}
-              isRegisted={true}
-            />
+            <Center>
+              <RoundBtn
+                isInSection={true}
+                text={'목록에 추가하기'}
+                onPress={() => addFn()}
+                isRegisted={true}
+              />
+            </Center>
           </Section>
           <Section>
             <ListContasiner>
               <TitleText>상품목록</TitleText>
-              <TitleText>{list.length}</TitleText>
+              <TitleText>{list.length}&nbsp;&nbsp;</TitleText>
             </ListContasiner>
             {list && list.length !== 0 && (
               <GreyText>
@@ -211,7 +207,7 @@ export default ({
               list.map((data, index) => {
                 return (
                   <Touchable
-                    style={{marginTop: 20}}
+                    style={{marginVertical: 10}}
                     key={index}
                     onPress={() =>
                       deleteBuffer(data.shelfLifeNAME, data.shelfLifeDATE)
@@ -231,6 +227,20 @@ export default ({
             onPress={() => submitFn()}
           />
         </Container>
+        <DatePickerModal
+          headerTextIOS={'날짜를 선택하세요.'}
+          cancelTextIOS={'취소'}
+          confirmTextIOS={'선택'}
+          isVisible={isDateModalVisible}
+          mode="date"
+          locale="ko_KRus_EN"
+          onConfirm={(date) => {
+            setShelfLifeDate(moment(date).format('YYYY-MM-DD'));
+            setIsDateModalVisible(false);
+          }}
+          onCancel={() => setIsDateModalVisible(false)}
+          display="default"
+        />
       </ScrollView>
     </BackGround>
   );

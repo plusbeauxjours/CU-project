@@ -424,8 +424,9 @@ export default ({
                       </TouchableHighlight>
                     )}
                     <TimeListBold>
-                      {table.startDate}&nbsp;~&nbsp;
-                      {table.endDate ||
+                      {moment(table.startDate).format('YYYY.MM.DD')}
+                      &nbsp;~&nbsp;
+                      {moment(table.endDate).format('YYYY.MM.DD') ||
                         (getNumberToday() < getNumberToday(table.startDate)
                           ? ''
                           : '현재')}
@@ -459,7 +460,8 @@ export default ({
                           color={timeListIndex === index ? data.color : '#ddd'}
                         />
                         &nbsp;&nbsp;
-                        {data.startTime} ~ {data.endTime}
+                        {moment(data.startTime).format('YYYY.MM.DD')} ~&nbsp;
+                        {moment(data.endTime).format('YYYY.MM.DD')}
                       </TimeListBoxText>
                       <TimeListBoxText isSelected={true}>보기</TimeListBoxText>
                     </TimeListBox>
@@ -500,7 +502,10 @@ export default ({
                   </Row>
                   <DateText>근무기간</DateText>
                   <DateText>
-                    {data?.START} ~ {data?.END ? data?.END : '계속'}
+                    {moment(data?.START).format('YYYY.MM.DD')} ~&nbsp;
+                    {data?.END
+                      ? moment(data?.END).format('YYYY.MM.DD')
+                      : '계속'}
                   </DateText>
                 </NameBox>
                 <NavigationButton onPress={() => gotoSetInfo(data)}>

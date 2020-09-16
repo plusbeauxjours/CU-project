@@ -481,7 +481,9 @@ export default ({
                   />
                   <DateTouchable
                     onPress={() => setIsStartDayModalVisible(true)}>
-                    <Text>{startDay ?? ''}</Text>
+                    <Text>
+                      {startDay ? moment(startDay).format('YYYY.MM.DD') : ''}
+                    </Text>
                   </DateTouchable>
                   <InputLine isBefore={startDay === ''} />
                 </InputCase>
@@ -519,7 +521,9 @@ export default ({
                   <DateTouchable
                     onPress={() => setIsEndDayModalVisible(true)}
                     disabled={endDayCheck}>
-                    <Text>{endDay ?? ''}</Text>
+                    <Text>
+                      {endDay ? moment(endDay).format('YYYY.MM.DD') : ''}
+                    </Text>
                   </DateTouchable>
                   <InputLine isBefore={endDay === ''} />
                   <Touchable

@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import DatePickerModal from 'react-native-modal-datetime-picker';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
 import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
 import api from '../../../../constants/LoggedInApi';
 import SubmitBtn from '../../../../components/Btn/SubmitBtn';
 import {
@@ -21,8 +20,9 @@ interface ITextInput {
 }
 const BackGround = styled.SafeAreaView`
   flex: 1;
-  background-color: white;
+  background-color: #f6f6f6;
 `;
+
 const ScrollView = styled.ScrollView``;
 const TextInput = styled.TextInput<ITextInput>`
   border-color: ${(props) => (props.isBefore ? '#ddd' : '#642a8c')};
@@ -39,8 +39,10 @@ const Container = styled.View`
 `;
 
 const Section = styled.View`
-  padding: 20px;
+  width: 100%;
+  margin-bottom: 20px;
   border-radius: 20px;
+  padding: 20px;
   background-color: white;
 `;
 
@@ -85,9 +87,7 @@ const InputItem = styled.View`
 
 const InputItemText = styled.Text``;
 
-const Touchable = styled.TouchableOpacity``;
-
-const DateBox = styled.View<ITextInput>`
+const DateBox = styled.TouchableOpacity<ITextInput>`
   padding: 3px 10px;
   border-color: ${(props) => (props.isBefore ? '#ddd' : '#642A8C')};
   border-width: 1px;
@@ -141,10 +141,10 @@ export default ({route: {params}}) => {
 
   const deleteShelfLife = async () => {
     try {
-      const {data} = await api.deleteShelfLifeData({shelfLife_SEQ});
       navigation.goBack();
       dispatch(removeSHELFLIFE_DATA({shelfLife_SEQ, shelfLifeDate}));
       alertModal('', '상품을 삭제하였습니다.');
+      const {data} = await api.deleteShelfLifeData({shelfLife_SEQ});
     } catch (e) {
       console.log(e);
     }
@@ -155,37 +155,35 @@ export default ({route: {params}}) => {
       alertModal('', '수정할 상품명을 입력해주세요.');
     }
     try {
-      dispatch(setSplashVisible(true));
+      navigation.goBack();
+      alertModal('', '수정이 완료되었습니다.');
+      dispatch(
+        updateSHELFLIFE_DATA({
+          shelfLife_SEQ,
+          shelfLifeName,
+          prevShelfLifeDate: params?.shelfLifeDate,
+          shelfLifeDate,
+          shelfLifeMemo,
+        }),
+      );
+      dispatch(
+        getSHELFLIFE_DATA(
+          moment(shelfLifeDate).format('YYYY'),
+          moment(shelfLifeDate).format('MM'),
+          moment(shelfLifeDate).format('DD'),
+        ),
+      );
       const {data} = await api.updateShelfLifeData({
         shelfLife_SEQ,
         shelfLifeNAME: shelfLifeName,
         shelfLifeDATE: shelfLifeDate,
         shelfLifeMEMO: shelfLifeMemo,
       });
-      if (data.result == '1') {
-        navigation.goBack();
-        alertModal('', '수정이 완료되었습니다.');
-        dispatch(
-          updateSHELFLIFE_DATA({
-            shelfLife_SEQ,
-            shelfLifeName,
-            prevShelfLifeDate: params?.shelfLifeDate,
-            shelfLifeDate,
-            shelfLifeMemo,
-          }),
-        );
-        dispatch(
-          getSHELFLIFE_DATA(
-            moment(shelfLifeDate).format('YYYY'),
-            moment(shelfLifeDate).format('MM'),
-            moment(shelfLifeDate).format('DD'),
-          ),
-        );
+      if (data.result == '0') {
+        alertModal('', '연결에 실패하였습니다.');
       }
     } catch (e) {
       console.log(e);
-    } finally {
-      dispatch(setSplashVisible(false));
     }
   };
 
@@ -200,9 +198,9 @@ export default ({route: {params}}) => {
             <Title>
               <Bold>상품정보</Bold>
               <DeleteBtn
-                onPress={() => {
-                  deleteModal('', '등록하신 상품을 삭제하시겠습니까?');
-                }}>
+                onPress={() =>
+                  deleteModal('', '등록하신 상품을 삭제하시겠습니까?')
+                }>
                 <DeleteBtnText style={{color: '#B91C1B'}}>삭제</DeleteBtnText>
               </DeleteBtn>
             </Title>
@@ -229,11 +227,13 @@ export default ({route: {params}}) => {
                 <InputItemText>기한 </InputItemText>
                 <DeleteBtnText>*</DeleteBtnText>
               </Row>
-              <Touchable onPress={() => setShelfLifeDateModal(true)}>
-                <DateBox isBefore={shelfLifeDate == ''}>
-                  <DateText>{shelfLifeDate}</DateText>
-                </DateBox>
-              </Touchable>
+              <DateBox
+                onPress={() => setShelfLifeDateModal(true)}
+                isBefore={shelfLifeDate == ''}>
+                <DateText>
+                  {moment(shelfLifeDate).format('YYYY.MM.DD')}
+                </DateText>
+              </DateBox>
             </InputItem>
             <InputItem>
               <InputItemText>메모</InputItemText>

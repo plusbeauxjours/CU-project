@@ -16,7 +16,6 @@ import {ForwardIcon, LogoutIcon} from '../../../../constants/Icons';
 const BackGround = styled.View`
   flex: 1;
   background-color: #f6f6f6;
-  background-color: red;
 `;
 
 const Info = styled.View`

@@ -6,6 +6,7 @@ import {
 import styled from 'styled-components/native';
 import PaymentInfoScreenCard from './PaymentInfoScreenCard';
 import {ActivityIndicator} from 'react-native';
+import moment from 'moment';
 import {
   ForwardIcon,
   BackIcon,
@@ -137,8 +138,9 @@ export default ({
               </DateArrow>
               <Date>
                 <DateText>
-                  {TOTAL_PAYMENT_WORKING_EMP.start} ~{' '}
-                  {TOTAL_PAYMENT_WORKING_EMP.end}
+                  {moment(TOTAL_PAYMENT_WORKING_EMP.start).format('YYYY.MM.DD')}
+                  ~&nbsp;
+                  {moment(TOTAL_PAYMENT_WORKING_EMP.end).format('YYYY.MM.DD')}
                 </DateText>
               </Date>
               <DateReload onPress={() => onRefresh()}>

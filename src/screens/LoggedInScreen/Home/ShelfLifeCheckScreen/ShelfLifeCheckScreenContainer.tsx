@@ -65,6 +65,13 @@ export default () => {
           shelfLifeDate,
         }),
       );
+      dispatch(
+        getSHELFLIFE_DATA(
+          moment(shelfLifeDate).format('YYYY'),
+          moment(shelfLifeDate).format('MM'),
+          moment(shelfLifeDate).format('DD'),
+        ),
+      );
       const {data} = await api.checkShelfLifeData({
         STORE,
         EMP_SEQ,
@@ -72,13 +79,6 @@ export default () => {
       });
       if (data.resultmsg !== '1') {
         alertModal('연결에 실패하였습니다.');
-        dispatch(
-          getSHELFLIFE_DATA(
-            moment(shelfLifeDate).format('YYYY'),
-            moment(shelfLifeDate).format('MM'),
-            moment(shelfLifeDate).format('DD'),
-          ),
-        );
       }
     } catch (e) {
       console.log(e);

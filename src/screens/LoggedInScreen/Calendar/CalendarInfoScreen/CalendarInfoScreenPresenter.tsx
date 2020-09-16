@@ -1,4 +1,3 @@
-import moment from 'moment';
 import React from 'react';
 import {Agenda} from 'react-native-calendars';
 import styled from 'styled-components/native';
@@ -68,6 +67,7 @@ export default ({
     <CalendarInfoScreenCard
       index={index}
       data={data}
+      STORE={data.STORE}
       SCH_ID={data.SCH_ID}
       MEMBER_SEQ={data.MEMBER_SEQ}
       VACATION={data.VACATION}
@@ -146,7 +146,12 @@ export default ({
           if (item !== undefined) {
             return (
               <Row>
-                <Bold weekend={day}>
+                <Bold
+                  weekend={day}
+                  style={{
+                    color:
+                      DAY == '토' ? 'skyblue' : DAY == '일' ? 'red' : 'black',
+                  }}>
                   {day.month}월 {day.day}일 {DAY}요일
                 </Bold>
               </Row>
@@ -155,7 +160,12 @@ export default ({
             if (day !== undefined) {
               return (
                 <Row>
-                  <Bold weekend={day}>
+                  <Bold
+                    weekend={day}
+                    style={{
+                      color:
+                        DAY == '토' ? 'skyblue' : DAY == '일' ? 'red' : 'black',
+                    }}>
                     {day.month}월 {day.day}일 {DAY}요일
                   </Bold>
                 </Row>

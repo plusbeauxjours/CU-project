@@ -94,8 +94,13 @@ const CntArea = styled.View`
   padding-left: 15px;
 `;
 
+const WhiteSpace = styled.View`
+  height: 10px;
+`;
+
 export default ({
   data,
+  STORE,
   index,
   SCH_ID,
   MEMBER_SEQ,
@@ -166,50 +171,55 @@ export default ({
   };
 
   const ButtonGroup = () => {
-    if (VACATION) {
-      return (
-        <SelectBox>
-          <SelectBoxTouchable
-            style={{width: wp('90%')}}
-            onPress={() => confirmModal()}>
-            <BoxText>휴무 취소</BoxText>
-          </SelectBoxTouchable>
-        </SelectBox>
-      );
+    if (STORE === '1') {
+      if (VACATION) {
+        return (
+          <SelectBox>
+            <SelectBoxTouchable
+              style={{width: wp('90%')}}
+              onPress={() => confirmModal()}>
+              <BoxText>휴무 취소</BoxText>
+            </SelectBoxTouchable>
+          </SelectBox>
+        );
+      } else {
+        return (
+          <SelectBox>
+            <SelectBoxTouchable
+              onPress={() => {
+                navigation.navigate('WorkTimeScreen', {
+                  data,
+                  date,
+                });
+              }}>
+              <BoxText>근무시간 수정</BoxText>
+            </SelectBoxTouchable>
+            <SelectBoxTouchable
+              onPress={() => {
+                navigation.navigate('RealWorkTimeScreen', {
+                  data,
+                  date,
+                });
+              }}>
+              <BoxText>출퇴근시간 수정</BoxText>
+            </SelectBoxTouchable>
+            <SelectBoxTouchable
+              onPress={() => {
+                navigation.navigate('WorkDayScreen', {
+                  data,
+                  STORE_SEQ,
+                  date,
+                  addWork:
+                    TYPE == '3' && VACATION != '1' ? 'addWork' : 'schWork',
+                });
+              }}>
+              <BoxText>기타 설정</BoxText>
+            </SelectBoxTouchable>
+          </SelectBox>
+        );
+      }
     } else {
-      return (
-        <SelectBox>
-          <SelectBoxTouchable
-            onPress={() => {
-              navigation.navigate('WorkTimeScreen', {
-                data,
-                date,
-              });
-            }}>
-            <BoxText>근무시간 수정</BoxText>
-          </SelectBoxTouchable>
-          <SelectBoxTouchable
-            onPress={() => {
-              navigation.navigate('RealWorkTimeScreen', {
-                data,
-                date,
-              });
-            }}>
-            <BoxText>출퇴근시간 수정</BoxText>
-          </SelectBoxTouchable>
-          <SelectBoxTouchable
-            onPress={() => {
-              navigation.navigate('WorkDayScreen', {
-                data,
-                STORE_SEQ,
-                date,
-                addWork: TYPE == '3' && VACATION != '1' ? 'addWork' : 'schWork',
-              });
-            }}>
-            <BoxText>기타 설정</BoxText>
-          </SelectBoxTouchable>
-        </SelectBox>
-      );
+      return <WhiteSpace />;
     }
   };
 

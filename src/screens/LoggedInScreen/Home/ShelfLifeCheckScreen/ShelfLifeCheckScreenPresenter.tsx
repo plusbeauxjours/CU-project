@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 
 import {CheckMarkIcon, DownIcon} from '../../../../constants/Icons';
+import moment from 'moment';
 
 interface IsChecked {
   isChecked: boolean;
@@ -171,7 +172,7 @@ export default ({
             </Row>
             <Row>
               <Text>처리시간: </Text>
-              <Bold>{checkTime}</Bold>
+              <Bold>{moment(checkTime).format('YYYY.MM.DD HH:mm:ss')}</Bold>
             </Row>
           </TextContainer>
         )}

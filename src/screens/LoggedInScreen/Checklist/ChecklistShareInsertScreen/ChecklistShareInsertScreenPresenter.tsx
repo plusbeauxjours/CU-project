@@ -321,8 +321,8 @@ export default ({
         mode="date"
         locale="ko_KRus_EN"
         onConfirm={(date) => {
-          setDate(moment(date).format('YYYY-MM-DD')),
-            setIsDateModalVisible(false);
+          setDate(moment(date).format('YYYY-MM-DD'));
+          setIsDateModalVisible(false);
         }}
         onCancel={() => setIsDateModalVisible(false)}
         display="default"

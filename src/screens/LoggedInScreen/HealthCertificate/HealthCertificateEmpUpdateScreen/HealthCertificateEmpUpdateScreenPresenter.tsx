@@ -243,7 +243,9 @@ export default ({
             <TextInputContainer>
               <GreyText>검진일</GreyText>
               <Touchable onPress={() => setDateModalVisible(true)}>
-                <DateText>{EDUCATION_DATE}</DateText>
+                <DateText>
+                  {moment(EDUCATION_DATE).format('YYYY.MM.DD')}
+                </DateText>
               </Touchable>
             </TextInputContainer>
             <SmallWhiteSpace />

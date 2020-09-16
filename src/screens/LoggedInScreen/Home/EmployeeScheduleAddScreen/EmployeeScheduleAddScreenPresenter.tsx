@@ -595,7 +595,7 @@ export default ({
               <DateTouchable
                 disabled={checkNoEndDate}
                 onPress={() => setIsEndDayModalVisible(true)}>
-                <Text>{endDate}</Text>
+                <Text>{moment(endDate).format('YYYY.MM.DD')}</Text>
               </DateTouchable>
               <InputLine isBefore={endDate === null} />
               <RowTouchable

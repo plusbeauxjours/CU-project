@@ -7,14 +7,17 @@ import styled from 'styled-components/native';
 
 import {LocationIcon} from '../../../../constants/Icons';
 
-const Touchable = styled.TouchableOpacity``;
-const Container = styled.View`
+const Container = styled.TouchableOpacity`
+  margin-top: 30px;
   width: ${wp('90%')}px;
   padding: 20px;
   background-color: white;
   flex-direction: column;
   border-radius: 20px;
-  margin-bottom: ${hp('3%')}px;
+  shadow-opacity: 0.55;
+  shadow-radius: 5px;
+  shadow-color: grey;
+  shadow-offset: 5px 5px;
 `;
 
 const NameText = styled.Text`
@@ -41,15 +44,13 @@ const IconContainer = styled.View`
 `;
 
 export default ({key, name, addr, data}) => (
-  <Touchable key={key} disabled={true}>
-    <Container>
-      <NameText>{name}</NameText>
-      <AddressBox>
-        <IconContainer>
-          <LocationIcon size={17} />
-        </IconContainer>
-        <AddressText>{addr ? addr : '주소 미등록'}</AddressText>
-      </AddressBox>
-    </Container>
-  </Touchable>
+  <Container key={key} disabled={true}>
+    <NameText>{name}</NameText>
+    <AddressBox>
+      <IconContainer>
+        <LocationIcon size={17} />
+      </IconContainer>
+      <AddressText>{addr ? addr : '주소 미등록'}</AddressText>
+    </AddressBox>
+  </Container>
 );
