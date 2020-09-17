@@ -9,6 +9,7 @@ import utils from '../../../../constants/utils';
 import {setSplashVisible} from '../../../../redux/splashSlice';
 import {
   updateCHECKLIST_SHARE_DATA,
+  deleteCHECKLIST_SHARE_DATA,
   getCHECKLIST_SHARE_DATA1,
   getCHECKLIST_SHARE_DATA2,
 } from '../../../../redux/checklistshareSlice';
@@ -92,38 +93,45 @@ export default ({route: {params}}) => {
         formData.append('CONTENTS', content);
         formData.append('NOTICE_SEQ', params?.NOTICE_SEQ);
         formData.append('CLOSE_FLAG', sign == 'close' ? '1' : '0');
-        for (let i = 0; i < cameraPictureList.length; i++) {
-          const cameraPicture = cameraPictureList[i];
-          const fileInfoArr = cameraPicture.uri.split('/');
-          const fileInfo = fileInfoArr[fileInfoArr.length - 1];
-          const extensionIndex = fileInfo.indexOf('.');
-          let fileName = fileInfo;
-          let fileType = '';
-          if (extensionIndex > -1) {
-            fileName = fileInfo;
-            fileType = `image/${fileInfo.substring(extensionIndex + 1)}`;
-            if (fileType === 'image/jpg') {
-              fileType = 'image/jpeg';
-            }
-          }
-          formData.append('image', {
-            uri: utils.isAndroid
-              ? cameraPicture.uri
-              : cameraPicture.uri.replace('file://', ''),
-            name: fileName,
-            type: fileType,
-          });
-        }
         if (sign == 'close') {
           navigation.pop(2);
           alertModal(`${params?.TITLE}이 삭제되었습니다.`);
+          dispatch(
+            deleteCHECKLIST_SHARE_DATA({
+              TITLE: params?.TITLE,
+              NOTICE_SEQ: params?.NOTICE_SEQ,
+              isFavorite: params?.isFavorite,
+            }),
+          );
+          formData.append('image', {});
           const {data} = await api.updateNoticeImg(formData);
           if (data.result !== 'SUCCESS') {
             alertModal('연결에 실패하였습니다.');
-            navigation.goBack();
           }
         } else {
           dispatch(setSplashVisible(true));
+          for (let i = 0; i < cameraPictureList.length; i++) {
+            const cameraPicture = cameraPictureList[i];
+            const fileInfoArr = cameraPicture.uri.split('/');
+            const fileInfo = fileInfoArr[fileInfoArr.length - 1];
+            const extensionIndex = fileInfo.indexOf('.');
+            let fileName = fileInfo;
+            let fileType = '';
+            if (extensionIndex > -1) {
+              fileName = fileInfo;
+              fileType = `image/${fileInfo.substring(extensionIndex + 1)}`;
+              if (fileType === 'image/jpg') {
+                fileType = 'image/jpeg';
+              }
+            }
+            formData.append('image', {
+              uri: utils.isAndroid
+                ? cameraPicture.uri
+                : cameraPicture.uri.replace('file://', ''),
+              name: fileName,
+              type: fileType,
+            });
+          }
           const {data} = await api.updateNoticeImg(formData);
           if (data.result === 'SUCCESS') {
             navigation.pop(2);
@@ -150,12 +158,9 @@ export default ({route: {params}}) => {
           navigation.pop(2);
           alertModal(`${params?.TITLE}이 삭제되었습니다.`);
           dispatch(
-            updateCHECKLIST_SHARE_DATA({
+            deleteCHECKLIST_SHARE_DATA({
               TITLE: params?.TITLE,
-              title,
-              content,
               NOTICE_SEQ: params?.NOTICE_SEQ,
-              CLOSE_FLAG: '1',
               isFavorite: params?.isFavorite,
             }),
           );
@@ -167,33 +172,28 @@ export default ({route: {params}}) => {
           });
           if (data.result !== 'SUCCESS') {
             alertModal('연결에 실패하였습니다.');
-            navigation.goBack();
           }
         } else {
-          dispatch(setSplashVisible(true));
+          navigation.pop(2);
+          alertModal(`${params?.TITLE}이 수정되었습니다.`);
+          dispatch(
+            updateCHECKLIST_SHARE_DATA({
+              TITLE: params?.TITLE,
+              title,
+              content,
+              NOTICE_SEQ: params?.NOTICE_SEQ,
+              CLOSE_FLAG: sign == 'close' ? '1' : '0',
+              isFavorite: params?.isFavorite,
+            }),
+          );
           const {data} = await api.updateNotice({
             TITLE: title,
             CONTENTS: content,
             NOTICE_SEQ: params?.NOTICE_SEQ,
             CLOSE_FLAG: '0',
           });
-          if (data.result === 'SUCCESS') {
-            dispatch(
-              updateCHECKLIST_SHARE_DATA({
-                TITLE: params?.TITLE,
-                title,
-                content,
-                NOTICE_SEQ: params?.NOTICE_SEQ,
-                CLOSE_FLAG: sign == 'close' ? '1' : '0',
-                isFavorite: params?.isFavorite,
-              }),
-            );
-            navigation.pop(2);
-            alertModal(`${params?.TITLE}이 수정되었습니다.`);
-            dispatch(setSplashVisible(false));
-          } else {
+          if (data.result !== 'SUCCESS') {
             alertModal('연결에 실패하였습니다.');
-            dispatch(setSplashVisible(false));
           }
         }
       } catch (e) {

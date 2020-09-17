@@ -544,7 +544,6 @@ export default ({
 
   return (
     <>
-      {console.log(notice)}
       <Tab.Navigator
         initialRouteName={
           notice ? 'CU소식' : STORE === '1' ? '특이사항' : '지시사항'

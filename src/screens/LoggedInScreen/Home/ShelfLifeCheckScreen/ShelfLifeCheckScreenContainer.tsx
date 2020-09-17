@@ -65,13 +65,6 @@ export default () => {
           shelfLifeDate,
         }),
       );
-      dispatch(
-        getSHELFLIFE_DATA(
-          moment(shelfLifeDate).format('YYYY'),
-          moment(shelfLifeDate).format('MM'),
-          moment(shelfLifeDate).format('DD'),
-        ),
-      );
       const {data} = await api.checkShelfLifeData({
         STORE,
         EMP_SEQ,

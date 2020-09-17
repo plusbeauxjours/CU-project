@@ -107,6 +107,7 @@ export default ({key, date, data}) => {
   useEffect(() => {
     checkState(data.CHECK_LIST);
   }, []);
+
   useEffect(() => {
     checkState(data.CHECK_LIST);
   }, [data]);

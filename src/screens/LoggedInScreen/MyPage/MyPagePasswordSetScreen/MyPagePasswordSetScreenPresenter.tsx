@@ -140,7 +140,7 @@ export default ({
                 isPasswordSeen={isPasswordSeen}
               />
             </TextinputCase>
-            <InputLine isBefore={password == '' ? true : false} />
+            <InputLine isBefore={password ? false : true} />
             <GreyText>* 영문, 숫자 조합하여 6자 이상 입력해주세요.</GreyText>
           </Case>
           <WhiteSpace />
@@ -153,7 +153,7 @@ export default ({
                 placeholderTextColor={'#E5E5E5'}
                 selectionColor={'#642A8C'}
                 onBlur={() => {
-                  if (password !== '' && password.length <= 5) {
+                  if (!password && password?.length <= 5) {
                     alertModal('비밀번호를 6자리 이상 입력하세요.');
                   }
                 }}
@@ -169,7 +169,7 @@ export default ({
                 isPasswordSeen={isPasswordCheckSeen}
               />
             </TextinputCase>
-            <InputLine isBefore={passwordCheck == '' ? true : false} />
+            <InputLine isBefore={passwordCheck ? false : true} />
           </Case>
           <WhiteSpace />
           <Case>
@@ -182,7 +182,7 @@ export default ({
                 <RequestText>인증요청</RequestText>
               </RequestButton>
             </TextinputCase>
-            <InputLine isBefore={mobileNo == '' ? true : false} />
+            <InputLine isBefore={mobileNo ? false : true} />
           </Case>
           {hasCheckedTimeOut && (
             <TimeText>
@@ -207,7 +207,7 @@ export default ({
                     maxLength={6}
                   />
                 </TextinputCase>
-                <InputLine isBefore={verifyCode == '' ? true : false} />
+                <InputLine isBefore={verifyCode ? false : true} />
                 <VerifyContainer>
                   {isCountDownStarted && <CountText>{countdown}초</CountText>}
                 </VerifyContainer>

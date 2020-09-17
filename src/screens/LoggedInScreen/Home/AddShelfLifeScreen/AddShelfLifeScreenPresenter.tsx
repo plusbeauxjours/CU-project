@@ -33,7 +33,6 @@ const Container = styled.View`
 const Section = styled.View`
   width: 100%;
   padding: 20px;
-  padding-bottom: 10px;
   border-radius: 20px;
   margin-bottom: 20px;
   background-color: white;
@@ -44,7 +43,7 @@ const Center = styled.View`
 `;
 
 const TextContainer = styled.View`
-  margin-top: 25px;
+  margin-top: 10px;
   margin-bottom: 15px;
   flex-direction: row;
   align-items: center;

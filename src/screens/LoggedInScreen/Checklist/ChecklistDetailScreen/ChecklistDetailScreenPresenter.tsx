@@ -157,7 +157,6 @@ export default ({
   setChecklistBadState,
   categoryList,
   setSelectedCategory,
-  setCheck,
   setChecklist,
   setCameraPictureList,
   setModalImgarr,
@@ -248,7 +247,6 @@ export default ({
             }
           }
 
-          setCheck(check);
           setChecklist(checklist);
           setEND_TIME(data.resultdata[item.key].END_TIME);
           setCHECK_TITLE(data.resultdata[item.key].CHECK_TITLE);

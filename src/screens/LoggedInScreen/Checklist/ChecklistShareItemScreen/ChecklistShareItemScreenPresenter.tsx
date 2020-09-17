@@ -148,6 +148,10 @@ const CloseIconContainer = styled.TouchableOpacity`
   top: 50px;
 `;
 
+const LoadingBox = styled.View`
+  height: 30px;
+`;
+
 export default ({
   NOTI_TITLE,
   CREATE_TIME,
@@ -264,7 +268,9 @@ export default ({
                 </MemoContainer>
                 <Comment>
                   {loading ? (
-                    <ActivityIndicator size={'small'} />
+                    <CommentBox>
+                      <ActivityIndicator size={'small'} color={'grey'} />
+                    </CommentBox>
                   ) : (
                     !loading &&
                     CHECKLIST_SHARE_COMMENTS?.map((data, index) => (

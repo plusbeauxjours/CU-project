@@ -125,6 +125,9 @@ const CameraPictureButton = styled.TouchableOpacity`
   background-color: #ffffff;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  right: ${wp('50%') - 30}px;
+  bottom: 80px;
 `;
 
 const HalfBotton = styled.TouchableOpacity`
@@ -396,17 +399,9 @@ export default ({
               buttonPositive: 'Ok',
               buttonNegative: 'Cancel',
             }}>
-            <Row
-              style={{
-                justifyContent: 'center',
-                position: 'absolute',
-                right: wp('50%') - 30,
-                bottom: 80,
-              }}>
-              <CameraPictureButton onPress={() => takePictureFn(cameraRef)}>
-                <CameraIcon size={40} />
-              </CameraPictureButton>
-            </Row>
+            <CameraPictureButton onPress={() => takePictureFn(cameraRef)}>
+              <CameraIcon size={40} />
+            </CameraPictureButton>
             <CameraPictureCloseButton
               onPress={() => setIsCameraModalVisible(false)}>
               <CameraPictureCloseButtonText>닫기</CameraPictureCloseButtonText>

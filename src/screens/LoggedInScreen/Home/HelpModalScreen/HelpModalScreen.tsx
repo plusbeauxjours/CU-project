@@ -37,7 +37,7 @@ const WhiteSpace = styled.View`
   height: 30px;
 `;
 
-const KakaoBox = styled(Ripple)`
+const KakaoBox = styled.TouchableOpacity`
   flex-direction: row;
   height: 70px;
   margin-top: 20px;

@@ -13,7 +13,6 @@ export default ({route: {params}}) => {
 
   const [data, setData] = useState<any>();
   const [cameraPictureList, setCameraPictureList] = useState<any>([]);
-  const [check, setCheck] = useState<string>('');
   const [TITLE, setTITLE] = useState<string>('');
   const [checklist, setChecklist] = useState<any>([]);
   const [END_TIME, setEND_TIME] = useState<string>('');
@@ -94,7 +93,6 @@ export default ({route: {params}}) => {
           }
         }
 
-        setCheck(check);
         setChecklist(checklist);
         setTITLE(data.checkdata[0].TITLE);
         setEND_TIME(data.checkdata[0].END_TIME);
@@ -144,7 +142,6 @@ export default ({route: {params}}) => {
       setChecklistBadState={setChecklistBadState}
       categoryList={categoryList}
       setSelectedCategory={setSelectedCategory}
-      setCheck={setCheck}
       setChecklist={setChecklist}
       setCameraPictureList={setCameraPictureList}
       setModalImgarr={setModalImgarr}

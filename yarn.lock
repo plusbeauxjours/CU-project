@@ -1388,14 +1388,6 @@
     "@types/react-native" "*"
     "@types/xdate" "*"
 
-"@types/react-native-material-kit@0.5.4":
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/@types/react-native-material-kit/-/react-native-material-kit-0.5.4.tgz#cd5037a70549a7a93138fc6bfb8edcff23c827a5"
-  integrity sha512-XVMG19kfwS7kc8De9mY47UFBFDFFYJnfHsFgjJ26tOz4GOcULMnIkjNvyv9v7x+GQGMk/lASW84s68SYPVeLkg==
-  dependencies:
-    "@types/react" "*"
-    "@types/react-native" "*"
-
 "@types/react-native-vector-icons@6.4.5", "@types/react-native-vector-icons@^6.4.5":
   version "6.4.5"
   resolved "https://registry.yarnpkg.com/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.5.tgz#74cbfc564bd8435e43ad6728572a0e5b49c335d1"
@@ -6007,11 +5999,6 @@ query-string@^6.13.1:
     split-on-first "^1.0.0"
     strict-uri-encode "^2.0.0"
 
-ramda@^0.27.0:
-  version "0.27.1"
-  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.27.1.tgz#66fc2df3ef873874ffc2da6aa8984658abacf5c9"
-  integrity sha512-PgIdVpn5y5Yns8vqb8FzBUEYn98V3xcPgawAkkgj0YJ0qDsnHCiNmZYfOGMgOvoB0eWFLpYbhxUR3mxfDIMvpw==
-
 range-parser@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
@@ -6127,13 +6114,6 @@ react-native-keyboard-aware-scroll-view@0.9.2:
   dependencies:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
-
-react-native-material-kit@0.6.0-beta.1:
-  version "0.6.0-beta.1"
-  resolved "https://registry.yarnpkg.com/react-native-material-kit/-/react-native-material-kit-0.6.0-beta.1.tgz#39a0b5143023d7b050c323f335d525d77e6e1032"
-  integrity sha512-QSN18qrEf/+imSkkp6dH0gpEE3A4CoIKm/vML5ZAgWTQXJVKLjoAmnjRw7S93ZLXfb7hjaKvkX6B62uYHqaZog==
-  dependencies:
-    ramda "^0.27.0"
 
 react-native-material-ripple@0.9.1:
   version "0.9.1"

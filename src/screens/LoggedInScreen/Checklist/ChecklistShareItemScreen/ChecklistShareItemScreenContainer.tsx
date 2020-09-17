@@ -33,7 +33,7 @@ export default ({route: {params}}) => {
   const [imgarr, setImgarr] = useState<any>([]);
   const [modalImgarr, setModalImgarr] = useState<any>([]);
   const [item, setItem] = useState<any>({});
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [imageIndex, setImageIndex] = useState<number>(0);
 
   const alertModal = (title, text) => {
@@ -113,8 +113,6 @@ export default ({route: {params}}) => {
   };
 
   const fetchData = async () => {
-    dispatch(getCHECKLIST_COMMENTS(NOTICE_SEQ, TITLE));
-
     if (TITLE === '지시사항') {
       if (isFavorite) {
         const item = CHECKLIST_SHARE_DATA1.favorite.find(
@@ -149,6 +147,13 @@ export default ({route: {params}}) => {
       );
       fetchImage(item);
       setItem(item);
+    }
+    try {
+      await dispatch(getCHECKLIST_COMMENTS(NOTICE_SEQ, TITLE));
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
     }
   };
 

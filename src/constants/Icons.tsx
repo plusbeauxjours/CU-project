@@ -303,7 +303,7 @@ export const TenRewindIcon: React.FC<IProps> = ({size, color}) => (
 
 export const LandscapeIcon: React.FC<IProps> = ({size, color}) => (
   <MaterialCommunityIcons
-    name={'rotate-left-variant'}
+    name={'phone-rotate-landscape'}
     size={size ?? 28}
     color={color ?? 'white'}
   />
@@ -311,7 +311,7 @@ export const LandscapeIcon: React.FC<IProps> = ({size, color}) => (
 
 export const PortraitIcon: React.FC<IProps> = ({size, color}) => (
   <MaterialCommunityIcons
-    name={'rotate-left-variant'}
+    name={'phone-rotate-portrait'}
     size={size ?? 30}
     color={color ?? 'white'}
   />

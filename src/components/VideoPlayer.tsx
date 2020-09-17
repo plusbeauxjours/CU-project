@@ -11,6 +11,8 @@ import Video, {
   OnProgressData,
 } from 'react-native-video';
 import Orientation from 'react-native-orientation-locker';
+import {isIphoneX} from 'react-native-iphone-x-helper';
+
 import {PlayerControls} from './PlayerControls';
 import {ProgressBar} from './ProgressBar';
 import {PortraitIcon, LandscapeIcon, CloseCircleIcon} from '../constants/Icons';
@@ -36,7 +38,7 @@ const FullScreenIconContainer = styled.TouchableOpacity<IsFullScreen>`
   width: 30px;
   height: 30px;
   right: 0;
-  top: ${(props) => (props.isFullScreen ? -20 : 25)};
+  top: ${(props) => (isIphoneX() ? 25 : 0)};
 `;
 
 const CloseIconContainer = styled.TouchableOpacity<IsFullScreen>`
@@ -45,7 +47,7 @@ const CloseIconContainer = styled.TouchableOpacity<IsFullScreen>`
   width: 30px;
   height: 30px;
   right: 0;
-  top: ${(props) => (props.isFullScreen ? -20 : 25)};
+  top: ${(props) => (isIphoneX() ? 25 : 0)};
 `;
 
 export default ({url, setModalVisible}) => {
@@ -57,16 +59,10 @@ export default ({url, setModalVisible}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isShowedControls, setIsShowedControls] = useState<boolean>(true);
 
-  function handleOrientation(orientation: string) {
-    orientation === 'LANDSCAPE-LEFT' || orientation === 'LANDSCAPE-RIGHT'
-      ? (setIsFullScreen(true), StatusBar.setHidden(true))
-      : (setIsFullScreen(false), StatusBar.setHidden(false));
-  }
-
   function handleFullscreen() {
     isFullScreen
-      ? Orientation.unlockAllOrientations()
-      : Orientation.lockToLandscapeLeft();
+      ? (Orientation.lockToPortrait(), setIsFullScreen(false))
+      : (Orientation.lockToLandscapeLeft(), setIsFullScreen(true));
   }
 
   function handlePlayPause() {
@@ -118,11 +114,9 @@ export default ({url, setModalVisible}) => {
   }
 
   useEffect(() => {
+    StatusBar.setHidden(true);
+    setIsFullScreen(false);
     setTimeout(() => setIsShowedControls(false), 4000);
-    Orientation.addOrientationListener(handleOrientation);
-    return () => {
-      Orientation.removeOrientationListener(handleOrientation);
-    };
   }, []);
 
   return (
@@ -166,7 +160,9 @@ export default ({url, setModalVisible}) => {
               <CloseIconContainer
                 isFullScreen={isFullScreen}
                 onPress={() => {
+                  setIsFullScreen(false);
                   setModalVisible(false);
+                  Orientation.lockToPortrait();
                 }}>
                 <CloseCircleIcon size={33} color={'white'} />
               </CloseIconContainer>

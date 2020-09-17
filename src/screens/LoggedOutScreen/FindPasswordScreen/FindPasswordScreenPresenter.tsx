@@ -205,15 +205,8 @@ export default ({
                       placeholder={'영문, 숫자 조합 6자 이상'}
                       placeholderTextColor={'#E5E5E5'}
                       selectionColor={'#642A8C'}
-                      onFocus={() => {
-                        passwordCheckRef.current.clear();
-                        setTimeout(() => {
-                          scrollRef.current.scrollTo(10000);
-                        }, 200);
-                      }}
-                      onChangeText={(text) => {
-                        onChangePassword(text);
-                      }}
+                      onFocus={() => passwordCheckRef.current.clear()}
+                      onChangeText={(text) => onChangePassword(text)}
                       value={password}
                       secureTextEntry={isPasswordSeen ? false : true}
                       autoCapitalize="none"
@@ -240,11 +233,6 @@ export default ({
                       secureTextEntry={isPasswordCheckSeen ? false : true}
                       autoCapitalize="none"
                       autoCorrect={false}
-                      onFocus={() => {
-                        setTimeout(() => {
-                          scrollRef.current.scrollTo(10000);
-                        }, 200);
-                      }}
                     />
                     <CheckPasswordBtn
                       onPress={() =>

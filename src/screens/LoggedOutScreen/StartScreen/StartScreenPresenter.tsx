@@ -142,7 +142,7 @@ export default ({gotoLogin, gotoVerification}) => {
           <WhiteSpace />
           <LoginButton
             onPress={() => gotoLogin()}
-            rippleColor={'#ac52eb'}
+            rippleColor={'#666'}
             rippleDuration={600}
             rippleSize={1200}
             rippleContainerBorderRadius={30}

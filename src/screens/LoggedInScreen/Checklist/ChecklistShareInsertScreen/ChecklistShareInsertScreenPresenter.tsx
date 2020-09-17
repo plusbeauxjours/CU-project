@@ -154,6 +154,9 @@ const CameraPictureButton = styled.TouchableOpacity`
   background-color: #ffffff;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  right: ${wp('50%') - 30}px;
+  bottom: 80px;
 `;
 
 const HalfBotton = styled.TouchableOpacity`
@@ -311,6 +314,86 @@ export default ({
               isRegisted={content && title}
             />
           </Container>
+          <Modal
+            isVisible={isCameraModalVisible}
+            style={{margin: 0}}
+            onBackButtonPress={() => setIsCameraModalVisible(false)}>
+            {cameraPictureLast ? (
+              <>
+                <CameraLastPictureContainer>
+                  <FastImage
+                    style={{
+                      width: wp('100%') - 40,
+                      height: hp('100%') - 120,
+                      borderRadius: 10,
+                      marginTop: 20,
+                    }}
+                    source={{
+                      uri: cameraPictureLast,
+                      headers: {Authorization: 'someAuthToken'},
+                      priority: FastImage.priority.low,
+                    }}
+                    resizeMode={FastImage.resizeMode.cover}
+                  />
+                  <Row>
+                    <HalfBotton onPress={() => setCameraPictureLast(null)}>
+                      <HalfBottonText style={{color: '#642A8C'}}>
+                        재촬영
+                      </HalfBottonText>
+                    </HalfBotton>
+                    <HalfBotton
+                      style={{backgroundColor: '#642A8C'}}
+                      onPress={() => {
+                        setCameraPictureList([
+                          ...cameraPictureList,
+                          {uri: cameraPictureLast},
+                        ]);
+                        setIsCameraModalVisible(false);
+                        setCameraPictureLast(null);
+                      }}>
+                      <HalfBottonText style={{color: '#fff'}}>
+                        선택
+                      </HalfBottonText>
+                    </HalfBotton>
+                  </Row>
+                </CameraLastPictureContainer>
+              </>
+            ) : (
+              <RNCamera
+                ref={cameraRef}
+                style={{
+                  flex: 1,
+                  flexDirection: 'column',
+                  justifyContent: 'flex-end',
+                }}
+                type={RNCamera.Constants.Type.back}
+                flashMode={
+                  cameraPictureFlash
+                    ? RNCamera.Constants.FlashMode.on
+                    : RNCamera.Constants.FlashMode.off
+                }
+                androidCameraPermissionOptions={{
+                  title: 'Permission to use camera',
+                  message: 'We need your permission to use your camera',
+                  buttonPositive: 'Ok',
+                  buttonNegative: 'Cancel',
+                }}>
+                <CameraFlashButton
+                  onPress={() => setCameraPictureFlash(!cameraPictureFlash)}>
+                  {cameraPictureFlash ? <FlashIcon /> : <NoFlashIcon />}
+                </CameraFlashButton>
+                <CameraPictureButton onPress={() => takePictureFn(cameraRef)}>
+                  <CameraIcon size={40} />
+                </CameraPictureButton>
+                <CameraPictureCloseButton
+                  onPress={() => setIsCameraModalVisible(false)}>
+                  <CameraPictureCloseButtonText>
+                    닫기
+                  </CameraPictureCloseButtonText>
+                </CameraPictureCloseButton>
+              </RNCamera>
+            )}
+          </Modal>
         </ScrollView>
       </BackGround>
       <DatePickerModal
@@ -327,91 +410,6 @@ export default ({
         onCancel={() => setIsDateModalVisible(false)}
         display="default"
       />
-
-      <Modal
-        isVisible={isCameraModalVisible}
-        style={{margin: 0}}
-        onBackButtonPress={() => setIsCameraModalVisible(false)}>
-        {cameraPictureLast ? (
-          <>
-            <CameraLastPictureContainer>
-              <FastImage
-                style={{
-                  width: wp('100%') - 40,
-                  height: hp('100%') - 120,
-                  borderRadius: 10,
-                  marginTop: 20,
-                }}
-                source={{
-                  uri: cameraPictureLast,
-                  headers: {Authorization: 'someAuthToken'},
-                  priority: FastImage.priority.low,
-                }}
-                resizeMode={FastImage.resizeMode.cover}
-              />
-              <Row>
-                <HalfBotton onPress={() => setCameraPictureLast(null)}>
-                  <HalfBottonText style={{color: '#642A8C'}}>
-                    재촬영
-                  </HalfBottonText>
-                </HalfBotton>
-                <HalfBotton
-                  style={{backgroundColor: '#642A8C'}}
-                  onPress={() => {
-                    setCameraPictureList([
-                      ...cameraPictureList,
-                      {uri: cameraPictureLast},
-                    ]);
-                    setIsCameraModalVisible(false);
-                    setCameraPictureLast(null);
-                  }}>
-                  <HalfBottonText style={{color: '#fff'}}>선택</HalfBottonText>
-                </HalfBotton>
-              </Row>
-            </CameraLastPictureContainer>
-          </>
-        ) : (
-          <RNCamera
-            ref={cameraRef}
-            style={{
-              flex: 1,
-              flexDirection: 'column',
-              justifyContent: 'flex-end',
-            }}
-            type={RNCamera.Constants.Type.back}
-            flashMode={
-              cameraPictureFlash
-                ? RNCamera.Constants.FlashMode.on
-                : RNCamera.Constants.FlashMode.off
-            }
-            androidCameraPermissionOptions={{
-              title: 'Permission to use camera',
-              message: 'We need your permission to use your camera',
-              buttonPositive: 'Ok',
-              buttonNegative: 'Cancel',
-            }}>
-            <CameraFlashButton
-              onPress={() => setCameraPictureFlash(!cameraPictureFlash)}>
-              {cameraPictureFlash ? <FlashIcon /> : <NoFlashIcon />}
-            </CameraFlashButton>
-            <Row
-              style={{
-                justifyContent: 'center',
-                position: 'absolute',
-                right: wp('50%') - 30,
-                bottom: 80,
-              }}>
-              <CameraPictureButton onPress={() => takePictureFn(cameraRef)}>
-                <CameraIcon size={40} />
-              </CameraPictureButton>
-            </Row>
-            <CameraPictureCloseButton
-              onPress={() => setIsCameraModalVisible(false)}>
-              <CameraPictureCloseButtonText>닫기</CameraPictureCloseButtonText>
-            </CameraPictureCloseButton>
-          </RNCamera>
-        )}
-      </Modal>
     </>
   );
 };
