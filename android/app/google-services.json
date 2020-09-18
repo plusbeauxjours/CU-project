@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:54036447893:android:0d0fa8b3c45cbd84d9119c",
+        "mobilesdk_app_id": "1:54036447893:android:f96eb46b9f217418d9119c",
         "android_client_info": {
-          "package_name": "com.cuwesop"
+          "package_name": "com.wesop.cuhr"
         }
       },
       "oauth_client": [
@@ -44,9 +44,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:54036447893:android:f96eb46b9f217418d9119c",
+        "mobilesdk_app_id": "1:54036447893:android:78d886033ccd23cfd9119c",
         "android_client_info": {
-          "package_name": "com.wesop.cuhr"
+          "package_name": "com.wesop.cuwesop"
         }
       },
       "oauth_client": [

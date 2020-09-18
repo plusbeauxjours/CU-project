@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-native-modal';
 import styled from 'styled-components/native';
+import {Linking} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
@@ -17,7 +18,6 @@ import {
   QrCodeIcon,
 } from '../../../../constants/Icons';
 import utils from '../../../../constants/utils';
-import {Linking} from 'react-native';
 
 interface IImage {
   isCheckListItems?: boolean;

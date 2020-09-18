@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>54036447893-jgofo25lqdrrhjk72c6rl5pieokq0uou.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.54036447893-jgofo25lqdrrhjk72c6rl5pieokq0uou</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBhMGgUMkVXuUsKQtIUXtX-s3ULsKKw2ts</string>
+	<key>GCM_SENDER_ID</key>
+	<string>54036447893</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>om.wesop.shopmaster</string>
+	<key>PROJECT_ID</key>
+	<string>cushopsol</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cushopsol.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:54036447893:ios:000e6848d412fb3fd9119c</string>
+	<key>DATABASE_URL</key>
+	<string>https://cushopsol.firebaseio.com</string>
+</dict>
+</plist>

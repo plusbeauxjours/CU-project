@@ -14,10 +14,6 @@ export default () => {
   const {isLoggedIn} = useSelector((state: any) => state.userReducer);
   const RootStack = createStackNavigator();
 
-  // const loadImagesAsync = async () => {
-  //   await Asset.loadAsync([require('../../assets/images/shopSol.png')]);
-  // };
-
   return (
     <NavigationContainer>
       <RootStack.Navigator

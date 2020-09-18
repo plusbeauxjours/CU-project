@@ -6050,6 +6050,11 @@ react-native-datepicker@1.7.2:
   dependencies:
     moment "^2.22.0"
 
+react-native-device-info@6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-6.0.3.tgz#22aabd6e8b24bc62d85dd1761375a181652a06e9"
+  integrity sha512-ehTPUm1wmdPAN+xc7Ej+tjzg024qEO2jIryNobFYK4104Bd51uaeNjZQtbTEXPYKjJpP8j8uQkZWNl/Tnx4zNQ==
+
 react-native-elements@2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-2.2.1.tgz#1d95aa7ee2020f72e0bc779d574fefcf072b7086"
@@ -6069,6 +6074,14 @@ react-native-fast-image@8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-8.3.2.tgz#e9db271b70b9634b7be054760914d80954f9898c"
   integrity sha512-AJ0b4BEswRwa0bh4SibYUtXszEiaO88Lf4CZ1ib+t5ZfkAgsMk9Liv3L0LYnDblMJmSeGTr1+2ViIM8F2vamjg==
+
+react-native-firebase@5.6.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-firebase/-/react-native-firebase-5.6.0.tgz#6f6123f53cb73477915dd55c55f3e1de91db38d2"
+  integrity sha512-I+o3zNLdIz4pxWTCSZH70M1BcPl+SdqKQfurOT0sWcaMSL2ecDqVy0PCTmN7ORt7/Z879Er6PLgA/psjArQlmw==
+  dependencies:
+    opencollective-postinstall "^2.0.0"
+    prop-types "^15.7.2"
 
 react-native-gesture-handler@1.7.0:
   version "1.7.0"
@@ -6180,6 +6193,11 @@ react-native-raw-bottom-sheet@2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/react-native-raw-bottom-sheet/-/react-native-raw-bottom-sheet-2.2.0.tgz#d11dabb86aadb014273767ef7b554924b13633c5"
   integrity sha512-qL4JKIqvbcVxbkKzeh51hjV7suoJN3ouxzvLmOg0FBUV1yiJAfEbacjQdtRCI6+OU5pyGFBIifLsTXcFDwHggg==
+
+react-native-really-awesome-button@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-really-awesome-button/-/react-native-really-awesome-button-1.6.0.tgz#71700f960aa6d419058beff177c7b6cf18694ef7"
+  integrity sha512-Lar69MRWnCqO0CgOIk/s63P3bS0xKqeMi/m8TDul14tRkYuOW55ZaF4pBeL13GodI+3Cw0dbihwighsQ+obXSA==
 
 react-native-reanimated@1.10.2:
   version "1.10.2"

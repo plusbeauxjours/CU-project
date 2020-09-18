@@ -13,6 +13,9 @@ target 'CUwesop' do
 
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
+  pod 'Firebase/Core'
+  pod 'Firebase/Analytics' 
+  pod 'Firebase/Messaging'
 
   target 'CUwesopTests' do
     inherit! :complete
@@ -37,3 +40,4 @@ target 'CUwesop-tvOS' do
     # Pods for testing
   end
 end
+

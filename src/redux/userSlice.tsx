@@ -11,9 +11,12 @@ const userSlice = createSlice({
     STORE: '',
     TYPE: '',
     MOBILE_NO: '',
-    SERVICE_CODE: '',
     VERSION: '',
     STORELIST_DATA: [],
+    PUSH_TOKEN: '',
+    DEVICE_MODEL: '',
+    DEVICE_PLATFORM: '',
+    DEVICE_SYSTEM_VERSION: '',
   },
   reducers: {
     setMEMBER_SEQ(state, action) {
@@ -39,13 +42,6 @@ const userSlice = createSlice({
       return {
         ...state,
         version,
-      };
-    },
-    sertSERVICE_CODE(state, action) {
-      const {payload: serviceCode} = action;
-      return {
-        ...state,
-        serviceCode,
       };
     },
     setSTORELIST_DATA(state, action) {
@@ -76,6 +72,23 @@ const userSlice = createSlice({
       state.MOBILE_NO = '';
       state.STORELIST_DATA = [];
     },
+    setDEVICE_INFO(state, action) {
+      const {
+        payload: {
+          PUSH_TOKEN,
+          DEVICE_MODEL,
+          DEVICE_PLATFORM,
+          DEVICE_SYSTEM_VERSION,
+        },
+      } = action;
+      return {
+        ...state,
+        PUSH_TOKEN,
+        DEVICE_MODEL,
+        DEVICE_PLATFORM,
+        DEVICE_SYSTEM_VERSION,
+      };
+    },
   },
 });
 
@@ -83,12 +96,12 @@ export const {
   setMEMBER_SEQ,
   setMEMBER_NAME,
   setMOBILE_NO,
-  sertSERVICE_CODE,
   setVERSION,
   setSTORELIST_DATA,
   setUSER,
   setLOGIN,
   setLOGOUT,
+  setDEVICE_INFO,
 } = userSlice.actions;
 
 export const userLogin = () => async (dispatch) => {
