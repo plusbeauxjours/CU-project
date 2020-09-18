@@ -4,9 +4,9 @@ import {useNavigation} from '@react-navigation/native';
 
 import StartScreenPresenter from './StartScreenPresenter';
 import {useDispatch, useSelector} from 'react-redux';
-import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
-import utils from '../../../constants/utils';
-import api from '../../../constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import utils from '~/constants/utils';
+import api from '~/constants/LoggedInApi';
 
 export default () => {
   const navigation = useNavigation();

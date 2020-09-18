@@ -6,9 +6,9 @@ import {
 } from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import SubmitBtn from '../../../components/Btn/SubmitBtn';
-import InputLine from '../../../components/InputLine';
-import CheckPasswordBtn from '../../../components/Btn/CheckPasswordBtn';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
+import InputLine from '~/components/InputLine';
+import CheckPasswordBtn from '~/components/Btn/CheckPasswordBtn';
 
 interface IIsBefore {
   isBefore: boolean;

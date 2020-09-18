@@ -3,10 +3,10 @@ import styled from 'styled-components/native';
 import {useSelector, useDispatch} from 'react-redux';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import api from '../../../../constants/LoggedInApi';
-import {userLogout} from '../../../../redux/userSlice';
-import {CheckBoxIcon} from '../../../../constants/Icons';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import api from '~/constants/LoggedInApi';
+import {userLogout} from '~/redux/userSlice';
+import {CheckBoxIcon} from '~/constants/Icons';
 import {useNavigation} from '@react-navigation/native';
 
 const BackGround = styled.SafeAreaView`

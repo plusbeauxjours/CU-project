@@ -4,8 +4,8 @@ import HealthCertificateTypeScreenPresenter from './HealthCertificateTypeScreenP
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {getHEALTH_CERTIFICATE_DATA} from '../../../../redux/healthSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {getHEALTH_CERTIFICATE_DATA} from '~/redux/healthSlice';
 
 export default () => {
   const dispatch = useDispatch();

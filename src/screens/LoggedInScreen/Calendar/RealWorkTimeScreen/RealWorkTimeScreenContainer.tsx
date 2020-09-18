@@ -3,9 +3,9 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 
 import RealWorkTimeScreenPresenter from './RealWorkTimeScreenPresenter';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {updateSCHEDULE} from '../../../../redux/calendarSlice';
-import api from '../../../../constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {updateSCHEDULE} from '~/redux/calendarSlice';
+import api from '~/constants/LoggedInApi';
 
 export default ({route: {params}}) => {
   const navigation = useNavigation();

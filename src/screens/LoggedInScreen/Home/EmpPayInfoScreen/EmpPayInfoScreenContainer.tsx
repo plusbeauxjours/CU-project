@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import api from '../../../../constants/LoggedInApi';
+import {setSplashVisible} from '~/redux/splashSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import api from '~/constants/LoggedInApi';
 import EmpPayInfoScreenPresenter from './EmpPayInfoScreenPresenter';
 
 export default ({route: {params}}) => {

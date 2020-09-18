@@ -3,11 +3,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import * as Hangul from 'hangul-js';
 
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import InviteEmployeeScreenPresenter from './InviteEmployeeScreenPresenter';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import api from '../../../../constants/LoggedInApi';
-import {getRESPONSE_EMPLOYEE} from '../../../../redux/employeeSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
+import api from '~/constants/LoggedInApi';
+import {getRESPONSE_EMPLOYEE} from '~/redux/employeeSlice';
 
 export default () => {
   const dispatch = useDispatch();

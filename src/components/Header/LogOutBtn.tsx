@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
-import {userLogout} from '../../redux/userSlice';
-import {LogoutIcon} from '../../constants/Icons';
+import {userLogout} from '~/redux/userSlice';
+import {LogoutIcon} from '~/constants/Icons';
 
 const Touchable = styled.TouchableOpacity`
   margin-right: 10px;

@@ -11,14 +11,14 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import FastImage from 'react-native-fast-image';
-import {EllipseIcon} from '../../../../constants/Icons';
+import {EllipseIcon} from '~/constants/Icons';
 
 import {
   BackIcon,
   ForwardIcon,
   ReloadCircleIcon,
   HelpCircleIcon,
-} from '../../../../constants/Icons';
+} from '~/constants/Icons';
 
 interface IsSelected {
   isSelected: boolean;

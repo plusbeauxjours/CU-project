@@ -5,10 +5,10 @@ import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 
 import HealthCertificateEmpListCard from './HealthCertificateEmpListCard';
-import api from '../../../../constants/LoggedInApi';
-import {CheckMarkIcon} from '../../../../constants/Icons';
-import {setHEALTH_EMP_LIST} from '../../../../redux/healthSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
+import api from '~/constants/LoggedInApi';
+import {CheckMarkIcon} from '~/constants/Icons';
+import {setHEALTH_EMP_LIST} from '~/redux/healthSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;

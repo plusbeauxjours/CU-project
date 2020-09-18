@@ -2,13 +2,10 @@ import React, {useEffect} from 'react';
 import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 
-import api from '../../../../constants/LoggedInApi';
+import api from '~/constants/LoggedInApi';
 import ShelfLifeCheckScreenPresenter from './ShelfLifeCheckScreenPresenter';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {
-  getSHELFLIFE_DATA,
-  udpateSHELFLIFE,
-} from '../../../../redux/shelflifeSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {getSHELFLIFE_DATA, udpateSHELFLIFE} from '~/redux/shelflifeSlice';
 
 export default () => {
   const YEAR = moment().format('YYYY');

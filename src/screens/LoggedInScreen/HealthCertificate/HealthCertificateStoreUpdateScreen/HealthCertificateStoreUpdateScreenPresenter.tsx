@@ -7,10 +7,10 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import InputLine from '../../../../components/InputLine';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
+import InputLine from '~/components/InputLine';
 import moment from 'moment';
-import {CameraIcon, CheckBoxIcon} from '../../../../constants/Icons';
+import {CameraIcon, CheckBoxIcon} from '~/constants/Icons';
 import FastImage from 'react-native-fast-image';
 import {RNCamera} from 'react-native-camera';
 

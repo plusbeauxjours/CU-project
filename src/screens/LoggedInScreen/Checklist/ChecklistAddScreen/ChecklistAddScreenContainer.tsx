@@ -3,11 +3,11 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import {setAlertVisible, setAlertInfo} from '../../../../redux/alertSlice';
-import api from '../../../../constants/LoggedInApi';
+import {setSplashVisible} from '~/redux/splashSlice';
+import {setAlertVisible, setAlertInfo} from '~/redux/alertSlice';
+import api from '~/constants/LoggedInApi';
 import ChecklistAddScreenPresenter from './ChecklistAddScreenPresenter';
-import {getCHECKLIST_DATA} from '../../../../redux/checklistSlice';
+import {getCHECKLIST_DATA} from '~/redux/checklistSlice';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
@@ -71,7 +71,6 @@ export default ({route: {params}}) => {
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
   };
-
 
   // 담당직원 리스트에서 삭제
   const deleteEmpFn = (KEY) => {

@@ -3,7 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
 import FastImage from 'react-native-fast-image';
 
-import {CheckMarkIcon} from '../../../../constants/Icons';
+import {CheckMarkIcon} from '~/constants/Icons';
 
 const DataListItem = styled.TouchableOpacity`
   width: 100%;

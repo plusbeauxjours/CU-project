@@ -6,11 +6,7 @@ import {
 } from 'react-native-responsive-screen';
 import Ripple from 'react-native-material-ripple';
 
-import {
-  ForwardIcon,
-  LogoutIcon,
-  PersonCircleIcon,
-} from '../../../../constants/Icons';
+import {ForwardIcon, LogoutIcon, PersonCircleIcon} from '~/constants/Icons';
 
 interface IIsStore {
   isStore?: boolean;

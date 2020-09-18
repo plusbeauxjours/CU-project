@@ -3,13 +3,13 @@ import {Linking, BackHandler} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 
 import HomeScreenPresenter from './HomeScreenPresenter';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import {setSTORE_DATA, setEMP_SEQ} from '../../../../redux/storeSlice';
-import utils from '../../../../constants/utils';
-import api from '../../../../constants/LoggedInApi';
-import {getRESPONSE_EMPLOYEE} from '../../../../redux/employeeSlice';
-import {getHEALTH_CERTIFICATE_DATA} from '../../../../redux/healthSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
+import {setSTORE_DATA, setEMP_SEQ} from '~/redux/storeSlice';
+import utils from '~/constants/utils';
+import api from '~/constants/LoggedInApi';
+import {getRESPONSE_EMPLOYEE} from '~/redux/employeeSlice';
+import {getHEALTH_CERTIFICATE_DATA} from '~/redux/healthSlice';
 
 export default ({route: {params}}) => {
   const modalRef = useRef(null);

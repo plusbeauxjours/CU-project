@@ -9,9 +9,9 @@ import {
 } from 'react-native-responsive-screen';
 import FastImage from 'react-native-fast-image';
 
-import {userLogout} from '../../../../redux/userSlice';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {ForwardIcon, LogoutIcon} from '../../../../constants/Icons';
+import {userLogout} from '~/redux/userSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {ForwardIcon, LogoutIcon} from '~/constants/Icons';
 
 const BackGround = styled.View`
   flex: 1;

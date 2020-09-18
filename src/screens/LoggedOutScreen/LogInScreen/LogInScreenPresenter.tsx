@@ -8,9 +8,9 @@ import {isIphoneX} from 'react-native-iphone-x-helper';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FastImage from 'react-native-fast-image';
 
-import InputLine from '../../../components/InputLine';
-import RoundBtn from '../../../components/Btn/RoundBtn';
-import FcmContainer from '../../../components/FcmContainer';
+import InputLine from '~/components/InputLine';
+import RoundBtn from '~/components/Btn/RoundBtn';
+import FcmContainer from '~/components/FcmContainer';
 
 const BackGround = styled.View`
   flex: 1;
@@ -92,7 +92,7 @@ export default ({
             <LogoText isIphoneX={isIphoneX()}>
               <FastImage
                 style={{height: 175, width: 350}}
-                source={require('../../../assets/images/logo_cu.png')}
+                source={require('~/assets/images/logo_cu.png')}
                 resizeMode={FastImage.resizeMode.stretch}
               />
             </LogoText>

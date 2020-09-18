@@ -3,10 +3,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
 import AddStoreScreenPresenter from './AddStoreScreenPresenter';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import {getSTORELIST_DATA} from '../../../../redux/userSlice';
-import api from '../../../../constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
+import {getSTORELIST_DATA} from '~/redux/userSlice';
+import api from '~/constants/LoggedInApi';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();

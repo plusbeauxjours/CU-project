@@ -3,10 +3,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import EmployeeInfoScreenPresenter from './EmployeeInfoScreenPresenter';
-import api from '../../../../constants/LoggedInApi';
-import {setSplashVisible} from '../../../../redux/splashSlice';
+import api from '~/constants/LoggedInApi';
+import {setSplashVisible} from '~/redux/splashSlice';
 
 const constant = {
   COLOR: [

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {AddCircleIcon, RemoveCircleIcon} from '../../../../constants/Icons';
+import {AddCircleIcon, RemoveCircleIcon} from '~/constants/Icons';
 
 const Row = styled.View`
   padding: 5px;

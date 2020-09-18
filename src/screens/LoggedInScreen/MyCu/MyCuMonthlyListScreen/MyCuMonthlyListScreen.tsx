@@ -4,12 +4,9 @@ import styled from 'styled-components/native';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {RefreshControl} from 'react-native';
 
-import {
-  setMYCU_MONTHLY,
-  setMYCU_MONTHLY_CATEGORY,
-} from '../../../../redux/mycuSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import api from '../../../../constants/LoggedInApi';
+import {setMYCU_MONTHLY, setMYCU_MONTHLY_CATEGORY} from '~/redux/mycuSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
+import api from '~/constants/LoggedInApi';
 import MyCuMonthlyCard from './MyCuMonthlyCard';
 
 interface ISelected {

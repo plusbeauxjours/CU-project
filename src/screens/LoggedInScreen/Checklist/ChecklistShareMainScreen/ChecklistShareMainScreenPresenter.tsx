@@ -10,7 +10,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import utils from '../../../../constants/utils';
+import utils from '~/constants/utils';
 
 import {
   AddIcon,
@@ -19,7 +19,7 @@ import {
   CalendarIcon,
   ForwardIcon,
   CreateIcon,
-} from '../../../../constants/Icons';
+} from '~/constants/Icons';
 import ChecklistShareMainScreenCard from './ChecklistShareMainScreenCard';
 
 const BackGround = styled.SafeAreaView`

@@ -10,14 +10,14 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import InputLine from '../../../../components/InputLine';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
+import InputLine from '~/components/InputLine';
 import {
   CameraIcon,
   FlashIcon,
   NoFlashIcon,
   PictureIcon,
-} from '../../../../constants/Icons';
+} from '~/constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;

@@ -72,6 +72,7 @@
     "@types/redux": "3.6.0",
     "@types/styled-components": "5.1.2",
     "babel-jest": "26.2.2",
+    "babel-plugin-root-import": "6.5.0",
     "babel-plugin-styled-components": "1.11.1",
     "eslint": "7.6.0",
     "jest": "26.2.2",

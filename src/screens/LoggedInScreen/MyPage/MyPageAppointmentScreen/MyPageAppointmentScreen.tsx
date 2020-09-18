@@ -7,8 +7,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import {getText1, getText2, getText3} from '../../../../constants/getText';
-import {ForwardIcon} from '../../../../constants/Icons';
+import {getText1, getText2, getText3} from '~/constants/getText';
+import {ForwardIcon} from '~/constants/Icons';
 
 const BackGround = styled.View`
   flex: 1;

@@ -3,9 +3,9 @@ import CalendarAddScreenPresenter from './CalendarAddScreenPresenter';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import api from '../../../../constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
+import api from '~/constants/LoggedInApi';
 
 const constant = {
   COLOR: [

@@ -5,7 +5,7 @@ import {
 } from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
 
-import {LocationIcon} from '../../../../constants/Icons';
+import {LocationIcon} from '~/constants/Icons';
 
 const Container = styled.TouchableOpacity`
   margin-top: 30px;

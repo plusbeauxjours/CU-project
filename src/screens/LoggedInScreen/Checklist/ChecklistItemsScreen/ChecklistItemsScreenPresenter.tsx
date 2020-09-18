@@ -17,9 +17,9 @@ import {
   CreateIcon,
   HelpCircleIcon,
   CheckMarkIcon,
-} from '../../../../constants/Icons';
+} from '~/constants/Icons';
 import moment from 'moment';
-import {AddCircleIcon, CloseCircleIcon} from '../../../../constants/Icons';
+import {AddCircleIcon, CloseCircleIcon} from '~/constants/Icons';
 import ChecklistItemsScreenCard from './ChecklistItemsScreenCard';
 
 interface IsEmpName {

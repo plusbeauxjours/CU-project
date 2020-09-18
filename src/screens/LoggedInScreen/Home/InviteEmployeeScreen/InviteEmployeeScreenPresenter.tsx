@@ -6,12 +6,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import {
-  PersonAddIcon,
-  HelpCircleIcon,
-  SearchIcon,
-} from '../../../../constants/Icons';
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import {PersonAddIcon, HelpCircleIcon, SearchIcon} from '~/constants/Icons';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
 import InviteEmployeeScreenCard from './InviteEmployeeScreenCard';
 
 const BackGround = styled.SafeAreaView`

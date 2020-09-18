@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
-import {BackIcon, ForwardIcon, EllipseIcon} from '../../../../constants/Icons';
+import {BackIcon, ForwardIcon, EllipseIcon} from '~/constants/Icons';
 
 interface IsSelected {
   isSelected: boolean;

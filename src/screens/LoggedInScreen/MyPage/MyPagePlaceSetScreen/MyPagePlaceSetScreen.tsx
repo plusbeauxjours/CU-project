@@ -6,10 +6,10 @@ import {
 } from 'react-native-responsive-screen';
 import {useSelector, useDispatch} from 'react-redux';
 
-import api from '../../../../constants/LoggedInApi';
+import api from '~/constants/LoggedInApi';
 import MyPagePlaceSetCard from './MyPagePlaceSetCard';
-import {setCLOSED_STORE_DATA} from '../../../../redux/mypageSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
+import {setCLOSED_STORE_DATA} from '~/redux/mypageSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;

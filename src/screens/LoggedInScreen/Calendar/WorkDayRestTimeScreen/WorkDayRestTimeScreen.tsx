@@ -3,11 +3,11 @@ import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
 
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import {updateREST_TIME} from '../../../../redux/calendarSlice';
-import api from '../../../../constants/LoggedInApi';
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
+import {updateREST_TIME} from '~/redux/calendarSlice';
+import api from '~/constants/LoggedInApi';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;

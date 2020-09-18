@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 
-import {CartIcon} from '../../constants/Icons';
+import {CartIcon} from '~/constants/Icons';
 
 const Touchable = styled.TouchableOpacity`
   margin-right: 15px;

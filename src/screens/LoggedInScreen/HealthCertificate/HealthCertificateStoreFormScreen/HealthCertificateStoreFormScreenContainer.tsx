@@ -3,10 +3,10 @@ import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
-import utils from '../../../../constants/utils';
-import api from '../../../../constants/LoggedInApi';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import utils from '~/constants/utils';
+import api from '~/constants/LoggedInApi';
+import {setSplashVisible} from '~/redux/splashSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import HealthCertificateStoreFormScreenPresenter from './HealthCertificateStoreFormScreenPresenter';
 
 export default ({route: {params}}) => {

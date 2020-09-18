@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import PaymentInfoScreenPresenter from './PaymentInfoScreenPresenter';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
-import {getTOTAL_PAYMENT_WORKING_EMP} from '../../../../redux/paymentSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import api from '../../../../constants/LoggedInApi';
-import {setEMPLOYEE_LIST} from '../../../../redux/employeeSlice';
+import {getTOTAL_PAYMENT_WORKING_EMP} from '~/redux/paymentSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
+import api from '~/constants/LoggedInApi';
+import {setEMPLOYEE_LIST} from '~/redux/employeeSlice';
 
 export default () => {
   const dispatch = useDispatch();

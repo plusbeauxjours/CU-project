@@ -11,7 +11,7 @@ import FastImage from 'react-native-fast-image';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import {ActivityIndicator} from 'react-native';
 
-import {CheckBoxIcon, CloseCircleIcon} from '../../../../constants/Icons';
+import {CheckBoxIcon, CloseCircleIcon} from '~/constants/Icons';
 
 interface ISelected {
   isSelected: boolean;

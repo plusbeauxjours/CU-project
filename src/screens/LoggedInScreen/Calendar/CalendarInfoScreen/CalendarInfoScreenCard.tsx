@@ -8,10 +8,10 @@ import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 
-import api from '../../../../constants/LoggedInApi';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {toggleVACATION} from '../../../../redux/calendarSlice';
-import {EllipseIcon} from '../../../../constants/Icons';
+import api from '~/constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {toggleVACATION} from '~/redux/calendarSlice';
+import {EllipseIcon} from '~/constants/Icons';
 
 const Row = styled.View`
   flex-direction: row;

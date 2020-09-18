@@ -3,14 +3,9 @@ import {useDispatch} from 'react-redux';
 import LogInScreenPresenter from './LogInScreenPresenter';
 import {useNavigation} from '@react-navigation/native';
 
-import {
-  setUSER,
-  setMOBILE_NO,
-  setVERSION,
-  userLogin,
-} from '../../../redux/userSlice';
-import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
-import api from '../../../constants/LoggedInApi';
+import {setUSER, setMOBILE_NO, setVERSION, userLogin} from '~/redux/userSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import api from '~/constants/LoggedInApi';
 
 export default ({route: {params}}) => {
   const navigation = useNavigation();

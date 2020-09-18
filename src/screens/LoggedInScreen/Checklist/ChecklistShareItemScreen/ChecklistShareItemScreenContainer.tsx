@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import api from '../../../../constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import api from '~/constants/LoggedInApi';
 import ChecklistShareItemScreenPresenter from './ChecklistShareItemScreenPresenter';
 import {
   getCHECKLIST_COMMENTS,
   editCHECKLIST_SHARE_COMMENTS,
   deleteCHECKLIST_SHARE_COMMENTS,
-} from '../../../../redux/checklistshareSlice';
+} from '~/redux/checklistshareSlice';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();

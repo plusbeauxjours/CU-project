@@ -13,9 +13,9 @@ import {
   RadioBtnOnIcon,
   AddCircleIcon,
   RemoveCircleIcon,
-} from '../../../../constants/Icons';
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import RoundBtn from '../../../../components/Btn/RoundBtn';
+} from '~/constants/Icons';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
+import RoundBtn from '~/components/Btn/RoundBtn';
 import ChecklistAddScreenCard from './ChecklistAddScreenCard';
 
 interface IsSelected {

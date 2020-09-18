@@ -9,20 +9,16 @@ import {
 import {Calendar} from 'react-native-calendars';
 import Modal from 'react-native-modal';
 
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import {
-  AddCircleIcon,
-  RemoveCircleIcon,
-  EllipseIcon,
-} from '../../../../constants/Icons';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
+import {AddCircleIcon, RemoveCircleIcon, EllipseIcon} from '~/constants/Icons';
 import CalendarAddScreenCard from './CalendarAddScreenCard';
-import RoundBtn from '../../../../components/Btn/RoundBtn';
+import RoundBtn from '~/components/Btn/RoundBtn';
 import {
   DownIcon,
   UpIcon,
   RadioBtnOffIcon,
   RadioBtnOnIcon,
-} from '../../../../constants/Icons';
+} from '~/constants/Icons';
 
 interface IsSelected {
   isSelected: boolean;

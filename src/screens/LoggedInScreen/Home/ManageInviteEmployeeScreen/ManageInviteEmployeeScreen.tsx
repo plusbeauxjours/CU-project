@@ -5,12 +5,12 @@ import styled from 'styled-components/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
 import ManageInviteEmployeeCard1 from './ManageInviteEmployeeCard1';
 import ManageInviteEmployeeCard2 from './ManageInviteEmployeeCard2';
-import {HelpCircleIcon} from '../../../../constants/Icons';
-import {getRESPONSE_EMPLOYEE} from '../../../../redux/employeeSlice';
+import {HelpCircleIcon} from '~/constants/Icons';
+import {getRESPONSE_EMPLOYEE} from '~/redux/employeeSlice';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;

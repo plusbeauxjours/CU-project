@@ -8,9 +8,9 @@ import {
 } from 'react-native-responsive-screen';
 import FastImage from 'react-native-fast-image';
 
-import api from '../../../../constants/LoggedInApi';
-import VideoPlayer from '../../../../components/VideoPlayer';
-import PDFViewer from '../../../../components/PDFViewer';
+import api from '~/constants/LoggedInApi';
+import VideoPlayer from '~/components/VideoPlayer';
+import PDFViewer from '~/components/PDFViewer';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;

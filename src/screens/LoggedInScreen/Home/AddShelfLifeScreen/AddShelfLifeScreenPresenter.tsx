@@ -4,10 +4,10 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import moment from 'moment';
 import DatePickerModal from 'react-native-modal-datetime-picker';
 
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import {HelpCircleIcon} from '../../../../constants/Icons';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
+import {HelpCircleIcon} from '~/constants/Icons';
 import AddShelfLifeScreenCard from './AddShelfLifeScreenCard';
-import RoundBtn from '../../../../components/Btn/RoundBtn';
+import RoundBtn from '~/components/Btn/RoundBtn';
 
 interface ITextInput {
   isBefore: boolean;

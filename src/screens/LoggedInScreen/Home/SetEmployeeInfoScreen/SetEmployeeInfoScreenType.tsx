@@ -6,7 +6,7 @@ import {
   RadioBtnOffIcon,
   CheckBoxIcon,
   HelpCircleIcon,
-} from '../../../../constants/Icons';
+} from '~/constants/Icons';
 
 interface IsBefore {
   isBefore: boolean;

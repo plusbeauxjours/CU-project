@@ -4,11 +4,7 @@ import {RefreshControl} from 'react-native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
 
-import {
-  ForwardIcon,
-  EllipseIcon,
-  HelpCircleIcon,
-} from '../../../../constants/Icons';
+import {ForwardIcon, EllipseIcon, HelpCircleIcon} from '~/constants/Icons';
 
 interface IText {
   isSubmited?: boolean;

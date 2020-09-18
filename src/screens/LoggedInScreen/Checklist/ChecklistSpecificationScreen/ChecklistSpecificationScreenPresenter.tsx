@@ -10,14 +10,14 @@ import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 import {RNCamera} from 'react-native-camera';
 
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
 import {
   CheckBoxIcon,
   CameraIcon,
   PictureIcon,
   FlashIcon,
   NoFlashIcon,
-} from '../../../../constants/Icons';
+} from '~/constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;

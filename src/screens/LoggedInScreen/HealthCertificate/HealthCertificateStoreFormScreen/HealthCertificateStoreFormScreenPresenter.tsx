@@ -7,11 +7,11 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import InputLine from '../../../../components/InputLine';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
+import InputLine from '~/components/InputLine';
 import FastImage from 'react-native-fast-image';
 import {RNCamera} from 'react-native-camera';
-import {CameraIcon, CheckBoxIcon} from '../../../../constants/Icons';
+import {CameraIcon, CheckBoxIcon} from '~/constants/Icons';
 import moment from 'moment';
 
 const WhiteSpace = styled.View`

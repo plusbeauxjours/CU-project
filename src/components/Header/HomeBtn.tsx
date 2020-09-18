@@ -1,7 +1,7 @@
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
-import {HomeIcon} from '../../constants/Icons';
+import {HomeIcon} from '~/constants/Icons';
 import {useSelector} from 'react-redux';
 
 const Touchable = styled.TouchableOpacity`

@@ -3,10 +3,10 @@ import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styled from 'styled-components/native';
 import {View, ScrollView} from 'react-native';
-import SubmitBtn from '../../../components/Btn/SubmitBtn';
-import CheckPasswordBtn from '../../../components/Btn/CheckPasswordBtn';
-import InputLine from '../../../components/InputLine';
-import {RadioBtnOnIcon, RadioBtnOffIcon} from '../../../constants/Icons';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
+import CheckPasswordBtn from '~/components/Btn/CheckPasswordBtn';
+import InputLine from '~/components/InputLine';
+import {RadioBtnOnIcon, RadioBtnOffIcon} from '~/constants/Icons';
 
 interface IPositionTypeRadioButtonOff {
   borderColor: boolean;

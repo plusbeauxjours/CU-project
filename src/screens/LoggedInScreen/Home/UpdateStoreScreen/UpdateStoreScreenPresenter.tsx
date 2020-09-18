@@ -6,13 +6,13 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import InputLine from '../../../../components/InputLine';
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import InputLine from '~/components/InputLine';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
 import {
   RadioBtnOnIcon,
   RadioBtnOffIcon,
   HelpCircleIcon,
-} from '../../../../constants/Icons';
+} from '~/constants/Icons';
 
 interface IIsPerple {
   isPerple: boolean;

@@ -3,9 +3,9 @@ import {useDispatch} from 'react-redux';
 import moment from 'moment';
 
 import EmployeeScheduleAddScreenPresenter from './EmployeeScheduleAddScreenPresenter';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import api from '../../../../constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
+import api from '~/constants/LoggedInApi';
 import {useNavigation} from '@react-navigation/native';
 
 const constant = {

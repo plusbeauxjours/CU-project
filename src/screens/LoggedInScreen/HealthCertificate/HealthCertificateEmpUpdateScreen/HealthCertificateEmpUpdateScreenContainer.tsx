@@ -3,12 +3,12 @@ import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
 import HealthCertificateEmpUpdateScreenPresenter from './HealthCertificateEmpUpdateScreenPresenter';
-import utils from '../../../../constants/utils';
-import api from '../../../../constants/LoggedInApi';
-import {removeHEALTH_EMP_DETAIL} from '../../../../redux/healthSlice';
+import utils from '~/constants/utils';
+import api from '~/constants/LoggedInApi';
+import {removeHEALTH_EMP_DETAIL} from '~/redux/healthSlice';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();

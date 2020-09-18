@@ -3,8 +3,8 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 
 import ChecklistDetailScreenPresenter from './ChecklistDetailScreenPresenter';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import api from '../../../../constants/LoggedInApi';
+import {setSplashVisible} from '~/redux/splashSlice';
+import api from '~/constants/LoggedInApi';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();

@@ -3,7 +3,7 @@ import {Agenda} from 'react-native-calendars';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 
-import {CheckMarkIcon, DownIcon} from '../../../../constants/Icons';
+import {CheckMarkIcon, DownIcon} from '~/constants/Icons';
 import moment from 'moment';
 
 interface IsChecked {

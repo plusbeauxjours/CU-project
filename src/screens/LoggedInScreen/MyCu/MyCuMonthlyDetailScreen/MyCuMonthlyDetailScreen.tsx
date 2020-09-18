@@ -8,9 +8,9 @@ import {
 } from 'react-native-responsive-screen';
 import FastImage from 'react-native-fast-image';
 
-import api from '../../../../constants/LoggedInApi';
-import PDFViewer from '../../../../components/PDFViewer';
-import RoundBtn from '../../../../components/Btn/RoundBtn';
+import api from '~/constants/LoggedInApi';
+import PDFViewer from '~/components/PDFViewer';
+import RoundBtn from '~/components/Btn/RoundBtn';
 
 const BackGround = styled.View`
   flex: 1;

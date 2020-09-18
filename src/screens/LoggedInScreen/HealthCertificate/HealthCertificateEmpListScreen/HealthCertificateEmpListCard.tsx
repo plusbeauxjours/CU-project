@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import moment from 'moment';
 
-import {EllipseIcon} from '../../../../constants/Icons';
+import {EllipseIcon} from '~/constants/Icons';
 
 interface IText {
   color: string;

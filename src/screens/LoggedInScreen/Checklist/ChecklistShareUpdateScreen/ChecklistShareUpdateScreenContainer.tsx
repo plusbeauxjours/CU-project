@@ -4,16 +4,16 @@ import {useNavigation} from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import ChecklistShareUpdateScreenPresenter from './ChecklistShareUpdateScreenPresenter';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import utils from '../../../../constants/utils';
-import {setSplashVisible} from '../../../../redux/splashSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import utils from '~/constants/utils';
+import {setSplashVisible} from '~/redux/splashSlice';
 import {
   updateCHECKLIST_SHARE_DATA,
   deleteCHECKLIST_SHARE_DATA,
   getCHECKLIST_SHARE_DATA1,
   getCHECKLIST_SHARE_DATA2,
-} from '../../../../redux/checklistshareSlice';
-import api from '../../../../constants/LoggedInApi';
+} from '~/redux/checklistshareSlice';
+import api from '~/constants/LoggedInApi';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();

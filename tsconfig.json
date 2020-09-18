@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./src",
+    "paths": {
+      "~/*": ["*"]
+    },
     "outDir": "build/dist",
     "module": "commonjs",
     "allowSyntheticDefaultImports": true,

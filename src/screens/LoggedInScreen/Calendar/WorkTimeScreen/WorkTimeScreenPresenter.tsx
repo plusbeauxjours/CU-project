@@ -8,13 +8,13 @@ import {
 import Modal from 'react-native-modal';
 import FastImage from 'react-native-fast-image';
 
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
 import {
   UpIcon,
   DownIcon,
   RadioBtnOnIcon,
   RadioBtnOffIcon,
-} from '../../../../constants/Icons';
+} from '~/constants/Icons';
 
 interface IsSelected {
   isSelected: boolean;

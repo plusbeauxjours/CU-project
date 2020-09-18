@@ -6,11 +6,11 @@ import {
 } from 'react-native-responsive-screen';
 import {useDispatch} from 'react-redux';
 
-import api from '../../../../constants/LoggedInApi';
-import {RemoveCircleIcon} from '../../../../constants/Icons';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {getRESPONSE_EMPLOYEE} from '../../../../redux/employeeSlice';
+import api from '~/constants/LoggedInApi';
+import {RemoveCircleIcon} from '~/constants/Icons';
+import {setSplashVisible} from '~/redux/splashSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {getRESPONSE_EMPLOYEE} from '~/redux/employeeSlice';
 
 const Container = styled.View`
   height: ${hp('10%')}px;

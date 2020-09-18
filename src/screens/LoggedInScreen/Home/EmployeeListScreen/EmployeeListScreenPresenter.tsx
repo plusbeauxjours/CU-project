@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {RefreshControl} from 'react-native';
 import EmployeeListCard from './EmployeeListCard';
-import {HelpCircleIcon} from '../../../../constants/Icons';
+import {HelpCircleIcon} from '~/constants/Icons';
 
 interface IEmployeeListBox {
   hasEmployeeNow?: boolean;

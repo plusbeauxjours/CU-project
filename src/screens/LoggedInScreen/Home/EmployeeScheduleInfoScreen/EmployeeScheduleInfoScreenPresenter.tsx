@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import FastImage from 'react-native-fast-image';
-import {EllipseIcon} from '../../../../constants/Icons';
+import {EllipseIcon} from '~/constants/Icons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -12,12 +12,8 @@ import {
   Keyboard,
   TouchableHighlight,
 } from 'react-native';
-import {
-  BackIcon,
-  ForwardIcon,
-  HelpCircleIcon,
-} from '../../../../constants/Icons';
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import {BackIcon, ForwardIcon, HelpCircleIcon} from '~/constants/Icons';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
 
 interface IsSelected {
   isSelected: boolean;

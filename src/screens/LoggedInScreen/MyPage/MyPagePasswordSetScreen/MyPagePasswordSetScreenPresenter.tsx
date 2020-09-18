@@ -2,9 +2,9 @@ import React, {useRef} from 'react';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import InputLine from '../../../../components/InputLine';
-import CheckPasswordBtn from '../../../../components/Btn/CheckPasswordBtn';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
+import InputLine from '~/components/InputLine';
+import CheckPasswordBtn from '~/components/Btn/CheckPasswordBtn';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;

@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import styled from 'styled-components/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {setMEMBER_NAME} from '../../../../redux/userSlice';
-import api from '../../../../constants/LoggedInApi';
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import InputLine from '../../../../components/InputLine';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import {setMEMBER_NAME} from '~/redux/userSlice';
+import api from '~/constants/LoggedInApi';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
+import InputLine from '~/components/InputLine';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;

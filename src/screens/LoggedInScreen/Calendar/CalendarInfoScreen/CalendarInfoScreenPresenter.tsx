@@ -2,7 +2,7 @@ import React from 'react';
 import {Agenda} from 'react-native-calendars';
 import styled from 'styled-components/native';
 
-import {DownIcon} from '../../../../constants/Icons';
+import {DownIcon} from '~/constants/Icons';
 import CalendarInfoScreenCard from './CalendarInfoScreenCard';
 
 interface IWeekend {

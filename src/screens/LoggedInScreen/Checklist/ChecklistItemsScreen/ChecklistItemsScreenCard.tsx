@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
-import {EllipseIcon, ForwardIcon} from '../../../../constants/Icons';
+import {EllipseIcon, ForwardIcon} from '~/constants/Icons';
 
 const Container = styled.View`
   width: 100%;

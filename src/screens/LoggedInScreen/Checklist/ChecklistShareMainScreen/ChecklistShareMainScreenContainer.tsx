@@ -3,15 +3,15 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import {
   getCHECKLIST_SHARE_DATA1,
   getCHECKLIST_SHARE_DATA2,
   getCHECKLIST_SHARE_DATA3,
   setCHECKLIST_SHARE_MARKED,
-} from '../../../../redux/checklistshareSlice';
+} from '~/redux/checklistshareSlice';
 import ChecklistShareMainScreenPresenter from './ChecklistShareMainScreenPresenter';
-import api from '../../../../constants/LoggedInApi';
+import api from '~/constants/LoggedInApi';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();

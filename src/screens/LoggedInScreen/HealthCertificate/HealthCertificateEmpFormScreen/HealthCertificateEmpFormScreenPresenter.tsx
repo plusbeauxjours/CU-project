@@ -10,9 +10,9 @@ import FastImage from 'react-native-fast-image';
 import {RNCamera} from 'react-native-camera';
 import moment from 'moment';
 
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import InputLine from '../../../../components/InputLine';
-import {CameraIcon} from '../../../../constants/Icons';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
+import InputLine from '~/components/InputLine';
+import {CameraIcon} from '~/constants/Icons';
 
 const WhiteSpace = styled.View`
   height: 20px;

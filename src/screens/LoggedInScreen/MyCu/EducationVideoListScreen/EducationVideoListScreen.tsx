@@ -4,10 +4,10 @@ import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {useSelector, useDispatch} from 'react-redux';
 import styled from 'styled-components/native';
 
-import api from '../../../../constants/LoggedInApi';
+import api from '~/constants/LoggedInApi';
 import EducationVideoCard from './EducationVideoCard';
-import {setEDUCATION_VIDEO} from '../../../../redux/mycuSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
+import {setEDUCATION_VIDEO} from '~/redux/mycuSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
 
 interface ISelected {
   isSelected: boolean;

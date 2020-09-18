@@ -2,15 +2,15 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import MyPageAlarmSetScreenPresenter from './MyPageAlarmSetScreenPresenter';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import {
   setAllPush,
   setWorkPush,
   setCheckPush,
   setChecksharePush,
   setScedulePUsh,
-} from '../../../../redux/userAlarmSlice';
-import api from '../../../../constants/LoggedInApi';
+} from '~/redux/userAlarmSlice';
+import api from '~/constants/LoggedInApi';
 
 export default () => {
   const dispatch = useDispatch();

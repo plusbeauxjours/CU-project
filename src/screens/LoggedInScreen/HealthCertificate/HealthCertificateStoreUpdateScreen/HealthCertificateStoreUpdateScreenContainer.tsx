@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
-import utils from '../../../../constants/utils';
-import api from '../../../../constants/LoggedInApi';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import {removeHEALTH_STORE_DETAIL} from '../../../../redux/healthSlice';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import utils from '~/constants/utils';
+import api from '~/constants/LoggedInApi';
+import {setSplashVisible} from '~/redux/splashSlice';
+import {removeHEALTH_STORE_DETAIL} from '~/redux/healthSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import HealthCertificateStoreUpdateScreenPresenter from './HealthCertificateStoreUpdateScreenPresenter';
 import moment from 'moment';
 

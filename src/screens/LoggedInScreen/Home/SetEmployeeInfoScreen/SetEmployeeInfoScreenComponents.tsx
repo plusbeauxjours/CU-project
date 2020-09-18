@@ -12,7 +12,7 @@ import {
   HelpCircleIcon,
   RadioBtnOnIcon,
   RadioBtnOffIcon,
-} from '../../../../constants/Icons';
+} from '~/constants/Icons';
 
 const Row = styled.View`
   width: 100%;

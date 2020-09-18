@@ -11,8 +11,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import utils from '../../../../constants/utils';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
+import utils from '~/constants/utils';
 import {KeyboardAvoidingView, ActivityIndicator} from 'react-native';
 import {
   ForwardIcon,
@@ -20,7 +20,7 @@ import {
   DeleteIcon,
   SettingIcon,
   CloseCircleIcon,
-} from '../../../../constants/Icons';
+} from '~/constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;

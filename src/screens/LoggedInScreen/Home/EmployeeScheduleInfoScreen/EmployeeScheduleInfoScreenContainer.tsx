@@ -4,9 +4,9 @@ import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
 import EmployeeScheduleInfoScreenPresenter from './EmployeeScheduleInfoScreenPresenter';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import api from '../../../../constants/LoggedInApi';
+import {setSplashVisible} from '~/redux/splashSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import api from '~/constants/LoggedInApi';
 
 const constant = {
   COLOR: [

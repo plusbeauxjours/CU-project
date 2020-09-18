@@ -12,10 +12,10 @@ import {
   RemoveCircleIcon,
   HelpCircleIcon,
   CheckBoxIcon,
-} from '../../../../constants/Icons';
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
-import RoundBtn from '../../../../components/Btn/RoundBtn';
-import InputLine from '../../../../components/InputLine';
+} from '~/constants/Icons';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
+import RoundBtn from '~/components/Btn/RoundBtn';
+import InputLine from '~/components/InputLine';
 import Modal from 'react-native-modal';
 import moment from 'moment';
 

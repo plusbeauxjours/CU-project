@@ -8,7 +8,7 @@ import {
 } from 'react-native-responsive-screen';
 import FastImage from 'react-native-fast-image';
 
-import {NewBoxIcon, PinIcon} from '../../../../constants/Icons';
+import {NewBoxIcon, PinIcon} from '~/constants/Icons';
 
 interface IsFavorite {
   isFavorite: boolean;

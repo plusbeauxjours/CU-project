@@ -4,10 +4,10 @@ import {Linking, Image} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Ripple from 'react-native-material-ripple';
 
-import api from '../../../../constants/LoggedInApi';
-import {setHelpCategory} from '../../../../redux/helpSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import {ForwardIcon} from '../../../../constants/Icons';
+import api from '~/constants/LoggedInApi';
+import {setHelpCategory} from '~/redux/helpSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
+import {ForwardIcon} from '~/constants/Icons';
 
 const BackGround = styled.View`
   flex: 1;
@@ -88,7 +88,7 @@ export default () => {
           rippleOpacity={0.45}>
           <Row>
             <Image
-              source={require('../../../../assets/images/kakaoBtn.png')}
+              source={require('~/assets/images/kakaoBtn.png')}
               style={{marginRight: 5}}
             />
             <KakaoText>카카오톡 문의</KakaoText>

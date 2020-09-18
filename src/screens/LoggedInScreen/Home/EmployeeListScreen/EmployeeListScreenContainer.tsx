@@ -2,10 +2,10 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import EmployeeListScreenPresenter from './EmployeeListScreenPresenter';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import {setEMPLOYEE_LIST} from '../../../../redux/employeeSlice';
-import api from '../../../../constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
+import {setEMPLOYEE_LIST} from '~/redux/employeeSlice';
+import api from '~/constants/LoggedInApi';
 
 export default () => {
   const dispatch = useDispatch();

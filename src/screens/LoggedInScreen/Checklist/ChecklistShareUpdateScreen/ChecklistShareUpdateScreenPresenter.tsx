@@ -9,13 +9,13 @@ import FastImage from 'react-native-fast-image';
 import {RNCamera} from 'react-native-camera';
 import Modal from 'react-native-modal';
 
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
 import {
   CameraIcon,
   PictureIcon,
   FlashIcon,
   NoFlashIcon,
-} from '../../../../constants/Icons';
+} from '~/constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;

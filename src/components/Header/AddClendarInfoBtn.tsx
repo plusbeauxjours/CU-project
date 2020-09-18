@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
-import {CalendarIcon} from '../../constants/Icons';
+import {CalendarIcon} from '~/constants/Icons';
 
 const Touchable = styled.TouchableOpacity`
   margin-right: 15px;

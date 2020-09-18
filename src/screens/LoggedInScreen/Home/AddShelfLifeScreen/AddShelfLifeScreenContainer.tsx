@@ -4,9 +4,9 @@ import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
 import AddShelfLifeScreenPresenter from './AddShelfLifeScreenPresenter';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {getSHELFLIFE_DATA} from '../../../../redux/shelflifeSlice';
-import api from '../../../../constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {getSHELFLIFE_DATA} from '~/redux/shelflifeSlice';
+import api from '~/constants/LoggedInApi';
 
 export default () => {
   const dispatch = useDispatch();

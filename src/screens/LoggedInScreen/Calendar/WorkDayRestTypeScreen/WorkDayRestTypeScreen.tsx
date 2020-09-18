@@ -6,10 +6,10 @@ import Modal from 'react-native-modal';
 
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {toggleVACATION} from '../../../../redux/calendarSlice';
-import api from '../../../../constants/LoggedInApi';
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {toggleVACATION} from '~/redux/calendarSlice';
+import api from '~/constants/LoggedInApi';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;

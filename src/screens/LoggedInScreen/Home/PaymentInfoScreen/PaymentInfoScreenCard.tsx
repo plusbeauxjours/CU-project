@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 
-import {ForwardIcon} from '../../../../constants/Icons';
+import {ForwardIcon} from '~/constants/Icons';
 
 const Touchable = styled.TouchableOpacity`
   margin-top: 10px;

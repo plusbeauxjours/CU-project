@@ -1,14 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import api from '../../../../constants/LoggedInApi';
+import api from '~/constants/LoggedInApi';
 import HealthCertificateStoreDetailScreenPresenter from './HealthCertificateStoreDetailScreenPresenter';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import {
-  setHEALTH_STORE_DETAIL,
-  setSELECT_INDEX,
-} from '../../../../redux/healthSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
+import {setHEALTH_STORE_DETAIL, setSELECT_INDEX} from '~/redux/healthSlice';
 
 export default () => {
   const dispatch = useDispatch();

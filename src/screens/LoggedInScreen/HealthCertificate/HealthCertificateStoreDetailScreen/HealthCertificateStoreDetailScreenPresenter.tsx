@@ -15,7 +15,7 @@ import {
   ForwardIcon,
   ReloadCircleIcon,
   CloseCircleIcon,
-} from '../../../../constants/Icons';
+} from '~/constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;

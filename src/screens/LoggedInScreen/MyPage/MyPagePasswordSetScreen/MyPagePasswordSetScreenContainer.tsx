@@ -3,9 +3,9 @@ import moment from 'moment';
 import MyPagePasswordSetScreenPresenter from './MyPagePasswordSetScreenPresenter';
 import {useDispatch, useSelector} from 'react-redux';
 
-import api from '../../../../constants/LoggedInApi';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {userLogout} from '../../../../redux/userSlice';
+import api from '~/constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {userLogout} from '~/redux/userSlice';
 import {useNavigation} from '@react-navigation/native';
 
 let timer = null;

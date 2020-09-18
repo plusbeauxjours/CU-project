@@ -6,14 +6,14 @@ import DatePickerModal from 'react-native-modal-datetime-picker';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import api from '../../../../constants/LoggedInApi';
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import api from '~/constants/LoggedInApi';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
 import {
   updateSHELFLIFE_DATA,
   getSHELFLIFE_DATA,
   removeSHELFLIFE_DATA,
-} from '../../../../redux/shelflifeSlice';
+} from '~/redux/shelflifeSlice';
 
 interface ITextInput {
   isBefore: boolean;

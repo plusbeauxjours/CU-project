@@ -3,13 +3,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import api from '../../../../constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import api from '~/constants/LoggedInApi';
 import ChecklistItemsScreenPresenter from './ChecklistItemsScreenPresenter';
-import {
-  setCHECKLIST_MARKED,
-  getCHECKLIST_DATA,
-} from '../../../../redux/checklistSlice';
+import {setCHECKLIST_MARKED, getCHECKLIST_DATA} from '~/redux/checklistSlice';
 
 export default () => {
   const dispatch = useDispatch();

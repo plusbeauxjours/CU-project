@@ -4,11 +4,11 @@ import {useNavigation} from '@react-navigation/native';
 import SignupScreenPresenter from './SignupScreenPresenter';
 import {useDispatch} from 'react-redux';
 
-import utils from '../../../constants/utils';
-import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
-import {setSplashVisible} from '../../../redux/splashSlice';
+import utils from '~/constants/utils';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
 
-import api from '../../../constants/LoggedInApi';
+import api from '~/constants/LoggedInApi';
 
 export default ({route: {params}}) => {
   const navigation = useNavigation();

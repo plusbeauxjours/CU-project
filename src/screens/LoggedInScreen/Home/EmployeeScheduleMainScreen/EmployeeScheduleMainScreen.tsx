@@ -3,13 +3,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
 import {
   HelpCircleIcon,
   RadioBtnOnIcon,
   RadioBtnOffIcon,
-} from '../../../../constants/Icons';
+} from '~/constants/Icons';
 
 const WhiteSpace = styled.View`
   height: 30px;

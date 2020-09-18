@@ -1,7 +1,7 @@
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
-import {CloseIcon} from '../../constants/Icons';
+import {CloseIcon} from '~/constants/Icons';
 
 const Touchable = styled.TouchableOpacity`
   margin-right: 15px;

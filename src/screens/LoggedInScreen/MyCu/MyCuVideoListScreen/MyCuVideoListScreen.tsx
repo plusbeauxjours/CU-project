@@ -4,10 +4,10 @@ import styled from 'styled-components/native';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {RefreshControl} from 'react-native';
 
-import api from '../../../../constants/LoggedInApi';
+import api from '~/constants/LoggedInApi';
 import MyCuVideoCard from './MyCuVideoCard';
-import {setMYCU_VIDEO} from '../../../../redux/mycuSlice';
-import {setSplashVisible} from '../../../../redux/splashSlice';
+import {setMYCU_VIDEO} from '~/redux/mycuSlice';
+import {setSplashVisible} from '~/redux/splashSlice';
 
 interface ISelected {
   isSelected: boolean;

@@ -5,7 +5,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
-import {ForwardIcon} from '../../../../constants/Icons';
+import {ForwardIcon} from '~/constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;

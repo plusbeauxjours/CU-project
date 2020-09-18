@@ -4,8 +4,8 @@ import {useDispatch} from 'react-redux';
 import moment from 'moment';
 
 import VerificationScreenPresenter from './VerificationScreenPresenter';
-import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
-import api from '../../../constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import api from '~/constants/LoggedInApi';
 
 let timer = null;
 

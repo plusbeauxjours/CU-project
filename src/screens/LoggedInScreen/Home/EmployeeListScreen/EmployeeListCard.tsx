@@ -7,7 +7,7 @@ import {
 } from 'react-native-responsive-screen';
 import FastImage from 'react-native-fast-image';
 
-import {ForwardIcon} from '../../../../constants/Icons';
+import {ForwardIcon} from '~/constants/Icons';
 
 const Touchable = styled.TouchableOpacity`
   padding: 0 20px;

@@ -3,8 +3,8 @@ import moment from 'moment';
 import {useSelector, useDispatch} from 'react-redux';
 
 import CalendarInfoScreenPresenter from './CalendarInfoScreenPresenter';
-import {setCALENDAR_DATA} from '../../../../redux/calendarSlice';
-import api from '../../../../constants/LoggedInApi';
+import {setCALENDAR_DATA} from '~/redux/calendarSlice';
+import api from '~/constants/LoggedInApi';
 
 export default () => {
   const vacation = {

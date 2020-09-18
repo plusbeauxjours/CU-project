@@ -8,7 +8,7 @@ import {
 import Ripple from 'react-native-material-ripple';
 
 import SelectStoreCard from './SelectStoreCard';
-import {AddCircleIcon} from '../../../../constants/Icons';
+import {AddCircleIcon} from '~/constants/Icons';
 
 const BackGround = styled.View`
   flex: 1;

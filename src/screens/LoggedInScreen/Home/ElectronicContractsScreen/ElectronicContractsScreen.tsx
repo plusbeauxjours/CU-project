@@ -7,8 +7,8 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 
-import {CloseCircleIcon, HelpCircleIcon} from '../../../../constants/Icons';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import {CloseCircleIcon, HelpCircleIcon} from '~/constants/Icons';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 
 const BackGround = styled.View`
   flex: 1;

@@ -4,11 +4,11 @@ import SelectStoreScreenPresenter from './SelectStoreScreenPresenter';
 import {useNavigation} from '@react-navigation/native';
 import {BackHandler, Linking} from 'react-native';
 
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {getSTORELIST_DATA} from '../../../../redux/userSlice';
-import {selectSTORE} from '../../../../redux/storeSlice';
-import utils from '../../../../constants/utils';
-import api from '../../../../constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {getSTORELIST_DATA} from '~/redux/userSlice';
+import {selectSTORE} from '~/redux/storeSlice';
+import utils from '~/constants/utils';
+import api from '~/constants/LoggedInApi';
 
 export default () => {
   const dispatch = useDispatch();

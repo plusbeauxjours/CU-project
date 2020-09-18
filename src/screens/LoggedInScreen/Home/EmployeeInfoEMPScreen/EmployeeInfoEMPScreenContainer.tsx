@@ -2,10 +2,10 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import EmployeeInfoEMPScreenPresenter from './EmployeeInfoEMPScreenPresenter';
-import {setSplashVisible} from '../../../../redux/splashSlice';
-import {setEMPLOYEE_INFO_DATA} from '../../../../redux/employeeSlice';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import api from '../../../../constants/LoggedInApi';
+import {setSplashVisible} from '~/redux/splashSlice';
+import {setEMPLOYEE_INFO_DATA} from '~/redux/employeeSlice';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import api from '~/constants/LoggedInApi';
 import moment from 'moment';
 
 const constant = {

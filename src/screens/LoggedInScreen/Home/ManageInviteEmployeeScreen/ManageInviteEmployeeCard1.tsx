@@ -7,8 +7,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import api from '../../../../constants/LoggedInApi';
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
+import api from '~/constants/LoggedInApi';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 
 const Container = styled.View`
   height: ${hp('10%')}px;

@@ -3,14 +3,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
 
-import {setAlertInfo, setAlertVisible} from '../../../../redux/alertSlice';
-import {removeAddWork} from '../../../../redux/calendarSlice';
-import api from '../../../../constants/LoggedInApi';
-import {
-  ForwardIcon,
-  TimerIcon,
-  CalendarTimesIcon,
-} from '../../../../constants/Icons';
+import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {removeAddWork} from '~/redux/calendarSlice';
+import api from '~/constants/LoggedInApi';
+import {ForwardIcon, TimerIcon, CalendarTimesIcon} from '~/constants/Icons';
 
 interface Icolor {
   color: string;

@@ -32,9 +32,9 @@ import {
   UpIcon,
   DownIcon,
   HelpCircleIcon,
-} from '../../../../constants/Icons';
-import InputLine from '../../../../components/InputLine';
-import SubmitBtn from '../../../../components/Btn/SubmitBtn';
+} from '~/constants/Icons';
+import InputLine from '~/components/InputLine';
+import SubmitBtn from '~/components/Btn/SubmitBtn';
 
 interface IBox {
   isBold: boolean;
