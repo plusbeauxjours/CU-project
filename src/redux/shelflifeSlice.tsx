@@ -26,13 +26,15 @@ const shelflifetSlice = createSlice({
     },
     udpateSHELFLIFE(state, action) {
       const {
-        payload: {shelfLife_SEQ, shelfLifeDate},
+        payload: {shelfLife_SEQ, shelfLifeDate, checkEmpName, checkTime},
       } = action;
       const item = state.SHELFLIFE_DATA[shelfLifeDate].find(
         (i) => i.shelfLife_SEQ === shelfLife_SEQ,
       );
       if (item) {
         item.checkType = '1';
+        item.checkTime = checkTime;
+        item.checkEmpName = checkEmpName;
       }
     },
     updateSHELFLIFE_DATA(state, action) {

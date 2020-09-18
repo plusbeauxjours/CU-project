@@ -88,8 +88,9 @@ export default ({route: {params}}) => {
       </BackGround>
       <Modal
         isVisible={modalVisible}
+        supportedOrientations={['portrait', 'landscape']}
         style={{
-          height: hp('100%'),
+          flex: 1,
         }}
         onBackButtonPress={() => {
           setModalVisible(false);

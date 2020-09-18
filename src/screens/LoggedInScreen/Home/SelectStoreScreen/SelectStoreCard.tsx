@@ -4,6 +4,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import Ripple from 'react-native-material-ripple';
 
 import {
   ForwardIcon,
@@ -37,7 +38,7 @@ const ContentBox = styled.View`
   margin-left: ${wp('5%')}px;
 `;
 
-const Touchable = styled.TouchableOpacity``;
+const Touchable = styled(Ripple)``;
 
 const NameText = styled.Text`
   font-size: 17px;
@@ -84,8 +85,12 @@ export default ({
     <Touchable
       key={key}
       style={{alignItems: 'center', marginTop: 30}}
-      activeOpacity={1}
-      onPress={() => gotoHomeScreen(data)}>
+      onPress={() => gotoHomeScreen(data)}
+      rippleColor={'#666'}
+      rippleDuration={600}
+      rippleSize={1700}
+      rippleContainerBorderRadius={30}
+      rippleOpacity={0.1}>
       <Container isStore={STORE == 1}>
         <ContentBox>
           {STORE == 1 ? (

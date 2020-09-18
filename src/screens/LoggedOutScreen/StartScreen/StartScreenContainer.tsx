@@ -1,18 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {Platform, Linking, BackHandler} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import messaging from '@react-native-firebase/messaging';
 
 import StartScreenPresenter from './StartScreenPresenter';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlertInfo, setAlertVisible} from '../../../redux/alertSlice';
 import utils from '../../../constants/utils';
 import api from '../../../constants/LoggedInApi';
-
-////////////////////////////////////////
-// Redux
-// setAlertInfo
-// setAlertVisible
-////////////////////////////////////////
 
 export default () => {
   const navigation = useNavigation();
@@ -77,7 +72,19 @@ export default () => {
     navigation.navigate('VerificationScreen');
   };
 
+  const requestUserPermission = async () => {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+    }
+  };
+
   useEffect(() => {
+    requestUserPermission();
     if (utils.isAndroid) {
       setPlatform('android');
     } else {

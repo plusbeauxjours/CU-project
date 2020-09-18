@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "54036447893",
+    "firebase_url": "https://cushopsol.firebaseio.com",
+    "project_id": "cushopsol",
+    "storage_bucket": "cushopsol.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:54036447893:android:0d0fa8b3c45cbd84d9119c",
+        "android_client_info": {
+          "package_name": "com.cuwesop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "54036447893-n0jl5mfe67vch7116pkmklvb6i28vmim.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhDxpvHX4JNZZvDIM-vZ53EUh0S8lszl4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "54036447893-n0jl5mfe67vch7116pkmklvb6i28vmim.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "54036447893-mkh4j4aqp02ibt48rk270g9er93dg61t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wesop.cuwesop"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:54036447893:android:f96eb46b9f217418d9119c",
+        "android_client_info": {
+          "package_name": "com.wesop.cuhr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "54036447893-n0jl5mfe67vch7116pkmklvb6i28vmim.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhDxpvHX4JNZZvDIM-vZ53EUh0S8lszl4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "54036447893-n0jl5mfe67vch7116pkmklvb6i28vmim.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "54036447893-mkh4j4aqp02ibt48rk270g9er93dg61t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wesop.cuwesop"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

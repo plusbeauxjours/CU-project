@@ -32,10 +32,6 @@ const Touchable = styled.TouchableOpacity`
   padding: 5px;
 `;
 
-const TouchableDisabled = styled(Touchable)`
-  opacity: 0.3;
-`;
-
 export const PlayerControls: React.FC<Props> = ({
   playing,
   showSkip,

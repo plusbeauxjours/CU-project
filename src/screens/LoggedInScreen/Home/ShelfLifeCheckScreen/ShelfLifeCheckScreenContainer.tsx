@@ -18,7 +18,7 @@ export default () => {
   const dispatch = useDispatch();
 
   const {EMP_SEQ} = useSelector((state: any) => state.storeReducer);
-  const {STORE} = useSelector((state: any) => state.userReducer);
+  const {STORE, MEMBER_NAME} = useSelector((state: any) => state.userReducer);
   const {SHELFLIFE_DATA, SHELFLIFE_MARKED} = useSelector(
     (state: any) => state.shelflifeReducer,
   );
@@ -63,6 +63,8 @@ export default () => {
         udpateSHELFLIFE({
           shelfLife_SEQ,
           shelfLifeDate,
+          checkEmpName: MEMBER_NAME,
+          checkTime: moment().format('YYYY-MM-DD HH:mm:ss'),
         }),
       );
       const {data} = await api.checkShelfLifeData({
