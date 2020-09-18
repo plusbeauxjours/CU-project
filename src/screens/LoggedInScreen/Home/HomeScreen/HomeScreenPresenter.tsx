@@ -363,43 +363,43 @@ export default ({
   const AdrChange = ({paging}) => {
     let source;
     if (paging == 'InviteEmployeeScreen') {
-      source = require(`~/assets/main/Invite.png`);
+      source = require(`../../../../assets/main/Invite.png`);
     } else if (paging == 'EmployeeListScreen') {
-      source = require(`~/assets/main/EmployeeList.png`);
+      source = require(`../../../../assets/main/EmployeeList.png`);
     } else if (paging == 'ManageInviteEmployeeScreen') {
-      source = require(`~/assets/main/ManageInviteEmployee.png`);
+      source = require(`../../../../assets/main/ManageInviteEmployee.png`);
     } else if (
       paging == 'CalendarInfoScreen' &&
       STORE_DATA?.CalendarEdit == 1
     ) {
-      source = require(`~/assets/main/CalendarInfo.png`);
+      source = require(`../../../../assets/main/CalendarInfo.png`);
     } else if (
       paging == 'CalendarInfoScreen' &&
       STORE_DATA?.CalendarEdit !== 1
     ) {
-      source = require(`~/assets/main/CalendarInfoEmp.png`);
+      source = require(`../../../../assets/main/CalendarInfoEmp.png`);
     } else if (paging == 'PaymentInfoScreen') {
-      source = require(`~/assets/main/PaymentInfo.png`);
+      source = require(`../../../../assets/main/PaymentInfo.png`);
     } else if (paging == 'EmpPaymentInfoScreen') {
-      source = require(`~/assets/main/PaymentInfo.png`);
+      source = require(`../../../../assets/main/PaymentInfo.png`);
     } else if (paging == 'EmployeeInfoEMPScreen') {
-      source = require(`~/assets/main/EmployeeInfoEmp.png`);
+      source = require(`../../../../assets/main/EmployeeInfoEmp.png`);
     } else if (paging == 'qrViewScreen') {
-      source = require(`~/assets/main/qrView.png`);
+      source = require(`../../../../assets/main/qrView.png`);
     } else if (paging == 'ChecklistItemsScreen') {
-      source = require(`~/assets/main/ChecklistItems.png`);
+      source = require(`../../../../assets/main/ChecklistItems.png`);
     } else if (paging == 'ChecklistShareMainScreen') {
-      source = require(`~/assets/main/ChecklistShareMain.png`);
+      source = require(`../../../../assets/main/ChecklistShareMain.png`);
     } else if (paging == 'ShelfLifeCheckScreen') {
-      source = require(`~/assets/main/shelfLifeCheck.png`);
+      source = require(`../../../../assets/main/shelfLifeCheck.png`);
     } else if (paging == 'HealthCertificateTypeScreen') {
-      source = require(`~/assets/main/HealthCertificateType.png`);
+      source = require(`../../../../assets/main/HealthCertificateType.png`);
     } else if (paging == 'MyCuMonthlyListScreen') {
-      source = require(`~/assets/main/MycuMonthlyList.png`);
+      source = require(`../../../../assets/main/MycuMonthlyList.png`);
     } else if (paging == 'MyCuVideoListScreen') {
-      source = require(`~/assets/main/MycuVideoList.png`);
+      source = require(`../../../../assets/main/MycuVideoList.png`);
     } else if (paging == 'EducationVideoListScreen') {
-      source = require(`~/assets/main/EducationVideoList.png`);
+      source = require(`../../../../assets/main/EducationVideoList.png`);
     }
     return (
       <FastImage
@@ -413,7 +413,7 @@ export default ({
     <BackGround>
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackground
-          source={require('~/assets/main/mainTopBg.png')}
+          source={require('../../../../assets/main/mainTopBg.png')}
           resizeMode={'cover'}
           style={{height: hp('30%')}}>
           <MyPage>
@@ -559,7 +559,7 @@ export default ({
                         height: bannerHeight,
                         borderRadius: 8,
                       }}
-                      source={require('~/assets/main/gubgooBanner.png')}
+                      source={require('../../../../assets/main/gubgooBanner.png')}
                       resizeMode={FastImage.resizeMode.contain}
                     />
                   </ShadowTouchable>
@@ -671,7 +671,7 @@ export default ({
                             height: bannerHeight,
                             borderRadius: 8,
                           }}
-                          source={require('~/assets/main/gubgooBanner.png')}
+                          source={require('../../../../assets/main/gubgooBanner.png')}
                           resizeMode={FastImage.resizeMode.contain}
                         />
                       </ShadowTouchable>
@@ -800,13 +800,13 @@ export default ({
               }}>
               <FastImage
                 style={{width: '100%', height: 60, marginTop: 30}}
-                source={require('~/assets/main/noticeBar.png')}
+                source={require('../../../../assets/main/noticeBar.png')}
                 resizeMode={FastImage.resizeMode.contain}
               />
               <NoticeCnt>
                 <FastImage
                   style={{width: 80, height: 80}}
-                  source={require('~/assets/main/cuMark_white.png')}
+                  source={require('../../../../assets/main/cuMark_white.png')}
                   resizeMode={FastImage.resizeMode.contain}
                 />
                 <NoticeContainer>

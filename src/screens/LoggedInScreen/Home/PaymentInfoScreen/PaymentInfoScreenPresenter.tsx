@@ -138,6 +138,7 @@ export default ({
               </DateArrow>
               <Date>
                 <DateText>
+                  {console.log(TOTAL_PAYMENT_WORKING_EMP.start)}
                   {moment(TOTAL_PAYMENT_WORKING_EMP.start).format('YYYY.MM.DD')}
                   ~&nbsp;
                   {moment(TOTAL_PAYMENT_WORKING_EMP.end).format('YYYY.MM.DD')}

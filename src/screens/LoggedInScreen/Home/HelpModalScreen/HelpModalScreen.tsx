@@ -88,7 +88,7 @@ export default () => {
           rippleOpacity={0.45}>
           <Row>
             <Image
-              source={require('~/assets/images/kakaoBtn.png')}
+              source={require('../../../../assets/images/kakaoBtn.png')}
               style={{marginRight: 5}}
             />
             <KakaoText>카카오톡 문의</KakaoText>

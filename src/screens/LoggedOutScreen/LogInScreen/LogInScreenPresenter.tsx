@@ -92,7 +92,7 @@ export default ({
             <LogoText isIphoneX={isIphoneX()}>
               <FastImage
                 style={{height: 175, width: 350}}
-                source={require('~/assets/images/logo_cu.png')}
+                source={require('../../../assets/images/logo_cu.png')}
                 resizeMode={FastImage.resizeMode.stretch}
               />
             </LogoText>
@@ -139,7 +139,7 @@ export default ({
             <WhiteSpace />
             <Space>
               <Touchable onPress={() => gotoFind()}>
-                <UnderLineText>비밀번호 찾기</UnderLineText>
+                <UnderLineText>비밀번호 찾기기</UnderLineText>
               </Touchable>
             </Space>
           </Container>

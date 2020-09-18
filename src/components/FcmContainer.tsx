@@ -1,10 +1,12 @@
 import React, {useEffect} from 'react';
-import {Platform, Alert} from 'react-native';
+import {Platform, Alert, Linking} from 'react-native';
 import firebase from 'react-native-firebase';
 import DeviceInfo from 'react-native-device-info';
 import {useDispatch} from 'react-redux';
+import {openSettings} from 'react-native-permissions';
 
 import {setDEVICE_INFO} from '../redux/userSlice';
+import utils from '~/constants/utils';
 
 interface Props {
   children: JSX.Element;
@@ -74,6 +76,7 @@ export default ({children, onNotificationOpened}: Props): JSX.Element => {
   };
 
   const _registerToken = (fcmToken: string) => {
+    console.log('fcmToken', fcmToken);
     dispatch(
       setDEVICE_INFO({
         PUSH_TOKEN: fcmToken,
@@ -116,7 +119,41 @@ export default ({children, onNotificationOpened}: Props): JSX.Element => {
       await _updateTokenToServer();
     } catch (error) {
       // User has rejected permissions
-      Alert.alert("you can't handle push notification");
+      if (!utils.isAndroid) {
+        Alert.alert(
+          '푸쉬 알림 거절',
+          '푸시 알림을 받으려면 확인을 누른 뒤, 환경 설정에서 푸시를 켜주세요.',
+          [
+            {
+              text: '취소',
+              style: 'cancel',
+            },
+            {
+              text: '확인',
+              onPress: () => {
+                Linking.openURL('app-settings:');
+              },
+            },
+          ],
+        );
+      } else {
+        Alert.alert(
+          '푸쉬 알림 거절',
+          '푸시 알림을 받으려면 확인을 누른 뒤, 환경 설정에서 푸시를 켜주세요.',
+          [
+            {
+              text: '취소',
+              style: 'cancel',
+            },
+            {
+              text: '확인',
+              onPress: () => {
+                openSettings();
+              },
+            },
+          ],
+        );
+      }
     }
   };
 
