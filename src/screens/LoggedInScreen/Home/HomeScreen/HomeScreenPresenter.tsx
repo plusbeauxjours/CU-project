@@ -436,7 +436,7 @@ export default ({
             <StoreText>안녕하세요.</StoreText>
             <Row>
               <StoreText>{MEMBER_NAME}</StoreText>
-              <StoreSubText>님님님님님님</StoreSubText>
+              <StoreSubText>님</StoreSubText>
             </Row>
           </StoreName>
           <StoreUpdate>

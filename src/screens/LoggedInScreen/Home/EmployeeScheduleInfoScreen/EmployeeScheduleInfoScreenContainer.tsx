@@ -7,6 +7,7 @@ import EmployeeScheduleInfoScreenPresenter from './EmployeeScheduleInfoScreenPre
 import {setSplashVisible} from '~/redux/splashSlice';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import api from '~/constants/LoggedInApi';
+import {removeRESPONSE_EMPLOYEE} from '~/redux/employeeSlice';
 
 const constant = {
   COLOR: [
@@ -85,6 +86,8 @@ export default ({route: {params}}) => {
   // 합류하기 API
   const sendPushFn = async () => {
     try {
+      console.log(EMP_SEQ);
+      dispatch(removeRESPONSE_EMPLOYEE(EMP_SEQ));
       const {data} = await api.setEmpType(EMP_SEQ);
       if (data.message === 'SUCCESS') {
         navigation.reset({

@@ -33,6 +33,15 @@ const employeeSlice = createSlice({
       const {payload: NO_RESPONSE_EMPLOYEE} = action;
       return {...state, NO_RESPONSE_EMPLOYEE};
     },
+    removeRESPONSE_EMPLOYEE(state, action) {
+      const {payload: EMP_SEQ} = action;
+      return {
+        ...state,
+        RESPONSE_EMPLOYEE: state.RESPONSE_EMPLOYEE.filter(
+          (i) => i.EMP_SEQ !== EMP_SEQ,
+        ),
+      };
+    },
   },
 });
 
@@ -41,6 +50,7 @@ export const {
   setEMPLOYEE_LIST,
   setRESPONSE_EMPLOYEE,
   setNO_RESPONSE_EMPLOYEE,
+  removeRESPONSE_EMPLOYEE,
 } = employeeSlice.actions;
 
 export const getRESPONSE_EMPLOYEE = () => async (dispatch, getState) => {

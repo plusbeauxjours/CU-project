@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {RefreshControl} from 'react-native';
 import styled from 'styled-components/native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -21,9 +20,8 @@ const ScrollView = styled.ScrollView``;
 
 const Container = styled.View`
   width: 100%;
-  padding: 0 20px;
+  padding: 20px;
   align-items: center;
-  margin-top: ${hp('5%')}px;
 `;
 
 const Section = styled.View`
@@ -106,6 +104,7 @@ export default () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
         <Container>
+          {console.log('RESPONSE_EMPLOYEE', RESPONSE_EMPLOYEE)}
           <Section>
             <BoxTitle
               onPress={() =>
