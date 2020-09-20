@@ -13,7 +13,7 @@ import api from '~/constants/LoggedInApi';
 export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {STORE, STORELIST_DATA} = useSelector(
+  const {STORE, STORELIST_DATA, DEVICE_PLATFORM} = useSelector(
     (state: any) => state.userReducer,
   );
   const [appVersion, setAppVersion] = useState<string>('');
@@ -61,7 +61,7 @@ export default () => {
     try {
       const {data} = await api.checkApp({
         VERSION: appVersion,
-        PLATFORM: platform,
+        PLATFORM: DEVICE_PLATFORM,
       });
       if (data.RESULT_CODE == '1') {
         alertModal(

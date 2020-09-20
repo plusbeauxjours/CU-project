@@ -143,7 +143,7 @@ export default () => {
             buffer[key] = buffer[key]?.filter((info) => info.EMP_ID == EMP_SEQ);
           }
         }
-        dispatch(setCALENDAR_DATA(buffer));
+        dispatch(setCALENDAR_DATA({CALENDAR_DATA: buffer, date}));
         setMarkFn(data);
       }
     } catch (e) {

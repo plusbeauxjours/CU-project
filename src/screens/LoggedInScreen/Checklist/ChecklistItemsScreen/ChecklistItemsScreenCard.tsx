@@ -158,9 +158,7 @@ export default ({key, date, data}) => {
             <>
               <CheckpointBox>
                 <ChecktimeText>체크시간</ChecktimeText>
-                <GreyText>
-                  {moment(data.CHECK_TIME).format('YYYY.MM.DD HH:mm:ss')}
-                </GreyText>
+                <GreyText>{data.CHECK_TIME}</GreyText>
               </CheckpointBox>
               {data.EMP_SEQ ? (
                 <CheckpointBox>
@@ -181,9 +179,7 @@ export default ({key, date, data}) => {
               <CheckpointBox>
                 <ChecktimeText>체크예정시간</ChecktimeText>
                 <GreyText>
-                  {data.END_TIME === ''
-                    ? '미사용'
-                    : moment(data.END_TIME).format('YYYY.MM.DD HH:mm:ss')}
+                  {data.END_TIME === '' ? '미사용' : data.END_TIME}
                 </GreyText>
               </CheckpointBox>
               {data.EMP_SEQ && (

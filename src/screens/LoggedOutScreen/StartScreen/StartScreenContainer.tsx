@@ -5,21 +5,20 @@ import {useNavigation} from '@react-navigation/native';
 import StartScreenPresenter from './StartScreenPresenter';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
-import utils from '~/constants/utils';
 import api from '~/constants/LoggedInApi';
+import {setDEVICE_PLATFORM} from '~/redux/userSlice';
 
 export default () => {
   const navigation = useNavigation();
-  const {content} = useSelector((state: any) => state.alertReducer);
   const dispatch = useDispatch();
+  const {DEVICE_PLATFORM} = useSelector((state: any) => state.userReducer);
   const [appVersion, setAppVersion] = useState<string>('');
-  const [platform, setPlatform] = useState<string>('');
 
   const checkVersion = async () => {
     try {
       const {data} = await api.checkApp({
         VERSION: appVersion,
-        PLATFORM: platform,
+        PLATFORM: DEVICE_PLATFORM,
       });
       if (data.RESULT_CODE == '1') {
         alertModal(
@@ -63,7 +62,6 @@ export default () => {
   const gotoLogin = () => {
     navigation.navigate('LogInScreen', {
       appVersion,
-      platform,
     });
   };
 
@@ -72,11 +70,7 @@ export default () => {
   };
 
   useEffect(() => {
-    if (utils.isAndroid) {
-      setPlatform('android');
-    } else {
-      setPlatform('ios');
-    }
+    dispatch(setDEVICE_PLATFORM(Platform.OS));
     setAppVersion('1.3.7');
     checkVersion();
   }, []);

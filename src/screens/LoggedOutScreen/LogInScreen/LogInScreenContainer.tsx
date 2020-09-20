@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import LogInScreenPresenter from './LogInScreenPresenter';
 import {useNavigation} from '@react-navigation/native';
 
@@ -11,9 +11,15 @@ export default ({route: {params}}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+  const {
+    PUSH_TOKEN,
+    DEVICE_MODEL,
+    DEVICE_PLATFORM,
+    DEVICE_SYSTEM_VERSION,
+  } = useSelector((state: any) => state.userReducer);
+
   const [mobileNo, setMobileNo] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [push, setPush] = useState<string>('');
 
   const alertModal = (text) => {
     const params = {alertType: 'alert', content: text};
@@ -44,10 +50,10 @@ export default ({route: {params}}) => {
     try {
       const {data} = await api.logIn({
         MOBILENO: mobileNo,
-        PALTFORM: params?.platform,
-        VERSION: params?.appVersion,
-        // MODEL: modelId,
-        DEVICE_TOKEN: push,
+        PALTFORM: DEVICE_PLATFORM,
+        VERSION: DEVICE_SYSTEM_VERSION,
+        MODEL: DEVICE_MODEL,
+        DEVICE_TOKEN: PUSH_TOKEN,
         PASSWORD: password,
       });
       switch (data.RESULT_CODE) {

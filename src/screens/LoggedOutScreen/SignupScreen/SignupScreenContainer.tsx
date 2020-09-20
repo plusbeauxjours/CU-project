@@ -4,7 +4,6 @@ import {useNavigation} from '@react-navigation/native';
 import SignupScreenPresenter from './SignupScreenPresenter';
 import {useDispatch} from 'react-redux';
 
-import utils from '~/constants/utils';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import {setSplashVisible} from '~/redux/splashSlice';
 
@@ -13,7 +12,9 @@ import api from '~/constants/LoggedInApi';
 export default ({route: {params}}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
   const {mobileNo = null, verifyCode = null} = params;
+
   const [name, setName] = useState<string>('');
   const [sexTypeCheck, setSexTypeCheck] = useState<[boolean, boolean]>([
     false,
@@ -30,7 +31,6 @@ export default ({route: {params}}) => {
     false,
   );
   const [appVersion, setAppVersion] = useState<string>('');
-  const [platform, setPlatform] = useState<string>('');
 
   const alertModal = (text) => {
     const params = {alertType: 'alert', content: text};
@@ -90,7 +90,6 @@ export default ({route: {params}}) => {
         alertModal('회원가입이 완료되었습니다. 로그인해 주세요.');
         navigation.navigate('LogInScreen', {
           appVersion,
-          platform,
         });
       }
     } catch (e) {
@@ -109,11 +108,6 @@ export default ({route: {params}}) => {
   };
 
   useEffect(() => {
-    if (utils.isAndroid) {
-      setPlatform('android');
-    } else {
-      setPlatform('ios');
-    }
     setAppVersion('1.3.7');
   }, []);
 

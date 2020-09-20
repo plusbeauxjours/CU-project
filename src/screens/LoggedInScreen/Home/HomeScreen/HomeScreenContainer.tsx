@@ -16,12 +16,11 @@ export default ({route: {params}}) => {
   const cameraRef = useRef(null);
   const dispatch = useDispatch();
   const {STORE_SEQ, STORE, STORE_NAME, WORKING_COUNT, TOTAL_COUNT} = params;
-  const {MEMBER_SEQ, MEMBER_NAME} = useSelector(
+  const {MEMBER_SEQ, MEMBER_NAME, DEVICE_PLATFORM} = useSelector(
     (state: any) => state.userReducer,
   );
   const {STORE_DATA} = useSelector((state: any) => state.storeReducer);
   const [appVersion, setAppVersion] = useState<string>('');
-  const [platform, setPlatform] = useState<string>('');
   const [qrModalOpen, setQrModalOpen] = useState<boolean>(false);
   const [workingModalOpen, setWorkingModalOpen] = useState<boolean>(false);
 
@@ -54,7 +53,7 @@ export default ({route: {params}}) => {
     try {
       const {data} = await api.checkApp({
         VERSION: appVersion,
-        PLATFORM: platform,
+        PLATFORM: DEVICE_PLATFORM,
       });
       if (data.RESULT_CODE == '1') {
         alertModal(
@@ -199,11 +198,6 @@ export default ({route: {params}}) => {
 
   useEffect(() => {
     fetchData();
-    if (utils.isAndroid) {
-      setPlatform('android');
-    } else {
-      setPlatform('ios');
-    }
     setAppVersion('1.3.7');
     checkVersion();
   }, []);

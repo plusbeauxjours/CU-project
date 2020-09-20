@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:54036447893:android:f96eb46b9f217418d9119c",
         "android_client_info": {
-          "package_name": "com.wesop.cuhr"
+          "package_name": "com.cuwesop"
         }
       },
       "oauth_client": [
@@ -32,10 +32,10 @@
               "client_type": 3
             },
             {
-              "client_id": "54036447893-mkh4j4aqp02ibt48rk270g9er93dg61t.apps.googleusercontent.com",
+              "client_id": "54036447893-iskvujq201mi963fh3fc0klvt1gg7rk4.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.wesop.cuwesop"
+                "bundle_id": "com.cuwesop"
               }
             }
           ]
@@ -44,9 +44,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:54036447893:android:78d886033ccd23cfd9119c",
+        "mobilesdk_app_id": "1:54036447893:android:6f66175ef3ab6a00d9119c",
         "android_client_info": {
-          "package_name": "com.wesop.cuwesop"
+          "package_name": "com.cuwesop"
         }
       },
       "oauth_client": [
@@ -68,10 +68,10 @@
               "client_type": 3
             },
             {
-              "client_id": "54036447893-mkh4j4aqp02ibt48rk270g9er93dg61t.apps.googleusercontent.com",
+              "client_id": "54036447893-iskvujq201mi963fh3fc0klvt1gg7rk4.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.wesop.cuwesop"
+                "bundle_id": "com.cuwesop"
               }
             }
           ]

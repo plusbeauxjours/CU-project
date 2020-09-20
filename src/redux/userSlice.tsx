@@ -72,6 +72,13 @@ const userSlice = createSlice({
       state.MOBILE_NO = '';
       state.STORELIST_DATA = [];
     },
+    setDEVICE_PLATFORM(state, action) {
+      const {payload: DEVICE_PLATFORM} = action;
+      return {
+        ...state,
+        DEVICE_PLATFORM,
+      };
+    },
     setDEVICE_INFO(state, action) {
       const {
         payload: {
@@ -101,6 +108,7 @@ export const {
   setUSER,
   setLOGIN,
   setLOGOUT,
+  setDEVICE_PLATFORM,
   setDEVICE_INFO,
 } = userSlice.actions;
 

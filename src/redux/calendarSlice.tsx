@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import moment from 'moment';
 
 const calendarSlice = createSlice({
   name: 'calendar',
@@ -7,11 +8,32 @@ const calendarSlice = createSlice({
   },
   reducers: {
     setCALENDAR_DATA(state, action) {
-      const {payload: CALENDAR_DATA} = action;
-      return {
-        ...state,
-        CALENDAR_DATA,
-      };
+      const {
+        payload: {CALENDAR_DATA, date},
+      } = action;
+      if (state.CALENDAR_DATA) {
+        if (
+          state.CALENDAR_DATA.hasOwnProperty(moment(date).format('YYYY-MM-DD'))
+        ) {
+          return {
+            ...state,
+            CALENDAR_DATA,
+          };
+        } else {
+          return {
+            ...state,
+            CALENDAR_DATA: {
+              ...state.CALENDAR_DATA,
+              ...CALENDAR_DATA,
+            },
+          };
+        }
+      } else {
+        return {
+          ...state,
+          CALENDAR_DATA,
+        };
+      }
     },
     toggleVACATION(state, action) {
       const {
