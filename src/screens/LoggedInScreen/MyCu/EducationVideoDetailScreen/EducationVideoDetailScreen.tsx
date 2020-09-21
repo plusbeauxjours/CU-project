@@ -11,6 +11,7 @@ import FastImage from 'react-native-fast-image';
 import api from '~/constants/LoggedInApi';
 import VideoPlayer from '~/components/VideoPlayer';
 import PDFViewer from '~/components/PDFViewer';
+import {StatusBar} from 'react-native';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -83,6 +84,7 @@ export default ({route: {params}}) => {
             <PdfButton
               onPress={() => {
                 checkVideo();
+                StatusBar.setHidden(true);
               }}>
               <PdfButtonText>동영상 보기</PdfButtonText>
             </PdfButton>

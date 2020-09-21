@@ -9,6 +9,7 @@ import {
 import FastImage from 'react-native-fast-image';
 import Modal from 'react-native-modal';
 import {ActivityIndicator} from 'react-native';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 
 import {
   BackIcon,
@@ -194,7 +195,7 @@ const CloseIconContainer = styled.TouchableOpacity`
   width: 30px;
   height: 30px;
   right: 20px;
-  top: 50px;
+  top: ${(props) => (isIphoneX() ? 35 : 10)};
 `;
 
 export default ({

@@ -11,6 +11,7 @@ import FastImage from 'react-native-fast-image';
 import api from '~/constants/LoggedInApi';
 import PDFViewer from '~/components/PDFViewer';
 import RoundBtn from '~/components/Btn/RoundBtn';
+import {StatusBar} from 'react-native';
 
 const BackGround = styled.View`
   flex: 1;
@@ -77,7 +78,10 @@ export default ({route: {params}}) => {
           <RoundBtn
             isWhiteBack={false}
             text={'PDF 보기'}
-            onPress={() => checkPdf()}
+            onPress={() => {
+              checkPdf();
+              StatusBar.setHidden(true);
+            }}
             isRegisted={true}
           />
           <WhiteSpate />

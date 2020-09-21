@@ -11,6 +11,7 @@ import FastImage from 'react-native-fast-image';
 import api from '~/constants/LoggedInApi';
 import VideoPlayer from '~/components/VideoPlayer';
 import RoundBtn from '~/components/Btn/RoundBtn';
+import {StatusBar} from 'react-native';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -76,7 +77,10 @@ export default ({route: {params}}) => {
           <RoundBtn
             isWhiteBack={false}
             text={'동영상 보기'}
-            onPress={() => checkVideo()}
+            onPress={() => {
+              checkVideo();
+              StatusBar.setHidden(true);
+            }}
             isRegisted={true}
           />
           <WhiteSpate />

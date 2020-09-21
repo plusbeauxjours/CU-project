@@ -6,6 +6,7 @@ import {WebView} from 'react-native-webview';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 
 import {CloseCircleIcon, HelpCircleIcon} from '~/constants/Icons';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
@@ -55,9 +56,9 @@ const LinkBtn = styled.TouchableOpacity`
 
 const ModalHeader = styled.View`
   width: 100%;
-  height: 70px;
+  height: ${(heightrops) => (isIphoneX() ? 70 : 45)};
   flex-direction: row-reverse;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   background-color: #fff;
 `;
@@ -195,7 +196,7 @@ export default ({route: {params}}) => {
                 * 마이페이지에서 추후에 작성 가능합니다.
               </Text>
             )}
-            <Touchable onPress={() => onPress(false)}>
+            <Touchable onPress={() => onPress()}>
               <CloseCircleIcon size={33} />
             </Touchable>
           </ModalHeader>

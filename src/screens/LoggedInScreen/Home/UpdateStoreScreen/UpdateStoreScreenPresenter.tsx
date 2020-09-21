@@ -109,7 +109,6 @@ const CheckDayText = styled.Text<IIsPerple>`
 `;
 
 const TypeContainer = styled.TouchableOpacity`
-  width: 100%;
   flex-direction: row;
   align-items: center;
   margin-bottom: 20px;
@@ -455,7 +454,7 @@ export default ({
             <WhiteSpace />
             {STORE == '1' ? (
               <>
-                <RowTouchable
+                <TypeContainer
                   onPress={() => {
                     explainModal(
                       '사업장 규모',
@@ -464,8 +463,7 @@ export default ({
                   }}>
                   <NameText>사업장 규모</NameText>
                   <HelpCircleIcon />
-                </RowTouchable>
-                <WhiteSpace />
+                </TypeContainer>
                 <TypeCheckCase>
                   <SizeType selection={0} text={'5인 미만'} />
                   <SizeType selection={1} text={'5인 이상'} />
@@ -479,7 +477,6 @@ export default ({
                 <TypeCheckCase>
                   <SizeType selection={0} text={'5인 미만'} disabled={true} />
                   <SizeType selection={1} text={'5인 이상'} disabled={true} />
-                  <InputLine isBefore={false} />
                 </TypeCheckCase>
               </>
             )}
@@ -493,10 +490,8 @@ export default ({
                       '급여가 계산되는 기간 설정입니다.\n(급여지급일과 혼동하지 마세요.)\n\nEx1) 25일 설정 : 전월 26일 ~ 당월 25일 기간동안의 급여계산\n\nEx2) 말일 설정 : 당월 1일 ~ 당월 말일 기간동안의 급여계산',
                     );
                   }}>
-                  <NameText style={{marginBottom: 0}}>
-                    급여정산일
-                    <HelpCircleIcon />
-                  </NameText>
+                  <NameText style={{marginBottom: 0}}>급여정산일</NameText>
+                  <HelpCircleIcon />
                 </RowTouchable>
                 <Touchable
                   onPress={() => {

@@ -150,7 +150,7 @@ export default ({
           alignItems: 'center',
           justifyContent: 'flex-start',
         }}>
-        <WhiteSpace />
+        {STORE == '1' && <WhiteSpace />}
         <StoreList />
       </ScrollView>
     </BackGround>

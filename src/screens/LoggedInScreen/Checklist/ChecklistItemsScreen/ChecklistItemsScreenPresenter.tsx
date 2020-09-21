@@ -206,7 +206,7 @@ const ChecklistSection = styled.View`
 
 const IconContainer = styled.TouchableOpacity`
   position: absolute;
-  right: 0;
+  right: 20;
   top: 0;
 `;
 

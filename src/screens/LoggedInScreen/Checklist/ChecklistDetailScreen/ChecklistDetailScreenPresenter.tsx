@@ -12,6 +12,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import {ActivityIndicator} from 'react-native';
 
 import {CheckBoxIcon, CloseCircleIcon} from '~/constants/Icons';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 
 interface ISelected {
   isSelected: boolean;
@@ -132,7 +133,7 @@ const CloseIconContainer = styled.TouchableOpacity`
   width: 30px;
   height: 30px;
   right: 20px;
-  top: 50px;
+  top: ${(props) => (isIphoneX() ? 35 : 10)};
 `;
 
 export default ({
@@ -417,7 +418,6 @@ export default ({
             width: '100%',
             height: '100%',
           }}>
-          {' '}
           <CloseIconContainer onPress={() => setIsImageViewVisible(false)}>
             <CloseCircleIcon size={33} color={'white'} />
           </CloseIconContainer>

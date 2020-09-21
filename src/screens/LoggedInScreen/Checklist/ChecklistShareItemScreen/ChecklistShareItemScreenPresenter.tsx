@@ -10,6 +10,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import utils from '~/constants/utils';
@@ -145,11 +146,7 @@ const CloseIconContainer = styled.TouchableOpacity`
   width: 30px;
   height: 30px;
   right: 20px;
-  top: 50px;
-`;
-
-const LoadingBox = styled.View`
-  height: 30px;
+  top: ${(props) => (isIphoneX() ? 35 : 10)};
 `;
 
 export default ({
