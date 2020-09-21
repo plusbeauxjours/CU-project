@@ -13,24 +13,7 @@ import {setSplashVisible} from '~/redux/splashSlice';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
-  background-color: white;
-`;
-
-const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-`;
-
-const Box = styled.View`
-  height: ${hp('7%')}px;
-  width: ${wp('90%')}px;
-  background-color: #ffffff;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50px;
-  margin: 20px 0;
+  background-color: #f6f6f6;
 `;
 
 const BoxText = styled.Text`
@@ -40,12 +23,18 @@ const BoxText = styled.Text`
 `;
 
 const Section = styled.View`
+  z-index: 3;
   width: ${wp('100%') - 40}px;
   border-radius: 20px;
   margin-bottom: 20px;
   padding: 20px;
   background-color: white;
   margin: 20px 20px 0 20px;
+  shadow-opacity: 0.55;
+  shadow-radius: 5px;
+  shadow-color: grey;
+  shadow-offset: 5px 5px;
+  elevation: 6;
 `;
 
 const ScrollView = styled.ScrollView``;

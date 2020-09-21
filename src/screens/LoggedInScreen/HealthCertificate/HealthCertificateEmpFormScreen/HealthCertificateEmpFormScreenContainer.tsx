@@ -88,8 +88,8 @@ export default ({route: {params}}) => {
       const {data} = await api.saveOcr(formData);
       if (data.result == '1') {
         params?.fetchData();
-        alertModal('', '저장 완료');
         navigation.goBack();
+        alertModal('', '저장 완료');
       }
     } catch (e) {
       console.log(e);
@@ -134,7 +134,10 @@ export default ({route: {params}}) => {
         setRESULT_COUNT(data.count);
       }
     } catch (e) {
-      console.log(e);
+      alertModal(
+        '인식 실패',
+        '촬영 시 라인에 맞춰 정면에서 찍어주세요.\n\n* 인식이 불안정한 경우 직접입력하여 진행해 주세요.',
+      );
     } finally {
       dispatch(setSplashVisible(false));
     }

@@ -142,8 +142,8 @@ export default ({route: {params}}) => {
       const {data} = await api.updateOcr1(formData);
       if (data.result == '1') {
         params?.fetchData();
-        alertModal('', '저장 완료');
         navigation.goBack();
+        alertModal('', '저장 완료');
       }
     } catch (e) {
       console.log(e);

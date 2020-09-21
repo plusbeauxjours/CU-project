@@ -202,6 +202,7 @@ const AddButton = styled.TouchableOpacity`
   justify-content: center;
   background-color: #642a8c;
   box-shadow: 7px 7px 7px rgba(100, 100, 100, 0.4);
+  elevation: 6;
 `;
 
 const EmptyListContainer = styled.View`

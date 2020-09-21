@@ -120,8 +120,8 @@ export default ({route: {params}}) => {
       const {data} = await api.saveOcr1(formData);
       if (data.result == '1') {
         params?.fetchData();
-        alertModal('', '저장 완료');
         navigation.goBack();
+        alertModal('', '저장 완료');
       }
     } catch (e) {
       console.log(e);

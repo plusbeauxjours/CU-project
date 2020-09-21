@@ -65,7 +65,7 @@ export default ({url, setModalVisible}) => {
       ) : (
         <>
           <FullScreenIconContainer
-            style={{right: 50}}
+            style={{right: 50, marginTop: 3}}
             isFullScreen={isFullScreen}
             onPress={handleFullscreen}>
             <LandscapeIcon />

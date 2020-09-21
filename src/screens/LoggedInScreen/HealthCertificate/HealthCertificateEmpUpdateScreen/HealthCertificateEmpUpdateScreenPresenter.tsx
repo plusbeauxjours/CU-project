@@ -13,6 +13,7 @@ import moment from 'moment';
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import InputLine from '~/components/InputLine';
 import {CameraIcon} from '~/constants/Icons';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const WhiteSpace = styled.View`
   height: 20px;
@@ -177,118 +178,120 @@ export default ({
   const cameraRef = useRef(null);
   return (
     <BackGround>
-      <ScrollView
-        keyboardShouldPersistTaps={'handled'}
-        keyboardDismissMode="on-drag"
-        showsVerticalScrollIndicator={false}>
-        <Container>
-          <Section>
-            <TextContainer>
-              <TitleText>보건증을 촬영해주세요</TitleText>
-              <Text>문자인식(OCR) 기술로</Text>
-              <Text>정보를 자동으로 입력할 수 있습니다</Text>
-            </TextContainer>
-            {cameraPictureLast ? (
-              <CameraBox onPress={() => setCameraPictureLast(null)}>
-                <FastImage
-                  style={{
-                    width: 100,
-                    height: 100,
-                    borderRadius: 10,
-                    marginHorizontal: 5,
+      <KeyboardAwareScrollView>
+        <ScrollView
+          keyboardShouldPersistTaps={'handled'}
+          keyboardDismissMode="on-drag"
+          showsVerticalScrollIndicator={false}>
+          <Container>
+            <Section>
+              <TextContainer>
+                <TitleText>보건증을 촬영해주세요</TitleText>
+                <Text>문자인식(OCR) 기술로</Text>
+                <Text>정보를 자동으로 입력할 수 있습니다</Text>
+              </TextContainer>
+              {cameraPictureLast ? (
+                <CameraBox onPress={() => setCameraPictureLast(null)}>
+                  <FastImage
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: 10,
+                      marginHorizontal: 5,
+                    }}
+                    source={{
+                      uri: cameraPictureLast,
+                      headers: {Authorization: 'someAuthToken'},
+                      priority: FastImage.priority.low,
+                    }}
+                    resizeMode={FastImage.resizeMode.cover}
+                  />
+                </CameraBox>
+              ) : (
+                <CameraBox onPress={() => setIsCameraModalVisible(true)}>
+                  <Bold style={{color: '#642A8C'}}>촬영하기</Bold>
+                  <CameraIcon size={40} />
+                </CameraBox>
+              )}
+              <Bold>* 인식이 불안정할 경우 직접입력하여 진행해 주세요.</Bold>
+            </Section>
+            <WhiteSpace />
+            <TextInputBox>
+              <TextInputContainer>
+                <GreyText>성명</GreyText>
+                <TextInput
+                  placeholder={'성명'}
+                  placeholderTextColor={'#999'}
+                  onChangeText={(text) => {
+                    setNAME(text);
                   }}
-                  source={{
-                    uri: cameraPictureLast,
-                    headers: {Authorization: 'someAuthToken'},
-                    priority: FastImage.priority.low,
-                  }}
-                  resizeMode={FastImage.resizeMode.cover}
+                  value={NAME}
+                  maxLength={6}
                 />
-              </CameraBox>
-            ) : (
-              <CameraBox onPress={() => setIsCameraModalVisible(true)}>
-                <Bold style={{color: '#642A8C'}}>촬영하기</Bold>
-                <CameraIcon size={40} />
-              </CameraBox>
-            )}
-            <Bold>* 인식이 불안정할 경우 직접입력하여 진행해 주세요.</Bold>
-          </Section>
-          <WhiteSpace />
-          <TextInputBox>
-            <TextInputContainer>
-              <GreyText>성명</GreyText>
-              <TextInput
-                placeholder={'성명'}
-                placeholderTextColor={'#999'}
-                onChangeText={(text) => {
-                  setNAME(text);
-                }}
-                value={NAME}
-                maxLength={6}
-              />
-            </TextInputContainer>
-            <InputLine isBefore={NAME == '' ? true : false} />
-            <WhiteSpace />
-            <TextInputContainer>
-              <GreyText>회차</GreyText>
-              <TextInput
-                placeholder={'회차'}
-                placeholderTextColor={'#999'}
-                onChangeText={(text) => {
-                  setRESULT_COUNT(text);
-                }}
-                value={RESULT_COUNT}
-                maxLength={6}
-              />
-            </TextInputContainer>
-            <InputLine isBefore={RESULT_COUNT == '' ? true : false} />
-            <WhiteSpace />
-            <TextInputContainer>
-              <GreyText>검진일</GreyText>
-              <Touchable onPress={() => setDateModalVisible(true)}>
-                <DateText>
-                  {moment(EDUCATION_DATE).format('YYYY.MM.DD')}
-                </DateText>
-              </Touchable>
-            </TextInputContainer>
-            <SmallWhiteSpace />
-            <InputLine isBefore={EDUCATION_DATE == '' ? true : false} />
-          </TextInputBox>
-          <DatePickerModal
-            headerTextIOS={'Choose a Date'}
-            cancelTextIOS={'Cancel'}
-            confirmTextIOS={'Confirm'}
-            isVisible={dateModalVisible}
-            mode="date"
-            locale="ko_KRus_EN"
-            onConfirm={(date) => {
-              setEDUCATION_DATE(moment(date).format('YYYY-MM-DD'));
-              setDateModalVisible(false);
-            }}
-            onCancel={() => setDateModalVisible(false)}
-            display="default"
-          />
-          <SubmitBtn
-            text={'수정완료'}
-            onPress={() => submitFn()}
-            isRegisted={true}
-          />
-          <DeleteButton
-            onPress={() => {
-              confirmModal();
-            }}>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 'bold',
-                color: '#FF3D3D',
-                textDecorationLine: 'underline',
+              </TextInputContainer>
+              <InputLine isBefore={NAME == '' ? true : false} />
+              <WhiteSpace />
+              <TextInputContainer>
+                <GreyText>회차</GreyText>
+                <TextInput
+                  placeholder={'회차'}
+                  placeholderTextColor={'#999'}
+                  onChangeText={(text) => {
+                    setRESULT_COUNT(text);
+                  }}
+                  value={RESULT_COUNT}
+                  maxLength={6}
+                />
+              </TextInputContainer>
+              <InputLine isBefore={RESULT_COUNT == '' ? true : false} />
+              <WhiteSpace />
+              <TextInputContainer>
+                <GreyText>검진일</GreyText>
+                <Touchable onPress={() => setDateModalVisible(true)}>
+                  <DateText>
+                    {moment(EDUCATION_DATE).format('YYYY.MM.DD')}
+                  </DateText>
+                </Touchable>
+              </TextInputContainer>
+              <SmallWhiteSpace />
+              <InputLine isBefore={EDUCATION_DATE == '' ? true : false} />
+            </TextInputBox>
+            <DatePickerModal
+              headerTextIOS={'Choose a Date'}
+              cancelTextIOS={'Cancel'}
+              confirmTextIOS={'Confirm'}
+              isVisible={dateModalVisible}
+              mode="date"
+              locale="ko_KRus_EN"
+              onConfirm={(date) => {
+                setEDUCATION_DATE(moment(date).format('YYYY-MM-DD'));
+                setDateModalVisible(false);
+              }}
+              onCancel={() => setDateModalVisible(false)}
+              display="default"
+            />
+            <SubmitBtn
+              text={'수정완료'}
+              onPress={() => submitFn()}
+              isRegisted={true}
+            />
+            <DeleteButton
+              onPress={() => {
+                confirmModal();
               }}>
-              보건증 삭제하기
-            </Text>
-          </DeleteButton>
-        </Container>
-      </ScrollView>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                  color: '#FF3D3D',
+                  textDecorationLine: 'underline',
+                }}>
+                보건증 삭제하기
+              </Text>
+            </DeleteButton>
+          </Container>
+        </ScrollView>
+      </KeyboardAwareScrollView>
       <Modal
         isVisible={isCameraModalVisible}
         style={{margin: 0}}
@@ -336,7 +339,7 @@ export default ({
               justifyContent: 'flex-end',
             }}
             type={RNCamera.Constants.Type.back}
-            flashMode={RNCamera.Constants.FlashMode.auto}
+            flashMode={RNCamera.Constants.FlashMode.off}
             androidCameraPermissionOptions={{
               title: 'Permission to use camera',
               message: 'We need your permission to use your camera',

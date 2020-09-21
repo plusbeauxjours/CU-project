@@ -13,6 +13,7 @@ import FastImage from 'react-native-fast-image';
 import {RNCamera} from 'react-native-camera';
 import {CameraIcon, CheckBoxIcon} from '~/constants/Icons';
 import moment from 'moment';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const WhiteSpace = styled.View`
   height: 20px;
@@ -28,6 +29,7 @@ const BackGround = styled.SafeAreaView`
 const ScrollView = styled.ScrollView``;
 
 const Container = styled.View`
+  width: 100%;
   margin-top: 20px;
   padding: 20px;
 `;
@@ -177,174 +179,178 @@ export default ({
   const cameraRef = useRef(null);
   return (
     <BackGround>
-      <ScrollView
-        keyboardShouldPersistTaps={'handled'}
-        keyboardDismissMode="on-drag"
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{alignItems: 'center'}}>
-        <Container>
-          <Section>
-            <TextContainer>
-              <TitleText>보건증을 촬영해주세요</TitleText>
-              <Text>문자인식(OCR) 기술로</Text>
-              <Text>정보를 자동으로 입력할 수 있습니다</Text>
-            </TextContainer>
-            {cameraPictureLast ? (
-              <CameraBox onPress={() => setCameraPictureLast(null)}>
-                <FastImage
-                  style={{
-                    width: 100,
-                    height: 100,
-                    borderRadius: 10,
-                    marginHorizontal: 5,
+      <KeyboardAwareScrollView>
+        <ScrollView
+          keyboardShouldPersistTaps={'handled'}
+          keyboardDismissMode="on-drag"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{alignItems: 'center'}}>
+          <Container>
+            <Section>
+              <TextContainer>
+                <TitleText>보건증을 촬영해주세요</TitleText>
+                <Text>문자인식(OCR) 기술로</Text>
+                <Text>정보를 자동으로 입력할 수 있습니다</Text>
+              </TextContainer>
+              {cameraPictureLast ? (
+                <CameraBox onPress={() => setCameraPictureLast(null)}>
+                  <FastImage
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: 10,
+                      marginHorizontal: 5,
+                    }}
+                    source={{
+                      uri: cameraPictureLast,
+                      headers: {Authorization: 'someAuthToken'},
+                      priority: FastImage.priority.low,
+                    }}
+                    resizeMode={FastImage.resizeMode.cover}
+                  />
+                </CameraBox>
+              ) : (
+                <CameraBox onPress={() => setIsCameraModalVisible(true)}>
+                  <Bold style={{color: '#642A8C'}}>촬영하기</Bold>
+                  <CameraIcon size={40} />
+                </CameraBox>
+              )}
+              <Bold>* 인식이 불안정할 경우 직접입력하여 진행해 주세요.</Bold>
+            </Section>
+            <WhiteSpace />
+            <TextInputBox>
+              <TextInputContainer>
+                <GreyText>성명</GreyText>
+                <TextInput
+                  placeholder={'교육이수자성명'}
+                  placeholderTextColor={'#999'}
+                  onChangeText={(text) => {
+                    setNAME(text);
                   }}
-                  source={{
-                    uri: cameraPictureLast,
-                    headers: {Authorization: 'someAuthToken'},
-                    priority: FastImage.priority.low,
-                  }}
-                  resizeMode={FastImage.resizeMode.cover}
+                  value={NAME}
+                  maxLength={6}
                 />
-              </CameraBox>
-            ) : (
-              <CameraBox onPress={() => setIsCameraModalVisible(true)}>
-                <Bold style={{color: '#642A8C'}}>촬영하기</Bold>
-                <CameraIcon size={40} />
-              </CameraBox>
-            )}
-            <Bold>* 인식이 불안정할 경우 직접입력하여 진행해 주세요.</Bold>
-          </Section>
-          <WhiteSpace />
-          <TextInputBox>
-            <TextInputContainer>
-              <GreyText>성명</GreyText>
-              <TextInput
-                placeholder={'교육이수자성명'}
-                placeholderTextColor={'#999'}
-                onChangeText={(text) => {
-                  setNAME(text);
-                }}
-                value={NAME}
-                maxLength={6}
-              />
-            </TextInputContainer>
-            <InputLine isBefore={NAME.length === 0 ? true : false} />
-            <WhiteSpace />
-            <TextInputContainer>
-              <GreyText>직책</GreyText>
-              <TextInput
-                placeholder={'교육이수자 직책'}
-                placeholderTextColor={'#999'}
-                onChangeText={(text) => {
-                  setPosition(text);
-                }}
-                value={position}
-                maxLength={6}
-              />
-            </TextInputContainer>
-            <InputLine isBefore={position.length === 0 ? true : false} />
-            <WhiteSpace />
-            <TextInputContainer>
-              <GreyText>대표자 성명</GreyText>
-              <TextInput
-                placeholder={'대표자 성명'}
-                placeholderTextColor={'#999'}
-                onChangeText={(text) => {
-                  setOwner(text);
-                }}
-                value={owner}
-                maxLength={6}
-              />
-            </TextInputContainer>
-            <InputLine isBefore={owner.length === 0 ? true : false} />
-            <WhiteSpace />
-            <TextInputContainer>
-              <GreyText>영업소 명칭</GreyText>
-              <TextInput
-                placeholder={'영업소 명칭'}
-                placeholderTextColor={'#999'}
-                onChangeText={(text) => {
-                  setStorename(text);
-                }}
-                value={storename}
-                maxLength={6}
-              />
-            </TextInputContainer>
-            <InputLine isBefore={storename.length === 0 ? true : false} />
-            <WhiteSpace />
-            <TextInputContainer>
-              <Touchable onPress={() => setDateModalVisible(true)}>
-                <GreyText>교육 일시</GreyText>
-                <DateText>
-                  {moment(EDUCATION_DATE).format('YYYY.MM.DD')}
-                </DateText>
-              </Touchable>
-            </TextInputContainer>
-            <SmallWhiteSpace />
-            <InputLine isBefore={EDUCATION_DATE.length === 0 ? true : false} />
-            <WhiteSpace />
-            <TextInputContainer>
-              <GreyText>영업의 종류</GreyText>
-              <TextInput
-                placeholder={'영업의 종류'}
-                placeholderTextColor={'#999'}
-                onChangeText={(text) => {
-                  setBusinesstype(text);
-                }}
-                value={businesstype}
-                maxLength={6}
-              />
-            </TextInputContainer>
-            <InputLine isBefore={businesstype.length === 0 ? true : false} />
-            <WhiteSpace />
-            <TextInputContainer>
-              <GreyText>교육 구분</GreyText>
+              </TextInputContainer>
+              <InputLine isBefore={NAME.length === 0 ? true : false} />
               <WhiteSpace />
-              <Row style={{justifyContent: 'space-around', width: '100%'}}>
-                <Touchable onPress={() => toggleEducationType()}>
-                  <Row>
-                    {EDUCATION_TYPE === 'online' ? (
-                      <CheckBoxIcon size={25} color="#642A8C" />
-                    ) : (
-                      <CheckBoxIcon size={25} color="#CCCCCC" />
-                    )}
-                    <GreyText style={{marginLeft: 10}}>온라인 교육</GreyText>
-                  </Row>
+              <TextInputContainer>
+                <GreyText>직책</GreyText>
+                <TextInput
+                  placeholder={'교육이수자 직책'}
+                  placeholderTextColor={'#999'}
+                  onChangeText={(text) => {
+                    setPosition(text);
+                  }}
+                  value={position}
+                  maxLength={6}
+                />
+              </TextInputContainer>
+              <InputLine isBefore={position.length === 0 ? true : false} />
+              <WhiteSpace />
+              <TextInputContainer>
+                <GreyText>대표자 성명</GreyText>
+                <TextInput
+                  placeholder={'대표자 성명'}
+                  placeholderTextColor={'#999'}
+                  onChangeText={(text) => {
+                    setOwner(text);
+                  }}
+                  value={owner}
+                  maxLength={6}
+                />
+              </TextInputContainer>
+              <InputLine isBefore={owner.length === 0 ? true : false} />
+              <WhiteSpace />
+              <TextInputContainer>
+                <GreyText>영업소 명칭</GreyText>
+                <TextInput
+                  placeholder={'영업소 명칭'}
+                  placeholderTextColor={'#999'}
+                  onChangeText={(text) => {
+                    setStorename(text);
+                  }}
+                  value={storename}
+                  maxLength={6}
+                />
+              </TextInputContainer>
+              <InputLine isBefore={storename.length === 0 ? true : false} />
+              <WhiteSpace />
+              <TextInputContainer>
+                <Touchable onPress={() => setDateModalVisible(true)}>
+                  <GreyText>교육 일시</GreyText>
+                  <DateText>
+                    {moment(EDUCATION_DATE).format('YYYY.MM.DD')}
+                  </DateText>
                 </Touchable>
-                <Touchable onPress={() => toggleEducationType()}>
-                  <Row>
-                    {EDUCATION_TYPE === 'offline' ? (
-                      <CheckBoxIcon size={25} color="#642A8C" />
-                    ) : (
-                      <CheckBoxIcon size={25} color="#CCCCCC" />
-                    )}
-                    <GreyText style={{marginLeft: 10}}>집체 교육</GreyText>
-                  </Row>
-                </Touchable>
-              </Row>
-            </TextInputContainer>
-          </TextInputBox>
-          <DatePickerModal
-            headerTextIOS={'날짜를 선택하세요.'}
-            cancelTextIOS={'취소'}
-            confirmTextIOS={'선택'}
-            isVisible={dateModalVisible}
-            mode="date"
-            locale="ko_KRus_EN"
-            onConfirm={(date) => {
-              setEDUCATION_DATE(moment(date).format('YYYY-MM-DD'));
-              setDateModalVisible(false);
-            }}
-            onCancel={() => setDateModalVisible(false)}
-            display="default"
-          />
-          <SubmitBtn
-            text={'입력완료'}
-            onPress={() => submitFn()}
-            isRegisted={true}
-          />
-        </Container>
-      </ScrollView>
+              </TextInputContainer>
+              <SmallWhiteSpace />
+              <InputLine
+                isBefore={EDUCATION_DATE.length === 0 ? true : false}
+              />
+              <WhiteSpace />
+              <TextInputContainer>
+                <GreyText>영업의 종류</GreyText>
+                <TextInput
+                  placeholder={'영업의 종류'}
+                  placeholderTextColor={'#999'}
+                  onChangeText={(text) => {
+                    setBusinesstype(text);
+                  }}
+                  value={businesstype}
+                  maxLength={6}
+                />
+              </TextInputContainer>
+              <InputLine isBefore={businesstype.length === 0 ? true : false} />
+              <WhiteSpace />
+              <TextInputContainer>
+                <GreyText>교육 구분</GreyText>
+                <WhiteSpace />
+                <Row style={{justifyContent: 'space-around', width: '100%'}}>
+                  <Touchable onPress={() => toggleEducationType()}>
+                    <Row>
+                      {EDUCATION_TYPE === 'online' ? (
+                        <CheckBoxIcon size={25} color="#642A8C" />
+                      ) : (
+                        <CheckBoxIcon size={25} color="#CCCCCC" />
+                      )}
+                      <GreyText style={{marginLeft: 10}}>온라인 교육</GreyText>
+                    </Row>
+                  </Touchable>
+                  <Touchable onPress={() => toggleEducationType()}>
+                    <Row>
+                      {EDUCATION_TYPE === 'offline' ? (
+                        <CheckBoxIcon size={25} color="#642A8C" />
+                      ) : (
+                        <CheckBoxIcon size={25} color="#CCCCCC" />
+                      )}
+                      <GreyText style={{marginLeft: 10}}>집체 교육</GreyText>
+                    </Row>
+                  </Touchable>
+                </Row>
+              </TextInputContainer>
+            </TextInputBox>
+            <DatePickerModal
+              headerTextIOS={'날짜를 선택하세요.'}
+              cancelTextIOS={'취소'}
+              confirmTextIOS={'선택'}
+              isVisible={dateModalVisible}
+              mode="date"
+              locale="ko_KRus_EN"
+              onConfirm={(date) => {
+                setEDUCATION_DATE(moment(date).format('YYYY-MM-DD'));
+                setDateModalVisible(false);
+              }}
+              onCancel={() => setDateModalVisible(false)}
+              display="default"
+            />
+            <SubmitBtn
+              text={'입력완료'}
+              onPress={() => submitFn()}
+              isRegisted={true}
+            />
+          </Container>
+        </ScrollView>
+      </KeyboardAwareScrollView>
       <Modal
         isVisible={isCameraModalVisible}
         style={{margin: 0}}
@@ -375,7 +381,7 @@ export default ({
                 <HalfBotton
                   style={{backgroundColor: '#642A8C'}}
                   onPress={() => {
-                    // checkOrcFn();
+                    checkOrcFn();
                     setIsCameraModalVisible(false);
                   }}>
                   <HalfBottonText style={{color: '#fff'}}>선택</HalfBottonText>
@@ -392,7 +398,7 @@ export default ({
               justifyContent: 'flex-end',
             }}
             type={RNCamera.Constants.Type.back}
-            flashMode={RNCamera.Constants.FlashMode.auto}
+            flashMode={RNCamera.Constants.FlashMode.off}
             androidCameraPermissionOptions={{
               title: 'Permission to use camera',
               message: 'We need your permission to use your camera',

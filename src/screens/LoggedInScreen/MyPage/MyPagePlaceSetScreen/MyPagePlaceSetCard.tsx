@@ -18,6 +18,7 @@ const Container = styled.TouchableOpacity`
   shadow-radius: 5px;
   shadow-color: grey;
   shadow-offset: 5px 5px;
+  elevation: 6;
 `;
 
 const NameText = styled.Text`

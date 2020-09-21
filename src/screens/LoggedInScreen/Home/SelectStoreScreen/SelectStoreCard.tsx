@@ -11,14 +11,6 @@ import {ForwardIcon, LogoutIcon, PersonCircleIcon} from '~/constants/Icons';
 interface IIsStore {
   isStore?: boolean;
 }
-const Container = styled.View<IIsStore>`
-  height: 150px;
-  width: ${wp('100%') - 40}px;
-  background-color: white;
-  flex-direction: row;
-  border-radius: 30px;
-  box-shadow: 7px 7px 7px rgba(100, 100, 100, 0.4);
-`;
 
 const EmployeeBox = styled.View`
   flex-direction: row;
@@ -34,7 +26,18 @@ const ContentBox = styled.View`
   margin-left: ${wp('5%')}px;
 `;
 
-const Touchable = styled(Ripple)``;
+const Touchable = styled(Ripple)<IIsStore>`
+  height: 150px;
+  width: ${wp('100%') - 40}px;
+  background-color: white;
+  flex-direction: row;
+  border-radius: 30px;
+  shadow-opacity: 0.55;
+  shadow-radius: 5px;
+  shadow-color: grey;
+  shadow-offset: 3px 3px;
+  elevation: 4;
+`;
 
 const NameText = styled.Text`
   font-size: 17px;
@@ -80,62 +83,61 @@ export default ({
   return (
     <Touchable
       key={key}
-      style={{alignItems: 'center', marginTop: 30}}
+      isStore={STORE == 1}
+      style={{alignItems: 'center', marginBottom: 30}}
       onPress={() => gotoHomeScreen(data)}
       rippleColor={'#666'}
       rippleDuration={600}
       rippleSize={1700}
       rippleContainerBorderRadius={30}
-      rippleOpacity={0.1}>
-      <Container isStore={STORE == 1}>
-        <ContentBox>
-          {STORE == 1 ? (
-            <NameText>{name}</NameText>
-          ) : (
-            <NameText>
-              {name} {MANAGER}
-            </NameText>
-          )}
-          <AddressBox>
+      rippleOpacity={0.13}>
+      <ContentBox>
+        {STORE == 1 ? (
+          <NameText>{name}</NameText>
+        ) : (
+          <NameText>
+            {name} {MANAGER}
+          </NameText>
+        )}
+        <AddressBox>
+          <IconContainer>
+            <LogoutIcon size={17} />
+          </IconContainer>
+          <AddressText>
+            {address1 && address2
+              ? address1.trim() + ' ' + address2.trim()
+              : '주소 미등록'}
+          </AddressText>
+        </AddressBox>
+        {STORE == 1 ? (
+          <EmployeeBox>
             <IconContainer>
-              <LogoutIcon size={17} />
+              <PersonCircleIcon />
             </IconContainer>
-            <AddressText>
-              {address1 && address2
-                ? address1.trim() + ' ' + address2.trim()
-                : '주소 미등록'}
-            </AddressText>
-          </AddressBox>
-          {STORE == 1 ? (
-            <EmployeeBox>
-              <IconContainer>
-                <PersonCircleIcon />
-              </IconContainer>
+            <EmployeeText>
+              {employee == 0
+                ? `${employee}명 근무중, 직원을 초대하세요.`
+                : `${employee}명 중 ${workinglist}명 근무중.`}
+            </EmployeeText>
+          </EmployeeBox>
+        ) : (
+          <EmployeeBox>
+            <IconContainer>
+              <PersonCircleIcon />
+            </IconContainer>
+            {TYPE == '0' ? (
+              <EmployeeText>합류 대기중</EmployeeText>
+            ) : (
               <EmployeeText>
-                {employee == 0
-                  ? `${employee}명 근무중, 직원을 초대하세요.`
-                  : `${employee}명 중 ${workinglist}명 근무중.`}
+                {employee}명 중 {workinglist}명 근무중.
               </EmployeeText>
-            </EmployeeBox>
-          ) : (
-            <EmployeeBox>
-              <IconContainer>
-                <PersonCircleIcon />
-              </IconContainer>
-              {TYPE == '0' ? (
-                <EmployeeText>합류 대기중</EmployeeText>
-              ) : (
-                <EmployeeText>
-                  {employee}명 중 {workinglist}명 근무중.
-                </EmployeeText>
-              )}
-            </EmployeeBox>
-          )}
-        </ContentBox>
-        <ArrowBox>
-          <ForwardIcon size={20} />
-        </ArrowBox>
-      </Container>
+            )}
+          </EmployeeBox>
+        )}
+      </ContentBox>
+      <ArrowBox>
+        <ForwardIcon size={20} />
+      </ArrowBox>
     </Touchable>
   );
 };

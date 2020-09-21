@@ -173,6 +173,7 @@ const CircleBotton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   box-shadow: 7px 7px 7px rgba(100, 100, 100, 0.4);
+  elevation: 6;
 `;
 
 const Empty = styled.TouchableOpacity`

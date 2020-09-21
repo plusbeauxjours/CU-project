@@ -13,6 +13,7 @@ import {AddCircleIcon} from '~/constants/Icons';
 const BackGround = styled.View`
   flex: 1;
   background-color: #f6f6f6;
+  padding-top: 50px;
 `;
 
 const ScrollView = styled.ScrollView``;
@@ -44,23 +45,31 @@ const AddStoreButtonText = styled.Text`
   font-weight: bold;
 `;
 
+const WhiteSpace = styled.View`
+  height: 80px;
+`;
+
 const AddStoreButton = styled(Ripple)`
-  margin-top: 35px;
-  width: ${wp('100%') - 40}px;
+  margin-top: 30px;
+  z-index: 3;
+  width: ${wp('100%') - 36}px;
   height: 60px;
+  position: absolute;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
   border-radius: 30px;
-  background-color: transparent;
+  background-color: white;
   border-width: 2px;
   border-color: #642a8c;
   align-self: center;
+  shadow-opacity: 0.9;
+  shadow-radius: 5px;
+  shadow-color: grey;
+  shadow-offset: 6px 6px;
+  elevation: 8;
 `;
 
-const WhiteSpace = styled.View`
-  height: 30px;
-`;
 export default ({
   STORE,
   STORELIST_DATA,
@@ -131,14 +140,18 @@ export default ({
         showsVerticalScrollIndicator={false}
         conte
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            progressViewOffset={40}
+          />
         }
         contentContainerStyle={{
           alignItems: 'center',
           justifyContent: 'flex-start',
         }}>
-        <StoreList />
         <WhiteSpace />
+        <StoreList />
       </ScrollView>
     </BackGround>
   );
