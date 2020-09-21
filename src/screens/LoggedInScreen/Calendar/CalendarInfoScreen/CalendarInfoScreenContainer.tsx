@@ -24,7 +24,6 @@ export default () => {
     EMP_SEQ,
     STORE_DATA: {resultdata: {CALENDAR_EDIT = null} = {}} = {},
   } = useSelector((state: any) => state.storeReducer);
-
   const [markedDates, setMarkedDates] = useState<any>(null);
 
   // INIT으로 받은 데이터를 가공
@@ -59,22 +58,6 @@ export default () => {
       } else {
         data.result[key]['EMP_LIST'].map((data) => {
           if (EMP_SEQ == data.EMP_ID) {
-            if (data.nowork == '1') {
-              nowork1 = true;
-            }
-            if (data.jigark == '1') {
-              jigark1 = true;
-            }
-            if (data.alear == '1') {
-              jigark1 = true;
-            }
-            if (data.VACATION == '1') {
-              vacation1 = true;
-            }
-            if (data.TYPE == '3') {
-              vacation1 = true;
-            }
-          } else {
             if (data.nowork == '1') {
               nowork1 = true;
             }

@@ -428,7 +428,8 @@ export default ({
                     <TimeListBold>
                       {moment(table.startDate).format('YYYY.MM.DD')}
                       &nbsp;~&nbsp;
-                      {moment(table.endDate).format('YYYY.MM.DD') ||
+                      {(table.endDate &&
+                        moment(table.endDate).format('YYYY.MM.DD')) ||
                         (getNumberToday() < getNumberToday(table.startDate)
                           ? ''
                           : '현재')}

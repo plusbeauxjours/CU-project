@@ -194,6 +194,7 @@ const TimeListBox = styled.TouchableOpacity<IsSelected>`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 `;
 
 const TimeListBoxText = styled.Text<IsSelected>`

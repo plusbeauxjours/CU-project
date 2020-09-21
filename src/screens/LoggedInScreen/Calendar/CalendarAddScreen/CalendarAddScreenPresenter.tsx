@@ -72,9 +72,11 @@ const RowSpaceTouchable = styled.TouchableOpacity`
 
 const RowTouchable = styled.TouchableOpacity<IsSelected>`
   padding: 10px;
+  height: 60px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
   border-width: 1px;
   border-color: ${(props) => (props.isSelected ? `${props.color}` : '#CCCCCC')};
 `;
@@ -213,6 +215,9 @@ const IncentiveText = styled.Text`
   font-size: 15px;
 `;
 
+const EmptySpace = styled.View`
+  width: 45px;
+`;
 export default ({
   alertModal,
   markedDates,
@@ -391,7 +396,7 @@ export default ({
           color={data.color}
           onPress={() => setTimeSelected(index)}>
           <Row>
-            <EllipseIcon size={30} color={data.color} />
+            <EllipseIcon color={data.color} />
             <SelectedText
               isSelected={timeSelected === index}
               color={data.color}>
@@ -404,9 +409,13 @@ export default ({
               color={data.color}>
               선택
             </SelectedText>
-            <RenderWorkDayTouchable onPress={() => deleteColorFn(index)}>
-              <RemoveCircleIcon size={30} />
-            </RenderWorkDayTouchable>
+            {timeSelected === index ? (
+              <RenderWorkDayTouchable onPress={() => deleteColorFn(index)}>
+                <RemoveCircleIcon size={30} />
+              </RenderWorkDayTouchable>
+            ) : (
+              <EmptySpace />
+            )}
           </Row>
         </RowTouchable>
       ))}

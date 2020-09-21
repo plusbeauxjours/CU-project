@@ -7,18 +7,6 @@ import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import {setSplashVisible} from '~/redux/splashSlice';
 import api from '~/constants/LoggedInApi';
 
-const constant = {
-  COLOR: [
-    '#0D4F8A',
-    '#ED8F52',
-    '#FEBF40',
-    '#5CAD6F',
-    '#984B19',
-    '#CB8DB1',
-    '#FEBF40',
-  ],
-};
-
 export default ({route: {params}}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -146,7 +134,7 @@ export default ({route: {params}}) => {
     }
   };
 
-  // 출퇴근 목록에서 삭제 붉은 아이콘
+  // 출퇴근 목록에서 출퇴근 목록에 추가 버튼
   const checkAddTimeFn = () => {
     setTimeSelected(0);
     if (!startTime || !endTime) {
@@ -156,22 +144,31 @@ export default ({route: {params}}) => {
       return alertModal('일정은 7개가 최대입니다.');
     }
     let value = JSON.parse(JSON.stringify(timeCheck));
+    let color = [
+      '#0D4F8A',
+      '#ED8F52',
+      '#FEBF40',
+      '#5CAD6F',
+      '#984B19',
+      '#CB8DB1',
+      '#FEBF40',
+    ];
     let temp, tempIndex;
     if (timeCheck.length === 0) {
       temp = {
         start: startTime,
         end: endTime,
-        color: constant.COLOR[timeCheck.length],
+        color: color[timeCheck.length],
       };
     } else {
       for (var i = 0; i < timeCheck.length; i++) {
-        tempIndex = constant.COLOR.indexOf(timeCheck[i].color);
-        constant.COLOR.splice(tempIndex, 1);
+        tempIndex = color.indexOf(timeCheck[i].color);
+        color.splice(tempIndex, 1);
       }
       temp = {
         start: startTime,
         end: endTime,
-        color: constant.COLOR[0],
+        color: color[0],
       };
     }
     value.push(temp);

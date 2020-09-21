@@ -76,24 +76,28 @@ const Row = styled.View`
   flex-direction: row;
   align-items: center;
 `;
+
 const RowSpace = styled.View`
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 `;
+
 const SmallLine = styled.View`
   width: ${wp('50%')}px;
   height: 0.5px;
   margin: 10px 0;
   background-color: #f2f2f2;
 `;
+
 const WorkTypeAndSalaryBox = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   margin: 10px 20px 0 20px;
 `;
+
 const WorkTypeAndSalaryInfoBox = styled.View`
   align-items: flex-end;
   border-color: #f2f2f2;
@@ -102,13 +106,16 @@ const WorkTypeAndSalaryInfoBox = styled.View`
   padding: 10px 20px;
   margin: 10px 0;
 `;
+
 const WorkTypeAndSalaryBoxTitle = styled.Text`
   font-size: 17px;
   color: #642a8c;
 `;
+
 const WorkTypeCheckSection = styled.View`
   padding: 0 20px;
 `;
+
 const WorkScheduleBox = styled.TouchableOpacity`
   flex-direction: row;
   margin-left: 10px;
@@ -123,6 +130,7 @@ const GreyText = styled.Text`
   font-size: 15px;
   color: #7e7c7c;
 `;
+
 const FixedGreyText = styled(GreyText)`
   position: absolute;
   right: 100px;
@@ -143,15 +151,18 @@ const FixTypeDayChangeButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
 `;
+
 const FixTypeDayChangeButtonText = styled.Text`
   font-size: 15px;
 `;
+
 const RenderDayRow = styled.View`
   flex-direction: row;
   margin-bottom: 10px;
   padding: 10px 0;
   width: 100%;
 `;
+
 const RenderDayBox = styled.View<IsSelected>`
   width: 40px;
   height: 40px;
@@ -163,32 +174,39 @@ const RenderDayBox = styled.View<IsSelected>`
   align-items: center;
   justify-content: center;
 `;
+
 const RenderDayBoxText = styled.Text<IsSelected>`
   color: ${(props) => (props.isSelected ? 'white' : '#CCCCCC')};
 `;
+
 const RenderDayTime = styled.View`
   margin-top: 10px;
   margin-left: 15px;
   width: 115px;
 `;
+
 const RenderDayTimeText = styled.Text<IsSelected>`
   font-size: 15px;
   color: ${(props) => (props.substract && props.isSelected ? '#000' : '#ddd')};
 `;
+
 const RenderDuration = styled.View`
   margin-top: 10px;
   margin-left: 5px;
   width: 85px;
 `;
+
 const RenderDurationText = styled.Text<IsSelected>`
   font-size: 15px;
   color: ${(props) => (props.isSelected ? '#000' : '#ddd')};
 `;
+
 const RenderScheduleTitle = styled.View`
   justify-content: center;
   align-items: center;
   margin: 20px 0;
 `;
+
 const TimeListBox = styled.TouchableOpacity<IsSelected>`
   border-color: ${(props) => (props.isSelected ? `${props.color}` : '#CCCCCC')};
   border-width: 0.6px;
@@ -198,14 +216,18 @@ const TimeListBox = styled.TouchableOpacity<IsSelected>`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 `;
+
 const TimeListRow = styled(Row)`
   margin: 20px;
 `;
+
 const TimeListBoxText = styled.Text<IsSelected>`
   font-weight: ${(props) => (props.isSelected ? '600' : '300')};
   color: ${(props) => (props.isSelected ? `${props.color}` : '#CCCCCC')};
 `;
+
 const TimeListBold = styled.Text`
   font-weight: bold;
   font-size: 15px;
@@ -361,8 +383,10 @@ export default ({
                       </TouchableHighlight>
                     )}
                     <TimeListBold>
-                      {table.startDate}&nbsp;~&nbsp;
-                      {table.endDate ||
+                      {moment(table.startDate).format('YYYY.MM.DD')}
+                      &nbsp;~&nbsp;
+                      {(table.endDate &&
+                        moment(table.endDate).format('YYYY.MM.DD')) ||
                         (getNumberToday() < getNumberToday(table.startDate)
                           ? ''
                           : '현재')}

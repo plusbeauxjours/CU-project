@@ -167,6 +167,7 @@ const TimeListBox = styled.TouchableOpacity<IsSelected>`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 `;
 
 const TimeListRow = styled(Row)`
@@ -325,8 +326,10 @@ export default ({
                       </TouchableHighlight>
                     )}
                     <TimeListBold>
-                      {table.startDate}&nbsp;~&nbsp;
-                      {table.endDate ||
+                      {moment(table.startDate).format('YYYY.MM.DD')}
+                      &nbsp;~&nbsp;
+                      {(table.endDate &&
+                        moment(table.endDate).format('YYYY.MM.DD')) ||
                         (getNumberToday() < getNumberToday(table.startDate)
                           ? ''
                           : '현재')}

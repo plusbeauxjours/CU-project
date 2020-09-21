@@ -27,11 +27,11 @@ export default ({route: {params}}) => {
       END_TIME = null,
       UPDATED_START = null,
       UPDATED_END = null,
-    },
+    } = {},
     date,
   } = params;
   const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
-
+  console.log(params?.data);
   const [isTimeCheckModalVisible, setIsTimeCheckModalVisible] = useState<
     boolean
   >(false);
@@ -43,12 +43,14 @@ export default ({route: {params}}) => {
   >([false, false, false, false, false, false, false]);
   const [minuteDirectInput, setMinuteDirectInput] = useState<any>(null);
   const [startTime, setStartTime] = useState<string>(
-    params?.data?.UPDATED_START?.substring(0, 5) ??
-      params?.data?.START_TIME?.substring(0, 5),
+    ATTENDANCE_TIME?.substring(0, 5) ??
+      UPDATED_START?.substring(0, 5) ??
+      START_TIME?.substring(0, 5),
   );
   const [endTime, setEndTime] = useState<string>(
-    params?.data?.UPDATED_END?.substring(0, 5) ??
-      params?.data?.END_TIME?.substring(0, 5),
+    WORK_OFF_TIME?.substring(0, 5) ??
+      UPDATED_END?.substring(0, 5) ??
+      END_TIME?.substring(0, 5),
   );
   const [timeSwitch, setTimeSwitch] = useState<any>();
 
