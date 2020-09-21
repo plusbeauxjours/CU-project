@@ -19,17 +19,25 @@ const SubmitButton = styled(Ripple)<IIsWhiteBack>`
   justify-content: center;
   border-radius: 30px;
   background-color: ${(props) =>
-    props.isWhiteBack ? 'transparent' : '#cccccc'};
+    props.isWhiteBack ? 'transparent' : '#642a8c'};
   border-width: ${(props) => (props.isWhiteBack ? '1' : '0')};
   border-color: ${(props) => (props.isWhiteBack ? '#642a8c' : 'transparent')};
 `;
 
 const NoSubmitButton = styled(SubmitButton)`
   background-color: ${(props) =>
-    props.isWhiteBack ? 'transparent' : '#642a8c'};
+    props.isWhiteBack ? 'transparent' : '#cccccc'};
+
+  border-width: ${(props) => (props.isWhiteBack ? '1' : '0')};
+  border-color: ${(props) => (props.isWhiteBack ? '#cccccc' : 'transparent')};
 `;
 
-const WhiteText = styled.Text<IIsWhiteBack>`
+const NoSubmitButtonText = styled.Text<IIsWhiteBack>`
+  font-size: 16px;
+  color: ${(props) => (props.isWhiteBack ? '#cccccc' : 'white')};
+`;
+
+const SubmitButtonText = styled.Text<IIsWhiteBack>`
   font-size: 16px;
   color: ${(props) => (props.isWhiteBack ? '#642a8c' : 'white')};
 `;
@@ -44,7 +52,7 @@ export default ({
 }) => {
   if (isRegisted) {
     return (
-      <NoSubmitButton
+      <SubmitButton
         isInSection={isInSection}
         isWhiteBack={isWhiteBack}
         onPressIn={onPressIn}
@@ -54,22 +62,24 @@ export default ({
         rippleSize={1200}
         rippleContainerBorderRadius={30}
         rippleOpacity={isWhiteBack ? 0.1 : 0.45}>
-        <WhiteText isWhiteBack={isWhiteBack}>{text}</WhiteText>
-      </NoSubmitButton>
+        <SubmitButtonText isWhiteBack={isWhiteBack}>{text}</SubmitButtonText>
+      </SubmitButton>
     );
   } else {
     return (
-      <SubmitButton
+      <NoSubmitButton
         isInSection={isInSection}
         isWhiteBack={isWhiteBack}
         onPress={() => {}}
-        rippleColor={'#fff'}
+        rippleColor={'#666'}
         rippleDuration={600}
         rippleSize={1200}
         rippleContainerBorderRadius={30}
-        rippleOpacity={0.25}>
-        <WhiteText isWhiteBack={isWhiteBack}>{text}</WhiteText>
-      </SubmitButton>
+        rippleOpacity={0.1}>
+        <NoSubmitButtonText isWhiteBack={isWhiteBack}>
+          {text}
+        </NoSubmitButtonText>
+      </NoSubmitButton>
     );
   }
 };

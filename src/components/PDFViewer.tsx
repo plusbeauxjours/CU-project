@@ -93,7 +93,9 @@ export default ({url, setModalVisible}) => {
             <WebView source={{uri}} />;
           }}
           scale={isFullScreen ? 2.2 : 1}
-          activityIndicator={<ActivityIndicator />}
+          activityIndicator={
+            <ActivityIndicator color={'grey'} size={'small'} />
+          }
           style={
             isFullScreen
               ? {width: hp('100%'), height: wp('100%')}

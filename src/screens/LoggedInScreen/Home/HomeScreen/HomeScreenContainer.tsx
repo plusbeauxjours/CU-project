@@ -20,7 +20,6 @@ export default ({route: {params}}) => {
     (state: any) => state.userReducer,
   );
   const {STORE_DATA} = useSelector((state: any) => state.storeReducer);
-  const [appVersion, setAppVersion] = useState<string>('');
   const [qrModalOpen, setQrModalOpen] = useState<boolean>(false);
   const [workingModalOpen, setWorkingModalOpen] = useState<boolean>(false);
 
@@ -52,7 +51,7 @@ export default ({route: {params}}) => {
   const checkVersion = async () => {
     try {
       const {data} = await api.checkApp({
-        VERSION: appVersion,
+        VERSION: utils.appVersion,
         PLATFORM: DEVICE_PLATFORM,
       });
       if (data.RESULT_CODE == '1') {
@@ -198,7 +197,6 @@ export default ({route: {params}}) => {
 
   useEffect(() => {
     fetchData();
-    setAppVersion('1.3.7');
     checkVersion();
   }, []);
 

@@ -22,7 +22,6 @@ export default () => {
     (state: any) => state.storeReducer,
   );
   const [loading, setLoading] = useState<boolean>(false);
-  const [employeeNowOn, setEmployeeNowOn] = useState<any>([]);
   const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
 
   const alertModal = (title, text) => {

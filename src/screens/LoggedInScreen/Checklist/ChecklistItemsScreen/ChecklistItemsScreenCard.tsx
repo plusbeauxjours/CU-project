@@ -3,17 +3,17 @@ import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
 import {EllipseIcon, ForwardIcon} from '~/constants/Icons';
+import Ripple from 'react-native-material-ripple';
 
-const Container = styled.View`
+const Touchable = styled(Ripple)`
   width: 100%;
   flex-direction: row;
-  border-radius: 20px;
+  border-radius: 30px;
   padding: 20px;
   margin-bottom: 20px;
   height: 140px;
   background-color: white;
 `;
-const Touchable = styled.TouchableOpacity``;
 
 const ArrowBox = styled.View`
   width: 20px;
@@ -116,87 +116,90 @@ export default ({key, date, data}) => {
     <Touchable
       key={key}
       activeOpacity={1}
-      onPress={() => gotoCkecklistDetail()}>
-      <Container>
-        <ContentBox>
-          <Row
-            style={{
-              justifyContent: 'flex-end',
-              height: 10,
-            }}>
-            {done && (
-              <Row style={{justifyContent: 'flex-end'}}>
-                {willCheck && (
-                  <Row>
-                    <EllipseIcon size={8} color={'#0D4F8A'} />
-                    <CalendarText>미체크</CalendarText>
-                  </Row>
-                )}
-                {!checkNo && data.CS_SEQ && (
-                  <Row>
-                    <EllipseIcon size={8} color={'#AACE36'} />
-                    <CalendarText>체크정상</CalendarText>
-                  </Row>
-                )}
-                {checkNo && data.CS_SEQ && (
-                  <Row>
-                    <EllipseIcon size={8} color={'#984B19'} />
-                    <CalendarText>체크이상</CalendarText>
-                  </Row>
-                )}
-                {data.CHECK_TITLE && data.CS_SEQ && (
-                  <Row>
-                    <EllipseIcon size={8} color={'#FEBF40'} />
-                    <CalendarText>특이사항</CalendarText>
-                  </Row>
-                )}
-              </Row>
-            )}
-          </Row>
-          <CheckpointText>{data.TITLE}</CheckpointText>
-          {data.EMP_NAME ? ( // 체크한 상태
-            <>
-              <CheckpointBox>
-                <ChecktimeText>체크시간</ChecktimeText>
-                <GreyText>{data.CHECK_TIME}</GreyText>
-              </CheckpointBox>
-              {data.EMP_SEQ ? (
-                <CheckpointBox>
-                  <ChecktimeText>담당직원</ChecktimeText>
-                  <GreyText numberOfLines={1} ellipsizeMode="tail">
-                    {data.NAME.split('@').join(' / ')}
-                  </GreyText>
-                </CheckpointBox>
-              ) : (
-                <CheckpointBox>
-                  <ChecktimeText>체크직원</ChecktimeText>
-                  <GreyText>{data.EMP_NAME}</GreyText>
-                </CheckpointBox>
+      onPress={() => gotoCkecklistDetail()}
+      rippleColor={'#666'}
+      rippleDuration={600}
+      rippleSize={1700}
+      rippleContainerBorderRadius={30}
+      rippleOpacity={0.13}>
+      <ContentBox>
+        <Row
+          style={{
+            justifyContent: 'flex-end',
+            height: 10,
+          }}>
+          {done && (
+            <Row style={{justifyContent: 'flex-end'}}>
+              {willCheck && (
+                <Row>
+                  <EllipseIcon size={8} color={'#0D4F8A'} />
+                  <CalendarText>미체크</CalendarText>
+                </Row>
               )}
-            </>
-          ) : (
-            <>
+              {!checkNo && data.CS_SEQ && (
+                <Row>
+                  <EllipseIcon size={8} color={'#AACE36'} />
+                  <CalendarText>체크정상</CalendarText>
+                </Row>
+              )}
+              {checkNo && data.CS_SEQ && (
+                <Row>
+                  <EllipseIcon size={8} color={'#984B19'} />
+                  <CalendarText>체크이상</CalendarText>
+                </Row>
+              )}
+              {data.CHECK_TITLE && data.CS_SEQ && (
+                <Row>
+                  <EllipseIcon size={8} color={'#FEBF40'} />
+                  <CalendarText>특이사항</CalendarText>
+                </Row>
+              )}
+            </Row>
+          )}
+        </Row>
+        <CheckpointText>{data.TITLE}</CheckpointText>
+        {data.EMP_NAME ? ( // 체크한 상태
+          <>
+            <CheckpointBox>
+              <ChecktimeText>체크시간</ChecktimeText>
+              <GreyText>{data.CHECK_TIME}</GreyText>
+            </CheckpointBox>
+            {data.EMP_SEQ ? (
               <CheckpointBox>
-                <ChecktimeText>체크예정시간</ChecktimeText>
-                <GreyText>
-                  {data.END_TIME === '' ? '미사용' : data.END_TIME}
+                <ChecktimeText>담당직원</ChecktimeText>
+                <GreyText numberOfLines={1} ellipsizeMode="tail">
+                  {data.NAME.split('@').join(' / ')}
                 </GreyText>
               </CheckpointBox>
-              {data.EMP_SEQ && (
-                <CheckpointBox>
-                  <ChecktimeText>담당직원</ChecktimeText>
-                  <GreyText numberOfLines={1} ellipsizeMode="tail">
-                    {data.NAME.split('@').join(' / ')}
-                  </GreyText>
-                </CheckpointBox>
-              )}
-            </>
-          )}
-        </ContentBox>
-        <ArrowBox>
-          <ForwardIcon size={22} />
-        </ArrowBox>
-      </Container>
+            ) : (
+              <CheckpointBox>
+                <ChecktimeText>체크직원</ChecktimeText>
+                <GreyText>{data.EMP_NAME}</GreyText>
+              </CheckpointBox>
+            )}
+          </>
+        ) : (
+          <>
+            <CheckpointBox>
+              <ChecktimeText>체크예정시간</ChecktimeText>
+              <GreyText>
+                {data.END_TIME === '' ? '미사용' : data.END_TIME}
+              </GreyText>
+            </CheckpointBox>
+            {data.EMP_SEQ && (
+              <CheckpointBox>
+                <ChecktimeText>담당직원</ChecktimeText>
+                <GreyText numberOfLines={1} ellipsizeMode="tail">
+                  {data.NAME.split('@').join(' / ')}
+                </GreyText>
+              </CheckpointBox>
+            )}
+          </>
+        )}
+      </ContentBox>
+      <ArrowBox>
+        <ForwardIcon size={22} />
+      </ArrowBox>
     </Touchable>
   );
 };

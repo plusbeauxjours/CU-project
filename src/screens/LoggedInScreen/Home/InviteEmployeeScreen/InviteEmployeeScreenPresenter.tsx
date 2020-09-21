@@ -9,6 +9,7 @@ import {
 import {PersonAddIcon, HelpCircleIcon, SearchIcon} from '~/constants/Icons';
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import InviteEmployeeScreenCard from './InviteEmployeeScreenCard';
+import RoundBtn from '~/components/Btn/RoundBtn';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -19,29 +20,25 @@ const ScrollView = styled.ScrollView``;
 
 const Container = styled.View`
   padding: 20px;
-  align-items: center;
+  background-color: #f6f6f6;
 `;
-
-const Text = styled.Text``;
 
 const Line = styled.View`
   height: 1px;
-  margin: 0 30px;
-  background-color: #f2f2f2;
+  margin-bottom: 20px;
+  background-color: #666;
 `;
 
 const Section = styled.View`
   width: 100%;
-  padding-bottom: 10px;
+  padding: 20px;
   border-radius: 20px;
   margin-bottom: 20px;
   background-color: white;
 `;
 
 const TextContainer = styled.View`
-  margin-top: 25px;
   margin-bottom: 15px;
-  padding: 0 30px;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
@@ -64,17 +61,13 @@ const TextInput = styled.TextInput`
 const Touchable = styled.TouchableOpacity``;
 
 const Refer = styled.View`
-  margin: 12px;
+  margin: 12px 0;
   justify-content: center;
 `;
 
 const ReferText = styled.Text`
   font-size: 13px;
   color: #b5b5b5;
-`;
-
-const ContactText = styled.Text`
-  color: #642a8c;
 `;
 
 const Contact = styled.TouchableOpacity`
@@ -94,7 +87,6 @@ const ContactIconContainer = styled(Contact)`
   padding: 5px;
 `;
 const Box = styled.View`
-  padding: 0 30px;
   padding-bottom: 20px;
   flex-direction: row;
   align-items: center;
@@ -231,11 +223,13 @@ export default ({
                 />
               </PhoneContainer>
             </Box>
-            <TextContainer>
-              <Contact onPress={() => addFn()}>
-                <ContactText>초대할 직원목록에 추가</ContactText>
-              </Contact>
-            </TextContainer>
+            {console.log(name, phone)}
+            <RoundBtn
+              isInSection={true}
+              text={'초대할 직원목록에 추가'}
+              onPress={() => addFn()}
+              isRegisted={name && phone}
+            />
           </Section>
           <Section>
             <TextContainer>
@@ -321,7 +315,7 @@ export default ({
             isRegisted={true}
             onPress={() => {
               setIsModalVisible(false);
-              setSearch('');
+              setSearch(null);
             }}
           />
         </ModalContainer>

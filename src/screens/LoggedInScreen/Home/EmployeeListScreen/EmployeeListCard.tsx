@@ -66,7 +66,7 @@ export default ({
         navigation.navigate('EmployeeInfoScreen', {data});
       }}>
       <FastImage
-        style={{width: 60, height: 60, borderRadius: 30}}
+        style={{width: 60, height: 60, borderRadius: 30, marginRight: 10}}
         source={{
           uri: 'http://cuapi.shop-sol.com/uploads/' + image,
           headers: {Authorization: 'someAuthToken'},

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import * as Hangul from 'hangul-js';
@@ -15,9 +15,9 @@ export default () => {
 
   const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
 
-  const [name, setName] = useState<string>('');
-  const [phone, setPhone] = useState<string>('');
-  const [search, setSearch] = useState<string>('');
+  const [name, setName] = useState<string>(null);
+  const [phone, setPhone] = useState<string>(null);
+  const [search, setSearch] = useState<string>(null);
   const [result, setResult] = useState<any>([]);
   const [contacts, setContacts] = useState<any>([]);
   const [choice, setChoice] = useState<any>([]);
@@ -55,7 +55,7 @@ export default () => {
   };
 
   const addFn = () => {
-    if (phone == '' || name == '') {
+    if (!phone || !name) {
       return alertModal('', '초대할 직원의 연락처를 입력하세요');
     }
     var regExp_ctn = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
@@ -77,8 +77,8 @@ export default () => {
       alertModal('', '동일한 전화번호의 직원이 등록되어있습니다');
     }
     setChoice(buffer);
-    setName('');
-    setPhone('');
+    setName(null);
+    setPhone(null);
   };
 
   const choiseFn = (id, name, phoneNumbers) => {
@@ -204,7 +204,7 @@ export default () => {
       console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
-      setSearch('');
+      setSearch(null);
     }
   };
 

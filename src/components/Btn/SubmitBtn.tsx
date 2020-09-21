@@ -16,11 +16,11 @@ const SubmitButton = styled(Ripple)<IIsBefore>`
   height: 60px;
   align-items: center;
   justify-content: center;
-  background-color: #cccccc;
+  background-color: #642a8c;
 `;
 
 const NoSubmitButton = styled(SubmitButton)`
-  background-color: #642a8c;
+  background-color: #cccccc;
 `;
 
 const WhiteText = styled.Text`
@@ -31,7 +31,7 @@ const WhiteText = styled.Text`
 export default ({onPressIn = null, text, onPress = null, isRegisted}) => {
   if (isRegisted) {
     return (
-      <NoSubmitButton
+      <SubmitButton
         onPressIn={onPressIn}
         onPress={onPress}
         rippleColor={'#ac52eb'}
@@ -39,18 +39,18 @@ export default ({onPressIn = null, text, onPress = null, isRegisted}) => {
         rippleSize={1200}
         rippleOpacity={0.45}>
         <WhiteText>{text}</WhiteText>
-      </NoSubmitButton>
+      </SubmitButton>
     );
   } else {
     return (
-      <SubmitButton
+      <NoSubmitButton
         onPress={() => {}}
         rippleColor={'#fff'}
         rippleDuration={600}
         rippleSize={1200}
         rippleOpacity={0.25}>
         <WhiteText>{text}</WhiteText>
-      </SubmitButton>
+      </NoSubmitButton>
     );
   }
 };

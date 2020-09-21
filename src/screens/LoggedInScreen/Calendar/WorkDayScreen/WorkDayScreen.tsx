@@ -40,7 +40,6 @@ const Container = styled.View`
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {STORE_SEQ} = useSelector((state: any) => state.userReducer);
   const {
     data: {SCH_ID = null, MEMBER_SEQ = null} = {},
     date = null,
@@ -65,7 +64,7 @@ export default ({route: {params}}) => {
       okButtonText: okBtn,
       warning: 'yes',
       okCallback: () => {
-        // deleteAddWorkFn();
+        deleteAddWorkFn();
       },
     };
     dispatch(setAlertInfo(params));
@@ -99,7 +98,6 @@ export default ({route: {params}}) => {
             onPress={() =>
               navigation.navigate('WorkDayRestTypeScreen', {
                 data: params?.data,
-                STORE_SEQ,
                 date,
               })
             }>
@@ -113,7 +111,6 @@ export default ({route: {params}}) => {
             onPress={() =>
               navigation.navigate('WorkDayRestTimeScreen', {
                 data: params?.data,
-                STORE_SEQ,
                 date,
               })
             }>

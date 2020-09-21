@@ -664,6 +664,7 @@ export default ({
               <RenderDayPicker />
             </DayPickRowBox>
             <RoundBtn
+              isInSection={true}
               text={'추가하기'}
               onPress={() => checkAddTimeFn()}
               isRegisted={true}

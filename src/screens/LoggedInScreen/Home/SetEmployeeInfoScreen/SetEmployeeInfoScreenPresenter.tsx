@@ -56,8 +56,7 @@ const Touchable = styled.TouchableOpacity`
 `;
 
 const Container = styled.View`
-  margin-top: 20px;
-  padding: 0 20px;
+  padding: 20px;
   align-items: center;
 `;
 
@@ -84,7 +83,7 @@ const TextInput = styled.TextInput`
 
 const EmployeeBox = styled.View`
   width: 100%;
-  height: 100px;
+  height: 60px;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;

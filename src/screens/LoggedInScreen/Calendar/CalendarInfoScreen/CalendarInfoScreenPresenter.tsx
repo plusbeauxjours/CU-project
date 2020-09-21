@@ -67,7 +67,7 @@ export default ({
     <CalendarInfoScreenCard
       index={index}
       data={data}
-      STORE={data.STORE}
+      STORE={STORE}
       SCH_ID={data.SCH_ID}
       MEMBER_SEQ={data.MEMBER_SEQ}
       VACATION={data.VACATION}

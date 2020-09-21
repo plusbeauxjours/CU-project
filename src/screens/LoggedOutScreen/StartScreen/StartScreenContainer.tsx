@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Platform, Linking, BackHandler} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -7,17 +7,17 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import api from '~/constants/LoggedInApi';
 import {setDEVICE_PLATFORM} from '~/redux/userSlice';
+import utils from '~/constants/utils';
 
 export default () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {DEVICE_PLATFORM} = useSelector((state: any) => state.userReducer);
-  const [appVersion, setAppVersion] = useState<string>('');
 
   const checkVersion = async () => {
     try {
       const {data} = await api.checkApp({
-        VERSION: appVersion,
+        VERSION: utils.appVersion,
         PLATFORM: DEVICE_PLATFORM,
       });
       if (data.RESULT_CODE == '1') {
@@ -61,7 +61,7 @@ export default () => {
 
   const gotoLogin = () => {
     navigation.navigate('LogInScreen', {
-      appVersion,
+      appVersion: utils.appVersion,
     });
   };
 
@@ -71,7 +71,6 @@ export default () => {
 
   useEffect(() => {
     dispatch(setDEVICE_PLATFORM(Platform.OS));
-    setAppVersion('1.3.7');
     checkVersion();
   }, []);
 

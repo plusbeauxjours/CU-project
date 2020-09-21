@@ -138,10 +138,9 @@ export default ({
               </DateArrow>
               <Date>
                 <DateText>
-                  {console.log(TOTAL_PAYMENT_WORKING_EMP.start)}
-                  {moment(TOTAL_PAYMENT_WORKING_EMP.start).format('YYYY.MM.DD')}
-                  ~&nbsp;
-                  {moment(TOTAL_PAYMENT_WORKING_EMP.end).format('YYYY.MM.DD')}
+                  {TOTAL_PAYMENT_WORKING_EMP.start}
+                  &nbsp;~&nbsp;
+                  {TOTAL_PAYMENT_WORKING_EMP.end}
                 </DateText>
               </Date>
               <DateReload onPress={() => onRefresh()}>
@@ -154,7 +153,7 @@ export default ({
             <Line />
             <PayBox>
               {loading ? (
-                <ActivityIndicator size={'large'} />
+                <ActivityIndicator color={'grey'} size={'small'} />
               ) : (
                 <>
                   <Pay>

@@ -37,13 +37,6 @@ const userSlice = createSlice({
         MOBILE_NO,
       };
     },
-    setVERSION(state, action) {
-      const {payload: version} = action;
-      return {
-        ...state,
-        version,
-      };
-    },
     setSTORELIST_DATA(state, action) {
       const {payload: STORELIST_DATA} = action;
       return {

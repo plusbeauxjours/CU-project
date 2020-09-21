@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
 import Modal from 'react-native-modal';
@@ -113,9 +113,10 @@ export default ({route: {params}}) => {
       START = '',
       END = '',
     } = {},
-    STORE_SEQ = null,
     date = null,
   } = params;
+  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
+
   const [isHelpModalVisible, setisHelpModalVisible] = useState<boolean>(false);
   const [restType, setRestType] = useState<string>('0');
 

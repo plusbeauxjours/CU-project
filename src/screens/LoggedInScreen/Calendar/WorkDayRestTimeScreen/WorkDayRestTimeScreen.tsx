@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
 
@@ -31,7 +31,7 @@ const Section = styled.View`
 
 const Row = styled.View`
   flex-direction: row;
-  align-items: baseline;
+  align-items: center;
 `;
 
 const WhiteSpace = styled.View`
@@ -74,9 +74,10 @@ export default ({route: {params}}) => {
       ATTENDANCE_TIME = null,
       WORK_OFF_TIME = null,
     },
-    STORE_SEQ = null,
     date = null,
   } = params;
+  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
+
   const [restTime, setRestTime] = useState<string>('');
 
   const alertModal = (text) => {
@@ -90,9 +91,7 @@ export default ({route: {params}}) => {
   };
 
   const registerFn = async () => {
-    dispatch(setSplashVisible(true));
     if (!restTime) {
-      dispatch(setSplashVisible(false));
       return alertModal('수정할 휴게시간을 입력해주세요.');
     }
     navigation.pop(2);
@@ -153,6 +152,7 @@ export default ({route: {params}}) => {
               }}
               maxLength={3}
               value={restTime}
+              autoFocus={true}
               keyboardType={'number-pad'}
             />
             <BigText>분</BigText>

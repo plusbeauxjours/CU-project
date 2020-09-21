@@ -52,7 +52,7 @@ const Attach = styled.Text`
   color: #777;
 `;
 
-const WithHelpBtn = styled.TouchableOpacity<IColor>`
+const WithHelpBtn = styled(Ripple)<IColor>`
   height: 60px;
   width: ${(props) => (props.color === '#642A8C' ? wp('80%') : wp('20%'))}px;
   align-items: center;
@@ -139,10 +139,22 @@ export default ({alert}) => {
             <TextBox alert={alert} />
           </BackGround>
           <Row>
-            <WithHelpBtn color={'#642A8C'} onPress={() => onOKPress()}>
+            <WithHelpBtn
+              color={'#642A8C'}
+              onPress={() => onOKPress()}
+              rippleColor={'#ac52eb'}
+              rippleSize={1200}
+              rippleDuration={600}
+              rippleOpacity={0.2}>
               <WhiteText>{alert.okButtonText}</WhiteText>
             </WithHelpBtn>
-            <WithHelpBtn color={'#AACE36'} onPress={() => onPressExplain()}>
+            <WithHelpBtn
+              color={'#AACE36'}
+              onPress={() => onPressExplain()}
+              rippleColor={'#aed685'}
+              rippleSize={1200}
+              rippleDuration={600}
+              rippleOpacity={0.1}>
               <WhiteText>도움말</WhiteText>
               <WhiteText>전체보기</WhiteText>
             </WithHelpBtn>

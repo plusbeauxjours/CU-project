@@ -266,7 +266,7 @@ export default ({
                 <Comment>
                   {loading ? (
                     <CommentBox>
-                      <ActivityIndicator size={'small'} color={'grey'} />
+                      <ActivityIndicator color={'grey'} size={'small'} />
                     </CommentBox>
                   ) : (
                     !loading &&
@@ -404,7 +404,9 @@ export default ({
           useNativeDriver
           enablePreload
           renderFooter={renderFooter}
-          loadingRender={() => <ActivityIndicator />}
+          loadingRender={() => (
+            <ActivityIndicator color={'grey'} size={'small'} />
+          )}
           renderIndicator={() => null}
           renderImage={(props) => (
             <FastImage

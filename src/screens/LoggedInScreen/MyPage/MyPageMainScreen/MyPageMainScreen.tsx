@@ -12,6 +12,7 @@ import FastImage from 'react-native-fast-image';
 import {userLogout} from '~/redux/userSlice';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import {ForwardIcon, LogoutIcon} from '~/constants/Icons';
+import utils from '~/constants/utils';
 
 const BackGround = styled.View`
   flex: 1;
@@ -94,7 +95,7 @@ const CardText = styled.Text`
 export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {STORE, version, MEMBER_NAME, mobileNo} = useSelector(
+  const {STORE, MEMBER_NAME, mobileNo} = useSelector(
     (state: any) => state.userReducer,
   );
 
@@ -193,7 +194,7 @@ export default () => {
           <Card>
             <CardText>앱버전</CardText>
             <Arrow>
-              <BoxTitle>{version}</BoxTitle>
+              <BoxTitle>{utils.appVersion}</BoxTitle>
             </Arrow>
           </Card>
           <Card onPress={() => logOut()}>

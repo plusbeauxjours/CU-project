@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 
 import {useNavigation} from '@react-navigation/native';
 import SignupScreenPresenter from './SignupScreenPresenter';
@@ -8,6 +8,7 @@ import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import {setSplashVisible} from '~/redux/splashSlice';
 
 import api from '~/constants/LoggedInApi';
+import utils from '~/constants/utils';
 
 export default ({route: {params}}) => {
   const navigation = useNavigation();
@@ -30,7 +31,6 @@ export default ({route: {params}}) => {
   const [isPasswordCheckSeen, setIsPasswordCheckSeen] = useState<boolean>(
     false,
   );
-  const [appVersion, setAppVersion] = useState<string>('');
 
   const alertModal = (text) => {
     const params = {alertType: 'alert', content: text};
@@ -89,7 +89,7 @@ export default ({route: {params}}) => {
       } else {
         alertModal('회원가입이 완료되었습니다. 로그인해 주세요.');
         navigation.navigate('LogInScreen', {
-          appVersion,
+          appVersion: utils.appVersion,
         });
       }
     } catch (e) {
@@ -106,10 +106,6 @@ export default ({route: {params}}) => {
       setName(text);
     }
   };
-
-  useEffect(() => {
-    setAppVersion('1.3.7');
-  }, []);
 
   return (
     <SignupScreenPresenter

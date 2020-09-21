@@ -149,12 +149,13 @@ const FixedGreyText = styled(GreyText)`
 `;
 
 const FreeTypeInfoBox = styled.View`
-  margin: 10px 20px;
-  padding: 20px 0;
+  border-color: #e5e5e5;
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  border-width: 1;
   align-items: center;
   justify-content: center;
-  border-color: #e5e5e5;
-  border-width: 1px;
 `;
 
 const FixTypeDayChangeBox = styled.View`
@@ -238,6 +239,7 @@ const TimeListBox = styled.TouchableOpacity<IsSelected>`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 `;
 
 const TimeListRow = styled(Row)`
@@ -455,15 +457,20 @@ export default ({
                           setTimeListIndex(index);
                         }
                       }}>
-                      <TimeListBoxText isSelected={timeListIndex === index}>
+                      <TimeListBoxText
+                        isSelected={timeListIndex === index}
+                        color={timeListIndex === index ? data.color : '#ddd'}>
                         <EllipseIcon
                           color={timeListIndex === index ? data.color : '#ddd'}
                         />
                         &nbsp;&nbsp;
-                        {moment(data.startTime).format('YYYY.MM.DD')} ~&nbsp;
-                        {moment(data.endTime).format('YYYY.MM.DD')}
+                        {data.startTime}&nbsp;~&nbsp;{data.endTime}
                       </TimeListBoxText>
-                      <TimeListBoxText isSelected={true}>보기</TimeListBoxText>
+                      <TimeListBoxText
+                        isSelected={true}
+                        color={timeListIndex === index ? data.color : '#ddd'}>
+                        보기
+                      </TimeListBoxText>
                     </TimeListBox>
                   ))}
                 </>
@@ -606,9 +613,11 @@ export default ({
                 </Row>
               </WorkTypeAndSalaryBox>
               {isFreeWorkingType && (
-                <FreeTypeInfoBox>
-                  <GreyText>자율출퇴근 근무 중</GreyText>
-                </FreeTypeInfoBox>
+                <FixTypeDayChangeBox>
+                  <FreeTypeInfoBox>
+                    <GreyText>자율출퇴근 근무 중</GreyText>
+                  </FreeTypeInfoBox>
+                </FixTypeDayChangeBox>
               )}
               <Row>
                 {isFreeWorkingType !== true &&

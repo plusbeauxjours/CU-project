@@ -184,7 +184,7 @@ export default ({url, setModalVisible}) => {
                   }
             }>
             {loading ? (
-              <ActivityIndicator />
+              <ActivityIndicator color={'grey'} size={'small'} />
             ) : (
               <>
                 <PlayerControls

@@ -21,6 +21,7 @@ import {
 import moment from 'moment';
 import {AddCircleIcon, CloseCircleIcon} from '~/constants/Icons';
 import ChecklistItemsScreenCard from './ChecklistItemsScreenCard';
+import Ripple from 'react-native-material-ripple';
 
 interface IsEmpName {
   isEmpName: string;
@@ -107,12 +108,8 @@ const Section = styled.View`
   background-color: white;
 `;
 
-const AddChecklistBox = styled.View`
-  width: 100%;
+const AddCheckilistButton = styled(Ripple)`
   align-items: center;
-`;
-
-const AddCheckilistButton = styled.TouchableOpacity`
   padding: 15px;
   width: 100%;
   border-radius: 30px;
@@ -426,14 +423,18 @@ export default ({
               </DateArrowRight>
             </Date>
             {STORE === '1' && (
-              <AddChecklistBox>
-                <AddCheckilistButton onPress={() => onPressAddChecklist()}>
-                  <AddChecklistButtonText>
-                    체크리스트 추가하기
-                  </AddChecklistButtonText>
-                  <AddCircleIcon />
-                </AddCheckilistButton>
-              </AddChecklistBox>
+              <AddCheckilistButton
+                onPress={() => onPressAddChecklist()}
+                rippleColor={'#ac52eb'}
+                rippleDuration={600}
+                rippleSize={1200}
+                rippleContainerBorderRadius={30}
+                rippleOpacity={0.1}>
+                <AddChecklistButtonText>
+                  체크리스트 추가하기
+                </AddChecklistButtonText>
+                <AddCircleIcon />
+              </AddCheckilistButton>
             )}
           </Section>
           {CHECKLIST_DATA?.length == 0 ? (

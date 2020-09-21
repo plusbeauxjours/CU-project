@@ -7,6 +7,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {isIphoneX} from 'react-native-iphone-x-helper';
+import Ripple from 'react-native-material-ripple';
 
 import {CloseCircleIcon, HelpCircleIcon} from '~/constants/Icons';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
@@ -42,7 +43,7 @@ const WhiteSpace = styled.View`
   height: 30px;
 `;
 
-const LinkBtn = styled.TouchableOpacity`
+const LinkBtn = styled(Ripple)`
   margin-top: 20px;
   height: 70px;
   flex-direction: row;
@@ -160,11 +161,16 @@ export default ({route: {params}}) => {
           </RowTouchable>
           <ExplainText>- 회사명 : CU 지점명</ExplainText>
           <ExplainText>- 가입경로 : 자버 담당자 미팅</ExplainText>
-
+          <WhiteSpace />
           <LinkBtn
             onPress={() => {
               setIsModalVisible(true);
-            }}>
+            }}
+            rippleColor={'#ac52eb'}
+            rippleDuration={600}
+            rippleSize={1200}
+            rippleContainerBorderRadius={30}
+            rippleOpacity={0.1}>
             <Text style={{color: '#FF3D3D', fontSize: 16}}>(선택)</Text>
             <Text style={{marginLeft: 5, color: '#642A8C', fontSize: 16}}>
               전자근로계약서 작성하기

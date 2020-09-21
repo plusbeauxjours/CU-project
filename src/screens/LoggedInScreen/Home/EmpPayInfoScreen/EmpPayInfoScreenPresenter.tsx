@@ -24,14 +24,15 @@ const ScrollView = styled.ScrollView``;
 
 const Container = styled.View`
   width: 100%;
-  padding: 0 20px;
+  padding: 20px;
   align-items: center;
-  margin-top: ${hp('5%')}px;
 `;
+
 const TopArea = styled.View`
   width: 100%;
   border-radius: 20px;
   background-color: white;
+  margin-bottom: 20px;
 `;
 const Profile = styled.View`
   flex: 1;
@@ -92,10 +93,11 @@ const DateBox = styled(Row)`
 `;
 
 const Section = styled.View`
-  width: 100%;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+  width: ${wp('100%') - 40}px;
+  border-radius: 20px;
+  padding: 20px;
   background-color: white;
+  margin-bottom: 20px;
 `;
 
 const CardBox = styled.View`

@@ -16,8 +16,6 @@ export default () => {
   const {STORE, STORELIST_DATA, DEVICE_PLATFORM} = useSelector(
     (state: any) => state.userReducer,
   );
-  const [appVersion, setAppVersion] = useState<string>('');
-  const [platform, setPlatform] = useState<string>('');
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const onRefresh = async () => {
@@ -60,7 +58,7 @@ export default () => {
   const checkVersion = async () => {
     try {
       const {data} = await api.checkApp({
-        VERSION: appVersion,
+        VERSION: utils.appVersion,
         PLATFORM: DEVICE_PLATFORM,
       });
       if (data.RESULT_CODE == '1') {
@@ -104,12 +102,6 @@ export default () => {
   };
 
   useEffect(() => {
-    if (utils.isAndroid) {
-      setPlatform('android');
-    } else {
-      setPlatform('ios');
-    }
-    setAppVersion('1.3.7');
     checkVersion();
     dispatch(getSTORELIST_DATA());
   }, []);

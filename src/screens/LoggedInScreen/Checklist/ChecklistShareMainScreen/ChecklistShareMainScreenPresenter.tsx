@@ -443,7 +443,6 @@ export default ({
   const ThirdRoute = () => (
     <BackGround>
       <Container>
-        <NewCntViewText>ThirdRoute</NewCntViewText>
         {CHECKLIST_SHARE_DATA3?.message?.length == 0 ? (
           <EmptyList TITLE={'CU소식'} />
         ) : (

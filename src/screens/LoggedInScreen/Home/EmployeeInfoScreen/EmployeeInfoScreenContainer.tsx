@@ -365,12 +365,12 @@ export default ({route: {params}}) => {
   // 자율출퇴근으로 전환하기 & 일정출퇴근으로 전환하기 API
   const changeMode = async () => {
     try {
+      setIsFreeWorkingType(!isFreeWorkingType);
       const {data} = await api.toggleCalendar({
         CALENDAR: isFreeWorkingType ? '1' : '0',
         EMP_SEQ,
       });
       if (data.message === 'SUCCESS') {
-        setIsFreeWorkingType(!isFreeWorkingType);
         await fetchData();
       }
     } catch (e) {
@@ -381,7 +381,6 @@ export default ({route: {params}}) => {
 
   const fetchData = async () => {
     try {
-      dispatch(setSplashVisible(true));
       const {data} = await api.getEmp(EMP_SEQ);
       calculateFn(
         EMP_SEQ,
@@ -400,8 +399,6 @@ export default ({route: {params}}) => {
       console.log(e);
       dispatch(setSplashVisible(false));
       alertModal('', '통신이 원활하지 않습니다.');
-    } finally {
-      dispatch(setSplashVisible(false));
     }
   };
 

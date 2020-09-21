@@ -1,6 +1,6 @@
 import React, {useRef} from 'react';
 import styled from 'styled-components/native';
-import {FlatList, ActivityIndicator} from 'react-native';
+import {FlatList} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,

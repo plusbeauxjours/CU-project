@@ -362,6 +362,7 @@ export default ({
               value={checklistInput}
             />
             <RoundBtn
+              isInSection={true}
               text={'목록에 추가하기'}
               onPress={() => {
                 let value = JSON.parse(JSON.stringify(LIST));
@@ -500,14 +501,14 @@ export default ({
               <SubText>* 직원 이미지를 클릭하면 목록에서 제외됩니다.</SubText>
             )}
           </Section>
+          <SubmitBtn
+            text={`${type}완료`}
+            onPress={() => submitFn()}
+            isRegisted={
+              (LIST?.length !== 0 && isNoCheckedtime) || customChecktime
+            }
+          />
         </Container>
-        <SubmitBtn
-          text={`${type}완료`}
-          onPress={() => submitFn()}
-          isRegisted={
-            (LIST?.length !== 0 && isNoCheckedtime) || customChecktime
-          }
-        />
         {type == '수정' && (
           <DeleteButton
             onPress={() =>
