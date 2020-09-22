@@ -34,7 +34,6 @@ const BackGround = styled.View`
 
 const Touchable = styled.TouchableOpacity``;
 const ScrollView = styled.ScrollView``;
-const ImageBackground = styled.ImageBackground``;
 const Text = styled.Text``;
 
 const Container = styled.View`
@@ -413,10 +412,10 @@ export default ({
   return (
     <BackGround>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <ImageBackground
+        <FastImage
+          style={{width: wp('100%'), height: hp('30%')}}
           source={require('../../../../assets/main/mainTopBg.png')}
-          resizeMode={'cover'}
-          style={{height: hp('30%')}}>
+          resizeMode={FastImage.resizeMode.cover}>
           <MyPage>
             {STORE !== '1' && (
               <IconContainer
@@ -495,7 +494,7 @@ export default ({
               </StoreUpdateBtn>
             </Row>
           </StoreUpdate>
-        </ImageBackground>
+        </FastImage>
         <MenuBox style={{zIndex: 1}}>
           {STORE == 0 && (
             <Qr onPress={async () => setQrModalOpen(true)}>
@@ -878,10 +877,10 @@ export default ({
           }}>
           <ShowPictureModalText>출퇴근 QR</ShowPictureModalText>
           <ShowPictureModalImage>
-            <Image
-              source={{uri: 'http://cuapi.shop-sol.com/' + QR}}
+            <FastImage
               style={{width: '100%', height: '100%'}}
-              resizeMode={'contain'}
+              source={{uri: 'http://cuapi.shop-sol.com/' + QR}}
+              resizeMode={FastImage.resizeMode.contain}
             />
           </ShowPictureModalImage>
         </ShowPictureModalTouchable>

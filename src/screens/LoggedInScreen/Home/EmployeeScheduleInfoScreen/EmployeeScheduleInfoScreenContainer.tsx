@@ -86,7 +86,6 @@ export default ({route: {params}}) => {
   // 합류하기 API
   const sendPushFn = async () => {
     try {
-      console.log(EMP_SEQ);
       dispatch(removeRESPONSE_EMPLOYEE(EMP_SEQ));
       const {data} = await api.setEmpType(EMP_SEQ);
       if (data.message === 'SUCCESS') {

@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* CUwesopTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CUwesopTests.m */; };
 		02D89CD333B4DF8E114BFB43 /* libPods-CUwesop-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C21E7EB0B9D7752F581C8A9 /* libPods-CUwesop-tvOS.a */; };
@@ -18,7 +19,7 @@
 		60B976EC54227D975CB16EFE /* libPods-CUwesop-CUwesopTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 346582D74510C889ABEFAD68 /* libPods-CUwesop-CUwesopTests.a */; };
 		6EF1F2024B7B31A4A7258C9F /* libPods-CUwesop.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F43CFCCC08BD1E68861465B1 /* libPods-CUwesop.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		BEF5FB082514E3BF00D17634 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BEF5FB072514E3BF00D17634 /* GoogleService-Info.plist */; };
+		BE70D76A2519F12600F00D71 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE70D7692519F12500F00D71 /* GoogleService-Info.plist */; };
 		D77D45B5B063C1349E32B1D0 /* libPods-CUwesop-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DDD78265340E6C0EDFBEAE5 /* libPods-CUwesop-tvOSTests.a */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +64,7 @@
 		A125DB07399B23F11AD74332 /* Pods-CUwesop-CUwesopTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CUwesop-CUwesopTests.debug.xcconfig"; path = "Target Support Files/Pods-CUwesop-CUwesopTests/Pods-CUwesop-CUwesopTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B060D114D852DA2FCEFB9C4C /* Pods-CUwesop-CUwesopTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CUwesop-CUwesopTests.release.xcconfig"; path = "Target Support Files/Pods-CUwesop-CUwesopTests/Pods-CUwesop-CUwesopTests.release.xcconfig"; sourceTree = "<group>"; };
 		B8F696ACA21746BFDA9DA962 /* Pods-CUwesop-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CUwesop-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-CUwesop-tvOSTests/Pods-CUwesop-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		BE70D7692519F12500F00D71 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "CUwesop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BEBF77FF24F39D3A00F1C0F1 /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		BEBF780024F39D3A00F1C0F1 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		BEBF780124F39D3A00F1C0F1 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -79,7 +81,6 @@
 		BEBF780D24F39D3B00F1C0F1 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		BEBF780E24F39D3B00F1C0F1 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		BEF5FB042514B5ED00D17634 /* CUwesop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CUwesop.entitlements; path = CUwesop/CUwesop.entitlements; sourceTree = "<group>"; };
-		BEF5FB072514E3BF00D17634 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C468669342744434B5D3B863 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -146,7 +147,7 @@
 				BEF5FB042514B5ED00D17634 /* CUwesop.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				BEF5FB072514E3BF00D17634 /* GoogleService-Info.plist */,
+				BE70D7692519F12500F00D71 /* GoogleService-Info.plist */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -386,8 +387,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				BE70D76A2519F12600F00D71 /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				BEF5FB082514E3BF00D17634 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,6 +459,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport EXTRA_PACKAGER_ARGS=\"--sourcemap-output $DERIVED_FILE_DIR/main.jsbundle.map\"\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		3D4B2E0E711A461E8D174BC9 /* Upload Debug Symbols to Sentry */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Upload Debug Symbols to Sentry";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
 		};
 		44E2B80F46AE45C2E61C4FC5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -670,20 +685,6 @@
 			shellPath = /bin/sh;
 			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
 			showEnvVarsInLog = 0;
-		};
-		3D4B2E0E711A461E8D174BC9 /* Upload Debug Symbols to Sentry */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			name = "Upload Debug Symbols to Sentry";
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
 		};
 /* End PBXShellScriptBuildPhase section */
 

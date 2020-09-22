@@ -109,7 +109,7 @@ export const userLogin = () => async (dispatch) => {
   try {
     dispatch(setLOGIN());
   } catch (e) {
-    console.log('Wrong user/password');
+    console.log(e);
   }
 };
 

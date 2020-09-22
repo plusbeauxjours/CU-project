@@ -42,7 +42,7 @@ export default () => {
 
   const exitandroid = () => {
     dispatch(setAlertVisible(false));
-    if (utils.isAndroid) {
+    if (utils.isAndroid()) {
       BackHandler.exitApp();
       Linking.openURL(
         'https://play.google.com/store/apps/details?id=com.wesop.cuhr',

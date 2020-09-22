@@ -104,7 +104,6 @@ export default () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
         <Container>
-          {console.log('RESPONSE_EMPLOYEE', RESPONSE_EMPLOYEE)}
           <Section>
             <BoxTitle
               onPress={() =>

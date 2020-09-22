@@ -2,12 +2,17 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import * as Hangul from 'hangul-js';
+import Contacts from 'react-native-contacts';
+import {openSettings} from 'react-native-permissions';
+import {PermissionsAndroid} from 'react-native';
 
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import InviteEmployeeScreenPresenter from './InviteEmployeeScreenPresenter';
 import {setSplashVisible} from '~/redux/splashSlice';
 import api from '~/constants/LoggedInApi';
 import {getRESPONSE_EMPLOYEE} from '~/redux/employeeSlice';
+import {Alert, Linking} from 'react-native';
+import utils from '~/constants/utils';
 
 export default () => {
   const dispatch = useDispatch();
@@ -18,9 +23,11 @@ export default () => {
   const [name, setName] = useState<string>(null);
   const [phone, setPhone] = useState<string>(null);
   const [search, setSearch] = useState<string>(null);
-  const [result, setResult] = useState<any>([]);
-  const [contacts, setContacts] = useState<any>([]);
   const [choice, setChoice] = useState<any>([]);
+  const [data, setData] = useState<any>(null);
+  const [permission, setPermission] = useState<
+    'undefined' | 'authorized' | 'denied'
+  >('denied');
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   const explainModal = (title, text) => {
@@ -42,13 +49,6 @@ export default () => {
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
   };
-
-  // const alertIfRemoteNotificationsDisabledAsync  =async() =>{
-  //   const { status } = await Permissions.askAsync(Permissions.CONTACTS);
-  //   if (status !== 'granted') {
-  // alertModal('', '연락처 탐색 기능을 사용하기위해 동의해 주십시오.');
-  //   }
-  // }
 
   const deleteBuffer = (KEY) => {
     setChoice((buffer) => buffer.filter((item) => item.key !== KEY));
@@ -98,18 +98,16 @@ export default () => {
       buffer.unshift({key: id, NAME: name, phone: phoneNumbers});
     }
     setChoice(buffer);
-    setResult(
-      result.filter((data) => {
-        return data.id !== id;
-      }),
-    );
+    setData(data.filter((i) => i.recordID !== id));
   };
 
   const searchName = (text) => {
     setSearch(text);
-    const arr = contacts;
+    console.log(search);
+    console.log(text);
+    const arr = data;
     arr.forEach(function (item) {
-      let dis = Hangul.disassemble(item.name, true);
+      let dis = Hangul.disassemble(item.familyName + item.givenName, true);
       let cho = dis.reduce(function (prev, elem: any) {
         elem = elem[0] ? elem[0] : elem;
         return prev + elem;
@@ -119,9 +117,13 @@ export default () => {
     let search = text;
     let search1 = Hangul.disassemble(search).join(''); // 렭 -> ㄹㅕㄹr
     const result1 = arr.filter(function (item) {
-      return item.name.includes(search) || item.disassembled.includes(search1);
+      return (
+        item.familyName.includes(search) ||
+        item.disassembled.includes(search1) ||
+        item.givenName.includes(search)
+      );
     });
-    setResult(result1);
+    setData(result1);
   };
 
   const submitFn = async () => {
@@ -153,51 +155,17 @@ export default () => {
     }
   };
 
-  const getContacts = async () => {
-    // const {status} = await Permissions.askAsync(Permissions.CONTACTS);
-    if (status !== 'granted') {
-      alertModal('', '연락처 탐색 기능을 사용하기위해 동의해 주십시오.');
-      return;
-    }
-    try {
-      dispatch(setSplashVisible(true));
-      // const {data} = await Contacts.getContactsAsync({
-      //   fields: [Contacts.Fields.Name, Contacts.Fields.PhoneNumbers],
-      // });
-      // var dataArr = data.filter((info) => {
-      //   let buffer = choice;
-      //   let flag = false;
-      //   for (var i = 0; i < buffer.length; i++) {
-      //     if (info.phoneNumbers) {
-      //       for (var a = 0; a < info.phoneNumbers.length; a++) {
-      //         const num = info.phoneNumbers[a].number.split('-').join('');
-      //         if (buffer[i].phone == num) {
-      //           flag = true;
-      //           break;
-      //         }
-      //       }
-      //     } else {
-      //       break;
-      //     }
-      //   }
-      //   return flag == false;
-      // });
-      // setContacts(data);
-      // setResult(dataArr);
-      setIsModalVisible(true);
-    } catch (e) {
-      console.log(e);
-    } finally {
-      dispatch(setSplashVisible(false));
-    }
+  const onPressSubmitButton = () => {
+    setIsModalVisible(false);
+    setSearch(null);
   };
 
   const onPress = (data) => {
     dispatch(setSplashVisible(true));
     try {
       choiseFn(
-        data.id,
-        data.name,
+        data.recordID,
+        data.familyName + data.givenName,
         data.phoneNumbers[0].number.replace(/\D/g, ''),
       );
     } catch (e) {
@@ -208,9 +176,78 @@ export default () => {
     }
   };
 
-  // useEffect(()=> {
-  // alertIfRemoteNotificationsDisabledAsync()
-  // },[])
+  const getContactsFn = async () => {
+    try {
+      dispatch(setSplashVisible(true));
+      if (utils.isAndroid()) {
+        await requestPermissionsAndroid();
+      } else {
+        await requestPermissionsIOS();
+      }
+      if (permission === 'authorized') {
+        Contacts.getAll((err, contacts: any) => {
+          setData(contacts);
+          console.log(contacts[0]);
+        });
+        setIsModalVisible(true);
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      dispatch(setSplashVisible(false));
+    }
+  };
+
+  const requestPermissionsIOS = async () => {
+    Contacts.checkPermission((err, permission) => {
+      setPermission(permission);
+      if (permission !== 'authorized') {
+        Alert.alert(
+          '연락처 탐색 동의',
+          '연락처 탐색 기능을 사용하기 위해 확인을 누른 뒤, 환경 설정에서 탐색을 켜주세요.',
+          [
+            {
+              text: '취소',
+              style: 'cancel',
+            },
+            {
+              text: '확인',
+              onPress: () => Linking.openURL('app-settings:'),
+            },
+          ],
+        );
+      }
+    });
+  };
+
+  const requestPermissionsAndroid = async () => {
+    const result = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+      {
+        title: '연락처 탐색 동의',
+        message:
+          '연락처 탐색 기능을 사용하기 위해 확인을 누른 뒤, 환경 설정에서 탐색을 켜주세요.',
+        buttonPositive: '확인',
+      },
+    );
+    console.log('result', result);
+    if (result !== PermissionsAndroid.RESULTS.GRANTED) {
+      Alert.alert(
+        '연락처 탐색 동의',
+        '연락처 탐색 기능을 사용하기 위해 확인을 누른 뒤, 환경 설정에서 탐색을 켜주세요.',
+        [
+          {
+            text: '취소',
+            style: 'cancel',
+          },
+          {
+            text: '확인',
+            onPress: () => openSettings(),
+          },
+        ],
+      );
+    }
+  };
 
   return (
     <InviteEmployeeScreenPresenter
@@ -222,15 +259,15 @@ export default () => {
       choice={choice}
       submitFn={submitFn}
       addFn={addFn}
-      getContacts={getContacts}
+      data={data}
+      getContactsFn={getContactsFn}
       deleteBuffer={deleteBuffer}
       isModalVisible={isModalVisible}
       setIsModalVisible={setIsModalVisible}
       searchName={searchName}
       search={search}
-      setSearch={setSearch}
-      result={result}
       onPress={onPress}
+      onPressSubmitButton={onPressSubmitButton}
     />
   );
 };

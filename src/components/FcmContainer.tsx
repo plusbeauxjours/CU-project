@@ -76,7 +76,6 @@ export default ({children, onNotificationOpened}: Props): JSX.Element => {
   };
 
   const _registerToken = (fcmToken: string) => {
-    console.log('fcmToken', fcmToken);
     dispatch(
       setDEVICE_INFO({
         PUSH_TOKEN: fcmToken,
@@ -106,54 +105,34 @@ export default ({children, onNotificationOpened}: Props): JSX.Element => {
       const fcmToken = await firebase.messaging().getToken();
       _registerMessageListener();
       _registerToken(fcmToken);
-    } catch (error) {
-      console.log('ERROR: _updateTokenToServer');
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 
   const _requestPermission = async (): Promise<void> => {
     try {
-      // User has authorised
       await firebase.messaging().requestPermission();
       await _updateTokenToServer();
     } catch (error) {
-      // User has rejected permissions
-      if (!utils.isAndroid) {
-        Alert.alert(
-          '푸쉬 알림 거절',
-          '푸시 알림을 받으려면 확인을 누른 뒤, 환경 설정에서 푸시를 켜주세요.',
-          [
-            {
-              text: '취소',
-              style: 'cancel',
+      Alert.alert(
+        '푸쉬 알림 거절',
+        '푸시 알림을 받으려면 확인을 누른 뒤, 환경 설정에서 푸시를 켜주세요.',
+        [
+          {
+            text: '취소',
+            style: 'cancel',
+          },
+          {
+            text: '확인',
+            onPress: () => {
+              utils.isAndroid()
+                ? openSettings()
+                : Linking.openURL('app-settings:');
             },
-            {
-              text: '확인',
-              onPress: () => {
-                Linking.openURL('app-settings:');
-              },
-            },
-          ],
-        );
-      } else {
-        Alert.alert(
-          '푸쉬 알림 거절',
-          '푸시 알림을 받으려면 확인을 누른 뒤, 환경 설정에서 푸시를 켜주세요.',
-          [
-            {
-              text: '취소',
-              style: 'cancel',
-            },
-            {
-              text: '확인',
-              onPress: () => {
-                openSettings();
-              },
-            },
-          ],
-        );
-      }
+          },
+        ],
+      );
     }
   };
 
@@ -161,16 +140,13 @@ export default ({children, onNotificationOpened}: Props): JSX.Element => {
     try {
       const enabled = await firebase.messaging().hasPermission();
       if (enabled) {
-        // user has permissions
         _updateTokenToServer();
         _registerTokenRefreshListener();
       } else {
-        // user doesn't have permission
         _requestPermission();
       }
-    } catch (error) {
-      console.log('ERROR: _checkPermission', error);
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 

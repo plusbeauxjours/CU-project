@@ -5,11 +5,17 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import Ripple from 'react-native-material-ripple';
+import * as Hangul from 'hangul-js';
 
+import InviteEmployeeScreenCard from './InviteEmployeeScreenCard';
 import {PersonAddIcon, HelpCircleIcon, SearchIcon} from '~/constants/Icons';
 import SubmitBtn from '~/components/Btn/SubmitBtn';
-import InviteEmployeeScreenCard from './InviteEmployeeScreenCard';
 import RoundBtn from '~/components/Btn/RoundBtn';
+
+interface IIsBefore {
+  isBefore: boolean;
+}
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -86,6 +92,7 @@ const ContactIconContainer = styled(Contact)`
   border-radius: 25px;
   padding: 5px;
 `;
+
 const Box = styled.View`
   padding-bottom: 20px;
   flex-direction: row;
@@ -126,6 +133,7 @@ const ModalContainer = styled.View`
 
 const SearchBox = styled.View`
   padding: 20px;
+  padding-bottom: 2px;
   position: relative;
 `;
 
@@ -146,6 +154,20 @@ const SearchInput = styled.TextInput`
   background-color: white;
 `;
 
+const SubmitButton = styled(Ripple)<IIsBefore>`
+  margin-top: 2px;
+  width: ${wp('100%')}px;
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+  background-color: ${(props) => (props.isBefore ? '#cccccc' : '#642a8c')};
+`;
+
+const WhiteText = styled.Text`
+  font-size: 16px;
+  color: white;
+`;
+
 export default ({
   explainModal,
   setName,
@@ -155,15 +177,15 @@ export default ({
   choice,
   submitFn,
   addFn,
-  getContacts,
+  data,
+  getContactsFn,
   deleteBuffer,
   isModalVisible,
   setIsModalVisible,
   searchName,
   search,
-  setSearch,
-  result,
   onPress,
+  onPressSubmitButton,
 }) => {
   return (
     <BackGround>
@@ -188,7 +210,7 @@ export default ({
                 <BoxText>(방법1) 연락처로 추가하기</BoxText>
                 <HelpCircleIcon />
               </Row>
-              <ContactIconContainer onPress={() => getContacts()}>
+              <ContactIconContainer onPress={() => getContactsFn()}>
                 <PersonAddIcon />
               </ContactIconContainer>
             </Box>
@@ -223,7 +245,6 @@ export default ({
                 />
               </PhoneContainer>
             </Box>
-            {console.log(name, phone)}
             <RoundBtn
               isInSection={true}
               text={'초대할 직원목록에 추가'}
@@ -284,10 +305,17 @@ export default ({
             keyboardShouldPersistTaps={'handled'}
             keyboardDismissMode="on-drag"
             showsVerticalScrollIndicator={false}>
-            {result
-              .filter((info) => info.phoneNumbers)
+            {data
+              ?.filter((i) => i.phoneNumbers[0]?.number)
+              ?.sort((a, b) =>
+                a.familyName < b.familyName
+                  ? -1
+                  : a.familyName > b.familyName
+                  ? 1
+                  : 0,
+              )
               .map((data, index) => {
-                if (data.phoneNumbers[0].number) {
+                if (data.phoneNumbers[0]?.number) {
                   return (
                     <Touchable
                       key={index}
@@ -295,9 +323,9 @@ export default ({
                         onPress(data);
                       }}>
                       <InviteEmployeeScreenCard
-                        name={data.name}
+                        name={data.familyName + data.givenName}
                         phone={
-                          data.phoneNumbers
+                          data.phoneNumbers[0]?.number
                             ? data.phoneNumbers[0].number.replace(/\D/g, '')
                             : 'No Number'
                         }
@@ -310,14 +338,17 @@ export default ({
                 }
               })}
           </ScrollView>
-          <SubmitBtn
-            text={'완료'}
-            isRegisted={true}
+          <SubmitButton
+            isBefore={choice?.length === 0}
             onPress={() => {
-              setIsModalVisible(false);
-              setSearch(null);
+              choice?.length === 0 ? {} : onPressSubmitButton();
             }}
-          />
+            rippleColor={choice?.length === 0 ? '#fff' : '#ac52eb'}
+            rippleDuration={600}
+            rippleSize={1200}
+            rippleOpacity={0.45}>
+            <WhiteText>완료</WhiteText>
+          </SubmitButton>
         </ModalContainer>
       </Modal>
     </BackGround>
