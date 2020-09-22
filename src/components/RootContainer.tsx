@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {ActivityIndicator} from 'react-native';
 import {useSelector} from 'react-redux';
+import * as Sentry from '@sentry/react-native';
 
 import CloseBtn from './Header/CloseBtn';
 import LoggedInNavigation from '../navigations/LoggedInNavigation';
@@ -13,6 +14,13 @@ export default () => {
   const {visible} = useSelector((state: any) => state.splashReducer);
   const {isLoggedIn} = useSelector((state: any) => state.userReducer);
   const RootStack = createStackNavigator();
+
+  Sentry.init({
+    dsn:
+      'https://5c8f1a5981bf43e19397aac65b8588f7@o450648.ingest.sentry.io/5436659',
+    enableAutoSessionTracking: true,
+    sessionTrackingIntervalMillis: 10000,
+  });
 
   return (
     <NavigationContainer>
