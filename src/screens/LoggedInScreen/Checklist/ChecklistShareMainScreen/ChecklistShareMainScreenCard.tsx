@@ -59,7 +59,6 @@ const PinTouchable = styled.TouchableOpacity<IsFavorite>`
   background-color: ${(props) => (props.isFavorite ? '#000' : '#ddd')};
   z-index: 2;
   margin-right: 10px;
-  padding-left: 2px;
 `;
 
 const InfoText = styled.Text`
@@ -148,7 +147,7 @@ export default ({key, data, ME, type, confirmModal}) => {
                 isFavorite={data.favorite === '1'}
                 onPress={() => confirmModal(data.NOTICE_SEQ)}>
                 <PinIcon
-                  size={18}
+                  size={14}
                   color={data.favorite == '1' ? 'yellow' : '#aaa'}
                 />
               </PinTouchable>
