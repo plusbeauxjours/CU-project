@@ -43,6 +43,7 @@ const SelectedText = styled.Text<IsSelected>`
   margin-left: 10px;
   color: ${(props) => (props.isSelected ? `${props.color}` : '#CCCCCC')};
 `;
+
 const Touchable = styled.TouchableOpacity``;
 
 const Container = styled.View`
@@ -218,6 +219,7 @@ const IncentiveText = styled.Text`
 const EmptySpace = styled.View`
   width: 45px;
 `;
+
 export default ({
   alertModal,
   markedDates,

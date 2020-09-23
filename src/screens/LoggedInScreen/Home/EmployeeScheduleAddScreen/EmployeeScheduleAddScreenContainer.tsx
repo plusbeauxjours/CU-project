@@ -306,8 +306,10 @@ export default ({route: {params}}) => {
 
   // STEP2 요일을 눌렀을 때 toggle isChecked
   const onDayPress = (index) => {
+    console.log(index);
     let dayListed = dayList;
     dayListed[index].isChecked = !dayList[index].isChecked;
+    console.log('dayListed', dayListed);
     setDayList(dayListed);
   };
 
@@ -359,3 +361,49 @@ export default ({route: {params}}) => {
     />
   );
 };
+
+// dayList[
+//   {EMP_SCH_SEQ: null, day: 0, isChecked: false, text: '일'},
+//   {EMP_SCH_SEQ: null, day: 1, isChecked: false, text: '월'},
+//   {EMP_SCH_SEQ: null, day: 2, isChecked: false, text: '화'},
+//   {EMP_SCH_SEQ: null, day: 3, isChecked: false, text: '수'},
+//   {EMP_SCH_SEQ: null, day: 4, isChecked: false, text: '목'},
+//   {EMP_SCH_SEQ: null, day: 5, isChecked: false, text: '금'},
+//   {EMP_SCH_SEQ: null, day: 6, isChecked: false, text: '토'},
+// ];
+
+// timeList[
+//   ({
+//     color: '#0D4F8A',
+//     dayList: [
+//       [{
+//         "EMP_SCH_SEQ": "23381",
+//         "day": 0,
+//         "isChecked": true,
+//         "text": "일"
+//       }],
+//       [Object],
+//       [Object],
+//       [Object],
+//       [Object],
+//       [Object],
+//       [Object],
+//     ],
+//     endTime: '20:00',
+//     startTime: '09:30',
+//   },
+//   {
+//     color: '#ED8F52',
+//     dayList: [
+//       [Object],
+//       [Object],
+//       [Object],
+//       [Object],
+//       [Object],
+//       [Object],
+//       [Object],
+//     ],
+//     endTime: '23:20',
+//     startTime: '18:20',
+//   })
+// ];

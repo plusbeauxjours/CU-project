@@ -23,8 +23,9 @@ export default () => {
   const [name, setName] = useState<string>(null);
   const [phone, setPhone] = useState<string>(null);
   const [search, setSearch] = useState<string>(null);
+  const [result, setResult] = useState<any>([]);
+  const [contacts, setContacts] = useState<any>([]);
   const [choice, setChoice] = useState<any>([]);
-  const [data, setData] = useState<any>(null);
   const [permission, setPermission] = useState<
     'undefined' | 'authorized' | 'denied'
   >('denied');
@@ -98,14 +99,12 @@ export default () => {
       buffer.unshift({key: id, NAME: name, phone: phoneNumbers});
     }
     setChoice(buffer);
-    setData(data.filter((i) => i.recordID !== id));
+    setResult(result.filter((i) => i.recordID !== id));
   };
 
   const searchName = (text) => {
     setSearch(text);
-    console.log(search);
-    console.log(text);
-    const arr = data;
+    const arr = contacts;
     arr.forEach(function (item) {
       let dis = Hangul.disassemble(item.familyName + item.givenName, true);
       let cho = dis.reduce(function (prev, elem: any) {
@@ -123,7 +122,7 @@ export default () => {
         item.givenName.includes(search)
       );
     });
-    setData(result1);
+    setResult(result1);
   };
 
   const submitFn = async () => {
@@ -186,8 +185,8 @@ export default () => {
       }
       if (permission === 'authorized') {
         Contacts.getAll((err, contacts: any) => {
-          setData(contacts);
-          console.log(contacts[0]);
+          setContacts(contacts);
+          setResult(contacts);
         });
         setIsModalVisible(true);
       }
@@ -259,7 +258,8 @@ export default () => {
       choice={choice}
       submitFn={submitFn}
       addFn={addFn}
-      data={data}
+      result={result}
+      contacts={contacts}
       getContactsFn={getContactsFn}
       deleteBuffer={deleteBuffer}
       isModalVisible={isModalVisible}

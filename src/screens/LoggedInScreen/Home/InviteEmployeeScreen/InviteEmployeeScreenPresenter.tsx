@@ -177,7 +177,8 @@ export default ({
   choice,
   submitFn,
   addFn,
-  data,
+  result,
+  contacts,
   getContactsFn,
   deleteBuffer,
   isModalVisible,
@@ -305,7 +306,7 @@ export default ({
             keyboardShouldPersistTaps={'handled'}
             keyboardDismissMode="on-drag"
             showsVerticalScrollIndicator={false}>
-            {data
+            {result
               ?.filter((i) => i.phoneNumbers[0]?.number)
               ?.sort((a, b) =>
                 a.familyName < b.familyName

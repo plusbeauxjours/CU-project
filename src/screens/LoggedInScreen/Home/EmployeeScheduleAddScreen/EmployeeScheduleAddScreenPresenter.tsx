@@ -6,6 +6,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import Modal from 'react-native-modal';
+import moment from 'moment';
 
 import {
   EllipseIcon,
@@ -16,8 +18,7 @@ import {
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import RoundBtn from '~/components/Btn/RoundBtn';
 import InputLine from '~/components/InputLine';
-import Modal from 'react-native-modal';
-import moment from 'moment';
+import EmployeeScheduleAddScreenRenderDayPicker from './EmployeeScheduleAddScreenRenderDayPicker';
 
 interface IsSelected {
   isSelected: boolean;
@@ -54,6 +55,7 @@ const Section = styled.View`
 
 const Row = styled.View`
   flex-direction: row;
+  align-items: center;
 `;
 
 const NameText = styled.Text`
@@ -73,7 +75,7 @@ const RenderDayRow = styled.View`
   flex-direction: row;
   margin-bottom: 10px;
   padding: 10px 0;
-  width: 100%;
+  width: ${wp('100%') - 80}px;
 `;
 
 const RenderDayBox = styled.View<IsSelected>`
@@ -181,21 +183,7 @@ const DayPickRowBox = styled.View`
   justify-content: space-between;
 `;
 
-const WorkTypeCheckSection = styled.View`
-  padding: 0 20px;
-`;
-
-const TimeListBox = styled.TouchableOpacity<IsSelected>`
-  border-color: ${(props) => (props.isSelected ? `${props.color}` : '#CCCCCC')};
-  border-width: 0.6px;
-  width: 100%;
-  height: 60px;
-  padding: 10px 20px;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-`;
+const WorkTypeCheckSection = styled.View``;
 
 const TimeListBoxText = styled.Text<IsSelected>`
   font-weight: ${(props) => (props.isSelected ? '600' : '300')};
@@ -255,6 +243,26 @@ const ModalButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   background-color: white;
+`;
+
+const EmptySpace = styled.View`
+  width: 45px;
+`;
+
+const SelectedText = styled.Text<IsSelected>`
+  margin-left: 10px;
+  color: ${(props) => (props.isSelected ? `${props.color}` : '#CCCCCC')};
+`;
+
+const TimeListRowTouchable = styled.TouchableOpacity<IsSelected>`
+  padding: 10px;
+  height: 60px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-width: 1px;
+  border-color: ${(props) => (props.isSelected ? `${props.color}` : '#CCCCCC')};
 `;
 
 export default ({
@@ -466,7 +474,7 @@ export default ({
         </RenderDayBox>
         <RenderDayTime>
           <RenderDayTimeText isSelected={isSelected} substract={substract}>
-            {isSelected ? startTime : '00:00'} ~{' '}
+            {isSelected ? startTime : '00:00'}&nbsp;~&nbsp;
             {isSelected ? endTime : '00:00'}
           </RenderDayTimeText>
         </RenderDayTime>
@@ -475,7 +483,7 @@ export default ({
             {isSelected && substract}
           </RenderDurationText>
         </RenderDuration>
-        {flag && (
+        {flag && isSelected && (
           <RenderWorkDayTouchable onPress={() => removeDayFn(originalDay)}>
             <RemoveCircleIcon size={22} />
           </RenderWorkDayTouchable>
@@ -486,43 +494,18 @@ export default ({
 
   const RenderDayPicker = () => (
     <>
-      {dayList?.map((day, index) => {
-        let isDisabled = false;
-        for (const time of timeList) {
-          for (const day of time.dayList) {
-            if (day.isChecked && day.day === dayList[index].day) {
-              isDisabled = true;
-            }
-          }
-        }
-        return (
-          <RenderDayPickerTouchable
-            color={day.isChecked ? '#642A8C' : '#CCCCCC'}
-            style={{
-              backgroundColor:
-                day.isChecked && isDisabled
-                  ? '#bbb'
-                  : !day.isChecked && isDisabled
-                  ? '#bbb'
-                  : day.isChecked && !isDisabled
-                  ? '#642A8C'
-                  : '#fff',
-            }}
-            disabled={isDisabled}
-            onPress={() => {
-              if (!startTime || !endTime) {
-                alertModal('시간을 선택해주세요.');
-              } else {
-                onDayPress(index);
-              }
-            }}
-            key={index}>
-            <RenderDayPickerText color={day.isChecked ? '#fff' : '#000'}>
-              {day.text}
-            </RenderDayPickerText>
-          </RenderDayPickerTouchable>
-        );
-      })}
+      {dayList?.map((day, index) => (
+        <EmployeeScheduleAddScreenRenderDayPicker
+          day={day}
+          index={index}
+          dayList={dayList}
+          timeList={timeList}
+          startTime={startTime}
+          endTime={endTime}
+          alertModal={alertModal}
+          onDayPress={onDayPress}
+        />
+      ))}
     </>
   );
 
@@ -660,7 +643,6 @@ export default ({
           </Section>
           <Section>
             <StepTitle>(STEP 2) 출퇴근 요일 선택</StepTitle>
-            <StepTitle>(STEP 2) 출퇴근 요일 선택</StepTitle>
             <DayPickRowBox>
               <RenderDayPicker />
             </DayPickRowBox>
@@ -675,10 +657,10 @@ export default ({
             <Section>
               <StepTitle>(STEP 3) 근무일정 확인</StepTitle>
               {timeList.map((data, index) => (
-                <TimeListBox
+                <TimeListRowTouchable
+                  key={index}
                   isSelected={timeListIndex === index}
                   color={data.color}
-                  key={index}
                   onPress={() => {
                     if (timeListIndex === index) {
                       setTimeListIndex(null);
@@ -686,18 +668,31 @@ export default ({
                       setTimeListIndex(index);
                     }
                   }}>
-                  <TimeListBoxText isSelected={timeListIndex === index}>
-                    <EllipseIcon
-                      color={timeListIndex === index ? data.color : '#ddd'}
-                    />
-                    &nbsp;&nbsp;
-                    {data.startTime} ~ {data.endTime}
-                  </TimeListBoxText>
-                  <TimeListBoxText isSelected={true}>보기</TimeListBoxText>
-                  <RenderWorkDayTouchable onPress={() => removeTimeFn(index)}>
-                    <RemoveCircleIcon size={22} />
-                  </RenderWorkDayTouchable>
-                </TimeListBox>
+                  <Row>
+                    <TimeListBoxText isSelected={timeListIndex === index}>
+                      <EllipseIcon
+                        color={timeListIndex === index ? data.color : '#ddd'}
+                      />
+                      &nbsp;&nbsp;
+                      {data.startTime} ~ {data.endTime}
+                    </TimeListBoxText>
+                  </Row>
+                  <Row>
+                    <SelectedText
+                      isSelected={timeListIndex === index}
+                      color={data.color}>
+                      보기
+                    </SelectedText>
+                    {timeListIndex === index ? (
+                      <RenderWorkDayTouchable
+                        onPress={() => removeTimeFn(index)}>
+                        <RemoveCircleIcon size={30} />
+                      </RenderWorkDayTouchable>
+                    ) : (
+                      <EmptySpace />
+                    )}
+                  </Row>
+                </TimeListRowTouchable>
               ))}
               <RenderWorkDayList />
             </Section>

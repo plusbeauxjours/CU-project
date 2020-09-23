@@ -1,0 +1,76 @@
+import React, {useState} from 'react';
+import styled from 'styled-components/native';
+
+interface IColor {
+  color: string;
+  backgroundColor?: string;
+}
+
+const RenderDayPickerTouchable = styled.TouchableOpacity<IColor>`
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  border-width: 1px;
+  border-color: ${(props) => props.color};
+  align-items: center;
+  justify-content: center;
+`;
+
+const RenderDayPickerText = styled.Text<IColor>`
+  font-size: 15px;
+  color: ${(props) => props.color};
+  font-weight: bold;
+`;
+
+export default ({
+  day,
+  index,
+  dayList,
+  timeList,
+  startTime,
+  endTime,
+  alertModal,
+  onDayPress,
+}) => {
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [isChecked, setIsChecked] = useState<boolean>(day.isChecked);
+  for (const time of timeList) {
+    if (!isDisabled) {
+      for (const day of time.dayList) {
+        console.log('day', day.day);
+        console.log('dayList[index].day', dayList[index].day);
+        if (day.isChecked && day.day === dayList[index].day) {
+          setIsDisabled(true);
+        }
+      }
+    }
+  }
+  return (
+    <RenderDayPickerTouchable
+      color={isChecked ? '#642A8C' : '#CCCCCC'}
+      style={{
+        backgroundColor:
+          isChecked && !isDisabled
+            ? '#642A8C'
+            : !isChecked && isDisabled
+            ? '#bbb'
+            : isChecked && isDisabled
+            ? '#bbb'
+            : '#fff',
+      }}
+      disabled={isDisabled}
+      onPress={() => {
+        if (!startTime || !endTime) {
+          alertModal('시간을 선택해주세요.');
+        } else {
+          setIsChecked(!isChecked);
+          onDayPress(index);
+        }
+      }}
+      key={index}>
+      <RenderDayPickerText color={day.isChecked ? '#fff' : '#000'}>
+        {day.text}
+      </RenderDayPickerText>
+    </RenderDayPickerTouchable>
+  );
+};
