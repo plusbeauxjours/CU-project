@@ -19,16 +19,12 @@ import SubmitBtn from '~/components/Btn/SubmitBtn';
 import RoundBtn from '~/components/Btn/RoundBtn';
 import InputLine from '~/components/InputLine';
 import EmployeeScheduleAddScreenRenderDayPicker from './EmployeeScheduleAddScreenRenderDayPicker';
+import EmployeeScheduleAddScreenRenderWorkDay from './EmployeeScheduleAddScreenRenderWorkDay';
 
 interface IsSelected {
   isSelected: boolean;
   substract?: string;
   color?: string;
-}
-
-interface IColor {
-  color: string;
-  backgroundColor?: string;
 }
 
 const BackGround = styled.SafeAreaView`
@@ -71,71 +67,10 @@ const RowSpaceTouchable = styled(RowTouchable)`
   justify-content: space-around;
 `;
 
-const RenderDayRow = styled.View`
-  flex-direction: row;
-  margin-bottom: 10px;
-  padding: 10px 0;
-  width: ${wp('100%') - 80}px;
-`;
-
-const RenderDayBox = styled.View<IsSelected>`
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  border-color: ${(props) => (props.isSelected ? `${props.color}` : '#CCCCCC')};
-  background-color: ${(props) =>
-    props.isSelected ? `${props.color}` : 'transparent'};
-  border-width: 1px;
-  align-items: center;
-  justify-content: center;
-`;
-
-const RenderDayBoxText = styled.Text<IsSelected>`
-  color: ${(props) => (props.isSelected ? 'white' : '#CCCCCC')};
-`;
-
-const RenderDayTime = styled.View`
-  margin-top: 10px;
-  margin-left: 15px;
-  width: 115px;
-`;
-
-const RenderDayTimeText = styled.Text<IsSelected>`
-  font-size: 15px;
-  color: ${(props) => (props.substract && props.isSelected ? '#000' : '#ddd')};
-`;
-
-const RenderDuration = styled.View`
-  margin-top: 10px;
-  margin-left: 5px;
-  width: 85px;
-`;
-
-const RenderDurationText = styled.Text<IsSelected>`
-  font-size: 15px;
-  color: ${(props) => (props.isSelected ? '#000' : '#ddd')};
-`;
-
 const RenderWorkDayTouchable = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   margin-left: 15px;
-`;
-
-const RenderDayPickerTouchable = styled.TouchableOpacity<IColor>`
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  border-width: 1px;
-  border-color: ${(props) => props.color};
-  align-items: center;
-  justify-content: center;
-`;
-
-const RenderDayPickerText = styled.Text<IColor>`
-  font-size: 15px;
-  color: ${(props) => props.color};
-  font-weight: bold;
 `;
 
 const RenderTouchable = styled.TouchableOpacity<IsSelected>`
@@ -184,11 +119,6 @@ const DayPickRowBox = styled.View`
 `;
 
 const WorkTypeCheckSection = styled.View``;
-
-const TimeListBoxText = styled.Text<IsSelected>`
-  font-weight: ${(props) => (props.isSelected ? '600' : '300')};
-  color: ${(props) => (props.isSelected ? `${props.color}` : '#CCCCCC')};
-`;
 
 const InputCase = styled.View`
   margin-bottom: 20px;
@@ -272,7 +202,6 @@ export default ({
   originalDayList,
   removeDayFn,
   dayList,
-  setDayList,
   startTime,
   endTime,
   alertModal,
@@ -414,83 +343,17 @@ export default ({
 
   const RenderWorkDayList = () => (
     <WorkTypeCheckSection>
-      {originalDayList?.map((originalDay) => (
-        <RenderWorkDayItem key={originalDay.day} originalDay={originalDay} />
+      {originalDayList?.map((originalDay, index) => (
+        <EmployeeScheduleAddScreenRenderWorkDay
+          index={index}
+          removeDayFn={removeDayFn}
+          timeList={timeList}
+          timeListIndex={timeListIndex}
+          originalDay={originalDay}
+        />
       ))}
     </WorkTypeCheckSection>
   );
-
-  const RenderWorkDayItem = ({originalDay, key}) => {
-    const timeListed = timeList;
-    const substractHour = (startTime, endTime) => {
-      const startTimeArray = startTime.split(':');
-      let startTimeHour = Number(startTimeArray[0]);
-      let startTimeMinute = Number(startTimeArray[1]);
-      const endTimeArray = endTime.split(':');
-      let endTimeHour = Number(endTimeArray[0]);
-      let endTimeMinute = Number(endTimeArray[1]);
-      let resultTimeHour = 0;
-      let resultTimeMinute = 0;
-      if (
-        startTimeHour > endTimeHour ||
-        (startTimeHour === endTimeHour && startTimeMinute > endTimeMinute)
-      ) {
-        endTimeHour += 24;
-      }
-      if (startTimeMinute > endTimeMinute) {
-        endTimeHour--;
-        endTimeMinute += 60;
-      }
-      resultTimeMinute = endTimeMinute - startTimeMinute;
-      resultTimeHour = endTimeHour - startTimeHour;
-      return `(${resultTimeHour}h ${resultTimeMinute}m)`;
-    };
-    const timeListIndexed = timeListIndex;
-    let startTime = '00:00';
-    let endTime = '00:00';
-    let flag = false;
-    let color = null;
-    for (let i = 0; i < timeListed.length; i++) {
-      const time = timeListed[i];
-      for (const day of time.dayList) {
-        if (day.isChecked && originalDay.day === day.day) {
-          startTime = time.startTime;
-          endTime = time.endTime;
-          flag = true;
-          if (timeListIndexed !== null && timeListIndexed === i) {
-            color = time.color;
-          }
-        }
-      }
-    }
-    const substract = flag ? substractHour(startTime, endTime) : '';
-    const isSelected = color && flag;
-    return (
-      <RenderDayRow key={key}>
-        <RenderDayBox isSelected={isSelected} color={color}>
-          <RenderDayBoxText isSelected={isSelected}>
-            {originalDay.text}
-          </RenderDayBoxText>
-        </RenderDayBox>
-        <RenderDayTime>
-          <RenderDayTimeText isSelected={isSelected} substract={substract}>
-            {isSelected ? startTime : '00:00'}&nbsp;~&nbsp;
-            {isSelected ? endTime : '00:00'}
-          </RenderDayTimeText>
-        </RenderDayTime>
-        <RenderDuration>
-          <RenderDurationText isSelected={isSelected}>
-            {isSelected && substract}
-          </RenderDurationText>
-        </RenderDuration>
-        {flag && isSelected && (
-          <RenderWorkDayTouchable onPress={() => removeDayFn(originalDay)}>
-            <RemoveCircleIcon size={22} />
-          </RenderWorkDayTouchable>
-        )}
-      </RenderDayRow>
-    );
-  };
 
   const RenderDayPicker = () => (
     <>
@@ -669,13 +532,14 @@ export default ({
                     }
                   }}>
                   <Row>
-                    <TimeListBoxText isSelected={timeListIndex === index}>
-                      <EllipseIcon
-                        color={timeListIndex === index ? data.color : '#ddd'}
-                      />
-                      &nbsp;&nbsp;
+                    <EllipseIcon
+                      color={timeListIndex === index ? data.color : '#ddd'}
+                    />
+                    <SelectedText
+                      isSelected={timeListIndex === index}
+                      color={data.color}>
                       {data.startTime} ~ {data.endTime}
-                    </TimeListBoxText>
+                    </SelectedText>
                   </Row>
                   <Row>
                     <SelectedText

@@ -124,12 +124,15 @@ export default ({route: {params}}) => {
       // 중간에 삭제되는 경우 다음 추가에 대한 컬러 인덱스 우선권 부여
       const colorIndex =
         timeList.length <= constant.COLOR.length ? timeList.length : 0;
-      timeList.push({
-        startTime,
-        endTime,
-        dayList,
-        color: constant.COLOR[colorIndex],
-      });
+      setTimeList([
+        ...timeList,
+        {
+          startTime,
+          endTime,
+          dayList,
+          color: constant.COLOR[colorIndex],
+        },
+      ]);
     }
   };
 
@@ -153,7 +156,6 @@ export default ({route: {params}}) => {
       setHour(null);
       setMinute(null);
       setIsMinuteInputFocused(false);
-
       if (hourModalType === 'start') {
         setStartTime(time);
       } else {
@@ -164,7 +166,7 @@ export default ({route: {params}}) => {
 
   // STEP3 출퇴근 시간 삭제
   const removeTimeFn = (index) => {
-    let timeListed = timeList;
+    let timeListed = [...timeList];
     timeListed.splice(index, 1);
     for (let i = 0; i < timeListed.length; i++) {
       const color = constant.COLOR[i];
@@ -180,10 +182,9 @@ export default ({route: {params}}) => {
   const removeDayFn = (day) => {
     let count = 0;
     let index = -1;
+    console.log(timeList[0].dayList);
     for (let i = 0; i < timeList.length; i++) {
-      const time = timeList[i];
-
-      for (const innerDay of time.dayList) {
+      for (const innerDay of timeList[i].dayList) {
         if (innerDay.isChecked && day.day === innerDay.day) {
           index = i;
           innerDay.isChecked = false;
@@ -306,10 +307,8 @@ export default ({route: {params}}) => {
 
   // STEP2 요일을 눌렀을 때 toggle isChecked
   const onDayPress = (index) => {
-    console.log(index);
     let dayListed = dayList;
     dayListed[index].isChecked = !dayList[index].isChecked;
-    console.log('dayListed', dayListed);
     setDayList(dayListed);
   };
 
@@ -325,7 +324,6 @@ export default ({route: {params}}) => {
       originalDayList={originalDayList}
       removeDayFn={removeDayFn}
       dayList={dayList}
-      setDayList={setDayList}
       startTime={startTime}
       endTime={endTime}
       alertModal={alertModal}
@@ -362,48 +360,44 @@ export default ({route: {params}}) => {
   );
 };
 
-// dayList[
-//   {EMP_SCH_SEQ: null, day: 0, isChecked: false, text: '일'},
-//   {EMP_SCH_SEQ: null, day: 1, isChecked: false, text: '월'},
-//   {EMP_SCH_SEQ: null, day: 2, isChecked: false, text: '화'},
-//   {EMP_SCH_SEQ: null, day: 3, isChecked: false, text: '수'},
-//   {EMP_SCH_SEQ: null, day: 4, isChecked: false, text: '목'},
-//   {EMP_SCH_SEQ: null, day: 5, isChecked: false, text: '금'},
-//   {EMP_SCH_SEQ: null, day: 6, isChecked: false, text: '토'},
-// ];
-
-// timeList[
-//   ({
-//     color: '#0D4F8A',
-//     dayList: [
-//       [{
-//         "EMP_SCH_SEQ": "23381",
-//         "day": 0,
-//         "isChecked": true,
-//         "text": "일"
-//       }],
-//       [Object],
-//       [Object],
-//       [Object],
-//       [Object],
-//       [Object],
-//       [Object],
-//     ],
-//     endTime: '20:00',
-//     startTime: '09:30',
-//   },
-//   {
-//     color: '#ED8F52',
-//     dayList: [
-//       [Object],
-//       [Object],
-//       [Object],
-//       [Object],
-//       [Object],
-//       [Object],
-//       [Object],
-//     ],
-//     endTime: '23:20',
-//     startTime: '18:20',
-//   })
-// ];
+// {
+//   "color": "#0D4F8A",
+//   "dayList": [{
+//     "EMP_SCH_SEQ": null,
+//     "day": 0,
+//     "isChecked": false,
+//     "text": "일"
+//   }, {
+//     "EMP_SCH_SEQ": null,
+//     "day": 1,
+//     "isChecked": false,
+//     "text": "월"
+//   }, {
+//     "EMP_SCH_SEQ": "23440",
+//     "day": 2,
+//     "isChecked": true,
+//     "text": "화"
+//   }, {
+//     "EMP_SCH_SEQ": null,
+//     "day": 3,
+//     "isChecked": false,
+//     "text": "수"
+//   }, {
+//     "EMP_SCH_SEQ": null,
+//     "day": 4,
+//     "isChecked": false,
+//     "text": "목"
+//   }, {
+//     "EMP_SCH_SEQ": null,
+//     "day": 5,
+//     "isChecked": false,
+//     "text": "금"
+//   }, {
+//     "EMP_SCH_SEQ": null,
+//     "day": 6,
+//     "isChecked": false,
+//     "text": "토"
+//   }],
+//     "endTime": "22:20",
+//     "startTime": "17:10"
+//   }

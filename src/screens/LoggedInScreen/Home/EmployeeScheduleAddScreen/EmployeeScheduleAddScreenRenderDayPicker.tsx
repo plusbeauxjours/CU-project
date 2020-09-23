@@ -37,8 +37,6 @@ export default ({
   for (const time of timeList) {
     if (!isDisabled) {
       for (const day of time.dayList) {
-        console.log('day', day.day);
-        console.log('dayList[index].day', dayList[index].day);
         if (day.isChecked && day.day === dayList[index].day) {
           setIsDisabled(true);
         }

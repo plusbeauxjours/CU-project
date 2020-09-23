@@ -229,7 +229,6 @@ export default () => {
         buttonPositive: '확인',
       },
     );
-    console.log('result', result);
     if (result !== PermissionsAndroid.RESULTS.GRANTED) {
       Alert.alert(
         '연락처 탐색 동의',
