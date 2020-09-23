@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components/native';
 import {
   widthPercentageToDP as wp,
@@ -65,6 +65,7 @@ const RenderDurationText = styled.Text<IsSelected>`
 `;
 
 export default ({index, removeDayFn, timeList, timeListIndex, originalDay}) => {
+  const [isSelected, setIsSelected] = useState<boolean>(false);
   const substractHour = (startTime, endTime) => {
     const startTimeArray = startTime.split(':');
     let startTimeHour = Number(startTimeArray[0]);
@@ -107,7 +108,17 @@ export default ({index, removeDayFn, timeList, timeListIndex, originalDay}) => {
     }
   }
   const substract = flag ? substractHour(startTime, endTime) : '';
-  const isSelected = color && flag;
+  // const isSelected = color && flag;
+
+  useEffect(() => {
+    console.log('isSelected', isSelected);
+    if (color && flag) {
+      setIsSelected(true);
+    } else {
+      setIsSelected(false);
+    }
+  }, [flag]);
+
   return (
     <RenderDayRow key={index}>
       <RenderDayBox isSelected={isSelected} color={color}>
@@ -129,7 +140,10 @@ export default ({index, removeDayFn, timeList, timeListIndex, originalDay}) => {
       {flag && isSelected && (
         <RenderWorkDayTouchable
           style={{marginLeft: 40}}
-          onPress={() => removeDayFn(originalDay)}>
+          onPress={() => {
+            setIsSelected(false);
+            removeDayFn(originalDay);
+          }}>
           <RemoveCircleIcon size={22} />
         </RenderWorkDayTouchable>
       )}

@@ -26,6 +26,7 @@ export default () => {
           },
           headerBackTitleVisible: false,
           headerBackImage: () => <BackBtn />,
+          headerLeftContainerStyle: {marginLeft: 10},
         }}>
         <LoggedOutNavigation.Screen
           name="StartScreen"

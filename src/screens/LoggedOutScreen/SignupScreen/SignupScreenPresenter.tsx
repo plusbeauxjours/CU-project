@@ -206,7 +206,7 @@ export default ({
                   autoCorrect={false}
                 />
                 <CheckPasswordBtn
-                  onPress={setIsPasswordSeen(!isPasswordSeen)}
+                  onPress={() => setIsPasswordSeen(!isPasswordSeen)}
                   isPasswordSeen={isPasswordSeen}
                 />
               </TextinputCase>
@@ -228,7 +228,7 @@ export default ({
                   autoCorrect={false}
                 />
                 <CheckPasswordBtn
-                  onPress={setIsPasswordCheckSeen(!isPasswordCheckSeen)}
+                  onPress={() => setIsPasswordCheckSeen(!isPasswordCheckSeen)}
                   isPasswordSeen={isPasswordCheckSeen}
                 />
               </TextinputCase>

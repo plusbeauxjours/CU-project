@@ -182,7 +182,6 @@ export default ({route: {params}}) => {
   const removeDayFn = (day) => {
     let count = 0;
     let index = -1;
-    console.log(timeList[0].dayList);
     for (let i = 0; i < timeList.length; i++) {
       for (const innerDay of timeList[i].dayList) {
         if (innerDay.isChecked && day.day === innerDay.day) {
