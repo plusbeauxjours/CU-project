@@ -138,20 +138,15 @@ export default ({route: {params}}) => {
 
   // 모달 시,분 선택 후 확인버튼
   const setTimeFn = () => {
-    setIsHourModalVisible(false);
-    let houred = hour;
-    let minuted = minute;
-
-    if (hour === null) {
-      return alertModal('시간을 선택해주세요.');
-    } else if (minute === null) {
-      return alertModal('분을 선택해주세요.');
-    } else if (minute < 0 || minute > 60) {
-      return alertModal('분은 0 ~ 60 사이의 수를 적어주세요.');
+    if (minute < 0 || minute > 60) {
+      alertModal('분은 0 ~ 60 사이의 수를 적어주세요.');
     } else {
+      let houred = hour;
+      let minuted = minute;
+
       houred = numberFormatPadding(houred);
       minuted = numberFormatPadding(minuted);
-      const time = `${hour}:${minute}`;
+      const time = `${houred}:${minuted}`;
       setIsHourModalVisible(false);
       setHour(null);
       setMinute(null);
@@ -253,6 +248,7 @@ export default ({route: {params}}) => {
       dispatch(setSplashVisible(false));
     }
   };
+
   const initialize = () => {
     const hourListed = Array.apply(null, Array(24)).map(
       (_, index) => index + 0,

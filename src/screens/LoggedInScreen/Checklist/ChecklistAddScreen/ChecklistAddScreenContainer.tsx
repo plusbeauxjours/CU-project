@@ -15,36 +15,43 @@ export default ({route: {params}}) => {
   const {
     CHECK_SEQ = null,
     PHOTO_CHECK = null,
-    EMP_SEQ = null,
     NAME = null,
     DATE = null,
-    type,
+    CHECK_TITLE = null,
+    CHECK_LIST = [],
+    CHECK_TIME = null,
+    type = null,
+    CHECK_TYPE = null,
+    EMP_SEQ = null,
   } = params;
-
   const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
 
   const [choiceEmp, setChoiceEmp] = useState<any>([]);
-  const [isCheckedEmpChoise, setIsCheckedEmpChoise] = useState<boolean>(false);
+  const [isCheckedEmpChoise, setIsCheckedEmpChoise] = useState<boolean>(
+    CHECK_TYPE === '1' ? true : false,
+  );
   const [emplist, setEmplist] = useState<any>([]);
-  const [CLOSE_FLAG, setCLOSE_FLAG] = useState<boolean>(false);
-  const [TITLE, setTITLE] = useState<string>(params?.TITLE || null);
+  const [TITLE, setTITLE] = useState<string>(CHECK_TITLE || null);
   const [checklistInput, setChecklistInput] = useState<string>('');
-  const [LIST, setLIST] = useState<any>([]);
+  const [LIST, setLIST] = useState<any>(CHECK_LIST || []);
   const [isNoCheckedtime, setIsNoCheckedtime] = useState<boolean>(
-    params?.END_TIME ? true : false,
+    CHECK_TIME ? false : true,
   );
-  const [isCheckedCamera, setIsCheckedCamera] = useState<boolean>(false);
+  const [isCheckedCamera, setIsCheckedCamera] = useState<boolean>(
+    PHOTO_CHECK ? true : false,
+  );
   const [customChecktime, setCustomChecktime] = useState<string>(
-    params?.END_TIME || null,
+    CHECK_TIME || null,
   );
-  const [isTimeCheckedModalVisible, setIsTimeCheckedModalVisible] = useState<
-    boolean
-  >(false);
-  const [hourCheck, setHourCheck] = useState<any>(new Array(24));
-  const [minuteCheck, setMinuteCheck] = useState<
-    [boolean, boolean, boolean, boolean, boolean, boolean, boolean]
-  >([false, false, false, false, false, false, false]);
-  const [minuteDirectInput, setMinuteDirectInput] = useState<any>(null);
+
+  const [hour, setHour] = useState<any>(null); // 화면에 선택된 시간
+  const [hourList, setHourList] = useState<any>([]); // 화면에 보여지는 시간 테이블
+  const [minute, setMinute] = useState<any>(null); // 화면에 선택된 분
+  const [minuteList, setMinuteList] = useState<any>([]); // 화면에 보여지는 분 테이블
+  const [isMinuteInputFocused, setIsMinuteInputFocused] = useState<boolean>(
+    false,
+  ); // 분 직접 입력 포커싱 여부
+  const [isHourModalVisible, setIsHourModalVisible] = useState<boolean>(false); // 시간/분 입력 모달 활성화 여부
 
   const confirmModal = (title, text, cancel, okBtn) => {
     const params = {
@@ -113,34 +120,32 @@ export default ({route: {params}}) => {
     }
   };
 
-  // 예정시간모달에서 직접입력
-  const checkDirectInputFn = () => {
-    let valueH = JSON.parse(JSON.stringify(hourCheck));
-    let valueM = JSON.parse(JSON.stringify(minuteCheck));
-    if (minuteCheck[6] && (minuteDirectInput < 0 || minuteDirectInput > 59)) {
-      return alertModal('0 ~ 59 사이의 수를 적어주세요.');
+  // STEP1 출퇴근 시,분 타입변환
+  const numberFormatPadding = (num) => {
+    const _num = Number(num);
+    if (_num < 10) {
+      return `0${_num}`;
     }
-    let hour = hourCheck.indexOf(true) + 0;
-    if (hour < 10) {
-      hour = `0${hour}`;
-    }
-    let minute = '0';
-    if (minuteCheck[6] === true) {
-      minute = minuteDirectInput;
-      if (Number(minute) < 10) {
-        minute = `0${minute}`;
-      }
+    return _num.toString();
+  };
+
+  // 모달 시,분 선택 후 확인버튼
+  const setTimeFn = () => {
+    if (minute < 0 || minute > 60) {
+      alertModal('분은 0 ~ 60 사이의 수를 적어주세요.');
     } else {
-      minute = String(minuteCheck.indexOf(true) * 10);
-      if (Number(minute) < 10) {
-        minute = `0${minute}`;
-      }
+      let houred = hour;
+      let minuted = minute;
+
+      houred = numberFormatPadding(houred);
+      minuted = numberFormatPadding(minuted);
+      const time = `${houred}:${minuted}`;
+      setIsHourModalVisible(false);
+      setHour(null);
+      setMinute(null);
+      setIsMinuteInputFocused(false);
+      setCustomChecktime(time);
     }
-    setIsTimeCheckedModalVisible(false);
-    setCustomChecktime(`${hour}:${minute}`);
-    setHourCheck(valueH);
-    setMinuteCheck(valueM);
-    setMinuteDirectInput('');
   };
 
   // 체크리스트 추가하기
@@ -224,9 +229,9 @@ export default ({route: {params}}) => {
             EMP_SEQ: newChoiceEmp,
           });
           if (data.result === 'SUCCESS') {
-            navigation.goBack();
+            navigation.pop(2);
             alertModal(
-              `체크리스트가 ${CLOSE_FLAG ? '삭제' : '수정'}되었습니다.`,
+              `체크리스트가 ${sign == 'close' ? '삭제' : '수정'}되었습니다.`,
             );
           } else {
             alertModal('연결에 실패하였습니다.');
@@ -242,9 +247,9 @@ export default ({route: {params}}) => {
             PHOTO_CHECK: isCheckedCamera ? '1' : '0',
           });
           if (data.result === 'SUCCESS') {
-            navigation.goBack();
+            navigation.pop(2);
             alertModal(
-              `체크리스트가 ${CLOSE_FLAG ? '삭제' : '수정'}되었습니다.`,
+              `체크리스트가 ${sign == 'close' ? '삭제' : '수정'}되었습니다.`,
             );
           } else {
             alertModal('연결에 실패하였습니다.');
@@ -259,51 +264,42 @@ export default ({route: {params}}) => {
     }
   };
 
-  useEffect(() => {
-    if (params?.LIST) {
-      let newchecklist = params?.LIST.split('@@');
-      newchecklist[newchecklist.length - 1] = newchecklist[
-        newchecklist.length - 1
-      ].replace('@', '');
-      let newlist = [];
-      for (let i = 0; i < newchecklist.length; i++) {
-        newlist.push(newchecklist[i]);
+  const initialize = () => {
+    const hourListed = Array.apply(null, Array(24)).map(
+      (_, index) => index + 0,
+    );
+    const minuteListed = Array.apply(null, Array(6)).map(
+      (_, index) => index * 10,
+    );
+    setHourList(hourListed);
+    setMinuteList(minuteListed);
+
+    if (NAME && EMP_SEQ) {
+      let buffer = [];
+      let empNameArr = NAME.split('@');
+      let empSeqArr = EMP_SEQ.split('@');
+      for (let i = 0; i < empNameArr.length; i++) {
+        buffer.push({
+          NAME: empNameArr[i],
+          EMP_SEQ: empSeqArr[i],
+          IMAGE: '3.png',
+        });
       }
-      if (EMP_SEQ) {
-        let emparr = EMP_SEQ.split('@');
-        let empnamearr = NAME.split('@');
-        let buffer = JSON.parse(JSON.stringify(choiceEmp));
-        for (let i = 0; i < emparr.length; i++) {
-          let data: any = {};
-          data.NAME = empnamearr[i];
-          data.IMAGE = '3.png';
-          data.EMP_SEQ = emparr[i];
-          buffer.push(data);
-        }
-        if (emparr.length !== 0) {
-          setIsCheckedEmpChoise(true);
-          setChoiceEmp(buffer);
-        }
-      }
-      setLIST(newlist);
-      setIsCheckedCamera(Number(PHOTO_CHECK || 0) === 1 ? true : false);
+
+      setChoiceEmp(buffer);
     }
+  };
+
+  useEffect(() => {
+    initialize();
     fetchData();
   }, []);
 
   return (
     <ChecklistAddScreenPresenter
-      hourCheck={hourCheck}
-      setHourCheck={setHourCheck}
-      minuteCheck={minuteCheck}
-      setMinuteCheck={setMinuteCheck}
-      minuteDirectInput={minuteDirectInput}
-      setMinuteDirectInput={setMinuteDirectInput}
       TITLE={TITLE}
       setTITLE={setTITLE}
       deleteEmpFn={deleteEmpFn}
-      isTimeCheckedModalVisible={isTimeCheckedModalVisible}
-      setIsTimeCheckedModalVisible={setIsTimeCheckedModalVisible}
       isNoCheckedtime={isNoCheckedtime}
       setIsNoCheckedtime={setIsNoCheckedtime}
       isCheckedCamera={isCheckedCamera}
@@ -314,7 +310,6 @@ export default ({route: {params}}) => {
       setIsCheckedEmpChoise={setIsCheckedEmpChoise}
       checklistInput={checklistInput}
       choiseEmpFn={choiseEmpFn}
-      checkDirectInputFn={checkDirectInputFn}
       emplist={emplist}
       choiceEmp={choiceEmp}
       submitFn={submitFn}
@@ -323,6 +318,18 @@ export default ({route: {params}}) => {
       confirmModal={confirmModal}
       setChecklistInput={setChecklistInput}
       setLIST={setLIST}
+      setHour={setHour}
+      setMinute={setMinute}
+      setIsMinuteInputFocused={setIsMinuteInputFocused}
+      isHourModalVisible={isHourModalVisible}
+      setIsHourModalVisible={setIsHourModalVisible}
+      hourList={hourList}
+      numberFormatPadding={numberFormatPadding}
+      hour={hour}
+      minute={minute}
+      minuteList={minuteList}
+      isMinuteInputFocused={isMinuteInputFocused}
+      setTimeFn={setTimeFn}
     />
   );
 };

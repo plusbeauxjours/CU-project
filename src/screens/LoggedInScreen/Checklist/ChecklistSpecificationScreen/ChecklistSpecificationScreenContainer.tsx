@@ -17,7 +17,7 @@ export default ({route: {params}}) => {
   const {STORE, MEMBER_SEQ, MEMBER_NAME} = useSelector(
     (state: any) => state.userReducer,
   );
-  const {STORE_SEQ, EMP_SEQ} = useSelector((state: any) => state.storeReducer);
+  const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
 
   const {
     data: {
@@ -31,6 +31,8 @@ export default ({route: {params}}) => {
       PHOTO_CHECK = null,
       NAME = null,
       IMAGE_LIST = [],
+      CHECK_TYPE = null,
+      EMP_SEQ = null,
     } = {},
     scan,
   } = params;
@@ -105,7 +107,6 @@ export default ({route: {params}}) => {
   const [CHECK_TITLE, setCHECK_TITLE] = useState<string>(
     params?.scan === '1' ? null : params?.data?.CHECK_TITLE,
   );
-  const [CHECK_LIST, setCHECK_LIST] = useState<any>(null);
 
   const alertModal = (text) => {
     const params = {
@@ -155,11 +156,14 @@ export default ({route: {params}}) => {
     navigation.navigate('ChecklistAddScreen', {
       CHECK_SEQ,
       PHOTO_CHECK,
-      EMP_SEQ,
-      NAME: MEMBER_NAME,
+      NAME,
       DATE: CHECK_DATE,
+      CHECK_TITLE: TITLE,
+      CHECK_LIST: LIST,
+      CHECK_TIME: END_TIME,
       type: '수정',
-      CHECK_LIST,
+      CHECK_TYPE,
+      EMP_SEQ,
     });
   };
 
@@ -288,7 +292,6 @@ export default ({route: {params}}) => {
     }
     setChecklistGoodState(checklistGoodStat);
     setChecklistBadState(checklistBadStat);
-    setCHECK_LIST(checklist);
     setLIST(list);
     if (cameraPictureList?.length === 0 && IMAGE_LIST) {
       const allimg = IMAGE_LIST.split('@');

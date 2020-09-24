@@ -111,7 +111,6 @@ export default ({index, removeDayFn, timeList, timeListIndex, originalDay}) => {
   // const isSelected = color && flag;
 
   useEffect(() => {
-    console.log('isSelected', isSelected);
     if (color && flag) {
       setIsSelected(true);
     } else {

@@ -20,6 +20,7 @@ import RoundBtn from '~/components/Btn/RoundBtn';
 import InputLine from '~/components/InputLine';
 import EmployeeScheduleAddScreenRenderDayPicker from './EmployeeScheduleAddScreenRenderDayPicker';
 import EmployeeScheduleAddScreenRenderWorkDay from './EmployeeScheduleAddScreenRenderWorkDay';
+import Ripple from 'react-native-material-ripple';
 
 interface IsSelected {
   isSelected: boolean;
@@ -166,7 +167,7 @@ const ModalFooter = styled(Row)`
   width: ${wp('100%')}px;
 `;
 
-const ModalButton = styled.TouchableOpacity`
+const ModalButton = styled(Ripple)`
   width: ${wp('50%')}px;
   height: 60px;
   border-color: #642a8c;
@@ -591,12 +592,21 @@ export default ({
               setHour(null);
               setMinute(null);
               setIsMinuteInputFocused(false);
-            }}>
+            }}
+            rippleColor={'#666'}
+            rippleDuration={600}
+            rippleSize={1200}
+            rippleContainerBorderRadius={30}
+            rippleOpacity={0.1}>
             <NameText style={{color: '#642a8c'}}>닫기</NameText>
           </ModalButton>
           <ModalButton
             style={{backgroundColor: '#642a8c'}}
-            onPress={() => setTimeFn()}>
+            onPress={() => setTimeFn()}
+            rippleColor={'#ac52eb'}
+            rippleSize={1200}
+            rippleDuration={600}
+            rippleOpacity={0.2}>
             <NameText style={{color: 'white'}}>확인</NameText>
           </ModalButton>
         </ModalFooter>
