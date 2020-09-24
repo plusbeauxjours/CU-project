@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import {setUSER, setMOBILE_NO, userLogin} from '~/redux/userSlice';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
-import api from '~/constants/LoggedInApi';
+import api from '~/constants/LoggedOutApi';
 
 export default ({route: {params}}) => {
   const navigation = useNavigation();

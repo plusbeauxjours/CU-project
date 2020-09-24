@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import VerificationScreenPresenter from './VerificationScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
-import api from '~/constants/LoggedInApi';
+import api from '~/constants/LoggedOutApi';
 
 let timer = null;
 

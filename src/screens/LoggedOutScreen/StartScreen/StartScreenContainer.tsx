@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import StartScreenPresenter from './StartScreenPresenter';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
-import api from '~/constants/LoggedInApi';
+import api from '~/constants/LoggedOutApi';
 import {setDEVICE_PLATFORM} from '~/redux/userSlice';
 import utils from '~/constants/utils';
 
@@ -32,7 +32,6 @@ export default () => {
   };
 
   const exitandroid = () => {
-    // this.props.setAlertVisible(false);
     if (Platform.OS === 'ios') {
       Linking.openURL(
         'https://apps.apple.com/kr/app/%ED%87%B4%EA%B7%BC%ED%95%B4%EC%94%A8%EC%9C%A0-%EC%9A%B0%EB%A6%AC%EB%A7%A4%EC%9E%A5-%ED%95%84%EC%88%98%ED%92%88/id1503486454',

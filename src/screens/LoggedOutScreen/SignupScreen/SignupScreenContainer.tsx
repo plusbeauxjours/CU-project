@@ -7,7 +7,7 @@ import {useDispatch} from 'react-redux';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import {setSplashVisible} from '~/redux/splashSlice';
 
-import api from '~/constants/LoggedInApi';
+import api from '~/constants/LoggedOutApi';
 import utils from '~/constants/utils';
 
 export default ({route: {params}}) => {

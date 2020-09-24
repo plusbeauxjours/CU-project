@@ -4,7 +4,7 @@ import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
 import FindPasswordScreenPresenter from './FindPasswordScreenPresenter';
-import api from '~/constants/LoggedInApi';
+import api from '~/constants/LoggedOutApi';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 
 let timer = null;

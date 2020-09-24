@@ -91,7 +91,6 @@ const checklistshareSlice = createSlice({
       const {
         payload: {TITLE, NOTICE_SEQ, isFavorite},
       } = action;
-      console.log(TITLE, NOTICE_SEQ, isFavorite);
       if (TITLE === '지시사항') {
         if (isFavorite) {
           return {
