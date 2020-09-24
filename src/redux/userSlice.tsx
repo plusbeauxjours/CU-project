@@ -19,10 +19,6 @@ const userSlice = createSlice({
     DEVICE_SYSTEM_VERSION: '',
   },
   reducers: {
-    setMEMBER_SEQ(state, action) {
-      const {payload: MEMBER_SEQ} = action;
-      return {...state, MEMBER_SEQ};
-    },
     setMEMBER_NAME(state, action) {
       const {payload: MEMBER_NAME} = action;
       return {
@@ -48,7 +44,7 @@ const userSlice = createSlice({
       const {payload: userInfo} = action;
       return {
         ...state,
-        MEMBER_SEQ: userInfo.MEMBER_SEQ,
+        MEMBER_SEQ: userInfo.MEMBER_SEQ.toString(),
         MEMBER_NAME: userInfo.NAME,
         STORE: userInfo.STORE,
         TYPE: userInfo.TYPE,
@@ -93,10 +89,8 @@ const userSlice = createSlice({
 });
 
 export const {
-  setMEMBER_SEQ,
   setMEMBER_NAME,
   setMOBILE_NO,
-  setVERSION,
   setSTORELIST_DATA,
   setUSER,
   setLOGIN,
