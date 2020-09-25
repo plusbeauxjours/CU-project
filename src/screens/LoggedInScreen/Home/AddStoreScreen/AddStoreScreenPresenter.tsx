@@ -470,6 +470,7 @@ export default ({
           </Section>
           <Modal
             isVisible={modalVisible1}
+            onBackButtonPress={() => setModalVisible1(false)}
             onBackdropPress={() => setModalVisible1(false)}
             style={{margin: 0, justifyContent: 'flex-end'}}
             avoidKeyboard={true}>
@@ -500,6 +501,7 @@ export default ({
           </Modal>
           <Modal
             isVisible={modalVisible2}
+            onBackButtonPress={() => setModalVisible2(false)}
             onBackdropPress={() => setModalVisible2(false)}
             style={{margin: 0, justifyContent: 'flex-end'}}
             avoidKeyboard={true}>
@@ -530,6 +532,7 @@ export default ({
           </Modal>
           <Modal
             isVisible={modalVisible3}
+            onBackButtonPress={() => setModalVisible3(false)}
             onBackdropPress={() => setModalVisible3(false)}
             style={{margin: 0, justifyContent: 'flex-end'}}
             avoidKeyboard={true}>

@@ -68,7 +68,6 @@ const AddressText = styled.Text`
 `;
 
 export default ({
-  key,
   data,
   name,
   address1,
@@ -82,7 +81,6 @@ export default ({
 }) => {
   return (
     <Touchable
-      key={key}
       isStore={STORE == 1}
       style={{alignItems: 'center', marginBottom: 30}}
       onPress={() => gotoHomeScreen(data)}

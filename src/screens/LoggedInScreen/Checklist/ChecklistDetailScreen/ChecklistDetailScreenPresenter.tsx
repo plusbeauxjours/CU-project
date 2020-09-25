@@ -410,6 +410,7 @@ export default ({
         </Container>
 
         <Modal
+          onBackButtonPress={() => setIsImageViewVisible(false)}
           onBackdropPress={() => setIsImageViewVisible(false)}
           isVisible={isImageViewVisible}
           style={{

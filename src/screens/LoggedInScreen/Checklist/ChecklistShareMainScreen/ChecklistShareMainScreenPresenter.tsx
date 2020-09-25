@@ -563,6 +563,10 @@ export default ({
       </Tab.Navigator>
       <Modal
         isVisible={isCalendarModalVisible}
+        onBackButtonPress={() => {
+          setIsCalendarModalVisible(false);
+          setDate(date);
+        }}
         onBackdropPress={() => {
           setIsCalendarModalVisible(false);
           setDate(date);

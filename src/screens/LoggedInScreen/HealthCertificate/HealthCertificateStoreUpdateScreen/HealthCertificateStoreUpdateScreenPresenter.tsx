@@ -374,6 +374,7 @@ export default ({
       <Modal
         isVisible={isCameraModalVisible}
         style={{margin: 0}}
+        onBackdropPress={() => setIsCameraModalVisible(false)}
         onBackButtonPress={() => setIsCameraModalVisible(false)}>
         {cameraPictureLast ? (
           <>

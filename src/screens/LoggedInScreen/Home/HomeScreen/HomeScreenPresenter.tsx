@@ -822,6 +822,7 @@ export default ({
         ref={modalRef}
         isVisible={workingModalOpen}
         animationOutTiming={1}
+        onBackButtonPress={() => setWorkingModalOpen(false)}
         onBackdropPress={() => setWorkingModalOpen(false)}
         style={{margin: 0, justifyContent: 'flex-end'}}>
         <WorkingModalContainer>
@@ -835,6 +836,7 @@ export default ({
       </Modal>
       <Modal
         isVisible={qrModalOpen}
+        onBackdropPress={() => setQrModalOpen(false)}
         onBackButtonPress={() => setQrModalOpen(false)}
         style={{margin: 0}}
         avoidKeyboard={true}>

@@ -96,6 +96,9 @@ export default ({route: {params}}) => {
         style={{
           flex: 1,
         }}
+        onBackdropPress={() => {
+          setModalVisible(false);
+        }}
         onBackButtonPress={() => {
           setModalVisible(false);
         }}>

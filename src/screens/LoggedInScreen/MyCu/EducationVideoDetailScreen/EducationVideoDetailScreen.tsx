@@ -101,6 +101,9 @@ export default ({route: {params}}) => {
         }}
         onBackButtonPress={() => {
           setModalVisible(false);
+        }}
+        onBackdropPress={() => {
+          setModalVisible(false);
         }}>
         {TYPE == '0' ? (
           <PDFViewer

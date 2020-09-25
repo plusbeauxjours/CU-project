@@ -383,6 +383,7 @@ export default ({
         )}
       </BackGround>
       <Modal
+        onBackButtonPress={() => setIsImageViewVisible(false)}
         onBackdropPress={() => setIsImageViewVisible(false)}
         isVisible={isImageViewVisible}
         style={{

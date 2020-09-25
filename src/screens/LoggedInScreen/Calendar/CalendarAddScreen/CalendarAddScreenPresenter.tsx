@@ -678,6 +678,12 @@ export default ({
       </RBSheet>
       <Modal
         isVisible={isHourModalVisible}
+        onBackButtonPress={() => {
+          setIsHourModalVisible(false);
+          setHour(null);
+          setMinute(null);
+          setIsMinuteInputFocused(false);
+        }}
         onBackdropPress={() => {
           setIsHourModalVisible(false);
           setHour(null);

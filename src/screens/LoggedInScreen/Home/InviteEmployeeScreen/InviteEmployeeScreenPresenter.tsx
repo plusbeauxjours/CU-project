@@ -287,6 +287,7 @@ export default ({
       </ScrollView>
       <Modal
         isVisible={isModalVisible}
+        onBackButtonPress={() => setIsModalVisible(false)}
         onBackdropPress={() => setIsModalVisible(false)}
         style={{margin: 0, justifyContent: 'flex-end'}}
         avoidKeyboard={true}>

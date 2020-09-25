@@ -365,6 +365,7 @@ export default ({
           </Container>
         </ScrollView>
         <Modal
+          onBackButtonPress={() => setIsImageViewVisible(false)}
           onBackdropPress={() => setIsImageViewVisible(false)}
           isVisible={isImageViewVisible}
           style={{

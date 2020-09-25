@@ -128,6 +128,9 @@ export default ({alert}) => {
   };
   return (
     <Modal
+      onBackButtonPress={() => {
+        dispatch(setAlertVisible(false));
+      }}
       onBackdropPress={() => {
         dispatch(setAlertVisible(false));
       }}

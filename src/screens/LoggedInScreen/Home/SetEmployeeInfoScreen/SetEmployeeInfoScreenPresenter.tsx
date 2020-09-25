@@ -839,6 +839,13 @@ export default ({
                         </>
                       )}
                       <Modal
+                        onBackButtonPress={() => {
+                          let value = JSON.parse(JSON.stringify(percentCheck));
+                          value.fill(false);
+                          setIsProbationPercentModalVisible(false);
+                          setPercentCheck(value);
+                          setPercentDirectInput('');
+                        }}
                         onBackdropPress={() => {
                           let value = JSON.parse(JSON.stringify(percentCheck));
                           value.fill(false);
@@ -1061,6 +1068,12 @@ export default ({
               </ContentsBox>
             )}
             <Modal
+              onBackButtonPress={() => {
+                let value = JSON.parse(JSON.stringify(payYearCheck));
+                value.fill(false);
+                setPayYearModal(false);
+                setPayYearCheck(value);
+              }}
               onBackdropPress={() => {
                 let value = JSON.parse(JSON.stringify(payYearCheck));
                 value.fill(false);
@@ -1111,6 +1124,12 @@ export default ({
               </ModalFooter>
             </Modal>
             <Modal
+              onBackButtonPress={() => {
+                let value = JSON.parse(JSON.stringify(payMonthCheck));
+                value.fill(false);
+                setPayMonthModal(false);
+                setPayMonthCheck(value);
+              }}
               onBackdropPress={() => {
                 let value = JSON.parse(JSON.stringify(payMonthCheck));
                 value.fill(false);
@@ -1177,6 +1196,7 @@ export default ({
             </Modal>
             <Modal
               isVisible={isSalaryModalVisible1}
+              onBackButtonPress={() => setIsSalaryModalVisible1(false)}
               onBackdropPress={() => setIsSalaryModalVisible1(false)}
               style={{margin: 0, justifyContent: 'flex-end'}}
               avoidKeyboard={true}>
@@ -1227,6 +1247,7 @@ export default ({
             </Modal>
             <Modal
               isVisible={isSalaryModalVisible2}
+              onBackButtonPress={() => setIsSalaryModalVisible2(false)}
               onBackdropPress={() => setIsSalaryModalVisible2(false)}
               style={{margin: 0, justifyContent: 'flex-end'}}
               avoidKeyboard={true}>
