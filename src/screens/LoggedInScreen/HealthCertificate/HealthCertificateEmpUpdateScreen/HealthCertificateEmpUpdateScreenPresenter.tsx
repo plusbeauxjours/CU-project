@@ -296,7 +296,7 @@ export default ({
         isVisible={isCameraModalVisible}
         style={{margin: 0}}
         onBackdropPress={() => setIsCameraModalVisible(false)}
-        onBackButtonPress={() => setIsCameraModalVisible(false)}>
+        onRequestClose={() => setIsCameraModalVisible(false)}>
         {cameraPictureLast ? (
           <>
             <CameraLastPictureContainer>

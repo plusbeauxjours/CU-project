@@ -88,16 +88,6 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
-  const alertModal = (title, text) => {
-    const params = {
-      alertType: 'alert',
-      title: title || '',
-      content: text || '',
-    };
-    dispatch(setAlertInfo(params));
-    dispatch(setAlertVisible(true));
-  };
-
   const WorkType = ({selection, text}) => (
     <React.Fragment>
       <Row>

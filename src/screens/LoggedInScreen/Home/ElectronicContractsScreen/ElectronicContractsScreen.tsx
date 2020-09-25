@@ -192,7 +192,7 @@ export default ({route: {params}}) => {
       )}
       <Modal
         isVisible={isModalVisible}
-        onBackButtonPress={() => setIsModalVisible(false)}
+        onRequestClose={() => setIsModalVisible(false)}
         onBackdropPress={() => setIsModalVisible(false)}
         style={{flex: 1, margin: 0}}
         avoidKeyboard={false}>

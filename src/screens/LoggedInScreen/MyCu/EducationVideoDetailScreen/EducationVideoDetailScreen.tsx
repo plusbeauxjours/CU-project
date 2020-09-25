@@ -99,12 +99,8 @@ export default ({route: {params}}) => {
         style={{
           height: hp('100%'),
         }}
-        onBackButtonPress={() => {
-          setModalVisible(false);
-        }}
-        onBackdropPress={() => {
-          setModalVisible(false);
-        }}>
+        onRequestClose={() => setModalVisible(false)}
+        onBackdropPress={() => setModalVisible(false)}>
         {TYPE == '0' ? (
           <PDFViewer
             url={`http://cuapi.shop-sol.com/uploads/edu/${FILE_URL}`}

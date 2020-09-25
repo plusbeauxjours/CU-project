@@ -189,7 +189,7 @@ export default ({
               <NameText>비밀번호</NameText>
               <TextinputCase>
                 <TextInput
-                  placeholder={'영문, 숫자 조합 6자 이상'}
+                  placeholder={'영문, 숫자 조합 8자 이상'}
                   placeholderTextColor={'#E5E5E5'}
                   selectionColor={'#642A8C'}
                   onFocus={() => {

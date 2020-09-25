@@ -839,7 +839,7 @@ export default ({
                         </>
                       )}
                       <Modal
-                        onBackButtonPress={() => {
+                        onRequestClose={() => {
                           let value = JSON.parse(JSON.stringify(percentCheck));
                           value.fill(false);
                           setIsProbationPercentModalVisible(false);
@@ -1068,7 +1068,7 @@ export default ({
               </ContentsBox>
             )}
             <Modal
-              onBackButtonPress={() => {
+              onRequestClose={() => {
                 let value = JSON.parse(JSON.stringify(payYearCheck));
                 value.fill(false);
                 setPayYearModal(false);
@@ -1124,7 +1124,7 @@ export default ({
               </ModalFooter>
             </Modal>
             <Modal
-              onBackButtonPress={() => {
+              onRequestClose={() => {
                 let value = JSON.parse(JSON.stringify(payMonthCheck));
                 value.fill(false);
                 setPayMonthModal(false);
@@ -1196,7 +1196,7 @@ export default ({
             </Modal>
             <Modal
               isVisible={isSalaryModalVisible1}
-              onBackButtonPress={() => setIsSalaryModalVisible1(false)}
+              onRequestClose={() => setIsSalaryModalVisible1(false)}
               onBackdropPress={() => setIsSalaryModalVisible1(false)}
               style={{margin: 0, justifyContent: 'flex-end'}}
               avoidKeyboard={true}>
@@ -1247,7 +1247,7 @@ export default ({
             </Modal>
             <Modal
               isVisible={isSalaryModalVisible2}
-              onBackButtonPress={() => setIsSalaryModalVisible2(false)}
+              onRequestClose={() => setIsSalaryModalVisible2(false)}
               onBackdropPress={() => setIsSalaryModalVisible2(false)}
               style={{margin: 0, justifyContent: 'flex-end'}}
               avoidKeyboard={true}>

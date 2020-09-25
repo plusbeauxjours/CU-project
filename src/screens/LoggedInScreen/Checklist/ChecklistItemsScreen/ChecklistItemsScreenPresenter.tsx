@@ -510,7 +510,7 @@ export default ({
         isVisible={isChecklistModalVisible}
         style={{marginTop: 60}}
         onBackdropPress={() => setIsChecklistModalVisible(false)}
-        onBackButtonPress={() => setIsChecklistModalVisible(false)}>
+        onRequestClose={() => setIsChecklistModalVisible(false)}>
         {CHECKLIST_DATA && CHECKLIST_DATA.length == 0 ? (
           <Row style={{justifyContent: 'center'}}>
             <WhiteBigText>등록된 체크리스트가 없습니다</WhiteBigText>
@@ -541,7 +541,7 @@ export default ({
       </Modal>
       <Modal
         isVisible={isCalendarModalVisible}
-        onBackButtonPress={() => {
+        onRequestClose={() => {
           setIsCalendarModalVisible(false);
           setDate(date);
         }}

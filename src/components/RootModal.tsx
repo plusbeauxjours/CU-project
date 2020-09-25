@@ -128,12 +128,8 @@ export default ({alert}) => {
   };
   return (
     <Modal
-      onBackButtonPress={() => {
-        dispatch(setAlertVisible(false));
-      }}
-      onBackdropPress={() => {
-        dispatch(setAlertVisible(false));
-      }}
+      onRequestClose={() => dispatch(setAlertVisible(false))}
+      onBackdropPress={() => dispatch(setAlertVisible(false))}
       style={{margin: 0, justifyContent: 'flex-end'}}
       isVisible={alert.visible}>
       {alert.alertType == 'explain' ? (

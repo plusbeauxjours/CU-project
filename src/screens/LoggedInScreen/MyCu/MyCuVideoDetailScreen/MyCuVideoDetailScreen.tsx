@@ -95,12 +95,8 @@ export default ({route: {params}}) => {
         style={{
           flex: 1,
         }}
-        onBackdropPress={() => {
-          setModalVisible(false);
-        }}
-        onBackButtonPress={() => {
-          setModalVisible(false);
-        }}>
+        onBackdropPress={() => setModalVisible(false)}
+        onRequestClose={() => setModalVisible(false)}>
         <VideoPlayer url={VIDEO_URL} setModalVisible={setModalVisible} />
       </Modal>
     </>

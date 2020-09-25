@@ -83,7 +83,7 @@ export default ({
     const params = {
       alertType: 'confirm',
       title: '',
-      content: `[${EMP_NAME}]의 합류를 합류시키겠습니까?\n\n합류 후 일정입력 단계가 진행됩니다.`,
+      content: `[${EMP_NAME}]의 합류를 합류시키겠습니까?\n\n합류완료 버튼을 눌러야 합류처리됩니다.`,
       cancelButtonText: '취소',
       okButtonText: '승인',
       okCallback: () => {

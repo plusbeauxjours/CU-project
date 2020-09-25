@@ -536,7 +536,7 @@ export default ({
                 </FixTypeDayChangeBox>
               )}
               <Row>
-                {isFreeWorkingType !== true &&
+                {!isFreeWorkingType &&
                 timeTable.length == 0 && ( // 자율출퇴근★
                     <FixTypeDayChangeBox>
                       <FixTypeDayChangeButton
@@ -548,7 +548,7 @@ export default ({
                       </FixTypeDayChangeButton>
                     </FixTypeDayChangeBox>
                   )}
-                {isFreeWorkingType !== true && timeTable.length > 0 && (
+                {!isFreeWorkingType && timeTable.length > 0 && (
                   <FixTypeDayChangeBox>
                     <FixTypeDayChangeButton
                       style={{borderColor: '#642A8C'}}

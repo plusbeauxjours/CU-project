@@ -482,18 +482,14 @@ export default ({
   const EmptyList = ({TITLE}) => (
     <EmptyListContainer>
       {STORE === '0' && TITLE == '특이사항' && (
-        <Touchable onPress={() => onPressAddButtonFn(TITLE)}>
-          <EmptyBox>
-            <EmptyTitle>
-              <CreateIcon size={22} color={'#999'} />
-              <Text style={{marginLeft: 10}}>{TITLE}을 등록해주세요.</Text>
-            </EmptyTitle>
-            <GreyText>
-              점포업무에 관련된 지침 등을 작성하는 업무일지로 직원이 작성하여
-              공유합니다.
-            </GreyText>
-          </EmptyBox>
-        </Touchable>
+        <EmptyBox>
+          <EmptyTitle>
+            <CreateIcon size={22} color={'#999'} />
+            <Text style={{marginLeft: 10}}>{TITLE}을 등록해주세요.</Text>
+          </EmptyTitle>
+          <GreyText>직원이 작성하여 공유합니다.</GreyText>
+          <GreyText>우측 하단의 버튼을 클릭하여 등록할 수 있습니다.</GreyText>
+        </EmptyBox>
       )}
       {STORE === '0' && !IS_MANAGER && TITLE == '지시사항' && (
         <EmptyBox>
@@ -501,10 +497,7 @@ export default ({
             <CreateIcon size={22} color={'#999'} />
             <Text style={{marginLeft: 10}}>{TITLE}이 없습니다.</Text>
           </EmptyTitle>
-          <GreyText>
-            점포운영에 관련된 사항을 작성하는 업무일지로 점주가 작성하여
-            공유합니다.
-          </GreyText>
+          <GreyText>점장 및 매니저가 작성하여 공유합니다.</GreyText>
         </EmptyBox>
       )}
       {STORE === '1' && TITLE == '특이사항' && (
@@ -513,25 +506,18 @@ export default ({
             <CreateIcon size={22} color={'#999'} />
             <Text style={{marginLeft: 10}}>{TITLE}이 없습니다.</Text>
           </EmptyTitle>
-          <GreyText>
-            점포업무에 관련된 사항을 작성하는 업무일지로 직원이 작성하여
-            공유합니다.
-          </GreyText>
+          <GreyText>직원이 작성하여 공유합니다.</GreyText>
         </EmptyBox>
       )}
       {(STORE === '1' || IS_MANAGER) && TITLE == '지시사항' && (
-        <Touchable onPress={() => onPressAddButtonFn(TITLE)}>
-          <EmptyBox>
-            <EmptyTitle>
-              <CreateIcon size={22} color={'#999'} />
-              <Text style={{marginLeft: 10}}>{TITLE}을 등록해주세요.</Text>
-            </EmptyTitle>
-            <GreyText>
-              점포운영에 관련된 지침 등을 작성하는 업무일지로 점주님이 작성하여
-              공유합니다.
-            </GreyText>
-          </EmptyBox>
-        </Touchable>
+        <EmptyBox>
+          <EmptyTitle>
+            <CreateIcon size={22} color={'#999'} />
+            <Text style={{marginLeft: 10}}>{TITLE}을 등록해주세요.</Text>
+          </EmptyTitle>
+          <GreyText>점장 및 매니저가 작성하여 공유합니다.</GreyText>
+          <GreyText>우측 하단의 버튼을 클릭하여 등록할 수 있습니다.</GreyText>
+        </EmptyBox>
       )}
       {TITLE == 'CU소식' && (
         <EmptyBox>
@@ -563,7 +549,7 @@ export default ({
       </Tab.Navigator>
       <Modal
         isVisible={isCalendarModalVisible}
-        onBackButtonPress={() => {
+        onRequestClose={() => {
           setIsCalendarModalVisible(false);
           setDate(date);
         }}

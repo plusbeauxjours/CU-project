@@ -822,7 +822,7 @@ export default ({
         ref={modalRef}
         isVisible={workingModalOpen}
         animationOutTiming={1}
-        onBackButtonPress={() => setWorkingModalOpen(false)}
+        onRequestClose={() => setWorkingModalOpen(false)}
         onBackdropPress={() => setWorkingModalOpen(false)}
         style={{margin: 0, justifyContent: 'flex-end'}}>
         <WorkingModalContainer>
@@ -837,7 +837,7 @@ export default ({
       <Modal
         isVisible={qrModalOpen}
         onBackdropPress={() => setQrModalOpen(false)}
-        onBackButtonPress={() => setQrModalOpen(false)}
+        onRequestClose={() => setQrModalOpen(false)}
         style={{margin: 0}}
         avoidKeyboard={true}>
         <QRCodeScanner
@@ -867,12 +867,8 @@ export default ({
         animationOut={'fadeOut'}
         isVisible={showPictureModal}
         style={{position: 'relative', marginVertical: hp('5%')}}
-        onBackdropPress={() => {
-          setShowPictureModal(false);
-        }}
-        onBackButtonPress={() => {
-          setShowPictureModal(false);
-        }}>
+        onBackdropPress={() => setShowPictureModal(false)}
+        onRequestClose={() => setShowPictureModal(false)}>
         <ShowPictureModalTouchable
           onPress={() => {
             setShowPictureModal(false);

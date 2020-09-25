@@ -232,7 +232,7 @@ export const SalarySystem = ({
       </TypeContainer>
       {isHelpModalVisible && (
         <Modal
-          onBackButtonPress={() => setIsHelpModalVisible(false)}
+          onRequestClose={() => setIsHelpModalVisible(false)}
           onBackdropPress={() => setIsHelpModalVisible(false)}
           isVisible={isHelpModalVisible}
           style={{margin: 0, justifyContent: 'flex-end'}}>

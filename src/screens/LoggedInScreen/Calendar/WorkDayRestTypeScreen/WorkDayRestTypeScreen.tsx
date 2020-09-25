@@ -178,7 +178,7 @@ export default ({route: {params}}) => {
         </Touchable>
         {isHelpModalVisible && (
           <Modal
-            onBackButtonPress={() => setisHelpModalVisible(false)}
+            onRequestClose={() => setisHelpModalVisible(false)}
             onBackdropPress={() => setisHelpModalVisible(false)}
             isVisible={isHelpModalVisible}
             style={{margin: 0, justifyContent: 'flex-end'}}>

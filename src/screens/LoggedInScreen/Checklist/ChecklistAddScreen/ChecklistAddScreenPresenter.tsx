@@ -595,7 +595,7 @@ export default ({
       </RBSheet>
       <Modal
         isVisible={isHourModalVisible}
-        onBackButtonPress={() => {
+        onRequestClose={() => {
           setIsHourModalVisible(false);
           setHour(null);
           setMinute(null);

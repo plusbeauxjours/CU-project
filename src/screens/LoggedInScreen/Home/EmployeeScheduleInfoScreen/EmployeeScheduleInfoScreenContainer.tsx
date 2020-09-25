@@ -48,10 +48,10 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
-  const explainModal = (title, text) => {
+  const explainModal = (text) => {
     const params = {
       alertType: 'explain',
-      title: title,
+      title: '',
       content: text,
     };
     dispatch(setAlertInfo(params));

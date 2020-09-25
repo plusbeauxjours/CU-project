@@ -116,7 +116,7 @@ export default ({
               <TextInputContainer>
                 <GreyText>Password</GreyText>
                 <TextInput
-                  placeholder={'영문, 숫자 조합 6자 이상'}
+                  placeholder={'영문, 숫자 조합 8자 이상'}
                   placeholderTextColor={'#999'}
                   onChangeText={(text) => onChangePassword(text)}
                   value={password}

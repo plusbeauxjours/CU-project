@@ -491,7 +491,7 @@ export default ({
       </ScrollView>
       <Modal
         isVisible={isHourModalVisible}
-        onBackButtonPress={() => {
+        onRequestClose={() => {
           setIsHourModalVisible(false);
           setHour(null);
           setMinute(null);

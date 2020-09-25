@@ -249,7 +249,7 @@ export default ({route: {params}}) => {
             </InputItem>
           </Section>
           <SubmitBtn
-            text={'수정하기'}
+            text={'수정완료'}
             onPress={() => submit()}
             isRegisted={true}
           />
