@@ -7,6 +7,7 @@ const callApi = async (method: string, path: string, data?: any) => {
   };
   const baseUrl = 'http://133.186.209.113:3003/api';
   const fullUrl = `${baseUrl}${path}`;
+  console.log(fullUrl, data, path);
   if (method === 'get' || method === 'delete') {
     return axios[method](fullUrl, {headers});
   } else {
@@ -21,6 +22,7 @@ const oldApi = async (method: string, path: string, data?: any) => {
   };
   const baseUrl = 'http://133.186.209.113:80/api/v2';
   const fullUrl = `${baseUrl}${path}`;
+  console.log(fullUrl, data, path);
   if (method === 'get' || method === 'delete') {
     return axios[method](fullUrl, {headers});
   } else {

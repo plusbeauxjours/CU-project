@@ -101,6 +101,7 @@ export default ({
   onDayPress,
   onRefresh,
   confirmModal,
+  cancelModal,
   alertModal,
 }) => {
   const navigation = useNavigation();
@@ -141,7 +142,7 @@ export default ({
               if (checkType == '0') {
                 confirmModal(shelfLife_SEQ, shelfLifeDate);
               } else {
-                alertModal('처리완료된 상품입니다');
+                cancelModal(shelfLife_SEQ, shelfLifeDate);
               }
             }}>
             <IconContainer isChecked={checkType == '0'}>

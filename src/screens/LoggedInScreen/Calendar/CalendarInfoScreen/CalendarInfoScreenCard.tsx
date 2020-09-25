@@ -169,6 +169,7 @@ export default ({
       console.log(e);
     }
   };
+
   const ButtonGroup = () => {
     if (STORE === '1') {
       if (VACATION) {

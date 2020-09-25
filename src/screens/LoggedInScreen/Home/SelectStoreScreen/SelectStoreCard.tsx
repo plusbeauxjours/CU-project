@@ -37,6 +37,9 @@ const Touchable = styled(Ripple)<IIsStore>`
   shadow-color: grey;
   shadow-offset: 3px 3px;
   elevation: 4;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
 `;
 
 const NameText = styled.Text`
@@ -82,7 +85,6 @@ export default ({
   return (
     <Touchable
       isStore={STORE == 1}
-      style={{alignItems: 'center', marginBottom: 30}}
       onPress={() => gotoHomeScreen(data)}
       rippleColor={'#666'}
       rippleDuration={600}

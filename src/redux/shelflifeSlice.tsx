@@ -37,6 +37,17 @@ const shelflifetSlice = createSlice({
         item.checkEmpName = checkEmpName;
       }
     },
+    cancelSHELFLIFE(state, action) {
+      const {
+        payload: {shelfLife_SEQ, shelfLifeDate},
+      } = action;
+      const item = state.SHELFLIFE_DATA[shelfLifeDate].find(
+        (i) => i.shelfLife_SEQ === shelfLife_SEQ,
+      );
+      if (item) {
+        item.checkType = '0';
+      }
+    },
     updateSHELFLIFE_DATA(state, action) {
       const {
         payload: {
@@ -78,6 +89,7 @@ export const {
   setSHELFLIFE_DATA,
   setSHELFLIFE_MARKED,
   udpateSHELFLIFE,
+  cancelSHELFLIFE,
   updateSHELFLIFE_DATA,
   removeSHELFLIFE_DATA,
 } = shelflifetSlice.actions;

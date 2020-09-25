@@ -1,10 +1,14 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import InputLine from '~/components/InputLine';
 import CheckPasswordBtn from '~/components/Btn/CheckPasswordBtn';
+
+interface IsError {
+  isError: boolean;
+}
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -54,9 +58,9 @@ const CountText = styled(TimeText)`
   margin-bottom: 0;
 `;
 
-const GreyText = styled.Text`
+const GreyText = styled.Text<IsError>`
   font-size: 12px;
-  color: #aaa;
+  color: ${(props) => (props.isError ? 'red' : '#aaa')};
   margin-top: 5px;
 `;
 
@@ -97,12 +101,9 @@ export default ({
   hasCheckedVerifyCode,
   verifyCode,
   mobileNo,
-  isRegisted,
   requireVerifyCode,
-  onChangePassword,
   onChangeVerifyCode,
-  onChangePasswordCheck,
-  submit,
+  submitFn,
   countdown,
   isCountDownStarted,
   hasCheckedTimeOut,
@@ -110,8 +111,12 @@ export default ({
   setIsPasswordSeen,
   isPasswordCheckSeen,
   setIsPasswordCheckSeen,
+  setPassword,
+  setPasswordCheck,
+  isPasswordError,
+  isPasswordCheckError,
+  passwordCheckerFn,
 }) => {
-  const passwordCheckRef = useRef(null);
   return (
     <BackGround>
       <KeyboardAwareScrollView keyboardShouldPersistTaps="always">
@@ -120,15 +125,14 @@ export default ({
             <NameText>새 비밀번호</NameText>
             <TextinputCase>
               <TextInput
-                placeholder={'영문, 숫자 조합 8자 이상'}
+                placeholder={'영문, 숫자 조합 6자 이상'}
                 placeholderTextColor={'#E5E5E5'}
                 selectionColor={'#642A8C'}
                 onFocus={() => {
-                  passwordCheckRef.current.clear();
+                  setPassword('');
+                  setPasswordCheck('');
                 }}
-                onChangeText={(text) => {
-                  onChangePassword(text);
-                }}
+                onChangeText={(text) => passwordCheckerFn(text, false)}
                 value={password}
                 editable={!hasCheckedVerifyCode}
                 secureTextEntry={isPasswordSeen ? false : true}
@@ -140,24 +144,30 @@ export default ({
                 isPasswordSeen={isPasswordSeen}
               />
             </TextinputCase>
-            <InputLine isBefore={password ? false : true} />
-            <GreyText>* 영문, 숫자 조합하여 6자 이상 입력해주세요.</GreyText>
+            <InputLine isBefore={password == '' ? true : false} />
+            {password.length > 0 && /(\w)\1\1\1/.test(password) ? (
+              <GreyText isError={true}>
+                * 444같은 문자를 4번 이상 사용하실 수 없습니다.
+              </GreyText>
+            ) : password.length > 15 ? (
+              <GreyText isError={true}>
+                * 영문, 숫자 조합하여 15자 이하 입력해주세요.
+              </GreyText>
+            ) : (
+              <GreyText isError={isPasswordError}>
+                * 영문, 숫자 조합하여 6자 이상 입력해주세요.
+              </GreyText>
+            )}
           </Case>
           <WhiteSpace />
           <Case>
             <NameText>새 비밀번호 확인</NameText>
             <TextinputCase>
               <TextInput
-                ref={passwordCheckRef}
                 placeholder={'새 비밀번호 확인'}
                 placeholderTextColor={'#E5E5E5'}
                 selectionColor={'#642A8C'}
-                onBlur={() => {
-                  if (!password && password?.length <= 5) {
-                    alertModal('비밀번호를 6자리 이상 입력하세요.');
-                  }
-                }}
-                onChangeText={(text) => onChangePasswordCheck(text)}
+                onChangeText={(text) => passwordCheckerFn(text, true)}
                 value={passwordCheck}
                 editable={!hasCheckedVerifyCode}
                 secureTextEntry={isPasswordCheckSeen ? false : true}
@@ -169,7 +179,16 @@ export default ({
                 isPasswordSeen={isPasswordCheckSeen}
               />
             </TextinputCase>
-            <InputLine isBefore={passwordCheck ? false : true} />
+            <InputLine isBefore={passwordCheck == '' ? true : false} />
+            {passwordCheck.length > 6 && password !== passwordCheck ? (
+              <GreyText isError={true}>
+                * 비밀번호가 일치하지 않습니다.
+              </GreyText>
+            ) : (
+              <GreyText isError={isPasswordCheckError}>
+                * 영문, 숫자 조합하여 6자 이상 입력해주세요.
+              </GreyText>
+            )}
           </Case>
           <WhiteSpace />
           <Case>
@@ -207,7 +226,7 @@ export default ({
                     maxLength={6}
                   />
                 </TextinputCase>
-                <InputLine isBefore={verifyCode ? false : true} />
+                <InputLine isBefore={verifyCode == '' ? true : false} />
                 <VerifyContainer>
                   {isCountDownStarted && <CountText>{countdown}초</CountText>}
                 </VerifyContainer>
@@ -216,8 +235,14 @@ export default ({
           )}
           <SubmitBtn
             text={'설정 완료'}
-            onPress={() => submit()}
-            isRegisted={isRegisted}
+            onPress={() => submitFn()}
+            isRegisted={
+              password === passwordCheck &&
+              passwordCheck.length > 6 &&
+              password.search(/[0-9]/g) >= 0 &&
+              password.search(/[a-z]/gi) >= 0 &&
+              !/(\w)\1\1\1/.test(password)
+            }
           />
         </Container>
       </KeyboardAwareScrollView>

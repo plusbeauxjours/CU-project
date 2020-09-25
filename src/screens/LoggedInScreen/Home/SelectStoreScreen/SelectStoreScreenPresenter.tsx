@@ -10,10 +10,14 @@ import Ripple from 'react-native-material-ripple';
 import SelectStoreCard from './SelectStoreCard';
 import {AddCircleIcon} from '~/constants/Icons';
 
-const BackGround = styled.View`
+interface IIsStore {
+  isStore?: boolean;
+}
+
+const BackGround = styled.View<IIsStore>`
   flex: 1;
   background-color: #f6f6f6;
-  padding-top: 50px;
+  padding-top: ${(props) => (props.isStore ? 60 : 0)};
 `;
 
 const ScrollView = styled.ScrollView``;
@@ -46,7 +50,7 @@ const AddStoreButtonText = styled.Text`
 `;
 
 const WhiteSpace = styled.View`
-  height: 80px;
+  height: 50px;
 `;
 
 const AddStoreButton = styled(Ripple)`
@@ -123,7 +127,7 @@ export default ({
     }
   };
   return (
-    <BackGround>
+    <BackGround isStore={STORE == '1'}>
       {STORE == '1' && (
         <AddStoreButton
           onPress={() => gotoAddStore()}
@@ -143,7 +147,7 @@ export default ({
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            progressViewOffset={40}
+            progressViewOffset={20}
           />
         }
         contentContainerStyle={{

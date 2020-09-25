@@ -151,6 +151,8 @@ export default {
     callApi('post', '/auth/deleteshelfLifeData/', data),
   updateShelfLifeData: (data: any) =>
     callApi('post', '/auth/updateshelfLifeData/', data),
+  cancelShelfLifeData: (data: any) =>
+    callApi('post', '/auth/cancelShelfLifeData/', data),
   checkOcr: (data: any) => callApi('post', '/auth/checkocr/', data),
   checkocr1: (data: any) => callApi('post', '/auth/checkocr1/', data),
   saveOcr: (data: any) => callApi('post', '/auth/saveocr/', data),

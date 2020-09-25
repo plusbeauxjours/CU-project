@@ -24,11 +24,15 @@ export default ({route: {params}}) => {
   const [positionTypeCheck, setPositionTypeCheck] = useState<
     [boolean, boolean]
   >([false, false]);
-  const [password, setPassword] = useState<string>('');
+  const [password, setPassword] = useState<any>('');
   const [birthDate, setBirthDate] = useState<string>('');
-  const [passwordCheck, setPasswordCheck] = useState<string>('');
+  const [passwordCheck, setPasswordCheck] = useState<any>('');
   const [isPasswordSeen, setIsPasswordSeen] = useState<boolean>(false);
   const [isPasswordCheckSeen, setIsPasswordCheckSeen] = useState<boolean>(
+    false,
+  );
+  const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
+  const [isPasswordCheckError, setIsPasswordCheckError] = useState<boolean>(
     false,
   );
 
@@ -43,7 +47,7 @@ export default ({route: {params}}) => {
       alertType: 'confirm',
       title: title,
       content: text,
-      okCallback: () => regist(),
+      okCallback: () => submitFn(),
       okButtonText: '예',
       cancelButtonText: '아니요',
     };
@@ -51,10 +55,7 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
-  const regist = async () => {
-    if (password !== passwordCheck) {
-      alertModal('비밀번호가 동일하지 않습니다.');
-    }
+  const submitFn = async () => {
     if (!/^[a-zA-Z0-9]{6,15}$/.test(password)) {
       return alertModal('숫자와 영문자 조합으로 6~15자리를 사용해야 합니다.');
     }
@@ -99,6 +100,43 @@ export default ({route: {params}}) => {
     }
   };
 
+  const passwordCheckerFn = (text, isPasswordCheck) => {
+    const reg1 = /^[A-Za-z0-9]*$/;
+    const reg2 = /[0-9]/g;
+    const reg3 = /[a-z]/gi;
+    if (isPasswordCheck) {
+      if (reg1.test(text)) {
+        setPasswordCheck(text);
+        setIsPasswordCheckError(false);
+      } else {
+        setIsPasswordCheckError(true);
+      }
+    } else {
+      setPasswordCheck('');
+      if (reg1.test(text)) {
+        if (password.length < 6) {
+          setPassword(text);
+          setIsPasswordError(true);
+        } else {
+          if (
+            (password.search(/[0-9]/g) < 0 &&
+              reg3.test(text.charAt(text.length - 1))) ||
+            (password.search(/[a-z]/gi) < 0 &&
+              reg2.test(text.charAt(text.length - 1)))
+          ) {
+            setPassword(text);
+            setIsPasswordError(true);
+          } else {
+            setPassword(text);
+            setIsPasswordError(false);
+          }
+        }
+      } else {
+        setIsPasswordError(true);
+      }
+    }
+  };
+
   const onChangeName = (text) => {
     if (name.length > 5) {
       alertModal('이름은 6자리 이하로 적어주세요.');
@@ -125,6 +163,9 @@ export default ({route: {params}}) => {
       setIsPasswordSeen={setIsPasswordSeen}
       isPasswordCheckSeen={isPasswordCheckSeen}
       setIsPasswordCheckSeen={setIsPasswordCheckSeen}
+      passwordCheckerFn={passwordCheckerFn}
+      isPasswordError={isPasswordError}
+      isPasswordCheckError={isPasswordCheckError}
     />
   );
 };

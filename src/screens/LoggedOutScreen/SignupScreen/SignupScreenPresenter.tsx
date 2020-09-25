@@ -1,15 +1,16 @@
 import React from 'react';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styled from 'styled-components/native';
 import {View, ScrollView} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import CheckPasswordBtn from '~/components/Btn/CheckPasswordBtn';
 import InputLine from '~/components/InputLine';
 import {RadioBtnOnIcon, RadioBtnOffIcon} from '~/constants/Icons';
 
-interface IPositionTypeRadioButtonOff {
-  borderColor: boolean;
+interface IsError {
+  isError: boolean;
 }
 
 const BackGround = styled.View`
@@ -29,9 +30,8 @@ const TypeText = styled.Text`
 
 const Container = styled.View`
   width: 100%;
-  padding: 0 20px;
+  padding: 20px;
   align-items: center;
-  margin-top: ${hp('5%')}px;
 `;
 
 const NameText = styled.Text`
@@ -54,7 +54,6 @@ const TextId = styled.Text`
 const TextInput = styled.TextInput`
   flex: 1;
   padding-left: 5px;
-  margin: 10px 0;
   font-size: 15px;
   color: #642a8c;
 `;
@@ -80,9 +79,9 @@ const TextinputCase = styled.View`
   padding: 8px 0;
 `;
 
-const GreyText = styled.Text`
+const GreyText = styled.Text<IsError>`
   font-size: 12px;
-  color: #aaa;
+  color: ${(props) => (props.isError ? 'red' : '#aaa')};
   margin-top: 5px;
 `;
 
@@ -103,6 +102,9 @@ export default ({
   setIsPasswordSeen,
   isPasswordCheckSeen,
   setIsPasswordCheckSeen,
+  passwordCheckerFn,
+  isPasswordError,
+  isPasswordCheckError,
 }) => {
   const sexType = (selection, text) => {
     let value = JSON.parse(JSON.stringify(sexTypeCheck));
@@ -148,94 +150,111 @@ export default ({
 
   return (
     <BackGround>
-      <KeyboardAwareScrollView>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{flex: 1, alignItems: 'center'}}>
-          <Container>
-            <Case>
-              <NameText>ID</NameText>
-              <TextinputCase>
-                <TextId>{mobileNo}</TextId>
-              </TextinputCase>
-              <InputLine isBefore={false} />
-            </Case>
-            <WhiteSpace />
-            <Case>
-              <NameText>이름</NameText>
-              <TextinputCase>
-                <TextInput
-                  placeholder={'이름'}
-                  placeholderTextColor={'#E5E5E5'}
-                  onChangeText={(text) => {
-                    onChangeName(text);
-                  }}
-                  value={name}
-                />
-              </TextinputCase>
-              <InputLine isBefore={name == '' ? true : false} />
-            </Case>
-            <WhiteSpace />
-            <Case>
-              <NameText>가입유형</NameText>
-              <TypeCheckCase>
-                <View>{positionType(1, '점주')}</View>
-                <View>{positionType(0, '직원')}</View>
-              </TypeCheckCase>
-            </Case>
-            <WhiteSpace />
-            <Case>
-              <NameText>비밀번호</NameText>
-              <TextinputCase>
-                <TextInput
-                  placeholder={'영문, 숫자 조합 8자 이상'}
-                  placeholderTextColor={'#E5E5E5'}
-                  selectionColor={'#642A8C'}
-                  onFocus={() => {
-                    setPassword('');
-                    setPasswordCheck('');
-                  }}
-                  onChangeText={(text) => {
-                    setPassword(text);
-                    setPasswordCheck('');
-                  }}
-                  value={password}
-                  secureTextEntry={isPasswordSeen ? false : true}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                />
-                <CheckPasswordBtn
-                  onPress={() => setIsPasswordSeen(!isPasswordSeen)}
-                  isPasswordSeen={isPasswordSeen}
-                />
-              </TextinputCase>
-              <InputLine isBefore={password == '' ? true : false} />
-            </Case>
-            <WhiteSpace />
-            <Case>
-              <NameText>비밀번호 확인</NameText>
-              <TextinputCase>
-                <TextInput
-                  placeholder={'새 비밀번호 확인'}
-                  placeholderTextColor={'#E5E5E5'}
-                  selectionColor={'#642A8C'}
-                  onChangeText={(text) => setPasswordCheck(text)}
-                  value={passwordCheck}
-                  secureTextEntry={isPasswordCheckSeen ? false : true}
-                  onFocus={() => {}}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                />
-                <CheckPasswordBtn
-                  onPress={() => setIsPasswordCheckSeen(!isPasswordCheckSeen)}
-                  isPasswordSeen={isPasswordCheckSeen}
-                />
-              </TextinputCase>
-              <InputLine isBefore={passwordCheck == '' ? true : false} />
-              <GreyText>* 영문, 숫자 조합하여 6자 이상 입력해주세요.</GreyText>
-            </Case>
-          </Container>
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps={'handled'}
+        keyboardDismissMode="on-drag"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{alignItems: 'center'}}>
+        <Container>
+          <Case>
+            <NameText>ID</NameText>
+            <TextinputCase>
+              <TextId>{mobileNo}</TextId>
+            </TextinputCase>
+            <InputLine isBefore={false} />
+          </Case>
+          <WhiteSpace />
+          <Case>
+            <NameText>이름</NameText>
+            <TextinputCase>
+              <TextInput
+                placeholder={'이름'}
+                placeholderTextColor={'#E5E5E5'}
+                onChangeText={(text) => {
+                  onChangeName(text);
+                }}
+                value={name}
+              />
+            </TextinputCase>
+            <InputLine isBefore={name == '' ? true : false} />
+          </Case>
+          <WhiteSpace />
+          <Case>
+            <NameText>가입유형</NameText>
+            <TypeCheckCase>
+              <View>{positionType(1, '점주')}</View>
+              <View>{positionType(0, '직원')}</View>
+            </TypeCheckCase>
+          </Case>
+          <WhiteSpace />
+          <Case>
+            <NameText>비밀번호</NameText>
+            <TextinputCase>
+              <TextInput
+                placeholder={'영문, 숫자 조합 6자 이상'}
+                placeholderTextColor={'#E5E5E5'}
+                selectionColor={'#642A8C'}
+                onFocus={() => {
+                  setPassword('');
+                  setPasswordCheck('');
+                }}
+                onChangeText={(text) => passwordCheckerFn(text, false)}
+                value={password}
+                secureTextEntry={isPasswordSeen ? false : true}
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+              <CheckPasswordBtn
+                onPress={() => setIsPasswordSeen(!isPasswordSeen)}
+                isPasswordSeen={isPasswordSeen}
+              />
+            </TextinputCase>
+            <InputLine isBefore={password == '' ? true : false} />
+            {password.length > 0 && /(\w)\1\1\1/.test(password) ? (
+              <GreyText isError={true}>
+                * 444같은 문자를 4번 이상 사용하실 수 없습니다.
+              </GreyText>
+            ) : password.length > 15 ? (
+              <GreyText isError={true}>
+                * 영문, 숫자 조합하여 15자 이하 입력해주세요.
+              </GreyText>
+            ) : (
+              <GreyText isError={isPasswordError}>
+                * 영문, 숫자 조합하여 6자 이상 입력해주세요.
+              </GreyText>
+            )}
+          </Case>
+          <WhiteSpace />
+          <Case>
+            <NameText>비밀번호 확인</NameText>
+            <TextinputCase>
+              <TextInput
+                placeholder={'새 비밀번호 확인'}
+                placeholderTextColor={'#E5E5E5'}
+                selectionColor={'#642A8C'}
+                onChangeText={(text) => passwordCheckerFn(text, true)}
+                value={passwordCheck}
+                secureTextEntry={isPasswordCheckSeen ? false : true}
+                onFocus={() => {}}
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+              <CheckPasswordBtn
+                onPress={() => setIsPasswordCheckSeen(!isPasswordCheckSeen)}
+                isPasswordSeen={isPasswordCheckSeen}
+              />
+            </TextinputCase>
+            <InputLine isBefore={passwordCheck == '' ? true : false} />
+            {passwordCheck.length > 6 && password !== passwordCheck ? (
+              <GreyText isError={true}>
+                * 비밀번호가 일치하지 않습니다.
+              </GreyText>
+            ) : (
+              <GreyText isError={isPasswordCheckError}>
+                * 영문, 숫자 조합하여 6자 이상 입력해주세요.
+              </GreyText>
+            )}
+          </Case>
           <SubmitBtn
             text={'회원가입 완료'}
             onPress={() =>
@@ -246,14 +265,15 @@ export default ({
             }
             isRegisted={
               mobileNo &&
-              name &&
-              password &&
-              passwordCheck &&
+              name.length > 0 &&
               password === passwordCheck &&
-              passwordCheck.length > 6
+              passwordCheck.length > 6 &&
+              password.search(/[0-9]/g) >= 0 &&
+              password.search(/[a-z]/gi) >= 0 &&
+              !/(\w)\1\1\1/.test(password)
             }
           />
-        </ScrollView>
+        </Container>
       </KeyboardAwareScrollView>
     </BackGround>
   );

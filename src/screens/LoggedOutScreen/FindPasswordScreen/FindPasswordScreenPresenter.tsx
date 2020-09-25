@@ -1,5 +1,4 @@
 import React, {useRef} from 'react';
-import {ScrollView} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -12,6 +11,10 @@ import CheckPasswordBtn from '~/components/Btn/CheckPasswordBtn';
 
 interface IIsBefore {
   isBefore: boolean;
+}
+
+interface IsError {
+  isError: boolean;
 }
 
 const BackGround = styled.View`
@@ -36,9 +39,9 @@ const VerifyText = styled.Text`
   color: white;
 `;
 
-const GreyText = styled.Text`
+const GreyText = styled.Text<IsError>`
   font-size: 12px;
-  color: #aaa;
+  color: ${(props) => (props.isError ? 'red' : '#aaa')};
   margin-top: 5px;
 `;
 
@@ -114,12 +117,10 @@ export default ({
   verifyCode,
   onChangeMobileNum,
   onChangeVerifyCode,
-  onChangePassword,
-  onChangePasswordCheck,
   isVerified,
   passwordCheck,
   mobileNo,
-  submit,
+  submitFn,
   hasCheckedTimeOut,
   onVerifyCode,
   countdown,
@@ -128,135 +129,160 @@ export default ({
   setIsPasswordSeen,
   isPasswordCheckSeen,
   setIsPasswordCheckSeen,
+  passwordCheckerFn,
+  isPasswordError,
+  isPasswordCheckError,
+  setPassword,
+  setPasswordCheck,
 }) => {
   const scrollRef = useRef(null);
-  const passwordCheckRef = useRef(null);
   return (
     <BackGround>
-      <KeyboardAwareScrollView>
-        <ScrollView
-          ref={scrollRef}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{flex: 1, alignItems: 'center'}}
-          showsVerticalScrollIndicator={false}>
-          <Container>
-            <Case>
-              <NameText>휴대폰 번호</NameText>
-              <TextinputCase>
-                <TextInput
-                  placeholder={'휴대폰번호를 입력해주세요'}
-                  placeholderTextColor={'#E5E5E5'}
-                  selectionColor={'#642A8C'}
-                  onChangeText={(text) => {
-                    onChangeMobileNum(text);
-                  }}
-                  value={mobileNo}
-                  keyboardType={'number-pad'}
-                  maxLength={11}
-                />
-                <RequestButton
-                  onPress={() => requireVerifyCode()}
-                  disabled={hasCheckedVerifyCode}>
-                  <RequestText>인증요청</RequestText>
-                </RequestButton>
-              </TextinputCase>
-              <InputLine isBefore={mobileNo ? false : true} />
-            </Case>
-            <WhiteSpace />
-            <Case>
-              <NameText>인증번호입력</NameText>
-              <TextinputCase>
-                <TextInput
-                  placeholder={'인증번호를 입력해주세요'}
-                  placeholderTextColor={'#E5E5E5'}
-                  selectionColor={'#642A8C'}
-                  onChangeText={(text) => {
-                    onChangeVerifyCode(text);
-                  }}
-                  value={verifyCode}
-                  keyboardType={'number-pad'}
-                  maxLength={6}
-                />
-              </TextinputCase>
-              <InputLine isBefore={verifyCode ? false : true} />
-              <VerifyContainer>
-                {isCountDownStarted && <CountText>{countdown}초</CountText>}
-                <VerifyButton
-                  onPress={() => {
-                    verifyCode !== onVerifyCode();
-                  }}
-                  isBefore={verifyCode ? false : true}>
-                  <VerifyText>인증확인</VerifyText>
-                </VerifyButton>
-              </VerifyContainer>
-            </Case>
-            {hasCheckedTimeOut && (
-              <TimeText>
-                인증시간이 초과되었습니다. 인증을 다시 시도해주세요
-              </TimeText>
-            )}
-            {isVerified && (
-              <>
-                <WhiteSpace />
-                <Case>
-                  <NameText>새 비밀번호</NameText>
-                  <TextinputCase>
-                    <TextInput
-                      placeholder={'영문, 숫자 조합 8자 이상'}
-                      placeholderTextColor={'#E5E5E5'}
-                      selectionColor={'#642A8C'}
-                      onFocus={() => passwordCheckRef.current.clear()}
-                      onChangeText={(text) => onChangePassword(text)}
-                      value={password}
-                      secureTextEntry={isPasswordSeen ? false : true}
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                    />
-                    <CheckPasswordBtn
-                      onPress={() => setIsPasswordSeen(!isPasswordSeen)}
-                      isPasswordSeen={isPasswordSeen}
-                    />
-                  </TextinputCase>
-                  <InputLine isBefore={password ? false : true} />
-                </Case>
-                <WhiteSpace />
-                <Case>
-                  <NameText>새 비밀번호 확인</NameText>
-                  <TextinputCase>
-                    <TextInput
-                      ref={passwordCheckRef}
-                      placeholder={'새 비밀번호 확인'}
-                      placeholderTextColor={'#E5E5E5'}
-                      selectionColor={'#642A8C'}
-                      onChangeText={(text) => onChangePasswordCheck(text)}
-                      value={passwordCheck}
-                      secureTextEntry={isPasswordCheckSeen ? false : true}
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                    />
-                    <CheckPasswordBtn
-                      onPress={() =>
-                        setIsPasswordCheckSeen(!isPasswordCheckSeen)
-                      }
-                      isPasswordSeen={isPasswordCheckSeen}
-                    />
-                  </TextinputCase>
-                  <InputLine isBefore={passwordCheck ? false : true} />
-                  <GreyText>
+      <KeyboardAwareScrollView
+        ref={scrollRef}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{alignItems: 'center'}}
+        showsVerticalScrollIndicator={false}>
+        <Container>
+          <Case>
+            <NameText>휴대폰 번호</NameText>
+            <TextinputCase>
+              <TextInput
+                placeholder={'휴대폰번호를 입력해주세요'}
+                placeholderTextColor={'#E5E5E5'}
+                selectionColor={'#642A8C'}
+                onChangeText={(text) => {
+                  onChangeMobileNum(text);
+                }}
+                value={mobileNo}
+                keyboardType={'number-pad'}
+                maxLength={11}
+              />
+              <RequestButton
+                onPress={() => requireVerifyCode()}
+                disabled={hasCheckedVerifyCode}>
+                <RequestText>인증요청</RequestText>
+              </RequestButton>
+            </TextinputCase>
+            <InputLine isBefore={mobileNo == '' ? true : false} />
+          </Case>
+          <WhiteSpace />
+          <Case>
+            <NameText>인증번호입력</NameText>
+            <TextinputCase>
+              <TextInput
+                placeholder={'인증번호를 입력해주세요'}
+                placeholderTextColor={'#E5E5E5'}
+                selectionColor={'#642A8C'}
+                onChangeText={(text) => {
+                  onChangeVerifyCode(text);
+                }}
+                value={verifyCode}
+                keyboardType={'number-pad'}
+                maxLength={6}
+              />
+            </TextinputCase>
+            <InputLine isBefore={verifyCode == '' ? true : false} />
+            <VerifyContainer>
+              {isCountDownStarted && <CountText>{countdown}초</CountText>}
+              <VerifyButton
+                onPress={() => {
+                  verifyCode !== onVerifyCode();
+                }}
+                isBefore={verifyCode ? false : true}>
+                <VerifyText>인증확인</VerifyText>
+              </VerifyButton>
+            </VerifyContainer>
+          </Case>
+          {hasCheckedTimeOut && (
+            <TimeText>
+              인증시간이 초과되었습니다. 인증을 다시 시도해주세요
+            </TimeText>
+          )}
+          {isVerified && (
+            <>
+              <WhiteSpace />
+              <Case>
+                <NameText>새 비밀번호</NameText>
+                <TextinputCase>
+                  <TextInput
+                    placeholder={'영문, 숫자 조합 6자 이상'}
+                    placeholderTextColor={'#E5E5E5'}
+                    selectionColor={'#642A8C'}
+                    onFocus={() => {
+                      setPassword('');
+                      setPasswordCheck('');
+                    }}
+                    onChangeText={(text) => passwordCheckerFn(text, false)}
+                    value={password}
+                    secureTextEntry={isPasswordSeen ? false : true}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+                  <CheckPasswordBtn
+                    onPress={() => setIsPasswordSeen(!isPasswordSeen)}
+                    isPasswordSeen={isPasswordSeen}
+                  />
+                </TextinputCase>
+                <InputLine isBefore={password == '' ? true : false} />
+                {password.length > 0 && /(\w)\1\1\1/.test(password) ? (
+                  <GreyText isError={true}>
+                    * 444같은 문자를 4번 이상 사용하실 수 없습니다.
+                  </GreyText>
+                ) : password.length > 15 ? (
+                  <GreyText isError={true}>
+                    * 영문, 숫자 조합하여 15자 이하 입력해주세요.
+                  </GreyText>
+                ) : (
+                  <GreyText isError={isPasswordError}>
                     * 영문, 숫자 조합하여 6자 이상 입력해주세요.
                   </GreyText>
-                </Case>
-              </>
-            )}
-            <SubmitBtn
-              text={'비밀번호 변경'}
-              onPress={() => submit()}
-              isRegisted={
-                password && passwordCheck && password === passwordCheck
-              }
-            />
-          </Container>
-        </ScrollView>
+                )}
+              </Case>
+              <WhiteSpace />
+              <Case>
+                <NameText>새 비밀번호 확인</NameText>
+                <TextinputCase>
+                  <TextInput
+                    placeholder={'새 비밀번호 확인'}
+                    placeholderTextColor={'#E5E5E5'}
+                    selectionColor={'#642A8C'}
+                    onChangeText={(text) => passwordCheckerFn(text, true)}
+                    value={passwordCheck}
+                    secureTextEntry={isPasswordCheckSeen ? false : true}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                  />
+                  <CheckPasswordBtn
+                    onPress={() => setIsPasswordCheckSeen(!isPasswordCheckSeen)}
+                    isPasswordSeen={isPasswordCheckSeen}
+                  />
+                </TextinputCase>
+                <InputLine isBefore={passwordCheck == '' ? true : false} />
+                {passwordCheck.length > 6 && password !== passwordCheck ? (
+                  <GreyText isError={true}>
+                    * 비밀번호가 일치하지 않습니다.
+                  </GreyText>
+                ) : (
+                  <GreyText isError={isPasswordCheckError}>
+                    * 영문, 숫자 조합하여 6자 이상 입력해주세요.
+                  </GreyText>
+                )}
+              </Case>
+            </>
+          )}
+          <SubmitBtn
+            text={'비밀번호 변경'}
+            onPress={() => submitFn()}
+            isRegisted={
+              password === passwordCheck &&
+              passwordCheck.length > 6 &&
+              password.search(/[0-9]/g) >= 0 &&
+              password.search(/[a-z]/gi) >= 0 &&
+              !/(\w)\1\1\1/.test(password)
+            }
+          />
+        </Container>
       </KeyboardAwareScrollView>
     </BackGround>
   );
