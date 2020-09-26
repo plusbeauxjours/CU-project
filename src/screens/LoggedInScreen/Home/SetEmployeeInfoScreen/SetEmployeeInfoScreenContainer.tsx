@@ -68,7 +68,6 @@ export default ({route: {params}}) => {
 
   ///// STEP 3 /////
   const [pay, setPay] = useState<string>(''); //  pay
-  const [pay1, setPay1] = useState<string>(''); //  pay1
   const [pay2, setPay2] = useState<string>(''); //  pay2
   const [pay3, setPay3] = useState<string>(''); //  pay3
   const [pay4, setPay4] = useState<string>(''); //  pay4
@@ -182,7 +181,7 @@ export default ({route: {params}}) => {
 
   const total = () => {
     let value =
-      Number(pay1) + Number(pay2) + Number(pay3) + Number(pay4) + Number(pay5);
+      Number(pay) + Number(pay2) + Number(pay3) + Number(pay4) + Number(pay5);
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
@@ -249,7 +248,7 @@ export default ({route: {params}}) => {
     } else if (payChecked !== 2 && pay === '') {
       return alertModal('급여를 입력해주세요.');
     } else if (payChecked === 2) {
-      if (pay1 === '') {
+      if (pay === '') {
         return alertModal('기본급을 입력해주세요.');
       } else if (pay2 === '') {
         return alertModal('식대금액을 입력해주세요.');
@@ -298,7 +297,7 @@ export default ({route: {params}}) => {
         SELF_DRIVING: payCheck[2] === true ? pay3 : '0',
         BONUS: payCheck[2] === true ? pay4 : '0',
         INCENTIVE: payCheck[2] === true ? pay5 : '0',
-        PAY: payCheck[2] === true ? pay1 : pay,
+        PAY: pay,
         PAY_START: payDay,
         // ↓ STEP 3
         THREE_ALLOWANCE: salarySystemCheck[0] === true ? '1' : '0',
@@ -336,7 +335,7 @@ export default ({route: {params}}) => {
           navigation.navigate('EmployeeScheduleMainScreen', {
             EMP_SEQ,
             PAY_TYPE: payChecked,
-            PAY: payCheck[2] === true ? pay1 : pay,
+            PAY: pay,
           });
         }
       }
@@ -435,7 +434,6 @@ export default ({route: {params}}) => {
           setPayDay(data.result.PAY_START);
 
           setPay(data.result.PAY_TYPE !== '2' ? data.result.PAY : '');
-          setPay1(data.result.PAY_TYPE === '2' ? data.result.PAY : '');
           setPay2(data.result.PAY_TYPE === '2' ? data.result.MEALS : '');
           setPay3(data.result.PAY_TYPE === '2' ? data.result.SELF_DRIVING : '');
           setPay4(data.result.PAY_TYPE === '2' ? data.result.BONUS : '');
@@ -539,8 +537,6 @@ export default ({route: {params}}) => {
       MINPAY={MINPAY}
       pay={pay}
       setPay={setPay}
-      pay1={pay1}
-      setPay1={setPay1}
       pay2={pay2}
       setPay2={setPay2}
       pay3={pay3}

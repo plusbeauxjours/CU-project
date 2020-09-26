@@ -303,7 +303,7 @@ export default ({
             <RowSpace>
               <SectionText>확인시간</SectionText>
               <Text style={{color: '#642A8C', fontWeight: 'bold'}}>
-                {CHECK_TIME ? moment(CHECK_TIME).format('HH:mm') : '체크전'}
+                {CHECK_TIME ? moment(CHECK_TIME).format('HH:mm:ss') : '체크전'}
               </Text>
             </RowSpace>
           </Section>

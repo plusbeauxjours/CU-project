@@ -160,7 +160,7 @@ export default ({key, data, ME, type, confirmModal}) => {
             <AddressBox>
               {type !== 'CU소식' && (
                 <InfoText>
-                  {moment(data.CREATE_TIME).format('YYYY.MM.DD')}
+                  {moment(data.CREATE_TIME).format('YYYY.MM.DD HH:mm:ss')}
                 </InfoText>
               )}
             </AddressBox>

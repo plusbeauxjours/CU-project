@@ -359,8 +359,6 @@ export default ({
   MINPAY,
   pay,
   setPay,
-  pay1,
-  setPay1,
   pay2,
   setPay2,
   pay3,
@@ -381,7 +379,6 @@ export default ({
   setPeriodCheck,
   percentCheck,
   setPercentCheck,
-  periodDirectInput,
   setPeriodDirectInput,
   percentDirectInput,
   setPercentDirectInput,
@@ -574,8 +571,6 @@ export default ({
                       selection={0}
                       text={'시급'}
                       payCheck={payCheck}
-                      setPay={setPay}
-                      setPay1={setPay1}
                       setPay2={setPay2}
                       setPay3={setPay3}
                       setPay4={setPay4}
@@ -586,8 +581,6 @@ export default ({
                       selection={1}
                       text={'일급'}
                       payCheck={payCheck}
-                      setPay={setPay}
-                      setPay1={setPay1}
                       setPay2={setPay2}
                       setPay3={setPay3}
                       setPay4={setPay4}
@@ -598,8 +591,6 @@ export default ({
                       selection={2}
                       text={'월급'}
                       payCheck={payCheck}
-                      setPay={setPay}
-                      setPay1={setPay1}
                       setPay2={setPay2}
                       setPay3={setPay3}
                       setPay4={setPay4}
@@ -611,6 +602,30 @@ export default ({
                     <>
                       <PayBox>
                         <Text>시급</Text>
+                        <Row>
+                          <TextInput
+                            placeholder={'금액을 입력해주세요.'}
+                            placeholderTextColor={'#E5E5E5'}
+                            onChangeText={(text) => {
+                              setPay(text.replace(/,/g, ''));
+                            }}
+                            value={pay
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            keyboardType={'number-pad'}
+                          />
+                          <Text>원</Text>
+                        </Row>
+                      </PayBox>
+                      <GreyText>
+                        *2020년 최저 시급은 {MINPAY}원 입니다.
+                      </GreyText>
+                    </>
+                  )}
+                  {payCheck[1] && (
+                    <PayBox>
+                      <Text>일급</Text>
+                      <Row>
                         <TextInput
                           placeholder={'금액을 입력해주세요.'}
                           placeholderTextColor={'#E5E5E5'}
@@ -623,127 +638,115 @@ export default ({
                           keyboardType={'number-pad'}
                         />
                         <Text>원</Text>
-                      </PayBox>
-                      <GreyText>
-                        *2020년 최저 시급은 {MINPAY}원 입니다.
-                      </GreyText>
-                    </>
-                  )}
-                  {payCheck[1] && (
-                    <PayBox>
-                      <Text>일급</Text>
-                      <TextInput
-                        placeholder={'금액을 입력해주세요.'}
-                        placeholderTextColor={'#E5E5E5'}
-                        onChangeText={(text) => {
-                          setPay(text.replace(/,/g, ''));
-                        }}
-                        value={pay
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        keyboardType={'number-pad'}
-                      />
-                      <Text>원</Text>
+                      </Row>
                     </PayBox>
                   )}
                   {payCheck[2] && (
                     <ColumnPayBox>
                       <BoxTitle>
                         <Text>기본급</Text>
-                        <CheckBox>
+                        <Row>
                           <TextInput
                             placeholder={'금액을 입력해주세요.'}
                             placeholderTextColor={'#E5E5E5'}
                             onChangeText={(text) => {
-                              setPay1(text.replace(/,/g, ''));
+                              setPay(text.replace(/,/g, ''));
                             }}
-                            value={pay1
+                            value={pay
                               .toString()
                               .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             keyboardType={'number-pad'}
                           />
                           <Text>원</Text>
-                        </CheckBox>
+                        </Row>
                       </BoxTitle>
                       <WhiteSpace />
                       <BoxTitle>
                         <Text>식대</Text>
-                        <CheckBox>
+                        <Row>
                           <TextInput
                             placeholder={'금액을 입력해주세요.'}
                             placeholderTextColor={'#E5E5E5'}
                             onChangeText={(text) => {
-                              setPay3(text.replace(/,/g, ''));
+                              setPay2(text.replace(/,/g, ''));
                             }}
+                            onFocus={() => setPay2('')}
+                            onBlur={() => pay2 === '' && setPay2('0')}
                             value={pay2
                               .toString()
                               .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             keyboardType={'number-pad'}
                           />
                           <Text>원</Text>
-                        </CheckBox>
+                        </Row>
                       </BoxTitle>
                       <WhiteSpace />
                       <BoxTitle>
                         <Text>자가운전</Text>
-                        <CheckBox>
+                        <Row>
                           <TextInput
                             placeholder={'금액을 입력해주세요.'}
                             placeholderTextColor={'#E5E5E5'}
                             onChangeText={(text) => {
                               setPay3(text.replace(/,/g, ''));
                             }}
+                            onFocus={() => setPay3('')}
+                            onBlur={() => pay3 === '' && setPay3('0')}
                             value={pay3
                               .toString()
                               .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             keyboardType={'number-pad'}
                           />
                           <Text>원</Text>
-                        </CheckBox>
+                        </Row>
                       </BoxTitle>
                       <WhiteSpace />
                       <BoxTitle>
                         <Text>상여</Text>
-                        <CheckBox>
+                        <Row>
                           <TextInput
                             placeholder={'금액을 입력해주세요.'}
                             placeholderTextColor={'#E5E5E5'}
                             onChangeText={(text) => {
                               setPay4(text.replace(/,/g, ''));
                             }}
+                            onFocus={() => setPay4('')}
+                            onBlur={() => pay4 === '' && setPay4('0')}
                             value={pay4
                               .toString()
                               .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             keyboardType={'number-pad'}
                           />
                           <Text>원</Text>
-                        </CheckBox>
+                        </Row>
                       </BoxTitle>
                       <WhiteSpace />
                       <BoxTitle>
                         <Text>성과급</Text>
-                        <CheckBox>
+                        <Row>
                           <TextInput
                             placeholder={'금액을 입력해주세요.'}
                             placeholderTextColor={'#E5E5E5'}
                             onChangeText={(text) => {
                               setPay5(text.replace(/,/g, ''));
                             }}
+                            onFocus={() => setPay5('')}
+                            onBlur={() => pay5 === '' && setPay5('0')}
                             value={pay5
                               .toString()
                               .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                             keyboardType={'number-pad'}
                           />
                           <Text>원</Text>
-                        </CheckBox>
+                        </Row>
                       </BoxTitle>
                       <Line />
                       <BoxTitle>
                         <Text>합계</Text>
-                        <CheckBox>
+                        <Row>
                           <TextInput editable={false}>{total()}</TextInput>
                           <Text>원</Text>
-                        </CheckBox>
+                        </Row>
                       </BoxTitle>
                     </ColumnPayBox>
                   )}

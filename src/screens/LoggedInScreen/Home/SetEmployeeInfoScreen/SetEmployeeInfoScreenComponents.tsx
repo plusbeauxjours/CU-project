@@ -283,8 +283,6 @@ export const PayCheck = ({
   selection,
   text,
   payCheck,
-  setPay,
-  setPay1,
   setPay2,
   setPay3,
   setPay4,
@@ -299,14 +297,12 @@ export const PayCheck = ({
         value.fill(false);
         value[selection] = true;
         if (selection === 0 || selection === 1) {
-          setPay1('');
           setPay2('');
           setPay3('');
           setPay4('');
           setPay5('');
           setPayCheck(value);
         } else if (selection === 2) {
-          setPay('');
           setPay2('0');
           setPay3('0');
           setPay4('0');

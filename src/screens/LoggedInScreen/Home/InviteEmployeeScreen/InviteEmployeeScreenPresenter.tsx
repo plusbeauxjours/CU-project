@@ -6,7 +6,6 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Ripple from 'react-native-material-ripple';
-import * as Hangul from 'hangul-js';
 
 import InviteEmployeeScreenCard from './InviteEmployeeScreenCard';
 import {PersonAddIcon, HelpCircleIcon, SearchIcon} from '~/constants/Icons';
@@ -298,6 +297,7 @@ export default ({
               placeholderTextColor={'#999'}
               onChangeText={(text) => searchName(text)}
               value={search}
+              maxLength="20"
             />
             <SearchIconContainer>
               <SearchIcon />
