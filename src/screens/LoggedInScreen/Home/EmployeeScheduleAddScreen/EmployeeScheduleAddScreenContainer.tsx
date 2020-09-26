@@ -38,17 +38,8 @@ export default ({route: {params}}) => {
   const [startTime, setStartTime] = useState<any>(null); // 화면에서 선택된 출근시간
   const [endTime, setEndTime] = useState<any>(null); // 화면에서 선택된 퇴근시간
   const [timeListIndex, setTimeListIndex] = useState<any>(0); // 저장된 근무 시간 목록 중 선택된 항목의 인덱스
-  const [isHourModalVisible, setIsHourModalVisible] = useState<boolean>(false); // 시간/분 입력 모달 활성화 여부
-  const [hourModalType, setHourModalType] = useState<any>(null); // 모달의 종류 (start: 출근시간, end: 퇴근시간)
   const [originalDayList, setOriginalDayList] = useState<any>([]); // dayList 원본 값
   const [dayList, setDayList] = useState<any>([]); // 일요일 ~ 토요일까지 화면에 보여질 요일 배열
-  const [hour, setHour] = useState<any>(null); // 화면에 선택된 시간
-  const [hourList, setHourList] = useState<any>([]); // 화면에 보여지는 시간 테이블
-  const [minute, setMinute] = useState<any>(null); // 화면에 선택된 분
-  const [minuteList, setMinuteList] = useState<any>([]); // 화면에 보여지는 분 테이블
-  const [isMinuteInputFocused, setIsMinuteInputFocused] = useState<boolean>(
-    false,
-  ); // 분 직접 입력 포커싱 여부
   const [calendarModalType, setCalendarModalType] = useState<string>(null); // 캘린더 모달 종류 (start: 근무 시작일, end: 근무 종료일)
   const [checkNoEndDate, setCheckNoEndDate] = useState<boolean>(
     params?.endDate ? false : true,
@@ -60,6 +51,13 @@ export default ({route: {params}}) => {
   const [isEndDayModalVisible, setIsEndDayModalVisible] = useState<boolean>(
     false,
   );
+  const [isStartTimeModalVisible, setIsStartTimeModalVisible] = useState<
+    boolean
+  >(false);
+  const [isEndTimeModalVisible, setIsEndTimeModalVisible] = useState<boolean>(
+    false,
+  );
+
   const alertModal = (text) => {
     const params = {
       alertType: 'alert',
@@ -93,15 +91,6 @@ export default ({route: {params}}) => {
     }
   };
 
-  // STEP1 출퇴근 시,분 타입변환
-  const numberFormatPadding = (num) => {
-    const _num = Number(num);
-    if (_num < 10) {
-      return `0${_num}`;
-    }
-    return _num.toString();
-  };
-
   // STEP2 출퇴근 요일 선택 추가하기 버튼
   const checkAddTimeFn = () => {
     let validDay = false;
@@ -133,29 +122,6 @@ export default ({route: {params}}) => {
           color: constant.COLOR[colorIndex],
         },
       ]);
-    }
-  };
-
-  // 모달 시,분 선택 후 확인버튼
-  const setTimeFn = () => {
-    if (minute < 0 || minute > 60) {
-      alertModal('분은 0 ~ 60 사이의 수를 적어주세요.');
-    } else {
-      let houred = hour;
-      let minuted = minute;
-
-      houred = numberFormatPadding(houred);
-      minuted = numberFormatPadding(minuted);
-      const time = `${houred}:${minuted}`;
-      setIsHourModalVisible(false);
-      setHour(null);
-      setMinute(null);
-      setIsMinuteInputFocused(false);
-      if (hourModalType === 'start') {
-        setStartTime(time);
-      } else {
-        setEndTime(time);
-      }
     }
   };
 
@@ -250,12 +216,6 @@ export default ({route: {params}}) => {
   };
 
   const initialize = () => {
-    const hourListed = Array.apply(null, Array(24)).map(
-      (_, index) => index + 0,
-    );
-    const minuteListed = Array.apply(null, Array(6)).map(
-      (_, index) => index * 10,
-    );
     const dayListed = [
       {day: 0, text: '일', isChecked: false, EMP_SCH_SEQ: null},
       {day: 1, text: '월', isChecked: false, EMP_SCH_SEQ: null},
@@ -274,8 +234,6 @@ export default ({route: {params}}) => {
       }
     }
     setDayList(dayListed);
-    setHourList(hourListed);
-    setMinuteList(minuteListed);
     setOriginalDayList(JSON.parse(JSON.stringify(dayListed)));
 
     // 수정이면 값 세팅
@@ -322,17 +280,6 @@ export default ({route: {params}}) => {
       startTime={startTime}
       endTime={endTime}
       alertModal={alertModal}
-      hourList={hourList}
-      numberFormatPadding={numberFormatPadding}
-      hour={hour}
-      setHour={setHour}
-      minuteList={minuteList}
-      minute={minute}
-      setMinute={setMinute}
-      isMinuteInputFocused={isMinuteInputFocused}
-      setIsMinuteInputFocused={setIsMinuteInputFocused}
-      isHourModalVisible={isHourModalVisible}
-      setIsHourModalVisible={setIsHourModalVisible}
       submitFn={submitFn}
       TYPE={TYPE}
       checkAddTimeFn={checkAddTimeFn}
@@ -347,52 +294,14 @@ export default ({route: {params}}) => {
       setIsEndDayModalVisible={setIsEndDayModalVisible}
       setCheckNoEndDate={setCheckNoEndDate}
       checkNoEndDate={checkNoEndDate}
-      setHourModalType={setHourModalType}
-      setTimeFn={setTimeFn}
       onDayPress={onDayPress}
       removeTimeFn={removeTimeFn}
+      isStartTimeModalVisible={isStartTimeModalVisible}
+      setIsStartTimeModalVisible={setIsStartTimeModalVisible}
+      isEndTimeModalVisible={isEndTimeModalVisible}
+      setIsEndTimeModalVisible={setIsEndTimeModalVisible}
+      setStartTime={setStartTime}
+      setEndTime={setEndTime}
     />
   );
 };
-
-// {
-//   "color": "#0D4F8A",
-//   "dayList": [{
-//     "EMP_SCH_SEQ": null,
-//     "day": 0,
-//     "isChecked": false,
-//     "text": "일"
-//   }, {
-//     "EMP_SCH_SEQ": null,
-//     "day": 1,
-//     "isChecked": false,
-//     "text": "월"
-//   }, {
-//     "EMP_SCH_SEQ": "23440",
-//     "day": 2,
-//     "isChecked": true,
-//     "text": "화"
-//   }, {
-//     "EMP_SCH_SEQ": null,
-//     "day": 3,
-//     "isChecked": false,
-//     "text": "수"
-//   }, {
-//     "EMP_SCH_SEQ": null,
-//     "day": 4,
-//     "isChecked": false,
-//     "text": "목"
-//   }, {
-//     "EMP_SCH_SEQ": null,
-//     "day": 5,
-//     "isChecked": false,
-//     "text": "금"
-//   }, {
-//     "EMP_SCH_SEQ": null,
-//     "day": 6,
-//     "isChecked": false,
-//     "text": "토"
-//   }],
-//     "endTime": "22:20",
-//     "startTime": "17:10"
-//   }

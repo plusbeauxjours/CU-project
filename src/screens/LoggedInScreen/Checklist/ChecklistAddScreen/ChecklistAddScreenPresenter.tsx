@@ -1,7 +1,6 @@
 import React, {useRef} from 'react';
 import styled from 'styled-components/native';
 import {Keyboard} from 'react-native';
-import Modal from 'react-native-modal';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -17,7 +16,8 @@ import {
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import RoundBtn from '~/components/Btn/RoundBtn';
 import ChecklistAddScreenCard from './ChecklistAddScreenCard';
-import Ripple from 'react-native-material-ripple';
+import DatePickerModal from 'react-native-modal-datetime-picker';
+import moment from 'moment';
 
 interface IsSelected {
   isSelected: boolean;
@@ -131,36 +131,8 @@ const ModalCheckEmpList = styled.View`
   border-bottom-width: 1px;
 `;
 
-const ModalContainer = styled.View`
-  padding: 40px;
-  background-color: white;
-`;
-
-const ModalText = styled.Text`
-  color: #642a8c;
-  font-size: 15px;
-  margin: 20px 0 10px;
-`;
-
-const NameText = styled.Text`
-  font-size: 18px;
-`;
-
-const ModalFooter = styled(Row)`
-  width: ${wp('100%')}px;
-`;
-
 const Bold = styled.Text`
   font-weight: bold;
-`;
-
-const ModalButton = styled(Ripple)`
-  width: ${wp('50%')}px;
-  height: 60px;
-  border-color: #642a8c;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
 `;
 
 const ChecklistItem = styled.View`
@@ -188,37 +160,6 @@ const WhiteSpace = styled.View`
   height: 30px;
 `;
 
-const RenderTouchable = styled.TouchableOpacity<IsSelected>`
-  width: 25%;
-  height: 40px;
-  border-width: 1px;
-  border-color: ${(props) => (props.isSelected ? '#F2F2F2' : '#642a8c')};
-  align-items: center;
-  justify-content: center;
-`;
-
-const RenderText = styled.Text<IsSelected>`
-  font-size: 15px;
-  font-weight: bold;
-  color: ${(props) => (props.isSelected ? '#CCCCCC' : '#642A8C')};
-`;
-
-const RenderMinuteContainer = styled.View<IsSelected>`
-  width: 50%;
-  height: 40px;
-  border-width: 1px;
-  border-color: ${(props) => (props.isSelected ? '#F2F2F2' : '#642a8c')};
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-`;
-
-const TimeTextInput = styled.TextInput`
-  font-size: 15px;
-  font-weight: bold;
-  color: #642a8c;
-`;
-
 export default ({
   TITLE,
   setTITLE,
@@ -241,125 +182,10 @@ export default ({
   confirmModal,
   setChecklistInput,
   setLIST,
-  setHour,
-  setMinute,
-  setIsMinuteInputFocused,
-  isHourModalVisible,
-  setIsHourModalVisible,
-  hourList,
-  numberFormatPadding,
-  hour,
-  minute,
-  minuteList,
-  isMinuteInputFocused,
-  setTimeFn,
+  isCustomModalVisible,
+  setIsCustomModalVisible,
 }) => {
   const RBSheetRef = useRef(null);
-
-  const RenderHour = () => {
-    const returnList = [];
-    const MAX_VALUE = Number(hourList[hourList.length - 1]);
-    const COLUMN_COUNT = 4;
-    const LOOP_SIZE = Number((hourList.length / COLUMN_COUNT).toFixed());
-    let loopCount = 0;
-    for (let i = 0; i < LOOP_SIZE; i++) {
-      returnList.push(
-        <Row style={{flexDirection: 'row'}} key={i.toString()}>
-          {Array.apply(null, new Array(COLUMN_COUNT)).map((el, index) => {
-            if (loopCount > MAX_VALUE) {
-              return null;
-            }
-            loopCount++;
-            return (
-              <RenderHourData
-                hourProps={Number(hourList[COLUMN_COUNT * i + index])}
-              />
-            );
-          })}
-        </Row>,
-      );
-    }
-    return returnList;
-  };
-
-  // STEP 1의 출퇴근 시간 선택에서, <시> 컴포넌트
-  const RenderHourData = ({hourProps}) => {
-    const display = numberFormatPadding(hourProps);
-    return (
-      <RenderTouchable
-        isSelected={display !== hour}
-        onPress={() => setHour(display)}
-        key={display}>
-        <RenderText isSelected={display !== hour}>{display}</RenderText>
-      </RenderTouchable>
-    );
-  };
-
-  // STEP 1의 출퇴근 시간 등록에서, <분> 컴포넌트 전체
-  const RenderMinute = () => {
-    const returnList = [];
-    const MAX_VALUE = Number(minuteList[minuteList.length - 1]);
-    const COLUMN_COUNT = 4;
-    const LOOP_SIZE = Number((minuteList.length / COLUMN_COUNT).toFixed());
-    let loopCount = 0;
-    for (let i = 0; i < LOOP_SIZE; i++) {
-      returnList.push(
-        <Row key={i.toString()}>
-          {Array.apply(null, new Array(i < LOOP_SIZE ? COLUMN_COUNT : 2)).map(
-            (el, index) => {
-              if (loopCount > MAX_VALUE) {
-                return null;
-              }
-              loopCount += 10;
-              return (
-                <RenderMinuteData
-                  minuteProps={Number(minuteList[COLUMN_COUNT * i + index])}
-                />
-              );
-            },
-          )}
-          {i === LOOP_SIZE - 1 && (
-            <RenderMinuteContainer
-              isSelected={!isMinuteInputFocused}
-              key="input">
-              <TimeTextInput
-                onChangeText={(text) => setMinute(text)}
-                value={Number(minute) % 10 > 0 ? minute : null}
-                placeholder={'직접 입력'}
-                placeholderTextColor={'#CCCCCC'}
-                keyboardType={'number-pad'}
-                maxLength={2}
-                onFocus={() => {
-                  setMinute(null);
-                  setIsMinuteInputFocused(true);
-                }}
-              />
-            </RenderMinuteContainer>
-          )}
-        </Row>,
-      );
-    }
-    return returnList;
-  };
-
-  // STEP 1의 출퇴근 시간 등록에서, <분> 컴포넌트
-  const RenderMinuteData = ({minuteProps}) => {
-    const display = numberFormatPadding(minuteProps);
-    return (
-      <RenderTouchable
-        isSelected={isMinuteInputFocused || display !== minute}
-        onPress={() => {
-          Keyboard.dismiss();
-          setMinute(display);
-          setIsMinuteInputFocused(false);
-        }}
-        key={display}>
-        <RenderText isSelected={isMinuteInputFocused || display !== minute}>
-          {display}
-        </RenderText>
-      </RenderTouchable>
-    );
-  };
 
   return (
     <BackGround>
@@ -382,7 +208,6 @@ export default ({
               value={TITLE}
             />
           </Section>
-
           <Section>
             <Row>
               <TitleText>체크리스트</TitleText>
@@ -428,7 +253,6 @@ export default ({
               ))}
             </ChecklistBox>
           </Section>
-
           <Section>
             <RowTitle>
               <Row>
@@ -436,19 +260,7 @@ export default ({
                 <RedText>*</RedText>
               </Row>
               {!isNoCheckedtime && (
-                <ChecktimeButton
-                  onPress={() => {
-                    const customChecktimed = customChecktime;
-                    if (customChecktimed) {
-                      const customChecktimeArray = customChecktimed.split(':');
-                      setHour(customChecktimeArray[0]);
-                      setMinute(customChecktimeArray[1]);
-                      if (Number(customChecktimeArray[1]) % 10 > 0) {
-                        setIsMinuteInputFocused(true);
-                      }
-                    }
-                    setIsHourModalVisible(true);
-                  }}>
+                <ChecktimeButton onPress={() => setIsCustomModalVisible(true)}>
                   <ChecktimeButtonText isSelected={customChecktime}>
                     {customChecktime ? customChecktime : '선택'}
                   </ChecktimeButtonText>
@@ -593,54 +405,22 @@ export default ({
           ))}
         </ScrollView>
       </RBSheet>
-      <Modal
-        isVisible={isHourModalVisible}
-        onRequestClose={() => {
-          setIsHourModalVisible(false);
-          setHour(null);
-          setMinute(null);
-          setIsMinuteInputFocused(false);
+      <DatePickerModal
+        headerTextIOS={'시간을 선택하세요.'}
+        cancelTextIOS={'취소'}
+        confirmTextIOS={'선택'}
+        isVisible={isCustomModalVisible}
+        mode="time"
+        locale="ko_KRus_EN"
+        onConfirm={(time) => {
+          setCustomChecktime(moment(time).format('HH:mm'));
+          setIsCustomModalVisible(false);
         }}
-        onBackdropPress={() => {
-          setIsHourModalVisible(false);
-          setHour(null);
-          setMinute(null);
-          setIsMinuteInputFocused(false);
-        }}
-        style={{margin: 0, justifyContent: 'flex-end'}}
-        avoidKeyboard={true}>
-        <ModalContainer>
-          <ModalText>시간 선택</ModalText>
-          {RenderHour()}
-          <ModalText>분 선택</ModalText>
-          {RenderMinute()}
-        </ModalContainer>
-        <ModalFooter>
-          <ModalButton
-            onPress={() => {
-              setIsHourModalVisible(false);
-              setHour(null);
-              setMinute(null);
-              setIsMinuteInputFocused(false);
-            }}
-            rippleColor={'#666'}
-            rippleDuration={600}
-            rippleSize={1200}
-            rippleContainerBorderRadius={30}
-            rippleOpacity={0.1}>
-            <NameText style={{color: '#642a8c'}}>닫기</NameText>
-          </ModalButton>
-          <ModalButton
-            style={{backgroundColor: '#642a8c'}}
-            onPress={() => setTimeFn()}
-            rippleColor={'#ac52eb'}
-            rippleSize={1200}
-            rippleDuration={600}
-            rippleOpacity={0.2}>
-            <NameText style={{color: 'white'}}>확인</NameText>
-          </ModalButton>
-        </ModalFooter>
-      </Modal>
+        is24Hour={true}
+        onCancel={() => setIsCustomModalVisible(false)}
+        display="default"
+        pickerContainerStyleIOS={{backgroundColor: 'red'}}
+      />
     </BackGround>
   );
 };

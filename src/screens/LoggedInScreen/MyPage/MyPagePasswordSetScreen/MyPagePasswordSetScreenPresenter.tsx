@@ -9,6 +9,9 @@ import CheckPasswordBtn from '~/components/Btn/CheckPasswordBtn';
 interface IsError {
   isError: boolean;
 }
+interface HasCheckedVerifyCode {
+  hasCheckedVerifyCode: boolean;
+}
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -76,12 +79,12 @@ const WhiteSpace = styled.View`
   height: 30px;
 `;
 
-const RequestButton = styled.TouchableOpacity`
+const RequestButton = styled.TouchableOpacity<HasCheckedVerifyCode>`
   padding: 7px 14px;
   align-items: center;
   justify-content: center;
   border-width: 1px;
-  border-color: #642a8c;
+  border-color: ${(props) => (props.hasCheckedVerifyCode ? '#aaa' : '#642a8c')};
   border-radius: 20px;
 `;
 
@@ -196,9 +199,14 @@ export default ({
             <TextinputCase>
               <MobileNoText>{mobileNo}</MobileNoText>
               <RequestButton
+                hasCheckedVerifyCode={hasCheckedVerifyCode}
                 onPress={() => requireVerifyCode()}
                 disabled={hasCheckedVerifyCode}>
-                <RequestText>인증요청</RequestText>
+                {hasCheckedVerifyCode ? (
+                  <RequestText style={{color: '#aaa'}}>요청완료</RequestText>
+                ) : (
+                  <RequestText>인증요청</RequestText>
+                )}
               </RequestButton>
             </TextinputCase>
             <InputLine isBefore={mobileNo ? false : true} />

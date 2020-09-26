@@ -43,15 +43,9 @@ export default ({route: {params}}) => {
   const [customChecktime, setCustomChecktime] = useState<string>(
     CHECK_TIME || null,
   );
-
-  const [hour, setHour] = useState<any>(null); // 화면에 선택된 시간
-  const [hourList, setHourList] = useState<any>([]); // 화면에 보여지는 시간 테이블
-  const [minute, setMinute] = useState<any>(null); // 화면에 선택된 분
-  const [minuteList, setMinuteList] = useState<any>([]); // 화면에 보여지는 분 테이블
-  const [isMinuteInputFocused, setIsMinuteInputFocused] = useState<boolean>(
+  const [isCustomModalVisible, setIsCustomModalVisible] = useState<boolean>(
     false,
-  ); // 분 직접 입력 포커싱 여부
-  const [isHourModalVisible, setIsHourModalVisible] = useState<boolean>(false); // 시간/분 입력 모달 활성화 여부
+  ); // 시간/분 입력 모달 활성화 여부
 
   const confirmModal = (title, text, cancel, okBtn) => {
     const params = {
@@ -117,34 +111,6 @@ export default ({route: {params}}) => {
     } catch (e) {
       console.log(e);
       alertModal('통신이 원활하지 않습니다.');
-    }
-  };
-
-  // STEP1 출퇴근 시,분 타입변환
-  const numberFormatPadding = (num) => {
-    const _num = Number(num);
-    if (_num < 10) {
-      return `0${_num}`;
-    }
-    return _num.toString();
-  };
-
-  // 모달 시,분 선택 후 확인버튼
-  const setTimeFn = () => {
-    if (minute < 0 || minute > 60) {
-      alertModal('분은 0 ~ 60 사이의 수를 적어주세요.');
-    } else {
-      let houred = hour;
-      let minuted = minute;
-
-      houred = numberFormatPadding(houred);
-      minuted = numberFormatPadding(minuted);
-      const time = `${houred}:${minuted}`;
-      setIsHourModalVisible(false);
-      setHour(null);
-      setMinute(null);
-      setIsMinuteInputFocused(false);
-      setCustomChecktime(time);
     }
   };
 
@@ -265,15 +231,6 @@ export default ({route: {params}}) => {
   };
 
   const initialize = () => {
-    const hourListed = Array.apply(null, Array(24)).map(
-      (_, index) => index + 0,
-    );
-    const minuteListed = Array.apply(null, Array(6)).map(
-      (_, index) => index * 10,
-    );
-    setHourList(hourListed);
-    setMinuteList(minuteListed);
-
     if (NAME && EMP_SEQ) {
       let buffer = [];
       let empNameArr = NAME.split('@');
@@ -318,18 +275,8 @@ export default ({route: {params}}) => {
       confirmModal={confirmModal}
       setChecklistInput={setChecklistInput}
       setLIST={setLIST}
-      setHour={setHour}
-      setMinute={setMinute}
-      setIsMinuteInputFocused={setIsMinuteInputFocused}
-      isHourModalVisible={isHourModalVisible}
-      setIsHourModalVisible={setIsHourModalVisible}
-      hourList={hourList}
-      numberFormatPadding={numberFormatPadding}
-      hour={hour}
-      minute={minute}
-      minuteList={minuteList}
-      isMinuteInputFocused={isMinuteInputFocused}
-      setTimeFn={setTimeFn}
+      isCustomModalVisible={isCustomModalVisible}
+      setIsCustomModalVisible={setIsCustomModalVisible}
     />
   );
 };

@@ -135,7 +135,7 @@ export default () => {
   };
 
   const startCountDown = () => {
-    let duration = moment.duration(90000, 'milliseconds');
+    let duration = moment.duration(180000, 'milliseconds');
     setCountdown(
       '0' +
         duration.minutes().toString() +
