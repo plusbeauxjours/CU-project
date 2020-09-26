@@ -506,6 +506,7 @@ export default ({
                     confirmTextIOS={'확인'}
                     isVisible={isEndDayModalVisible}
                     mode="date"
+                    minimumDate={moment(startDay).add(1, 'days').toDate()}
                     locale="ko_KRus_EN"
                     onConfirm={(date) => {
                       setEndDay(moment(date).format('YYYY-MM-DD'));
@@ -810,6 +811,9 @@ export default ({
                                 confirmTextIOS={'확인'}
                                 isVisible={isProbationPeriodModalVisible}
                                 mode="date"
+                                minimumDate={moment(startDay)
+                                  .add(1, 'days')
+                                  .toDate()}
                                 locale="ko_KRus_EN"
                                 onConfirm={(date) => {
                                   setIsProbationPeriodModalVisible(false);

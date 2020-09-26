@@ -232,6 +232,7 @@ export default ({
           confirmTextIOS={'선택'}
           isVisible={isDateModalVisible}
           mode="date"
+          minimumDate={moment().toDate()}
           locale="ko_KRus_EN"
           onConfirm={(date) => {
             setShelfLifeDate(moment(date).format('YYYY-MM-DD'));

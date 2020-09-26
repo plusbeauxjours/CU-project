@@ -255,6 +255,7 @@ export default ({
                 confirmTextIOS={'확인'}
                 isVisible={isEndDayModalVisible}
                 mode="date"
+                minimumDate={moment(startDate).add(1, 'days').toDate()}
                 locale="ko_KRus_EN"
                 onConfirm={(date) => {
                   setEndDate(moment(date).format('YYYY-MM-DD'));
