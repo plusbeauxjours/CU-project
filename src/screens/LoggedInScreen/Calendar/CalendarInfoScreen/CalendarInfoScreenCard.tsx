@@ -12,6 +12,7 @@ import api from '~/constants/LoggedInApi';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import {toggleVACATION} from '~/redux/calendarSlice';
 import {EllipseIcon} from '~/constants/Icons';
+import moment from 'moment';
 
 const Row = styled.View`
   flex-direction: row;
@@ -130,6 +131,10 @@ export default ({
 }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const isNextDay1 = (ATTENDANCE_TIME || START) > (WORK_OFF_TIME || END);
+  const isNextDay2 = CHANGE_START > CHANGE_END;
+  const isNextDay3 = START_TIME > END_TIME;
+  const isNextDay4 = UPDATED_START > UPDATED_END;
 
   const confirmModal = () => {
     const params = {
@@ -295,7 +300,8 @@ export default ({
               <WorkTime>
                 <WorkTitleText>근무시간 </WorkTitleText>
                 <WorkTimeText>
-                  {(ATTENDANCE_TIME || START)?.substring(0, 5)} ~&nbsp;
+                  {(ATTENDANCE_TIME || START)?.substring(0, 5)}
+                  &nbsp;~&nbsp;{isNextDay1 && '익일 '}
                   {(WORK_OFF_TIME || END)?.substring(0, 5)}
                 </WorkTimeText>
               </WorkTime>
@@ -303,12 +309,11 @@ export default ({
               <WorkTime>
                 <WorkTitleText>근무시간 </WorkTitleText>
                 <WorkTimeText>
-                  {(ATTENDANCE_TIME || START)?.substring(0, 5)} ~&nbsp;
-                  {(WORK_OFF_TIME || END)?.substring(0, 5)} >&nbsp;
-                  {CHANGE_START == null
-                    ? ''
-                    : CHANGE_START?.substring(0, 5)}{' '}
-                  ~&nbsp;
+                  {(ATTENDANCE_TIME || START)?.substring(0, 5)}&nbsp;~&nbsp;
+                  {isNextDay2 && '익일 '}
+                  {(WORK_OFF_TIME || END)?.substring(0, 5)}&nbsp;>&nbsp;
+                  {CHANGE_START == null ? '' : CHANGE_START?.substring(0, 5)}
+                  &nbsp;~&nbsp;{isNextDay2 && '익일 '}
                   {CHANGE_END == null ? '' : CHANGE_END?.substring(0, 5)}
                 </WorkTimeText>
               </WorkTime>
@@ -317,7 +322,8 @@ export default ({
               <WorkTime>
                 <WorkTitleText>출퇴근시간 </WorkTitleText>
                 <WorkTimeText>
-                  {(START_TIME || '미출근')?.substring(0, 5)} ~&nbsp;
+                  {(START_TIME || '미출근')?.substring(0, 5)}&nbsp;~&nbsp;
+                  {isNextDay3 && '익일 '}
                   {(END_TIME || '미퇴근')?.substring(0, 5)}
                 </WorkTimeText>
               </WorkTime>
@@ -325,9 +331,11 @@ export default ({
               <WorkTime>
                 <WorkTitleText>출퇴근시간 </WorkTitleText>
                 <WorkTimeText>
-                  {(START_TIME || '미출근')?.substring(0, 5)} ~&nbsp;
-                  {(END_TIME || '미퇴근')?.substring(0, 5)} >&nbsp;
-                  {(UPDATED_START || '미출근')?.substring(0, 5)} ~&nbsp;
+                  {(START_TIME || '미출근')?.substring(0, 5)}&nbsp;~&nbsp;
+                  {isNextDay4 && '익일 '}
+                  {(END_TIME || '미퇴근')?.substring(0, 5)}&nbsp;>&nbsp;
+                  {(UPDATED_START || '미출근')?.substring(0, 5)}&nbsp;~&nbsp;
+                  {isNextDay4 && '익일 '}
                   {(UPDATED_END || '미퇴근')?.substring(0, 5)}
                 </WorkTimeText>
               </WorkTime>
