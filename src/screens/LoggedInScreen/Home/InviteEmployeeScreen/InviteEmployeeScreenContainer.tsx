@@ -30,6 +30,7 @@ export default () => {
     'undefined' | 'authorized' | 'denied'
   >('denied');
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
 
   const explainModal = (title, text) => {
     const params = {
@@ -247,6 +248,14 @@ export default () => {
     }
   };
 
+  const toastFn = () => {
+    clearTimeout();
+    setIsToastVisible(true);
+    setTimeout(() => {
+      setIsToastVisible(false);
+    }, 1000);
+  };
+
   return (
     <InviteEmployeeScreenPresenter
       explainModal={explainModal}
@@ -258,7 +267,6 @@ export default () => {
       submitFn={submitFn}
       addFn={addFn}
       result={result}
-      contacts={contacts}
       getContactsFn={getContactsFn}
       deleteBuffer={deleteBuffer}
       isModalVisible={isModalVisible}
@@ -267,6 +275,8 @@ export default () => {
       search={search}
       onPress={onPress}
       onPressSubmitButton={onPressSubmitButton}
+      toastFn={toastFn}
+      isToastVisible={isToastVisible}
     />
   );
 };

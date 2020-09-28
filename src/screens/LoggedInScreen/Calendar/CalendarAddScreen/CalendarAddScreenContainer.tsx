@@ -32,6 +32,7 @@ export default () => {
   const [isEndTimeModalVisible, setIsEndTimeModalVisible] = useState<boolean>(
     false,
   );
+  const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
 
   const alertModal = (text) => {
     const params = {
@@ -48,6 +49,7 @@ export default () => {
     let buffer = JSON.parse(JSON.stringify(choiceEmp));
     for (let i = 0; i < buffer.length; i++) {
       if (buffer[i].MobileNo == KEY) {
+        setEmplist([...emplist, buffer[i]]);
         buffer.splice(i, 1);
         break;
       }
@@ -64,7 +66,20 @@ export default () => {
       }
     }
     buffer.push(data);
+    setEmplist(
+      emplist.filter((info) => {
+        return info.EMP_SEQ !== data.EMP_SEQ;
+      }),
+    );
     setChoiceEmp(buffer);
+  };
+
+  const toastFn = () => {
+    clearTimeout();
+    setIsToastVisible(true);
+    setTimeout(() => {
+      setIsToastVisible(false);
+    }, 1000);
   };
 
   // 일정추가완료 버튼
@@ -237,6 +252,8 @@ export default () => {
       setIsEndTimeModalVisible={setIsEndTimeModalVisible}
       setStartTime={setStartTime}
       setEndTime={setEndTime}
+      toastFn={toastFn}
+      isToastVisible={isToastVisible}
     />
   );
 };

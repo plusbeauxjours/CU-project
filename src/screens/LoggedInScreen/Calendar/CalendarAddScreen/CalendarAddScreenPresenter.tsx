@@ -19,6 +19,7 @@ import {
   RadioBtnOffIcon,
   RadioBtnOnIcon,
 } from '~/constants/Icons';
+import utils from '~/constants/utils';
 
 interface IsSelected {
   isSelected: boolean;
@@ -178,6 +179,29 @@ const TimePickBoxTimeText = styled.Text<IsSelected>`
   color: ${(props) => (props.isSelected ? '#642A8C' : '#cccccc')};
 `;
 
+const ModalPopupArea = styled.View`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100px;
+  align-items: center;
+`;
+
+const ModalPopupText = styled.Text`
+  color: white;
+`;
+
+const ModalPopup = styled.View`
+  padding: 15px;
+  border-radius: 10px;
+  elevation: 6;
+  shadow-color: grey;
+  shadow-offset: 3px 3px;
+  shadow-opacity: 0.5;
+  shadow-radius: 3px;
+  background-color: ${utils.isAndroid ? '#888' : 'rgba(0,0,0,0.7)'};
+`;
+
 export default ({
   alertModal,
   markedDates,
@@ -204,6 +228,8 @@ export default ({
   setIsEndTimeModalVisible,
   setStartTime,
   setEndTime,
+  toastFn,
+  isToastVisible,
 }) => {
   const RBSheetRef = useRef(null);
 
@@ -217,7 +243,10 @@ export default ({
       </RowTitle>
       {choiceEmp?.length !== 0 && (
         <>
-          <ScrollView horizontal={true} contentContainerStyle={{marginTop: 10}}>
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{marginTop: 10}}>
             {choiceEmp?.map((data, index) => (
               <Touchable key={index} onPress={() => deleteEmpFn(data.MobileNo)}>
                 <CalendarAddScreenCard name={data.NAME} image={data.IMAGE} />
@@ -427,11 +456,13 @@ export default ({
         }}>
         <ScrollView
           persistentScrollbar={true}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{alignItems: 'center'}}>
           {emplist?.map((data, index) => (
             <Touchable
               key={index}
               onPress={() => {
+                toastFn();
                 addEmpFn(data);
               }}>
               <ModalCheckEmpList>
@@ -442,6 +473,13 @@ export default ({
             </Touchable>
           ))}
         </ScrollView>
+        {isToastVisible && (
+          <ModalPopupArea>
+            <ModalPopup>
+              <ModalPopupText>직원을 목록에 추가하였습니다</ModalPopupText>
+            </ModalPopup>
+          </ModalPopupArea>
+        )}
       </RBSheet>
       <DatePickerModal
         headerTextIOS={'시간을 선택하세요.'}

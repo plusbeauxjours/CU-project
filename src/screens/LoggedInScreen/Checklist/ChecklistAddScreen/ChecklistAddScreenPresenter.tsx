@@ -6,6 +6,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import moment from 'moment';
 
 import {
   RadioBtnOffIcon,
@@ -17,7 +18,7 @@ import SubmitBtn from '~/components/Btn/SubmitBtn';
 import RoundBtn from '~/components/Btn/RoundBtn';
 import ChecklistAddScreenCard from './ChecklistAddScreenCard';
 import DatePickerModal from 'react-native-modal-datetime-picker';
-import moment from 'moment';
+import utils from '~/constants/utils';
 
 interface IsSelected {
   isSelected: boolean;
@@ -160,6 +161,29 @@ const WhiteSpace = styled.View`
   height: 30px;
 `;
 
+const ModalPopupArea = styled.View`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100px;
+  align-items: center;
+`;
+
+const ModalPopupText = styled.Text`
+  color: white;
+`;
+
+const ModalPopup = styled.View`
+  padding: 15px;
+  border-radius: 10px;
+  elevation: 6;
+  shadow-color: grey;
+  shadow-offset: 3px 3px;
+  shadow-opacity: 0.5;
+  shadow-radius: 3px;
+  background-color: ${utils.isAndroid ? '#888' : 'rgba(0,0,0,0.7)'};
+`;
+
 export default ({
   TITLE,
   setTITLE,
@@ -184,6 +208,8 @@ export default ({
   setLIST,
   isCustomModalVisible,
   setIsCustomModalVisible,
+  toastFn,
+  isToastVisible,
 }) => {
   const RBSheetRef = useRef(null);
 
@@ -389,11 +415,13 @@ export default ({
         }}>
         <ScrollView
           persistentScrollbar={true}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{alignItems: 'center'}}>
           {emplist?.map((data, index) => (
             <Touchable
               key={index}
               onPress={() => {
+                toastFn();
                 choiseEmpFn(data);
               }}>
               <ModalCheckEmpList>
@@ -404,6 +432,13 @@ export default ({
             </Touchable>
           ))}
         </ScrollView>
+        {isToastVisible && (
+          <ModalPopupArea>
+            <ModalPopup>
+              <ModalPopupText>직원을 목록에 추가하였습니다</ModalPopupText>
+            </ModalPopup>
+          </ModalPopupArea>
+        )}
       </RBSheet>
       <DatePickerModal
         headerTextIOS={'시간을 선택하세요.'}

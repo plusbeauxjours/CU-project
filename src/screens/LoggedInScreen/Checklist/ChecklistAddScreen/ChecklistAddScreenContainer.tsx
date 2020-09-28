@@ -46,6 +46,7 @@ export default ({route: {params}}) => {
   const [isCustomModalVisible, setIsCustomModalVisible] = useState<boolean>(
     false,
   ); // 시간/분 입력 모달 활성화 여부
+  const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
 
   const confirmModal = (title, text, cancel, okBtn) => {
     const params = {
@@ -78,6 +79,7 @@ export default ({route: {params}}) => {
     let buffer = JSON.parse(JSON.stringify(choiceEmp));
     for (let i = 0; i < buffer.length; i++) {
       if (buffer[i].EMP_SEQ == KEY) {
+        setEmplist([...emplist, buffer[i]]);
         buffer.splice(i, 1);
         break;
       }
@@ -99,6 +101,11 @@ export default ({route: {params}}) => {
       }
     }
     buffer.push(data);
+    setEmplist(
+      emplist.filter((info) => {
+        return info.EMP_SEQ !== data.EMP_SEQ;
+      }),
+    );
     setChoiceEmp(buffer);
   };
 
@@ -247,6 +254,14 @@ export default ({route: {params}}) => {
     }
   };
 
+  const toastFn = () => {
+    clearTimeout();
+    setIsToastVisible(true);
+    setTimeout(() => {
+      setIsToastVisible(false);
+    }, 1000);
+  };
+
   useEffect(() => {
     initialize();
     fetchData();
@@ -277,6 +292,8 @@ export default ({route: {params}}) => {
       setLIST={setLIST}
       isCustomModalVisible={isCustomModalVisible}
       setIsCustomModalVisible={setIsCustomModalVisible}
+      toastFn={toastFn}
+      isToastVisible={isToastVisible}
     />
   );
 };

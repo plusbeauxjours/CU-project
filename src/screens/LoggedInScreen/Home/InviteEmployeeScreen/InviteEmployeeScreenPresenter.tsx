@@ -11,6 +11,7 @@ import InviteEmployeeScreenCard from './InviteEmployeeScreenCard';
 import {PersonAddIcon, HelpCircleIcon, SearchIcon} from '~/constants/Icons';
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import RoundBtn from '~/components/Btn/RoundBtn';
+import utils from '~/constants/utils';
 
 interface IIsBefore {
   isBefore: boolean;
@@ -167,6 +168,29 @@ const WhiteText = styled.Text`
   color: white;
 `;
 
+const ModalPopupArea = styled.View`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100px;
+  align-items: center;
+`;
+
+const ModalPopupText = styled.Text`
+  color: white;
+`;
+
+const ModalPopup = styled.View`
+  padding: 15px;
+  border-radius: 10px;
+  elevation: 6;
+  shadow-color: grey;
+  shadow-offset: 3px 3px;
+  shadow-opacity: 0.5;
+  shadow-radius: 3px;
+  background-color: ${utils.isAndroid ? '#888' : 'rgba(0,0,0,0.7)'};
+`;
+
 export default ({
   explainModal,
   setName,
@@ -177,7 +201,6 @@ export default ({
   submitFn,
   addFn,
   result,
-  contacts,
   getContactsFn,
   deleteBuffer,
   isModalVisible,
@@ -186,6 +209,8 @@ export default ({
   search,
   onPress,
   onPressSubmitButton,
+  toastFn,
+  isToastVisible,
 }) => {
   return (
     <BackGround>
@@ -322,6 +347,7 @@ export default ({
                     <Touchable
                       key={index}
                       onPress={() => {
+                        toastFn();
                         onPress(data);
                       }}>
                       <InviteEmployeeScreenCard
@@ -340,6 +366,13 @@ export default ({
                 }
               })}
           </ScrollView>
+          {isToastVisible && (
+            <ModalPopupArea>
+              <ModalPopup>
+                <ModalPopupText>직원을 목록에 추가하였습니다</ModalPopupText>
+              </ModalPopup>
+            </ModalPopupArea>
+          )}
           <SubmitButton
             isBefore={choice?.length === 0}
             onPress={() => {

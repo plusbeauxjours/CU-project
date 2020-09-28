@@ -29,7 +29,7 @@ const BackGround = styled.SafeAreaView`
 
 const ScrollView = styled.ScrollView``;
 const Text = styled.Text``;
-const Touchable = styled.TouchableOpacity``;
+
 const Container = styled.View`
   width: 100%;
   padding: 20px;

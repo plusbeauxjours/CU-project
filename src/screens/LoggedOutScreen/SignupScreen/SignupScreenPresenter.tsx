@@ -214,7 +214,6 @@ export default ({
             }}
             display="default"
           />
-
           <Case>
             <NameText>가입유형</NameText>
             <TypeCheckCase>
