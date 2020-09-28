@@ -157,7 +157,7 @@ android {
 
     defaultConfig {
         targetSdkVersion 29
-        applicationId "com.cuwesop"
+        applicationId "com.wesop.cuwesop"
         minSdkVersion rootProject.ext.minSdkVersion
         missingDimensionStrategy 'react-native-camera', 'general'
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -235,6 +235,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-base:17.2.1"
     implementation "com.google.firebase:firebase-core:17.0.1"
     implementation "com.google.firebase:firebase-messaging:20.0.0"
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {

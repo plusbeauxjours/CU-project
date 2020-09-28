@@ -1,4 +1,4 @@
-package com.cuwesop;
+package com.wesop.cuwesop;
 
 import com.facebook.react.ReactActivity;
 

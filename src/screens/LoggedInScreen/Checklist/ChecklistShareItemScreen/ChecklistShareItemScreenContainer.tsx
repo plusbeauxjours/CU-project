@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import firebase from 'react-native-firebase';
 
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import api from '~/constants/LoggedInApi';
@@ -12,7 +13,6 @@ import {
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
-
   const {TITLE, NOTICE_SEQ, isFavorite} = params;
 
   const {STORE, MEMBER_SEQ: ME} = useSelector(
@@ -160,6 +160,12 @@ export default ({route: {params}}) => {
   useEffect(() => {
     fetchData();
     fetchImage(item);
+    console.log(
+      '===================',
+      `${params?.TITLE} 상세`,
+      '===================',
+    );
+    firebase.analytics().setCurrentScreen(`${params?.TITLE} 상세`);
   }, []);
 
   return (

@@ -12,6 +12,7 @@ import {
 } from '~/redux/checklistshareSlice';
 import ChecklistShareMainScreenPresenter from './ChecklistShareMainScreenPresenter';
 import api from '~/constants/LoggedInApi';
+import firebase from 'react-native-firebase';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
@@ -205,6 +206,8 @@ export default ({route: {params}}) => {
 
   useEffect(() => {
     Init(index);
+    console.log('===================', '업무일지', '===================');
+    firebase.analytics().setCurrentScreen('업무일지');
   }, []);
 
   return (

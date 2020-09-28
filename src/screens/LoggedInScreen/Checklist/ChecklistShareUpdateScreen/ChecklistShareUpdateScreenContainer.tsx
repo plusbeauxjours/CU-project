@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
+import firebase from 'react-native-firebase';
 
 import ChecklistShareUpdateScreenPresenter from './ChecklistShareUpdateScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
@@ -18,6 +19,7 @@ import api from '~/constants/LoggedInApi';
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const [cameraPictureList, setCameraPictureList] = useState<any>([]);
   const [cameraPictureFlash, setCameraPictureFlash] = useState<boolean>(false);
   const [cameraPictureLast, setCameraPictureLast] = useState<any>(null);
@@ -212,6 +214,12 @@ export default ({route: {params}}) => {
         ]);
       }
     }
+    console.log(
+      '===================',
+      `${params?.TITLE} 수정`,
+      '===================',
+    );
+    firebase.analytics().setCurrentScreen(`${params?.TITLE} 수정`);
   }, []);
 
   return (

@@ -16,8 +16,6 @@ import EmployeeScheduleMainScreen from '../screens/LoggedInScreen/Home/EmployeeS
 import EmployeeScheduleInfoScreen from '../screens/LoggedInScreen/Home/EmployeeScheduleInfoScreen';
 import EmployeeScheduleAddScreen from '../screens/LoggedInScreen/Home/EmployeeScheduleAddScreen';
 
-import StoreScreen from '../screens/LoggedInScreen/Home/StoreScreen';
-import StoreScreenEmp from '../screens/LoggedInScreen/Home/StoreScreenEmp';
 import InviteEmployeeScreen from '../screens/LoggedInScreen/Home/InviteEmployeeScreen';
 import EmployeeListScreen from '../screens/LoggedInScreen/Home/EmployeeListScreen';
 import PaymentInfoScreen from '../screens/LoggedInScreen/Home/PaymentInfoScreen';
@@ -115,6 +113,7 @@ export default () => {
           component={HomeScreen}
           options={{
             headerShown: false,
+            title: '메인 페이지',
           }}
         />
 
@@ -123,21 +122,24 @@ export default () => {
           name="AddStoreScreen"
           component={AddStoreScreen}
           options={{
-            title: '점포 등록',
+            headerTitle: '점포 등록',
+            title: '사업장(점포) 등록',
           }}
         />
         <LoggedInNavigation.Screen
           name="UpdateStoreScreen"
           component={UpdateStoreScreen}
           options={{
-            title: '점포 수정',
+            headerTitle: '점포 수정',
+            title: '사업장(점포) 수정',
           }}
         />
         <LoggedInNavigation.Screen
           name="SearchAddressScreen"
           component={SearchAddressScreen}
           options={{
-            title: '점포 검색',
+            headerTitle: '점포 검색',
+            title: '사업장(점포) 검색',
           }}
         />
         <LoggedInNavigation.Screen
@@ -145,22 +147,41 @@ export default () => {
           component={SelectStoreScreen}
           options={{
             headerLeft: () => <SettingBtn />,
-            title: '점포 선택',
+            headerTitle: '점포 선택',
+            title: '사업장(점포) 목록',
             headerRight: () => <LogOutBtn />,
+          }}
+        />
+        <LoggedInNavigation.Screen
+          name="EmployeeInfoScreen"
+          component={EmployeeInfoScreen}
+          options={{
+            headerTitle: '직원 정보',
+            title: '직원 정보 (점장)',
+          }}
+        />
+        <LoggedInNavigation.Screen
+          name="EmployeeInfoEMPScreen"
+          component={EmployeeInfoEMPScreen}
+          options={{
+            headerTitle: '직원 정보',
+            title: '직원 정보 (직원)',
           }}
         />
         <LoggedInNavigation.Screen
           name="SetEmployeeInfoScreen"
           component={SetEmployeeInfoScreen}
           options={{
-            title: '직원정보 입력',
+            headerTitle: '직원정보 입력',
+            title: '직원 정보등록 & 정보수정',
           }}
         />
         <LoggedInNavigation.Screen
           name="ElectronicContractsScreen"
           component={ElectronicContractsScreen}
           options={{
-            title: '전자근로계약서 체결',
+            headerTitle: '전자근로계약서 체결',
+            title: '직원 전자근로계약서',
           }}
         />
 
@@ -169,7 +190,8 @@ export default () => {
           name="EmployeeScheduleMainScreen"
           component={EmployeeScheduleMainScreen}
           options={{
-            title: '직원 정보',
+            headerTitle: '직원 정보',
+            title: '직원 근무유형 (최초 가입시)',
             headerRight: () => null,
           }}
         />
@@ -177,34 +199,24 @@ export default () => {
           name="EmployeeScheduleInfoScreen"
           component={EmployeeScheduleInfoScreen}
           options={{
-            title: '직원 정보',
+            headerTitle: '직원 정보',
+            title: '직원 근무일정 (최초 가입시)',
           }}
         />
         <LoggedInNavigation.Screen
           name="EmployeeScheduleAddScreen"
           component={EmployeeScheduleAddScreen}
           options={{
-            title: '일정추가',
+            headerTitle: '일정추가',
+            title: '직원 급여유형 (최초 가입시)',
           }}
         />
-        <LoggedInNavigation.Screen
-          name="StoreScreen"
-          component={StoreScreen}
-          options={{
-            title: '점포 현황',
-          }}
-        />
-        <LoggedInNavigation.Screen
-          name="StoreScreenEmp"
-          component={StoreScreenEmp}
-          options={{
-            title: '점포 현황',
-          }}
-        />
+
         <LoggedInNavigation.Screen
           name="InviteEmployeeScreen"
           component={InviteEmployeeScreen}
           options={{
+            headerTitle: '직원 초대',
             title: '직원 초대',
           }}
         />
@@ -212,6 +224,7 @@ export default () => {
           name="EmployeeListScreen"
           component={EmployeeListScreen}
           options={{
+            headerTitle: '직원 목록',
             title: '직원 목록',
           }}
         />
@@ -219,21 +232,34 @@ export default () => {
           name="PaymentInfoScreen"
           component={PaymentInfoScreen}
           options={{
-            title: '점포급여 정보',
+            headerTitle: '점포급여 정보',
+            title: '사업장(점포) 급여정보',
           }}
         />
         <LoggedInNavigation.Screen
           name="EmpPayInfoScreen"
           component={EmpPayInfoScreen}
           options={{
-            title: '직원급여 정보',
+            headerTitle: '직원급여 정보',
+            title: '직원 급여정보',
           }}
         />
+        <LoggedInNavigation.Screen
+          name="ManageInviteEmployeeScreen"
+          component={ManageInviteEmployeeScreen}
+          options={{
+            headerTitle: '직원 초대현황',
+            title: '직원 초대현황',
+          }}
+        />
+
+        {/* 유통기한======================================================== */}
         <LoggedInNavigation.Screen
           name="ShelfLifeCheckScreen"
           component={ShelfLifeCheckScreen}
           options={{
-            title: '유통기한 체크',
+            headerTitle: '유통기한 체크',
+            title: '유통기한 목록',
             headerRight: () => <ShelfLifeCheckHeader />,
           }}
         />
@@ -241,35 +267,16 @@ export default () => {
           name="ShelfLifeUpdateScreen"
           component={ShelfLifeUpdateScreen}
           options={{
-            title: '유통기한 체크 수정',
+            headerTitle: '유통기한 체크 수정',
+            title: '유통기한 수정',
           }}
         />
         <LoggedInNavigation.Screen
           name="AddShelfLifeScreen"
           component={AddShelfLifeScreen}
           options={{
-            title: '유통기한 체크 등록',
-          }}
-        />
-        <LoggedInNavigation.Screen
-          name="ManageInviteEmployeeScreen"
-          component={ManageInviteEmployeeScreen}
-          options={{
-            title: '직원 초대현황',
-          }}
-        />
-        <LoggedInNavigation.Screen
-          name="EmployeeInfoScreen"
-          component={EmployeeInfoScreen}
-          options={{
-            title: '직원 정보',
-          }}
-        />
-        <LoggedInNavigation.Screen
-          name="EmployeeInfoEMPScreen"
-          component={EmployeeInfoEMPScreen}
-          options={{
-            title: '직원 정보',
+            headerTitle: '유통기한 체크 등록',
+            title: '유통기한 등록',
           }}
         />
 
@@ -278,14 +285,16 @@ export default () => {
           name="CalendarAddScreen"
           component={CalendarAddScreen}
           options={{
-            title: '일정추가',
+            headerTitle: '일정추가',
+            title: '일정관리 등록',
           }}
         />
         <LoggedInNavigation.Screen
           name="CalendarInfoScreen"
           component={CalendarInfoScreen}
           options={{
-            title: '일정관리',
+            headerTitle: '일정관리',
+            title: '일정관리 목록',
             headerRight: () => <CalendarInfoHeader />,
           }}
         />
@@ -293,35 +302,40 @@ export default () => {
           name="WorkTimeScreen"
           component={WorkTimeScreen}
           options={{
-            title: '근무시간 수정하기',
+            headerTitle: '근무시간 수정하기',
+            title: '일정관리 수정',
           }}
         />
         <LoggedInNavigation.Screen
           name="RealWorkTimeScreen"
           component={RealWorkTimeScreen}
           options={{
-            title: '출퇴근시간 수정하기',
+            headerTitle: '출퇴근시간 수정하기',
+            title: '일정관리 출퇴근 수정',
           }}
         />
         <LoggedInNavigation.Screen
           name="WorkDayScreen"
           component={WorkDayScreen}
           options={{
-            title: '휴무/휴게시간 설정',
+            headerTitle: '휴무/휴게시간 설정',
+            title: '일정관리 기타 설정',
           }}
         />
         <LoggedInNavigation.Screen
           name="WorkDayRestTypeScreen"
           component={WorkDayRestTypeScreen}
           options={{
-            title: '휴무 설정',
+            headerTitle: '휴무 설정',
+            title: '일정관리 휴무 설정',
           }}
         />
         <LoggedInNavigation.Screen
           name="WorkDayRestTimeScreen"
           component={WorkDayRestTimeScreen}
           options={{
-            title: '시간 설정',
+            headerTitle: '시간 설정',
+            title: '일정관리 휴게시간 수정',
           }}
         />
 
@@ -330,28 +344,32 @@ export default () => {
           name="ChecklistAddScreen"
           component={ChecklistAddScreen}
           options={{
-            title: '체크리스트 입력',
+            headerTitle: '체크리스트 입력',
+            title: '체크리스트 등록 & 수정',
           }}
         />
         <LoggedInNavigation.Screen
           name="ChecklistItemsScreen"
           component={ChecklistItemsScreen}
           options={{
-            title: '체크리스트',
+            headerTitle: '체크리스트',
+            title: '체크리스트 목록',
           }}
         />
         <LoggedInNavigation.Screen
           name="ChecklistSpecificationScreen"
           component={ChecklistSpecificationScreen}
           options={{
-            title: '체크리스트 상세',
+            headerTitle: '체크리스트 상세',
+            title: '체크리스트 상세 (직원)',
           }}
         />
         <LoggedInNavigation.Screen
           name="ChecklistDetailScreen"
           component={ChecklistDetailScreen}
           options={{
-            title: '체크리스트 체크상세',
+            headerTitle: '체크리스트 체크상세',
+            title: '체크리스트 상세 (점장)',
           }}
         />
 
@@ -360,29 +378,30 @@ export default () => {
           name="ChecklistShareMainScreen"
           component={ChecklistShareMainScreen}
           options={{
-            title: '업무일지',
+            headerTitle: '업무일지',
+            title: '업무일지 목록',
           }}
         />
         <LoggedInNavigation.Screen
           name="ChecklistShareItemScreen"
           component={ChecklistShareItemScreen}
-          options={{
-            title: '체크리스트 상세',
-          }}
+          options={({route: {params}}: any) => ({
+            headerTitle: `${params?.TITLE} 상세`,
+          })}
         />
         <LoggedInNavigation.Screen
           name="ChecklistShareInsertScreen"
           component={ChecklistShareInsertScreen}
-          options={{
-            title: '체크리스트 등록',
-          }}
+          options={({route: {params}}: any) => ({
+            headerTitle: `${params?.TITLE} 등록`,
+          })}
         />
         <LoggedInNavigation.Screen
           name="ChecklistShareUpdateScreen"
           component={ChecklistShareUpdateScreen}
-          options={{
-            title: '체크리스트 수정',
-          }}
+          options={({route: {params}}: any) => ({
+            headerTitle: `${params?.TITLE} 수정`,
+          })}
         />
 
         {/* 교육컨텐츠======================================================== */}
@@ -390,42 +409,48 @@ export default () => {
           name="MyCuMonthlyListScreen"
           component={MyCuMonthlyListScreen}
           options={{
-            title: '노무 월간지',
+            headerTitle: '노무 월간지',
+            title: '노무 월간지 목록',
           }}
         />
         <LoggedInNavigation.Screen
           name="MyCuMonthlyDetailScreen"
           component={MyCuMonthlyDetailScreen}
           options={{
-            title: '노무 월간지',
+            headerTitle: '노무 월간지',
+            title: '노무 월간지 상세',
           }}
         />
         <LoggedInNavigation.Screen
           name="MyCuVideoListScreen"
           component={MyCuVideoListScreen}
           options={{
-            title: '노무 교육 콘텐츠',
+            headerTitle: '노무 교육 콘텐츠',
+            title: '노무 교육콘텐츠 목록',
           }}
         />
         <LoggedInNavigation.Screen
           name="MyCuVideoDetailScreen"
           component={MyCuVideoDetailScreen}
           options={{
-            title: '노무 교육 콘텐츠',
+            headerTitle: '노무 교육 콘텐츠',
+            title: '노무 교육콘텐츠 상세',
           }}
         />
         <LoggedInNavigation.Screen
           name="EducationVideoListScreen"
           component={EducationVideoListScreen}
           options={{
-            title: '교육자료',
+            headerTitle: '교육자료',
+            title: '교육콘텐츠 목록',
           }}
         />
         <LoggedInNavigation.Screen
           name="EducationVideoDetailScreen"
           component={EducationVideoDetailScreen}
           options={{
-            title: '교육자료',
+            headerTitle: '교육자료',
+            title: '교육콘텐츠 상세',
           }}
         />
 
@@ -434,20 +459,23 @@ export default () => {
           name="MyPageAlarmSetScreen"
           component={MyPageAlarmSetScreen}
           options={{
-            title: '알림설정',
+            headerTitle: '알림설정',
+            title: '마이페이지 알림설정',
           }}
         />
         <LoggedInNavigation.Screen
           name="MyPageAppointmentScreen"
           component={MyPageAppointmentScreen}
           options={{
-            title: '약관보기',
+            headerTitle: '약관보기',
+            title: '마이페이지 약관보기',
           }}
         />
         <LoggedInNavigation.Screen
           name="MyPageMainScreen"
           component={MyPageMainScreen}
           options={{
+            headerTitle: '마이페이지',
             title: '마이페이지',
           }}
         />
@@ -455,35 +483,40 @@ export default () => {
           name="MyPagePlaceSetScreen"
           component={MyPagePlaceSetScreen}
           options={{
-            title: '점포관리이력',
+            headerTitle: '점포관리이력',
+            title: '마이페이지 점포(사업장) 관리이력',
           }}
         />
         <LoggedInNavigation.Screen
           name="MyPageIdSetMainScreen"
           component={MyPageIdSetMainScreen}
           options={{
-            title: '마이페이지',
+            headerTitle: '마이페이지',
+            title: '마이페이지 개인정보변경',
           }}
         />
         <LoggedInNavigation.Screen
           name="MyPageDeleteSetScreen"
           component={MyPageDeleteSetScreen}
           options={{
-            title: '회원탈퇴',
+            headerTitle: '회원탈퇴',
+            title: '마이페이지 회원탈퇴',
           }}
         />
         <LoggedInNavigation.Screen
           name="MyPageNameSetScreen"
           component={MyPageNameSetScreen}
           options={{
-            title: '이름 변경',
+            headerTitle: '이름 변경',
+            title: '마이페이지 이름변경',
           }}
         />
         <LoggedInNavigation.Screen
           name="MyPagePasswordSetScreen"
           component={MyPagePasswordSetScreen}
           options={{
-            title: '비밀번호 재설정',
+            headerTitle: '비밀번호 재설정',
+            title: '마이페이지 비밀번호 재설정',
           }}
         />
 
@@ -492,56 +525,64 @@ export default () => {
           name="HealthCertificateTypeScreen"
           component={HealthCertificateTypeScreen}
           options={{
-            title: '조기경보시스템 타입선택',
+            headerTitle: '조기경보시스템 타입 선택',
+            title: '조기경보시스템 타입 선택',
           }}
         />
         <LoggedInNavigation.Screen
           name="HealthCertificateEmpListScreen"
           component={HealthCertificateEmpListScreen}
           options={{
-            title: '보건증 직원 목록',
+            headerTitle: '보건증 직원 목록',
+            title: '조기경보시스템 직원 목록',
           }}
         />
         <LoggedInNavigation.Screen
           name="HealthCertificateEmpDetailScreen"
           component={HealthCertificateEmpDetailScreen}
           options={{
-            title: '보건증 상세',
+            headerTitle: '보건증 상세',
+            title: '조기경보시스템 직원 상세',
           }}
         />
         <LoggedInNavigation.Screen
           name="HealthCertificateEmpFormScreen"
           component={HealthCertificateEmpFormScreen}
           options={{
-            title: '보건증 입력',
+            headerTitle: '보건증 입력',
+            title: '조기경보시스템 직원 등록',
           }}
         />
         <LoggedInNavigation.Screen
           name="HealthCertificateStoreFormScreen"
           component={HealthCertificateStoreFormScreen}
           options={{
-            title: '위생교육증 입력',
+            headerTitle: '위생교육증 입력',
+            title: '조기경보시스템 업체 등록',
           }}
         />
         <LoggedInNavigation.Screen
           name="HealthCertificateStoreDetailScreen"
           component={HealthCertificateStoreDetailScreen}
           options={{
-            title: '위생교육증 상세',
+            headerTitle: '위생교육증 상세',
+            title: '조기경보시스템 업체 상세',
           }}
         />
         <LoggedInNavigation.Screen
           name="HealthCertificateEmpUpdateScreen"
           component={HealthCertificateEmpUpdateScreen}
           options={{
-            title: '보건증 수정',
+            headerTitle: '보건증 수정',
+            title: '조기경보시스템 직원 수정',
           }}
         />
         <LoggedInNavigation.Screen
           name="HealthCertificateStoreUpdateScreen"
           component={HealthCertificateStoreUpdateScreen}
           options={{
-            title: '위생교육증 수정',
+            headerTitle: '위생교육증 수정',
+            title: '조기경보시스템 업체 수정',
           }}
         />
       </LoggedInNavigation.Navigator>

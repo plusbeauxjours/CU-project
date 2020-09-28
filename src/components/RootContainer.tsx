@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {ActivityIndicator} from 'react-native';
 import {useSelector} from 'react-redux';
 import * as Sentry from '@sentry/react-native';
+import firebase from 'react-native-firebase';
 
 import CloseBtn from './Header/CloseBtn';
 import LoggedInNavigation from '../navigations/LoggedInNavigation';
@@ -11,6 +12,9 @@ import LoggedOutNavigation from '../navigations/LoggedOutNavigation';
 import HelpModalScreen from '../screens/LoggedInScreen/Home/HelpModalScreen/index';
 
 export default () => {
+  const routeNameRef = useRef(null);
+  const navigationRef = useRef(null);
+
   const {visible} = useSelector((state: any) => state.splashReducer);
   const {isLoggedIn} = useSelector((state: any) => state.userReducer);
   const RootStack = createStackNavigator();
@@ -23,7 +27,47 @@ export default () => {
   // });
 
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      ref={navigationRef}
+      onReady={() =>
+        (routeNameRef.current = navigationRef.current.getCurrentRoute().name)
+      }
+      onStateChange={() => {
+        const previousRouteName = routeNameRef.current;
+        const currentRouteName = navigationRef.current.getCurrentRoute().name;
+        if (
+          previousRouteName !== currentRouteName &&
+          navigationRef.current.getCurrentOptions().title
+        ) {
+          console.log(
+            '===================',
+            navigationRef.current.getCurrentOptions().title,
+            '===================',
+          );
+          firebase
+            .analytics()
+            .setCurrentScreen(navigationRef.current.getCurrentOptions().title);
+        } else {
+          if (
+            navigationRef.current.getCurrentRoute().name !==
+              'ChecklistShareUpdateScreen' &&
+            navigationRef.current.getCurrentRoute().name !== '특이사항' &&
+            navigationRef.current.getCurrentRoute().name !== '지시사항' &&
+            navigationRef.current.getCurrentRoute().name !== 'CU소식' &&
+            navigationRef.current.getCurrentRoute().name !==
+              'ChecklistShareItemsScreen' &&
+            navigationRef.current.getCurrentRoute().name !==
+              'ChecklistShareInsertScreen'
+          ) {
+            console.log(
+              'NO TITLE *********************',
+              navigationRef.current.getCurrentRoute().name,
+              '********************* HERE',
+            );
+          }
+        }
+        routeNameRef.current = currentRouteName;
+      }}>
       <RootStack.Navigator
         mode="modal"
         initialRouteName={

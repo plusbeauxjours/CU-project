@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
+import firebase from 'react-native-firebase';
 
 import ChecklistShareInsertScreenPresenter from './ChecklistShareInsertScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
@@ -21,6 +22,7 @@ export default ({route: {params}}) => {
     (state: any) => state.userReducer,
   );
   const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
+
   const [cameraPictureFlash, setCameraPictureFlash] = useState<boolean>(false);
   const [cameraPictureList, setCameraPictureList] = useState<any>([]);
   const [cameraPictureLast, setCameraPictureLast] = useState<any>(null);
@@ -158,6 +160,15 @@ export default ({route: {params}}) => {
       }
     }
   };
+
+  useEffect(() => {
+    console.log(
+      '===================',
+      `${params?.TITLE} 등록`,
+      '===================',
+    );
+    firebase.analytics().setCurrentScreen(`${params?.TITLE} 등록`);
+  }, []);
 
   return (
     <ChecklistShareInsertScreenPresenter

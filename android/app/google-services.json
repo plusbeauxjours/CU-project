@@ -5,29 +5,23 @@
     "project_id": "cushopsol",
     "storage_bucket": "cushopsol.appspot.com"
   },
-  "client": [
-    {
+  "client": [{
       "client_info": {
         "mobilesdk_app_id": "1:54036447893:android:f96eb46b9f217418d9119c",
         "android_client_info": {
-          "package_name": "com.cuwesop"
+          "package_name": "com.wesop.cuwesop"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "54036447893-n0jl5mfe67vch7116pkmklvb6i28vmim.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDhDxpvHX4JNZZvDIM-vZ53EUh0S8lszl4"
-        }
-      ],
+      "oauth_client": [{
+        "client_id": "54036447893-n0jl5mfe67vch7116pkmklvb6i28vmim.apps.googleusercontent.com",
+        "client_type": 3
+      }],
+      "api_key": [{
+        "current_key": "AIzaSyDhDxpvHX4JNZZvDIM-vZ53EUh0S8lszl4"
+      }],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
+          "other_platform_oauth_client": [{
               "client_id": "54036447893-n0jl5mfe67vch7116pkmklvb6i28vmim.apps.googleusercontent.com",
               "client_type": 3
             },
@@ -35,7 +29,7 @@
               "client_id": "54036447893-iskvujq201mi963fh3fc0klvt1gg7rk4.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.cuwesop"
+                "bundle_id": "com.wesop.cuwesop"
               }
             }
           ]
@@ -46,24 +40,19 @@
       "client_info": {
         "mobilesdk_app_id": "1:54036447893:android:6f66175ef3ab6a00d9119c",
         "android_client_info": {
-          "package_name": "com.cuwesop"
+          "package_name": "com.wesop.cuwesop"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "54036447893-n0jl5mfe67vch7116pkmklvb6i28vmim.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDhDxpvHX4JNZZvDIM-vZ53EUh0S8lszl4"
-        }
-      ],
+      "oauth_client": [{
+        "client_id": "54036447893-n0jl5mfe67vch7116pkmklvb6i28vmim.apps.googleusercontent.com",
+        "client_type": 3
+      }],
+      "api_key": [{
+        "current_key": "AIzaSyDhDxpvHX4JNZZvDIM-vZ53EUh0S8lszl4"
+      }],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
+          "other_platform_oauth_client": [{
               "client_id": "54036447893-n0jl5mfe67vch7116pkmklvb6i28vmim.apps.googleusercontent.com",
               "client_type": 3
             },
@@ -71,7 +60,7 @@
               "client_id": "54036447893-iskvujq201mi963fh3fc0klvt1gg7rk4.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.cuwesop"
+                "bundle_id": "com.wesop.cuwesop"
               }
             }
           ]

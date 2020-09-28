@@ -33,12 +33,14 @@ export default () => {
           component={StartScreen}
           options={{
             headerShown: false,
+            title: '시작 페이지',
           }}
         />
         <LoggedOutNavigation.Screen
           name="LogInScreen"
           component={LogInScreen}
           options={{
+            headerTitle: '로그인',
             title: '로그인',
             headerTintColor: '#fff',
           }}
@@ -47,7 +49,8 @@ export default () => {
           name="VerificationScreen"
           component={VerificationScreen}
           options={{
-            title: '회원가입',
+            headerTitle: '회원가입',
+            title: '전화번호 인증',
             headerTintColor: '#fff',
           }}
         />
@@ -55,6 +58,7 @@ export default () => {
           name="SignupScreen"
           component={SignupScreen}
           options={{
+            headerTitle: '회원가입',
             title: '회원가입',
             headerTintColor: '#fff',
           }}
@@ -63,6 +67,7 @@ export default () => {
           name="FindPasswordScreen"
           component={FindPasswordScreen}
           options={{
+            headerTitle: '비밀번호 찾기',
             title: '비밀번호 찾기',
             headerTintColor: '#fff',
           }}
