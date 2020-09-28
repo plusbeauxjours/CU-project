@@ -1,5 +1,8 @@
 import React from 'react';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
 import {View, ScrollView} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -8,6 +11,8 @@ import SubmitBtn from '~/components/Btn/SubmitBtn';
 import CheckPasswordBtn from '~/components/Btn/CheckPasswordBtn';
 import InputLine from '~/components/InputLine';
 import {RadioBtnOnIcon, RadioBtnOffIcon} from '~/constants/Icons';
+import DatePickerModal from 'react-native-modal-datetime-picker';
+import moment from 'moment';
 
 interface IsError {
   isError: boolean;
@@ -85,6 +90,15 @@ const GreyText = styled.Text<IsError>`
   margin-top: 5px;
 `;
 
+const Touchable = styled.TouchableOpacity``;
+
+const DateText = styled.Text`
+  width: 100%;
+  font-size: 17px;
+  margin-left: 5px;
+  margin-top: 10px;
+`;
+
 export default ({
   mobileNo,
   name,
@@ -92,8 +106,6 @@ export default ({
   onChangeName,
   password,
   passwordCheck,
-  sexTypeCheck,
-  setSexTypeCheck,
   positionTypeCheck,
   setPositionTypeCheck,
   setPassword,
@@ -105,28 +117,11 @@ export default ({
   passwordCheckerFn,
   isPasswordError,
   isPasswordCheckError,
+  birthDate,
+  setBirthDate,
+  isBirthDateVisible,
+  setIsBirthDateVisible,
 }) => {
-  const sexType = (selection, text) => {
-    let value = JSON.parse(JSON.stringify(sexTypeCheck));
-    return (
-      <TypeContainer
-        onPress={() => {
-          value.fill(false);
-          value[selection] = true;
-          setSexTypeCheck(value);
-        }}>
-        <Row>
-          {sexTypeCheck[selection] ? (
-            <RadioBtnOnIcon size={25} color="#642A8C" />
-          ) : (
-            <RadioBtnOffIcon size={25} color="#CCCCCC" />
-          )}
-        </Row>
-        <TypeText>{text}</TypeText>
-      </TypeContainer>
-    );
-  };
-
   const positionType = (selection, text) => {
     let value = JSON.parse(JSON.stringify(positionTypeCheck));
     return (
@@ -179,6 +174,47 @@ export default ({
             <InputLine isBefore={name == '' ? true : false} />
           </Case>
           <WhiteSpace />
+          <Case>
+            <NameText>생일</NameText>
+            <Touchable onPress={() => setIsBirthDateVisible(true)}>
+              <TextinputCase>
+                <TextInput
+                  style={{width: wp('100%')}}
+                  placeholder={'생일'}
+                  placeholderTextColor={'#E5E5E5'}
+                  onChangeText={(text) => {
+                    onChangeName(text);
+                  }}
+                  value={
+                    birthDate !== ''
+                      ? moment(birthDate).format('YYYY.MM.DD')
+                      : ''
+                  }
+                  editable={false}
+                />
+              </TextinputCase>
+            </Touchable>
+            <InputLine isBefore={birthDate == '' ? true : false} />
+          </Case>
+          <WhiteSpace />
+          <DatePickerModal
+            headerTextIOS={'생일을 선택하세요.'}
+            cancelTextIOS={'취소'}
+            confirmTextIOS={'확인'}
+            isVisible={isBirthDateVisible}
+            mode="date"
+            maximumDate={moment().toDate()}
+            locale="ko_KRus_EN"
+            onConfirm={(date) => {
+              setIsBirthDateVisible(false);
+              setBirthDate(moment(date).format('YYYY-MM-DD'));
+            }}
+            onCancel={() => {
+              setIsBirthDateVisible(false);
+            }}
+            display="default"
+          />
+
           <Case>
             <NameText>가입유형</NameText>
             <TypeCheckCase>

@@ -14,18 +14,15 @@ export default ({route: {params}}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const {mobileNo = null, verifyCode = null} = params;
+  const {mobileNo = null} = params;
 
   const [name, setName] = useState<string>('');
-  const [sexTypeCheck, setSexTypeCheck] = useState<[boolean, boolean]>([
-    false,
-    false,
-  ]);
   const [positionTypeCheck, setPositionTypeCheck] = useState<
     [boolean, boolean]
   >([false, false]);
   const [password, setPassword] = useState<any>('');
   const [birthDate, setBirthDate] = useState<string>('');
+  const [isBirthDateVisible, setIsBirthDateVisible] = useState<boolean>(false);
   const [passwordCheck, setPasswordCheck] = useState<any>('');
   const [isPasswordSeen, setIsPasswordSeen] = useState<boolean>(false);
   const [isPasswordCheckSeen, setIsPasswordCheckSeen] = useState<boolean>(
@@ -74,12 +71,9 @@ export default ({route: {params}}) => {
       const {data} = await api.signUp({
         NAME: name,
         BIRTHDATE: birthDate,
-        GENDER: '',
-        MobileNo: mobileNo,
-        SMSNUMBER: verifyCode,
+        MOBILENO: mobileNo,
         STORE: positionTypeCheck.indexOf(true).toString(),
         PASSWORD: password,
-        DEVICE_TOKEN: '',
       });
       if (data.message === 'ALREADY_SUCCESS') {
         alertModal('이미 가입한 휴대폰번호입니다.');
@@ -153,8 +147,6 @@ export default ({route: {params}}) => {
       onChangeName={onChangeName}
       password={password}
       passwordCheck={passwordCheck}
-      sexTypeCheck={sexTypeCheck}
-      setSexTypeCheck={setSexTypeCheck}
       positionTypeCheck={positionTypeCheck}
       setPositionTypeCheck={setPositionTypeCheck}
       setPassword={setPassword}
@@ -166,6 +158,10 @@ export default ({route: {params}}) => {
       passwordCheckerFn={passwordCheckerFn}
       isPasswordError={isPasswordError}
       isPasswordCheckError={isPasswordCheckError}
+      birthDate={birthDate}
+      setBirthDate={setBirthDate}
+      isBirthDateVisible={isBirthDateVisible}
+      setIsBirthDateVisible={setIsBirthDateVisible}
     />
   );
 };

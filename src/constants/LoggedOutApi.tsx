@@ -15,24 +15,9 @@ const callApi = async (method: string, path: string, data?: any) => {
   }
 };
 
-const oldApi = async (method: string, path: string, data?: any) => {
-  const headers = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  };
-  const baseUrl = 'http://133.186.209.113:80/api/v2';
-  const fullUrl = `${baseUrl}${path}`;
-  console.log(fullUrl, data, path);
-  if (method === 'get' || method === 'delete') {
-    return axios[method](fullUrl, {headers});
-  } else {
-    return axios[method](fullUrl, data, {headers});
-  }
-};
-
 export default {
   logIn: (data: any) => callApi('post', '/auth/signin/', data),
-  signUp: (data: any) => oldApi('post', '/Auth/signup3/', data),
+  signUp: (data: any) => callApi('post', '/auth/signup/', data),
   findPwd: (data: any) => callApi('post', '/auth/findPwd/', data),
   checkSMS: (data: any) => callApi('post', '/auth/checksms/', data),
 

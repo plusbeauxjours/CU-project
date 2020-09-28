@@ -122,10 +122,7 @@ export default () => {
   };
 
   const gotoSignup = () => {
-    navigation.navigate('SignupScreen', {
-      mobileNo,
-      verifyCode,
-    });
+    navigation.navigate('SignupScreen', {mobileNo});
   };
 
   useEffect(() => {

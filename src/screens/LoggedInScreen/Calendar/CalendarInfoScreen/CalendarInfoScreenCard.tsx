@@ -58,7 +58,7 @@ const BoxText = styled.Text`
 `;
 
 const Container = styled.View`
-  width: ${wp('100%')};
+  width: ${wp('100%')}px;
   background-color: white;
   border-color: #dedede;
   align-items: center;
