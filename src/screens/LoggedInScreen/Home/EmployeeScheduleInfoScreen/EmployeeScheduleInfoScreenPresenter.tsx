@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import {BackIcon, ForwardIcon, HelpCircleIcon} from '~/constants/Icons';
 import SubmitBtn from '~/components/Btn/SubmitBtn';
+import moment from 'moment';
 
 interface IsSelected {
   isSelected: boolean;
@@ -449,7 +450,12 @@ export default ({
             <Section>
               <EmployeeBox>
                 <FastImage
-                  style={{width: 60, height: 60, borderRadius: 30}}
+                  style={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: 30,
+                    marginRight: 10,
+                  }}
                   source={{
                     uri: 'http://cuapi.shop-sol.com/uploads/' + image,
                     headers: {Authorization: 'someAuthToken'},

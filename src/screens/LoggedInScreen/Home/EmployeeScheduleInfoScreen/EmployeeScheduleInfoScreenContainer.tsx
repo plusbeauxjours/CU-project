@@ -400,12 +400,13 @@ export default ({route: {params}}) => {
 
   const fetchData = async () => {
     try {
+      console.log('fetchData');
       dispatch(setSplashVisible(true));
       const {data} = await api.getEmp(EMP_SEQ);
+      console.log('fetchData data', data);
+
       setData(data.result);
-      if (!params.isFreeWorkingType) {
-        fetchSchedule(data.result.EMP_SEQ);
-      }
+      fetchSchedule(data.result.EMP_SEQ);
     } catch (e) {
       console.log(e);
       dispatch(setSplashVisible(false));
@@ -429,7 +430,7 @@ export default ({route: {params}}) => {
       onRefresh={onRefresh}
       data={data}
       getPeriod={getPeriod}
-      CALCULATE_DAY={params?.resultdata?.CALCULATE_DAY}
+      CALCULATE_DAY={params?.CALCULATE_DAY}
       PAY_TYPE={PAY_TYPE}
       numberComma={numberComma}
       PAY={PAY}

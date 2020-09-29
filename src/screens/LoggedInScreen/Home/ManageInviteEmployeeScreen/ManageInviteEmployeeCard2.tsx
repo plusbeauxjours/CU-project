@@ -88,11 +88,11 @@ export default ({key, join_emp_seq, EMP_NAME, PHONE, STORE_SEQ}) => {
       const {data} = await api.sendOneEmp({STORE_SEQ, PHONE});
       if (data.message == 'SUCCESS') {
         setIsSent(true);
+        dispatch(getRESPONSE_EMPLOYEE());
       }
     } catch (e) {
       console.log(e);
     } finally {
-      dispatch(getRESPONSE_EMPLOYEE());
       dispatch(setSplashVisible(false));
     }
   };
@@ -101,10 +101,11 @@ export default ({key, join_emp_seq, EMP_NAME, PHONE, STORE_SEQ}) => {
   const cancelJoinFn = async (join_emp_seq) => {
     try {
       const {data} = await api.cancelJoin({join_emp_seq});
+      if (data.message === 'SUCCESS') {
+        dispatch(getRESPONSE_EMPLOYEE());
+      }
     } catch (e) {
       console.log(e);
-    } finally {
-      dispatch(getRESPONSE_EMPLOYEE());
     }
   };
 

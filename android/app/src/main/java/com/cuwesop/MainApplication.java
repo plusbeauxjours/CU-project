@@ -55,7 +55,6 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
   public ReactNativeHost getReactNativeHost() {
     return mReactNativeHost;
   }
-
   @Override
   public void onCreate() {
     super.onCreate();

@@ -175,6 +175,7 @@ export default ({route: {params}}) => {
           if (data.message === 'SUCCESS') {
             navigation.goBack();
             alertModal('체크리스트가 추가되었습니다.');
+            dispatch(getCHECKLIST_DATA(DATE));
           } else if (data.message === 'ALREADY_SUCCESS') {
             alertModal(data.result);
           } else {
@@ -184,7 +185,6 @@ export default ({route: {params}}) => {
       } catch (e) {
         console.log(e);
       } finally {
-        dispatch(getCHECKLIST_DATA(DATE));
         dispatch(setSplashVisible(false));
       }
     } else {
@@ -224,6 +224,7 @@ export default ({route: {params}}) => {
             alertModal(
               `체크리스트가 ${sign == 'close' ? '삭제' : '수정'}되었습니다.`,
             );
+            dispatch(getCHECKLIST_DATA(DATE));
           } else {
             alertModal('연결에 실패하였습니다.');
           }
@@ -231,7 +232,6 @@ export default ({route: {params}}) => {
       } catch (e) {
         console.log(e);
       } finally {
-        dispatch(getCHECKLIST_DATA(DATE));
         dispatch(setSplashVisible(false));
       }
     }

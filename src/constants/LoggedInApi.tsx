@@ -1,7 +1,12 @@
 import axios from 'axios';
 import store from '../redux/store';
 
-const callApi = async (method: string, path: string, data?: any) => {
+const callApi = async (
+  method: string,
+  path: string,
+  data?: any,
+  isImg?: boolean,
+) => {
   const {
     userReducer: {MEMBER_SEQ},
   } = store.getState();
@@ -23,12 +28,22 @@ const callApi = async (method: string, path: string, data?: any) => {
     );
     return axios[method](`${fullUrl}MEMBER_SEQ=${MEMBER_SEQ}`, {headers});
   } else {
-    console.log(method, fullUrl, {...data, MEMBER_SEQ}, {headers});
-    return axios[method](fullUrl, {...data, MEMBER_SEQ}, {headers});
+    if (isImg) {
+      console.log(method, fullUrl, data, {headers});
+      return axios[method](fullUrl, data, {headers});
+    } else {
+      console.log(method, fullUrl, {...data, MEMBER_SEQ}, {headers});
+      return axios[method](fullUrl, {...data, MEMBER_SEQ}, {headers});
+    }
   }
 };
 
-const oldApi = async (method: string, path: string, data?: any) => {
+const oldApi = async (
+  method: string,
+  path: string,
+  data?: any,
+  isImg?: boolean,
+) => {
   const {
     userReducer: {MEMBER_SEQ},
   } = store.getState();
@@ -50,8 +65,13 @@ const oldApi = async (method: string, path: string, data?: any) => {
     );
     return axios[method](`${fullUrl}MEMBER_SEQ=${MEMBER_SEQ}`, {headers});
   } else {
-    console.log(method, fullUrl, {...data, MEMBER_SEQ}, {headers});
-    return axios[method](fullUrl, {...data, MEMBER_SEQ}, {headers});
+    if (isImg) {
+      console.log(method, fullUrl, data, {headers});
+      return axios[method](fullUrl, data, {headers});
+    } else {
+      console.log(method, fullUrl, {...data, MEMBER_SEQ}, {headers});
+      return axios[method](fullUrl, {...data, MEMBER_SEQ}, {headers});
+    }
   }
 };
 
@@ -193,7 +213,7 @@ export default {
   getAllCheckSchedules: (data: any) =>
     callApi('post', '/auth/getAllCheckSchedules/', data),
   setCheckListImg2: (data: any) =>
-    callApi('post', '/auth/setCheckListImg2/', data),
+    callApi('post', '/auth/setCheckListImg2/', data, true),
   setCheckList2: (data: any) => callApi('post', '/auth/setCheckList2/', data),
   setNoticeFavorite: (data: any) =>
     callApi('post', '/auth/setNoticeFavorite/', data),
@@ -248,11 +268,12 @@ export default {
       'get',
       `/Employee/getNoticeComment?NOTICE_SEQ=${NOTICE_SEQ}&STORE_SEQ=${STORE_SEQ}&TITLE=${TITLE}&`,
     ),
-  setNoticeImg2: (data: any) => callApi('post', '/auth/setNoticeImg2/', data),
+  setNoticeImg2: (data: any) =>
+    callApi('post', '/auth/setNoticeImg2/', data, true),
   setNotice2: (data: any) => callApi('post', '/auth/setNotice2/', data),
   updateNotice: (data: any) => callApi('post', '/auth/updateNotice/', data),
   updateNoticeImg: (data: any) =>
-    callApi('post', '/auth/updateNoticeImg/', data),
+    callApi('post', '/auth/updateNoticeImg/', data, true),
   getAllSchedules: (STORE_SEQ: string, YEAR: string, MONTH: string) =>
     oldApi(
       'get',

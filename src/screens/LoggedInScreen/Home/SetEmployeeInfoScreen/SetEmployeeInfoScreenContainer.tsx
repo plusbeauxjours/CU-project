@@ -333,6 +333,7 @@ export default ({route: {params}}) => {
           navigation.goBack();
         } else if (from === 'ElectronicContracts') {
           navigation.navigate('EmployeeScheduleMainScreen', {
+            CALCULATE_DAY,
             EMP_SEQ,
             PAY_TYPE: payChecked,
             PAY: pay,

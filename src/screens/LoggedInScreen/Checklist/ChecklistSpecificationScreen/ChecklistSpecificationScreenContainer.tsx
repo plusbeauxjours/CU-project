@@ -228,16 +228,15 @@ export default ({route: {params}}) => {
         }
         const {data} = await api.setCheckListImg2(formData);
         if (data.result === 'SUCCESS') {
-          navigation.goBack();
           alertModal('체크가 완료되었습니다.');
+          dispatch(getCHECKLIST_DATA(params?.data.CHECK_DAT));
         }
       } catch (e) {
         alertModal('연결에 실패하였습니다.');
         dispatch(setSplashVisible(false));
-        navigation.goBack();
         console.log(e);
       } finally {
-        dispatch(getCHECKLIST_DATA(params?.data.CHECK_DAT));
+        navigation.goBack();
         dispatch(setSplashVisible(false));
       }
     } else {

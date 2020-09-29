@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
 import firebase from 'react-native-firebase';
@@ -19,6 +19,8 @@ import api from '~/constants/LoggedInApi';
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
 
   const [cameraPictureList, setCameraPictureList] = useState<any>([]);
   const [cameraPictureFlash, setCameraPictureFlash] = useState<boolean>(false);
@@ -95,6 +97,7 @@ export default ({route: {params}}) => {
         formData.append('CONTENTS', content);
         formData.append('NOTICE_SEQ', params?.NOTICE_SEQ);
         formData.append('CLOSE_FLAG', sign == 'close' ? '1' : '0');
+        formData.append('MEMBER_SEQ', MEMBER_SEQ);
         if (sign == 'close') {
           navigation.pop(2);
           alertModal(`${params?.TITLE}이 삭제되었습니다.`);
@@ -105,7 +108,6 @@ export default ({route: {params}}) => {
               isFavorite: params?.isFavorite,
             }),
           );
-          formData.append('image', {});
           const {data} = await api.updateNoticeImg(formData);
           if (data.result !== 'SUCCESS') {
             alertModal('연결에 실패하였습니다.');

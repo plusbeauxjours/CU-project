@@ -145,13 +145,13 @@ export default () => {
           '초대확인 알림이 오면 직원합류승인에서 정보를 입력하여 합류를 완료해주세요. (초대받은 직원이 앱에 로그인 하게되면 초대확인 알림이 도착합니다)',
         );
         setChoice([]);
+        dispatch(getRESPONSE_EMPLOYEE());
         navigation.goBack();
       }
     } catch (e) {
       console.log(e);
     } finally {
       dispatch(setSplashVisible(false));
-      dispatch(getRESPONSE_EMPLOYEE());
     }
   };
 
@@ -176,32 +176,62 @@ export default () => {
     }
   };
 
-  const getContactsFn = async () => {
+  const getContactsFn = () => {
     try {
-      dispatch(setSplashVisible(true));
       if (utils.isAndroid()) {
-        await requestPermissionsAndroid();
+        requestPermissionsAndroid();
       } else {
-        await requestPermissionsIOS();
-      }
-      if (permission === 'authorized') {
-        Contacts.getAll((err, contacts: any) => {
-          setContacts(contacts);
-          setResult(contacts);
-        });
-        setIsModalVisible(true);
+        requestPermissionsIOS();
       }
     } catch (e) {
       console.log(e);
-    } finally {
-      dispatch(setSplashVisible(false));
     }
   };
 
   const requestPermissionsIOS = async () => {
-    Contacts.checkPermission((err, permission) => {
-      setPermission(permission);
-      if (permission !== 'authorized') {
+    try {
+      Contacts.checkPermission((err, permission) => {
+        setPermission(permission);
+        if (permission !== 'authorized') {
+          Alert.alert(
+            '연락처 탐색 동의',
+            '연락처 탐색 기능을 사용하기 위해 확인을 누른 뒤, 환경 설정에서 탐색을 켜주세요.',
+            [
+              {
+                text: '취소',
+                style: 'cancel',
+              },
+              {
+                text: '확인',
+                onPress: () => Linking.openURL('app-settings:'),
+              },
+            ],
+          );
+        } else {
+          Contacts.getAll((err, contacts: any) => {
+            setContacts(contacts);
+            setResult(contacts);
+          });
+          setIsModalVisible(true);
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const requestPermissionsAndroid = async () => {
+    try {
+      const result = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+        {
+          title: '연락처 탐색 동의',
+          message:
+            '연락처 탐색 기능을 사용하기 위해 확인을 누른 뒤, 환경 설정에서 탐색을 켜주세요.',
+          buttonPositive: '확인',
+        },
+      );
+      if (result !== PermissionsAndroid.RESULTS.GRANTED) {
         Alert.alert(
           '연락처 탐색 동의',
           '연락처 탐색 기능을 사용하기 위해 확인을 누른 뒤, 환경 설정에서 탐색을 켜주세요.',
@@ -212,39 +242,19 @@ export default () => {
             },
             {
               text: '확인',
-              onPress: () => Linking.openURL('app-settings:'),
+              onPress: () => openSettings(),
             },
           ],
         );
+      } else {
+        Contacts.getAll((err, contacts: any) => {
+          setContacts(contacts);
+          setResult(contacts);
+        });
+        setIsModalVisible(true);
       }
-    });
-  };
-
-  const requestPermissionsAndroid = async () => {
-    const result = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
-      {
-        title: '연락처 탐색 동의',
-        message:
-          '연락처 탐색 기능을 사용하기 위해 확인을 누른 뒤, 환경 설정에서 탐색을 켜주세요.',
-        buttonPositive: '확인',
-      },
-    );
-    if (result !== PermissionsAndroid.RESULTS.GRANTED) {
-      Alert.alert(
-        '연락처 탐색 동의',
-        '연락처 탐색 기능을 사용하기 위해 확인을 누른 뒤, 환경 설정에서 탐색을 켜주세요.',
-        [
-          {
-            text: '취소',
-            style: 'cancel',
-          },
-          {
-            text: '확인',
-            onPress: () => openSettings(),
-          },
-        ],
-      );
+    } catch (e) {
+      console.log(e);
     }
   };
 

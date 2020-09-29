@@ -127,14 +127,15 @@ export default ({route: {params}}) => {
   const registerFn = async (noticeSeq, TITLE) => {
     try {
       const {data} = await api.setNoticeFavorite({NOTICE_SEQ: noticeSeq});
+      if (data.resultmsg === '1') {
+        if (TITLE === '지시사항') {
+          dispatch(getCHECKLIST_SHARE_DATA1(date));
+        } else {
+          dispatch(getCHECKLIST_SHARE_DATA2(date));
+        }
+      }
     } catch (e) {
       console.log(e);
-    } finally {
-      if (TITLE === '지시사항') {
-        dispatch(getCHECKLIST_SHARE_DATA1(date));
-      } else {
-        dispatch(getCHECKLIST_SHARE_DATA2(date));
-      }
     }
   };
 

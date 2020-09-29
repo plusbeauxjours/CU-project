@@ -74,7 +74,7 @@ export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const {PAY_TYPE, PAY, EMP_SEQ} = params;
+  const {PAY_TYPE, PAY, EMP_SEQ, CALCULATE_DAY} = params;
 
   const [isFreeWorkingType, setIsFreeWorkingType] = useState<boolean>(true); //  [ 일정이 있는 직원, 자율출퇴근 직원 ]
 
@@ -156,7 +156,9 @@ export default ({route: {params}}) => {
         <SubmitBtn
           text={'선택 완료'}
           onPress={() => {
+            console.log('CALCULATE_DAY', CALCULATE_DAY);
             navigation.navigate('EmployeeScheduleInfoScreen', {
+              CALCULATE_DAY,
               isFreeWorkingType,
               EMP_SEQ,
               PAY,

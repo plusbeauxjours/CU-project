@@ -115,6 +115,12 @@ export default ({route: {params}}) => {
         }
         const {data} = await api.setNoticeImg2(formData);
         if (data.result === 'SUCCESS') {
+          alertModal(`${params.TITLE}이 등록되었습니다.`);
+          if (params.TITLE === '지시사항') {
+            dispatch(getCHECKLIST_SHARE_DATA1(date));
+          } else {
+            dispatch(getCHECKLIST_SHARE_DATA2(date));
+          }
           navigation.goBack();
         } else {
           alertModal('연결에 실패하였습니다.');
@@ -122,13 +128,7 @@ export default ({route: {params}}) => {
       } catch (e) {
         console.log(e);
       } finally {
-        alertModal(`${params.TITLE}이 등록되었습니다.`);
         dispatch(setSplashVisible(false));
-        if (params.TITLE === '지시사항') {
-          dispatch(getCHECKLIST_SHARE_DATA1(date));
-        } else {
-          dispatch(getCHECKLIST_SHARE_DATA2(date));
-        }
       }
     } else {
       try {
@@ -143,6 +143,12 @@ export default ({route: {params}}) => {
           ADDDATE: date,
         });
         if (data.result === 'SUCCESS') {
+          alertModal(`${params.TITLE}이 등록되었습니다.`);
+          if (params.TITLE === '지시사항') {
+            dispatch(getCHECKLIST_SHARE_DATA1(date));
+          } else {
+            dispatch(getCHECKLIST_SHARE_DATA2(date));
+          }
           navigation.goBack();
         } else {
           alertModal('연결에 실패하였습니다.');
@@ -150,13 +156,7 @@ export default ({route: {params}}) => {
       } catch (e) {
         console.log(e);
       } finally {
-        alertModal(`${params.TITLE}이 등록되었습니다.`);
         dispatch(setSplashVisible(false));
-        if (params.TITLE === '지시사항') {
-          dispatch(getCHECKLIST_SHARE_DATA1(date));
-        } else {
-          dispatch(getCHECKLIST_SHARE_DATA2(date));
-        }
       }
     }
   };

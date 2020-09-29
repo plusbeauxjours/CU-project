@@ -27,7 +27,7 @@ const constant = {
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {type: TYPE, EMP_SEQ} = params;
+  const {type: TYPE, EMP_SEQ, fetchData} = params;
   const [isUpdateMode, setIsUpdateMode] = useState<boolean>(false); // INSERT 또는 UPDATE 상태값
   const [timeList, setTimeList] = useState<any>(params?.timeList || []); // 저장된 근무 시간 목록
   const [startDate, setStartDate] = useState<string>(
@@ -201,6 +201,7 @@ export default ({route: {params}}) => {
         }
       }
       const {data} = await api.insertEmpSchedule(params);
+      console.log('data on employeescheduleaddscreen', data);
       if (data.message === 'SUCCESS') {
         alertModal('일정이 ' + TYPE + '되었습니다.');
       } else {
@@ -209,7 +210,7 @@ export default ({route: {params}}) => {
     } catch (e) {
       console.log(e);
     } finally {
-      params?.fetchData();
+      fetchData();
       navigation.goBack();
       dispatch(setSplashVisible(false));
     }

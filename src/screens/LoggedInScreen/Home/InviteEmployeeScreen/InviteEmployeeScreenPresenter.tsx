@@ -322,7 +322,6 @@ export default ({
               placeholderTextColor={'#999'}
               onChangeText={(text) => searchName(text)}
               value={search}
-              maxLength="20"
             />
             <SearchIconContainer>
               <SearchIcon />
