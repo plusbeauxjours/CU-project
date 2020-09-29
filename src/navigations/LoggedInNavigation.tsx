@@ -182,6 +182,7 @@ export default () => {
           options={{
             headerTitle: '전자근로계약서 체결',
             title: '직원 전자근로계약서',
+            headerRight: null,
           }}
         />
 
@@ -461,6 +462,7 @@ export default () => {
           options={{
             headerTitle: '알림설정',
             title: '마이페이지 알림설정',
+            headerRight: null,
           }}
         />
         <LoggedInNavigation.Screen
@@ -469,6 +471,7 @@ export default () => {
           options={{
             headerTitle: '약관보기',
             title: '마이페이지 약관보기',
+            headerRight: null,
           }}
         />
         <LoggedInNavigation.Screen
@@ -477,6 +480,7 @@ export default () => {
           options={{
             headerTitle: '마이페이지',
             title: '마이페이지',
+            headerRight: null,
           }}
         />
         <LoggedInNavigation.Screen
@@ -485,6 +489,7 @@ export default () => {
           options={{
             headerTitle: '점포관리이력',
             title: '마이페이지 점포(사업장) 관리이력',
+            headerRight: null,
           }}
         />
         <LoggedInNavigation.Screen
@@ -493,6 +498,7 @@ export default () => {
           options={{
             headerTitle: '마이페이지',
             title: '마이페이지 개인정보변경',
+            headerRight: null,
           }}
         />
         <LoggedInNavigation.Screen
@@ -501,6 +507,7 @@ export default () => {
           options={{
             headerTitle: '회원탈퇴',
             title: '마이페이지 회원탈퇴',
+            headerRight: null,
           }}
         />
         <LoggedInNavigation.Screen
@@ -509,6 +516,7 @@ export default () => {
           options={{
             headerTitle: '이름 변경',
             title: '마이페이지 이름변경',
+            headerRight: null,
           }}
         />
         <LoggedInNavigation.Screen
@@ -517,6 +525,7 @@ export default () => {
           options={{
             headerTitle: '비밀번호 재설정',
             title: '마이페이지 비밀번호 재설정',
+            headerRight: null,
           }}
         />
 

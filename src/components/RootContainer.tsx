@@ -55,7 +55,7 @@ export default () => {
             navigationRef.current.getCurrentRoute().name !== '지시사항' &&
             navigationRef.current.getCurrentRoute().name !== 'CU소식' &&
             navigationRef.current.getCurrentRoute().name !==
-              'ChecklistShareItemsScreen' &&
+              'ChecklistShareItemScreen' &&
             navigationRef.current.getCurrentRoute().name !==
               'ChecklistShareInsertScreen'
           ) {

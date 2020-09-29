@@ -51,7 +51,7 @@ export default ({route: {params}}) => {
 
   const checkPdf = async () => {
     setModalVisible(true);
-    const {data} = await api.setpdfcheck(PDF_SEQ, MEMBER_SEQ);
+    const {data} = await api.setpdfcheck(PDF_SEQ);
   };
 
   return (

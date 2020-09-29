@@ -66,7 +66,7 @@ export default ({route: {params}}) => {
       if (!HEALTH_EMP_LIST || HEALTH_EMP_LIST.length === 0) {
         dispatch(setSplashVisible(true));
       }
-      const {data} = await api.storeHealthEmpList(MEMBER_SEQ, STORE_SEQ, STORE);
+      const {data} = await api.storeHealthEmpList(STORE_SEQ, STORE);
       if (data.message === 'SUCCESS') {
         dispatch(setHEALTH_EMP_LIST(data.result));
       }

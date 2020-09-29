@@ -79,7 +79,7 @@ interface ILogoText {
 export default ({
   gotoFind,
   onChangeMobileNum,
-  onChangePassword,
+  setPassword,
   mobileNo,
   password,
   logIn,
@@ -102,9 +102,7 @@ export default ({
                 <TextInput
                   placeholder={'휴대폰번호'}
                   placeholderTextColor={'#999'}
-                  onChangeText={(text) => {
-                    onChangeMobileNum(text);
-                  }}
+                  onChangeText={(text) => onChangeMobileNum(text)}
                   value={mobileNo}
                   keyboardType={'number-pad'}
                   maxLength={11}
@@ -118,7 +116,7 @@ export default ({
                 <TextInput
                   placeholder={'영문, 숫자 조합 6자 이상'}
                   placeholderTextColor={'#999'}
-                  onChangeText={(text) => onChangePassword(text)}
+                  onChangeText={(text) => setPassword(text)}
                   value={password}
                   secureTextEntry={true}
                   clearButtonMode={'always'}

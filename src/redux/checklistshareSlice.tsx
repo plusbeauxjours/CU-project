@@ -206,9 +206,6 @@ export const getCHECKLIST_SHARE_DATA1 = (date) => async (
   getState,
 ) => {
   const {
-    userReducer: {MEMBER_SEQ},
-  } = getState();
-  const {
     storeReducer: {STORE_SEQ},
   } = getState();
   const {
@@ -218,7 +215,7 @@ export const getCHECKLIST_SHARE_DATA1 = (date) => async (
     dispatch(setSplashVisible(true));
   }
   try {
-    const {data} = await api.getNotice31(STORE_SEQ, MEMBER_SEQ, date);
+    const {data} = await api.getNotice31(STORE_SEQ, date);
     for (let a = 0; a < data.basic.length; a++) {
       if (data.basic[a].NoticeCheck_SEQ == null) {
         dispatch(increaseNEW_CNT1());
@@ -242,9 +239,6 @@ export const getCHECKLIST_SHARE_DATA2 = (date) => async (
   getState,
 ) => {
   const {
-    userReducer: {MEMBER_SEQ},
-  } = getState();
-  const {
     storeReducer: {STORE_SEQ},
   } = getState();
   const {
@@ -254,7 +248,7 @@ export const getCHECKLIST_SHARE_DATA2 = (date) => async (
     dispatch(setSplashVisible(true));
   }
   try {
-    const {data} = await api.getNotice30(STORE_SEQ, MEMBER_SEQ, date);
+    const {data} = await api.getNotice30(STORE_SEQ, date);
     for (let a = 0; a < data.basic.length; a++) {
       if (data.basic[a].NoticeCheck_SEQ == null) {
         dispatch(increaseNEW_CNT2());
@@ -275,9 +269,6 @@ export const getCHECKLIST_SHARE_DATA2 = (date) => async (
 
 export const getCHECKLIST_SHARE_DATA3 = () => async (dispatch, getState) => {
   const {
-    userReducer: {MEMBER_SEQ},
-  } = getState();
-  const {
     storeReducer: {STORE_SEQ},
   } = getState();
   const {
@@ -287,7 +278,7 @@ export const getCHECKLIST_SHARE_DATA3 = () => async (dispatch, getState) => {
     dispatch(setSplashVisible(true));
   }
   try {
-    const {data} = await api.getCuNotice(STORE_SEQ, MEMBER_SEQ);
+    const {data} = await api.getCuNotice(STORE_SEQ);
     for (let a = 0; a < data.message.length; a++) {
       if (data.message[a].cu_notice_check_SEQ == null) {
         dispatch(increaseNEW_CNT3());
@@ -306,20 +297,12 @@ export const getCHECKLIST_COMMENTS = (NOTICE_SEQ, TITLE) => async (
   getState,
 ) => {
   const {
-    userReducer: {MEMBER_SEQ},
-  } = getState();
-  const {
     storeReducer: {STORE_SEQ},
   } = getState();
 
   const title = TITLE == 'CU소식' ? '1' : '0';
   try {
-    const {data} = await api.getNoticeComment(
-      NOTICE_SEQ,
-      MEMBER_SEQ,
-      STORE_SEQ,
-      title,
-    );
+    const {data} = await api.getNoticeComment(NOTICE_SEQ, STORE_SEQ, title);
     dispatch(setCHECKLIST_SHARE_COMMENTS(data.message));
   } catch (e) {
     console.log(e);

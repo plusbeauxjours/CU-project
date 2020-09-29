@@ -114,21 +114,18 @@ export default {
   getPush: (data: any) => oldApi('post', '/Employee/getPush', data),
   toggleMember: (data: any) => oldApi('post', '/Auth/toggleMember', data),
   changeName: (data: any) => oldApi('post', '/Auth/changeName', data),
-  cupdflistcheck: (MEMBER_SEQ: string) =>
-    oldApi('get', `/Store/cupdflistcheck?`),
-  cuvideolistcheck: (MEMBER_SEQ: string) =>
-    oldApi('get', `/Store/cuvideolistcheck?`),
-  setpdfcheck: (PDF_SEQ: string, MEMBER_SEQ: string) =>
+  cupdflistcheck: () => oldApi('get', `/Store/cupdflistcheck?`),
+  cuvideolistcheck: () => oldApi('get', `/Store/cuvideolistcheck?`),
+  setpdfcheck: (PDF_SEQ: string) =>
     oldApi('get', `/Store/setpdfcheck?PDF_SEQ=${PDF_SEQ}&`),
-  setvideocheck: (PDF_SEQ: string, MEMBER_SEQ: string) =>
+  setvideocheck: (PDF_SEQ: string) =>
     oldApi('get', `/Store/setvideocheck?PDF_SEQ=${PDF_SEQ}&`),
-  seteducheck: (EMP_FILE_SEQ: string, MEMBER_SEQ: string) =>
+  seteducheck: (EMP_FILE_SEQ: string) =>
     oldApi('get', `/Store/setvideocheck?EMP_FILE_SEQ=${EMP_FILE_SEQ}&`),
-  closeList: (MEMBER_SEQ: string) => oldApi('get', `/Store/Close_list?`),
-  endList: (MEMBER_SEQ: string) => oldApi('get', `/Store/END_list?`),
-  cuedulistcheck: (MEMBER_SEQ: string) =>
-    oldApi('get', `/Store/cuedulistcheck?`),
-  storeHealthEmpList: (MEMBER_SEQ: string, STORE_SEQ: string, STORE: string) =>
+  closeList: () => oldApi('get', `/Store/Close_list?`),
+  endList: () => oldApi('get', `/Store/END_list?`),
+  cuedulistcheck: () => oldApi('get', `/Store/cuedulistcheck?`),
+  storeHealthEmpList: (STORE_SEQ: string, STORE: string) =>
     oldApi(
       'get',
       `/Store/store_health_emp_list?STORE_SEQ=${STORE_SEQ}&STORE=${STORE}&`,
@@ -140,8 +137,8 @@ export default {
     oldApi('post', '/StoreAuth/attendance_work1', data),
   attendanceOffWork: (data: any) =>
     oldApi('post', '/StoreAuth/attendance_offwork1/', data),
-  storeList: (MEMBER_SEQ: string, STORE: string) =>
-    oldApi('get', `/Store/store_list?STORE=${STORE}&`),
+  storeList: (STORE: string) =>
+    callApi('get', `/auth/storelist?STORE=${STORE}&`),
   updateStore: (data: any) => oldApi('put', '/Store/update2', data),
   addStore: (data: any) => oldApi('post', '/Store/insert22', data),
   getEmpLists: (STORE_SEQ: string) =>
@@ -221,24 +218,23 @@ export default {
     STORE_SEQ: string,
     YEAR: string,
     MONTH: number,
-    MEMBER_SEQ: string,
     TYPE: string,
   ) =>
     oldApi(
       'get',
       `/Store/noticeAll?STORE_SEQ=${STORE_SEQ}&YEAR=${YEAR}&MONTH=${MONTH}&TYPE=${TYPE}&`,
     ),
-  getNotice31: (STORE_SEQ: string, MEMBER_SEQ: string, DATE: string) =>
+  getNotice31: (STORE_SEQ: string, DATE: string) =>
     oldApi(
       'get',
       `/Employee/getNotice3?STORE_SEQ=${STORE_SEQ}&STORE=1&DATE=${DATE}&`,
     ),
-  getNotice30: (STORE_SEQ: string, MEMBER_SEQ: string, DATE: string) =>
+  getNotice30: (STORE_SEQ: string, DATE: string) =>
     oldApi(
       'get',
       `/Employee/getNotice3?STORE_SEQ=${STORE_SEQ}&STORE=0&DATE=${DATE}&`,
     ),
-  getCuNotice: (STORE_SEQ: string, MEMBER_SEQ: string) =>
+  getCuNotice: (STORE_SEQ: string) =>
     oldApi('get', `/Employee/getCuNotice?STORE_SEQ=${STORE_SEQ}&`),
   editNoticeComment: (COM_SEQ: string, CONTENTS: string) =>
     oldApi(
@@ -246,11 +242,10 @@ export default {
       `/Employee/editNoticeComment?COM_SEQ=${COM_SEQ}&CONTENTS=${CONTENTS}&`,
     ),
   delNoticeComment: (COM_SEQ: string) =>
-    oldApi('get', `/Employee/delNoticeComment?COM_SEQ=${COM_SEQ}&`),
+    callApi('get', `/auth/delNoticeComment?COM_SEQ=${COM_SEQ}&`),
   setNoticeComment: (
     NOTICE_SEQ: string,
     EMP_NAME: string,
-    MEMBER_SEQ: string,
     CONTENTS: string,
     STORE: string,
   ) =>
@@ -258,12 +253,7 @@ export default {
       'get',
       `/Employee/setNoticeComment?NOTICE_SEQ=${NOTICE_SEQ}&EMP_NAME=${EMP_NAME}&CONTENTS=${CONTENTS}&STORE=${STORE}&`,
     ),
-  getNoticeComment: (
-    NOTICE_SEQ: string,
-    MEMBER_SEQ: string,
-    STORE_SEQ: string,
-    TITLE: string,
-  ) =>
+  getNoticeComment: (NOTICE_SEQ: string, STORE_SEQ: string, TITLE: string) =>
     oldApi(
       'get',
       `/Employee/getNoticeComment?NOTICE_SEQ=${NOTICE_SEQ}&STORE_SEQ=${STORE_SEQ}&TITLE=${TITLE}&`,

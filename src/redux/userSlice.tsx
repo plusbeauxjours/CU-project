@@ -113,14 +113,15 @@ export const userLogout = () => async (dispatch) => {
 
 export const getSTORELIST_DATA = () => async (dispatch, getState) => {
   const {
-    userReducer: {STORELIST_DATA, MEMBER_SEQ, STORE},
+    userReducer: {STORELIST_DATA, STORE},
   } = getState();
   try {
     if (STORELIST_DATA.length === 0) {
       dispatch(setSplashVisible(true));
     }
-    const {data} = await api.storeList(MEMBER_SEQ, STORE);
-    if (data.message === 'SUCCESS') {
+    const {data} = await api.storeList(STORE);
+    console.log(data);
+    if (data.resultmsg === '1') {
       dispatch(setSTORELIST_DATA(data.result));
     }
   } catch (e) {

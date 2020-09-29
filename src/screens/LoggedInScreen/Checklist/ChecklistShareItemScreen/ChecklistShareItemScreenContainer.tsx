@@ -66,9 +66,10 @@ export default ({route: {params}}) => {
 
   const deleteFn = async (selectedCOM_SEQ) => {
     try {
+      dispatch(deleteCHECKLIST_SHARE_COMMENTS(selectedCOM_SEQ));
       const {data} = await api.delNoticeComment(selectedCOM_SEQ);
-      if (data.message === 'SUCCESS') {
-        dispatch(deleteCHECKLIST_SHARE_COMMENTS(selectedCOM_SEQ));
+      if (data.resultmsg !== '1') {
+        alertModal('', '연결에 실패하였습니다.');
       }
     } catch (e) {
       console.log(e);
@@ -83,7 +84,6 @@ export default ({route: {params}}) => {
       const {data} = await api.setNoticeComment(
         NOTICE_SEQ,
         item?.EMP_NAME,
-        item?.MEMBER_SEQ,
         comment,
         STORE,
       );

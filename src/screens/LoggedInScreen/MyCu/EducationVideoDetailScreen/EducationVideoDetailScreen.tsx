@@ -61,7 +61,7 @@ export default ({route: {params}}) => {
 
   const checkVideo = async () => {
     setModalVisible(true);
-    const {data} = await api.seteducheck(EMP_FILE_SEQ, MEMBER_SEQ);
+    const {data} = await api.seteducheck(EMP_FILE_SEQ);
   };
   return (
     <BackGround>

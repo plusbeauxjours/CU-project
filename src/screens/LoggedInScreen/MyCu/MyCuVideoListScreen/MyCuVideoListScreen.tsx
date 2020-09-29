@@ -84,7 +84,7 @@ export default () => {
       if (MYCU_VIDEO?.length === 0) {
         dispatch(setSplashVisible(true));
       }
-      const {data} = await api.cuvideolistcheck(MEMBER_SEQ);
+      const {data} = await api.cuvideolistcheck();
       if (data.message === 'SUCCESS') {
         if (Array.isArray(data.result)) {
           for (const i of data.result) {

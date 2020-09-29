@@ -51,7 +51,7 @@ export default ({route: {params}}) => {
 
   const checkVideo = async () => {
     setModalVisible(true);
-    const {data} = await api.setvideocheck(VIDEO_SEQ, MEMBER_SEQ);
+    const {data} = await api.setvideocheck(VIDEO_SEQ);
   };
 
   return (

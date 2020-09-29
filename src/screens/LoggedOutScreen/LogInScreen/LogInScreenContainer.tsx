@@ -7,7 +7,7 @@ import {setUSER, setMOBILE_NO, userLogin} from '~/redux/userSlice';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import api from '~/constants/LoggedOutApi';
 
-export default ({route: {params}}) => {
+export default () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -33,10 +33,6 @@ export default ({route: {params}}) => {
     } else {
       setMobileNo(text);
     }
-  };
-
-  const onChangePassword = (text) => {
-    setPassword(text);
   };
 
   const gotoFind = () => {
@@ -79,7 +75,7 @@ export default ({route: {params}}) => {
     <LogInScreenPresenter
       gotoFind={gotoFind}
       onChangeMobileNum={onChangeMobileNum}
-      onChangePassword={onChangePassword}
+      setPassword={setPassword}
       mobileNo={mobileNo}
       password={password}
       logIn={logIn}

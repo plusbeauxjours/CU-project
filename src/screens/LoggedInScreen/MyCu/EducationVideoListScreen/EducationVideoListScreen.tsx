@@ -83,7 +83,7 @@ export default () => {
       if (EDUCATION_VIDEO?.length === 0) {
         dispatch(setSplashVisible(true));
       }
-      const {data} = await api.cuedulistcheck(MEMBER_SEQ);
+      const {data} = await api.cuedulistcheck();
       if (data.message === 'SUCCESS') {
         if (Array.isArray(data.result)) {
           for (const i of data.result) {

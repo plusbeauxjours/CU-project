@@ -39,7 +39,6 @@ const CategoryText = styled.Text<ISelected>`
 
 export default () => {
   const dispatch = useDispatch();
-  const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
   const {MYCU_MONTHLY, MYCU_MONTHLY_CATEGORY} = useSelector(
     (state: any) => state.mycuReducer,
   );
@@ -63,7 +62,7 @@ export default () => {
       if (MYCU_MONTHLY?.length === 0) {
         dispatch(setSplashVisible(true));
       }
-      const {data} = await api.cupdflistcheck(MEMBER_SEQ);
+      const {data} = await api.cupdflistcheck();
       const categoryListArray = ['전체'];
       if (data.message === 'SUCCESS') {
         if (Array.isArray(data.result)) {

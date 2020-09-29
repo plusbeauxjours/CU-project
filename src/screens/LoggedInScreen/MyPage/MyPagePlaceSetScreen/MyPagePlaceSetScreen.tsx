@@ -50,7 +50,7 @@ export default () => {
         if (!CLOSED_STORE_DATA) {
           dispatch(setSplashVisible(true));
         }
-        const {data} = await api.closeList(MEMBER_SEQ);
+        const {data} = await api.closeList();
         if (data.message === 'SUCCESS') {
           dispatch(setCLOSED_STORE_DATA(data.result));
         }
@@ -64,7 +64,7 @@ export default () => {
         if (!CLOSED_STORE_DATA) {
           dispatch(setSplashVisible(true));
         }
-        const {data} = await api.endList(MEMBER_SEQ);
+        const {data} = await api.endList();
         if (data.message === 'SUCCESS') {
           dispatch(setCLOSED_STORE_DATA(data.result));
         }
