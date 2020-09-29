@@ -12,7 +12,9 @@ import HealthCertificateStoreFormScreenPresenter from './HealthCertificateStoreF
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
+  const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
 
   const [dateModalVisible, setDateModalVisible] = useState<boolean>(false);
   const [cameraPictureLast, setCameraPictureLast] = useState<any>(null);
@@ -98,6 +100,8 @@ export default ({route: {params}}) => {
       formData.append('EDUCATION_TYPE', EDUCATION_TYPE);
       formData.append('EMP_NAME', NAME);
       formData.append('STORE_SEQ', STORE_SEQ);
+      formData.append('MEMBER_SEQ', MEMBER_SEQ);
+
       const fileInfoArr = cameraPictureLast.split('/');
       const fileInfo = fileInfoArr[fileInfoArr.length - 1];
       const extensionIndex = fileInfo.indexOf('.');
@@ -134,6 +138,8 @@ export default ({route: {params}}) => {
     try {
       dispatch(setSplashVisible(true));
       const formData: any = new FormData();
+      formData.append('MEMBER_SEQ', MEMBER_SEQ);
+
       const fileInfoArr = cameraPictureLast.split('/');
       const fileInfo = fileInfoArr[fileInfoArr.length - 1];
       const extensionIndex = fileInfo.indexOf('.');

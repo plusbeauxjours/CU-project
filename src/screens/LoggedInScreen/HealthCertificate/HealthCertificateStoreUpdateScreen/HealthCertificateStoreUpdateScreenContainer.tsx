@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
 import utils from '~/constants/utils';
@@ -15,6 +15,7 @@ export default ({route: {params}}) => {
   const navigation = useNavigation();
 
   const {STORE_SEQ = null, CEO_HEALTH_SEQ = null} = params;
+  const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
 
   const [dateModalVisible, setDateModalVisible] = useState<boolean>(false);
   const [cameraPictureLast, setCameraPictureLast] = useState<any>(
@@ -120,6 +121,8 @@ export default ({route: {params}}) => {
       formData.append('EMP_NAME', NAME);
       formData.append('STORE_SEQ', STORE_SEQ);
       formData.append('CEO_HEALTH_SEQ', CEO_HEALTH_SEQ);
+      formData.append('MEMBER_SEQ', MEMBER_SEQ);
+
       const fileInfoArr = cameraPictureLast.split('/');
       const fileInfo = fileInfoArr[fileInfoArr.length - 1];
       const extensionIndex = fileInfo.indexOf('.');
@@ -155,6 +158,9 @@ export default ({route: {params}}) => {
   const checkOrcFn = async () => {
     try {
       dispatch(setSplashVisible(true));
+      const formData: any = new FormData();
+      formData.append('MEMBER_SEQ', MEMBER_SEQ);
+
       const fileInfoArr = cameraPictureLast.split('/');
       const fileInfo = fileInfoArr[fileInfoArr.length - 1];
       const extensionIndex = fileInfo.indexOf('.');
@@ -167,15 +173,14 @@ export default ({route: {params}}) => {
           fileType = 'image/jpeg';
         }
       }
-      const {data} = await api.checkocr1({
-        image: {
-          uri: utils.isAndroid
-            ? cameraPictureLast
-            : cameraPictureLast.replace('file://', ''),
-          name: fileName,
-          type: fileType,
-        },
+      formData.append('image', {
+        uri: utils.isAndroid
+          ? cameraPictureLast
+          : cameraPictureLast.replace('file://', ''),
+        name: fileName,
+        type: fileType,
       });
+      const {data} = await api.checkocr1(formData);
       if (data.result == '0') {
         return alertModal(
           '인식 실패',

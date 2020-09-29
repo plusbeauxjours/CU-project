@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 
@@ -15,6 +15,7 @@ export default ({route: {params}}) => {
   const navigation = useNavigation();
 
   const {EMP_SEQ = null, STORE_SEQ = null, STORE_HEALTH_SEQ = null} = params;
+  const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
 
   const [cameraPictureLast, setCameraPictureLast] = useState<any>(
     params?.IMG_LIST || null,
@@ -83,6 +84,8 @@ export default ({route: {params}}) => {
       formData.append('RESULT_DATE', EDUCATION_DATE);
       formData.append('RESULT_COUNT', RESULT_COUNT);
       formData.append('STORE_HEALTH_SEQ', STORE_HEALTH_SEQ);
+      formData.append('MEMBER_SEQ', MEMBER_SEQ);
+
       const fileInfoArr = cameraPictureLast.split('/');
       const fileInfo = fileInfoArr[fileInfoArr.length - 1];
       const extensionIndex = fileInfo.indexOf('.');
@@ -119,6 +122,8 @@ export default ({route: {params}}) => {
     try {
       dispatch(setSplashVisible(true));
       const formData: any = new FormData();
+      formData.append('MEMBER_SEQ', MEMBER_SEQ);
+
       const fileInfoArr = cameraPictureLast.split('/');
       const fileInfo = fileInfoArr[fileInfoArr.length - 1];
       const extensionIndex = fileInfo.indexOf('.');

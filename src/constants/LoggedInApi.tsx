@@ -173,12 +173,12 @@ export default {
     callApi('post', '/auth/updateshelfLifeData/', data),
   cancelShelfLifeData: (data: any) =>
     callApi('post', '/auth/cancelShelfLifeData/', data),
-  checkOcr: (data: any) => callApi('post', '/auth/checkocr/', data),
-  checkocr1: (data: any) => callApi('post', '/auth/checkocr1/', data),
-  saveOcr: (data: any) => callApi('post', '/auth/saveocr/', data),
-  saveOcr1: (data: any) => callApi('post', '/auth/saveocr1/', data),
-  updateOcr: (data: any) => callApi('post', '/auth/updateocr/', data),
-  updateOcr1: (data: any) => callApi('post', '/auth/updateocr1/', data),
+  checkOcr: (data: any) => callApi('post', '/auth/checkocr/', data, true),
+  checkocr1: (data: any) => callApi('post', '/auth/checkocr1/', data, true),
+  saveOcr: (data: any) => callApi('post', '/auth/saveocr/', data, true),
+  saveOcr1: (data: any) => callApi('post', '/auth/saveocr1/', data, true),
+  updateOcr: (data: any) => callApi('post', '/auth/updateocr/', data, true),
+  updateOcr1: (data: any) => callApi('post', '/auth/updateocr1/', data, true),
   deleteStoreHealth: (data: any) =>
     callApi('post', '/auth/deleteStoreHealth/', data),
   getAllCeoHealth: (data: any) =>

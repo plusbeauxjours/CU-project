@@ -15,6 +15,7 @@ export default ({route: {params}}) => {
 
   const {EMP_SEQ = null} = params;
   const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
+  const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
 
   const [cameraPictureLast, setCameraPictureLast] = useState<any>(null);
   const [isCameraModalVisible, setIsCameraModalVisible] = useState<boolean>(
@@ -66,6 +67,8 @@ export default ({route: {params}}) => {
       formData.append('STORE_SEQ', STORE_SEQ);
       formData.append('RESULT_DATE', EDUCATION_DATE);
       formData.append('RESULT_COUNT', RESULT_COUNT);
+      formData.append('MEMBER_SEQ', MEMBER_SEQ);
+
       const fileInfoArr = cameraPictureLast.split('/');
       const fileInfo = fileInfoArr[fileInfoArr.length - 1];
       const extensionIndex = fileInfo.indexOf('.');
@@ -102,6 +105,8 @@ export default ({route: {params}}) => {
     try {
       dispatch(setSplashVisible(true));
       const formData: any = new FormData();
+      formData.append('MEMBER_SEQ', MEMBER_SEQ);
+
       const fileInfoArr = cameraPictureLast.split('/');
       const fileInfo = fileInfoArr[fileInfoArr.length - 1];
       const extensionIndex = fileInfo.indexOf('.');
