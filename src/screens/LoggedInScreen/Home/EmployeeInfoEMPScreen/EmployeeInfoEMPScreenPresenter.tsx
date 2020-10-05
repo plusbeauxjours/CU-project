@@ -10,6 +10,7 @@ import {
 import FastImage from 'react-native-fast-image';
 
 import {BackIcon, ForwardIcon, EllipseIcon} from '~/constants/Icons';
+import moment from 'moment';
 
 interface IsSelected {
   isSelected: boolean;

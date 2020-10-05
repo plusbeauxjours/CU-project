@@ -8,7 +8,8 @@ import styled from 'styled-components/native';
 import {LocationIcon} from '~/constants/Icons';
 
 const Container = styled.TouchableOpacity`
-  margin-top: 30px;
+  margin-top: 20px;
+  margin-bottom: 10px;
   width: ${wp('90%')}px;
   padding: 20px;
   background-color: white;
@@ -44,7 +45,7 @@ const IconContainer = styled.View`
   margin: 1px 3px 0 0;
 `;
 
-export default ({key, name, addr, data}) => (
+export default ({key, name, addr}) => (
   <Container key={key} disabled={true}>
     <NameText>{name}</NameText>
     <AddressBox>

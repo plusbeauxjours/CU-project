@@ -3,7 +3,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {ActivityIndicator} from 'react-native';
 import {useSelector} from 'react-redux';
-import * as Sentry from '@sentry/react-native';
 import firebase from 'react-native-firebase';
 
 import CloseBtn from './Header/CloseBtn';

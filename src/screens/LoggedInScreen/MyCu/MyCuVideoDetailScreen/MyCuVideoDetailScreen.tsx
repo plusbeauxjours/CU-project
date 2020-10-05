@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import Modal from 'react-native-modal';
 import styled from 'styled-components/native';
-import {useSelector} from 'react-redux';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -40,8 +39,6 @@ const TextBox = styled.View`
 const Text = styled.Text``;
 
 export default ({route: {params}}) => {
-  const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
-
   const VIDEO_URL = params?.VIDEO_URL;
   const IMG_URL2 = params?.IMG_URL2;
   const CONTENTS2 = params?.CONTENTS2;
@@ -51,7 +48,7 @@ export default ({route: {params}}) => {
 
   const checkVideo = async () => {
     setModalVisible(true);
-    const {data} = await api.setvideocheck(VIDEO_SEQ);
+    await api.setvideocheck(VIDEO_SEQ);
   };
 
   return (

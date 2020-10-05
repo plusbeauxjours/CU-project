@@ -114,16 +114,16 @@ export default {
   getPush: (data: any) => oldApi('post', '/Employee/getPush', data),
   toggleMember: (data: any) => oldApi('post', '/Auth/toggleMember', data),
   changeName: (data: any) => oldApi('post', '/Auth/changeName', data),
-  cupdflistcheck: () => oldApi('get', `/Store/cupdflistcheck?`),
-  cuvideolistcheck: () => oldApi('get', `/Store/cuvideolistcheck?`),
+  cupdflistcheck: () => callApi('get', `/auth/cupdflistcheck?`),
+  cuvideolistcheck: () => callApi('get', `/auth/cuvideolistcheck?`),
   setpdfcheck: (PDF_SEQ: string) =>
     oldApi('get', `/Store/setpdfcheck?PDF_SEQ=${PDF_SEQ}&`),
-  setvideocheck: (PDF_SEQ: string) =>
-    oldApi('get', `/Store/setvideocheck?PDF_SEQ=${PDF_SEQ}&`),
+  setvideocheck: (VIDEO_SEQ: string) =>
+    callApi('get', `/auth/setvideocheck?VIDEO_SEQ=${VIDEO_SEQ}&`),
   seteducheck: (EMP_FILE_SEQ: string) =>
     oldApi('get', `/Store/setvideocheck?EMP_FILE_SEQ=${EMP_FILE_SEQ}&`),
-  closeList: () => oldApi('get', `/Store/Close_list?`),
-  endList: () => oldApi('get', `/Store/END_list?`),
+  closeList: () => callApi('get', `/auth/closestorelist?`),
+  endList: () => callApi('get', `/auth/endstorelist?`),
   cuedulistcheck: () => oldApi('get', `/Store/cuedulistcheck?`),
   storeHealthEmpList: (STORE_SEQ: string, STORE: string) =>
     oldApi(
@@ -132,7 +132,7 @@ export default {
     ),
 
   storeHealthEmpDetail: (EMP_SEQ: string) =>
-    oldApi('get', `/Store/store_health_emp_detail?EMP_SEQ=${EMP_SEQ}&`),
+    callApi('get', `/auth/emphealthdetail?EMP_SEQ=${EMP_SEQ}&`),
   attendanceWork: (data: any) =>
     oldApi('post', '/StoreAuth/attendance_work1', data),
   attendanceOffWork: (data: any) =>
@@ -191,12 +191,9 @@ export default {
   updateEmpSchedules3: (data: any) =>
     oldApi('post', '/Employee/update_emp_schedules3/', data),
   getEmp: (EMP_SEQ: string) =>
-    oldApi('get', `/Employee/get?EMP_SEQ=${EMP_SEQ}&`),
-  getSchedules: (EMP_SEQ: string, YEAR: string, MONTH: string) =>
-    oldApi(
-      'get',
-      `/Employee/get_schedules?EMP_SEQ=${EMP_SEQ}&YEAR=${YEAR}&MONTH=${MONTH}&`,
-    ),
+    callApi('get', `/auth/getempinfo?EMP_SEQ=${EMP_SEQ}&`),
+  getSchedules: (EMP_SEQ: string) =>
+    callApi('get', `/auth/getschedules?EMP_SEQ=${EMP_SEQ}&`),
   getChecklist: (STORE: string, DATE: string) =>
     oldApi('get', `/Store/Checklist?STORE=${STORE}&DATE=${DATE}&`),
   getChecklistAll: (storeID: string, YEAR: string, MONTH: string) =>
@@ -237,9 +234,9 @@ export default {
   getCuNotice: (STORE_SEQ: string) =>
     oldApi('get', `/Employee/getCuNotice?STORE_SEQ=${STORE_SEQ}&`),
   editNoticeComment: (COM_SEQ: string, CONTENTS: string) =>
-    oldApi(
+    callApi(
       'get',
-      `/Employee/editNoticeComment?COM_SEQ=${COM_SEQ}&CONTENTS=${CONTENTS}&`,
+      `/auth/editNoticeComment?COM_SEQ=${COM_SEQ}&CONTENTS=${CONTENTS}&`,
     ),
   delNoticeComment: (COM_SEQ: string) =>
     callApi('get', `/auth/delNoticeComment?COM_SEQ=${COM_SEQ}&`),
@@ -249,9 +246,9 @@ export default {
     CONTENTS: string,
     STORE: string,
   ) =>
-    oldApi(
+    callApi(
       'get',
-      `/Employee/setNoticeComment?NOTICE_SEQ=${NOTICE_SEQ}&EMP_NAME=${EMP_NAME}&CONTENTS=${CONTENTS}&STORE=${STORE}&`,
+      `/auth/setNoticeComment?NOTICE_SEQ=${NOTICE_SEQ}&EMP_NAME=${EMP_NAME}&CONTENTS=${CONTENTS}&STORE=${STORE}&`,
     ),
   getNoticeComment: (NOTICE_SEQ: string, STORE_SEQ: string, TITLE: string) =>
     oldApi(
@@ -288,7 +285,7 @@ export default {
   insertEmpSchedule: (data: any) =>
     oldApi('post', '/Employee/insert_emp_schedules', data),
   setEmpType: (EMP_SEQ: string) =>
-    oldApi('get', `/Employee/setEmpType?EMP_SEQ=${EMP_SEQ}&`),
+    callApi('get', `/auth/request_join?EMP_SEQ=${EMP_SEQ}&`),
   updateEmp: (data: any) => oldApi('put', '/Employee/update', data),
   checkChecklist: (data: any) => oldApi('post', '/StoreAuth/checklist', data),
 };

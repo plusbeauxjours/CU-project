@@ -49,8 +49,6 @@ const PdfButtonText = styled.Text`
 const Text = styled.Text``;
 
 export default ({route: {params}}) => {
-  const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
-
   const EMP_FILE_SEQ = params?.EMP_FILE_SEQ;
   const FILE_URL = params?.FILE_URL;
   const IMG_URL2 = params?.IMG_URL2;
@@ -61,7 +59,7 @@ export default ({route: {params}}) => {
 
   const checkVideo = async () => {
     setModalVisible(true);
-    const {data} = await api.seteducheck(EMP_FILE_SEQ);
+    await api.seteducheck(EMP_FILE_SEQ);
   };
   return (
     <BackGround>

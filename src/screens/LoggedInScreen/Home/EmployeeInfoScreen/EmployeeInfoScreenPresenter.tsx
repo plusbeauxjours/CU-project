@@ -305,14 +305,6 @@ export default ({
   getNumberToday,
   gotoSetInfo,
 }) => {
-  let image;
-
-  if (Object.keys(empdata).length != 0) {
-    image = empdata.images[0].IMAGE;
-  } else {
-    image = '3.png';
-  }
-
   const RenderDayList = () => {
     if (timeTable && timeTable.length !== 0) {
       return (
@@ -495,7 +487,7 @@ export default ({
                 <FastImage
                   style={{width: 60, height: 60, borderRadius: 30}}
                   source={{
-                    uri: 'http://cuapi.shop-sol.com/uploads/' + image,
+                    uri: 'http://cuapi.shop-sol.com/uploads/3.png',
                     headers: {Authorization: 'someAuthToken'},
                     priority: FastImage.priority.low,
                   }}
@@ -586,17 +578,21 @@ export default ({
             </Section>
             <Section>
               <WorkTypeAndSalaryBox>
-                <WorkTypeAndSalaryBoxTitle>근무일정</WorkTypeAndSalaryBoxTitle>
                 <Row>
+                  <WorkTypeAndSalaryBoxTitle>
+                    근무일정
+                  </WorkTypeAndSalaryBoxTitle>
                   {STORE == '1' && (
                     <Touchable
                       onPress={() => {
                         if (isFreeWorkingType) {
                           explainModal(
+                            '',
                             '일정근무로 설정하면 정확한 급여계산이 가능합니다.\n\n일정관련하여 다양한 케이스별 설정이 가능합니다.\n자세한 설명은 [도움말 전체보기]에서 확인하세요.\n\nEx.) 직원 스케쥴 변경, 주단위 일정입력 등',
                           );
                         } else {
                           explainModal(
+                            '',
                             '자율출퇴근으로 설정하면 등록된 근무일정이 없어도 직원이 출/퇴근을 기록할 수 있습니다.\n- 급여계산 목적 보다는 직원 출퇴근 시간관리로 사용하기를 권장합니다.\n\n일정관련하여 다양한 케이스별 설정이 가능합니다.\n자세한 설명은 [도움말 전체보기]에서 확인하세요.\n\nEx.) 직원 스케쥴 변경, 주단위 일정입력 등',
                           );
                         }
@@ -604,14 +600,14 @@ export default ({
                       <HelpCircleIcon />
                     </Touchable>
                   )}
-                  <WorkScheduleBox onPress={() => toggleWorkSchedule()}>
-                    {isFreeWorkingType ? (
-                      <WhiteText>일정출퇴근으로 전환하기</WhiteText>
-                    ) : (
-                      <WhiteText>자율출퇴근으로 전환하기</WhiteText>
-                    )}
-                  </WorkScheduleBox>
                 </Row>
+                <WorkScheduleBox onPress={() => toggleWorkSchedule()}>
+                  {isFreeWorkingType ? (
+                    <WhiteText>일정출퇴근으로 전환하기</WhiteText>
+                  ) : (
+                    <WhiteText>자율출퇴근으로 전환하기</WhiteText>
+                  )}
+                </WorkScheduleBox>
               </WorkTypeAndSalaryBox>
               {isFreeWorkingType && (
                 <FixTypeDayChangeBox>

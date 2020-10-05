@@ -7,18 +7,14 @@ import {setAlertVisible, setAlertInfo} from '~/redux/alertSlice';
 import SetEmployeeInfoScreenPresenter from './SetEmployeeInfoScreenPresenter';
 import {setSplashVisible} from '~/redux/splashSlice';
 import api from '~/constants/LoggedInApi';
+import utils from '~/constants/utils';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const {
-    data: {
-      images = null,
-      EMP_NAME = null,
-      STORE_SEQ = null,
-      EMP_SEQ = null,
-    } = {},
+    data: {EMP_NAME = null, STORE_SEQ = null, EMP_SEQ = null} = {},
     from = null,
     onRefresh,
   } = params;
@@ -64,7 +60,6 @@ export default ({route: {params}}) => {
   const [payYearCheck, setPayYearCheck] = useState<any>(new Array(4));
   const [payMonthCheck, setPayMonthCheck] = useState<any>(new Array(12));
   const [payYearDirectInput, setPayYearDirectInput] = useState<string>('');
-  const [MINPAY, setMINPAY] = useState<string>('');
 
   ///// STEP 3 /////
   const [pay, setPay] = useState<string>(''); //  pay
@@ -83,7 +78,6 @@ export default ({route: {params}}) => {
   ] = useState<boolean>(false);
   const [periodCheck, setPeriodCheck] = useState<any>(new Array(4));
   const [percentCheck, setPercentCheck] = useState<any>(new Array(4));
-  const [periodDirectInput, setPeriodDirectInput] = useState<string>('');
   const [percentDirectInput, setPercentDirectInput] = useState<string>('');
 
   ///// STEP 4 /////
@@ -117,7 +111,6 @@ export default ({route: {params}}) => {
   const [authorityCheck, setAuthorityCheck] = useState<
     [boolean, boolean, boolean, boolean, boolean]
   >([false, false, false, false, false]); //  [선택 시 본인급여 확인 가능, [점장] 타 직원급여 확인 및 수정 가능, [점장] 직원 일정 수정 가능, [점장] 타 직원 출퇴근 알람 받기]
-  const [CALCULATE_DAY, setCALCULATE_DAY] = useState<string>('1');
 
   const alertModal = (text) => {
     const params = {
@@ -333,7 +326,7 @@ export default ({route: {params}}) => {
           navigation.goBack();
         } else if (from === 'ElectronicContracts') {
           navigation.navigate('EmployeeScheduleMainScreen', {
-            CALCULATE_DAY,
+            CALCULATE_DAY: utils.calculateDay,
             EMP_SEQ,
             PAY_TYPE: payChecked,
             PAY: pay,
@@ -352,38 +345,38 @@ export default ({route: {params}}) => {
   const fetchData = async () => {
     try {
       const {data} = await api.getEmp(EMP_SEQ);
-      if (data.message === 'SUCCESS') {
+      if (data.resultmsg === '1') {
         let payChecked = JSON.parse(JSON.stringify(payCheck)); // 급여 유형
         payChecked.fill(false);
-        payChecked[Number(data.result.PAY_TYPE)] = true;
+        payChecked[Number(data.resultdata[0].PAY_TYPE)] = true;
 
         let salarySystemChecked = JSON.parse(JSON.stringify(salarySystemCheck));
         salarySystemChecked.fill(false);
-        if (data.result.THREE_ALLOWANCE === '1') {
+        if (data.resultdata[0].THREE_ALLOWANCE === '1') {
           salarySystemChecked[0] = true;
         }
-        if (data.result.WEEKEND_ALLOWANCE === '1') {
+        if (data.resultdata[0].WEEKEND_ALLOWANCE === '1') {
           salarySystemChecked[1] = true;
         }
 
         let weekTypeChecked = JSON.parse(JSON.stringify(weekTypeCheck));
         weekTypeChecked.fill(false);
-        weekTypeChecked[Number(data.result.WeekType)] = true;
-        if (data.result.REST_ALLOWANCE === '1') {
+        weekTypeChecked[Number(data.resultdata[0].WeekType)] = true;
+        if (data.resultdata[0].REST_ALLOWANCE === '1') {
           salarySystemChecked[2] = true;
         }
 
         let restTypeChecked = JSON.parse(JSON.stringify(restTypeCheck));
         restTypeChecked.fill(false);
-        restTypeChecked[Number(data.result.RestType)] = true;
+        restTypeChecked[Number(data.resultdata[0].RestType)] = true;
 
         let deductionTypeChecked = JSON.parse(
           JSON.stringify(deductionTypeCheck),
         ); // 공제유형
         deductionTypeChecked.fill(false);
-        if (data.result.insurance === '2') {
+        if (data.resultdata[0].insurance === '2') {
           deductionTypeChecked[0] = true; // 2: 4대보험
-        } else if (data.result.insurance === '1') {
+        } else if (data.resultdata[0].insurance === '1') {
           deductionTypeChecked[1] = true; // 1: 프리랜서
         } else {
           deductionTypeChecked[2] = true; // 0: 없음
@@ -391,79 +384,98 @@ export default ({route: {params}}) => {
 
         let positionChecked = JSON.parse(JSON.stringify(positionCheck));
         positionChecked.fill(false);
-        positionChecked[Number(data.result.IS_MANAGER)] = true;
+        positionChecked[Number(data.resultdata[0].IS_MANAGER)] = true;
 
         let authorityChecked = JSON.parse(JSON.stringify(authorityCheck));
         authorityChecked.fill(false);
-        if (data.result.IS_MANAGER === '1') {
-          if (data.result.OTHERPAY_SHOW === '1') authorityChecked[1] = true;
-          if (data.result.CalendarEdit === '1') authorityChecked[2] = true;
-          if (data.result.PUSH === '1') authorityChecked[3] = true;
-          if (data.result.STOREPAY_SHOW === '1') authorityChecked[4] = true;
+        if (data.resultdata[0].IS_MANAGER === '1') {
+          if (data.resultdata[0].OTHERPAY_SHOW === '1')
+            authorityChecked[1] = true;
+          if (data.resultdata[0].CalendarEdit === '1')
+            authorityChecked[2] = true;
+          if (data.resultdata[0].PUSH === '1') authorityChecked[3] = true;
+          if (data.resultdata[0].STOREPAY_SHOW === '1')
+            authorityChecked[4] = true;
         }
-        if (data.result.PAY_SHOW === '1') authorityChecked[0] = true;
+        if (data.resultdata[0].PAY_SHOW === '1') authorityChecked[0] = true;
 
         let insuranceChecked = insuranceCheck;
-        if (data.result.pension === '1') {
+        if (data.resultdata[0].pension === '1') {
           insuranceChecked[0] = true; // 국민연금
         } else {
           insuranceChecked[0] = false;
         }
-        if (data.result.health === '1') {
+        if (data.resultdata[0].health === '1') {
           insuranceChecked[1] = true; // 건강보험
         } else {
           insuranceChecked[1] = false;
         }
-        if (data.result.employment === '1') {
+        if (data.resultdata[0].employment === '1') {
           insuranceChecked[2] = true; // 고용보험
         } else {
           insuranceChecked[2] = false;
         }
-        if (data.result.accident === '1') {
+        if (data.resultdata[0].accident === '1') {
           insuranceChecked[3] = true; // 산재보험
         } else {
           insuranceChecked[3] = false;
         }
 
         if (from === 'EmployeeInfoScreen') {
-          setStartDay(data.result.START);
-          setEndDay(data.result.END ? data.result.END : '');
-          setEndDayCheck(data.result.END ? false : true);
+          setStartDay(data.resultdata[0].START);
+          setEndDay(data.resultdata[0].END ? data.resultdata[0].END : '');
+          setEndDayCheck(data.resultdata[0].END ? false : true);
 
           // ↓ STEP 2(급여정보 입력)
           setPayCheck(payChecked);
-          setPayDay(data.result.PAY_START);
+          setPayDay(data.resultdata[0].PAY_START);
 
-          setPay(data.result.PAY_TYPE !== '2' ? data.result.PAY : '');
-          setPay2(data.result.PAY_TYPE === '2' ? data.result.MEALS : '');
-          setPay3(data.result.PAY_TYPE === '2' ? data.result.SELF_DRIVING : '');
-          setPay4(data.result.PAY_TYPE === '2' ? data.result.BONUS : '');
-          setPay5(data.result.PAY_TYPE === '2' ? data.result.INCENTIVE : '');
+          setPay(
+            data.resultdata[0].PAY_TYPE !== '2' ? data.resultdata[0].PAY : '',
+          );
+          setPay2(
+            data.resultdata[0].PAY_TYPE === '2' ? data.resultdata[0].MEALS : '',
+          );
+          setPay3(
+            data.resultdata[0].PAY_TYPE === '2'
+              ? data.resultdata[0].SELF_DRIVING
+              : '',
+          );
+          setPay4(
+            data.resultdata[0].PAY_TYPE === '2' ? data.resultdata[0].BONUS : '',
+          );
+          setPay5(
+            data.resultdata[0].PAY_TYPE === '2'
+              ? data.resultdata[0].INCENTIVE
+              : '',
+          );
 
           //수습
-          setProbation(data.result.probation == '1' ? true : false);
+          setProbation(data.resultdata[0].probation == '1' ? true : false);
           setProbationPeriod(
-            data.result.probation == '1' ? data.result.probationDATE : '',
+            data.resultdata[0].probation == '1'
+              ? data.resultdata[0].probationDATE
+              : '',
           );
           setProbationPercent(
-            data.result.probation == '1' ? data.result.probationPercent : '',
+            data.resultdata[0].probation == '1'
+              ? data.resultdata[0].probationPercent
+              : '',
           );
 
           // ↓ STEP 3(급여 상세정보 입력)
           setSalarySystemCheck(salarySystemChecked);
           setWeekTypeCheck(weekTypeChecked);
           setWeekTime(
-            weekTypeChecked[0] === true ? data.result.WeekTime : null,
+            weekTypeChecked[0] === true ? data.resultdata[0].WeekTime : null,
           );
           setRestTypeCheck(restTypeChecked);
           setRestTime(
-            restTypeChecked[0] === true ? data.result.RestTime : null,
+            restTypeChecked[0] === true ? data.resultdata[0].RestTime : null,
           );
           setDeductionTypeCheck(deductionTypeChecked);
           setInsuranceCheck(insuranceChecked);
-          setMODIFYCOUNT(data.result.FIRST); // 첫번째 적용 확인 구분값
-          setCALCULATE_DAY(data.resultdata.CAL); // 급여정산일
-          setMINPAY(data.resultdata.MINPAY); // 최저시급
+          setMODIFYCOUNT(data.resultdata[0].FIRST); // 첫번째 적용 확인 구분값
 
           // ↓ STEP 5(직책/권한 설정)
           setPositionCheck(positionChecked);
@@ -471,8 +483,6 @@ export default ({route: {params}}) => {
         } else {
           setSTART_TYPE('1');
           setMODIFYCOUNT('1'); // 첫번째 적용 확인 구분값
-          setCALCULATE_DAY(data.resultdata.CAL); // 급여정산일
-          setMINPAY(data.resultdata.MINPAY); // 최저시급
         }
       }
     } catch (e) {
@@ -506,7 +516,6 @@ export default ({route: {params}}) => {
       setEndDayCheck={setEndDayCheck}
       setPayDay={setPayDay}
       setPayMonth={setPayMonth}
-      image={images ? images[0].IMAGE : null}
       name={EMP_NAME}
       click1={click1}
       setClick1={setClick1}
@@ -535,7 +544,6 @@ export default ({route: {params}}) => {
       isSalaryModalVisible2={isSalaryModalVisible2}
       setIsSalaryModalVisible2={setIsSalaryModalVisible2}
       payCheck={payCheck}
-      MINPAY={MINPAY}
       pay={pay}
       setPay={setPay}
       pay2={pay2}
@@ -558,8 +566,6 @@ export default ({route: {params}}) => {
       setPeriodCheck={setPeriodCheck}
       percentCheck={percentCheck}
       setPercentCheck={setPercentCheck}
-      periodDirectInput={periodDirectInput}
-      setPeriodDirectInput={setPeriodDirectInput}
       percentDirectInput={percentDirectInput}
       setPercentDirectInput={setPercentDirectInput}
       checkDirectInput2={checkDirectInput2}
@@ -576,7 +582,6 @@ export default ({route: {params}}) => {
       insuranceCheck={insuranceCheck}
       setInsuranceCheck={setInsuranceCheck}
       getPeriod={getPeriod}
-      CALCULATE_DAY={CALCULATE_DAY}
       payYearCheck={payYearCheck}
       setPayYearCheck={setPayYearCheck}
       payMonthCheck={payMonthCheck}

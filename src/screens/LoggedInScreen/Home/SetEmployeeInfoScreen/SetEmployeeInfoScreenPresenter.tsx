@@ -35,6 +35,7 @@ import {
 } from '~/constants/Icons';
 import InputLine from '~/components/InputLine';
 import SubmitBtn from '~/components/Btn/SubmitBtn';
+import utils from '~/constants/utils';
 
 interface IBox {
   isBold: boolean;
@@ -327,7 +328,6 @@ export default ({
   setEndDayCheck,
   setPayDay,
   setPayMonth,
-  image,
   name,
   click1,
   setClick1,
@@ -356,7 +356,6 @@ export default ({
   isSalaryModalVisible2,
   setIsSalaryModalVisible2,
   payCheck,
-  MINPAY,
   pay,
   setPay,
   pay2,
@@ -379,7 +378,6 @@ export default ({
   setPeriodCheck,
   percentCheck,
   setPercentCheck,
-  setPeriodDirectInput,
   percentDirectInput,
   setPercentDirectInput,
   checkDirectInput2,
@@ -396,7 +394,6 @@ export default ({
   insuranceCheck,
   setInsuranceCheck,
   getPeriod,
-  CALCULATE_DAY,
   payYearCheck,
   setPayYearCheck,
   payMonthCheck,
@@ -422,7 +419,7 @@ export default ({
               <FastImage
                 style={{width: 60, height: 60, borderRadius: 30}}
                 source={{
-                  uri: 'http://cuapi.shop-sol.com/uploads/' + image,
+                  uri: 'http://cuapi.shop-sol.com/uploads/3.png',
                   headers: {Authorization: 'someAuthToken'},
                   priority: FastImage.priority.low,
                 }}
@@ -618,7 +615,7 @@ export default ({
                         </Row>
                       </PayBox>
                       <GreyText>
-                        *2020년 최저 시급은 {MINPAY}원 입니다.
+                        *2020년 최저 시급은 {utils.miniPay}원 입니다.
                       </GreyText>
                     </>
                   )}
@@ -777,7 +774,6 @@ export default ({
                               setProbationPercent('');
                               setPeriodCheck(periodvalue);
                               setPercentCheck(percentvalue);
-                              setPeriodDirectInput('');
                               setPercentDirectInput('');
                             }
                             setProbation(!probation);
@@ -1043,13 +1039,13 @@ export default ({
                   <Row style={{marginBottom: 5}}>
                     <SmallBold>급여정산일:&nbsp;</SmallBold>
                     <Text>
-                      {CALCULATE_DAY == '1'
+                      {utils.calculateDay == 1
                         ? '매월 말일'
-                        : `${CALCULATE_DAY - 1}일`}
+                        : `${utils.calculateDay - 1}일`}
                     </Text>
                   </Row>
                   <Row>
-                    <SmallBold>{getPeriod(CALCULATE_DAY)}</SmallBold>
+                    <SmallBold>{getPeriod(utils.calculateDay)}</SmallBold>
                     <Text>부터 급여에 적용됩니다</Text>
                   </Row>
                   <WhiteSpace />

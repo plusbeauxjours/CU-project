@@ -41,7 +41,7 @@ const ScrollView = styled.ScrollView``;
 
 export default () => {
   const dispatch = useDispatch();
-  const {MEMBER_SEQ, STORE} = useSelector((state: any) => state.userReducer);
+  const {STORE} = useSelector((state: any) => state.userReducer);
   const {CLOSED_STORE_DATA} = useSelector((state: any) => state.mypageReducer);
 
   const fetchData = async () => {
@@ -51,8 +51,8 @@ export default () => {
           dispatch(setSplashVisible(true));
         }
         const {data} = await api.closeList();
-        if (data.message === 'SUCCESS') {
-          dispatch(setCLOSED_STORE_DATA(data.result));
+        if (data.resultmsg === '1') {
+          dispatch(setCLOSED_STORE_DATA(data.stores));
         }
       } catch (e) {
         console.log(e);
@@ -65,8 +65,8 @@ export default () => {
           dispatch(setSplashVisible(true));
         }
         const {data} = await api.endList();
-        if (data.message === 'SUCCESS') {
-          dispatch(setCLOSED_STORE_DATA(data.result));
+        if (data.resultmsg === '1') {
+          dispatch(setCLOSED_STORE_DATA(data.stores));
         }
       } catch (e) {
         console.log(e);
@@ -88,7 +88,11 @@ export default () => {
         </BoxText>
       </Section>
       <ScrollView
-        contentContainerStyle={{width: wp('100%'), alignItems: 'center'}}
+        contentContainerStyle={{
+          width: wp('100%'),
+          alignItems: 'center',
+          marginTop: 10,
+        }}
         showsVerticalScrollIndicator={false}>
         {CLOSED_STORE_DATA?.length === 0 && (
           <BoxText style={{marginTop: 30}}>
@@ -100,7 +104,6 @@ export default () => {
             key={index}
             name={data.NAME}
             addr={data.ADDR1 + data.ADDR2}
-            data={data}
           />
         ))}
       </ScrollView>

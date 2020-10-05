@@ -40,9 +40,9 @@ export default ({route: {params}}) => {
   const fetchData = async () => {
     try {
       const {data} = await api.storeHealthEmpDetail(EMP_SEQ);
-      if (data.message === 'SUCCESS') {
+      if (data.resultmsg === '1') {
         dispatch(setSELECT_INDEX(0));
-        dispatch(setHEALTH_EMP_DETAIL(data.result));
+        dispatch(setHEALTH_EMP_DETAIL(data.resultdata));
       }
     } catch (e) {
       console.log(e);

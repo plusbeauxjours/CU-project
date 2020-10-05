@@ -119,6 +119,12 @@ export default ({url, setModalVisible}) => {
     setTimeout(() => setIsShowedControls(false), 4000);
   }, []);
 
+  useEffect(() => {
+    return () => {
+      StatusBar.setHidden(false);
+    };
+  }, []);
+
   return (
     <ToggleControls
       isFullScreen={isFullScreen}

@@ -54,6 +54,12 @@ export default ({url, setModalVisible}) => {
     setIsFullScreen(false);
   }, []);
 
+  useEffect(() => {
+    return () => {
+      StatusBar.setHidden(false);
+    };
+  }, []);
+
   return (
     <>
       {isFullScreen ? (

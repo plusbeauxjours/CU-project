@@ -136,14 +136,10 @@ export default ({route: {params}}) => {
 
   const fetchSchedule = async (EMP_SEQ) => {
     try {
-      const {data} = await api.getSchedules(
-        EMP_SEQ,
-        moment(date).format('YYYY'),
-        moment(date).format('MM'),
-      );
-      if (data.message === 'SUCCESS') {
-        initTimeTable(data.result);
-      } else if (data.message === 'LIST_EMPTY') {
+      const {data} = await api.getSchedules(EMP_SEQ);
+      if (data.resultmsg === '1') {
+        initTimeTable(data.resultdata);
+      } else if (data.resultmsg === 'LIST_EMPTY') {
         initTimeTable([]);
       } else {
         console.log(data);
@@ -382,18 +378,20 @@ export default ({route: {params}}) => {
   const fetchData = async () => {
     try {
       const {data} = await api.getEmp(EMP_SEQ);
-      calculateFn(
-        EMP_SEQ,
-        moment().add(1, 'month').format('YYYY'),
-        moment().add(1, 'month').format('MM'),
-      );
-      setEmpdata(data.result);
-      if (data.result.CALENDAR === '1') {
-        setIsFreeWorkingType(true);
-      }
-      if (data.result.CALENDAR === '0') {
-        setIsFreeWorkingType(false);
-        fetchSchedule(data.result.EMP_SEQ);
+      if (data.resultmsg === '1') {
+        calculateFn(
+          EMP_SEQ,
+          moment().add(1, 'month').format('YYYY'),
+          moment().add(1, 'month').format('MM'),
+        );
+        setEmpdata(data.resultdata[0]);
+        if (data.resultdata[0].CALENDAR === '1') {
+          setIsFreeWorkingType(true);
+        }
+        if (data.resultdata[0].CALENDAR === '0') {
+          setIsFreeWorkingType(false);
+          fetchSchedule(data.resultdata[0].EMP_SEQ);
+        }
       }
     } catch (e) {
       console.log(e);

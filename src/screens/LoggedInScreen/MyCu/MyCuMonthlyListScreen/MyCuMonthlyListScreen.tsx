@@ -64,15 +64,15 @@ export default () => {
       }
       const {data} = await api.cupdflistcheck();
       const categoryListArray = ['전체'];
-      if (data.message === 'SUCCESS') {
-        if (Array.isArray(data.result)) {
-          for (const i of data.result) {
+      if (data.resultmsg === '1') {
+        if (Array.isArray(data.resultdata)) {
+          for (const i of data.resultdata) {
             if (!categoryListArray.includes(i.PDF_YEAR)) {
               categoryListArray.push(i.PDF_YEAR);
             }
           }
         }
-        dispatch(setMYCU_MONTHLY(data.result));
+        dispatch(setMYCU_MONTHLY(data.resultdata));
         dispatch(setMYCU_MONTHLY_CATEGORY(categoryListArray));
       }
     } catch (e) {

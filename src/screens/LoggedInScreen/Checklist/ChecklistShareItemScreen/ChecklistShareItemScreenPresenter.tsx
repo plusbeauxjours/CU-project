@@ -305,7 +305,7 @@ export default ({
                             </Text>
                           </Column>
                         </Row>
-                        {data.MEMBER_SEQ == MEMBER_SEQ && (
+                        {data.MEMBER_SEQ == ME && (
                           <Row style={{justifyContent: 'flex-end'}}>
                             <RowTouchable
                               onPress={() => {

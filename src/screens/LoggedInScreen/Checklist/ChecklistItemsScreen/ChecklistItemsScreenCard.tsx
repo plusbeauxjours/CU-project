@@ -121,7 +121,7 @@ export default ({key, date, data}) => {
       rippleDuration={600}
       rippleSize={1700}
       rippleContainerBorderRadius={30}
-      rippleOpacity={0.13}>
+      rippleOpacity={0.1}>
       <ContentBox>
         <Row
           style={{

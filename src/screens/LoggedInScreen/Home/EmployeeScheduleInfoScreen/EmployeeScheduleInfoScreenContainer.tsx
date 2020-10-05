@@ -88,7 +88,7 @@ export default ({route: {params}}) => {
     try {
       dispatch(removeRESPONSE_EMPLOYEE(EMP_SEQ));
       const {data} = await api.setEmpType(EMP_SEQ);
-      if (data.message === 'SUCCESS') {
+      if (data.resultmsg === '1') {
         navigation.reset({
           index: 0,
           routes: [
@@ -165,14 +165,10 @@ export default ({route: {params}}) => {
 
   const fetchSchedule = async (EMP_SEQ) => {
     try {
-      const {data} = await api.getSchedules(
-        EMP_SEQ,
-        moment().format('YYYY'),
-        moment().format('MM'),
-      );
-      if (data.message === 'SUCCESS') {
-        initTimeTable(data.result);
-      } else if (data.message === 'LIST_EMPTY') {
+      const {data} = await api.getSchedules(EMP_SEQ);
+      if (data.resultmsg === '1') {
+        initTimeTable(data.resultdata);
+      } else if (data.resultmsg === 'LIST_EMPTY') {
         initTimeTable([]);
       } else {
       }
@@ -400,13 +396,12 @@ export default ({route: {params}}) => {
 
   const fetchData = async () => {
     try {
-      console.log('fetchData');
       dispatch(setSplashVisible(true));
       const {data} = await api.getEmp(EMP_SEQ);
-      console.log('fetchData data', data);
-
-      setData(data.result);
-      fetchSchedule(data.result.EMP_SEQ);
+      if (data.resultmsg === '1') {
+        setData(data.resultdata[0]);
+        fetchSchedule(data.resultdata[0].EMP_SEQ);
+      }
     } catch (e) {
       console.log(e);
       dispatch(setSplashVisible(false));

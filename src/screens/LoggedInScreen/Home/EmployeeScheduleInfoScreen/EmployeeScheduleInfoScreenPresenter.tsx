@@ -263,14 +263,6 @@ export default ({
   alertModal,
   joinModal,
 }) => {
-  let image;
-
-  if (Object?.keys(data).length != 0) {
-    image = data?.images[0].IMAGE;
-  } else {
-    image = '3.png';
-  }
-
   const RenderDayList = () => {
     if (timeTable && timeTable.length !== 0) {
       return (
@@ -457,7 +449,7 @@ export default ({
                     marginRight: 10,
                   }}
                   source={{
-                    uri: 'http://cuapi.shop-sol.com/uploads/' + image,
+                    uri: 'http://cuapi.shop-sol.com/uploads/3.png',
                     headers: {Authorization: 'someAuthToken'},
                     priority: FastImage.priority.low,
                   }}

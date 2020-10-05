@@ -66,14 +66,10 @@ export default () => {
 
   const fetchSchedule = async (EMP_SEQ) => {
     try {
-      const {data} = await api.getSchedules(
-        EMP_SEQ,
-        moment().format('YYYY'),
-        moment().format('MM'),
-      );
-      if (data.message === 'SUCCESS') {
-        initTimeTable(data.result);
-      } else if (data.message === 'LIST_EMPTY') {
+      const {data} = await api.getSchedules(EMP_SEQ);
+      if (data.resultmsg === '1') {
+        initTimeTable(data.resultdata);
+      } else if (data.resultmsg === 'LIST_EMPTY') {
         initTimeTable([]);
       } else {
         console.log(data);
@@ -90,13 +86,15 @@ export default () => {
         dispatch(setSplashVisible(true));
       }
       const {data} = await api.getEmp(EMP_SEQ);
-      dispatch(setEMPLOYEE_INFO_DATA(data.result));
-      if (data.result.CALENDAR === '1') {
-        setIsFreeWorkingType(true);
-      }
-      if (data.result.CALENDAR === '0') {
-        setIsFreeWorkingType(false);
-        fetchSchedule(EMP_SEQ);
+      if (data.resultmsg === '1') {
+        dispatch(setEMPLOYEE_INFO_DATA(data.resultdata[0]));
+        if (data.resultdata[0].CALENDAR === '1') {
+          setIsFreeWorkingType(true);
+        }
+        if (data.resultdata[0].CALENDAR === '0') {
+          setIsFreeWorkingType(false);
+          fetchSchedule(EMP_SEQ);
+        }
       }
     } catch (e) {
       console.log(e);

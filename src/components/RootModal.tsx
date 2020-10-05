@@ -144,7 +144,7 @@ export default ({alert}) => {
               rippleColor={'#ac52eb'}
               rippleSize={1200}
               rippleDuration={600}
-              rippleOpacity={0.2}>
+              rippleOpacity={0.45}>
               <WhiteText>{alert.okButtonText}</WhiteText>
             </WithHelpBtn>
             <WithHelpBtn
@@ -172,7 +172,7 @@ export default ({alert}) => {
                 rippleColor={'#ac52eb'}
                 rippleSize={1200}
                 rippleDuration={600}
-                rippleOpacity={0.1}>
+                rippleOpacity={0.45}>
                 <HalfTextLeft>{alert.cancelButtonText}</HalfTextLeft>
               </HalfBtnLeft>
               <HalfBtnRight
@@ -193,7 +193,7 @@ export default ({alert}) => {
               rippleColor={'#ac52eb'}
               rippleSize={1200}
               rippleDuration={600}
-              rippleOpacity={0.25}>
+              rippleOpacity={0.45}>
               <WhiteText>{alert.okButtonText}</WhiteText>
             </BarBtn>
           )}

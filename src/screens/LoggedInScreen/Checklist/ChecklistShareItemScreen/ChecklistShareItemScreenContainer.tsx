@@ -52,7 +52,7 @@ export default ({route: {params}}) => {
     }
     try {
       const {data} = await api.editNoticeComment(selectedCOM_SEQ, comment);
-      if (data.message === 'SUCCESS') {
+      if (data.resultmsg === '1') {
         dispatch(editCHECKLIST_SHARE_COMMENTS({selectedCOM_SEQ, comment}));
       }
     } catch (e) {
@@ -87,7 +87,7 @@ export default ({route: {params}}) => {
         comment,
         STORE,
       );
-      if (data.message === 'SUCCESS') {
+      if (data.resultmsg === '1') {
         setComment('');
         dispatch(getCHECKLIST_COMMENTS(NOTICE_SEQ, TITLE));
       }
