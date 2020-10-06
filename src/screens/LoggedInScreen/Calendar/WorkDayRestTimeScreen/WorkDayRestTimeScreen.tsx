@@ -105,7 +105,7 @@ export default ({route: {params}}) => {
         }),
       );
       if (Object.prototype.hasOwnProperty.call(params?.data, 'SCH_ID')) {
-        const {data} = await api.getScheduleRestTImeUpdate({
+        await api.getScheduleRestTimeUpdate({
           STORE_ID: STORE_SEQ,
           EMP_SEQ: EMP_ID,
           SCH_ID,
@@ -114,7 +114,7 @@ export default ({route: {params}}) => {
           DATE: date,
         });
       } else {
-        const {data} = await api.getScheduleRestTImeCreate({
+        await api.getScheduleRestTimeCreate({
           STORE_ID: STORE_SEQ,
           EMP_SEQ: EMP_ID,
           EMP_NAME: NAME,

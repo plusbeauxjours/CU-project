@@ -276,6 +276,7 @@ export default ({route: {params}}) => {
     }
     try {
       dispatch(setSplashVisible(true));
+      console.log(endDay);
       const {data} = await api.updateEmp({
         FIRST: MODIFYCOUNT,
         START_TYPE,
@@ -320,7 +321,7 @@ export default ({route: {params}}) => {
         STOREPAY_SHOW: authorityCheck[4] === true ? '1' : '0',
       });
 
-      if (data.message == 'SUCCESS') {
+      if (data.resultmsg == '1') {
         if (from === 'EmployeeInfoScreen') {
           alertModal('직원정보가 수정되었습니다.');
           navigation.goBack();
@@ -345,6 +346,7 @@ export default ({route: {params}}) => {
   const fetchData = async () => {
     try {
       const {data} = await api.getEmp(EMP_SEQ);
+      console.log('fetchData', data);
       if (data.resultmsg === '1') {
         let payChecked = JSON.parse(JSON.stringify(payCheck)); // 급여 유형
         payChecked.fill(false);

@@ -487,7 +487,6 @@ export default ({
                     <Touchable
                       onPress={() => {
                         explainModal(
-                          '',
                           '정해진 근무종료일이 없다면 [퇴사일 없음]으로 선택해주세요.\n\n* 직원이 퇴사하였을 경우 [직원정보]에서 퇴사일을 설정하면 사업장에서 직원이 더 이상 표시되지 않습니다.',
                         );
                       }}>
@@ -495,7 +494,7 @@ export default ({
                     </Touchable>
                   </Row>
                   <DatePickerModal
-                    headerTextIOS={'종료일을 선택하세요.'}
+                    headerTextIOS={'퇴사일을 선택하세요.'}
                     cancelTextIOS={'취소'}
                     confirmTextIOS={'확인'}
                     isVisible={isEndDayModalVisible}

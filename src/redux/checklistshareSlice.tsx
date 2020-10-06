@@ -215,18 +215,20 @@ export const getCHECKLIST_SHARE_DATA1 = (date) => async (
     dispatch(setSplashVisible(true));
   }
   try {
-    const {data} = await api.getNotice31(STORE_SEQ, date);
-    for (let a = 0; a < data.basic.length; a++) {
-      if (data.basic[a].NoticeCheck_SEQ == null) {
-        dispatch(increaseNEW_CNT1());
+    const {data} = await api.getNotice(STORE_SEQ, date, '1');
+    if (data.resultmsg === '1') {
+      for (let a = 0; a < data.basic.length; a++) {
+        if (data.basic[a].NoticeCheck_SEQ == null) {
+          dispatch(increaseNEW_CNT1());
+        }
       }
-    }
-    for (let b = 0; b < data.favorite.length; b++) {
-      if (data.favorite[b].NoticeCheck_SEQ == null) {
-        dispatch(increaseNEW_CNT1());
+      for (let b = 0; b < data.favorite.length; b++) {
+        if (data.favorite[b].NoticeCheck_SEQ == null) {
+          dispatch(increaseNEW_CNT1());
+        }
       }
+      dispatch(setCHECKLIST_SHARE_DATA1(data));
     }
-    dispatch(setCHECKLIST_SHARE_DATA1(data));
   } catch (e) {
     console.log(e);
   } finally {
@@ -248,18 +250,20 @@ export const getCHECKLIST_SHARE_DATA2 = (date) => async (
     dispatch(setSplashVisible(true));
   }
   try {
-    const {data} = await api.getNotice30(STORE_SEQ, date);
-    for (let a = 0; a < data.basic.length; a++) {
-      if (data.basic[a].NoticeCheck_SEQ == null) {
-        dispatch(increaseNEW_CNT2());
+    const {data} = await api.getNotice(STORE_SEQ, date, '0');
+    if (data.resultmsg === '1') {
+      for (let a = 0; a < data.basic.length; a++) {
+        if (data.basic[a].NoticeCheck_SEQ == null) {
+          dispatch(increaseNEW_CNT2());
+        }
       }
-    }
-    for (let b = 0; b < data.favorite.length; b++) {
-      if (data.favorite[b].NoticeCheck_SEQ == null) {
-        dispatch(increaseNEW_CNT2());
+      for (let b = 0; b < data.favorite.length; b++) {
+        if (data.favorite[b].NoticeCheck_SEQ == null) {
+          dispatch(increaseNEW_CNT2());
+        }
       }
+      dispatch(setCHECKLIST_SHARE_DATA2(data));
     }
-    dispatch(setCHECKLIST_SHARE_DATA2(data));
   } catch (e) {
     console.log(e);
   } finally {
@@ -279,12 +283,14 @@ export const getCHECKLIST_SHARE_DATA3 = () => async (dispatch, getState) => {
   }
   try {
     const {data} = await api.getCuNotice(STORE_SEQ);
-    for (let a = 0; a < data.message.length; a++) {
-      if (data.message[a].cu_notice_check_SEQ == null) {
-        dispatch(increaseNEW_CNT3());
+    if (data.resultmsg === '1') {
+      for (let a = 0; a < data.resultdata.length; a++) {
+        if (data.resultdata[a].cu_notice_check_SEQ == null) {
+          dispatch(increaseNEW_CNT3());
+        }
       }
+      dispatch(setCHECKLIST_SHARE_DATA3(data));
     }
-    dispatch(setCHECKLIST_SHARE_DATA3(data));
   } catch (e) {
     console.log(e);
   } finally {
@@ -303,7 +309,9 @@ export const getCHECKLIST_COMMENTS = (NOTICE_SEQ, TITLE) => async (
   const title = TITLE == 'CU소식' ? '1' : '0';
   try {
     const {data} = await api.getNoticeComment(NOTICE_SEQ, STORE_SEQ, title);
-    dispatch(setCHECKLIST_SHARE_COMMENTS(data.message));
+    if (data.resultmsg === '1') {
+      dispatch(setCHECKLIST_SHARE_COMMENTS(data.resultdata));
+    }
   } catch (e) {
     console.log(e);
   }

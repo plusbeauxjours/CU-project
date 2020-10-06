@@ -443,7 +443,7 @@ export default ({
   const ThirdRoute = () => (
     <BackGround>
       <Container>
-        {CHECKLIST_SHARE_DATA3?.message?.length == 0 ? (
+        {CHECKLIST_SHARE_DATA3?.resultdata?.length == 0 ? (
           <EmptyList TITLE={'CU소식'} />
         ) : (
           <>
@@ -463,7 +463,7 @@ export default ({
                 />
               }>
               <WhiteSpace />
-              {CHECKLIST_SHARE_DATA3?.message?.map((data, index) => (
+              {CHECKLIST_SHARE_DATA3?.resultdata?.map((data, index) => (
                 <ChecklistShareMainScreenCard
                   key={index}
                   data={data}

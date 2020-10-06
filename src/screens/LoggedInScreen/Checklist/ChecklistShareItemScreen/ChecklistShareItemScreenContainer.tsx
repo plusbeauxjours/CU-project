@@ -142,7 +142,7 @@ export default ({route: {params}}) => {
         setItem(item);
       }
     } else {
-      const item = CHECKLIST_SHARE_DATA3.message.find(
+      const item = CHECKLIST_SHARE_DATA3.resultdata.find(
         (i) => i.NOTICE_SEQ === NOTICE_SEQ,
       );
       fetchImage(item);

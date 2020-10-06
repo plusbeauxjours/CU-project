@@ -43,7 +43,7 @@ export default () => {
   const updateAlarm = async (value: boolean, alarm: string) => {
     const isAlarmOn = value == true ? '0' : '1';
     try {
-      const {data} = await api.updatePush({
+      await api.updatePush({
         MEMBER_SEQ,
         [alarm]: isAlarmOn,
       });
@@ -57,11 +57,12 @@ export default () => {
   const fetch = async () => {
     try {
       const {data} = await api.getPush({MEMBER_SEQ});
-      data.All_Push == '1' && dispatch(setAllPush(true));
-      data.WORK_PUSH == '1' && dispatch(setWorkPush(true));
-      data.CHECK_PUSH == '1' && dispatch(setCheckPush(true));
-      data.CHECKSHARE_PUSH == '1' && dispatch(setChecksharePush(true));
-      data.SCHEDULE_PUSH == '1' && dispatch(setScedulePUsh(true));
+      data.resultmsg[0].All_Push == '1' && dispatch(setAllPush(true));
+      data.resultmsg[0].WORK_PUSH == '1' && dispatch(setWorkPush(true));
+      data.resultmsg[0].CHECK_PUSH == '1' && dispatch(setCheckPush(true));
+      data.resultmsg[0].CHECKSHARE_PUSH == '1' &&
+        dispatch(setChecksharePush(true));
+      data.resultmsg[0].SCHEDULE_PUSH == '1' && dispatch(setScedulePUsh(true));
     } catch (e) {
       console.log(e);
     }

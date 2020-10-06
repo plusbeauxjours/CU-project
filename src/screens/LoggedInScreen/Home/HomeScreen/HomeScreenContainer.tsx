@@ -95,24 +95,20 @@ export default ({route: {params}}) => {
         MEMBER_SEQ,
         TYPE: 'qr',
       });
-      if (data.message === 'CONTRACT_END') {
-        alertModal('', '정확한 사업장 QR코드가 아닙니다');
-      } else if (data.message === 'WORK_ON_SUCCESS') {
-        if (data.resultCode == '2') {
-          alertModal('', '출근하였습니다');
-        } else {
-          alertModal('', '출근하였습니다');
-        }
-      } else if (data.message === 'SCHEDULE_EMPTY') {
-        alertModal('', '오늘은 근무일이 아닙니다');
-      } else if (data.message === 'SCHEDULE_EXIST') {
-        alertModal('', '이미 출근처리를 완료했습니다');
-      } else if (data.message === 'ALREADY_SUCCESS') {
-        alertModal('', '이미 출근처리를 완료했습니다');
+      if (data.message === 'WORK_ON_SUCCESS') {
+        alertModal('', data.resultmsg);
       } else if (data.message === 'FAIL') {
-        alertModal('', data.result);
+        alertModal('', data.resultmsg);
+      } else if (data.message === 'SCHEDULE_EMPTY') {
+        alertModal('', data.resultmsg);
+      } else if (data.message === 'ALREADY_SUCCESS') {
+        alertModal('', data.resultmsg);
+      } else if (data.message === 'CONTRACT_END') {
+        alertModal('', data.resultmsg);
+      } else if (data.message === 'SCHEDULE_EXIST') {
+        alertModal('', data.resultmsg);
       } else {
-        alertModal('', data.result);
+        alertModal('', data.resultmsg);
       }
     } catch (e) {
       console.log(e);
@@ -133,18 +129,18 @@ export default ({route: {params}}) => {
         MEMBER_SEQ,
         TYPE: 'qr',
       });
-      if (data.message == 'CONTRACT_END') {
-        alertModal('', '정확한 사업장 QR코드가 아닙니다');
+      if (data.message == 'WORK_OFF_SUCCESS') {
+        alertModal('', data.resultmsg);
       } else if (data.message == 'FAIL') {
-        alertModal('', data.result);
+        alertModal('', data.resultmsg);
       } else if (data.message == 'SCHEDULE_EMPTY') {
-        alertModal('', '일하는 시간이 아닙니다.');
+        alertModal('', data.resultmsg);
       } else if (data.message == 'ALREADY_SUCCESS') {
-        alertModal('', '이미 퇴근하였습니다.');
-      } else if (data.message == 'WORK_OFF_SUCCESS') {
-        alertModal('', '퇴근하였습니다.');
+        alertModal('', data.resultmsg);
+      } else if (data.message == 'CONTRACT_END') {
+        alertModal('', data.resultmsg);
       } else if (data.message == 'NOWORK') {
-        alertModal('', '출근기록이 없습니다.');
+        alertModal('', data.resultmsg);
       }
     } catch (e) {
       console.log(e);

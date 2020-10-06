@@ -199,7 +199,7 @@ export default ({route: {params}}) => {
         CATEGORY: storeCategoryType,
         other: storeCategoryTypeEtc,
       });
-      if (data.message !== 'SUCCESS') {
+      if (data.resultmsg !== '1') {
         alertModal('', '연결에 실패하였습니다.');
       }
     } catch (e) {

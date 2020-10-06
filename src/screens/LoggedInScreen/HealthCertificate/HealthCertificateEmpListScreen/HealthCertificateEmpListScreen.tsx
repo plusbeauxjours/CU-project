@@ -43,10 +43,9 @@ export default ({route: {params}}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const {STORE, MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
+  const {STORE} = useSelector((state: any) => state.userReducer);
   const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
   const {HEALTH_EMP_LIST} = useSelector((state: any) => state.healthReducer);
-  const {type = null} = params;
 
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
@@ -67,8 +66,8 @@ export default ({route: {params}}) => {
         dispatch(setSplashVisible(true));
       }
       const {data} = await api.storeHealthEmpList(STORE_SEQ, STORE);
-      if (data.message === 'SUCCESS') {
-        dispatch(setHEALTH_EMP_LIST(data.result));
+      if (data.resultmsg === '1') {
+        dispatch(setHEALTH_EMP_LIST(data.resultdata));
       }
     } catch (e) {
       console.log(e);

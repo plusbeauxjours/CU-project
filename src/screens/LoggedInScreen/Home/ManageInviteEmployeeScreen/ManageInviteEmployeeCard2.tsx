@@ -86,7 +86,7 @@ export default ({key, join_emp_seq, EMP_NAME, PHONE, STORE_SEQ}) => {
     try {
       dispatch(setSplashVisible(true));
       const {data} = await api.sendOneEmp({STORE_SEQ, PHONE});
-      if (data.message == 'SUCCESS') {
+      if (data.resultmsg == '1') {
         setIsSent(true);
         dispatch(getRESPONSE_EMPLOYEE());
       }

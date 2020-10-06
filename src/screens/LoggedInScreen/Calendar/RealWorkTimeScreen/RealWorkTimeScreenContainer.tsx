@@ -62,7 +62,19 @@ export default ({route: {params}}) => {
   const registerFn = async () => {
     if (!SCH_ID) {
       try {
-        const {data} = await api.createSchedule({
+        navigation.goBack(); // 뒤로
+        alertModal('출퇴근 시간이 변경되었습니다.');
+        dispatch(
+          updateSCHEDULE({
+            date,
+            EMP_ID,
+            START_TIME,
+            END_TIME,
+            UPDATED_START: startTime,
+            UPDATED_END: endTime,
+          }),
+        );
+        await api.createSchedule({
           STORE_ID: STORE_SEQ,
           EMP_ID,
           EMP_NAME: NAME,
@@ -78,10 +90,6 @@ export default ({route: {params}}) => {
           SCHEDULETYPE: '0',
           CHANGE: '2',
         });
-        if (data.message === 'SUCCESS' || data.message === 'ALREADY_SUCCESS') {
-          navigation.goBack(); // 뒤로
-          alertModal('출퇴근 시간이 변경되었습니다.');
-        }
       } catch (e) {
         console.log(e);
       }

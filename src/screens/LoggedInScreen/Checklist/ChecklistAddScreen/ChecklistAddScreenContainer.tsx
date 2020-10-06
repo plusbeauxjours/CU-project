@@ -112,8 +112,8 @@ export default ({route: {params}}) => {
   const fetchData = async () => {
     try {
       const {data} = await api.getEmployeeList({STORE_SEQ});
-      if (data.message === 'SUCCESS') {
-        setEmplist(data.result);
+      if (data.resultmsg === '1') {
+        setEmplist(data.working);
       }
     } catch (e) {
       console.log(e);
@@ -156,11 +156,11 @@ export default ({route: {params}}) => {
             PHOTO_CHECK: isCheckedCamera ? '1' : '0',
             EMP_SEQ: newChoiceEmp,
           });
-          if (data.message === 'SUCCESS') {
+          if (data.resultmsg === '1') {
             navigation.goBack();
             alertModal('체크리스트가 추가되었습니다.');
-          } else if (data.message === 'ALREADY_SUCCESS') {
-            alertModal(data.result);
+            // } else if (data.resultmsg === 'ALREADY_SUCCESS') {
+            //   alertModal(data.result);
           } else {
             alertModal('연결에 실패하였습니다.');
           }
@@ -172,12 +172,12 @@ export default ({route: {params}}) => {
             createdData: isNoCheckedtime ? '' : customChecktime,
             PHOTO_CHECK: isCheckedCamera ? '1' : '0',
           });
-          if (data.message === 'SUCCESS') {
+          if (data.resultmsg === '1') {
             navigation.goBack();
             alertModal('체크리스트가 추가되었습니다.');
             dispatch(getCHECKLIST_DATA(DATE));
-          } else if (data.message === 'ALREADY_SUCCESS') {
-            alertModal(data.result);
+            // } else if (data.resultmsg === 'ALREADY_SUCCESS') {
+            //   alertModal(data.result);
           } else {
             alertModal('연결에 실패하였습니다.');
           }
@@ -201,7 +201,7 @@ export default ({route: {params}}) => {
             PHOTO_CHECK: isCheckedCamera ? '1' : '0',
             EMP_SEQ: newChoiceEmp,
           });
-          if (data.result === 'SUCCESS') {
+          if (data.resultmsg === 'SUCCESS') {
             navigation.pop(2);
             alertModal(
               `체크리스트가 ${sign == 'close' ? '삭제' : '수정'}되었습니다.`,
@@ -219,7 +219,7 @@ export default ({route: {params}}) => {
             createdData: isNoCheckedtime ? '' : customChecktime,
             PHOTO_CHECK: isCheckedCamera ? '1' : '0',
           });
-          if (data.result === 'SUCCESS') {
+          if (data.resultmsg === 'SUCCESS') {
             navigation.pop(2);
             alertModal(
               `체크리스트가 ${sign == 'close' ? '삭제' : '수정'}되었습니다.`,

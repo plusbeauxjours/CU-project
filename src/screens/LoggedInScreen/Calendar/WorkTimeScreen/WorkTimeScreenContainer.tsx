@@ -67,8 +67,19 @@ export default ({route: {params}}) => {
   const registerFn = async () => {
     if (!SCH_ID) {
       try {
-        dispatch(setSplashVisible(true));
-        const {data} = await api.createSchedule({
+        dispatch(
+          updateWORKTIME({
+            date,
+            EMP_ID,
+            START,
+            END,
+            CHANGE_START: startTime,
+            CHANGE_END: endTime,
+          }),
+        );
+        navigation.goBack();
+        alertModal('근무시간이 변경되었습니다.');
+        await api.createSchedule({
           STORE_ID: STORE_SEQ,
           EMP_ID,
           EMP_NAME: NAME,
@@ -79,14 +90,8 @@ export default ({route: {params}}) => {
           SCHEDULETYPE: '0',
           CHANGE: '1',
         });
-        if (data.message === 'SUCCESS' || data.message === 'ALREADY_SUCCESS') {
-          navigation.goBack();
-          alertModal('근무시간이 변경되었습니다.');
-        }
       } catch (e) {
         console.log(e);
-      } finally {
-        dispatch(setSplashVisible(false));
       }
     } else {
       try {

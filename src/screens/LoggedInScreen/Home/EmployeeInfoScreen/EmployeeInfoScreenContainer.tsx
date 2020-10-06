@@ -366,7 +366,7 @@ export default ({route: {params}}) => {
         CALENDAR: isFreeWorkingType ? '1' : '0',
         EMP_SEQ,
       });
-      if (data.message === 'SUCCESS') {
+      if (data.resultmsg === '1') {
         await fetchData();
       }
     } catch (e) {

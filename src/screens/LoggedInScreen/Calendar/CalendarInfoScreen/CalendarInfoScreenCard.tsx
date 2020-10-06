@@ -310,7 +310,7 @@ export default ({
                 <WorkTitleText>근무시간 </WorkTitleText>
                 <WorkTimeText>
                   {(ATTENDANCE_TIME || START)?.substring(0, 5)}&nbsp;~&nbsp;
-                  {isNextDay2 && '익일 '}
+                  {isNextDay1 && '익일 '}
                   {(WORK_OFF_TIME || END)?.substring(0, 5)}&nbsp;>&nbsp;
                   {CHANGE_START == null ? '' : CHANGE_START?.substring(0, 5)}
                   &nbsp;~&nbsp;{isNextDay2 && '익일 '}
@@ -332,7 +332,7 @@ export default ({
                 <WorkTitleText>출퇴근시간 </WorkTitleText>
                 <WorkTimeText>
                   {(START_TIME || '미출근')?.substring(0, 5)}&nbsp;~&nbsp;
-                  {isNextDay4 && '익일 '}
+                  {isNextDay3 && '익일 '}
                   {(END_TIME || '미퇴근')?.substring(0, 5)}&nbsp;>&nbsp;
                   {(UPDATED_START || '미출근')?.substring(0, 5)}&nbsp;~&nbsp;
                   {isNextDay4 && '익일 '}

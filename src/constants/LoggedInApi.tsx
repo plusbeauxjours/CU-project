@@ -106,14 +106,15 @@ export default {
   getSMS: (data: any) => callApi('post', '/auth/getsms/', data), //MyPagePasswordSetScreen, FindPasswordScreen, VerificationScreen
   help: () => callApi('post', '/auth/help/'), // MyPageAppointmentScreen, StartScreen
 
-  changePwd: (data: any) => oldApi('post', '/Auth/changePwd', data),
-  updatePush: (data: any) => oldApi('post', '/Employee/updatePush/', data),
+  changePwd: (data: any) => callApi('post', '/auth/changeMemberPwd', data),
+  updatePush: (data: any) => callApi('post', '/auth/updatePush/', data),
   getStoreInfo: (data: any) => callApi('post', '/auth/getstoreinfo/', data),
   getCertificate: (data: any) => callApi('post', '/auth/getCERTIFICATE/', data),
 
-  getPush: (data: any) => oldApi('post', '/Employee/getPush', data),
-  toggleMember: (data: any) => oldApi('post', '/Auth/toggleMember', data),
-  changeName: (data: any) => oldApi('post', '/Auth/changeName', data),
+  getPush: (data: any) => callApi('post', '/auth/getPush/', data),
+  toggleMember: (data: any) =>
+    callApi('post', '/auth/changeMemberStore/', data),
+  changeName: (data: any) => callApi('post', '/auth/changeMemberName', data),
   cupdflistcheck: () => callApi('get', `/auth/cupdflistcheck?`),
   cuvideolistcheck: () => callApi('get', `/auth/cuvideolistcheck?`),
   setpdfcheck: (PDF_SEQ: string) =>
@@ -126,20 +127,19 @@ export default {
   endList: () => callApi('get', `/auth/endstorelist?`),
   cuedulistcheck: () => oldApi('get', `/Store/cuedulistcheck?`),
   storeHealthEmpList: (STORE_SEQ: string, STORE: string) =>
-    oldApi(
+    callApi(
       'get',
-      `/Store/store_health_emp_list?STORE_SEQ=${STORE_SEQ}&STORE=${STORE}&`,
+      `/auth/emphealthlist?STORE_SEQ=${STORE_SEQ}&STORE=${STORE}&`,
     ),
 
   storeHealthEmpDetail: (EMP_SEQ: string) =>
     callApi('get', `/auth/emphealthdetail?EMP_SEQ=${EMP_SEQ}&`),
-  attendanceWork: (data: any) =>
-    oldApi('post', '/StoreAuth/attendance_work1', data),
+  attendanceWork: (data: any) => callApi('post', '/auth/attendancework/', data),
   attendanceOffWork: (data: any) =>
-    oldApi('post', '/StoreAuth/attendance_offwork1/', data),
+    callApi('post', '/auth/attendanceoffwork/', data),
   storeList: (STORE: string) =>
     callApi('get', `/auth/storelist?STORE=${STORE}&`),
-  updateStore: (data: any) => oldApi('put', '/Store/update2', data),
+  updateStore: (data: any) => callApi('post', '/auth/updatestore', data),
   addStore: (data: any) => oldApi('post', '/Store/insert22', data),
   getEmpLists: (STORE_SEQ: string) =>
     oldApi('get', `/Store/get_emp_lists?STORE_SEQ=${STORE_SEQ}&`),
@@ -151,8 +151,8 @@ export default {
   cancelJoin: (data: any) => callApi('post', '/auth/canceljoin', data),
   getWaitEmpList: (STORE_SEQ: string) =>
     oldApi('get', `/Store/get_wait_emp_list?STORE_SEQ=${STORE_SEQ}&`),
-  rejectJoin: (data: any) => oldApi('post', '/Employee/reject_join', data),
-  sendOneEmp: (data: any) => oldApi('post', '/Auth/sendOneEmp', data),
+  rejectJoin: (data: any) => callApi('post', '/auth/reject_join/', data),
+  sendOneEmp: (data: any) => callApi('post', '/auth/sendOneEmp', data),
   monthLists: (STORE_ID: string, EMP_ID: string, YEAR: string, MONTH: string) =>
     noPortApi(
       'get',
@@ -184,10 +184,9 @@ export default {
     callApi('post', '/auth/deleteCeoHealth/', data),
   setShelfLifeData: (data: any) =>
     callApi('post', '/auth/setshelfLifeData/', data),
-  sendEmp2: (data: any) => oldApi('post', '/Auth/sendEmp2/', data),
-  toggleCalendar: (data: any) =>
-    oldApi('post', '/Employee/toggleCalendar/', data),
-  getEmpPay: (data: any) => oldApi('post', '/Employee/getEmpPay/', data),
+  sendEmp2: (data: any) => callApi('post', '/auth/sendEmp', data),
+  toggleCalendar: (data: any) => callApi('post', '/auth/toggleCalendar/', data),
+  getEmpPay: (data: any) => callApi('post', '/auth/getEmpPay/', data),
   updateEmpSchedules3: (data: any) =>
     oldApi('post', '/Employee/update_emp_schedules3/', data),
   getEmp: (EMP_SEQ: string) =>
@@ -201,9 +200,10 @@ export default {
       'get',
       `/Store/ChecklistAll?STORE=${storeID}&YEAR=${YEAR}&MONTH=${MONTH}&`,
     ),
-  checkRegister: (data: any) => oldApi('post', '/Store/CheckRegister/', data),
+  checkRegister: (data: any) => callApi('post', '/auth/insertchecklist/', data),
   checkUpdate: (data: any) => oldApi('post', '/Store/CheckUpdate/', data),
-  getEmployeeList: (data: any) => oldApi('post', '/Employee/getEmpList/', data),
+  getEmployeeList: (data: any) =>
+    callApi('post', '/auth/getstoreemplist/', data),
   getAllCheckSchedules: (data: any) =>
     callApi('post', '/auth/getAllCheckSchedules/', data),
   setCheckListImg2: (data: any) =>
@@ -221,18 +221,13 @@ export default {
       'get',
       `/Store/noticeAll?STORE_SEQ=${STORE_SEQ}&YEAR=${YEAR}&MONTH=${MONTH}&TYPE=${TYPE}&`,
     ),
-  getNotice31: (STORE_SEQ: string, DATE: string) =>
-    oldApi(
+  getNotice: (STORE_SEQ: string, DATE: string, STORE: string) =>
+    callApi(
       'get',
-      `/Employee/getNotice3?STORE_SEQ=${STORE_SEQ}&STORE=1&DATE=${DATE}&`,
-    ),
-  getNotice30: (STORE_SEQ: string, DATE: string) =>
-    oldApi(
-      'get',
-      `/Employee/getNotice3?STORE_SEQ=${STORE_SEQ}&STORE=0&DATE=${DATE}&`,
+      `/auth/getNotice?STORE_SEQ=${STORE_SEQ}&STORE=${STORE}&DATE=${DATE}&`,
     ),
   getCuNotice: (STORE_SEQ: string) =>
-    oldApi('get', `/Employee/getCuNotice?STORE_SEQ=${STORE_SEQ}&`),
+    callApi('get', `/auth/getCuNotice?STORE_SEQ=${STORE_SEQ}&`),
   editNoticeComment: (COM_SEQ: string, CONTENTS: string) =>
     callApi(
       'get',
@@ -251,9 +246,9 @@ export default {
       `/auth/setNoticeComment?NOTICE_SEQ=${NOTICE_SEQ}&EMP_NAME=${EMP_NAME}&CONTENTS=${CONTENTS}&STORE=${STORE}&`,
     ),
   getNoticeComment: (NOTICE_SEQ: string, STORE_SEQ: string, TITLE: string) =>
-    oldApi(
+    callApi(
       'get',
-      `/Employee/getNoticeComment?NOTICE_SEQ=${NOTICE_SEQ}&STORE_SEQ=${STORE_SEQ}&TITLE=${TITLE}&`,
+      `/auth/getNoticeComment?NOTICE_SEQ=${NOTICE_SEQ}&STORE_SEQ=${STORE_SEQ}&TITLE=${TITLE}&`,
     ),
   setNoticeImg2: (data: any) =>
     callApi('post', '/auth/setNoticeImg2/', data, true),
@@ -268,10 +263,10 @@ export default {
     ),
   cancelScheduleVacation: (data: any) =>
     oldApi('post', '/Management/cancelScheduleVacation/', data),
-  getScheduleRestTImeUpdate: (data: any) =>
-    oldApi('post', '/Management/schedule_Rest_TIme_update/', data),
-  getScheduleRestTImeCreate: (data: any) =>
-    oldApi('post', '/Management/schedule_Rest_TIme_create/', data),
+  getScheduleRestTimeUpdate: (data: any) =>
+    callApi('post', '/auth/updateRestTime/', data),
+  getScheduleRestTimeCreate: (data: any) =>
+    callApi('post', '/auth/createRestTime/', data),
   createScheduleVacation2: (data: any) =>
     oldApi('post', '/Management/createScheduleVacation2', data),
   deleteSchedule: (data: any) => callApi('post', '/auth/deleteschedule/', data),
@@ -286,6 +281,6 @@ export default {
     oldApi('post', '/Employee/insert_emp_schedules', data),
   setEmpType: (EMP_SEQ: string) =>
     callApi('get', `/auth/request_join?EMP_SEQ=${EMP_SEQ}&`),
-  updateEmp: (data: any) => oldApi('put', '/Employee/update', data),
+  updateEmp: (data: any) => callApi('post', '/auth/updateempinfo', data),
   checkChecklist: (data: any) => oldApi('post', '/StoreAuth/checklist', data),
 };

@@ -94,16 +94,18 @@ export default () => {
         MobileNo: mobileNo,
         MEMBER_SEQ,
       });
-      dispatch(userLogout());
-      navigation.reset({
-        index: 0,
-        routes: [
-          {
-            name: 'LoggedOutNavigation',
-            state: {routes: [{name: 'StartScreen'}]},
-          },
-        ],
-      });
+      if (data.resultmsg === '1') {
+        dispatch(userLogout());
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'LoggedOutNavigation',
+              state: {routes: [{name: 'StartScreen'}]},
+            },
+          ],
+        });
+      }
     } catch (e) {
       console.log(e);
     }

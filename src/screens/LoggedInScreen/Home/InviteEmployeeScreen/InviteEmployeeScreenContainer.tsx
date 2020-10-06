@@ -139,7 +139,7 @@ export default () => {
         STORE_SEQ,
         LIST: buffer2,
       });
-      if (data.message == 'SUCCESS') {
+      if (data.resultmsg == '1') {
         alertModal(
           '초대완료',
           '초대확인 알림이 오면 직원합류승인에서 정보를 입력하여 합류를 완료해주세요. (초대받은 직원이 앱에 로그인 하게되면 초대확인 알림이 도착합니다)',

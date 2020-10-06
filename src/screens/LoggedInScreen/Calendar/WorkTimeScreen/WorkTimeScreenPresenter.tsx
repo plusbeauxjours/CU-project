@@ -4,6 +4,7 @@ import FastImage from 'react-native-fast-image';
 import DatePickerModal from 'react-native-modal-datetime-picker';
 
 import SubmitBtn from '~/components/Btn/SubmitBtn';
+import moment from 'moment';
 import {
   UpIcon,
   DownIcon,
@@ -304,7 +305,6 @@ export default ({
         is24Hour={true}
         onCancel={() => setIsStartTimeModalVisible(false)}
         display="default"
-        pickerContainerStyleIOS={{backgroundColor: 'red'}}
       />
       <DatePickerModal
         headerTextIOS={'시간을 선택하세요.'}
