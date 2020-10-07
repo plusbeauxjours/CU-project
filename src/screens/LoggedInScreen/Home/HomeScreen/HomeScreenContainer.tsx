@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {Linking, BackHandler} from 'react-native';
+import {Linking, BackHandler, NativeModules} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 
 import HomeScreenPresenter from './HomeScreenPresenter';
@@ -13,13 +13,15 @@ import {getHEALTH_CERTIFICATE_DATA} from '~/redux/healthSlice';
 
 export default ({route: {params}}) => {
   const modalRef = useRef(null);
-  const cameraRef = useRef(null);
   const dispatch = useDispatch();
+  const SharedStorage = NativeModules.SharedStorage;
   const {STORE_SEQ, STORE, STORE_NAME, WORKING_COUNT, TOTAL_COUNT} = params;
+
+  const {STORE_DATA} = useSelector((state: any) => state.storeReducer);
   const {MEMBER_SEQ, MEMBER_NAME, DEVICE_PLATFORM} = useSelector(
     (state: any) => state.userReducer,
   );
-  const {STORE_DATA} = useSelector((state: any) => state.storeReducer);
+
   const [qrModalOpen, setQrModalOpen] = useState<boolean>(false);
   const [workingModalOpen, setWorkingModalOpen] = useState<boolean>(false);
 
@@ -196,6 +198,22 @@ export default ({route: {params}}) => {
     checkVersion();
   }, []);
 
+  useEffect(() => {
+    STORE === '1'
+      ? SharedStorage.set(
+          JSON.stringify({
+            text: `${STORE_NAME}입니다. ${TOTAL_COUNT}명 중 ${WORKING_COUNT}명 근무중 입니다.`,
+          }),
+        )
+      : SharedStorage.set(
+          JSON.stringify({
+            text: `${STORE_NAME}입니다. 탭하하여 출근하세요.`,
+          }),
+        );
+    fetchData();
+    checkVersion();
+  }, []);
+
   return (
     <HomeScreenPresenter
       notice={notice}
@@ -210,7 +228,6 @@ export default ({route: {params}}) => {
       workingModalOpen={workingModalOpen}
       setWorkingModalOpen={setWorkingModalOpen}
       modalRef={modalRef}
-      cameraRef={cameraRef}
       goWorkFn={goWorkFn}
       leaveWorkFn={leaveWorkFn}
       handleBarCodeScanned={handleBarCodeScanned}

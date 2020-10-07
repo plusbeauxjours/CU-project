@@ -501,7 +501,7 @@ export default ({
           )}
         </Container>
       </ScrollView>
-      {STORE == 0 && (
+      {STORE == '0' && (
         <CircleBotton onPress={() => selectCheckListFn()}>
           <WhiteText>체크</WhiteText>
         </CircleBotton>

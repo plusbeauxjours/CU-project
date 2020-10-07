@@ -43,11 +43,6 @@ const Container = styled.View`
   padding-top: 10px;
 `;
 
-const Image = styled.Image<IImage>`
-  width: 100%;
-  height: 100%;
-`;
-
 const IconContainer = styled.TouchableOpacity`
   margin-right: 10px;
   width: 40px;
@@ -329,7 +324,6 @@ export default ({
   workingModalOpen,
   setWorkingModalOpen,
   modalRef,
-  cameraRef,
   goWorkFn,
   leaveWorkFn,
   handleBarCodeScanned,
@@ -496,7 +490,7 @@ export default ({
           </StoreUpdate>
         </FastImage>
         <MenuBox style={{zIndex: 1}}>
-          {STORE == 0 && (
+          {STORE == '0' && (
             <Qr onPress={async () => setQrModalOpen(true)}>
               <QrText>출퇴근하기</QrText>
               <QrCodeIcon />
@@ -778,13 +772,14 @@ export default ({
               onPress={() => {
                 Linking.openURL(STORE_DATA.eventUrl2);
               }}>
+              {console.log(STORE_DATA.eventImage2)}
               <FastImage
                 style={{
                   width: wp('100%') - 40,
                   height: bannerHeight,
                   borderRadius: 8,
                 }}
-                source={STORE_DATA.eventImage2}
+                source={{uri: STORE_DATA.eventImage2}}
                 resizeMode={FastImage.resizeMode.contain}
               />
             </ShadowTouchable>

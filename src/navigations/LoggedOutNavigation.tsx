@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {NativeModules} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import StartScreen from '../screens/LoggedOutScreen/StartScreen';
@@ -14,6 +15,15 @@ const LoggedOutNavigation = createStackNavigator();
 
 export default () => {
   const alert = useSelector((state: any) => state.alertReducer);
+  const SharedStorage = NativeModules.SharedStorage;
+  useEffect(() => {
+    SharedStorage.set(
+      JSON.stringify({
+        text: '로그아웃 되어있습니다. 탭하여 로그인하세요.',
+      }),
+    );
+  }, []);
+
   return (
     <React.Fragment>
       <LoggedOutNavigation.Navigator

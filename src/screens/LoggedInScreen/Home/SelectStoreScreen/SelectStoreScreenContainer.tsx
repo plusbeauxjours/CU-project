@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import SelectStoreScreenPresenter from './SelectStoreScreenPresenter';
 import {useNavigation} from '@react-navigation/native';
-import {BackHandler, Linking} from 'react-native';
+import {BackHandler, Linking, NativeModules} from 'react-native';
 
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import {getSTORELIST_DATA} from '~/redux/userSlice';
@@ -13,6 +13,9 @@ import api from '~/constants/LoggedInApi';
 export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const SharedStorage = NativeModules.SharedStorage;
+
+  const {STORE_NAME} = useSelector((state: any) => state.storeReducer);
   const {STORE, STORELIST_DATA, DEVICE_PLATFORM} = useSelector(
     (state: any) => state.userReducer,
   );
@@ -102,6 +105,13 @@ export default () => {
   };
 
   useEffect(() => {
+    if (STORE_NAME == '') {
+      SharedStorage.set(
+        JSON.stringify({
+          text: '선택된 사업장이 없습니다. 탭하여 사업장을 선택하세요.',
+        }),
+      );
+    }
     checkVersion();
     dispatch(getSTORELIST_DATA());
   }, []);
