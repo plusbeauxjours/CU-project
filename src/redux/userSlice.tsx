@@ -44,7 +44,7 @@ const userSlice = createSlice({
       const {payload: userInfo} = action;
       return {
         ...state,
-        MEMBER_SEQ: userInfo.MEMBER_SEQ.toString(),
+        MEMBER_SEQ: userInfo.MEMBER_SEQ,
         MEMBER_NAME: userInfo.NAME,
         STORE: userInfo.STORE,
         TYPE: userInfo.TYPE,

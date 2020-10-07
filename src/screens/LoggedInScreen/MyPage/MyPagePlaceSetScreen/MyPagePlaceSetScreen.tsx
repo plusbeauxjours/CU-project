@@ -51,8 +51,8 @@ export default () => {
           dispatch(setSplashVisible(true));
         }
         const {data} = await api.closeList();
-        if (data.resultmsg === '1') {
-          dispatch(setCLOSED_STORE_DATA(data.stores));
+        if (data.message === 'SUCCESS') {
+          dispatch(setCLOSED_STORE_DATA(data.result));
         }
       } catch (e) {
         console.log(e);

@@ -154,7 +154,6 @@ export default ({route: {params}}) => {
         STORE_SEQ,
         YEAR,
         MONTH,
-        MEMBER_SEQ,
         index == 0 ? '1' : '0',
       );
       if (data.message === 'SUCCESS') {

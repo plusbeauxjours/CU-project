@@ -40,8 +40,6 @@ const TextBox = styled.View`
 const Text = styled.Text``;
 
 export default ({route: {params}}) => {
-  const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
-
   const PDF_URL = params?.PDF_URL;
   const IMG_URL2 = params?.IMG_URL2;
   const CONTENTS2 = params?.CONTENTS2;
@@ -51,7 +49,7 @@ export default ({route: {params}}) => {
 
   const checkPdf = async () => {
     setModalVisible(true);
-    const {data} = await api.setpdfcheck(PDF_SEQ);
+    await api.setpdfcheck(PDF_SEQ);
   };
 
   return (

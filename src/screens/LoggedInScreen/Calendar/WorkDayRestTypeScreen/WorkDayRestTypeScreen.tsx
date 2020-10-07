@@ -141,7 +141,7 @@ export default ({route: {params}}) => {
       );
       navigation.pop(2);
       alertModal('휴무설정이 완료되었습니다.');
-      const {data} = await api.createScheduleVacation2({
+      await api.createScheduleVacation2({
         EMP_SEQ: EMP_ID,
         STORE_ID: STORE_SEQ,
         EMP_NAME: NAME,

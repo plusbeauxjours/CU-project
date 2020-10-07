@@ -131,7 +131,7 @@ export default () => {
           STORE_NAME,
           STORE_ID: STORE_SEQ,
         });
-        if (data.resultmsg === '1') {
+        if (data.message === 'SUCCESS') {
           navigation.goBack();
           alertModal('일정을 추가하였습니다.');
         }
@@ -212,8 +212,8 @@ export default () => {
   const fetchData = async () => {
     try {
       const {data} = await api.getEmployeeList({STORE_SEQ});
-      if (data.resultmsg === '1') {
-        setEmplist(data.working);
+      if (data.message === 'SUCCESS') {
+        setEmplist(data.result);
       }
     } catch (e) {
       console.log(e);

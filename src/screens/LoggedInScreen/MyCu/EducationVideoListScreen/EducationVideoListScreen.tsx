@@ -84,14 +84,14 @@ export default () => {
         dispatch(setSplashVisible(true));
       }
       const {data} = await api.cuedulistcheck();
-      if (data.message === 'SUCCESS') {
-        if (Array.isArray(data.result)) {
-          for (const i of data.result) {
+      if (data.resultmsg === '1') {
+        if (Array.isArray(data.resultdata)) {
+          for (const i of data.resultdata) {
             const categoryArray = i.CATEGORY.split('@');
             i.CATEGORY = categoryArray;
           }
         }
-        dispatch(setEDUCATION_VIDEO(data.result));
+        dispatch(setEDUCATION_VIDEO(data.resultdata));
       }
     } catch (e) {
       console.log(e);

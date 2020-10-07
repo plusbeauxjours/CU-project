@@ -321,7 +321,7 @@ export default ({route: {params}}) => {
         STOREPAY_SHOW: authorityCheck[4] === true ? '1' : '0',
       });
 
-      if (data.resultmsg == '1') {
+      if (data.message === 'SUCCESS') {
         if (from === 'EmployeeInfoScreen') {
           alertModal('직원정보가 수정되었습니다.');
           navigation.goBack();

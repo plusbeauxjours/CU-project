@@ -169,7 +169,7 @@ export default ({
           MEMBER_SEQ,
         }),
       );
-      const {data} = await api.cancelScheduleVacation({SCH_ID});
+      await api.cancelScheduleVacation({SCH_ID});
     } catch (e) {
       console.log(e);
     }
