@@ -2,6 +2,8 @@ package com.wesop.cuwesop;
 
 import android.app.Application;
 import android.content.Context;
+
+import com.cuwesop.SharedStoragePackager;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -42,6 +44,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
             packages.add(new RNFirebaseAnalyticsPackage());
             packages.add(new RNFirebaseMessagingPackage());
             packages.add(new RNFirebaseNotificationsPackage());
+            packages.add(new SharedStoragePackager());
             return packages;
         }
 

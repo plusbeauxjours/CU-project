@@ -272,7 +272,7 @@ export default {
     ),
   setpdfcheck: (PDF_SEQ: string) =>
     oldApi('get', `/Store/setpdfcheck?PDF_SEQ=${PDF_SEQ}&`),
-  updateEmp: (data: any) => oldApi('post', '/Employee/update/', data),
+  updateEmp: (data: any) => oldApi('put', '/Employee/update/', data),
   checkUpdate: (data: any) => oldApi('post', '/Store/CheckUpdate/', data),
   checkRegister: (data: any) => oldApi('post', '/Store/CheckRegister/', data),
   createNewSchedule: (data: any) =>
