@@ -772,7 +772,6 @@ export default ({
               onPress={() => {
                 Linking.openURL(STORE_DATA.eventUrl2);
               }}>
-              {console.log(STORE_DATA.eventImage2)}
               <FastImage
                 style={{
                   width: wp('100%') - 40,

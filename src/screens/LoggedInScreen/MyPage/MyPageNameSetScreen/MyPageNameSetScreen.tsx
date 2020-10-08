@@ -68,7 +68,6 @@ export default () => {
         NAME,
         GENDER,
       });
-      console.log(data);
       if (data.resultmsg !== '1') {
         alertModal('연결에 실패하였습니다.');
       }

@@ -13,7 +13,7 @@ const calendarSlice = createSlice({
       } = action;
       if (state.CALENDAR_DATA) {
         if (
-          state.CALENDAR_DATA.hasOwnProperty(moment(date).format('YYYY-MM-DD'))
+          state.CALENDAR_DATA.hasOwnProperty(moment(date).format('YYYY-M-DD'))
         ) {
           return {
             ...state,

@@ -66,6 +66,12 @@ const storeSlice = createSlice({
         STORE_DATA: {},
       };
     },
+    removeSTORE_NAME(state) {
+      return {
+        ...state,
+        STORE_NAME: '',
+      };
+    },
   },
 });
 
@@ -75,6 +81,7 @@ export const {
   selectSTORE,
   updateSTORE,
   closeSTORE_DATA,
+  removeSTORE_NAME,
 } = storeSlice.actions;
 
 export default storeSlice.reducer;

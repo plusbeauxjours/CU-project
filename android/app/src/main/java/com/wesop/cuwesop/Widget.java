@@ -24,9 +24,32 @@ public class Widget extends AppWidgetProvider {
 
             // Construct the RemoteViews object
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
-            views.setTextViewText(R.id.appwidget_text, appData.getString("text"));
-            // Instruct the widget manager to update the widget
-            appWidgetManager.updateAppWidget(appWidgetId, views);
+            if(appData.getString("WIDGET_STATUS") != "0"){
+                if(appData.getString("WIDGET_STATUS") == "1"){
+                    // WIDGET_STATUS === 1
+                    views.setTextViewText(R.id.appwidget_text, appData.getString("WIDGET_TEXT"));
+                    // views.setTextViewText(R.id.appwidget_text, "WIDGET_STATUS == 1");
+                    appWidgetManager.updateAppWidget(appWidgetId, views);
+                }else{
+                    // WIDGET_STATUS === 2
+                    if(appData.getString("WIDGET_STORE") == "0"){
+                    // WIDGET_STATUS === 2 && WIDGET_STORE === 0
+                    views.setTextViewText(R.id.appwidget_text, appData.getString("WIDGET_TEXT"));
+                    // views.setTextViewText(R.id.appwidget_text, "WIDGET_STORE == 0");
+                    appWidgetManager.updateAppWidget(appWidgetId, views);
+                    }else{
+                    // WIDGET_STATUS === 2 && WIDGET_STORE === 1
+                    views.setTextViewText(R.id.appwidget_text, appData.getString("WIDGET_TEXT"));
+                    // views.setTextViewText(R.id.appwidget_text, "WIDGET_STORE == 1");
+                    appWidgetManager.updateAppWidget(appWidgetId, views);
+                    }
+                }
+            }else{
+                // WIDGET_STATUS === 0
+                views.setTextViewText(R.id.appwidget_text, appData.getString("WIDGET_TEXT"));
+                // views.setTextViewText(R.id.appwidget_text, "WIDGET_STATUS == 0");
+                appWidgetManager.updateAppWidget(appWidgetId, views);
+            }
         }catch (JSONException e) {
             e.printStackTrace();
         }

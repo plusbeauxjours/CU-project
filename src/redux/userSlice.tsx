@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import api from '../constants/LoggedInApi';
 import {setSplashVisible} from './splashSlice';
+import {removeSTORE_NAME} from './storeSlice';
 
 const userSlice = createSlice({
   name: 'user',
@@ -108,6 +109,7 @@ export const userLogin = () => async (dispatch) => {
 };
 
 export const userLogout = () => async (dispatch) => {
+  dispatch(removeSTORE_NAME());
   dispatch(setLOGOUT());
 };
 

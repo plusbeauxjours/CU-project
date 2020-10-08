@@ -108,7 +108,9 @@ export default () => {
     if (STORE_NAME == '') {
       SharedStorage.set(
         JSON.stringify({
-          text: '선택된 사업장이 없습니다. 탭하여 사업장을 선택하세요.',
+          WIDGET_TEXT: '선택된 사업장이 없습니다. 탭하여 사업장을 선택하세요.',
+          WIDGET_STORE: STORE,
+          WIDGET_STATUS: '1',
         }),
       );
     }

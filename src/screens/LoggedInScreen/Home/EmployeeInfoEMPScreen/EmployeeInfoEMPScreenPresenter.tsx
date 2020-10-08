@@ -411,9 +411,10 @@ export default ({
                   <Row>
                     <DateText>근무기간&nbsp;</DateText>
                     <DateText>
-                      {EMPLOYEE_INFO_DATA?.START} ~{' '}
+                      {moment(EMPLOYEE_INFO_DATA?.START).format('YYYY.MM.DD')}
+                      &nbsp;~&nbsp;
                       {EMPLOYEE_INFO_DATA?.END
-                        ? EMPLOYEE_INFO_DATA?.END
+                        ? moment(EMPLOYEE_INFO_DATA?.END).format('YYYY.MM.DD')
                         : '계속'}
                     </DateText>
                   </Row>

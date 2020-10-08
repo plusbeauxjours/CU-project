@@ -276,7 +276,6 @@ export default ({route: {params}}) => {
     }
     try {
       dispatch(setSplashVisible(true));
-      console.log(endDay);
       const {data} = await api.updateEmp({
         FIRST: MODIFYCOUNT,
         START_TYPE,
@@ -346,7 +345,6 @@ export default ({route: {params}}) => {
   const fetchData = async () => {
     try {
       const {data} = await api.getEmp(EMP_SEQ);
-      console.log('fetchData', data);
       if (data.resultmsg === '1') {
         let payChecked = JSON.parse(JSON.stringify(payCheck)); // 급여 유형
         payChecked.fill(false);

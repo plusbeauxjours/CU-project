@@ -202,12 +202,16 @@ export default ({route: {params}}) => {
     STORE === '1'
       ? SharedStorage.set(
           JSON.stringify({
-            text: `${STORE_NAME}입니다. ${TOTAL_COUNT}명 중 ${WORKING_COUNT}명 근무중 입니다.`,
+            WIDGET_TEXT: `${STORE_NAME}입니다. ${TOTAL_COUNT}명 중 ${WORKING_COUNT}명 근무중 입니다.`,
+            WIDGET_STORE: STORE,
+            WIDGET_STATUS: '2',
           }),
         )
       : SharedStorage.set(
           JSON.stringify({
-            text: `${STORE_NAME}입니다. 탭하하여 출근하세요.`,
+            WIDGET_TEXT: `${STORE_NAME}입니다. 탭하하여 출근하세요.`,
+            WIDGET_STORE: STORE,
+            WIDGET_STATUS: '2',
           }),
         );
     fetchData();

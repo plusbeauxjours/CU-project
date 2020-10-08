@@ -19,7 +19,9 @@ export default () => {
   useEffect(() => {
     SharedStorage.set(
       JSON.stringify({
-        text: '로그아웃 되어있습니다. 탭하여 로그인하세요.',
+        WIDGET_TEXT: '로그아웃 되어있습니다. 탭하여 로그인하세요.',
+        WIDGET_STORE: null,
+        WIDGET_STATUS: '0',
       }),
     );
   }, []);
