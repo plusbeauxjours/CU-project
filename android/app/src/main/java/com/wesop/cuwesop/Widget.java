@@ -3,6 +3,8 @@ package com.wesop.cuwesop;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 
@@ -27,27 +29,35 @@ public class Widget extends AppWidgetProvider {
             if(appData.getString("WIDGET_STATUS") != "0"){
                 if(appData.getString("WIDGET_STATUS") == "1"){
                     // WIDGET_STATUS === 1
+                    Intent intent = new Intent(context, MainActivity.class); //실행할 액티비티의 클래스
+                    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+                    views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
                     views.setTextViewText(R.id.appwidget_text, appData.getString("WIDGET_TEXT"));
-                    // views.setTextViewText(R.id.appwidget_text, "WIDGET_STATUS == 1");
                     appWidgetManager.updateAppWidget(appWidgetId, views);
                 }else{
                     // WIDGET_STATUS === 2
                     if(appData.getString("WIDGET_STORE") == "0"){
                     // WIDGET_STATUS === 2 && WIDGET_STORE === 0
+                    Intent intent = new Intent(context, MainActivity.class); //실행할 액티비티의 클래스
+                    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+                    views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
                     views.setTextViewText(R.id.appwidget_text, appData.getString("WIDGET_TEXT"));
-                    // views.setTextViewText(R.id.appwidget_text, "WIDGET_STORE == 0");
                     appWidgetManager.updateAppWidget(appWidgetId, views);
                     }else{
                     // WIDGET_STATUS === 2 && WIDGET_STORE === 1
+                    Intent intent = new Intent(context, MainActivity.class); //실행할 액티비티의 클래스
+                    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+                    views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
                     views.setTextViewText(R.id.appwidget_text, appData.getString("WIDGET_TEXT"));
-                    // views.setTextViewText(R.id.appwidget_text, "WIDGET_STORE == 1");
                     appWidgetManager.updateAppWidget(appWidgetId, views);
                     }
                 }
             }else{
                 // WIDGET_STATUS === 0
+                Intent intent = new Intent(context, MainActivity.class); //실행할 액티비티의 클래스
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+                views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
                 views.setTextViewText(R.id.appwidget_text, appData.getString("WIDGET_TEXT"));
-                // views.setTextViewText(R.id.appwidget_text, "WIDGET_STATUS == 0");
                 appWidgetManager.updateAppWidget(appWidgetId, views);
             }
         }catch (JSONException e) {
