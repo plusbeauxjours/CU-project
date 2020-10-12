@@ -105,15 +105,19 @@ export default () => {
   };
 
   useEffect(() => {
-    if (STORE_NAME == '') {
-      SharedStorage.set(
-        JSON.stringify({
-          WIDGET_TEXT: '선택된 사업장이 없습니다. 탭하여 사업장을 선택하세요.',
-          WIDGET_STORE: STORE,
-          WIDGET_STATUS: '1',
-        }),
-      );
+    if (utils.isAndroid()) {
+      if (STORE_NAME == '') {
+        SharedStorage.set(
+          JSON.stringify({
+            WIDGET_TEXT:
+              '선택된 사업장이 없습니다. 탭하여 사업장을 선택하세요.',
+            WIDGET_STORE: STORE,
+            WIDGET_STATUS: '1',
+          }),
+        );
+      }
     }
+
     checkVersion();
     dispatch(getSTORELIST_DATA());
   }, []);
