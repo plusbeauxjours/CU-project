@@ -10,6 +10,7 @@ import VerificationScreen from '../screens/LoggedOutScreen/VerificationScreen';
 import BackBtn from '../components/Header/BackBtn';
 import {useSelector} from 'react-redux';
 import RootModal from '../components/RootModal';
+import utils from '../constants/utils';
 
 const LoggedOutNavigation = createStackNavigator();
 
@@ -17,13 +18,15 @@ export default () => {
   const alert = useSelector((state: any) => state.alertReducer);
   const SharedStorage = NativeModules.SharedStorage;
   useEffect(() => {
-    SharedStorage.set(
-      JSON.stringify({
-        WIDGET_TEXT: '로그아웃 되어있습니다. 탭하여 로그인하세요.',
-        WIDGET_STORE: null,
-        WIDGET_STATUS: '0',
-      }),
-    );
+    if (utils.isAndroid()) {
+      SharedStorage.set(
+        JSON.stringify({
+          WIDGET_TEXT: '로그아웃 되어있습니다. 탭하여 로그인하세요.',
+          WIDGET_STORE: null,
+          WIDGET_STATUS: '0',
+        }),
+      );
+    }
   }, []);
 
   return (
