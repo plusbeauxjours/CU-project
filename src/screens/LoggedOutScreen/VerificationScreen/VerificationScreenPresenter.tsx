@@ -154,16 +154,14 @@ export default ({
                 keyboardType={'number-pad'}
                 maxLength={6}
               />
-            </TextinputCase>
-            <InputLine isBefore={verifyCode == '' ? true : false} />
-            <VerifyContainer>
               {isCountDownStarted && <CountText>{countdown}초</CountText>}
               <VerifyButton
                 onPress={() => onVerifyCode()}
                 isBefore={verifyCode == '' ? true : false}>
                 <VerifyText>인증확인</VerifyText>
               </VerifyButton>
-            </VerifyContainer>
+            </TextinputCase>
+            <InputLine isBefore={verifyCode == '' ? true : false} />
           </Case>
           {hasCheckTimeOut && (
             <TimeText>

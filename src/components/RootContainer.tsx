@@ -19,12 +19,12 @@ export default () => {
   const {isLoggedIn} = useSelector((state: any) => state.userReducer);
   const RootStack = createStackNavigator();
 
-  // Sentry.init({
-  //   dsn:
-  //     'https://5c8f1a5981bf43e19397aac65b8588f7@o450648.ingest.sentry.io/5436659',
-  //   enableAutoSessionTracking: true,
-  //   sessionTrackingIntervalMillis: 10000,
-  // });
+  Sentry.init({
+    dsn:
+      'https://5c8f1a5981bf43e19397aac65b8588f7@o450648.ingest.sentry.io/5436659',
+    enableAutoSessionTracking: true,
+    sessionTrackingIntervalMillis: 10000,
+  });
 
   return (
     <NavigationContainer

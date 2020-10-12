@@ -102,14 +102,6 @@ const VerifyButton = styled.TouchableOpacity<IIsBefore>`
   background-color: ${(props) => (props.isBefore ? '#CCCCCC' : '#642A8C')};
 `;
 
-const VerifyContainer = styled.View`
-  position: absolute;
-  right: 0;
-  bottom: 10px;
-  flex-direction: row;
-  align-items: center;
-`;
-
 export default ({
   isCountDownStarted,
   hasCheckedVerifyCode,
@@ -182,17 +174,15 @@ export default ({
                 maxLength={6}
               />
             </TextinputCase>
+            {isCountDownStarted && <CountText>{countdown}초</CountText>}
+            <VerifyButton
+              onPress={() => {
+                verifyCode !== onVerifyCode();
+              }}
+              isBefore={verifyCode ? false : true}>
+              <VerifyText>인증확인</VerifyText>
+            </VerifyButton>
             <InputLine isBefore={verifyCode == '' ? true : false} />
-            <VerifyContainer>
-              {isCountDownStarted && <CountText>{countdown}초</CountText>}
-              <VerifyButton
-                onPress={() => {
-                  verifyCode !== onVerifyCode();
-                }}
-                isBefore={verifyCode ? false : true}>
-                <VerifyText>인증확인</VerifyText>
-              </VerifyButton>
-            </VerifyContainer>
           </Case>
           {hasCheckedTimeOut && (
             <TimeText>

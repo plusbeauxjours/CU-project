@@ -163,6 +163,7 @@ export default ({
             <NameText>이름</NameText>
             <TextinputCase>
               <TextInput
+                style={{height: 30}}
                 placeholder={'이름'}
                 placeholderTextColor={'#E5E5E5'}
                 onChangeText={(text) => {
@@ -178,20 +179,9 @@ export default ({
             <NameText>생일</NameText>
             <Touchable onPress={() => setIsBirthDateVisible(true)}>
               <TextinputCase>
-                <TextInput
-                  style={{width: wp('100%')}}
-                  placeholder={'생일'}
-                  placeholderTextColor={'#E5E5E5'}
-                  onChangeText={(text) => {
-                    onChangeName(text);
-                  }}
-                  value={
-                    birthDate !== ''
-                      ? moment(birthDate).format('YYYY.MM.DD')
-                      : ''
-                  }
-                  editable={false}
-                />
+                <TextId>
+                  {birthDate !== '' && moment(birthDate).format('YYYY.MM.DD')}{' '}
+                </TextId>
               </TextinputCase>
             </Touchable>
             <InputLine isBefore={birthDate == '' ? true : false} />
