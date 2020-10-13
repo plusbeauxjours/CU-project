@@ -38,9 +38,10 @@ export default ({route: {params}}) => {
   const [storeCategoryType, setStoreCategoryType] = useState<number>(null); // 사업장 분류 유형, 0: 요식업, 1: 도,소매업, 2: 서비스업, 3: 일반회사, 4: 기타
 
   const [distance, setDistance] = useState<string>('150');
-  const [timeCheck, setTimeCheck] = useState<boolean>(true);
+  const [timeCheck, setTimeCheck] = useState<boolean>(false);
+  const [earlyTimeCheck, setEarlyTimeCheck] = useState<boolean>(false);
   const [days, setDays] = useState<any>(new Array(30));
-  const [dayCheck, setDayCheck] = useState<boolean>(true);
+  const [dayCheck, setDayCheck] = useState<boolean>(false);
   const [modalVisible1, setModalVisible1] = useState<boolean>(false);
   const [modalVisible2, setModalVisible2] = useState<boolean>(false);
   const [modalVisible3, setModalVisible3] = useState<boolean>(false);
@@ -96,7 +97,7 @@ export default ({route: {params}}) => {
     setModalVisible1(false);
     setEARLY_TIME(EARLY_TIME);
     setEARLY_FLAG(EARLY_FLAG);
-    setTimeCheck(true);
+    setEarlyTimeCheck(true);
   };
 
   // 등록하기버튼
@@ -181,6 +182,7 @@ export default ({route: {params}}) => {
       EARLY_TIME={EARLY_TIME}
       LATE_TIME={LATE_TIME}
       timeCheck={timeCheck}
+      earlyTimeCheck={earlyTimeCheck}
       explainModal={explainModal}
       dayCheck={dayCheck}
       gotoSearchAddress={gotoSearchAddress}

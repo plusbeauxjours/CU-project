@@ -236,6 +236,7 @@ export default ({
   EARLY_TIME,
   LATE_TIME,
   timeCheck,
+  earlyTimeCheck,
   explainModal,
   dayCheck,
   gotoSearchAddress,
@@ -409,10 +410,10 @@ export default ({
               onPress={() => {
                 setModalVisible1(true);
               }}>
-              <InputText isBefore={timeCheck === false}>
+              <InputText isBefore={earlyTimeCheck === false}>
                 {EARLY_TIME}분
               </InputText>
-              <InputLine isBefore={timeCheck === false} />
+              <InputLine isBefore={earlyTimeCheck === false} />
             </Touchable>
           </Section>
           <Section>
@@ -459,7 +460,7 @@ export default ({
                 setModalVisible3(!modalVisible3);
                 setDays(value);
               }}>
-              <InputText>
+              <InputText isBefore={dayCheck === false}>
                 {CALCULATE_DAY == 1 ? '말일' : `${CALCULATE_DAY - 1}일`}
               </InputText>
               <InputLine isBefore={dayCheck === false} />
@@ -474,30 +475,32 @@ export default ({
             onBackdropPress={() => setModalVisible1(false)}
             style={{margin: 0, justifyContent: 'flex-end'}}
             avoidKeyboard={true}>
-            <ModalList onPress={() => onPressEarly(0, '0')}>
-              <ModalText>0분</ModalText>
-            </ModalList>
-            <ModalList onPress={() => onPressEarly(5, '1')}>
-              <ModalText>5분</ModalText>
-            </ModalList>
-            <ModalList onPress={() => onPressEarly(10, '1')}>
-              <ModalText>10분</ModalText>
-            </ModalList>
-            <ModalList onPress={() => onPressEarly(15, '1')}>
-              <ModalText>15분</ModalText>
-            </ModalList>
-            <ModalList onPress={() => onPressEarly(30, '1')}>
-              <ModalText>30분</ModalText>
-            </ModalList>
-            <ModalList onPress={() => onPressEarly(60, '1')}>
-              <ModalText>60분</ModalText>
-            </ModalList>
-            <SubmitBtnContainer
-              onPress={() => {
-                setModalVisible1(false);
-              }}>
-              <SubmitBtnText>확인</SubmitBtnText>
-            </SubmitBtnContainer>
+            <ModalContainer>
+              <ModalList onPress={() => onPressEarly(0, '0')}>
+                <ModalText>0분</ModalText>
+              </ModalList>
+              <ModalList onPress={() => onPressEarly(5, '1')}>
+                <ModalText>5분</ModalText>
+              </ModalList>
+              <ModalList onPress={() => onPressEarly(10, '1')}>
+                <ModalText>10분</ModalText>
+              </ModalList>
+              <ModalList onPress={() => onPressEarly(15, '1')}>
+                <ModalText>15분</ModalText>
+              </ModalList>
+              <ModalList onPress={() => onPressEarly(30, '1')}>
+                <ModalText>30분</ModalText>
+              </ModalList>
+              <ModalList onPress={() => onPressEarly(60, '1')}>
+                <ModalText>60분</ModalText>
+              </ModalList>
+              <SubmitBtnContainer
+                onPress={() => {
+                  setModalVisible1(false);
+                }}>
+                <SubmitBtnText>확인</SubmitBtnText>
+              </SubmitBtnContainer>
+            </ModalContainer>
           </Modal>
           <Modal
             isVisible={modalVisible2}
@@ -505,30 +508,32 @@ export default ({
             onBackdropPress={() => setModalVisible2(false)}
             style={{margin: 0, justifyContent: 'flex-end'}}
             avoidKeyboard={true}>
-            <ModalList onPress={() => onPressLate(0, '0')}>
-              <ModalText>0분</ModalText>
-            </ModalList>
-            <ModalList onPress={() => onPressLate(5, '1')}>
-              <ModalText>5분</ModalText>
-            </ModalList>
-            <ModalList onPress={() => onPressLate(10, '1')}>
-              <ModalText>10분</ModalText>
-            </ModalList>
-            <ModalList onPress={() => onPressLate(15, '1')}>
-              <ModalText>15분</ModalText>
-            </ModalList>
-            <ModalList onPress={() => onPressLate(30, '1')}>
-              <ModalText>30분</ModalText>
-            </ModalList>
-            <ModalList onPress={() => onPressLate(60, '1')}>
-              <ModalText>60분</ModalText>
-            </ModalList>
-            <SubmitBtnContainer
-              onPress={() => {
-                setModalVisible2(false);
-              }}>
-              <SubmitBtnText>확인</SubmitBtnText>
-            </SubmitBtnContainer>
+            <ModalContainer>
+              <ModalList onPress={() => onPressLate(0, '0')}>
+                <ModalText>0분</ModalText>
+              </ModalList>
+              <ModalList onPress={() => onPressLate(5, '1')}>
+                <ModalText>5분</ModalText>
+              </ModalList>
+              <ModalList onPress={() => onPressLate(10, '1')}>
+                <ModalText>10분</ModalText>
+              </ModalList>
+              <ModalList onPress={() => onPressLate(15, '1')}>
+                <ModalText>15분</ModalText>
+              </ModalList>
+              <ModalList onPress={() => onPressLate(30, '1')}>
+                <ModalText>30분</ModalText>
+              </ModalList>
+              <ModalList onPress={() => onPressLate(60, '1')}>
+                <ModalText>60분</ModalText>
+              </ModalList>
+              <SubmitBtnContainer
+                onPress={() => {
+                  setModalVisible2(false);
+                }}>
+                <SubmitBtnText>확인</SubmitBtnText>
+              </SubmitBtnContainer>
+            </ModalContainer>
           </Modal>
           <Modal
             isVisible={modalVisible3}

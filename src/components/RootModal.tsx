@@ -46,12 +46,6 @@ const Content = styled.Text`
   color: #707070;
 `;
 
-const Attach = styled.Text`
-  margin-top: 20px;
-  font-size: 12px;
-  color: #777;
-`;
-
 const WithHelpBtn = styled(Ripple)<IColor>`
   height: 60px;
   width: ${(props) => (props.color === '#642A8C' ? wp('80%') : wp('20%'))}px;
@@ -108,7 +102,6 @@ export default ({alert}) => {
     <Box>
       <Title>{alert?.title}</Title>
       <Content>{alert?.content}</Content>
-      <Attach>{alert?.attach}</Attach>
     </Box>
   );
 

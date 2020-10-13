@@ -28,13 +28,12 @@ export default () => {
     }
   };
 
-  const adviceModal = (title, text, attach, height) => {
+  const adviceModal = (title, text, height) => {
     const params = {
       alertType: 'explain',
       height: height,
       title: title,
       content: text,
-      attach: attach,
     };
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
