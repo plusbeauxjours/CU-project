@@ -53,14 +53,20 @@ const userSlice = createSlice({
       };
     },
     setLOGIN(state) {
-      state.isLoggedIn = true;
+      return {
+        ...state,
+        isLoggedIn: true,
+      };
     },
     setLOGOUT(state) {
-      state.isLoggedIn = false;
-      state.MEMBER_SEQ = '';
-      state.STORE = '';
-      state.MOBILE_NO = '';
-      state.STORELIST_DATA = [];
+      return {
+        ...state,
+        isLoggedIn: false,
+        MEMBER_SEQ: '',
+        STORE: '',
+        MOBILE_NO: '',
+        STORELIST_DATA: [],
+      };
     },
     setDEVICE_PLATFORM(state, action) {
       const {payload: DEVICE_PLATFORM} = action;

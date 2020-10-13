@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {ActivityIndicator} from 'react-native';
+import {ActivityIndicator, StatusBar} from 'react-native';
 import {useSelector} from 'react-redux';
 import firebase from 'react-native-firebase';
 import * as Sentry from '@sentry/react-native';
@@ -68,6 +68,7 @@ export default () => {
         }
         routeNameRef.current = currentRouteName;
       }}>
+      <StatusBar barStyle="light-content" />
       <RootStack.Navigator
         mode="modal"
         initialRouteName={

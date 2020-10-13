@@ -142,7 +142,6 @@ export default ({
       )}
       <ScrollView
         showsVerticalScrollIndicator={false}
-        conte
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
