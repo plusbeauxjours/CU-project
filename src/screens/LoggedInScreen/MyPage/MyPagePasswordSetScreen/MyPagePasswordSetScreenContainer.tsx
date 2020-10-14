@@ -78,7 +78,6 @@ export default () => {
       if (data.message == 'SMSERROR') {
         alertModal('인증번호 오류입니다.');
       } else {
-        alertModal('비밀번호가 변경 되었습니다. 다시 로그인해주세요.');
         setHasCheckedVerifyCode(false);
         dispatch(userLogout());
         clearInterval(timer);
