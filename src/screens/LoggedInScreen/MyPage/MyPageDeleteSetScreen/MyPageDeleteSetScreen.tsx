@@ -71,7 +71,9 @@ interface IIsConfirm {
 export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {MEMBER_SEQ, mobileNo} = useSelector((state: any) => state.userReducer);
+  const {MEMBER_SEQ, MOBILE_NO} = useSelector(
+    (state: any) => state.userReducer,
+  );
 
   const confirmModal = () => {
     const params = {
@@ -91,7 +93,7 @@ export default () => {
   const submit = async () => {
     try {
       const {data} = await api.toggleMember({
-        MobileNo: mobileNo,
+        MobileNo: MOBILE_NO,
         MEMBER_SEQ,
       });
       if (data.resultmsg === '1') {
