@@ -108,7 +108,7 @@ export default {
   updatePush: (data: any) => callApi('post', '/auth/updatePush/', data),
   getStoreInfo: (data: any) => callApi('post', '/auth/getstoreinfo/', data),
   getCertificate: (data: any) => callApi('post', '/auth/getCERTIFICATE/', data),
-  getPush: (data: any) => callApi('post', '/auth/getPush/', data),
+  getPush: () => callApi('post', '/auth/getPush/'),
   toggleMember: (data: any) =>
     callApi('post', '/auth/changeMemberStore/', data),
   changeName: (data: any) => callApi('post', '/auth/changeMemberName', data),

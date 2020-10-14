@@ -64,7 +64,6 @@ const Phone = styled.View`
 
 const PhoneText = styled.Text`
   font-size: 13px;
-  margin-left: 10px;
   color: #707070;
 `;
 
@@ -95,7 +94,7 @@ const CardText = styled.Text`
 export default () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {STORE, MEMBER_NAME, mobileNo} = useSelector(
+  const {STORE, MEMBER_NAME, MOBILE_NO} = useSelector(
     (state: any) => state.userReducer,
   );
 

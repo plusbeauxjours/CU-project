@@ -8,6 +8,7 @@ import api from '~/constants/LoggedInApi';
 import {userLogout} from '~/redux/userSlice';
 import {CheckBoxIcon} from '~/constants/Icons';
 import {useNavigation} from '@react-navigation/native';
+import Ripple from 'react-native-material-ripple';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -46,22 +47,21 @@ const CheckText = styled.Text`
   font-size: 15px;
   color: #404040;
   margin-left: 10px;
-  padding-top: 5px;
 `;
 
-const SubmitBtn = styled.TouchableOpacity<IIsConfirm>`
-  height: ${hp('5%')}px;
+const SubmitBtn = styled(Ripple)<IIsConfirm>`
+  margin-top: 30px;
+  width: ${wp('100%') - 80}px;
+  height: 60px;
   background-color: ${(props) => (props.isConfirmed ? '#FF3D3D' : '#FFC7C7')};
   justify-content: center;
   align-items: center;
-  border-radius: 20px;
+  border-radius: 30px;
 `;
 
 const SubmitBtnText = styled.Text`
   font-size: 15px;
   color: white;
-  margin-left: 10px;
-  padding-top: 5px;
 `;
 
 interface IIsConfirm {
@@ -132,6 +132,11 @@ export default () => {
         </Check>
         <WhiteSpace />
         <SubmitBtn
+          rippleColor={'#e39a9c'}
+          rippleDuration={600}
+          rippleSize={1200}
+          rippleContainerBorderRadius={30}
+          rippleOpacity={0.45}
           isConfirmed={isConfirmed}
           onPress={() => {
             confirmModal();

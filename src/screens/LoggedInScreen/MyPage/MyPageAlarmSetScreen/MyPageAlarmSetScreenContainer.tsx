@@ -14,7 +14,6 @@ import api from '~/constants/LoggedInApi';
 
 export default () => {
   const dispatch = useDispatch();
-  const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
   const {
     All_PUSH,
     WORK_PUSH,
@@ -44,7 +43,6 @@ export default () => {
     const isAlarmOn = value == true ? '0' : '1';
     try {
       await api.updatePush({
-        MEMBER_SEQ,
         [alarm]: isAlarmOn,
       });
     } catch (e) {
@@ -56,7 +54,7 @@ export default () => {
 
   const fetch = async () => {
     try {
-      const {data} = await api.getPush({MEMBER_SEQ});
+      const {data} = await api.getPush();
       data.resultmsg[0].All_Push == '1' && dispatch(setAllPush(true));
       data.resultmsg[0].WORK_PUSH == '1' && dispatch(setWorkPush(true));
       data.resultmsg[0].CHECK_PUSH == '1' && dispatch(setCheckPush(true));
