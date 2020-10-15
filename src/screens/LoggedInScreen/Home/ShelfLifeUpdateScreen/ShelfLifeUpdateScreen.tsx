@@ -166,13 +166,6 @@ export default ({route: {params}}) => {
           shelfLifeMemo,
         }),
       );
-      dispatch(
-        getSHELFLIFE_DATA(
-          moment(shelfLifeDate).format('YYYY'),
-          moment(shelfLifeDate).format('MM'),
-          moment(shelfLifeDate).format('DD'),
-        ),
-      );
       const {data} = await api.updateShelfLifeData({
         shelfLife_SEQ,
         shelfLifeNAME: shelfLifeName,
