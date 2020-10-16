@@ -54,7 +54,6 @@ export default () => {
         break;
       }
     }
-    setChoiceEmp(buffer);
   };
 
   // 직원 리스트 모달에서 직원을 추가하였을 때

@@ -495,7 +495,6 @@ export default ({
         is24Hour={true}
         onCancel={() => setIsStartTimeModalVisible(false)}
         display="default"
-        pickerContainerStyleIOS={{backgroundColor: 'red'}}
       />
       <DatePickerModal
         headerTextIOS={'시간을 선택하세요.'}

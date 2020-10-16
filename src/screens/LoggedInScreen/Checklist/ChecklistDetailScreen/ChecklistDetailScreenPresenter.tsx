@@ -112,7 +112,7 @@ const Category = styled.TouchableOpacity<ISelected>`
   margin-left: 16px;
 `;
 
-const CategoryText = styled.Text`
+const CategoryText = styled.Text<ISelected>`
   color: ${(props) => (props.isSelected ? '#ffffff' : '#642A8C')};
 `;
 

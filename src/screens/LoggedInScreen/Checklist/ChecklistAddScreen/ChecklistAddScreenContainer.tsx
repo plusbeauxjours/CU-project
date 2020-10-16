@@ -127,7 +127,7 @@ export default ({route: {params}}) => {
     if (TITLE == '') {
       alertModal('체크포인트를 입력해주세요');
     }
-    if (isCheckedEmpChoise) {
+    if (isCheckedEmpChoise && sign == 'close') {
       if (buffer.length == 0) {
         return alertModal('체크리스트 담당 직원을 선택해주세요');
       }

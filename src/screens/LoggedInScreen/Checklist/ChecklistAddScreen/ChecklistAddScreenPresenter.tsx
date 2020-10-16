@@ -454,7 +454,6 @@ export default ({
         is24Hour={true}
         onCancel={() => setIsCustomModalVisible(false)}
         display="default"
-        pickerContainerStyleIOS={{backgroundColor: 'red'}}
       />
     </BackGround>
   );

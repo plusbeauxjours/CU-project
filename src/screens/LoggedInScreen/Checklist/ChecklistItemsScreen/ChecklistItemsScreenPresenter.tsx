@@ -439,7 +439,7 @@ export default ({
           </Section>
           {CHECKLIST_DATA?.length == 0 ? (
             STORE == '1' ? (
-              <Empty onPress={() => gotoChecklistAdd()}>
+              <Empty onPress={() => onPressAddChecklist()}>
                 <CreateIcon color={'#999'} />
                 <EmptyText>체크리스트를 등록해주세요!</EmptyText>
               </Empty>
