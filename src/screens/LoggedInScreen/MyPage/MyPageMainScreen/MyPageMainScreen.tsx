@@ -148,7 +148,7 @@ export default () => {
             </Name>
 
             <Phone>
-              <PhoneText>{mobileNo}</PhoneText>
+              <PhoneText>{MOBILE_NO}</PhoneText>
             </Phone>
           </PersonInfo>
         </Info>

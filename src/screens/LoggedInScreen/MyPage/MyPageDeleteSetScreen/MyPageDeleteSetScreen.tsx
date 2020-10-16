@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import styled from 'styled-components/native';
 import {useSelector, useDispatch} from 'react-redux';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import api from '~/constants/LoggedInApi';
@@ -51,7 +54,7 @@ const CheckText = styled.Text`
 
 const SubmitBtn = styled(Ripple)<IIsConfirm>`
   margin-top: 30px;
-  width: ${wp('100%') - 80}px;
+  width: ${wp('100%') - 40}px;
   height: 60px;
   background-color: ${(props) => (props.isConfirmed ? '#FF3D3D' : '#FFC7C7')};
   justify-content: center;
