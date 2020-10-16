@@ -178,6 +178,7 @@ export default ({
   isFavorite,
   imageIndex,
   setImageIndex,
+  STORE,
 }) => {
   const navigation = useNavigation();
 
@@ -305,7 +306,7 @@ export default ({
                             </Text>
                           </Column>
                         </Row>
-                        {data.MEMBER_SEQ == ME && (
+                        {(data.MEMBER_SEQ == ME || STORE == '1') && (
                           <Row style={{justifyContent: 'flex-end'}}>
                             <RowTouchable
                               onPress={() => {

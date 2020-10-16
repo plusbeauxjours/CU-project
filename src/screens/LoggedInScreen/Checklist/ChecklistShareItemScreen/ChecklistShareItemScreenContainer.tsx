@@ -198,6 +198,7 @@ export default ({route: {params}}) => {
       isFavorite={isFavorite}
       imageIndex={imageIndex}
       setImageIndex={setImageIndex}
+      STORE={STORE}
     />
   );
 };
