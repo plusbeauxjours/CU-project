@@ -20,7 +20,7 @@ import {
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
-  background-color: white;
+  background-color: #f6f6f6;;
 `;
 const ScrollView = styled.ScrollView``;
 const Text = styled.Text``;

@@ -33,13 +33,14 @@ const NameText = styled.Text`
 `;
 
 const RowSpace = styled(Row)`
+  margin-top: 10px;
   width: 100%;
   justify-content: space-between;
 `;
 
 const SelectBox = styled(RowSpace)`
   margin-top: 10;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding: 0 20px;
 `;
 
