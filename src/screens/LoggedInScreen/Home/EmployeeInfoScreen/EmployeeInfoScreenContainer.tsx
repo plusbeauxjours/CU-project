@@ -330,7 +330,7 @@ export default ({route: {params}}) => {
           }
         }
         if (deleteList.length > 0) {
-          const {data} = await api.updateEmpSchedules3({DEL: deleteList});
+          const {data} = await api.updateEmpSchedule({DEL: deleteList});
           if (data.message === 'SUCCESS') {
             fetchSchedule(EMP_SEQ);
           }
