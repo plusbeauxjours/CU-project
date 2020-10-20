@@ -10,6 +10,7 @@ import Modal from 'react-native-modal';
 import {ActivityIndicator} from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import {isIphoneX} from 'react-native-iphone-x-helper';
+import moment from 'moment';
 
 import {
   BackIcon,
@@ -335,7 +336,9 @@ export default ({
                 />
                 <GetContent
                   label={'교육 일시'}
-                  data={HEALTH_STORE_DETAIL[SELECT_INDEX]?.probationDATE}
+                  data={moment(
+                    HEALTH_STORE_DETAIL[SELECT_INDEX]?.probationDATE,
+                  ).format('YYYY.MM.DD')}
                 />
                 <GetContent
                   label={'영업의종류'}
@@ -346,7 +349,10 @@ export default ({
               </ContentWrapper>
               <RegDateContainer>
                 <RegDate>
-                  ※ 입력일자 : {HEALTH_STORE_DETAIL[SELECT_INDEX]?.CREATE_TIME}
+                  ※ 입력일자 :
+                  {moment(
+                    HEALTH_STORE_DETAIL[SELECT_INDEX]?.CREATE_TIME,
+                  ).format('YYYY.MM.DD')}
                 </RegDate>
               </RegDateContainer>
             </Box>

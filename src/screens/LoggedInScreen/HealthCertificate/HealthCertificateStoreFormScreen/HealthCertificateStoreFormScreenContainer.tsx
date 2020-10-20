@@ -123,7 +123,7 @@ export default ({route: {params}}) => {
       });
       const {data} = await api.saveOcr1(formData);
       if (data.result == '1') {
-        params?.fetchData();
+        params?.fetchData && params?.fetchData();
         navigation.goBack();
         alertModal('', '저장 완료');
       }
