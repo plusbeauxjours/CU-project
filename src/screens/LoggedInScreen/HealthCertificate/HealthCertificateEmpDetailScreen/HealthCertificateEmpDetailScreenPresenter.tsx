@@ -10,6 +10,7 @@ import FastImage from 'react-native-fast-image';
 import Modal from 'react-native-modal';
 import {ActivityIndicator} from 'react-native';
 import {isIphoneX} from 'react-native-iphone-x-helper';
+import moment from 'moment';
 
 import {
   BackIcon,
@@ -20,7 +21,7 @@ import {
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
-  background-color: #f6f6f6;;
+  background-color: #f6f6f6;
 `;
 const ScrollView = styled.ScrollView``;
 const Text = styled.Text``;
@@ -316,13 +317,18 @@ export default ({
                 />
                 <GetContent
                   label={'검진일'}
-                  data={HEALTH_EMP_DETAIL[SELECT_INDEX]?.RESULT_DATE}
+                  data={moment(
+                    HEALTH_EMP_DETAIL[SELECT_INDEX]?.RESULT_DATE,
+                  ).format('YYYY.MM.DD')}
                 />
                 <GetContentComponent label={'사진'} />
               </ContentWrapper>
               <RegDateContainer>
                 <RegDate>
-                  ※ 입력일자 : {HEALTH_EMP_DETAIL[SELECT_INDEX]?.CREATE_TIME}
+                  ※ 입력일자 :&nbsp;
+                  {moment(HEALTH_EMP_DETAIL[SELECT_INDEX]?.CREATE_TIME).format(
+                    'YYYY.MM.DD',
+                  )}
                 </RegDate>
               </RegDateContainer>
             </Box>

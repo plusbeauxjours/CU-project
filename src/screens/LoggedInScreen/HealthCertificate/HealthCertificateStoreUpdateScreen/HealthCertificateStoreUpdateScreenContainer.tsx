@@ -218,7 +218,7 @@ export default ({route: {params}}) => {
 
   const deleteFn = async () => {
     try {
-      navigation.goBack();
+      navigation.pop(2);
       dispatch(removeHEALTH_STORE_DETAIL(CEO_HEALTH_SEQ));
       alertModal(
         '',
