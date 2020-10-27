@@ -15,7 +15,7 @@ export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const {TITLE, NOTICE_SEQ, isFavorite} = params;
 
-  const {STORE, MEMBER_SEQ: ME} = useSelector(
+  const {STORE, MEMBER_SEQ: ME, MEMBER_SEQ} = useSelector(
     (state: any) => state.userReducer,
   );
   const {
@@ -83,7 +83,7 @@ export default ({route: {params}}) => {
     try {
       const {data} = await api.setNoticeComment(
         NOTICE_SEQ,
-        item?.EMP_NAME,
+        MEMBER_SEQ,
         comment,
         STORE,
       );

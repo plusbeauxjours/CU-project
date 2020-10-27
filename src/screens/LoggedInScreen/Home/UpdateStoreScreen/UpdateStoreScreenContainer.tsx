@@ -258,6 +258,7 @@ export default ({route: {params}}) => {
       onPressLate={onPressLate}
       onPressEarly={onPressEarly}
       checkDirectInput={checkDirectInput}
+      STORE={STORE}
     />
   );
 };

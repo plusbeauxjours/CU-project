@@ -56,7 +56,6 @@ export default () => {
         case '0':
           dispatch(setUSER(data.RESULT_DATA));
           dispatch(setMOBILE_NO(mobileNo));
-
           dispatch(userLogin());
           return navigation.navigate('LoggedInNavigation');
         case '1':

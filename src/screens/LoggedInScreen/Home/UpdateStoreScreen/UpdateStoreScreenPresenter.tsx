@@ -139,7 +139,7 @@ const TitleText = styled.Text`
   margin-right: 10px;
 `;
 
-const DeleteBtnTExt = styled.Text`
+const DeleteBtnText = styled.Text`
   font-size: 16px;
   font-weight: bold;
   color: #ff3d3d;
@@ -647,7 +647,7 @@ export default ({
                   onPress={() =>
                     confirmModal('매장을 폐업상태로 변경하시겠습니까?')
                   }>
-                  <DeleteBtnTExt>매장 폐업하기</DeleteBtnTExt>
+                  <DeleteBtnText>매장 폐업하기</DeleteBtnText>
                 </DeleteBtn>
               </InputCase>
               <WhiteSpace />

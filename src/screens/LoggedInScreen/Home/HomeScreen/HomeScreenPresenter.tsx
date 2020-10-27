@@ -411,7 +411,7 @@ export default ({
           source={require('../../../../assets/main/mainTopBg.png')}
           resizeMode={FastImage.resizeMode.cover}>
           <MyPage>
-            {STORE !== '1' && (
+            {STORE === '1' && (
               <IconContainer
                 onPress={() => {
                   navigation.navigate('HelpModalScreen');
