@@ -23,6 +23,7 @@ const WhiteSpace = styled.View`
 `;
 
 const Container = styled.View`
+  align-items: center;
   padding: 0 20px;
 `;
 
@@ -44,6 +45,7 @@ const Check = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   padding-left: 10px;
+  height: 24px;
 `;
 
 const CheckText = styled.Text`
@@ -56,15 +58,16 @@ const SubmitBtn = styled(Ripple)<IIsConfirm>`
   margin-top: 30px;
   width: ${wp('100%') - 40}px;
   height: 60px;
-  background-color: ${(props) => (props.isConfirmed ? '#FF3D3D' : '#FFC7C7')};
+  background-color: #e85356;
   justify-content: center;
   align-items: center;
   border-radius: 30px;
 `;
 
 const SubmitBtnText = styled.Text`
-  font-size: 15px;
+  font-size: 16px;
   color: white;
+  font-weight: 400;
 `;
 
 interface IIsConfirm {
@@ -77,6 +80,12 @@ export default () => {
   const {MEMBER_SEQ, MOBILE_NO} = useSelector(
     (state: any) => state.userReducer,
   );
+
+  const alertModal = (text) => {
+    const params = {alertType: 'alert', content: text};
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
+  };
 
   const confirmModal = () => {
     const params = {
@@ -95,21 +104,22 @@ export default () => {
 
   const submit = async () => {
     try {
+      dispatch(userLogout());
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: 'LoggedOutNavigation',
+            state: {routes: [{name: 'StartScreen'}]},
+          },
+        ],
+      });
       const {data} = await api.toggleMember({
         MobileNo: MOBILE_NO,
         MEMBER_SEQ,
       });
-      if (data.resultmsg === '1') {
-        dispatch(userLogout());
-        navigation.reset({
-          index: 0,
-          routes: [
-            {
-              name: 'LoggedOutNavigation',
-              state: {routes: [{name: 'StartScreen'}]},
-            },
-          ],
-        });
+      if (data.message !== 'SUCCESS') {
+        alertModal('연결에 실패하였습니다.');
       }
     } catch (e) {
       console.log(e);
@@ -124,10 +134,7 @@ export default () => {
         <Title>
           <TitleText>탈퇴하기</TitleText>
         </Title>
-        <Check
-          onPress={() => {
-            setIsConfirmed(!isConfirmed);
-          }}>
+        <Check onPress={() => setIsConfirmed(!isConfirmed)}>
           {isConfirmed ? (
             <CheckBoxIcon size={22} color={'#642A8C'} />
           ) : (
@@ -136,19 +143,21 @@ export default () => {
           <CheckText>데이터를 모두 삭제하고 탈퇴하겠습니다</CheckText>
         </Check>
         <WhiteSpace />
-        <SubmitBtn
-          rippleColor={'#e39a9c'}
-          rippleDuration={600}
-          rippleSize={1200}
-          rippleContainerBorderRadius={30}
-          rippleOpacity={0.45}
-          isConfirmed={isConfirmed}
-          onPress={() => {
-            confirmModal();
-          }}
-          disabled={!isConfirmed}>
-          <SubmitBtnText>탈퇴하기</SubmitBtnText>
-        </SubmitBtn>
+        {isConfirmed && (
+          <SubmitBtn
+            rippleColor={'#e39a9c'}
+            rippleDuration={600}
+            rippleSize={1200}
+            rippleContainerBorderRadius={30}
+            rippleOpacity={0.45}
+            isConfirmed={isConfirmed}
+            onPress={() => {
+              confirmModal();
+            }}
+            disabled={!isConfirmed}>
+            <SubmitBtnText>탈퇴하기</SubmitBtnText>
+          </SubmitBtn>
+        )}
       </Container>
     </BackGround>
   );

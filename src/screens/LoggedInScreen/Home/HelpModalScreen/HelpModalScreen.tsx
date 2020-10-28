@@ -29,7 +29,7 @@ const KakaoText = styled.Text`
 
 const AdviceText = styled.Text`
   font-size: 16px;
-  color: #642a8c;
+  color: #7e7c7c;
 `;
 
 const WhiteSpace = styled.View`
@@ -50,7 +50,7 @@ const KakaoBox = styled.TouchableOpacity`
 const AdviceBox = styled(KakaoBox)`
   border-width: 1px;
   background-color: #fff;
-  border-color: #ddd;
+  border-color: #bbb;
 `;
 
 export default () => {

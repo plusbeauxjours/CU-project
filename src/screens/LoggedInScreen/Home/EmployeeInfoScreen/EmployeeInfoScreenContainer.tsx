@@ -39,6 +39,7 @@ export default ({route: {params}}) => {
   const [date, setDate] = useState<string>(moment().format('YYYY-MM-DD'));
   const [PAY, setPAY] = useState<number>(0);
   const [PAY_TYPE, setPAY_TYPE] = useState<string>('0');
+  const [mobileNo, setMobileNo] = useState<string>('');
 
   const alertModal = (title, text) => {
     const params = {
@@ -379,6 +380,7 @@ export default ({route: {params}}) => {
     try {
       const {data} = await api.getEmp(EMP_SEQ);
       if (data.resultmsg === '1') {
+        setMobileNo(data.resultdata.MobileNo);
         calculateFn(
           EMP_SEQ,
           moment().add(1, 'month').format('YYYY'),
@@ -434,6 +436,7 @@ export default ({route: {params}}) => {
       setTimeList={setTimeList}
       getNumberToday={getNumberToday}
       gotoSetInfo={gotoSetInfo}
+      mobileNo={mobileNo}
     />
   );
 };

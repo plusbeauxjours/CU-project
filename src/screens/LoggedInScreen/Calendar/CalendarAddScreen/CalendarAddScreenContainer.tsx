@@ -54,6 +54,7 @@ export default () => {
         break;
       }
     }
+    setChoiceEmp(buffer);
   };
 
   // 직원 리스트 모달에서 직원을 추가하였을 때
@@ -131,7 +132,7 @@ export default () => {
           STORE_ID: STORE_SEQ,
         });
         if (data.message === 'SUCCESS') {
-          navigation.goBack();
+          navigation.navigate('CalendarInfoScreen');
           alertModal('일정을 추가하였습니다.');
         }
       } catch (e) {

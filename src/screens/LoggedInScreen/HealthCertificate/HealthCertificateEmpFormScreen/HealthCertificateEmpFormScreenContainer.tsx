@@ -8,6 +8,7 @@ import {setSplashVisible} from '~/redux/splashSlice';
 import HealthCertificateEmpFormScreenPresenter from './HealthCertificateEmpFormScreenPresenter';
 import utils from '~/constants/utils';
 import api from '~/constants/LoggedInApi';
+import {getSTORE_HEALTH_EMP_LIST} from '~/redux/healthSlice';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
@@ -93,6 +94,7 @@ export default ({route: {params}}) => {
         {
           params?.fetchData && params?.fetchData();
         }
+        dispatch(getSTORE_HEALTH_EMP_LIST());
         navigation.goBack();
         alertModal('', '저장 완료');
       }
@@ -167,6 +169,7 @@ export default ({route: {params}}) => {
       cameraPictureLast={cameraPictureLast}
       setCameraPictureLast={setCameraPictureLast}
       takePictureFn={takePictureFn}
+      RESULT_DATE={params?.RESULT_DATE}
     />
   );
 };

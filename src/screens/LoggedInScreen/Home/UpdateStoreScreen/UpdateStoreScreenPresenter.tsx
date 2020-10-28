@@ -24,6 +24,10 @@ interface IIsBefore {
   isBefore?: boolean;
 }
 
+interface IsError {
+  isError: boolean;
+}
+
 const BackGround = styled.SafeAreaView`
   flex: 1;
   background-color: #f6f6f6;
@@ -52,8 +56,6 @@ const Section = styled.View`
 const ModalContainer = styled.View`
   background-color: white;
 `;
-
-const Text = styled.Text``;
 
 const RowTouchable = styled.TouchableOpacity`
   flex-direction: row;
@@ -119,10 +121,10 @@ const TypeText = styled.Text`
   font-size: 15px;
 `;
 
-const GreyText = styled.Text`
+const GreyText = styled.Text<IsError>`
+  font-size: 12px;
+  color: ${(props) => (props.isError ? 'red' : '#aaa')};
   margin-top: 5px;
-  color: #aaa;
-  font-size: 11px;
 `;
 
 const DeleteBtn = styled.TouchableOpacity`
@@ -243,6 +245,7 @@ export default ({
   LATE_TIME,
   EARLY_TIME,
   timeCheck,
+  EARLYtimeCheck,
   dayCheck,
   CALCULATE_DAY,
   days,
@@ -338,13 +341,14 @@ export default ({
             <TextInput
               placeholder={'OOO점'}
               placeholderTextColor={'#E5E5E5'}
-              onChangeText={(text) => {
-                setNAME(text);
-              }}
+              onChangeText={(text) => setNAME(text)}
               value={NAME}
               editable={STORE == 0 ? false : true}
             />
             <InputLine isBefore={NAME === ''} />
+            <GreyText isError={NAME?.length > 10}>
+              * 사업장명은 10자 이하로 입력해주세요.
+            </GreyText>
             <WhiteSpace />
             <InputCaseRow>
               <RowTouchable
@@ -442,10 +446,10 @@ export default ({
             ) : (
               <>
                 <NameText>조퇴 허용시간</NameText>
-                <InputText isBefore={timeCheck === false}>
+                <InputText isBefore={EARLYtimeCheck === false}>
                   {EARLY_TIME}분
                 </InputText>
-                <InputLine isBefore={timeCheck === false} />
+                <InputLine isBefore={EARLYtimeCheck === false} />
               </>
             )}
           </Section>
@@ -516,7 +520,7 @@ export default ({
                   </InputText>
                   <InputLine isBefore={dayCheck === false} />
                 </Touchable>
-                <GreyText>
+                <GreyText isError={false}>
                   * 급여산정 기간 설정으로 급여지급일과 혼동하지 마세요
                 </GreyText>
               </>
@@ -640,7 +644,15 @@ export default ({
               <SubmitBtn
                 text={'수정하기'}
                 onPress={() => submit()}
-                isRegisted={true}
+                isRegisted={
+                  NAME !== '' &&
+                  NAME?.length < 11 &&
+                  ADDR1 !== '' &&
+                  ADDR2 !== '' &&
+                  timeCheck == true &&
+                  EARLYtimeCheck == true &&
+                  dayCheck == true
+                }
               />
               <InputCase>
                 <DeleteBtn

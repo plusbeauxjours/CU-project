@@ -9,6 +9,7 @@ import {
 
 import api from '~/constants/LoggedInApi';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import FastImage from 'react-native-fast-image';
 
 const Container = styled.View`
   height: ${hp('10%')}px;
@@ -21,7 +22,8 @@ const Container = styled.View`
 
 const EmployeeBox = styled.View`
   width: ${wp('30%')}px;
-  align-items: center;
+  align-items: flex-start;
+  padding-left: 20px;
 `;
 
 const AdmitText = styled.Text`
@@ -49,6 +51,12 @@ const ButtonBox = styled.View`
 const NameText = styled.Text`
   font-size: 15px;
   font-weight: bold;
+`;
+
+const Row = styled.View`
+  flex-direction: row;
+  align-items: center;
+  padding-left: 20px;
 `;
 
 const PhoneText = styled.Text`
@@ -124,10 +132,21 @@ export default ({
 
   return (
     <Container key={key}>
-      <EmployeeBox>
-        <NameText>{EMP_NAME}</NameText>
-        <PhoneText>{PHONE}</PhoneText>
-      </EmployeeBox>
+      <Row>
+        <FastImage
+          style={{width: 60, height: 60, borderRadius: 30}}
+          source={{
+            uri: 'http://cuapi.shop-sol.com/uploads/3.png',
+            headers: {Authorization: 'someAuthToken'},
+            priority: FastImage.priority.low,
+          }}
+          resizeMode={FastImage.resizeMode.cover}
+        />
+        <EmployeeBox>
+          <NameText>{EMP_NAME}</NameText>
+          <PhoneText>{PHONE}</PhoneText>
+        </EmployeeBox>
+      </Row>
       {isRefused ? (
         <ButtonBox>
           <RefuseText>거절했습니다</RefuseText>

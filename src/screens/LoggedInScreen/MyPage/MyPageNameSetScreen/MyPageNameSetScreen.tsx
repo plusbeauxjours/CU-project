@@ -8,6 +8,10 @@ import SubmitBtn from '~/components/Btn/SubmitBtn';
 import InputLine from '~/components/InputLine';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 
+interface IsError {
+  isError: boolean;
+}
+
 const BackGround = styled.SafeAreaView`
   flex: 1;
   background-color: #f6f6f6;
@@ -30,8 +34,15 @@ const NameText = styled.Text`
 
 const TextInput = styled.TextInput`
   padding: 5px 0;
+  margin-left: 5px;
   font-size: 15px;
   color: black;
+`;
+
+const GreyText = styled.Text<IsError>`
+  font-size: 12px;
+  color: ${(props) => (props.isError ? 'red' : '#aaa')};
+  margin-top: 5px;
 `;
 
 export default () => {
@@ -42,7 +53,6 @@ export default () => {
   );
 
   const [NAME, setNAME] = useState<string>(MEMBER_NAME || '');
-  const [GENDER, setGENDER] = useState<string>('0');
 
   const alertModal = (text) => {
     const params = {
@@ -82,7 +92,7 @@ export default () => {
         <NameText>이름</NameText>
         <TextInput
           placeholder={'변경하실 이름을 입력해주세요.'}
-          selectionColor={'#642A8C'}
+          selectionColor={'#999'}
           placeholderTextColor={'#CCCCCC'}
           onChangeText={(text) => {
             setNAME(text);
@@ -91,14 +101,13 @@ export default () => {
           maxLength={10}
         />
         <InputLine isBefore={NAME === '' ? true : false} />
+        <GreyText isError={NAME?.length > 6}>
+          * 이름은 6자 이하로 입력해주세요.
+        </GreyText>
         <SubmitBtn
-          // onPressIn={() => {
-          //   alertModal('이름이 변경되었습니다.');
-          //   navigation.goBack();
-          // }}
           onPress={() => submitFn()}
           text={'수정하기'}
-          isRegisted={NAME !== ''}
+          isRegisted={NAME !== '' && NAME?.length < 6}
         />
       </Container>
     </BackGround>

@@ -70,7 +70,7 @@ const TypeCheckCase = styled.View`
 `;
 
 const WhiteSpace = styled.View`
-  height: ${hp('3%')}px;
+  height: 30px;
 `;
 
 const Case = styled.View`
@@ -163,7 +163,6 @@ export default ({
             <NameText>이름</NameText>
             <TextinputCase>
               <TextInput
-                style={{height: 30}}
                 placeholder={'이름'}
                 placeholderTextColor={'#E5E5E5'}
                 onChangeText={(text) => {

@@ -1,10 +1,7 @@
 import React, {useRef} from 'react';
 import styled from 'styled-components/native';
 import {Keyboard} from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import moment from 'moment';
 
@@ -22,6 +19,10 @@ import utils from '~/constants/utils';
 
 interface IsSelected {
   isSelected: boolean;
+}
+
+interface IsError {
+  isError: boolean;
 }
 
 const BackGround = styled.SafeAreaView`
@@ -59,6 +60,7 @@ const RowTitle = styled(Row)`
 
 const TextInput = styled.TextInput`
   width: 100%;
+  flex-wrap: wrap;
   font-size: 15px;
   border-bottom-width: 1px;
   border-color: #e5e5e5;
@@ -137,16 +139,17 @@ const Bold = styled.Text`
 `;
 
 const ChecklistItem = styled.View`
-  padding: 6px 20px;
+  padding: 6px 10px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 `;
 
-const GreyText = styled.Text`
-  max-width: 230px;
-  font-size: 15px;
-  color: #999;
+const GreyText = styled.Text<IsError>`
+  font-size: 12px;
+  color: ${(props) => (props.isError ? 'red' : '#aaa')};
+  width: ${wp('100%') - 140}px;
+  flex-wrap: wrap;
 `;
 
 const ChecklistBox = styled.View`
@@ -210,6 +213,7 @@ export default ({
   setIsCustomModalVisible,
   toastFn,
   isToastVisible,
+  alertModal,
 }) => {
   const RBSheetRef = useRef(null);
 
@@ -233,6 +237,9 @@ export default ({
               onChangeText={(text) => setTITLE(text)}
               value={TITLE}
             />
+            <GreyText isError={TITLE?.length > 15}>
+              * 체크항목은 15자 이하로 입력해주세요.
+            </GreyText>
           </Section>
           <Section>
             <Row>
@@ -246,6 +253,9 @@ export default ({
               onChangeText={(text) => setChecklistInput(text)}
               value={checklistInput}
             />
+            <GreyText isError={checklistInput?.length > 50}>
+              * 체크리스트는 50자 이하로 입력해주세요.
+            </GreyText>
             <RoundBtn
               isInSection={true}
               text={'목록에 추가하기'}
@@ -256,17 +266,17 @@ export default ({
                 setChecklistInput('');
                 setLIST(value);
               }}
-              isRegisted={checklistInput !== ''}
+              isRegisted={checklistInput !== '' && checklistInput?.length < 51}
             />
             <ChecklistBox>
               {LIST?.length === 0 && (
                 <ChecklistItem>
-                  <GreyText>ex. 가스벨브 잠그기</GreyText>
+                  <GreyText isError={false}>ex. 가스벨브 잠그기</GreyText>
                 </ChecklistItem>
               )}
               {LIST?.map((data, index) => (
                 <ChecklistItem key={index}>
-                  <GreyText>{data}</GreyText>
+                  <GreyText isError={false}>{data}</GreyText>
                   <Touchable
                     onPress={() => {
                       let value = JSON.parse(JSON.stringify(LIST));
@@ -343,7 +353,14 @@ export default ({
                 <RedText>*</RedText>
               </Row>
               {isCheckedEmpChoise && (
-                <ChecktimeButton onPress={() => RBSheetRef.current.open()}>
+                <ChecktimeButton
+                  onPress={() =>
+                    emplist.length === 0
+                      ? alertModal(
+                          '선택 할 수 있는 직원이 없습니다. 직원 합류 후 진행해주세요.',
+                        )
+                      : RBSheetRef.current.open()
+                  }>
                   <ChecktimeButtonText>직원 선택하기</ChecktimeButtonText>
                 </ChecktimeButton>
               )}
@@ -388,7 +405,8 @@ export default ({
             text={`${type}완료`}
             onPress={() => submitFn()}
             isRegisted={
-              (LIST?.length !== 0 && isNoCheckedtime) || customChecktime
+              (TITLE?.length < 16 && LIST?.length !== 0 && isNoCheckedtime) ||
+              customChecktime
             }
           />
         </Container>

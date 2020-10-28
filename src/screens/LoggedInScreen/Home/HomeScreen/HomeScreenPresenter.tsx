@@ -323,13 +323,12 @@ export default ({
   showPictureModal,
   workingModalOpen,
   setWorkingModalOpen,
-  modalRef,
   goWorkFn,
   leaveWorkFn,
   handleBarCodeScanned,
   invitedEmpCount,
   checklistCount,
-  noticeCount,
+  NOTICE_COUNT,
   QR,
 }) => {
   const navigation = useNavigation();
@@ -573,7 +572,7 @@ export default ({
                 <MenuCntContainer
                   selection={'업무일지'}
                   paging={'ChecklistShareMainScreen'}
-                  count={noticeCount}
+                  count={NOTICE_COUNT}
                 />
                 <MenuCntContainer
                   selection={'유통기한'}
@@ -685,7 +684,7 @@ export default ({
                     <MenuCntContainer
                       selection={'업무일지'}
                       paging={'ChecklistShareMainScreen'}
-                      count={noticeCount}
+                      count={NOTICE_COUNT}
                     />
                     <MenuCntContainer
                       selection={'유통기한'}
@@ -727,7 +726,7 @@ export default ({
                     <MenuCntContainer
                       selection={'업무일지'}
                       paging={'ChecklistShareMainScreen'}
-                      count={noticeCount}
+                      count={NOTICE_COUNT}
                     />
                     <MenuCntContainer
                       selection={'유통기한 알리미'}
@@ -813,7 +812,6 @@ export default ({
         <Footer />
       </ScrollView>
       <Modal
-        ref={modalRef}
         isVisible={workingModalOpen}
         animationOutTiming={1}
         onRequestClose={() => setWorkingModalOpen(false)}
@@ -842,8 +840,9 @@ export default ({
           onRead={handleBarCodeScanned}
           flashMode={RNCamera.Constants.FlashMode.off}
           androidCameraPermissionOptions={{
-            title: 'Permission to use camera',
-            message: 'We need your permission to use your camera',
+            title: '카메라 권한 설정',
+            message:
+              '앱을 사용하기 위해서는 반드시 권한을 허용해야 합니다.\n거부시 설정에서 "퇴근해씨유" 앱의 권한 허용을 해야 합니다.',
             buttonPositive: 'Ok',
             buttonNegative: 'Cancel',
           }}

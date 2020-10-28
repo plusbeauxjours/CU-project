@@ -1,13 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-
-import UpdateStoreScreenPresenter from './UpdateStoreScreenPresenter';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import api from '~/constants/LoggedInApi';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import {setSplashVisible} from '~/redux/splashSlice';
-import {getSTORELIST_DATA} from '~/redux/userSlice';
-import api from '~/constants/LoggedInApi';
 import {closeSTORE_DATA, updateSTORE} from '~/redux/storeSlice';
+import {getSTORELIST_DATA} from '~/redux/userSlice';
+import UpdateStoreScreenPresenter from './UpdateStoreScreenPresenter';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
@@ -68,6 +67,9 @@ export default ({route: {params}}) => {
   const [distance, setDistance] = useState<string>(
     STORE_DATA?.distance || null,
   );
+  const [EARLYtimeCheck, setEARLYtimeCheck] = useState<boolean>(
+    STORE_DATA?.resultdata?.EARLY_TIME ? true : false,
+  );
   const [timeCheck, setTimeCheck] = useState<boolean>(true);
   const [days, setDays] = useState<any>(new Array(30));
   const [dayCheck, setDayCheck] = useState<boolean>(true);
@@ -91,6 +93,21 @@ export default ({route: {params}}) => {
       alertType: 'explain',
       title: title,
       content: text,
+    };
+    dispatch(setAlertInfo(params));
+    dispatch(setAlertVisible(true));
+  };
+
+  const confirmModal = (content) => {
+    const params = {
+      alertType: 'confirm',
+      title: '',
+      content,
+      okCallback: () => {
+        submit('close');
+      },
+      okButtonText: '변경',
+      cancelButtonText: '취소',
     };
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
@@ -142,7 +159,7 @@ export default ({route: {params}}) => {
     setModalVisible1(false);
     setEARLY_TIME(EARLY_TIME);
     setEARLY_FLAG(EARLY_FLAG);
-    setTimeCheck(true);
+    setEARLYtimeCheck(true);
   };
 
   // 수정하기버튼
@@ -234,6 +251,7 @@ export default ({route: {params}}) => {
       LATE_TIME={LATE_TIME}
       EARLY_TIME={EARLY_TIME}
       timeCheck={timeCheck}
+      EARLYtimeCheck={EARLYtimeCheck}
       dayCheck={dayCheck}
       CALCULATE_DAY={CALCULATE_DAY}
       days={days}
@@ -258,7 +276,6 @@ export default ({route: {params}}) => {
       onPressLate={onPressLate}
       onPressEarly={onPressEarly}
       checkDirectInput={checkDirectInput}
-      STORE={STORE}
     />
   );
 };

@@ -24,6 +24,10 @@ interface IIsBefore {
   isBefore?: boolean;
 }
 
+interface IsError {
+  isError: boolean;
+}
+
 const BackGround = styled.SafeAreaView`
   flex: 1;
   background-color: #f6f6f6;
@@ -115,10 +119,10 @@ const TypeText = styled.Text`
   font-size: 15px;
 `;
 
-const GreyText = styled.Text`
+const GreyText = styled.Text<IsError>`
+  font-size: 12px;
+  color: ${(props) => (props.isError ? 'red' : '#aaa')};
   margin-top: 5px;
-  color: #aaa;
-  font-size: 11px;
 `;
 
 const TitleText = styled.Text`
@@ -236,7 +240,7 @@ export default ({
   EARLY_TIME,
   LATE_TIME,
   timeCheck,
-  earlyTimeCheck,
+  EARLYtimeCheck,
   explainModal,
   dayCheck,
   gotoSearchAddress,
@@ -337,6 +341,9 @@ export default ({
               />
             </Row>
             <InputLine isBefore={NAME === ''} />
+              <GreyText isError={NAME?.length > 10}>
+                * 점포명은 10자 이하로 입력해주세요.
+              </GreyText>
             <WhiteSpace />
             <InputCaseRow>
               <RowTouchable
@@ -410,10 +417,10 @@ export default ({
               onPress={() => {
                 setModalVisible1(true);
               }}>
-              <InputText isBefore={earlyTimeCheck === false}>
+              <InputText isBefore={EARLYtimeCheck === false}>
                 {EARLY_TIME}분
               </InputText>
-              <InputLine isBefore={earlyTimeCheck === false} />
+              <InputLine isBefore={EARLYtimeCheck === false} />
             </Touchable>
           </Section>
           <Section>
@@ -573,7 +580,15 @@ export default ({
           <SubmitBtn
             text={'등록하기'}
             onPress={() => submit()}
-            isRegisted={true}
+            isRegisted={
+              NAME !== '' &&
+              NAME?.length < 11 &&
+              ADDR1 !== '' &&
+              ADDR2 !== '' &&
+              timeCheck == true &&
+              EARLYtimeCheck == true &&
+              dayCheck == true &&
+            }
           />
         </Container>
       </ScrollView>

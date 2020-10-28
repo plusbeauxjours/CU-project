@@ -39,7 +39,7 @@ export default ({route: {params}}) => {
 
   const [distance, setDistance] = useState<string>('150');
   const [timeCheck, setTimeCheck] = useState<boolean>(false);
-  const [earlyTimeCheck, setEarlyTimeCheck] = useState<boolean>(false);
+  const [EARLYtimeCheck, setEARLYtimeCheck] = useState<boolean>(false);
   const [days, setDays] = useState<any>(new Array(30));
   const [dayCheck, setDayCheck] = useState<boolean>(false);
   const [modalVisible1, setModalVisible1] = useState<boolean>(false);
@@ -97,7 +97,7 @@ export default ({route: {params}}) => {
     setModalVisible1(false);
     setEARLY_TIME(EARLY_TIME);
     setEARLY_FLAG(EARLY_FLAG);
-    setEarlyTimeCheck(true);
+    setEARLYtimeCheck(true);
   };
 
   // 등록하기버튼
@@ -182,7 +182,7 @@ export default ({route: {params}}) => {
       EARLY_TIME={EARLY_TIME}
       LATE_TIME={LATE_TIME}
       timeCheck={timeCheck}
-      earlyTimeCheck={earlyTimeCheck}
+      EARLYtimeCheck={EARLYtimeCheck}
       explainModal={explainModal}
       dayCheck={dayCheck}
       gotoSearchAddress={gotoSearchAddress}

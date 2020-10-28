@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Linking, BackHandler, NativeModules} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -10,9 +10,9 @@ import utils from '~/constants/utils';
 import api from '~/constants/LoggedInApi';
 import {getRESPONSE_EMPLOYEE} from '~/redux/employeeSlice';
 import {getHEALTH_CERTIFICATE_DATA} from '~/redux/healthSlice';
+import {setNOTICE_COUNT} from '~/redux/checklistshareSlice';
 
 export default ({route: {params}}) => {
-  const modalRef = useRef(null);
   const dispatch = useDispatch();
   const SharedStorage = NativeModules.SharedStorage;
   const {STORE_SEQ, STORE, STORE_NAME, WORKING_COUNT, TOTAL_COUNT} = params;
@@ -20,6 +20,9 @@ export default ({route: {params}}) => {
   const {STORE_DATA} = useSelector((state: any) => state.storeReducer);
   const {MEMBER_SEQ, MEMBER_NAME, DEVICE_PLATFORM} = useSelector(
     (state: any) => state.userReducer,
+  );
+  const {NOTICE_COUNT} = useSelector(
+    (state: any) => state.checklistshareReducer,
   );
 
   const [qrModalOpen, setQrModalOpen] = useState<boolean>(false);
@@ -36,7 +39,6 @@ export default ({route: {params}}) => {
   });
   const [invitedEmpCount, setInvitedEmpCount] = useState<number>(0);
   const [checklistCount, setChecklistCount] = useState<number>(0);
-  const [noticeCount, setNoticeCount] = useState<number>(0);
 
   const alertModal = (title, text, okCallback = () => {}) => {
     const params = {
@@ -182,7 +184,7 @@ export default ({route: {params}}) => {
         setNotice(data.notice);
         setInvitedEmpCount(data.inviteemp);
         setChecklistCount(data.checklength);
-        setNoticeCount(data.noticelength);
+        dispatch(setNOTICE_COUNT(data.noticelength));
       }
       await dispatch(getRESPONSE_EMPLOYEE());
       await dispatch(getHEALTH_CERTIFICATE_DATA());
@@ -233,13 +235,12 @@ export default ({route: {params}}) => {
       showPictureModal={showPictureModal}
       workingModalOpen={workingModalOpen}
       setWorkingModalOpen={setWorkingModalOpen}
-      modalRef={modalRef}
       goWorkFn={goWorkFn}
       leaveWorkFn={leaveWorkFn}
       handleBarCodeScanned={handleBarCodeScanned}
       invitedEmpCount={invitedEmpCount}
       checklistCount={checklistCount}
-      noticeCount={noticeCount}
+      NOTICE_COUNT={NOTICE_COUNT}
       QR={QR}
       qrModalOpen={qrModalOpen}
       setQrModalOpen={setQrModalOpen}

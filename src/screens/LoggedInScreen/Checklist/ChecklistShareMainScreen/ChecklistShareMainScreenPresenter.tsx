@@ -9,16 +9,15 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import LottieView from 'lottie-react-native';
 
 import utils from '~/constants/utils';
-
 import {
   AddIcon,
   BackIcon,
   ReloadCircleIcon,
   CalendarIcon,
   ForwardIcon,
-  CreateIcon,
 } from '~/constants/Icons';
 import ChecklistShareMainScreenCard from './ChecklistShareMainScreenCard';
 
@@ -207,23 +206,30 @@ const AddButton = styled.TouchableOpacity`
 
 const EmptyListContainer = styled.View`
   flex: 1;
+  width: 100%;
   justify-content: center;
   align-items: center;
 `;
 
-const EmptyTitle = styled.View`
-  align-items: center;
+const EmptyBox = styled.View`
   flex-direction: row;
-  margin-bottom: ${wp('5%')}px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100px;
+  padding: 20px;
+  border-width: 1px;
+  border-color: #999;
+  border-radius: 20px;
 `;
 
-const EmptyBox = styled.View`
-  width: ${wp('80%')};
-  align-items: center;
-  padding: ${wp('10%')}px ${wp('5%')}px;
-  border-width: 1px;
-  border-color: #ccc;
-  border-radius: 20px;
+const Column = styled.View`
+  margin-left: 5px;
+  flex-direction: column;
+`;
+
+const EmptyText = styled.Text`
+  color: #999;
 `;
 
 export default ({
@@ -250,6 +256,7 @@ export default ({
   IS_MANAGER,
   isCalendarModalVisible,
   setIsCalendarModalVisible,
+  gotoChecklistShareItem,
 }) => {
   const Tab = createMaterialTopTabNavigator();
 
@@ -355,6 +362,7 @@ export default ({
                   confirmModal={(noticeSeq) =>
                     fixControlFn(noticeSeq, 'unFix', '지시사항')
                   }
+                  gotoChecklistShareItem={gotoChecklistShareItem}
                 />
               ))}
               {CHECKLIST_SHARE_DATA1?.basic?.map((data, index) => (
@@ -366,6 +374,7 @@ export default ({
                   confirmModal={(noticeSeq) =>
                     fixControlFn(noticeSeq, 'fix', '지시사항')
                   }
+                  gotoChecklistShareItem={gotoChecklistShareItem}
                 />
               ))}
             </>
@@ -413,6 +422,7 @@ export default ({
                   confirmModal={(noticeSeq) =>
                     fixControlFn(noticeSeq, 'unFix', '특이사항')
                   }
+                  gotoChecklistShareItem={gotoChecklistShareItem}
                 />
               ))}
               {CHECKLIST_SHARE_DATA2?.basic?.map((data, index) => (
@@ -424,6 +434,7 @@ export default ({
                   confirmModal={(noticeSeq) =>
                     fixControlFn(noticeSeq, 'fix', '특이사항')
                   }
+                  gotoChecklistShareItem={gotoChecklistShareItem}
                 />
               ))}
             </>
@@ -483,40 +494,73 @@ export default ({
     <EmptyListContainer>
       {STORE === '0' && TITLE == '특이사항' && (
         <EmptyBox>
-          <EmptyTitle>
-            <CreateIcon size={22} color={'#999'} />
-            <Text style={{marginLeft: 10}}>{TITLE}을 등록해주세요.</Text>
-          </EmptyTitle>
-          <GreyText>직원이 작성하여 공유합니다.</GreyText>
-          <GreyText>우측 하단의 버튼을 클릭하여 등록할 수 있습니다.</GreyText>
+          <LottieView
+            style={{
+              width: 60,
+              height: 60,
+            }}
+            source={require('../../../../assets/animations/emptyContents.json')}
+            loop
+            autoPlay
+          />
+          <Column>
+            <EmptyText>{TITLE}을 등록해주세요.</EmptyText>
+            <EmptyText>
+              우측 하단의 버튼을 클릭하여 등록할 수 있습니다.
+            </EmptyText>
+          </Column>
         </EmptyBox>
       )}
       {STORE === '0' && !IS_MANAGER && TITLE == '지시사항' && (
         <EmptyBox>
-          <EmptyTitle>
-            <CreateIcon size={22} color={'#999'} />
-            <Text style={{marginLeft: 10}}>{TITLE}이 없습니다.</Text>
-          </EmptyTitle>
-          <GreyText>점장 및 매니저가 작성하여 공유합니다.</GreyText>
+          <LottieView
+            style={{
+              width: 60,
+              height: 60,
+            }}
+            source={require('../../../../assets/animations/emptyContents.json')}
+            loop
+            autoPlay
+          />
+          <Column>
+            <EmptyText>{TITLE}이 없습니다.</EmptyText>
+          </Column>
         </EmptyBox>
       )}
       {STORE === '1' && TITLE == '특이사항' && (
         <EmptyBox>
-          <EmptyTitle>
-            <CreateIcon size={22} color={'#999'} />
-            <Text style={{marginLeft: 10}}>{TITLE}이 없습니다.</Text>
-          </EmptyTitle>
-          <GreyText>직원이 작성하여 공유합니다.</GreyText>
+          <LottieView
+            style={{
+              width: 60,
+              height: 60,
+            }}
+            source={require('../../../../assets/animations/emptyContents.json')}
+            loop
+            autoPlay
+          />
+          <Column>
+            <EmptyText>{TITLE}이 없습니다.</EmptyText>
+          </Column>
         </EmptyBox>
       )}
       {(STORE === '1' || IS_MANAGER) && TITLE == '지시사항' && (
         <EmptyBox>
-          <EmptyTitle>
-            <CreateIcon size={22} color={'#999'} />
-            <Text style={{marginLeft: 10}}>{TITLE}을 등록해주세요.</Text>
-          </EmptyTitle>
-          <GreyText>점장 및 매니저가 작성하여 공유합니다.</GreyText>
-          <GreyText>우측 하단의 버튼을 클릭하여 등록할 수 있습니다.</GreyText>
+          <LottieView
+            style={{
+              width: 60,
+              height: 60,
+            }}
+            source={require('../../../../assets/animations/emptyContents.json')}
+            loop
+            autoPlay
+          />
+          <Column>
+            <EmptyText>{TITLE}을 등록해주세요.</EmptyText>
+
+            <EmptyText>
+              우측 하단의 버튼을 클릭하여 등록할 수 있습니다.
+            </EmptyText>
+          </Column>
         </EmptyBox>
       )}
       {TITLE == 'CU소식' && (

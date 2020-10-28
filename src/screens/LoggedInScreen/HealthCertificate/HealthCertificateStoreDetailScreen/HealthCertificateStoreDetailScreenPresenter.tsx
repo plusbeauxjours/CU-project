@@ -386,6 +386,8 @@ export default ({
                 onPress={() => {
                   navigation.navigate('HealthCertificateStoreFormScreen', {
                     fetchData,
+                    EDUCATION_DATEprops:
+                      HEALTH_STORE_DETAIL[SELECT_INDEX]?.probationDATE,
                     NAME: HEALTH_STORE_DETAIL[SELECT_INDEX]?.NAME,
                     IMG_LIST:
                       'http://cuapi.shop-sol.com/uploads/ocr/' +

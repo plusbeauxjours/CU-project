@@ -47,6 +47,7 @@ const NameText = styled.Text`
   margin-right: 3px;
   color: #642a8c;
   justify-content: flex-end;
+  font-weight: bold;
 `;
 
 const GreyText = styled.Text`

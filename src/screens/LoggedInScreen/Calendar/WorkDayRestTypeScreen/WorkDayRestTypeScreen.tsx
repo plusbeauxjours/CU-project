@@ -27,7 +27,6 @@ const Touchable = styled.TouchableOpacity``;
 const Section = styled.View`
   width: 100%;
   border-radius: 20px;
-  margin-top: 20px;
   padding: 20px;
   align-items: center;
   background-color: white;
@@ -66,7 +65,7 @@ const GreyText = styled.Text`
 
 const ContentsBoxLine = styled.View`
   width: ${wp('75%') - 20}px;
-  border-bottom-width: 2px;
+  border-bottom-width: 1px;
   border-color: #e5e5e5;
   margin-top: 10px;
 `;

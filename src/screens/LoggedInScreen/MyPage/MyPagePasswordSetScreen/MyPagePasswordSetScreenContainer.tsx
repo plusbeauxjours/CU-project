@@ -5,8 +5,8 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import api from '~/constants/LoggedInApi';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
-import {userLogout} from '~/redux/userSlice';
 import {useNavigation} from '@react-navigation/native';
+import SmsRetriever from 'react-native-sms-retriever';
 
 let timer = null;
 
@@ -26,7 +26,6 @@ export default () => {
     false,
   );
   const [verifyCode, setVerifyCode] = useState<string>('');
-  const [mobileNo, setMobileNo] = useState<string>(MOBILE_NO || '');
   const [countdown, setCountdown] = useState<string>('');
   const [isCountDownStarted, setIsCountDownStarted] = useState<boolean>(false);
   const [hasCheckedTimeOut, setHasCheckedTimeOut] = useState<boolean>(false);
@@ -70,7 +69,7 @@ export default () => {
 
     try {
       const {data} = await api.changePwd({
-        MobileNo: mobileNo,
+        MobileNo: MOBILE_NO,
         MEMBER_SEQ,
         PASSWORD: password,
         SMS: verifyCode,
@@ -79,17 +78,9 @@ export default () => {
         alertModal('인증번호 오류입니다.');
       } else {
         setHasCheckedVerifyCode(false);
-        dispatch(userLogout());
         clearInterval(timer);
-        navigation.reset({
-          index: 0,
-          routes: [
-            {
-              name: 'LoggedOutNavigation',
-              state: {routes: [{name: 'StartScreen'}]},
-            },
-          ],
-        });
+        alertModal('비밀번호가 변경 되었습니다.');
+        navigation.goBack();
       }
     } catch (e) {
       console.log(e);
@@ -167,8 +158,15 @@ export default () => {
     setHasCheckedTimeOut(false);
     startCountDown();
     try {
+      const registered = await SmsRetriever?.startSmsRetriever();
+      if (registered) {
+        SmsRetriever.addSmsListener((event) => {
+          console.log('event.message', event.message);
+          event.message && console.log('event.message', event.message);
+        });
+      }
       const {data} = await api.getSMS({
-        MOBILENO: mobileNo,
+        PHONENUMBER: MOBILE_NO,
       });
       if (data.RESULT_CODE == '0') {
         alertModal('인증번호를 발송하였습니다.');
@@ -181,17 +179,17 @@ export default () => {
   useEffect(() => {
     return () => {
       clearInterval(timer);
+      SmsRetriever?.removeSmsListener();
     };
   });
 
   return (
     <MyPagePasswordSetScreenPresenter
-      alertModal={alertModal}
       password={password}
       passwordCheck={passwordCheck}
       hasCheckedVerifyCode={hasCheckedVerifyCode}
       verifyCode={verifyCode}
-      mobileNo={mobileNo}
+      MOBILE_NO={MOBILE_NO}
       requireVerifyCode={requireVerifyCode}
       onChangeVerifyCode={onChangeVerifyCode}
       submitFn={submitFn}

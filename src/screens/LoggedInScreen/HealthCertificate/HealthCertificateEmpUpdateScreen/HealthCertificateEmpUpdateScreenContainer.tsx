@@ -8,7 +8,10 @@ import {setSplashVisible} from '~/redux/splashSlice';
 import HealthCertificateEmpUpdateScreenPresenter from './HealthCertificateEmpUpdateScreenPresenter';
 import utils from '~/constants/utils';
 import api from '~/constants/LoggedInApi';
-import {removeHEALTH_EMP_DETAIL} from '~/redux/healthSlice';
+import {
+  getSTORE_HEALTH_EMP_LIST,
+  removeHEALTH_EMP_DETAIL,
+} from '~/redux/healthSlice';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
@@ -107,6 +110,7 @@ export default ({route: {params}}) => {
       });
       const {data} = await api.updateOcr(formData);
       if (data.result == '1') {
+        dispatch(getSTORE_HEALTH_EMP_LIST());
         params?.fetchData();
         navigation.goBack();
         alertModal('', '수정 완료');
@@ -167,8 +171,9 @@ export default ({route: {params}}) => {
 
   const deleteFn = async () => {
     try {
-      navigation.pop(2);
+      dispatch(getSTORE_HEALTH_EMP_LIST());
       dispatch(removeHEALTH_EMP_DETAIL(STORE_HEALTH_SEQ));
+      navigation.pop(2);
       alertModal(
         '',
         `${EDUCATION_DATE.slice(0, 4)}년 위생교육증을 삭제하였습니다.`,

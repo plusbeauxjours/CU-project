@@ -2,6 +2,7 @@ import React from 'react';
 import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import InputLine from '~/components/InputLine';
 import CheckPasswordBtn from '~/components/Btn/CheckPasswordBtn';
@@ -98,12 +99,11 @@ const MobileNoText = styled.Text`
 `;
 
 export default ({
-  alertModal,
   password,
   passwordCheck,
   hasCheckedVerifyCode,
   verifyCode,
-  mobileNo,
+  MOBILE_NO,
   requireVerifyCode,
   onChangeVerifyCode,
   submitFn,
@@ -130,7 +130,7 @@ export default ({
               <TextInput
                 placeholder={'영문, 숫자 조합 6자 이상'}
                 placeholderTextColor={'#E5E5E5'}
-                selectionColor={'#642A8C'}
+                selectionColor={'#999'}
                 onFocus={() => {
                   setPassword('');
                   setPasswordCheck('');
@@ -169,7 +169,7 @@ export default ({
               <TextInput
                 placeholder={'새 비밀번호 확인'}
                 placeholderTextColor={'#E5E5E5'}
-                selectionColor={'#642A8C'}
+                selectionColor={'#999'}
                 onChangeText={(text) => passwordCheckerFn(text, true)}
                 value={passwordCheck}
                 editable={!hasCheckedVerifyCode}
@@ -197,11 +197,13 @@ export default ({
           <Case>
             <NameText>휴대폰 번호</NameText>
             <TextinputCase>
-              <MobileNoText>{mobileNo}</MobileNoText>
+              <MobileNoText>{MOBILE_NO}</MobileNoText>
               <RequestButton
                 hasCheckedVerifyCode={hasCheckedVerifyCode}
                 onPress={() => requireVerifyCode()}
-                disabled={hasCheckedVerifyCode}>
+                disabled={
+                  hasCheckedVerifyCode || passwordCheck == '' || password == ''
+                }>
                 {hasCheckedVerifyCode ? (
                   <RequestText style={{color: '#aaa'}}>요청완료</RequestText>
                 ) : (
@@ -209,7 +211,7 @@ export default ({
                 )}
               </RequestButton>
             </TextinputCase>
-            <InputLine isBefore={mobileNo ? false : true} />
+            <InputLine isBefore={MOBILE_NO ? false : true} />
           </Case>
           {hasCheckedTimeOut && (
             <TimeText>
@@ -225,7 +227,7 @@ export default ({
                   <TextInput
                     placeholder={'인증번호를 입력해주세요'}
                     placeholderTextColor={'#E5E5E5'}
-                    selectionColor={'#642A8C'}
+                    selectionColor={'#999'}
                     onChangeText={(text) => {
                       onChangeVerifyCode(text);
                     }}

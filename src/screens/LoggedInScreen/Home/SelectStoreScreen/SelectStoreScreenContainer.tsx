@@ -9,6 +9,7 @@ import {getSTORELIST_DATA} from '~/redux/userSlice';
 import {selectSTORE} from '~/redux/storeSlice';
 import utils from '~/constants/utils';
 import api from '~/constants/LoggedInApi';
+import {setSplashVisible} from '~/redux/splashSlice';
 
 export default () => {
   const dispatch = useDispatch();
@@ -120,6 +121,7 @@ export default () => {
 
     checkVersion();
     dispatch(getSTORELIST_DATA());
+    dispatch(setSplashVisible(false));
   }, []);
 
   return (

@@ -151,6 +151,7 @@ export default ({
   const isNextDay2 = CHANGE_START > CHANGE_END;
   const isNextDay3 = START_TIME > END_TIME;
   const isNextDay4 = UPDATED_START > UPDATED_END;
+
   const FixScheduleStepOne = () => (
     <Section>
       <Row>

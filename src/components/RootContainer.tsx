@@ -11,7 +11,7 @@ import LoggedInNavigation from '../navigations/LoggedInNavigation';
 import LoggedOutNavigation from '../navigations/LoggedOutNavigation';
 import HelpModalScreen from '../screens/LoggedInScreen/Home/HelpModalScreen/index';
 
-LogBox.ignoreAllLogs(true);
+LogBox.ignoreAllLogs();
 
 export default () => {
   const routeNameRef = useRef(null);

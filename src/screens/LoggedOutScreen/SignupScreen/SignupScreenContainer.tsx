@@ -132,7 +132,7 @@ export default ({route: {params}}) => {
   };
 
   const onChangeName = (text) => {
-    if (name.length > 5) {
+    if (name.length > 6) {
       alertModal('이름은 6자리 이하로 적어주세요.');
     } else {
       setName(text);

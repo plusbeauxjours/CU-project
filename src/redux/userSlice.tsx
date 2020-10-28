@@ -128,7 +128,6 @@ export const getSTORELIST_DATA = () => async (dispatch, getState) => {
       dispatch(setSplashVisible(true));
     }
     const {data} = await api.storeList(STORE);
-    console.log(data);
     if (data.resultmsg === '1') {
       dispatch(setSTORELIST_DATA(data.result));
     }
