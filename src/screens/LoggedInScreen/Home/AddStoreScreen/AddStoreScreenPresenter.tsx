@@ -341,9 +341,9 @@ export default ({
               />
             </Row>
             <InputLine isBefore={NAME === ''} />
-              <GreyText isError={NAME?.length > 10}>
-                * 점포명은 10자 이하로 입력해주세요.
-              </GreyText>
+            <GreyText isError={NAME?.length > 10}>
+              * 점포명은 10자 이하로 입력해주세요.
+            </GreyText>
             <WhiteSpace />
             <InputCaseRow>
               <RowTouchable
@@ -587,7 +587,7 @@ export default ({
               ADDR2 !== '' &&
               timeCheck == true &&
               EARLYtimeCheck == true &&
-              dayCheck == true &&
+              dayCheck == true
             }
           />
         </Container>

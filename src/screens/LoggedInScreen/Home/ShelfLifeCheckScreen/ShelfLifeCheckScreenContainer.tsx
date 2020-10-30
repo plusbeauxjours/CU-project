@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import api from '~/constants/LoggedInApi';
 import ShelfLifeCheckScreenPresenter from './ShelfLifeCheckScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
+import {resultdata} from '~/assets/dummy';
 import {
   getSHELFLIFE_DATA,
   udpateSHELFLIFE,

@@ -113,21 +113,6 @@ export default ({route: {params}}) => {
     dispatch(setAlertVisible(true));
   };
 
-  const confirmModal = (content) => {
-    const params = {
-      alertType: 'confirm',
-      title: '',
-      content,
-      okCallback: () => {
-        submit('close');
-      },
-      okButtonText: '변경',
-      cancelButtonText: '취소',
-    };
-    dispatch(setAlertInfo(params));
-    dispatch(setAlertVisible(true));
-  };
-
   // 정산일모달 확인버튼
   const checkDirectInput = () => {
     let value = JSON.parse(JSON.stringify(days));
