@@ -1,12 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit';
 import api from '../constants/LoggedInApi';
 import moment from 'moment';
+import {resultdata} from '../assets/dummy';
 
 const shelflifetSlice = createSlice({
   name: 'shelflife',
   initialState: {
     SHELFLIFE_DATA: {},
-    SHELFLIFE_MARKED: {},
   },
   reducers: {
     setSHELFLIFE_DATA(state, action) {
@@ -16,21 +16,16 @@ const shelflifetSlice = createSlice({
         SHELFLIFE_DATA,
       };
     },
-
-    setSHELFLIFE_MARKED(state, action) {
-      const {payload: SHELFLIFE_MARKED} = action;
-      return {
-        ...state,
-        SHELFLIFE_MARKED,
-      };
-    },
     udpateSHELFLIFE(state, action) {
       const {
         payload: {shelfLife_SEQ, shelfLifeDate, checkEmpName, checkTime},
       } = action;
-      const item = state.SHELFLIFE_DATA[shelfLifeDate].find(
+      const item = resultdata[shelfLifeDate].find(
         (i) => i.shelfLife_SEQ === shelfLife_SEQ,
       );
+      // const item = state.SHELFLIFE_DATA[shelfLifeDate].find(
+      //   (i) => i.shelfLife_SEQ === shelfLife_SEQ,
+      // );
       if (item) {
         item.checkType = '1';
         item.checkTime = checkTime;
@@ -41,9 +36,12 @@ const shelflifetSlice = createSlice({
       const {
         payload: {shelfLife_SEQ, shelfLifeDate},
       } = action;
-      const item = state.SHELFLIFE_DATA[shelfLifeDate].find(
+      const item = resultdata[shelfLifeDate].find(
         (i) => i.shelfLife_SEQ === shelfLife_SEQ,
       );
+      // const item = state.SHELFLIFE_DATA[shelfLifeDate].find(
+      //   (i) => i.shelfLife_SEQ === shelfLife_SEQ,
+      // );
       if (item) {
         item.checkType = '0';
       }
@@ -87,7 +85,6 @@ const shelflifetSlice = createSlice({
 
 export const {
   setSHELFLIFE_DATA,
-  setSHELFLIFE_MARKED,
   udpateSHELFLIFE,
   cancelSHELFLIFE,
   updateSHELFLIFE_DATA,
@@ -110,14 +107,6 @@ export const getSHELFLIFE_DATA = (
       DAY,
     });
     dispatch(setSHELFLIFE_DATA(SHELFLIFE_DATA.resultdata));
-  } catch (e) {
-    console.log(e);
-  }
-  try {
-    const {data: SHELFLIFE_MARKED} = await api.getAllShelfLifeData({
-      STORE_SEQ,
-    });
-    dispatch(setSHELFLIFE_MARKED(SHELFLIFE_MARKED.result));
   } catch (e) {
     console.log(e);
   }

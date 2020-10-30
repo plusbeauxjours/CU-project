@@ -414,8 +414,8 @@ PODS:
     - React
   - RNScreens (2.10.1):
     - React
-  - RNSentry (1.9.0):
-    - React-Core
+  - RNSentry (1.8.2):
+    - React
     - Sentry (~> 5.2.0)
   - RNVectorIcons (7.0.0):
     - React
@@ -695,7 +695,7 @@ SPEC CHECKSUMS:
   RNPermissions: 477d88d0be7ecb0a7b344e4d5fbb0352de104626
   RNReanimated: 7de2dca51deacff78bb880f63c1389a24311b376
   RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2
-  RNSentry: 1adaa43b01c6a3ab5091d4d1add66b7c58558898
+  RNSentry: cff88174a0b2e0289b2efe5be1abba1f6c54269d
   RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
   SDWebImage: b69257f4ab14e9b6a2ef53e910fdf914d8f757c1
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21

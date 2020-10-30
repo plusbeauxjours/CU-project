@@ -97,15 +97,13 @@ const DateText = styled.Text`
 
 export default ({
   SHELFLIFE_DATA,
-  SHELFLIFE_MARKED,
   onDayPress,
   onRefresh,
   confirmModal,
   cancelModal,
-  alertModal,
 }) => {
   const navigation = useNavigation();
-
+  console.log(SHELFLIFE_DATA);
   const renderEmptyDate = () => <RenderEmpty />;
   const rowHasChanged = (r1, r2) => r1 !== r2;
   const renderKnob = () => (
@@ -188,7 +186,6 @@ export default ({
       renderEmptyDate={renderEmptyDate}
       renderKnob={renderKnob}
       onDayPress={(date) => onDayPress(date)}
-      markedDates={SHELFLIFE_MARKED}
       theme={{
         agendaTodayColor: '#AACE36',
         selectedDayBackgroundColor: '#ddd',

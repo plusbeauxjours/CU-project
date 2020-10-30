@@ -21,9 +21,7 @@ export default () => {
 
   const {EMP_SEQ} = useSelector((state: any) => state.storeReducer);
   const {STORE, MEMBER_NAME} = useSelector((state: any) => state.userReducer);
-  const {SHELFLIFE_DATA, SHELFLIFE_MARKED} = useSelector(
-    (state: any) => state.shelflifeReducer,
-  );
+  const {SHELFLIFE_DATA} = useSelector((state: any) => state.shelflifeReducer);
 
   const confirmModal = (shelfLife_SEQ, shelfLifeDate) => {
     const params = {
@@ -73,10 +71,10 @@ export default () => {
     try {
       alertModal('상품의 처리완료를 취소하였습니다.');
       dispatch(cancelSHELFLIFE({shelfLife_SEQ, shelfLifeDate}));
-      const {data} = await api.cancelShelfLifeData({shelfLife_SEQ});
-      if (data.resultmsg !== '1') {
-        alertModal('연결에 실패하였습니다.');
-      }
+      // const {data} = await api.cancelShelfLifeData({shelfLife_SEQ});
+      // if (data.resultmsg !== '1') {
+      //   alertModal('연결에 실패하였습니다.');
+      // }
     } catch (e) {
       console.log(e);
     }
@@ -93,14 +91,14 @@ export default () => {
           checkTime: moment().format('YYYY-MM-DD HH:mm:ss'),
         }),
       );
-      const {data} = await api.checkShelfLifeData({
-        STORE,
-        EMP_SEQ,
-        shelfLife_SEQ,
-      });
-      if (data.resultmsg !== '1') {
-        alertModal('연결에 실패하였습니다.');
-      }
+      // const {data} = await api.checkShelfLifeData({
+      //   STORE,
+      //   EMP_SEQ,
+      //   shelfLife_SEQ,
+      // });
+      // if (data.resultmsg !== '1') {
+      //   alertModal('연결에 실패하였습니다.');
+      // }
     } catch (e) {
       console.log(e);
     }
@@ -110,15 +108,14 @@ export default () => {
     dispatch(getSHELFLIFE_DATA(YEAR, MONTH, DAY));
   }, []);
 
+  console.log(resultdata);
   return (
     <ShelfLifeCheckScreenPresenter
-      SHELFLIFE_DATA={SHELFLIFE_DATA}
-      SHELFLIFE_MARKED={SHELFLIFE_MARKED}
+      SHELFLIFE_DATA={resultdata}
       onDayPress={onDayPress}
       onRefresh={onRefresh}
       confirmModal={confirmModal}
       cancelModal={cancelModal}
-      alertModal={alertModal}
     />
   );
 };

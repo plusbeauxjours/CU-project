@@ -138,8 +138,6 @@ export default {
     callApi('post', '/auth/getshelfLifeData/', data),
   checkShelfLifeData: (data: any) =>
     callApi('post', '/auth/checkShelfLifeData/', data),
-  getAllShelfLifeData: (data: any) =>
-    callApi('post', '/auth/getAllshelfLifeData/', data),
   deleteShelfLifeData: (data: any) =>
     callApi('post', '/auth/deleteshelfLifeData/', data),
   updateShelfLifeData: (data: any) =>

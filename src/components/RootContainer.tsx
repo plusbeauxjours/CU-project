@@ -4,7 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {ActivityIndicator, StatusBar, LogBox} from 'react-native';
 import {useSelector} from 'react-redux';
 import firebase from 'react-native-firebase';
-import * as Sentry from '@sentry/react-native';
+// import * as Sentry from '@sentry/react-native';
 
 import CloseBtn from './Header/CloseBtn';
 import LoggedInNavigation from '../navigations/LoggedInNavigation';

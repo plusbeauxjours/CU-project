@@ -5,7 +5,6 @@
 #import <React/RCTRootView.h>
 @import Firebase;
 #import "RNFirebaseNotifications.h"
-#import <Firebase.h>
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -30,9 +29,6 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-if ([FIRApp defaultApp] == nil) {
-[FIRApp configure];
-}
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
