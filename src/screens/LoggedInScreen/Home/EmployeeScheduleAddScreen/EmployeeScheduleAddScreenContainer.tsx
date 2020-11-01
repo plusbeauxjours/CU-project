@@ -201,7 +201,6 @@ export default ({route: {params}}) => {
         }
       }
       const {data} = await api.insertEmpSchedule(params);
-      console.log('data on employeescheduleaddscreen', data);
       if (data.message === 'SUCCESS') {
         alertModal('일정이 ' + TYPE + '되었습니다.');
       } else {

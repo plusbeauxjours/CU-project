@@ -156,7 +156,6 @@ export default ({route: {params}}) => {
         <SubmitBtn
           text={'선택 완료'}
           onPress={() => {
-            console.log('CALCULATE_DAY', CALCULATE_DAY);
             navigation.navigate('EmployeeScheduleInfoScreen', {
               CALCULATE_DAY,
               isFreeWorkingType,

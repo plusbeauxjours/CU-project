@@ -28,8 +28,28 @@ export const resultdata = {
   '2020-10-27': [],
   '2020-10-28': [],
   '2020-10-29': [],
-  '2020-10-30': [],
-  '2020-10-31': [],
+  '2020-10-30': [
+    {
+      checkTime: '2020-09-20 23:14:32',
+      checkEmpName: 'koko',
+      shelfLife_SEQ: 10301,
+      shelfLifeName: 'Zxcv10300',
+      shelfLifeDate: '2020-10-30',
+      shelfLifeMemo: 'Zxcvzxcv10300',
+      checkType: '1',
+    },
+  ],
+  '2020-10-31': [
+    {
+      checkTime: '2020-09-20 23:14:32',
+      checkEmpName: 'mjmj',
+      shelfLife_SEQ: 10301,
+      shelfLifeName: 'Zxcv10299',
+      shelfLifeDate: '2020-10-31',
+      shelfLifeMemo: 'Zxcvzxcv10299',
+      checkType: '1',
+    },
+  ],
   '2020-11-01': [
     {
       checkTime: null,
@@ -60,6 +80,24 @@ export const resultdata = {
     },
   ],
   '2020-11-02': [
+    {
+      checkTime: null,
+      checkEmpName: null,
+      shelfLife_SEQ: 10304,
+      shelfLifeName: 'Dfas10304',
+      shelfLifeDate: '2020-11-02',
+      shelfLifeMemo: 'Asdfas110304',
+      checkType: '0',
+    },
+    {
+      checkTime: null,
+      checkEmpName: null,
+      shelfLife_SEQ: 10304,
+      shelfLifeName: 'Dfas10304',
+      shelfLifeDate: '2020-11-02',
+      shelfLifeMemo: 'Asdfas110304',
+      checkType: '0',
+    },
     {
       checkTime: null,
       checkEmpName: null,

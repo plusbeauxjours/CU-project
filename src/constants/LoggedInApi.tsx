@@ -200,6 +200,10 @@ export default {
       'get',
       `/auth/getNoticeComment?NOTICE_SEQ=${NOTICE_SEQ}&STORE_SEQ=${STORE_SEQ}&TITLE=${TITLE}&`,
     ),
+  // oldApi(
+  //   'get',
+  //   `/Employee/getNoticeComment?NOTICE_SEQ=${NOTICE_SEQ}&STORE_SEQ=${STORE_SEQ}&TITLE=${TITLE}&`,
+  // ),
   setNoticeImg2: (data: any) =>
     callApi('post', '/auth/setNoticeImg2/', data, true),
   setNotice2: (data: any) => callApi('post', '/auth/setNotice2/', data),

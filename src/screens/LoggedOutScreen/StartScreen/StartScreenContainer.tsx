@@ -8,6 +8,7 @@ import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import api from '~/constants/LoggedOutApi';
 import {setDEVICE_PLATFORM} from '~/redux/userSlice';
 import utils from '~/constants/utils';
+import {setSplashVisible} from '~/redux/splashSlice';
 
 export default () => {
   const navigation = useNavigation();
@@ -69,6 +70,7 @@ export default () => {
   };
 
   useEffect(() => {
+    dispatch(setSplashVisible(false));
     dispatch(setDEVICE_PLATFORM(Platform.OS));
     checkVersion();
   }, []);

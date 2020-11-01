@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -6,6 +6,7 @@ import api from '~/constants/LoggedInApi';
 import ShelfLifeCheckScreenPresenter from './ShelfLifeCheckScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import {resultdata} from '~/assets/dummy';
+import Donut from '../../../../components/Donut';
 import {
   getSHELFLIFE_DATA,
   udpateSHELFLIFE,
@@ -22,6 +23,12 @@ export default () => {
   const {EMP_SEQ} = useSelector((state: any) => state.storeReducer);
   const {STORE, MEMBER_NAME} = useSelector((state: any) => state.userReducer);
   const {SHELFLIFE_DATA} = useSelector((state: any) => state.shelflifeReducer);
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [dayBefore, setDayBefore] = useState<any>([]);
+  const [weekBefore, setWeekBefore] = useState<any>([]);
+  const [weeksBefore, setWeeksBefore] = useState<any>([]);
+  const [monthBefore, setMonthBefore] = useState<any>([]);
 
   const confirmModal = (shelfLife_SEQ, shelfLifeDate) => {
     const params = {
@@ -105,10 +112,49 @@ export default () => {
   };
 
   useEffect(() => {
+    fetchData();
     dispatch(getSHELFLIFE_DATA(YEAR, MONTH, DAY));
   }, []);
 
-  console.log(resultdata);
+  const fetchData = () => {
+    try {
+      setLoading(true);
+      const dayList = [];
+      const weekList = [];
+      const weeksList = [];
+      const monthList = [];
+      const day = moment();
+      const dayDuration = moment().add(2, 'days');
+      const weekDuration = moment().add(7, 'days').add(1, 'days');
+      const weeksDuration = moment().add(14, 'days').add(1, 'days');
+      const monthDuration = moment().add(1, 'months').add(1, 'days');
+      while (monthDuration.diff(day, 'days') > 0) {
+        resultdata[day.format('YYYY-MM-DD')].length > 0 &&
+          monthList.push(...resultdata[day.format('YYYY-MM-DD')]);
+        if (weeksDuration.diff(day, 'days') > 0) {
+          resultdata[day.format('YYYY-MM-DD')].length > 0 &&
+            weeksList.push(...resultdata[day.format('YYYY-MM-DD')]);
+          if (weekDuration.diff(day, 'days') > 0) {
+            resultdata[day.format('YYYY-MM-DD')].length > 0 &&
+              weekList.push(...resultdata[day.format('YYYY-MM-DD')]);
+            if (dayDuration.diff(day, 'days') > 0) {
+              resultdata[day.format('YYYY-MM-DD')].length > 0 &&
+                dayList.push(...resultdata[day.format('YYYY-MM-DD')]);
+            }
+          }
+        }
+        day.add(1, 'days');
+      }
+      setDayBefore(dayList);
+      setWeekBefore(weekList);
+      setWeeksBefore(weeksList);
+      setMonthBefore(monthList);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <ShelfLifeCheckScreenPresenter
       SHELFLIFE_DATA={resultdata}
@@ -116,6 +162,11 @@ export default () => {
       onRefresh={onRefresh}
       confirmModal={confirmModal}
       cancelModal={cancelModal}
+      dayBefore={dayBefore}
+      weekBefore={weekBefore}
+      weeksBefore={weeksBefore}
+      monthBefore={monthBefore}
+      loading={loading}
     />
   );
 };
