@@ -1,8 +1,6 @@
 import React, {useEffect, useRef} from 'react';
-import {Easing, TextInput, Animated, View, StyleSheet} from 'react-native';
+import {Easing, Animated} from 'react-native';
 import Svg, {G, Circle} from 'react-native-svg';
-
-const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 export default ({
   percentage,
@@ -11,6 +9,7 @@ export default ({
   delay = 500,
   duration = 700,
   color,
+  strokeOpacity = color == '#ea1901' ? '0.1' : '0.4',
   max,
 }) => {
   const animated = useRef(new Animated.Value(0)).current;
@@ -56,7 +55,6 @@ export default ({
   });
 
   return (
-    // <View>
     <Svg
       height={radius * 2}
       width={radius * 2}
@@ -80,25 +78,9 @@ export default ({
           fill="transparent"
           stroke={color}
           strokeWidth={strokeWidth}
-          strokeOpacity=".1"
+          strokeOpacity={strokeOpacity}
         />
       </G>
     </Svg>
-    //     <AnimatedTextInput
-    //       ref={inputRef}
-    //       underlineColorAndroid="transparent"
-    //       editable={false}
-    //       defaultValue="0"
-    //       style={[
-    //         StyleSheet.absoluteFillObject,
-    //         {fontSize: 40, color},
-    //         styles.text,
-    //       ]}
-    //     />
-    //   </View>
   );
 };
-
-const styles = StyleSheet.create({
-  text: {fontWeight: 'bold', textAlign: 'center'},
-});

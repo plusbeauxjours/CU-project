@@ -160,8 +160,8 @@ export default () => {
           titleNumber: '1',
           titleWord: '일전',
           backgroundColor: 'white',
-          textColor: 'red',
-          radius: 100,
+          textColor: '#ea1901',
+          radius: 60,
           totalQTY: dayList.length,
           doneQTY: dayList.filter((i) => i.checkType === '1').length,
           percentage: Number(
@@ -176,8 +176,8 @@ export default () => {
           titleNumber: '1',
           titleWord: '주전',
           backgroundColor: 'white',
-          textColor: 'blue',
-          radius: 80,
+          textColor: '#e6efbf',
+          radius: 50,
           totalQTY: weekList.length,
           doneQTY: weekList.filter((i) => i.checkType === '1').length,
           percentage: Number(
@@ -192,8 +192,8 @@ export default () => {
           titleNumber: '2',
           titleWord: '주전',
           backgroundColor: 'white',
-          textColor: 'yellow',
-          radius: 60,
+          textColor: '#cade7e',
+          radius: 40,
           totalQTY: weeksList.length,
           doneQTY: weeksList.filter((i) => i.checkType === '1').length,
           percentage: Number(
@@ -208,8 +208,8 @@ export default () => {
           titleNumber: '1',
           titleWord: '달전',
           backgroundColor: 'white',
-          textColor: 'green',
-          radius: 40,
+          textColor: '#aace36',
+          radius: 30,
           totalQTY: monthList.length,
           doneQTY: monthList.filter((i) => i.checkType === '1').length,
           percentage: Number(

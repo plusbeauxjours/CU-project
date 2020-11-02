@@ -1,6 +1,6 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
-import {RefreshControl, Animated, FlatList} from 'react-native';
+import {RefreshControl, Animated, FlatList, TextInput} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import {CheckMarkIcon, DownIcon} from '~/constants/Icons';
@@ -14,6 +14,11 @@ interface IsChecked {
 
 interface IColor {
   color: string;
+}
+
+interface ICard {
+  color: string;
+  index?: string;
 }
 
 const BackGround = styled.SafeAreaView`
@@ -31,9 +36,9 @@ const Container = styled.View`
 
 const Section = styled.View`
   width: 100%;
-  height: 200px;
+  height: 160px;
   border-radius: 20px;
-  padding: 20px;
+  padding: 10px;
   background-color: white;
 `;
 
@@ -74,11 +79,16 @@ const IconContainer = styled.View<IsChecked>`
 
 const Row = styled.View`
   flex-direction: row;
+  align-items: center;
 `;
 
 const SpaceRow = styled(Row)`
-  width: 100px;
+  width: 80px;
   justify-content: space-between;
+`;
+
+const WideSpaceRow = styled(SpaceRow)`
+  width: 110px;
 `;
 
 const Text = styled.Text`
@@ -128,17 +138,15 @@ const DateText = styled.Text`
   color: #aaa;
 `;
 
-const Card = styled.TouchableOpacity<IColor>`
+const Card = styled.TouchableOpacity<ICard>`
   justify-content: center;
   align-items: center;
-  width: 240px;
-  height: 300px;
+  width: 200px;
+  height: 280px;
   border-radius: 20px;
   background-color: ${(props) => props.color};
   margin-left: 20px;
-  &:first-child {
-    background-color: red;
-  }
+  margin-right: ${(props) => (props.index == 3 ? 20 : 0)};
 `;
 
 const Title = styled.View`
@@ -161,6 +169,11 @@ const TitleWord = styled(TitleNumber)`
   font-size: 30px;
 `;
 
+const SectionTitle = styled(TitleWord)`
+  margin-top: 10px;
+  text-align: right;
+`;
+
 const PercentageText = styled.Text<IColor>`
   color: ${(props) => props.color};
   font-size: 40px;
@@ -176,13 +189,24 @@ const Footer = styled.View`
 
 const SmallText = styled.Text<IColor>`
   color: ${(props) => props.color};
-  font-size: 16px;
+  font-size: 12px;
+`;
+
+const SmallBold = styled(SmallText)<IColor>`
+  font-weight: bold;
 `;
 
 const Donut = styled.View`
   position: absolute;
-  top: 100px;
-  left: 100px;
+  top: 80px;
+  left: 80px;
+`;
+
+const Column = styled.View`
+  position: absolute;
+  right: 30px;
+  top: 70px;
+  flex-direction: column;
 `;
 
 export default ({
@@ -199,8 +223,8 @@ export default ({
   data,
   refreshing,
 }) => {
-  const inputRef = useRef(null);
   const navigation = useNavigation();
+
   const renderEmptyDate = () => <RenderEmpty />;
   const rowHasChanged = (r1, r2) => r1 !== r2;
   const renderKnob = () => (
@@ -275,7 +299,7 @@ export default ({
       </Item>
     );
   };
-  if (!loading) {
+  if (!loading && data?.length > 0) {
     return (
       <BackGround>
         <ScrollView
@@ -290,20 +314,73 @@ export default ({
           }>
           <Container>
             <Section>
-              <Donut>
-                {data?.map((item, index) => {
-                  return (
-                    <MainDonut
-                      key={index}
-                      percentage={item.percentage}
-                      color={item.textColor}
-                      textColor={'red'}
-                      radius={item.radius}
-                      max={100}
-                    />
-                  );
-                })}
-              </Donut>
+              {data && (
+                <Donut>
+                  <MainDonut
+                    percentage={data[0].totalQTY}
+                    color={data[0].textColor}
+                    radius={data[0].radius}
+                    max={data[3].totalQTY}
+                  />
+                  <MainDonut
+                    percentage={data[1].totalQTY}
+                    color={data[1].textColor}
+                    radius={data[1].radius}
+                    max={data[3].totalQTY}
+                  />
+                  <MainDonut
+                    percentage={data[2].totalQTY}
+                    color={data[2].textColor}
+                    radius={data[2].radius}
+                    max={data[3].totalQTY}
+                  />
+                  <MainDonut
+                    percentage={data[3].totalQTY}
+                    color={data[3].textColor}
+                    radius={data[3].radius}
+                    max={data[3].totalQTY}
+                  />
+                </Donut>
+              )}
+              <SectionTitle color={data[3].textColor}>
+                유통기한 등록 상품&nbsp;
+              </SectionTitle>
+              <Column>
+                <WideSpaceRow>
+                  <SmallText
+                    color={data[0].textColor}
+                    style={{fontWeight: 'bold'}}>
+                    1일전 전체 수량
+                  </SmallText>
+                  <SmallBold color={data[0].textColor}>
+                    {data[0].totalQTY}&nbsp;개
+                  </SmallBold>
+                </WideSpaceRow>
+                <WideSpaceRow>
+                  <SmallText color={data[3].textColor}>
+                    1주전 전체 수량
+                  </SmallText>
+                  <SmallBold color={data[3].textColor}>
+                    {data[1].totalQTY}&nbsp;개
+                  </SmallBold>
+                </WideSpaceRow>
+                <WideSpaceRow>
+                  <SmallText color={data[3].textColor}>
+                    2주전 전체 수량
+                  </SmallText>
+                  <SmallBold color={data[3].textColor}>
+                    {data[2].totalQTY}&nbsp;개
+                  </SmallBold>
+                </WideSpaceRow>
+                <WideSpaceRow>
+                  <SmallText color={data[3].textColor}>
+                    1달전 전체 수량
+                  </SmallText>
+                  <SmallBold color={data[3].textColor}>
+                    {data[3].totalQTY}&nbsp;개
+                  </SmallBold>
+                </WideSpaceRow>
+              </Column>
             </Section>
           </Container>
           <FlatList
@@ -315,6 +392,7 @@ export default ({
               <Card
                 color={item.backgroundColor}
                 key={index}
+                index={index}
                 onPress={() => console.log('lplplplplp898989')}>
                 <Title>
                   <TitleNumber color={item.textColor}>
@@ -334,13 +412,19 @@ export default ({
                   <SpaceRow>
                     <SmallText color={item.textColor}>전체 수량</SmallText>
                     <SmallText color={item.textColor}>
-                      {item.totalQTY} 개
+                      <SmallBold color={item.textColor}>
+                        {item.totalQTY}
+                      </SmallBold>
+                      &nbsp;개
                     </SmallText>
                   </SpaceRow>
                   <SpaceRow>
                     <SmallText color={item.textColor}>처리 수량</SmallText>
                     <SmallText color={item.textColor}>
-                      {item.doneQTY} 개
+                      <SmallBold color={item.textColor}>
+                        {item.doneQTY}
+                      </SmallBold>
+                      &nbsp;개
                     </SmallText>
                   </SpaceRow>
                 </Footer>

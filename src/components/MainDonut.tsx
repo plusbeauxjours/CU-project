@@ -13,11 +13,11 @@ const View = styled.View`
 export default ({
   percentage,
   radius,
-  strokeWidth = 20,
+  strokeWidth = 13,
   delay = 500,
   duration = 700,
   color,
-  textColor,
+  strokeOpacity = color == '#ea1901' ? '0.1' : '0.4',
   max,
 }) => {
   const animated = useRef(new Animated.Value(0)).current;
@@ -76,6 +76,7 @@ export default ({
             r={radius}
             fill="transparent"
             stroke={color}
+            strokeLinecap="round"
             strokeWidth={strokeWidth}
             strokeDashoffset={circumference}
             strokeDasharray={circumference}
@@ -86,22 +87,12 @@ export default ({
             r={radius}
             fill="transparent"
             stroke={color}
+            strokeLinecap="round"
             strokeWidth={strokeWidth}
-            strokeOpacity=".1"
+            strokeOpacity={strokeOpacity}
           />
         </G>
       </Svg>
-      {/* <AnimatedTextInput
-          ref={inputRef}
-          underlineColorAndroid="transparent"
-          editable={false}
-          defaultValue="0"
-          style={[
-            StyleSheet.absoluteFillObject,
-            {fontSize: 40, color: textColor ?? color},
-            styles.text,
-          ]}
-        /> */}
     </View>
   );
 };
