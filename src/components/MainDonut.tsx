@@ -1,20 +1,25 @@
 import React, {useEffect, useRef} from 'react';
-import {Easing, TextInput, Animated, View, StyleSheet} from 'react-native';
-import Svg, {G, Circle, Rect} from 'react-native-svg';
+import {Easing, Animated, StyleSheet} from 'react-native';
+import Svg, {G, Circle} from 'react-native-svg';
+import styled from 'styled-components/native';
 
-const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
+const View = styled.View`
+  width: 0px;
+  height: 0px;
+  justify-content: center;
+  align-items: center;
+`;
 
-export default function Donut({
-  percentage = 75,
-  radius = 40,
-  strokeWidth = 10,
-  duration = 500,
-  color = 'tomato',
-  delay = 0,
-  textColor = 'tomato',
-  max = 100,
-}) {
+export default ({
+  percentage,
+  radius,
+  strokeWidth = 20,
+  delay = 500,
+  duration = 700,
+  color,
+  textColor,
+  max,
+}) => {
   const animated = useRef(new Animated.Value(0)).current;
   const circleRef = useRef(null);
   const inputRef = useRef(null);
@@ -23,14 +28,12 @@ export default function Donut({
 
   const animation = (toValue) => {
     return Animated.timing(animated, {
-      delay: 1000,
+      delay,
       toValue,
       duration,
       useNativeDriver: true,
       easing: Easing.out(Easing.ease),
-    }).start(() => {
-      animation(toValue === 0 ? percentage : 0);
-    });
+    }).start();
   };
 
   useEffect(() => {
@@ -42,7 +45,7 @@ export default function Donut({
           circumference - (circumference * maxPerc) / 100;
         if (inputRef?.current) {
           inputRef.current.setNativeProps({
-            text: `${Math.round(v.value)}`,
+            text: `${Math.round(v.value)}%`,
           });
         }
         if (circleRef?.current) {
@@ -51,7 +54,7 @@ export default function Donut({
           });
         }
       },
-      [max, percentage],
+      [percentage],
     );
 
     return () => {
@@ -60,7 +63,7 @@ export default function Donut({
   });
 
   return (
-    <View style={{width: radius * 2, height: radius * 2}}>
+    <View>
       <Svg
         height={radius * 2}
         width={radius * 2}
@@ -74,7 +77,6 @@ export default function Donut({
             fill="transparent"
             stroke={color}
             strokeWidth={strokeWidth}
-            strokeLinecap="round"
             strokeDashoffset={circumference}
             strokeDasharray={circumference}
           />
@@ -85,26 +87,25 @@ export default function Donut({
             fill="transparent"
             stroke={color}
             strokeWidth={strokeWidth}
-            strokeLinejoin="round"
             strokeOpacity=".1"
           />
         </G>
       </Svg>
-      <AnimatedTextInput
-        ref={inputRef}
-        underlineColorAndroid="transparent"
-        editable={false}
-        defaultValue="0"
-        style={[
-          StyleSheet.absoluteFillObject,
-          {fontSize: radius / 2, color: textColor ?? color},
-          styles.text,
-        ]}
-      />
+      {/* <AnimatedTextInput
+          ref={inputRef}
+          underlineColorAndroid="transparent"
+          editable={false}
+          defaultValue="0"
+          style={[
+            StyleSheet.absoluteFillObject,
+            {fontSize: 40, color: textColor ?? color},
+            styles.text,
+          ]}
+        /> */}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  text: {fontWeight: '900', textAlign: 'center'},
+  text: {fontWeight: 'bold', textAlign: 'center'},
 });

@@ -1,15 +1,41 @@
-import React from 'react';
-import {Agenda} from 'react-native-calendars';
+import React, {useRef} from 'react';
 import styled from 'styled-components/native';
+import {RefreshControl, Animated, FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import {CheckMarkIcon, DownIcon} from '~/constants/Icons';
 import moment from 'moment';
-import Donut from '~/components/Donut';
+import DonutCard from '~/components/DonutCard';
+import MainDonut from '~/components/MainDonut';
 
 interface IsChecked {
   isChecked: boolean;
 }
+
+interface IColor {
+  color: string;
+}
+
+const BackGround = styled.SafeAreaView`
+  flex: 1;
+  background-color: #f6f6f6;
+`;
+
+const ScrollView = styled.ScrollView``;
+
+const Container = styled.View`
+  width: 100%;
+  padding: 20px;
+  align-items: center;
+`;
+
+const Section = styled.View`
+  width: 100%;
+  height: 200px;
+  border-radius: 20px;
+  padding: 20px;
+  background-color: white;
+`;
 
 const View = styled.View``;
 const KnobIconContainer = styled.View`
@@ -48,6 +74,11 @@ const IconContainer = styled.View<IsChecked>`
 
 const Row = styled.View`
   flex-direction: row;
+`;
+
+const SpaceRow = styled(Row)`
+  width: 100px;
+  justify-content: space-between;
 `;
 
 const Text = styled.Text`
@@ -97,6 +128,63 @@ const DateText = styled.Text`
   color: #aaa;
 `;
 
+const Card = styled.TouchableOpacity<IColor>`
+  justify-content: center;
+  align-items: center;
+  width: 240px;
+  height: 300px;
+  border-radius: 20px;
+  background-color: ${(props) => props.color};
+  margin-left: 20px;
+  &:first-child {
+    background-color: red;
+  }
+`;
+
+const Title = styled.View`
+  flex-direction: row;
+  align-items: flex-start;
+  position: absolute;
+  top: 0;
+  left: 10px;
+`;
+
+const TitleNumber = styled.Text<IColor>`
+  color: ${(props) => props.color};
+  font-size: 60px;
+  font-weight: bold;
+`;
+
+const TitleWord = styled(TitleNumber)`
+  color: ${(props) => props.color};
+  margin-top: 12px;
+  font-size: 30px;
+`;
+
+const PercentageText = styled.Text<IColor>`
+  color: ${(props) => props.color};
+  font-size: 40px;
+  font-weight: bold;
+  position: absolute;
+`;
+
+const Footer = styled.View`
+  bottom: 10px;
+  position: absolute;
+  right: 20px;
+`;
+
+const SmallText = styled.Text<IColor>`
+  color: ${(props) => props.color};
+  font-size: 16px;
+`;
+
+const Donut = styled.View`
+  position: absolute;
+  top: 100px;
+  left: 100px;
+`;
+
 export default ({
   SHELFLIFE_DATA,
   onDayPress,
@@ -108,7 +196,10 @@ export default ({
   weeksBefore,
   monthBefore,
   loading,
+  data,
+  refreshing,
 }) => {
+  const inputRef = useRef(null);
   const navigation = useNavigation();
   const renderEmptyDate = () => <RenderEmpty />;
   const rowHasChanged = (r1, r2) => r1 !== r2;
@@ -186,71 +277,152 @@ export default ({
   };
   if (!loading) {
     return (
-      <View>
-        <Text>
-          {dayBefore.length}개 중
-          {dayBefore.filter((i) => i.checkType === '1').length}개 처리
-          {Math.ceil(
-            (dayBefore.filter((i) => i.checkType === '1').length /
-              dayBefore.length) *
-              100,
-          )}
-          %
-        </Text>
-        <Text>
-          {weekBefore.length}개 중
-          {weekBefore.filter((i) => i.checkType === '1').length}개 처리
-          {Math.ceil(
-            (weekBefore.filter((i) => i.checkType === '1').length /
-              weekBefore.length) *
-              100,
-          )}
-          %
-        </Text>
-        <Text>
-          {weeksBefore.length}개 중
-          {weeksBefore.filter((i) => i.checkType === '1').length}개 처리
-          {Math.ceil(
-            (weeksBefore.filter((i) => i.checkType === '1').length /
-              weeksBefore.length) *
-              100,
-          )}
-          %
-        </Text>
-        <Text>
-          {monthBefore.length}개 중
-          {monthBefore.filter((i) => i.checkType === '1').length}개 처리
-          {Math.ceil(
-            (monthBefore.filter((i) => i.checkType === '1').length /
-              monthBefore.length) *
-              100,
-          )}
-          %
-        </Text>
-        <Donut
-          percentage={240}
-          color={'red'}
-          delay={500 + 100 * 20}
-          max={500}
-        />
-      </View>
-      // <Agenda
-      //   items={SHELFLIFE_DATA}
-      //   renderItem={renderItem}
-      //   renderEmptyDate={renderEmptyDate}
-      //   renderKnob={renderKnob}
-      //   onDayPress={(date) => onDayPress(date)}
-      //   theme={{
-      //     agendaTodayColor: '#AACE36',
-      //     selectedDayBackgroundColor: '#ddd',
-      //     dotColor: '#642A8C',
-      //     todayTextColor: '#AACE36',
-      //   }}
-      //   refreshControl={null}
-      //   rowHasChanged={rowHasChanged}
-      //   monthFormat={'yyyy년 M월'}
-      //   onRefresh={onRefresh}
-      // />
+      <BackGround>
+        <ScrollView
+          keyboardDismissMode="on-drag"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{alignItems: 'center'}}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => onRefresh('firstRoute')}
+            />
+          }>
+          <Container>
+            <Section>
+              <Donut>
+                {data?.map((item, index) => {
+                  return (
+                    <MainDonut
+                      key={index}
+                      percentage={item.percentage}
+                      color={item.textColor}
+                      textColor={'red'}
+                      radius={item.radius}
+                      max={100}
+                    />
+                  );
+                })}
+              </Donut>
+            </Section>
+          </Container>
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({item, index}) => (
+              <Card
+                color={item.backgroundColor}
+                key={index}
+                onPress={() => console.log('lplplplplp898989')}>
+                <Title>
+                  <TitleNumber color={item.textColor}>
+                    {item.titleNumber}
+                  </TitleNumber>
+                  <TitleWord color={item.textColor}>{item.titleWord}</TitleWord>
+                </Title>
+                <DonutCard
+                  percentage={item.percentage}
+                  color={item.textColor}
+                  max={100}
+                />
+                <PercentageText color={item.textColor}>
+                  {item.percentage}%
+                </PercentageText>
+                <Footer>
+                  <SpaceRow>
+                    <SmallText color={item.textColor}>전체 수량</SmallText>
+                    <SmallText color={item.textColor}>
+                      {item.totalQTY} 개
+                    </SmallText>
+                  </SpaceRow>
+                  <SpaceRow>
+                    <SmallText color={item.textColor}>처리 수량</SmallText>
+                    <SmallText color={item.textColor}>
+                      {item.doneQTY} 개
+                    </SmallText>
+                  </SpaceRow>
+                </Footer>
+              </Card>
+            )}
+          />
+          <Container>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+            <Text>FFFFEDDDD</Text>
+          </Container>
+        </ScrollView>
+      </BackGround>
     );
   } else {
     return null;

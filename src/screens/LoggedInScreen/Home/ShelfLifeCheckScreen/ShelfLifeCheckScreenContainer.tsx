@@ -2,11 +2,9 @@ import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 
-import api from '~/constants/LoggedInApi';
 import ShelfLifeCheckScreenPresenter from './ShelfLifeCheckScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import {resultdata} from '~/assets/dummy';
-import Donut from '../../../../components/Donut';
 import {
   getSHELFLIFE_DATA,
   udpateSHELFLIFE,
@@ -24,12 +22,13 @@ export default () => {
   const {STORE, MEMBER_NAME} = useSelector((state: any) => state.userReducer);
   const {SHELFLIFE_DATA} = useSelector((state: any) => state.shelflifeReducer);
 
+  const [refreshing, setRefreshing] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [data, setData] = useState<any>([]);
   const [dayBefore, setDayBefore] = useState<any>([]);
   const [weekBefore, setWeekBefore] = useState<any>([]);
   const [weeksBefore, setWeeksBefore] = useState<any>([]);
   const [monthBefore, setMonthBefore] = useState<any>([]);
-
   const confirmModal = (shelfLife_SEQ, shelfLifeDate) => {
     const params = {
       alertType: 'confirm',
@@ -70,8 +69,15 @@ export default () => {
     dispatch(getSHELFLIFE_DATA(day.year, day.month, day.day));
   };
 
-  const onRefresh = () => {
-    dispatch(getSHELFLIFE_DATA(YEAR, MONTH, DAY));
+  const onRefresh = async () => {
+    try {
+      setRefreshing(true);
+      dispatch(getSHELFLIFE_DATA(YEAR, MONTH, DAY));
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setRefreshing(false);
+    }
   };
 
   const cancelShelfLife = async (shelfLife_SEQ, shelfLifeDate) => {
@@ -129,16 +135,16 @@ export default () => {
       const weeksDuration = moment().add(14, 'days').add(1, 'days');
       const monthDuration = moment().add(1, 'months').add(1, 'days');
       while (monthDuration.diff(day, 'days') > 0) {
-        resultdata[day.format('YYYY-MM-DD')].length > 0 &&
+        resultdata[day.format('YYYY-MM-DD')]?.length > 0 &&
           monthList.push(...resultdata[day.format('YYYY-MM-DD')]);
         if (weeksDuration.diff(day, 'days') > 0) {
-          resultdata[day.format('YYYY-MM-DD')].length > 0 &&
+          resultdata[day.format('YYYY-MM-DD')]?.length > 0 &&
             weeksList.push(...resultdata[day.format('YYYY-MM-DD')]);
           if (weekDuration.diff(day, 'days') > 0) {
-            resultdata[day.format('YYYY-MM-DD')].length > 0 &&
+            resultdata[day.format('YYYY-MM-DD')]?.length > 0 &&
               weekList.push(...resultdata[day.format('YYYY-MM-DD')]);
             if (dayDuration.diff(day, 'days') > 0) {
-              resultdata[day.format('YYYY-MM-DD')].length > 0 &&
+              resultdata[day.format('YYYY-MM-DD')]?.length > 0 &&
                 dayList.push(...resultdata[day.format('YYYY-MM-DD')]);
             }
           }
@@ -149,6 +155,72 @@ export default () => {
       setWeekBefore(weekList);
       setWeeksBefore(weeksList);
       setMonthBefore(monthList);
+      setData([
+        {
+          titleNumber: '1',
+          titleWord: '일전',
+          backgroundColor: 'white',
+          textColor: 'red',
+          radius: 100,
+          totalQTY: dayList.length,
+          doneQTY: dayList.filter((i) => i.checkType === '1').length,
+          percentage: Number(
+            Math.ceil(
+              (dayList.filter((i) => i.checkType === '1').length /
+                dayList.length) *
+                100,
+            ),
+          ),
+        },
+        {
+          titleNumber: '1',
+          titleWord: '주전',
+          backgroundColor: 'white',
+          textColor: 'blue',
+          radius: 80,
+          totalQTY: weekList.length,
+          doneQTY: weekList.filter((i) => i.checkType === '1').length,
+          percentage: Number(
+            Math.ceil(
+              (weekList.filter((i) => i.checkType === '1').length /
+                weekList.length) *
+                100,
+            ),
+          ),
+        },
+        {
+          titleNumber: '2',
+          titleWord: '주전',
+          backgroundColor: 'white',
+          textColor: 'yellow',
+          radius: 60,
+          totalQTY: weeksList.length,
+          doneQTY: weeksList.filter((i) => i.checkType === '1').length,
+          percentage: Number(
+            Math.ceil(
+              (weeksList.filter((i) => i.checkType === '1').length /
+                weeksList.length) *
+                100,
+            ),
+          ),
+        },
+        {
+          titleNumber: '1',
+          titleWord: '달전',
+          backgroundColor: 'white',
+          textColor: 'green',
+          radius: 40,
+          totalQTY: monthList.length,
+          doneQTY: monthList.filter((i) => i.checkType === '1').length,
+          percentage: Number(
+            Math.ceil(
+              (monthList.filter((i) => i.checkType === '1').length /
+                monthList.length) *
+                100,
+            ),
+          ),
+        },
+      ]);
     } catch (e) {
       console.log(e);
     } finally {
@@ -167,6 +239,8 @@ export default () => {
       weeksBefore={weeksBefore}
       monthBefore={monthBefore}
       loading={loading}
+      data={data}
+      refreshing={refreshing}
     />
   );
 };

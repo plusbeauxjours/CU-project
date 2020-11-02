@@ -43,7 +43,6 @@ const Container = styled.View`
 const Section = styled.View`
   width: 100%;
   border-radius: 20px;
-  margin-top: 20px;
   padding: 20px;
   background-color: white;
 `;
