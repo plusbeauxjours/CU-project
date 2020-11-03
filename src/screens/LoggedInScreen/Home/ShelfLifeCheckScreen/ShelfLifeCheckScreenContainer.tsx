@@ -1,6 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
+import {onScrollEvent, useValue} from 'react-native-redash';
+import Animated from 'react-native-reanimated';
 
 import ShelfLifeCheckScreenPresenter from './ShelfLifeCheckScreenPresenter';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
@@ -18,6 +20,16 @@ export default () => {
 
   const dispatch = useDispatch();
 
+  const scrollView = useRef<Animated.ScrollView>(null);
+  const {interpolate, Extrapolate} = Animated;
+  const y = useValue(0);
+  const onScroll = onScrollEvent({y});
+  const opacity = interpolate(y, {
+    inputRange: [500 - 45 - 100, 500 - 45],
+    outputRange: [1, 0],
+    extrapolate: Extrapolate.CLAMP,
+  });
+
   const {EMP_SEQ} = useSelector((state: any) => state.storeReducer);
   const {STORE, MEMBER_NAME} = useSelector((state: any) => state.userReducer);
   const {SHELFLIFE_DATA} = useSelector((state: any) => state.shelflifeReducer);
@@ -29,6 +41,8 @@ export default () => {
   const [weekBefore, setWeekBefore] = useState<any>([]);
   const [weeksBefore, setWeeksBefore] = useState<any>([]);
   const [monthBefore, setMonthBefore] = useState<any>([]);
+  const [tabs, setTabs] = useState(null);
+
   const confirmModal = (shelfLife_SEQ, shelfLifeDate) => {
     const params = {
       alertType: 'confirm',
@@ -241,6 +255,11 @@ export default () => {
       loading={loading}
       data={data}
       refreshing={refreshing}
+      tabs={tabs}
+      scrollView={scrollView}
+      onScroll={onScroll}
+      opacity={opacity}
+      y={y}
     />
   );
 };

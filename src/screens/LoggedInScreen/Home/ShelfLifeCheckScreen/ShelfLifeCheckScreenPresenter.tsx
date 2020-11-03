@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {RefreshControl, FlatList} from 'react-native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import moment from 'moment';
+import {RefreshControl, FlatList, StyleSheet} from 'react-native';
+import Animated from 'react-native-reanimated';
+import Ripple from 'react-native-material-ripple';
 
 import DonutCard from '~/components/DonutCard';
 import MainDonut from '~/components/MainDonut';
 import ShelfLifeCheckScreenCard from './ShelfLifeCheckScreenCard';
+import ShelfLifeCheckScreenHeader from './ShelfLifeCheckScreenHeader';
 
 interface IColor {
   color: string;
@@ -32,7 +33,7 @@ const Container = styled.View`
 
 const Section = styled.View`
   width: 100%;
-  height: 160px;
+  height: 140px;
   border-radius: 20px;
   padding: 10px;
   background-color: white;
@@ -52,11 +53,7 @@ const WideSpaceRow = styled(SpaceRow)`
   width: 110px;
 `;
 
-const Text = styled.Text`
-  font-size: 12px;
-`;
-
-const Card = styled.TouchableOpacity<ICard>`
+const Card = styled(Ripple)<ICard>`
   justify-content: center;
   align-items: center;
   width: 200px;
@@ -116,48 +113,40 @@ const SmallBold = styled(SmallText)<IColor>`
 
 const Donut = styled.View`
   position: absolute;
-  top: 80px;
-  left: 80px;
+  top: 70px;
+  left: 100px;
 `;
 
 const Column = styled.View`
+  width: 100%;
   position: absolute;
-  right: 30px;
-  top: 70px;
+  align-items: flex-end;
+  right: 50px;
+  top: 30px;
   flex-direction: column;
 `;
 
-const Line = styled.View<IColor>`
-  width: 100%;
-  height: 1px;
-  padding-right: 20px;
-  background-color: ${(props) => props.color};
-`;
-
-const LineContainer = styled.View`
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  align-self: flex-end;
-  height: 20px;
-  width: ${wp('100%') - 180}px;
-  margin-top: 20px;
-  margin-bottom: 10px;
-`;
-
 const LineTextContainer = styled.View<IColor>`
+  align-self: flex-end;
   border-color: ${(props) => props.color};
   border-width: 1px;
   border-radius: 10px;
   padding: 0 15px;
   justify-content: center;
   align-items: center;
+  margin-top: 30px;
+  margin-bottom: 10px;
 `;
 
 const LineText = styled.Text<IColor>`
   font-size: 16px;
   font-weight: bold;
   color: ${(props) => props.color};
+`;
+
+const MainDonutText = styled(LineText)<IColor>`
+  text-align: right;
+  margin-bottom: 10px;
 `;
 
 const VerticalLine = styled.View`
@@ -182,20 +171,28 @@ export default ({
   loading,
   data,
   refreshing,
+  tabs,
+  scrollView,
+  onScroll,
+  opacity,
+  y,
 }) => {
   if (!loading && data?.length > 0) {
     return (
       <BackGround>
-        <ScrollView
-          keyboardDismissMode="on-drag"
+        <Animated.ScrollView
+          ref={scrollView}
+          style={StyleSheet.absoluteFill}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{alignItems: 'center'}}
+          scrollEventThrottle={1}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
               onRefresh={() => onRefresh('firstRoute')}
             />
-          }>
+          }
+          {...{onScroll}}>
           <Container>
             <Section>
               {data && (
@@ -226,10 +223,10 @@ export default ({
                   />
                 </Donut>
               )}
-              <SectionTitle color={data[3].textColor}>
-                유통기한 등록 상품&nbsp;
-              </SectionTitle>
               <Column>
+                <MainDonutText color={data[3].textColor}>
+                  유통기한 등록 상품&nbsp;
+                </MainDonutText>
                 <WideSpaceRow>
                   <SmallText
                     color={data[0].textColor}
@@ -277,7 +274,12 @@ export default ({
                 color={item.backgroundColor}
                 key={index}
                 index={index}
-                onPress={() => console.log('lplplplplp898989')}>
+                onPress={() => {}}
+                rippleColor={'#666'}
+                rippleDuration={600}
+                rippleSize={1700}
+                rippleContainerBorderRadius={20}
+                rippleOpacity={0.1}>
                 <Title>
                   <TitleNumber color={item.textColor}>
                     {item.titleNumber}
@@ -320,38 +322,28 @@ export default ({
               return (
                 <>
                   <VerticalLine />
-                  {index == 0 && (
-                    <LineContainer>
-                      <Line color={'red'} />
+                  <Animated.View style={[{opacity}, {width: '100%'}]}>
+                    {index == 0 && (
                       <LineTextContainer color={'red'}>
                         <LineText color={'red'}>1일전</LineText>
                       </LineTextContainer>
-                    </LineContainer>
-                  )}
-                  {index == dayBefore.length && (
-                    <LineContainer>
-                      <Line color={'#000'} />
+                    )}
+                    {index == dayBefore.length && (
                       <LineTextContainer color={'#000'}>
                         <LineText color={'#000'}>1주전</LineText>
                       </LineTextContainer>
-                    </LineContainer>
-                  )}
-                  {index == weekBefore.length && (
-                    <LineContainer>
-                      <Line color={'#000'} />
+                    )}
+                    {index == weekBefore.length && (
                       <LineTextContainer color={'#000'}>
                         <LineText color={'#000'}>2주전</LineText>
                       </LineTextContainer>
-                    </LineContainer>
-                  )}
-                  {index == weeksBefore.length && (
-                    <LineContainer>
-                      <Line color={'#000'} />
+                    )}
+                    {index == weeksBefore.length && (
                       <LineTextContainer color={'#000'}>
                         <LineText color={'#000'}>1달전</LineText>
                       </LineTextContainer>
-                    </LineContainer>
-                  )}
+                    )}
+                  </Animated.View>
                   <ShelfLifeCheckScreenCard
                     item={item}
                     key={index}
@@ -362,7 +354,8 @@ export default ({
               );
             })}
           </Container>
-        </ScrollView>
+        </Animated.ScrollView>
+        <ShelfLifeCheckScreenHeader {...{y, scrollView}} />
       </BackGround>
     );
   } else {

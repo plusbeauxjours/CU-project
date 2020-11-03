@@ -86,6 +86,7 @@ import BackBtn from '../components/Header/BackBtn';
 import HomeBtn from '../components/Header/HomeBtn';
 import CalendarInfoHeader from '../components/Header/CalendarInfoHeader';
 import ShelfLifeCheckHeader from '../components/Header/ShelfLifeCheckHeader';
+import Test from '../screens/LoggedInScreen/Home/Test';
 
 const LoggedInNavigation = createStackNavigator();
 export default () => {
@@ -94,7 +95,8 @@ export default () => {
     <React.Fragment>
       <LoggedInNavigation.Navigator
         headerMode={'screen'}
-        initialRouteName={'SelectStoreScreen'}
+        // initialRouteName={'SelectStoreScreen'}
+        initialRouteName={'Test'}
         screenOptions={{
           headerStyle: {
             backgroundColor: '#AACE36',
@@ -116,7 +118,14 @@ export default () => {
             title: '메인 페이지',
           }}
         />
-
+        <LoggedInNavigation.Screen
+          name="Test"
+          component={Test}
+          options={{
+            headerTitle: '점포 등록',
+            title: '사업장(점포) 등록',
+          }}
+        />
         {/* 직원관리======================================================== */}
         <LoggedInNavigation.Screen
           name="AddStoreScreen"

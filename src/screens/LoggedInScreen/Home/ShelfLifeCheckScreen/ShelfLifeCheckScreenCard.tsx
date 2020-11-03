@@ -3,9 +3,10 @@ import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import FastImage from 'react-native-fast-image';
+import Ripple from 'react-native-material-ripple';
 
 import {CheckMarkIcon} from '~/constants/Icons';
-import FastImage from 'react-native-fast-image';
 
 interface IsChecked {
   isChecked?: boolean;
@@ -66,8 +67,14 @@ const Item = styled.TouchableOpacity`
   min-height: 60px;
 `;
 
-const WhiteItem = styled(Item)`
+const WhiteItem = styled(Ripple)`
   background-color: #fff;
+  width: ${wp('100%') - 110}px;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 3px;
+  margin-left: 10px;
+  min-height: 60px;
 `;
 
 const IconContainer = styled.View<IsChecked>`
@@ -134,7 +141,12 @@ export default ({item, confirmModal, cancelModal}) => {
               shelfLifeDate: item.shelfLifeDate,
               shelfLifeMemo: item.shelfLifeMemo,
             })
-          }>
+          }
+          rippleColor={'#666'}
+          rippleDuration={600}
+          rippleSize={1700}
+          rippleContainerBorderRadius={10}
+          rippleOpacity={0.1}>
           <Name>
             <NameText>{item.shelfLifeName}</NameText>
             <DateText>
