@@ -1,16 +1,12 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {RefreshControl, Animated, FlatList, TextInput} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-
-import {CheckMarkIcon, DownIcon} from '~/constants/Icons';
+import {RefreshControl, FlatList} from 'react-native';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import moment from 'moment';
+
 import DonutCard from '~/components/DonutCard';
 import MainDonut from '~/components/MainDonut';
-
-interface IsChecked {
-  isChecked: boolean;
-}
+import ShelfLifeCheckScreenCard from './ShelfLifeCheckScreenCard';
 
 interface IColor {
   color: string;
@@ -18,7 +14,7 @@ interface IColor {
 
 interface ICard {
   color: string;
-  index?: string;
+  index?: number;
 }
 
 const BackGround = styled.SafeAreaView`
@@ -42,41 +38,6 @@ const Section = styled.View`
   background-color: white;
 `;
 
-const View = styled.View``;
-const KnobIconContainer = styled.View`
-  width: 70px;
-  height: 20px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 20px;
-  background-color: #aace36;
-`;
-
-const RenderEmpty = styled.View`
-  flex: 1;
-  margin-top: 30px;
-  border-top-width: 1px;
-  border-color: #ddd;
-`;
-
-const Item = styled.TouchableOpacity<IsChecked>`
-  margin: 10px 0;
-  background-color: ${(props) => (props.isChecked ? '#ddd' : '#fff')};
-  border-radius: 5px;
-  padding: 10px;
-  margin-right: 10px;
-  height: 150px;
-`;
-
-const IconContainer = styled.View<IsChecked>`
-  width: 20px;
-  height: 20px;
-  border-radius: 10px;
-  align-items: center;
-  justify-content: center;
-  background-color: ${(props) => (props.isChecked ? '#ddd' : '#000')};
-`;
-
 const Row = styled.View`
   flex-direction: row;
   align-items: center;
@@ -93,49 +54,6 @@ const WideSpaceRow = styled(SpaceRow)`
 
 const Text = styled.Text`
   font-size: 12px;
-`;
-
-const Bold = styled(Text)`
-  font-weight: bold;
-`;
-
-const TextContainer = styled.View`
-  margin-top: 10px;
-`;
-
-const Touchable = styled.TouchableOpacity`
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  padding: 10px;
-`;
-
-const Name = styled.View`
-  flex: 1;
-  position: relative;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-const NameText = styled.Text`
-  color: #333;
-  font-size: 16px;
-  font-weight: bold;
-`;
-
-const Line = styled.View`
-  margin-top: 5px;
-  height: 0.6px;
-  background-color: #aaa;
-`;
-
-const Date = styled.View`
-  margin-top: 10px;
-  align-items: flex-end;
-`;
-
-const DateText = styled.Text`
-  color: #aaa;
 `;
 
 const Card = styled.TouchableOpacity<ICard>`
@@ -209,6 +127,48 @@ const Column = styled.View`
   flex-direction: column;
 `;
 
+const Line = styled.View<IColor>`
+  width: 100%;
+  height: 1px;
+  padding-right: 20px;
+  background-color: ${(props) => props.color};
+`;
+
+const LineContainer = styled.View`
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  align-self: flex-end;
+  height: 20px;
+  width: ${wp('100%') - 180}px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+`;
+
+const LineTextContainer = styled.View<IColor>`
+  border-color: ${(props) => props.color};
+  border-width: 1px;
+  border-radius: 10px;
+  padding: 0 15px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const LineText = styled.Text<IColor>`
+  font-size: 16px;
+  font-weight: bold;
+  color: ${(props) => props.color};
+`;
+
+const VerticalLine = styled.View`
+  width: 0.6px;
+  left: 50px;
+  background-color: #ddd;
+  position: absolute;
+  height: 100%;
+  top: 140px;
+`;
+
 export default ({
   SHELFLIFE_DATA,
   onDayPress,
@@ -223,82 +183,6 @@ export default ({
   data,
   refreshing,
 }) => {
-  const navigation = useNavigation();
-
-  const renderEmptyDate = () => <RenderEmpty />;
-  const rowHasChanged = (r1, r2) => r1 !== r2;
-  const renderKnob = () => (
-    <KnobIconContainer>
-      <DownIcon />
-    </KnobIconContainer>
-  );
-
-  const renderItem = (item: any) => {
-    const {
-      shelfLife_SEQ,
-      shelfLifeName,
-      shelfLifeDate,
-      checkTime,
-      checkEmpName,
-      shelfLifeMemo,
-      checkType,
-    } = item;
-    return (
-      <Item
-        isChecked={checkType !== '0'}
-        onPress={() =>
-          navigation.navigate('ShelfLifeUpdateScreen', {
-            shelfLife_SEQ,
-            shelfLifeName,
-            shelfLifeDate,
-            shelfLifeMemo,
-          })
-        }>
-        <Name>
-          <NameText>{shelfLifeName}</NameText>
-          <Touchable
-            onPress={() => {
-              if (checkType == '0') {
-                confirmModal(shelfLife_SEQ, shelfLifeDate);
-              } else {
-                cancelModal(shelfLife_SEQ, shelfLifeDate);
-              }
-            }}>
-            <IconContainer isChecked={checkType == '0'}>
-              <CheckMarkIcon
-                size={12}
-                color={checkType == '0' ? '#bbb' : 'yellow'}
-              />
-            </IconContainer>
-          </Touchable>
-        </Name>
-        <Date>
-          <DateText>
-            {shelfLifeDate.slice(0, 4)}년 {shelfLifeDate.slice(5, 7)}월
-            {shelfLifeDate.slice(8, 10)}일
-          </DateText>
-        </Date>
-        {(checkType == '1' || shelfLifeMemo !== '') && <Line />}
-        {shelfLifeMemo !== '0' && (
-          <TextContainer>
-            <Text>{shelfLifeMemo}</Text>
-          </TextContainer>
-        )}
-        {checkType !== '0' && (
-          <TextContainer>
-            <Row>
-              <Text>처리직원: </Text>
-              <Bold>{checkEmpName}</Bold>
-            </Row>
-            <Row>
-              <Text>처리시간: </Text>
-              <Bold>{moment(checkTime).format('YYYY.MM.DD HH:mm:ss')}</Bold>
-            </Row>
-          </TextContainer>
-        )}
-      </Item>
-    );
-  };
   if (!loading && data?.length > 0) {
     return (
       <BackGround>
@@ -432,78 +316,51 @@ export default ({
             )}
           />
           <Container>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
-            <Text>FFFFEDDDD</Text>
+            {monthBefore.map((item, index) => {
+              return (
+                <>
+                  <VerticalLine />
+                  {index == 0 && (
+                    <LineContainer>
+                      <Line color={'red'} />
+                      <LineTextContainer color={'red'}>
+                        <LineText color={'red'}>1일전</LineText>
+                      </LineTextContainer>
+                    </LineContainer>
+                  )}
+                  {index == dayBefore.length && (
+                    <LineContainer>
+                      <Line color={'#000'} />
+                      <LineTextContainer color={'#000'}>
+                        <LineText color={'#000'}>1주전</LineText>
+                      </LineTextContainer>
+                    </LineContainer>
+                  )}
+                  {index == weekBefore.length && (
+                    <LineContainer>
+                      <Line color={'#000'} />
+                      <LineTextContainer color={'#000'}>
+                        <LineText color={'#000'}>2주전</LineText>
+                      </LineTextContainer>
+                    </LineContainer>
+                  )}
+                  {index == weeksBefore.length && (
+                    <LineContainer>
+                      <Line color={'#000'} />
+                      <LineTextContainer color={'#000'}>
+                        <LineText color={'#000'}>1달전</LineText>
+                      </LineTextContainer>
+                    </LineContainer>
+                  )}
+                  <ShelfLifeCheckScreenCard
+                    item={item}
+                    key={index}
+                    confirmModal={confirmModal}
+                    cancelModal={cancelModal}
+                  />
+                </>
+              );
+            })}
           </Container>
         </ScrollView>
       </BackGround>
