@@ -340,12 +340,14 @@ export default ({
             ))}
           </Container>
         </Animated.ScrollView>
-        <ShelfLifeCheckScreenHeader
-          y={y}
-          tabs={tabs}
-          gotoCategory={gotoCategory}
-          scrollRef={scrollRef}
-        />
+        {tabs[3].anchor !== 20 && (
+          <ShelfLifeCheckScreenHeader
+            y={y}
+            tabs={tabs}
+            gotoCategory={gotoCategory}
+            scrollRef={scrollRef}
+          />
+        )}
       </BackGround>
     );
   } else {

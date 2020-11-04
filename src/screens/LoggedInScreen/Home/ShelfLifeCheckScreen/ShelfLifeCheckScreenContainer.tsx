@@ -271,7 +271,6 @@ export default () => {
   };
 
   const onScroll = onScrollEvent({y});
-  console.log(y);
   return (
     <ShelfLifeCheckScreenPresenter
       SHELFLIFE_DATA={resultdata}

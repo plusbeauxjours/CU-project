@@ -57,7 +57,7 @@ const Touchable = styled.TouchableOpacity``;
 
 export default ({transition, tabs, gotoCategory, y}) => {
   const opacity = transition;
-  const updateBackColor = (anchor = 20, nextAnchor = 30, color) => {
+  const updateBackColor = (anchor = 20, nextAnchor = 5000, color) => {
     return interpolateColor(y, {
       inputRange: [
         Number(anchor) + 325,
@@ -83,6 +83,7 @@ export default ({transition, tabs, gotoCategory, y}) => {
   const Tab = ({name, index, color, gotoCategory}) => {
     return (
       <Touchable onPress={() => gotoCategory(index)}>
+        {console.log(tabs)}
         <LineTextContainer
           as={Animated.View}
           style={{
