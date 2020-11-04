@@ -1,22 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
-import {Platform, StyleSheet, View} from 'react-native';
-
-import Animated, {
-  Value,
-  and,
-  block,
-  cond,
-  greaterOrEq,
-  interpolate,
-  lessOrEq,
-  set,
-  useCode,
-} from 'react-native-reanimated';
-import MaskedView from '@react-native-community/masked-view';
-import {withTransition} from 'react-native-redash';
-import Tabs from '../Test/Tabs';
+import {StyleSheet} from 'react-native';
+import Animated from 'react-native-reanimated';
+import {interpolateColor} from 'react-native-redash';
 
 interface TabModel {
   name: string;
@@ -26,25 +13,11 @@ interface TabModel {
 
 interface IColor {
   color: string;
-  isSelectedCategory: boolean;
-}
-
-interface TabProps {
-  color: string;
-  name: string;
-  index: number;
-  selectedCategory: number;
-  gotoCategory: (index: number) => void;
-}
-
-interface TabsProps {
-  tabs: TabModel[];
 }
 
 interface TabHeaderProps {
   transition: Animated.Node<number>;
   tabs: TabModel[];
-  selectedCategory: number;
   gotoCategory: (index: number) => void;
 }
 
@@ -62,12 +35,9 @@ const Row = styled.View`
   bottom: 20px;
 `;
 
-const LineTextContainer = styled.TouchableOpacity<IColor>`
+const LineTextContainer = styled.View`
   align-self: flex-end;
   background-color: white;
-  border-color: ${(props) => props.color};
-  background-color: ${(props) =>
-    props.isSelectedCategory ? props.color : 'transparent'};
   border-width: 1px;
   border-radius: 15px;
   padding: 5px 15px;
@@ -81,44 +51,75 @@ const LineTextContainer = styled.TouchableOpacity<IColor>`
 const LineText = styled.Text<IColor>`
   font-size: 16px;
   font-weight: bold;
-  color: ${(props) => (props.isSelectedCategory ? 'white' : props.color)};
 `;
 
-export default ({
-  transition,
-  tabs,
-  selectedCategory,
-  gotoCategory,
-}: TabHeaderProps) => {
-  const opacity = transition;
+const Touchable = styled.TouchableOpacity``;
 
-  const Tab = ({
-    name,
-    index,
-    selectedCategory,
-    color,
-    gotoCategory,
-  }: TabProps) => {
+export default ({transition, tabs, gotoCategory, y}) => {
+  const opacity = transition;
+  const updateBackColor = (anchor = 20, nextAnchor = 30, color) => {
+    return interpolateColor(y, {
+      inputRange: [
+        Number(anchor) + 325,
+        Number(anchor) + 375,
+        Number(nextAnchor) + 375,
+        Number(nextAnchor) + 425,
+      ],
+      outputRange: ['white', color, color, 'white'],
+    });
+  };
+  const updateFrontColor = (anchor = 20, nextAnchor = 30, color) => {
+    return interpolateColor(y, {
+      inputRange: [
+        Number(anchor) + 325,
+        Number(anchor) + 375,
+        Number(nextAnchor) + 375,
+        Number(nextAnchor) + 425,
+      ],
+      outputRange: [color, 'white', 'white', color],
+    });
+  };
+
+  const Tab = ({name, index, color, gotoCategory}) => {
     return (
-      <LineTextContainer
-        onPress={() => gotoCategory(index)}
-        color={color}
-        isSelectedCategory={index === selectedCategory}>
-        <LineText color={color} isSelectedCategory={index === selectedCategory}>
-          {name}
-        </LineText>
-      </LineTextContainer>
+      <Touchable onPress={() => gotoCategory(index)}>
+        <LineTextContainer
+          as={Animated.View}
+          style={{
+            borderColor: updateFrontColor(
+              tabs[index].anchor,
+              index !== 3 ? tabs[index + 1].anchor : tabs[3].anchor * 100,
+              color,
+            ),
+            backgroundColor: updateBackColor(
+              tabs[index].anchor,
+              index !== 3 ? tabs[index + 1].anchor : tabs[3].anchor * 100,
+              color,
+            ),
+          }}>
+          <LineText
+            as={Animated.Text}
+            style={{
+              color: updateFrontColor(
+                tabs[index].anchor,
+                index !== 3 ? tabs[index + 1].anchor : tabs[3].anchor * 100,
+                color,
+              ),
+            }}>
+            {name}
+          </LineText>
+        </LineTextContainer>
+      </Touchable>
     );
   };
 
-  const TabsContainer = ({tabs}) => {
+  const TabsContainer = ({tabs, gotoCategory}) => {
     return (
       <Row>
         {tabs?.map((tab, index) => (
           <Tab
             key={index}
             index={index}
-            selectedCategory={selectedCategory}
             color={index === 0 ? '#ea1901' : '#aace36'}
             gotoCategory={gotoCategory}
             {...tab}

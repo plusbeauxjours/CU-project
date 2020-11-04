@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, createRef} from 'react';
+import React, {useState, useEffect, createRef} from 'react';
 import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 import {onScrollEvent, useValue} from 'react-native-redash';
@@ -53,7 +53,6 @@ export default () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<any>([]);
   const [listData, setListData] = useState<any>(defaultData);
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
   const [tabs, setTabs] = useState<any>(defaultTabs);
 
   const confirmModal = (shelfLife_SEQ, shelfLifeDate) => {
@@ -272,7 +271,7 @@ export default () => {
   };
 
   const onScroll = onScrollEvent({y});
-
+  console.log(y);
   return (
     <ShelfLifeCheckScreenPresenter
       SHELFLIFE_DATA={resultdata}
@@ -291,7 +290,6 @@ export default () => {
       listData={listData}
       gotoCategory={gotoCategory}
       onMeasurement={onMeasurement}
-      selectedCategory={selectedCategory}
     />
   );
 };

@@ -1,15 +1,10 @@
-import React, {RefObject} from 'react';
+import React from 'react';
 import Animated from 'react-native-reanimated';
 import {useValue, withTimingTransition} from 'react-native-redash';
 import {useSafeArea} from 'react-native-safe-area-context';
 
 import ShelfLifeCheckScreenTabHeader from './ShelfLifeCheckScreenTabHeader';
 import styled from 'styled-components/native';
-
-interface TabModel {
-  name: string;
-  anchor: number;
-}
 
 export const MIN_HEADER_HEIGHT = 45;
 const {useCode, greaterThan, set, block} = Animated;
@@ -30,7 +25,7 @@ const HeaderContainer = styled.View`
   right: 0;
 `;
 
-export default ({y, tabs, selectedCategory, gotoCategory, scrollRef}) => {
+export default ({y, tabs, gotoCategory, scrollRef}) => {
   const toggle = useValue<0 | 1>(0);
   const insets = useSafeArea();
   const transition = withTimingTransition(toggle, {duration: 200});
@@ -44,7 +39,6 @@ export default ({y, tabs, selectedCategory, gotoCategory, scrollRef}) => {
         transition={transition}
         y={y}
         tabs={tabs}
-        selectedCategory={selectedCategory}
         gotoCategory={gotoCategory}
         scrollRef={scrollRef}
       />

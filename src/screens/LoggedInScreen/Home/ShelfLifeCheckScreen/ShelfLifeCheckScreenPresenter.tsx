@@ -170,7 +170,6 @@ export default ({
   listData,
   gotoCategory,
   onMeasurement,
-  selectedCategory,
 }) => {
   if (!loading && listData?.length > 0 && data?.length > 0) {
     return (
@@ -180,7 +179,7 @@ export default ({
           style={StyleSheet.absoluteFill}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{alignItems: 'center'}}
-          scrollEventThrottle={1}
+          scrollEventThrottle={16}
           onScroll={onScroll}
           refreshControl={
             <RefreshControl
@@ -344,7 +343,6 @@ export default ({
         <ShelfLifeCheckScreenHeader
           y={y}
           tabs={tabs}
-          selectedCategory={selectedCategory}
           gotoCategory={gotoCategory}
           scrollRef={scrollRef}
         />
