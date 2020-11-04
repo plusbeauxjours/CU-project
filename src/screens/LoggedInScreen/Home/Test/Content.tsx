@@ -151,7 +151,7 @@ export default ({y, onMeasurement}: ContentProps) => {
             nativeEvent: {
               layout: {y: anchor},
             },
-          }) => onMeasurement(index, {name, anchor: anchor - 142})}>
+          }) => onMeasurement(index, {name, anchor: anchor - 500})}>
           <Text style={styles.title1}>{name}</Text>
           {menuItems.map(({title, description, price}, j) => (
             <View style={styles.item} key={j}>

@@ -14,8 +14,8 @@ export default ({
   percentage,
   radius,
   strokeWidth = 13,
-  delay = 500,
-  duration = 700,
+  delay = 200,
+  duration = 400,
   color,
   strokeOpacity = color == '#ea1901' ? '0.1' : '0.4',
   max,
@@ -38,25 +38,21 @@ export default ({
 
   useEffect(() => {
     animation(percentage);
-    animated.addListener(
-      (v) => {
-        const maxPerc = (100 * v.value) / max;
-        const strokeDashoffset =
-          circumference - (circumference * maxPerc) / 100;
-        if (inputRef?.current) {
-          inputRef.current.setNativeProps({
-            text: `${Math.round(v.value)}%`,
-          });
-        }
-        if (circleRef?.current) {
-          circleRef.current.setNativeProps({
-            strokeDashoffset,
-          });
-        }
-      },
-      [percentage],
-    );
-
+    animated.addListener((v) => {
+      const maxPerc = (100 * v.value) / max;
+      const strokeDashoffset = circumference - (circumference * maxPerc) / 100;
+      if (inputRef?.current) {
+        inputRef.current.setNativeProps({
+          text: `${Math.round(v.value)}%`,
+        });
+      }
+      if (circleRef?.current) {
+        circleRef.current.setNativeProps({
+          strokeDashoffset,
+        });
+      }
+    });
+    console.log('ready');
     return () => {
       animated.removeAllListeners();
     };
@@ -96,7 +92,3 @@ export default ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  text: {fontWeight: 'bold', textAlign: 'center'},
-});

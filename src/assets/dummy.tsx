@@ -87,7 +87,17 @@ export const resultdata = {
     },
   ],
   '2020-11-04': [],
-  '2020-11-05': [],
+  '2020-11-05': [
+    {
+      checkTime: null,
+      checkEmpName: null,
+      shelfLife_SEQ: 10308,
+      shelfLifeName: 'Zxcv10308',
+      shelfLifeDate: '2020-11-07',
+      shelfLifeMemo: '',
+      checkType: '1',
+    },
+  ],
   '2020-11-06': [],
   '2020-11-07': [
     {

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, createRef} from 'react';
 import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 import {onScrollEvent, useValue} from 'react-native-redash';
@@ -24,12 +24,26 @@ export default () => {
   const {interpolate, Extrapolate} = Animated;
   const y = useValue(0);
   const onScroll = onScrollEvent({y});
-  const opacity = interpolate(y, {
-    inputRange: [500 - 45 - 100, 500 - 45],
-    outputRange: [1, 0],
-    extrapolate: Extrapolate.CLAMP,
-  });
+  const opacity = (anchor) => {
+    return interpolate(y, {
+      // inputRange: [Number(anchor) + 100, Number(anchor) + 200],
+      inputRange: [Number(anchor) + 300, Number(anchor) + 400],
+      outputRange: [1, 0],
+      extrapolate: Extrapolate.CLAMP,
+    });
+  };
 
+  const defaultData = [
+    {name: '1일전', color: '#ea1901', items: []},
+    {name: '1주전', color: '#aace36', items: []},
+    {name: '2주전', color: '#aace36', items: []},
+    {name: '1달전', color: '#aace36', items: []},
+  ];
+  const defaultTabs = defaultData.map(({name, color}) => ({
+    name,
+    color,
+    anchor: 0,
+  }));
   const {EMP_SEQ} = useSelector((state: any) => state.storeReducer);
   const {STORE, MEMBER_NAME} = useSelector((state: any) => state.userReducer);
   const {SHELFLIFE_DATA} = useSelector((state: any) => state.shelflifeReducer);
@@ -37,11 +51,8 @@ export default () => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<any>([]);
-  const [dayBefore, setDayBefore] = useState<any>([]);
-  const [weekBefore, setWeekBefore] = useState<any>([]);
-  const [weeksBefore, setWeeksBefore] = useState<any>([]);
-  const [monthBefore, setMonthBefore] = useState<any>([]);
-  const [tabs, setTabs] = useState(null);
+  const [tabs, setTabs] = useState<any>(defaultTabs);
+  const [listData, setListData] = useState<any>(defaultData);
 
   const confirmModal = (shelfLife_SEQ, shelfLifeDate) => {
     const params = {
@@ -139,36 +150,49 @@ export default () => {
   const fetchData = () => {
     try {
       setLoading(true);
-      const dayList = [];
-      const weekList = [];
-      const weeksList = [];
-      const monthList = [];
       const day = moment();
       const dayDuration = moment().add(2, 'days');
       const weekDuration = moment().add(7, 'days').add(1, 'days');
       const weeksDuration = moment().add(14, 'days').add(1, 'days');
       const monthDuration = moment().add(1, 'months').add(1, 'days');
       while (monthDuration.diff(day, 'days') > 0) {
-        resultdata[day.format('YYYY-MM-DD')]?.length > 0 &&
-          monthList.push(...resultdata[day.format('YYYY-MM-DD')]);
-        if (weeksDuration.diff(day, 'days') > 0) {
+        if (dayDuration.diff(day, 'days') > 0) {
           resultdata[day.format('YYYY-MM-DD')]?.length > 0 &&
-            weeksList.push(...resultdata[day.format('YYYY-MM-DD')]);
-          if (weekDuration.diff(day, 'days') > 0) {
-            resultdata[day.format('YYYY-MM-DD')]?.length > 0 &&
-              weekList.push(...resultdata[day.format('YYYY-MM-DD')]);
-            if (dayDuration.diff(day, 'days') > 0) {
-              resultdata[day.format('YYYY-MM-DD')]?.length > 0 &&
-                dayList.push(...resultdata[day.format('YYYY-MM-DD')]);
-            }
-          }
+            defaultData[0].items.push(...resultdata[day.format('YYYY-MM-DD')]);
+        } else if (weekDuration.diff(day, 'days') > 0) {
+          resultdata[day.format('YYYY-MM-DD')]?.length > 0 &&
+            defaultData[1].items.push(...resultdata[day.format('YYYY-MM-DD')]);
+        } else if (weeksDuration.diff(day, 'days') > 0) {
+          resultdata[day.format('YYYY-MM-DD')]?.length > 0 &&
+            defaultData[2].items.push(...resultdata[day.format('YYYY-MM-DD')]);
+        } else {
+          resultdata[day.format('YYYY-MM-DD')]?.length > 0 &&
+            defaultData[3].items.push(...resultdata[day.format('YYYY-MM-DD')]);
         }
         day.add(1, 'days');
       }
-      setDayBefore(dayList);
-      setWeekBefore(weekList);
-      setWeeksBefore(weeksList);
-      setMonthBefore(monthList);
+      setListData(defaultData);
+
+      const dayCount = defaultData[0].items.length;
+      const weekCount =
+        defaultData[0].items.length + defaultData[1].items.length;
+      const weeksCount =
+        defaultData[0].items.length +
+        defaultData[1].items.length +
+        defaultData[2].items.length;
+      const monthCount =
+        defaultData[0].items.length +
+        defaultData[1].items.length +
+        defaultData[2].items.length +
+        defaultData[3].items.length;
+      const dayDone = defaultData[0].items.filter((i) => i.checkType === '1')
+        .length;
+      const weekDone = defaultData[1].items.filter((i) => i.checkType === '1')
+        .length;
+      const weeksDone = defaultData[2].items.filter((i) => i.checkType === '1')
+        .length;
+      const monthDone = defaultData[3].items.filter((i) => i.checkType === '1')
+        .length;
       setData([
         {
           titleNumber: '1',
@@ -176,15 +200,11 @@ export default () => {
           backgroundColor: 'white',
           textColor: '#ea1901',
           radius: 60,
-          totalQTY: dayList.length,
-          doneQTY: dayList.filter((i) => i.checkType === '1').length,
-          percentage: Number(
-            Math.ceil(
-              (dayList.filter((i) => i.checkType === '1').length /
-                dayList.length) *
-                100,
-            ),
-          ),
+          totalQTY: dayCount ?? 0,
+          doneQTY: dayDone,
+          percentage: isNaN(dayDone / dayCount)
+            ? 0
+            : Math.ceil((dayDone / dayCount) * 100),
         },
         {
           titleNumber: '1',
@@ -192,15 +212,11 @@ export default () => {
           backgroundColor: 'white',
           textColor: '#e6efbf',
           radius: 50,
-          totalQTY: weekList.length,
-          doneQTY: weekList.filter((i) => i.checkType === '1').length,
-          percentage: Number(
-            Math.ceil(
-              (weekList.filter((i) => i.checkType === '1').length /
-                weekList.length) *
-                100,
-            ),
-          ),
+          totalQTY: weekCount ?? 0,
+          doneQTY: weekDone,
+          percentage: isNaN(weekDone / weekCount)
+            ? 0
+            : Math.ceil((weekDone / weekCount) * 100),
         },
         {
           titleNumber: '2',
@@ -208,15 +224,11 @@ export default () => {
           backgroundColor: 'white',
           textColor: '#cade7e',
           radius: 40,
-          totalQTY: weeksList.length,
-          doneQTY: weeksList.filter((i) => i.checkType === '1').length,
-          percentage: Number(
-            Math.ceil(
-              (weeksList.filter((i) => i.checkType === '1').length /
-                weeksList.length) *
-                100,
-            ),
-          ),
+          totalQTY: weeksCount ?? 0,
+          doneQTY: weeksDone,
+          percentage: isNaN(weeksDone / weeksCount)
+            ? 0
+            : Math.ceil((weeksDone / weeksCount) * 100),
         },
         {
           titleNumber: '1',
@@ -224,15 +236,11 @@ export default () => {
           backgroundColor: 'white',
           textColor: '#aace36',
           radius: 30,
-          totalQTY: monthList.length,
-          doneQTY: monthList.filter((i) => i.checkType === '1').length,
-          percentage: Number(
-            Math.ceil(
-              (monthList.filter((i) => i.checkType === '1').length /
-                monthList.length) *
-                100,
-            ),
-          ),
+          totalQTY: monthCount ?? 0,
+          doneQTY: monthDone ?? 0,
+          percentage: isNaN(monthDone / monthCount)
+            ? 0
+            : Math.ceil((monthDone / monthCount) * 100),
         },
       ]);
     } catch (e) {
@@ -248,10 +256,6 @@ export default () => {
       onRefresh={onRefresh}
       confirmModal={confirmModal}
       cancelModal={cancelModal}
-      dayBefore={dayBefore}
-      weekBefore={weekBefore}
-      weeksBefore={weeksBefore}
-      monthBefore={monthBefore}
       loading={loading}
       data={data}
       refreshing={refreshing}
@@ -260,6 +264,11 @@ export default () => {
       onScroll={onScroll}
       opacity={opacity}
       y={y}
+      listData={listData}
+      onMeasurement={(index, tab) => {
+        tabs[index] = tab;
+        setTabs([...tabs]);
+      }}
     />
   );
 };

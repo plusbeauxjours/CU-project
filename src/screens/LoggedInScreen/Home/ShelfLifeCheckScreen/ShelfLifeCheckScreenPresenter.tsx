@@ -22,9 +22,7 @@ const BackGround = styled.SafeAreaView`
   flex: 1;
   background-color: #f6f6f6;
 `;
-
-const ScrollView = styled.ScrollView``;
-
+const View = styled.View``;
 const Container = styled.View`
   width: 100%;
   padding: 20px;
@@ -84,11 +82,6 @@ const TitleWord = styled(TitleNumber)`
   font-size: 30px;
 `;
 
-const SectionTitle = styled(TitleWord)`
-  margin-top: 10px;
-  text-align: right;
-`;
-
 const PercentageText = styled.Text<IColor>`
   color: ${(props) => props.color};
   font-size: 40px;
@@ -128,10 +121,12 @@ const Column = styled.View`
 
 const LineTextContainer = styled.View<IColor>`
   align-self: flex-end;
+  background-color: white;
   border-color: ${(props) => props.color};
   border-width: 1px;
-  border-radius: 10px;
-  padding: 0 15px;
+  border-radius: 15px;
+  padding: 5px 15px;
+  height: 30px;
   justify-content: center;
   align-items: center;
   margin-top: 30px;
@@ -151,7 +146,7 @@ const MainDonutText = styled(LineText)<IColor>`
 
 const VerticalLine = styled.View`
   width: 0.6px;
-  left: 50px;
+  left: 30px;
   background-color: #ddd;
   position: absolute;
   height: 100%;
@@ -164,10 +159,6 @@ export default ({
   onRefresh,
   confirmModal,
   cancelModal,
-  dayBefore,
-  weekBefore,
-  weeksBefore,
-  monthBefore,
   loading,
   data,
   refreshing,
@@ -176,8 +167,11 @@ export default ({
   onScroll,
   opacity,
   y,
+  listData,
+  onMeasurement,
 }) => {
-  if (!loading && data?.length > 0) {
+  console.log(listData);
+  if (!loading && listData?.length > 0 && data?.length > 0) {
     return (
       <BackGround>
         <Animated.ScrollView
@@ -186,43 +180,41 @@ export default ({
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{alignItems: 'center'}}
           scrollEventThrottle={1}
+          onScroll={onScroll}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
               onRefresh={() => onRefresh('firstRoute')}
             />
-          }
-          {...{onScroll}}>
+          }>
           <Container>
             <Section>
-              {data && (
-                <Donut>
-                  <MainDonut
-                    percentage={data[0].totalQTY}
-                    color={data[0].textColor}
-                    radius={data[0].radius}
-                    max={data[3].totalQTY}
-                  />
-                  <MainDonut
-                    percentage={data[1].totalQTY}
-                    color={data[1].textColor}
-                    radius={data[1].radius}
-                    max={data[3].totalQTY}
-                  />
-                  <MainDonut
-                    percentage={data[2].totalQTY}
-                    color={data[2].textColor}
-                    radius={data[2].radius}
-                    max={data[3].totalQTY}
-                  />
-                  <MainDonut
-                    percentage={data[3].totalQTY}
-                    color={data[3].textColor}
-                    radius={data[3].radius}
-                    max={data[3].totalQTY}
-                  />
-                </Donut>
-              )}
+              {/* <Donut>
+                <MainDonut
+                  percentage={data[0].totalQTY}
+                  color={data[0].textColor}
+                  radius={data[0].radius}
+                  max={data[3].totalQTY}
+                />
+                <MainDonut
+                  percentage={data[1].totalQTY}
+                  color={data[1].textColor}
+                  radius={data[1].radius}
+                  max={data[3].totalQTY}
+                />
+                <MainDonut
+                  percentage={data[2].totalQTY}
+                  color={data[2].textColor}
+                  radius={data[2].radius}
+                  max={data[3].totalQTY}
+                />
+                <MainDonut
+                  percentage={data[3].totalQTY}
+                  color={data[3].textColor}
+                  radius={data[3].radius}
+                  max={data[3].totalQTY}
+                />
+              </Donut> */}
               <Column>
                 <MainDonutText color={data[3].textColor}>
                   유통기한 등록 상품&nbsp;
@@ -271,8 +263,8 @@ export default ({
             showsHorizontalScrollIndicator={false}
             renderItem={({item, index}) => (
               <Card
-                color={item.backgroundColor}
                 key={index}
+                color={item.backgroundColor}
                 index={index}
                 onPress={() => {}}
                 rippleColor={'#666'}
@@ -286,11 +278,11 @@ export default ({
                   </TitleNumber>
                   <TitleWord color={item.textColor}>{item.titleWord}</TitleWord>
                 </Title>
-                <DonutCard
+                {/* <DonutCard
                   percentage={item.percentage}
                   color={item.textColor}
                   max={100}
-                />
+                /> */}
                 <PercentageText color={item.textColor}>
                   {item.percentage}%
                 </PercentageText>
@@ -318,44 +310,37 @@ export default ({
             )}
           />
           <Container>
-            {monthBefore.map((item, index) => {
-              return (
-                <>
-                  <VerticalLine />
-                  <Animated.View style={[{opacity}, {width: '100%'}]}>
-                    {index == 0 && (
-                      <LineTextContainer color={'red'}>
-                        <LineText color={'red'}>1일전</LineText>
-                      </LineTextContainer>
-                    )}
-                    {index == dayBefore.length && (
-                      <LineTextContainer color={'#000'}>
-                        <LineText color={'#000'}>1주전</LineText>
-                      </LineTextContainer>
-                    )}
-                    {index == weekBefore.length && (
-                      <LineTextContainer color={'#000'}>
-                        <LineText color={'#000'}>2주전</LineText>
-                      </LineTextContainer>
-                    )}
-                    {index == weeksBefore.length && (
-                      <LineTextContainer color={'#000'}>
-                        <LineText color={'#000'}>1달전</LineText>
-                      </LineTextContainer>
-                    )}
-                  </Animated.View>
-                  <ShelfLifeCheckScreenCard
-                    item={item}
-                    key={index}
-                    confirmModal={confirmModal}
-                    cancelModal={cancelModal}
-                  />
-                </>
-              );
-            })}
+            {listData.map(({name, color, items: listItems}, index) => (
+              <View
+                key={index}
+                onLayout={({
+                  nativeEvent: {
+                    layout: {y: anchor},
+                  },
+                }) => onMeasurement(index, {name, anchor})}>
+                <VerticalLine />
+                {listItems.length !== 0 && (
+                  <LineTextContainer
+                    as={Animated.View}
+                    style={{opacity: opacity(tabs[index].anchor)}}
+                    color={color}>
+                    <LineText color={color}>{name}</LineText>
+                  </LineTextContainer>
+                )}
+                {/* {listItems.map((item, index) => (
+                  <View key={index}>
+                    <ShelfLifeCheckScreenCard
+                      item={item}
+                      confirmModal={confirmModal}
+                      cancelModal={cancelModal}
+                    />
+                  </View>
+                ))} */}
+              </View>
+            ))}
           </Container>
         </Animated.ScrollView>
-        <ShelfLifeCheckScreenHeader {...{y, scrollView}} />
+        {/* <ShelfLifeCheckScreenHeader y={y} tabs={tabs} scrollView={scrollView} /> */}
       </BackGround>
     );
   } else {

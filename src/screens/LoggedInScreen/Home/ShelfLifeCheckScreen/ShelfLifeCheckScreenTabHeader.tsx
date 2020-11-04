@@ -1,23 +1,28 @@
 import React, {RefObject, useState} from 'react';
-import {Platform, StyleSheet, View} from 'react-native';
-import Animated, {
-  Value,
-  and,
-  block,
-  cond,
-  greaterOrEq,
-  interpolate,
-  lessOrEq,
-  set,
-  useCode,
-} from 'react-native-reanimated';
-import MaskedView from '@react-native-community/masked-view';
-import {withTransition} from 'react-native-redash';
-import ShelfLifeCheckSCreenTabs from './ShelfLifeCheckScreenTabs';
+import {StyleSheet} from 'react-native';
+import Animated from 'react-native-reanimated';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import styled from 'styled-components/native';
 
 interface TabModel {
   name: string;
+  color?: string;
   anchor: number;
+}
+
+interface IColor {
+  color: string;
+}
+
+interface TabProps {
+  color: string;
+  name: string;
+  onMeasurement?: (measurement: number) => void;
+}
+
+interface TabsProps {
+  tabs: TabModel[];
+  onMeasurement?: (index: number, measurement: number) => void;
 }
 
 interface TabHeaderProps {
@@ -27,112 +32,85 @@ interface TabHeaderProps {
   scrollView: RefObject<Animated.ScrollView>;
 }
 
-const styles = StyleSheet.create({
-  container: {
-    marginLeft: 8,
-    height: 45,
-    marginBottom: 8,
-    flexDirection: 'row',
-  },
-});
+const ListContainer = styled.View`
+  height: 50px;
+  flex-direction: row;
+  width: 100%;
+  left: 20px;
+`;
+
+const Row = styled.View`
+  flex-direction: row;
+  width: ${wp('100%') - 40}px;
+  justify-content: space-between;
+  bottom: 20px;
+`;
+
+const IndicatorBody = styled.View<IColor>`
+  position: absolute;
+  width: 65px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: ${(props) => props.color};
+  bottom: 0px;
+`;
+
+const LineTextContainer = styled.TouchableOpacity<IColor>`
+  align-self: flex-end;
+  background-color: white;
+  border-color: ${(props) => props.color};
+  border-width: 1px;
+  border-radius: 15px;
+  padding: 5px 15px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 10px;
+`;
+
+const LineText = styled.Text<IColor>`
+  font-size: 16px;
+  font-weight: bold;
+  color: ${(props) => props.color};
+`;
 
 export default ({transition, y, tabs, scrollView}: TabHeaderProps) => {
-  const index = new Value<number>(0);
   const [measurements, setMeasurements] = useState<number[]>(
     new Array(tabs?.length).fill(0),
   );
   const opacity = transition;
-  const indexTransition = withTransition(index);
-  const width = interpolate(indexTransition, {
-    inputRange: tabs?.map((_, i) => i),
-    outputRange: measurements,
-  });
-  const translateX = interpolate(indexTransition, {
-    inputRange: tabs?.map((_tab, i) => i),
-    outputRange: measurements.map((_, i) => {
-      return (
-        -1 *
-          measurements
-            .filter((_measurement, j) => j < i)
-            .reduce((acc, m) => acc + m, 0) -
-        8 * i
-      );
-    }),
-  });
-  const style = {
-    borderRadius: 24,
-    backgroundColor: 'black',
-    width,
-    flex: 1,
+
+  const Tab = ({name, color}: TabProps) => {
+    return (
+      <LineTextContainer onPress={() => console.log('kokoko')} color={color}>
+        <LineText color={color}>{name}</LineText>
+      </LineTextContainer>
+    );
   };
-  const maskElement = <Animated.View {...{style}} />;
-  useCode(
-    () =>
-      block(
-        tabs?.map((tab, i) =>
-          cond(
-            i === tabs?.length - 1
-              ? greaterOrEq(y, tab.anchor)
-              : and(
-                  greaterOrEq(y, tab.anchor),
-                  lessOrEq(y, tabs[i + 1].anchor),
-                ),
-            set(index, i),
-          ),
-        ),
-      ),
-    [index, tabs, y],
-  );
+
+  const TabsContainer = ({tabs}) => {
+    return (
+      <Row>
+        {tabs?.map((tab, index) => (
+          <Tab
+            key={index}
+            color={index === 0 ? '#ea1901' : '#aace36'}
+            {...tab}
+          />
+        ))}
+      </Row>
+    );
+  };
+
   return (
-    <Animated.View style={[styles.container, {opacity}]}>
+    <ListContainer as={Animated.View} style={{opacity}}>
       <Animated.View
         style={{
           ...StyleSheet.absoluteFillObject,
-          transform: [{translateX}],
         }}>
-        <ShelfLifeCheckSCreenTabs
-          onMeasurement={(i, m) => {
-            measurements[i] = m;
-            setMeasurements([...measurements]);
-          }}
-          {...{tabs, translateX}}
-        />
+        <TabsContainer {...{tabs}} />
       </Animated.View>
-      <View>
-        <Animated.View
-          style={[
-            style,
-            Platform.OS === 'android'
-              ? {
-                  backgroundColor: 'transparent',
-                  borderColor: 'black',
-                  borderWidth: 1,
-                }
-              : {},
-          ]}
-        />
-      </View>
-      {Platform.OS === 'ios' && (
-        <MaskedView style={StyleSheet.absoluteFill} maskElement={maskElement}>
-          <Animated.View
-            style={{
-              ...StyleSheet.absoluteFillObject,
-              transform: [{translateX}],
-            }}>
-            <ShelfLifeCheckSCreenTabs
-              active
-              onPress={(i) => {
-                if (scrollView.current) {
-                  scrollView.current
-                    .getNode()
-                    .scrollTo({y: tabs[i].anchor + 1});
-                }
-              }}
-              {...{tabs, translateX}}
-            />
-          </Animated.View>
-        </MaskedView>
-      )}
-    </Animated.View>
+    </ListContainer>
   );
 };
