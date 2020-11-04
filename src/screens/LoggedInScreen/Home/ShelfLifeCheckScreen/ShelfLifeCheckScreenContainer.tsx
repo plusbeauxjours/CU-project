@@ -20,14 +20,14 @@ export default () => {
 
   const dispatch = useDispatch();
 
-  const scrollView = useRef<Animated.ScrollView>(null);
+  const scrollRef = createRef(0);
   const {interpolate, Extrapolate} = Animated;
   const y = useValue(0);
-  const onScroll = onScrollEvent({y});
-  const opacity = (anchor) => {
+
+  const opacity = (anchor = 20) => {
     return interpolate(y, {
       // inputRange: [Number(anchor) + 100, Number(anchor) + 200],
-      inputRange: [Number(anchor) + 300, Number(anchor) + 400],
+      inputRange: [Number(anchor) + 350, Number(anchor) + 450],
       outputRange: [1, 0],
       extrapolate: Extrapolate.CLAMP,
     });
@@ -39,10 +39,11 @@ export default () => {
     {name: '2주전', color: '#aace36', items: []},
     {name: '1달전', color: '#aace36', items: []},
   ];
+
   const defaultTabs = defaultData.map(({name, color}) => ({
     name,
     color,
-    anchor: 0,
+    anchor: 20,
   }));
   const {EMP_SEQ} = useSelector((state: any) => state.storeReducer);
   const {STORE, MEMBER_NAME} = useSelector((state: any) => state.userReducer);
@@ -51,8 +52,9 @@ export default () => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<any>([]);
-  const [tabs, setTabs] = useState<any>(defaultTabs);
   const [listData, setListData] = useState<any>(defaultData);
+  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const [tabs, setTabs] = useState<any>(defaultTabs);
 
   const confirmModal = (shelfLife_SEQ, shelfLifeDate) => {
     const params = {
@@ -249,6 +251,28 @@ export default () => {
       setLoading(false);
     }
   };
+  const gotoCategory = (index) => {
+    if (scrollRef.current) {
+      setTimeout(() => {
+        scrollRef.current?.getNode()?.scrollTo({
+          y: tabs[index].anchor + 470,
+          animated: true,
+        });
+      }, 100);
+    }
+  };
+
+  const onMeasurement = (index, tab) => {
+    setTimeout(() => {
+      tabs[index] = tab;
+      if (index === 3) {
+        setTabs([...tabs]);
+      }
+    }, 3000);
+  };
+
+  const onScroll = onScrollEvent({y});
+
   return (
     <ShelfLifeCheckScreenPresenter
       SHELFLIFE_DATA={resultdata}
@@ -260,15 +284,14 @@ export default () => {
       data={data}
       refreshing={refreshing}
       tabs={tabs}
-      scrollView={scrollView}
+      scrollRef={scrollRef}
       onScroll={onScroll}
       opacity={opacity}
       y={y}
       listData={listData}
-      onMeasurement={(index, tab) => {
-        tabs[index] = tab;
-        setTabs([...tabs]);
-      }}
+      gotoCategory={gotoCategory}
+      onMeasurement={onMeasurement}
+      selectedCategory={selectedCategory}
     />
   );
 };

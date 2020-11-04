@@ -52,7 +52,6 @@ export default ({
         });
       }
     });
-    console.log('ready');
     return () => {
       animated.removeAllListeners();
     };

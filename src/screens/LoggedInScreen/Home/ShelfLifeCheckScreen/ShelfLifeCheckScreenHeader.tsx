@@ -30,27 +30,23 @@ const HeaderContainer = styled.View`
   right: 0;
 `;
 
-interface HeaderProps {
-  y: Animated.Value<number>;
-  tabs: TabModel[];
-  scrollView: RefObject<Animated.ScrollView>;
-}
-
-export default ({y, tabs, scrollView}: HeaderProps) => {
-  const toggle = useValue<number>(0);
+export default ({y, tabs, selectedCategory, gotoCategory, scrollRef}) => {
+  const toggle = useValue<0 | 1>(0);
   const insets = useSafeArea();
   const transition = withTimingTransition(toggle, {duration: 200});
   const {top: paddingTop} = insets;
   const opacity = transition;
-  useCode(() => block([set(toggle, greaterThan(y, 400))]), [toggle, y]);
+  useCode(() => block([set(toggle, greaterThan(y, 450))]), [toggle, y]);
   return (
     <HeaderContainer as={Animated.View} style={{paddingTop}}>
       <HeaderBackground as={Animated.View} style={{opacity}} />
       <ShelfLifeCheckScreenTabHeader
-        y={y}
         transition={transition}
+        y={y}
         tabs={tabs}
-        scrollView={scrollView}
+        selectedCategory={selectedCategory}
+        gotoCategory={gotoCategory}
+        scrollRef={scrollRef}
       />
     </HeaderContainer>
   );

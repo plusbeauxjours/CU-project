@@ -1,8 +1,22 @@
-import React, {RefObject, useState} from 'react';
-import {StyleSheet} from 'react-native';
-import Animated from 'react-native-reanimated';
+import React, {useState} from 'react';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import styled from 'styled-components/native';
+import {Platform, StyleSheet, View} from 'react-native';
+
+import Animated, {
+  Value,
+  and,
+  block,
+  cond,
+  greaterOrEq,
+  interpolate,
+  lessOrEq,
+  set,
+  useCode,
+} from 'react-native-reanimated';
+import MaskedView from '@react-native-community/masked-view';
+import {withTransition} from 'react-native-redash';
+import Tabs from '../Test/Tabs';
 
 interface TabModel {
   name: string;
@@ -12,24 +26,26 @@ interface TabModel {
 
 interface IColor {
   color: string;
+  isSelectedCategory: boolean;
 }
 
 interface TabProps {
   color: string;
   name: string;
-  onMeasurement?: (measurement: number) => void;
+  index: number;
+  selectedCategory: number;
+  gotoCategory: (index: number) => void;
 }
 
 interface TabsProps {
   tabs: TabModel[];
-  onMeasurement?: (index: number, measurement: number) => void;
 }
 
 interface TabHeaderProps {
   transition: Animated.Node<number>;
-  y: Animated.Node<number>;
   tabs: TabModel[];
-  scrollView: RefObject<Animated.ScrollView>;
+  selectedCategory: number;
+  gotoCategory: (index: number) => void;
 }
 
 const ListContainer = styled.View`
@@ -46,19 +62,12 @@ const Row = styled.View`
   bottom: 20px;
 `;
 
-const IndicatorBody = styled.View<IColor>`
-  position: absolute;
-  width: 65px;
-  height: 4px;
-  border-radius: 2px;
-  background-color: ${(props) => props.color};
-  bottom: 0px;
-`;
-
 const LineTextContainer = styled.TouchableOpacity<IColor>`
   align-self: flex-end;
   background-color: white;
   border-color: ${(props) => props.color};
+  background-color: ${(props) =>
+    props.isSelectedCategory ? props.color : 'transparent'};
   border-width: 1px;
   border-radius: 15px;
   padding: 5px 15px;
@@ -72,19 +81,32 @@ const LineTextContainer = styled.TouchableOpacity<IColor>`
 const LineText = styled.Text<IColor>`
   font-size: 16px;
   font-weight: bold;
-  color: ${(props) => props.color};
+  color: ${(props) => (props.isSelectedCategory ? 'white' : props.color)};
 `;
 
-export default ({transition, y, tabs, scrollView}: TabHeaderProps) => {
-  const [measurements, setMeasurements] = useState<number[]>(
-    new Array(tabs?.length).fill(0),
-  );
+export default ({
+  transition,
+  tabs,
+  selectedCategory,
+  gotoCategory,
+}: TabHeaderProps) => {
   const opacity = transition;
 
-  const Tab = ({name, color}: TabProps) => {
+  const Tab = ({
+    name,
+    index,
+    selectedCategory,
+    color,
+    gotoCategory,
+  }: TabProps) => {
     return (
-      <LineTextContainer onPress={() => console.log('kokoko')} color={color}>
-        <LineText color={color}>{name}</LineText>
+      <LineTextContainer
+        onPress={() => gotoCategory(index)}
+        color={color}
+        isSelectedCategory={index === selectedCategory}>
+        <LineText color={color} isSelectedCategory={index === selectedCategory}>
+          {name}
+        </LineText>
       </LineTextContainer>
     );
   };
@@ -95,7 +117,10 @@ export default ({transition, y, tabs, scrollView}: TabHeaderProps) => {
         {tabs?.map((tab, index) => (
           <Tab
             key={index}
+            index={index}
+            selectedCategory={selectedCategory}
             color={index === 0 ? '#ea1901' : '#aace36'}
+            gotoCategory={gotoCategory}
             {...tab}
           />
         ))}
@@ -109,7 +134,7 @@ export default ({transition, y, tabs, scrollView}: TabHeaderProps) => {
         style={{
           ...StyleSheet.absoluteFillObject,
         }}>
-        <TabsContainer {...{tabs}} />
+        <TabsContainer {...{tabs}} gotoCategory={gotoCategory} />
       </Animated.View>
     </ListContainer>
   );

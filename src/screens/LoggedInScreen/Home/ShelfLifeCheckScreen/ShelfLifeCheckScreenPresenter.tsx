@@ -163,19 +163,20 @@ export default ({
   data,
   refreshing,
   tabs,
-  scrollView,
+  scrollRef,
   onScroll,
   opacity,
   y,
   listData,
+  gotoCategory,
   onMeasurement,
+  selectedCategory,
 }) => {
-  console.log(listData);
   if (!loading && listData?.length > 0 && data?.length > 0) {
     return (
       <BackGround>
         <Animated.ScrollView
-          ref={scrollView}
+          ref={scrollRef}
           style={StyleSheet.absoluteFill}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{alignItems: 'center'}}
@@ -189,7 +190,7 @@ export default ({
           }>
           <Container>
             <Section>
-              {/* <Donut>
+              <Donut>
                 <MainDonut
                   percentage={data[0].totalQTY}
                   color={data[0].textColor}
@@ -214,7 +215,7 @@ export default ({
                   radius={data[3].radius}
                   max={data[3].totalQTY}
                 />
-              </Donut> */}
+              </Donut>
               <Column>
                 <MainDonutText color={data[3].textColor}>
                   유통기한 등록 상품&nbsp;
@@ -266,7 +267,7 @@ export default ({
                 key={index}
                 color={item.backgroundColor}
                 index={index}
-                onPress={() => {}}
+                onPress={() => gotoCategory(index)}
                 rippleColor={'#666'}
                 rippleDuration={600}
                 rippleSize={1700}
@@ -278,11 +279,11 @@ export default ({
                   </TitleNumber>
                   <TitleWord color={item.textColor}>{item.titleWord}</TitleWord>
                 </Title>
-                {/* <DonutCard
+                <DonutCard
                   percentage={item.percentage}
                   color={item.textColor}
                   max={100}
-                /> */}
+                />
                 <PercentageText color={item.textColor}>
                   {item.percentage}%
                 </PercentageText>
@@ -317,7 +318,7 @@ export default ({
                   nativeEvent: {
                     layout: {y: anchor},
                   },
-                }) => onMeasurement(index, {name, anchor})}>
+                }) => index !== 0 && onMeasurement(index, {name, anchor})}>
                 <VerticalLine />
                 {listItems.length !== 0 && (
                   <LineTextContainer
@@ -327,7 +328,7 @@ export default ({
                     <LineText color={color}>{name}</LineText>
                   </LineTextContainer>
                 )}
-                {/* {listItems.map((item, index) => (
+                {listItems.map((item, index) => (
                   <View key={index}>
                     <ShelfLifeCheckScreenCard
                       item={item}
@@ -335,12 +336,18 @@ export default ({
                       cancelModal={cancelModal}
                     />
                   </View>
-                ))} */}
+                ))}
               </View>
             ))}
           </Container>
         </Animated.ScrollView>
-        {/* <ShelfLifeCheckScreenHeader y={y} tabs={tabs} scrollView={scrollView} /> */}
+        <ShelfLifeCheckScreenHeader
+          y={y}
+          tabs={tabs}
+          selectedCategory={selectedCategory}
+          gotoCategory={gotoCategory}
+          scrollRef={scrollRef}
+        />
       </BackGround>
     );
   } else {
