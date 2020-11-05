@@ -65,11 +65,13 @@ export default () => {
   };
 
   const deleteBuffer = (name, date) => {
-    setList((buffer) =>
-      buffer.filter(
-        (item) => item.shelfLifeNAME !== name || item.shelfLifeDATE !== date,
-      ),
-    );
+    setTimeout(() => {
+      setList((buffer) =>
+        buffer.filter(
+          (item) => item.shelfLifeNAME !== name || item.shelfLifeDATE !== date,
+        ),
+      );
+    }, 100);
   };
 
   const submitFn = async () => {

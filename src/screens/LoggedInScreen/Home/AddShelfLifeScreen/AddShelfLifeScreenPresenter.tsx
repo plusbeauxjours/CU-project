@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import moment from 'moment';
 import DatePickerModal from 'react-native-modal-datetime-picker';
+import {Dimensions} from 'react-native';
+import moment from 'moment';
 
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import {HelpCircleIcon} from '~/constants/Icons';
@@ -12,6 +13,7 @@ import RoundBtn from '~/components/Btn/RoundBtn';
 interface ITextInput {
   isBefore: boolean;
 }
+
 const BackGround = styled.SafeAreaView`
   flex: 1;
   background-color: #f6f6f6;
@@ -22,10 +24,16 @@ const Text = styled.Text`
   font-size: 16px;
 `;
 
-const Touchable = styled.TouchableOpacity``;
+const View = styled.View`
+  position: absolute;
+  left: 20px;
+  width: 60px;
+  height: 100%;
+  padding-top: 90px;
+  top: 90px;
+`;
 
 const Container = styled.View`
-  margin-top: 20px;
   padding: 20px;
   align-items: center;
 `;
@@ -43,7 +51,6 @@ const Center = styled.View`
 `;
 
 const TextContainer = styled.View`
-  margin-top: 10px;
   margin-bottom: 15px;
   flex-direction: row;
   align-items: center;
@@ -72,7 +79,7 @@ const GreyText = styled.Text`
 const InputItem = styled.View`
   margin: 10px 0;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
 `;
 
@@ -101,6 +108,15 @@ const DateBox = styled.TouchableOpacity<ITextInput>`
 
 const DateText = styled.Text`
   color: #642a8c;
+`;
+
+const VerticalLine = styled.View`
+  width: 0.6px;
+  left: 30px;
+  background-color: #ddd;
+  position: absolute;
+  height: 100%;
+  top: 0;
 `;
 
 export default ({
@@ -204,20 +220,34 @@ export default ({
             {list &&
               list.length !== 0 &&
               list.map((data, index) => {
-                return (
-                  <Touchable
-                    style={{marginVertical: 10}}
-                    key={index}
-                    onPress={() =>
-                      deleteBuffer(data.shelfLifeNAME, data.shelfLifeDATE)
-                    }>
+                if (index === list.length - 1 && list.length > 1) {
+                  return (
+                    <>
+                      <View>
+                        <VerticalLine />
+                      </View>
+                      <AddShelfLifeScreenCard
+                        key={index}
+                        IMAGE={''}
+                        deleteBuffer={deleteBuffer}
+                        NAME={data.shelfLifeNAME}
+                        DATE={data.shelfLifeDATE}
+                        MEMO={data.shelfLifeMEMO}
+                      />
+                    </>
+                  );
+                } else {
+                  return (
                     <AddShelfLifeScreenCard
+                      key={index}
+                      IMAGE={''}
+                      deleteBuffer={deleteBuffer}
                       NAME={data.shelfLifeNAME}
                       DATE={data.shelfLifeDATE}
                       MEMO={data.shelfLifeMEMO}
                     />
-                  </Touchable>
-                );
+                  );
+                }
               })}
           </Section>
           <SubmitBtn

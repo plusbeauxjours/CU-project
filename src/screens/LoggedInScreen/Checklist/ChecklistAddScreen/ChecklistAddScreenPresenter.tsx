@@ -44,6 +44,7 @@ const Section = styled.View`
   width: 100%;
   border-radius: 20px;
   padding: 20px;
+  margin-bottom: 20px;
   background-color: white;
 `;
 
@@ -111,7 +112,8 @@ const SubText = styled.Text`
 `;
 
 const DeleteButton = styled.TouchableOpacity`
-  margin: 50px 0;
+  margin-top: 20px;
+  margin-bottom: 70px;
   justify-content: center;
   align-items: center;
 `;

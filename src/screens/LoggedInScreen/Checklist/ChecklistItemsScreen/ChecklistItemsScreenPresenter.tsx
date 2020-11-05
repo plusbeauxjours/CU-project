@@ -97,9 +97,8 @@ const DateText = styled.Text`
 
 const Container = styled.View`
   width: 100%;
-  padding: 0 20px;
+  padding: 20px;
   align-items: center;
-  margin-top: 20px;
 `;
 
 const Section = styled.View`

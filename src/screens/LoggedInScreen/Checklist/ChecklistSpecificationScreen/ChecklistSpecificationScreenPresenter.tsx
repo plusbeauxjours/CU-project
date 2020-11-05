@@ -29,7 +29,6 @@ const Text = styled.Text``;
 const Touchable = styled.TouchableOpacity``;
 const Container = styled.View`
   width: 100%;
-  margin-top: 20px;
   padding: 20px;
   align-items: center;
 `;

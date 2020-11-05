@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import {RefreshControl, FlatList, StyleSheet} from 'react-native';
 import Animated from 'react-native-reanimated';
 import Ripple from 'react-native-material-ripple';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 import DonutCard from '~/components/DonutCard';
 import MainDonut from '~/components/MainDonut';
@@ -59,7 +60,7 @@ const Card = styled(Ripple)<ICard>`
   border-radius: 20px;
   background-color: ${(props) => props.color};
   margin-left: 20px;
-  margin-right: ${(props) => (props.index == 3 ? 20 : 0)};
+  margin-right: ${(props) => (props.index == 3 ? wp('100%') - 220 : 0)};
 `;
 
 const Title = styled.View`
@@ -260,6 +261,9 @@ export default ({
             data={data}
             keyExtractor={(item) => item.id}
             horizontal
+            snapToInterval={220}
+            decelerationRate="fast"
+            scrollEventThrottle={16}
             showsHorizontalScrollIndicator={false}
             renderItem={({item, index}) => (
               <Card
