@@ -4,22 +4,9 @@ import styled from 'styled-components/native';
 import {StyleSheet} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {interpolateColor} from 'react-native-redash';
+import MaskedView from '@react-native-community/masked-view';
 
-interface TabModel {
-  name: string;
-  color?: string;
-  anchor: number;
-}
-
-interface IColor {
-  color: string;
-}
-
-interface TabHeaderProps {
-  transition: Animated.Node<number>;
-  tabs: TabModel[];
-  gotoCategory: (index: number) => void;
-}
+import utils from '~/constants/utils';
 
 const ListContainer = styled.View`
   height: 50px;
@@ -48,12 +35,14 @@ const LineTextContainer = styled.View`
   margin-bottom: 10px;
 `;
 
-const LineText = styled.Text<IColor>`
+const LineText = styled.Text`
   font-size: 16px;
   font-weight: bold;
 `;
 
-const Touchable = styled.TouchableOpacity``;
+const Touchable = styled.TouchableOpacity`
+  bottom: ${utils.isAndroid() ? 0 : 44};
+`;
 
 export default ({transition, tabs, gotoCategory, y}) => {
   const opacity = transition;
@@ -83,7 +72,6 @@ export default ({transition, tabs, gotoCategory, y}) => {
   const Tab = ({name, index, color, gotoCategory}) => {
     return (
       <Touchable onPress={() => gotoCategory(index)}>
-        {console.log(tabs)}
         <LineTextContainer
           as={Animated.View}
           style={{

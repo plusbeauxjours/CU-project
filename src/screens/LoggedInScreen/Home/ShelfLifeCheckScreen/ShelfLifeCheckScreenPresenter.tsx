@@ -84,7 +84,7 @@ const TitleWord = styled(TitleNumber)`
 
 const PercentageText = styled.Text<IColor>`
   color: ${(props) => props.color};
-  font-size: 40px;
+  font-size: 30px;
   font-weight: bold;
   position: absolute;
 `;
@@ -345,7 +345,6 @@ export default ({
             y={y}
             tabs={tabs}
             gotoCategory={gotoCategory}
-            scrollRef={scrollRef}
           />
         )}
       </BackGround>

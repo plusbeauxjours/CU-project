@@ -70,6 +70,8 @@ export default () => {
     } catch (e) {
       console.log(e);
       alertModal('서버 접속이 원할하지 않습니다.');
+    } finally {
+      dispatch(setSplashVisible(false));
     }
   };
 

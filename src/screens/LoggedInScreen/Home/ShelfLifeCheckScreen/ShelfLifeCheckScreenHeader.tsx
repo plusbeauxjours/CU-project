@@ -25,7 +25,7 @@ const HeaderContainer = styled.View`
   right: 0;
 `;
 
-export default ({y, tabs, gotoCategory, scrollRef}) => {
+export default ({y, tabs, gotoCategory}) => {
   const toggle = useValue<0 | 1>(0);
   const insets = useSafeArea();
   const transition = withTimingTransition(toggle, {duration: 200});
@@ -40,7 +40,6 @@ export default ({y, tabs, gotoCategory, scrollRef}) => {
         y={y}
         tabs={tabs}
         gotoCategory={gotoCategory}
-        scrollRef={scrollRef}
       />
     </HeaderContainer>
   );
