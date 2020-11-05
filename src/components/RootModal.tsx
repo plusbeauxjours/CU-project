@@ -123,6 +123,7 @@ export default ({alert}) => {
     dispatch(setAlertVisible(false));
     alert?.cancelCallback && alert.cancelCallback();
   };
+
   return (
     <Modal
       onRequestClose={() => dispatch(setAlertVisible(false))}

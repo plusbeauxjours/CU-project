@@ -4,7 +4,6 @@ import styled from 'styled-components/native';
 import {StyleSheet} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {interpolateColor} from 'react-native-redash';
-import MaskedView from '@react-native-community/masked-view';
 
 import utils from '~/constants/utils';
 

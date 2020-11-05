@@ -281,6 +281,10 @@ export const PhoneIcon: React.FC<IProps> = ({size, color}) => (
   <FontAwesome name={'phone'} size={size ?? 10} color={color ?? 'black'} />
 );
 
+export const BarCodeIcon: React.FC<IProps> = ({size, color}) => (
+  <FontAwesome name={'barcode'} size={size ?? 40} color={color ?? '#642A8C'} />
+);
+
 export const CalendarTimesIcon: React.FC<IProps> = ({size, color}) => (
   <FontAwesome
     name={'calendar-times-o'}

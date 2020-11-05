@@ -1,17 +1,27 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import styled from 'styled-components/native';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import DatePickerModal from 'react-native-modal-datetime-picker';
-import {Dimensions} from 'react-native';
+import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import {HelpCircleIcon} from '~/constants/Icons';
 import AddShelfLifeScreenCard from './AddShelfLifeScreenCard';
 import RoundBtn from '~/components/Btn/RoundBtn';
+import {CameraIcon, PictureIcon, BarCodeIcon} from '~/constants/Icons';
+import Modal from 'react-native-modal';
+import {RNCamera} from 'react-native-camera';
 
 interface ITextInput {
   isBefore: boolean;
+}
+
+interface IsChecked {
+  isChecked?: boolean;
 }
 
 const BackGround = styled.SafeAreaView`
@@ -20,16 +30,13 @@ const BackGround = styled.SafeAreaView`
 `;
 
 const ScrollView = styled.ScrollView``;
-const Text = styled.Text`
-  font-size: 16px;
-`;
 
 const View = styled.View`
   position: absolute;
   left: 20px;
   width: 60px;
   height: 100%;
-  padding-top: 90px;
+  padding-top: 80px;
   top: 90px;
 `;
 
@@ -51,7 +58,6 @@ const Center = styled.View`
 `;
 
 const TextContainer = styled.View`
-  margin-bottom: 15px;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
@@ -67,12 +73,13 @@ const TitleText = styled.Text`
   font-weight: bold;
 `;
 
-const Row = styled.TouchableOpacity`
+const Row = styled.View`
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const GreyText = styled.Text`
+  font-size: 12px;
   color: #aaa;
 `;
 
@@ -83,9 +90,7 @@ const InputItem = styled.View`
   justify-content: space-between;
 `;
 
-const TextInputBox = styled.View`
-  margin-top: 15px;
-`;
+const TextInputBox = styled.View``;
 
 const TextInput = styled.TextInput<ITextInput>`
   border-color: ${(props) => (props.isBefore ? '#ddd' : '#642a8c')};
@@ -97,19 +102,6 @@ const TextInput = styled.TextInput<ITextInput>`
   min-height: 40px;
 `;
 
-const DateBox = styled.TouchableOpacity<ITextInput>`
-  padding: 3px 10px;
-  border-color: ${(props) => (props.isBefore ? '#ddd' : '#642A8C')};
-  border-width: 1px;
-  width: ${wp('50%')}px;
-  justify-content: center;
-  min-height: 40px;
-`;
-
-const DateText = styled.Text`
-  color: #642a8c;
-`;
-
 const VerticalLine = styled.View`
   width: 0.6px;
   left: 30px;
@@ -117,6 +109,96 @@ const VerticalLine = styled.View`
   position: absolute;
   height: 100%;
   top: 0;
+`;
+
+const Name = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const Touchable = styled.TouchableOpacity``;
+
+const WhiteItem = styled.View`
+  flex: 1;
+  border-width: 0.7px;
+  border-color: #ccc;
+  width: ${wp('100%') - 150}px;
+  border-radius: 10px;
+  padding: 10px;
+  margin-left: 10px;
+  min-height: 60px;
+`;
+
+const DateText = styled.Text`
+  color: #333;
+`;
+
+const BorderBox = styled.View`
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  border-width: 0.7px;
+  border-color: #ccc;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+
+const Line = styled.View`
+  margin-top: 5px;
+  height: 0.6px;
+  background-color: #ccc;
+`;
+
+const Column = styled.View`
+  flex-direction: column;
+`;
+
+const CameraLastPictureContainer = styled.View`
+  flex: 1;
+  align-items: center;
+`;
+
+const CameraPictureCloseButtonText = styled.Text`
+  font-size: 16px;
+  color: #ffffff;
+`;
+
+const CameraPictureCloseButton = styled.TouchableOpacity`
+  height: 60px;
+  width: 100%;
+  background-color: #642a8c;
+  align-self: flex-end;
+  align-items: center;
+  justify-content: center;
+`;
+
+const CameraPictureButton = styled.TouchableOpacity`
+  width: 60px;
+  height: 60px;
+  border-radius: 60px;
+  border-color: #642a8c;
+  background-color: #ffffff;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: ${wp('50%') - 30}px;
+  bottom: 80px;
+`;
+
+const HalfBotton = styled.TouchableOpacity`
+  width: 50%;
+  height: 60px;
+  margin-top: 20px;
+  align-self: flex-end;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+`;
+
+const HalfBottonText = styled.Text`
+  font-size: 16px;
 `;
 
 export default ({
@@ -133,7 +215,14 @@ export default ({
   setShelfLifeDate,
   isDateModalVisible,
   setIsDateModalVisible,
+  cameraPictureLast,
+  setCameraPictureLast,
+  takePictureFn,
+  isCameraModalVisible,
+  setIsCameraModalVisible,
+  launchImageLibraryFn,
 }) => {
+  const cameraRef = useRef(null);
   return (
     <BackGround>
       <ScrollView
@@ -143,7 +232,8 @@ export default ({
         <Container>
           <Section>
             <TextContainer>
-              <Row
+              <Touchable
+                style={{flexDirection: 'row', alignItems: 'flex-start'}}
                 onPress={() => {
                   explainModal(
                     '',
@@ -152,52 +242,107 @@ export default ({
                 }}>
                 <TitleText>상품정보</TitleText>
                 <HelpCircleIcon />
-              </Row>
+              </Touchable>
             </TextContainer>
-            <TextInputBox>
-              <InputItem>
-                <Row>
-                  <Text>상품명 </Text>
-                  <Text style={{color: '#B91C1B'}}>*</Text>
-                </Row>
-                <TextInput
-                  isBefore={shelfLifeName == ''}
-                  placeholder="상품명 입력"
-                  selectionColor="#6428AC"
-                  placeholderTextColor="#CCC"
-                  onChangeText={(text) => setShelfLifeName(text)}
-                  value={shelfLifeName}
-                  maxLength={15}
-                />
-              </InputItem>
-              <InputItem>
-                <Row>
-                  <Text>기한 </Text>
-                  <Text style={{color: '#B91C1B'}}>*</Text>
-                </Row>
-                <DateBox
-                  isBefore={shelfLifeDate == ''}
-                  onPress={() => setIsDateModalVisible(true)}>
-                  <DateText>
-                    {moment(shelfLifeDate).format('YYYY.MM.DD')}
-                  </DateText>
-                </DateBox>
-              </InputItem>
-              <InputItem>
-                <Row>
-                  <Text>메모</Text>
-                </Row>
-                <TextInput
-                  isBefore={shelfLifeMemo == ''}
-                  placeholder="메모 입력"
-                  selectionColor="#6428AC"
-                  placeholderTextColor="#CCC"
-                  onChangeText={(text) => setShelfLifeMemo(text)}
-                  value={shelfLifeMemo}
-                  multiline={true}
-                />
-              </InputItem>
-            </TextInputBox>
+            <Row style={{marginTop: 10, marginBottom: 20}}>
+              {cameraPictureLast ? (
+                <Touchable
+                  onPress={() => setCameraPictureLast(null)}
+                  disabled={!cameraPictureLast}>
+                  <FastImage
+                    style={{width: 60, height: 60, borderRadius: 10}}
+                    source={{
+                      uri: cameraPictureLast,
+                      headers: {Authorization: 'someAuthToken'},
+                      priority: FastImage.priority.low,
+                    }}
+                    resizeMode={FastImage.resizeMode.cover}
+                  />
+                </Touchable>
+              ) : (
+                // <BorderBox >
+                //   <GreyText>사진 미등록</GreyText>
+                // </BorderBox>
+                <Column>
+                  <Touchable onPress={() => setIsCameraModalVisible(true)}>
+                    <BorderBox>
+                      <CameraIcon size={25} color={'#ccc'} />
+                      <GreyText style={{fontSize: 10}}>사진촬영</GreyText>
+                    </BorderBox>
+                  </Touchable>
+                  <Touchable onPress={() => launchImageLibraryFn()}>
+                    <BorderBox>
+                      <PictureIcon size={25} color={'#ccc'} />
+                      <GreyText style={{fontSize: 10}}>보관함</GreyText>
+                    </BorderBox>
+                  </Touchable>
+                  <Touchable onPress={() => console.log('바코드')}>
+                    <BorderBox>
+                      <BarCodeIcon size={20} color={'#ccc'} />
+                      <GreyText style={{fontSize: 10}}>바코드</GreyText>
+                    </BorderBox>
+                  </Touchable>
+                </Column>
+              )}
+
+              <WhiteItem style={{justifyContent: 'center'}}>
+                <Name>
+                  <TextInput
+                    isBefore={shelfLifeName == ''}
+                    placeholder="상품명"
+                    selectionColor="#6428AC"
+                    placeholderTextColor="#CCC"
+                    onChangeText={(text) => setShelfLifeName(text)}
+                    value={shelfLifeName}
+                    maxLength={15}
+                    style={{
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                      height: 5,
+                      margin: -10,
+                      borderWidth: 0,
+                      width: 180,
+                    }}
+                  />
+                  <Touchable onPress={() => setIsDateModalVisible(true)}>
+                    {shelfLifeDate.length === 0 ? (
+                      <GreyText
+                        style={{
+                          color: '#CCC',
+                          fontSize: 16,
+                          marginRight: 10,
+                        }}>
+                        기한
+                      </GreyText>
+                    ) : (
+                      <DateText>
+                        {moment(shelfLifeDate).format('YYYY년 MM월 DD일')}
+                      </DateText>
+                    )}
+                  </Touchable>
+                </Name>
+                <Line />
+                <TextContainer>
+                  <TextInput
+                    isBefore={shelfLifeMemo == ''}
+                    placeholder="메모 입력"
+                    selectionColor="#6428AC"
+                    placeholderTextColor="#CCC"
+                    onChangeText={(text) => setShelfLifeMemo(text)}
+                    value={shelfLifeMemo}
+                    multiline={true}
+                    style={{
+                      marginLeft: -10,
+                      marginTop: 0,
+                      borderWidth: 0,
+                      width: 180,
+                      paddingTop: 10,
+                      paddingBottom: 0,
+                    }}
+                  />
+                </TextContainer>
+              </WhiteItem>
+            </Row>
             <Center>
               <RoundBtn
                 isInSection={true}
@@ -213,42 +358,27 @@ export default ({
               <TitleText>{list.length}&nbsp;&nbsp;</TitleText>
             </ListContasiner>
             {list && list.length !== 0 && (
-              <GreyText>
+              <GreyText style={{marginTop: 10}}>
                 상품을 클릭하여 리스트에서 삭제할 수 있습니다.
               </GreyText>
             )}
+            {list.length > 1 && (
+              <View>
+                <VerticalLine />
+              </View>
+            )}
             {list &&
               list.length !== 0 &&
-              list.map((data, index) => {
-                if (index === list.length - 1 && list.length > 1) {
-                  return (
-                    <>
-                      <View>
-                        <VerticalLine />
-                      </View>
-                      <AddShelfLifeScreenCard
-                        key={index}
-                        IMAGE={''}
-                        deleteBuffer={deleteBuffer}
-                        NAME={data.shelfLifeNAME}
-                        DATE={data.shelfLifeDATE}
-                        MEMO={data.shelfLifeMEMO}
-                      />
-                    </>
-                  );
-                } else {
-                  return (
-                    <AddShelfLifeScreenCard
-                      key={index}
-                      IMAGE={''}
-                      deleteBuffer={deleteBuffer}
-                      NAME={data.shelfLifeNAME}
-                      DATE={data.shelfLifeDATE}
-                      MEMO={data.shelfLifeMEMO}
-                    />
-                  );
-                }
-              })}
+              list.map((data, index) => (
+                <AddShelfLifeScreenCard
+                  key={index}
+                  IMAGE={''}
+                  deleteBuffer={deleteBuffer}
+                  NAME={data.shelfLifeNAME}
+                  DATE={data.shelfLifeDATE}
+                  MEMO={data.shelfLifeMEMO}
+                />
+              ))}
           </Section>
           <SubmitBtn
             text={'상품 등록완료'}
@@ -271,6 +401,73 @@ export default ({
           onCancel={() => setIsDateModalVisible(false)}
           display="default"
         />
+        <Modal
+          isVisible={isCameraModalVisible}
+          style={{margin: 0}}
+          onBackdropPress={() => setIsCameraModalVisible(false)}
+          onRequestClose={() => setIsCameraModalVisible(false)}>
+          {cameraPictureLast ? (
+            <>
+              <CameraLastPictureContainer>
+                <FastImage
+                  style={{
+                    width: wp('100%') - 40,
+                    height: hp('100%') - 120,
+                    borderRadius: 10,
+                    marginTop: 20,
+                  }}
+                  source={{
+                    uri: cameraPictureLast,
+                    headers: {Authorization: 'someAuthToken'},
+                    priority: FastImage.priority.low,
+                  }}
+                  resizeMode={FastImage.resizeMode.cover}
+                />
+                <Row>
+                  <HalfBotton onPress={() => setCameraPictureLast(null)}>
+                    <HalfBottonText style={{color: '#642A8C'}}>
+                      재촬영
+                    </HalfBottonText>
+                  </HalfBotton>
+                  <HalfBotton
+                    style={{backgroundColor: '#642A8C'}}
+                    onPress={() => setIsCameraModalVisible(false)}>
+                    <HalfBottonText style={{color: '#fff'}}>
+                      선택
+                    </HalfBottonText>
+                  </HalfBotton>
+                </Row>
+              </CameraLastPictureContainer>
+            </>
+          ) : (
+            <RNCamera
+              ref={cameraRef}
+              style={{
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'flex-end',
+              }}
+              type={RNCamera.Constants.Type.back}
+              flashMode={RNCamera.Constants.FlashMode.off}
+              androidCameraPermissionOptions={{
+                title: '카메라 권한 설정',
+                message:
+                  '앱을 사용하기 위해서는 반드시 권한을 허용해야 합니다.\n거부시 설정에서 "퇴근해씨유" 앱의 권한 허용을 해야 합니다.',
+                buttonPositive: 'Ok',
+                buttonNegative: 'Cancel',
+              }}>
+              <CameraPictureButton onPress={() => takePictureFn(cameraRef)}>
+                <CameraIcon size={40} />
+              </CameraPictureButton>
+              <CameraPictureCloseButton
+                onPress={() => setIsCameraModalVisible(false)}>
+                <CameraPictureCloseButtonText>
+                  닫기
+                </CameraPictureCloseButtonText>
+              </CameraPictureCloseButton>
+            </RNCamera>
+          )}
+        </Modal>
       </ScrollView>
     </BackGround>
   );

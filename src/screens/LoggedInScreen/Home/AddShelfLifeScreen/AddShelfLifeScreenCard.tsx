@@ -2,15 +2,10 @@ import React from 'react';
 import styled from 'styled-components/native';
 import FastImage from 'react-native-fast-image';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {useNavigation} from '@react-navigation/native';
 import Ripple from 'react-native-material-ripple';
 
-interface IsChecked {
-  isChecked?: boolean;
-}
-
-const Text = styled.Text<IsChecked>`
-  color: ${(props) => (props.isChecked ? '#ccc' : '#333')};
+const Text = styled.Text`
+  color: #333;
 `;
 
 const Row = styled.View`
@@ -37,8 +32,8 @@ const Name = styled.View`
   justify-content: space-between;
 `;
 
-const NameText = styled.Text<IsChecked>`
-  color: ${(props) => (props.isChecked ? '#ccc' : '#333')};
+const NameText = styled.Text`
+  color: #333;
   font-size: 16px;
   font-weight: bold;
 `;
@@ -49,8 +44,8 @@ const Line = styled.View`
   background-color: #ccc;
 `;
 
-const DateText = styled.Text<IsChecked>`
-  color: ${(props) => (props.isChecked ? '#ccc' : '#333')};
+const DateText = styled.Text`
+  color: #333;
 `;
 
 const WhiteItem = styled(Ripple)`
