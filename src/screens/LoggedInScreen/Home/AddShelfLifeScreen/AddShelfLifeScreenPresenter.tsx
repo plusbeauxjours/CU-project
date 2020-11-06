@@ -6,22 +6,24 @@ import {
 } from 'react-native-responsive-screen';
 import DatePickerModal from 'react-native-modal-datetime-picker';
 import FastImage from 'react-native-fast-image';
-import moment from 'moment';
-
-import SubmitBtn from '~/components/Btn/SubmitBtn';
-import {HelpCircleIcon} from '~/constants/Icons';
-import AddShelfLifeScreenCard from './AddShelfLifeScreenCard';
-import RoundBtn from '~/components/Btn/RoundBtn';
-import {CameraIcon, PictureIcon, BarCodeIcon} from '~/constants/Icons';
 import Modal from 'react-native-modal';
 import {RNCamera} from 'react-native-camera';
+import moment from 'moment';
+import {isIphoneX} from 'react-native-iphone-x-helper';
+
+import SubmitBtn from '~/components/Btn/SubmitBtn';
+import AddShelfLifeScreenCard from './AddShelfLifeScreenCard';
+import RoundBtn from '~/components/Btn/RoundBtn';
+import {
+  HelpCircleIcon,
+  CloseCircleIcon,
+  CameraIcon,
+  PictureIcon,
+  BarCodeIcon,
+} from '~/constants/Icons';
 
 interface ITextInput {
   isBefore: boolean;
-}
-
-interface IsChecked {
-  isChecked?: boolean;
 }
 
 const BackGround = styled.SafeAreaView`
@@ -83,15 +85,6 @@ const GreyText = styled.Text`
   color: #aaa;
 `;
 
-const InputItem = styled.View`
-  margin: 10px 0;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
-`;
-
-const TextInputBox = styled.View``;
-
 const TextInput = styled.TextInput<ITextInput>`
   border-color: ${(props) => (props.isBefore ? '#ddd' : '#642a8c')};
   justify-content: center;
@@ -126,7 +119,7 @@ const WhiteItem = styled.View`
   border-radius: 10px;
   padding: 10px;
   margin-left: 10px;
-  min-height: 60px;
+  min-height: 125px;
 `;
 
 const DateText = styled.Text`
@@ -201,6 +194,15 @@ const HalfBottonText = styled.Text`
   font-size: 16px;
 `;
 
+const CloseIconContainer = styled.TouchableOpacity`
+  z-index: 5;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  right: 20px;
+  top: ${(props) => (isIphoneX() ? 35 : 10)};
+`;
+
 export default ({
   addFn,
   explainModal,
@@ -221,6 +223,10 @@ export default ({
   isCameraModalVisible,
   setIsCameraModalVisible,
   launchImageLibraryFn,
+  isImageViewVisible,
+  setIsImageViewVisible,
+  selectedIndex,
+  setSelectedIndex,
 }) => {
   const cameraRef = useRef(null);
   return (
@@ -285,7 +291,7 @@ export default ({
                 </Column>
               )}
 
-              <WhiteItem style={{justifyContent: 'center'}}>
+              <WhiteItem style={{justifyContent: 'flex-start'}}>
                 <Name>
                   <TextInput
                     isBefore={shelfLifeName == ''}
@@ -359,7 +365,7 @@ export default ({
             </ListContasiner>
             {list && list.length !== 0 && (
               <GreyText style={{marginTop: 10}}>
-                상품을 클릭하여 리스트에서 삭제할 수 있습니다.
+                상품을 탭하고 있으면 리스트에서 삭제할 수 있습니다.
               </GreyText>
             )}
             {list.length > 1 && (
@@ -372,8 +378,12 @@ export default ({
               list.map((data, index) => (
                 <AddShelfLifeScreenCard
                   key={index}
-                  IMAGE={''}
                   deleteBuffer={deleteBuffer}
+                  onPress={() => {
+                    setIsImageViewVisible(true);
+                    setSelectedIndex(index);
+                  }}
+                  IMAGE={data.shelfLifeIMAGE}
                   NAME={data.shelfLifeNAME}
                   DATE={data.shelfLifeDATE}
                   MEMO={data.shelfLifeMEMO}
@@ -467,6 +477,40 @@ export default ({
               </CameraPictureCloseButton>
             </RNCamera>
           )}
+        </Modal>
+        {console.log(list)}
+        <Modal
+          onRequestClose={() => {
+            setSelectedIndex(0);
+            setIsImageViewVisible(false);
+          }}
+          onBackdropPress={() => {
+            setSelectedIndex(0);
+            setIsImageViewVisible(false);
+          }}
+          isVisible={isImageViewVisible}
+          style={{
+            margin: 0,
+            justifyContent: 'flex-end',
+            width: '100%',
+            height: '100%',
+          }}>
+          <CloseIconContainer
+            onPress={() => {
+              setSelectedIndex(0);
+              setIsImageViewVisible(false);
+            }}>
+            <CloseCircleIcon size={33} color={'white'} />
+          </CloseIconContainer>
+          <FastImage
+            style={{width: '100%', height: '100%'}}
+            source={{
+              uri: list[selectedIndex]?.shelfLifeIMAGE,
+              headers: {Authorization: 'someAuthToken'},
+              priority: FastImage.priority.low,
+            }}
+            resizeMode={FastImage.resizeMode.cover}
+          />
         </Modal>
       </ScrollView>
     </BackGround>

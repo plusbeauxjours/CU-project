@@ -77,17 +77,15 @@ const GreyText = styled.Text`
   color: #aaa;
 `;
 
-export default ({IMAGE, deleteBuffer, NAME, DATE, MEMO}) => {
+export default ({IMAGE, deleteBuffer, onPress, NAME, DATE, MEMO}) => {
   return (
     <Row style={{marginTop: 10, marginBottom: 10}}>
-      <Touchable
-        onPress={() => console.log('ZOOM IMAGE')}
-        disabled={IMAGE.length == 0}>
-        {IMAGE?.length > 0 ? (
+      <Touchable onPress={onPress} disabled={!IMAGE}>
+        {IMAGE ? (
           <FastImage
             style={{width: 60, height: 60, borderRadius: 10}}
             source={{
-              uri: 'http://cuapi.shop-sol.com/uploads/' + IMAGE,
+              uri: IMAGE,
               headers: {Authorization: 'someAuthToken'},
               priority: FastImage.priority.low,
             }}
@@ -100,8 +98,7 @@ export default ({IMAGE, deleteBuffer, NAME, DATE, MEMO}) => {
         )}
       </Touchable>
       <WhiteItem
-        style={{justifyContent: 'center'}}
-        onPress={() => deleteBuffer(NAME, DATE)}
+        onLongPress={() => deleteBuffer(NAME, DATE)}
         rippleColor={'#666'}
         rippleDuration={600}
         rippleSize={1700}

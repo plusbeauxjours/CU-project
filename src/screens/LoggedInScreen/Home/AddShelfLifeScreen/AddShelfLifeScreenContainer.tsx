@@ -18,7 +18,9 @@ export default () => {
   const [shelfLifeMemo, setShelfLifeMemo] = useState<string>('');
   const [isDateModalVisible, setIsDateModalVisible] = useState<boolean>(false);
   const [list, setList] = useState<any>([]);
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [cameraPictureLast, setCameraPictureLast] = useState<any>(null);
+  const [isImageViewVisible, setIsImageViewVisible] = useState<boolean>(false);
   const [isCameraModalVisible, setIsCameraModalVisible] = useState<boolean>(
     false,
   );
@@ -151,6 +153,10 @@ export default () => {
       isCameraModalVisible={isCameraModalVisible}
       setIsCameraModalVisible={setIsCameraModalVisible}
       launchImageLibraryFn={launchImageLibraryFn}
+      isImageViewVisible={isImageViewVisible}
+      setIsImageViewVisible={setIsImageViewVisible}
+      selectedIndex={selectedIndex}
+      setSelectedIndex={setSelectedIndex}
     />
   );
 };
