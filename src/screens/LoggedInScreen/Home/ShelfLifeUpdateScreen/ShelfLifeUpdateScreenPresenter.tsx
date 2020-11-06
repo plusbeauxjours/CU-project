@@ -164,11 +164,11 @@ const DeleteButton = styled.TouchableOpacity`
 const IconContainer = styled.View`
   width: 22px;
   height: 22px;
+  background-color: white;
+  border-radius: 11px;
   justify-content: center;
   align-items: center;
-  border-radius: 11px;
   z-index: 30;
-  background-color: white;
   position: absolute;
   top: -10;
   right: -10;

@@ -62,12 +62,15 @@ const Bold = styled.Text`
 `;
 
 const CommentTextInputContainer = styled.View`
-  padding: 10px;
+  padding-right: 20px;
+  padding-left: 10px;
   border-width: 1px;
+  margin: 3px;
+  margin-top: 0;
+  border-radius: 20px;
   border-color: #642a8c;
   flex-direction: row;
   align-items: center;
-  background-color: white;
 `;
 
 const TextInput = styled.TextInput`
@@ -217,12 +220,10 @@ export default ({
           contentContainerStyle={{alignItems: 'center'}}>
           <Container>
             <Section>
-              <Row style={{justifyContent: 'center', marginBottom: 5}}>
-                <Bold style={{fontSize: 18}}>{NOTI_TITLE}</Bold>
-              </Row>
+              <Bold style={{fontSize: 18}}>{NOTI_TITLE}</Bold>
               <Row style={{justifyContent: 'center'}}>
                 <Bold style={{color: '#C8C8C8'}}>
-                  {moment(CREATE_TIME).format('YYYY.MM.DD')}
+                  {moment(CREATE_TIME).format('YYYY.MM.DD HH:mm:ss')}
                 </Bold>
                 {TITLE !== 'CU소식' && (
                   <Bold style={{color: '#C8C8C8'}}>
@@ -230,12 +231,8 @@ export default ({
                   </Bold>
                 )}
               </Row>
-            </Section>
-            <Section>
               <Text>{CONTENTS}</Text>
-            </Section>
-            {imgarr?.length > 0 && (
-              <Section>
+              {imgarr?.length > 0 && (
                 <FlatList
                   horizontal
                   keyExtractor={(_, index) => index.toString()}
@@ -248,8 +245,8 @@ export default ({
                   data={imgarr}
                   renderItem={({item, index}) => renderImage(item, index)}
                 />
-              </Section>
-            )}
+              )}
+            </Section>
 
             {TITLE !== 'CU소식' && (
               <Section>
@@ -363,11 +360,6 @@ export default ({
           <KeyboardAvoidingView
             behavior={utils.isAndroid ? 'height' : 'padding'}
             keyboardVerticalOffset={0}
-            style={
-              utils.isAndroid
-                ? {backgroundColor: '#dddee2'}
-                : {backgroundColor: '#cfd3d6'}
-            }
             enabled>
             <CommentTextInputContainer>
               <TextInput

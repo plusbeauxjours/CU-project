@@ -268,6 +268,7 @@ export const getCHECKLIST_SHARE_DATA1 = (date) => async (
   }
   try {
     const {data} = await api.getNotice(STORE_SEQ, date, '1');
+    console.log('=======================1', data);
     if (data.resultmsg === '1') {
       for (let a = 0; a < data.basic.length; a++) {
         if (data.basic[a].NoticeCheck_SEQ == null) {
@@ -303,6 +304,7 @@ export const getCHECKLIST_SHARE_DATA2 = (date) => async (
   }
   try {
     const {data} = await api.getNotice(STORE_SEQ, date, '0');
+    console.log('=======================2', data);
     if (data.resultmsg === '1') {
       for (let a = 0; a < data.basic.length; a++) {
         if (data.basic[a].NoticeCheck_SEQ == null) {
