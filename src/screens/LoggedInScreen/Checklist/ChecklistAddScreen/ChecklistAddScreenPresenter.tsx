@@ -65,7 +65,6 @@ const TextInput = styled.TextInput`
   border-bottom-width: 1px;
   border-color: #e5e5e5;
   padding-bottom: 5px;
-  margin-top: 10px;
 `;
 
 const TitleText = styled.Text`
@@ -78,13 +77,6 @@ const TitleText = styled.Text`
 
 const RedText = styled.Text`
   color: #b91c1b;
-`;
-
-const Line = styled.View`
-  width: 100%;
-  height: 1px;
-  background-color: white;
-  margin: 20px 0;
 `;
 
 const ChecktimeButton = styled.TouchableOpacity`
@@ -159,6 +151,10 @@ const ChecklistBox = styled.View`
   border-width: 1px;
   border-color: #e5e5e5;
   padding: 10px;
+`;
+
+const SmallWhiteSpace = styled.View`
+  height: 10px;
 `;
 
 const WhiteSpace = styled.View`
@@ -257,6 +253,7 @@ export default ({
             <GreyText isError={checklistInput?.length > 50}>
               * 체크리스트는 50자 이하로 입력해주세요.
             </GreyText>
+            <WhiteSpace />
             <RoundBtn
               isInSection={true}
               text={'목록에 추가하기'}
@@ -304,7 +301,7 @@ export default ({
                 </ChecktimeButton>
               )}
             </RowTitle>
-            <Line />
+            <SmallWhiteSpace />
             <Touchable
               onPress={() => {
                 setIsNoCheckedtime(!isNoCheckedtime);
@@ -331,7 +328,7 @@ export default ({
                 <TitleText>체크리스트 사진촬영</TitleText>
               </Row>
             </RowTitle>
-            <Line />
+            <SmallWhiteSpace />
             <Touchable onPress={() => setIsCheckedCamera(!isCheckedCamera)}>
               <Row>
                 {isCheckedCamera ? (
@@ -366,7 +363,7 @@ export default ({
                 </ChecktimeButton>
               )}
             </RowTitle>
-            <Line />
+            <SmallWhiteSpace />
             <Touchable
               onPress={() => setIsCheckedEmpChoise(!isCheckedEmpChoise)}>
               <Row>

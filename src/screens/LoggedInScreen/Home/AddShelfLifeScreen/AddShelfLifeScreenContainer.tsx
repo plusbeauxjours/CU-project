@@ -127,7 +127,6 @@ export default () => {
       cropperChooseText: '선택',
       cropperCancelText: '취소',
     }).then((images: any) => {
-      console.log(images);
       setCameraPictureLast(images.path);
     });
   };

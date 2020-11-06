@@ -77,9 +77,20 @@ const WhiteItem = styled(Ripple)`
   min-height: 60px;
 `;
 
-const IconContainer = styled.View<IsChecked>`
+const IconBorder = styled.View`
+  width: 22px;
+  height: 22px;
+  background-color: #f6f6f6;
+  border-radius: 11px;
   top: -5px;
   right: -5px;
+  position: absolute;
+  z-index: 10;
+  justify-content: center;
+  align-items: center;
+`;
+
+const IconContainer = styled.View<IsChecked>`
   position: absolute;
   z-index: 10;
   width: 20px;
@@ -128,10 +139,11 @@ export default ({item, confirmModal, cancelModal}) => {
               <GreyText>사진 미등록</GreyText>
             </BorderBox>
           )}
-
-          <IconContainer isChecked={true}>
-            <CheckMarkIcon size={12} color={'#fff'} />
-          </IconContainer>
+          <IconBorder>
+            <IconContainer isChecked={true}>
+              <CheckMarkIcon size={12} color={'#fff'} />
+            </IconContainer>
+          </IconBorder>
         </Touchable>
         <WhiteItem
           onPress={() =>
@@ -184,9 +196,11 @@ export default ({item, confirmModal, cancelModal}) => {
               <GreyText>사진 미등록</GreyText>
             </BorderBox>
           )}
-          <IconContainer isChecked={false}>
-            <CheckMarkIcon size={12} color={'yellow'} />
-          </IconContainer>
+          <IconBorder>
+            <IconContainer isChecked={false}>
+              <CheckMarkIcon size={12} color={'yellow'} />
+            </IconContainer>
+          </IconBorder>
         </Touchable>
         <Item onPress={() => {}} disabled={true}>
           <Name>
