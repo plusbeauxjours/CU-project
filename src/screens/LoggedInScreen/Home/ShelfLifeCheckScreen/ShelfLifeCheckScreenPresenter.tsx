@@ -155,24 +155,21 @@ const VerticalLine = styled.View`
 `;
 
 export default ({
-  SHELFLIFE_DATA,
-  onDayPress,
   onRefresh,
   confirmModal,
   cancelModal,
-  loading,
-  data,
   refreshing,
+  data,
   tabs,
   scrollRef,
   onScroll,
   opacity,
   y,
-  listData,
+  SHELFLIFE_DATA,
   gotoCategory,
   onMeasurement,
 }) => {
-  if (!loading && listData?.length > 0 && data?.length > 0) {
+  if (SHELFLIFE_DATA?.length > 0 && data?.length > 0) {
     return (
       <BackGround>
         <Animated.ScrollView
@@ -314,7 +311,7 @@ export default ({
             )}
           />
           <Container>
-            {listData.map(({name, color, items: listItems}, index) => (
+            {SHELFLIFE_DATA.map(({name, color, items: listItems}, index) => (
               <View
                 key={index}
                 onLayout={({

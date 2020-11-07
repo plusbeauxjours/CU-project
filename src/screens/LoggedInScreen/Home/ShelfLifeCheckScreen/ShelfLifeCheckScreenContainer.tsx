@@ -91,10 +91,6 @@ export default () => {
     dispatch(setAlertVisible(true));
   };
 
-  const onDayPress = (day) => {
-    dispatch(getSHELFLIFE_DATA(day.year, day.month, day.day));
-  };
-
   const onRefresh = async () => {
     try {
       setRefreshing(true);
@@ -273,12 +269,9 @@ export default () => {
   const onScroll = onScrollEvent({y});
   return (
     <ShelfLifeCheckScreenPresenter
-      SHELFLIFE_DATA={resultdata}
-      onDayPress={onDayPress}
       onRefresh={onRefresh}
       confirmModal={confirmModal}
       cancelModal={cancelModal}
-      loading={loading}
       data={data}
       refreshing={refreshing}
       tabs={tabs}
@@ -286,7 +279,7 @@ export default () => {
       onScroll={onScroll}
       opacity={opacity}
       y={y}
-      listData={listData}
+      SHELFLIFE_DATA={listData}
       gotoCategory={gotoCategory}
       onMeasurement={onMeasurement}
     />

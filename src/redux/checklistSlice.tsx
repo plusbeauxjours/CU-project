@@ -49,3 +49,5 @@ export const getCHECKLIST_DATA = (
 };
 
 export default checklistSlice.reducer;
+
+// [Error: Invariant failed: A state mutation was detected between dispatches, in the path 'shelflifeReducer.SHELFLIFE_DATA.0.items.6'.  This may cause incorrect behavior. (https://redux.js.org/troubleshooting#never-mutate-reducer-arguments)]

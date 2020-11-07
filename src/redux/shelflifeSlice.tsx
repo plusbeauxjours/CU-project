@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import api from '../constants/LoggedInApi';
 import moment from 'moment';
 import {resultdata} from '../assets/dummy';
+import {setSplashVisible} from '~/redux/splashSlice';
 
 const shelflifetSlice = createSlice({
   name: 'shelflife',
@@ -56,29 +57,39 @@ const shelflifetSlice = createSlice({
           shelfLifeMemo,
         },
       } = action;
-      const item = state.SHELFLIFE_DATA[prevShelfLifeDate].find(
-        (i) => i.shelfLife_SEQ === shelfLife_SEQ,
+      console.log(
+        shelfLife_SEQ,
+        shelfLifeName,
+        prevShelfLifeDate,
+        shelfLifeDate,
+        shelfLifeMemo,
       );
-      if (item) {
-        item.shelfLifeName = shelfLifeName;
-        item.shelfLifeDate = shelfLifeDate;
-        item.shelfLifeMemo = shelfLifeMemo;
-      }
+      // 데이터 구조 살피고 다시 구성한다.
+      // const item = state.SHELFLIFE_DATA[prevShelfLifeDate].find(
+      //   (i) => i.shelfLife_SEQ === shelfLife_SEQ,
+      // );
+      // if (item) {
+      //   item.shelfLifeName = shelfLifeName;
+      //   item.shelfLifeDate = shelfLifeDate;
+      //   item.shelfLifeMemo = shelfLifeMemo;
+      // }
     },
     removeSHELFLIFE_DATA(state, action) {
       const {
         payload: {shelfLife_SEQ, shelfLifeDate},
       } = action;
-      const item = state.SHELFLIFE_DATA[shelfLifeDate].filter(
-        (i) => i.shelfLife_SEQ !== shelfLife_SEQ,
-      );
-      return {
-        ...state,
-        SHELFLIFE_DATA: {
-          ...state.SHELFLIFE_DATA,
-          [shelfLifeDate]: item,
-        },
-      };
+      console.log(shelfLife_SEQ, shelfLifeDate);
+      // 데이터 구조 살피고 다시 구성한다.
+      // const item = state.SHELFLIFE_DATA[shelfLifeDate].filter(
+      //   (i) => i.shelfLife_SEQ !== shelfLife_SEQ,
+      // );
+      // return {
+      //   ...state,
+      //   SHELFLIFE_DATA: {
+      //     ...state.SHELFLIFE_DATA,
+      //     [shelfLifeDate]: item,
+      //   },
+      // };
     },
   },
 });
@@ -100,6 +111,7 @@ export const getSHELFLIFE_DATA = (
     storeReducer: {STORE_SEQ},
   } = getState();
   try {
+    dispatch(setSplashVisible(true));
     const {data: SHELFLIFE_DATA} = await api.getShelfLifeData({
       STORE_SEQ,
       YEAR,
@@ -109,6 +121,8 @@ export const getSHELFLIFE_DATA = (
     dispatch(setSHELFLIFE_DATA(SHELFLIFE_DATA.resultdata));
   } catch (e) {
     console.log(e);
+  } finally {
+    dispatch(setSplashVisible(false));
   }
 };
 
