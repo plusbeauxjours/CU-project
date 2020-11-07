@@ -50,10 +50,10 @@ export default () => {
   const {SHELFLIFE_DATA} = useSelector((state: any) => state.shelflifeReducer);
 
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<any>([]);
   const [listData, setListData] = useState<any>(defaultData);
   const [tabs, setTabs] = useState<any>(defaultTabs);
+  const [ready, setReady] = useState<boolean>(false);
 
   const confirmModal = (shelfLife_SEQ, shelfLifeDate) => {
     const params = {
@@ -146,7 +146,6 @@ export default () => {
 
   const fetchData = () => {
     try {
-      setLoading(true);
       const day = moment();
       const dayDuration = moment().add(2, 'days');
       const weekDuration = moment().add(7, 'days').add(1, 'days');
@@ -242,8 +241,6 @@ export default () => {
       ]);
     } catch (e) {
       console.log(e);
-    } finally {
-      setLoading(false);
     }
   };
   const gotoCategory = (index) => {
@@ -259,11 +256,13 @@ export default () => {
 
   const onMeasurement = (index, tab) => {
     setTimeout(() => {
+      console.log('onMeasurement', index, tab);
       tabs[index] = tab;
-      if (index === 3) {
-        setTabs([...tabs]);
-      }
-    }, 3000);
+      setTabs([...tabs]);
+    }, 5000);
+    if (index === 3) {
+      setReady(true);
+    }
   };
 
   const onScroll = onScrollEvent({y});
@@ -282,6 +281,7 @@ export default () => {
       SHELFLIFE_DATA={listData}
       gotoCategory={gotoCategory}
       onMeasurement={onMeasurement}
+      ready={ready}
     />
   );
 };

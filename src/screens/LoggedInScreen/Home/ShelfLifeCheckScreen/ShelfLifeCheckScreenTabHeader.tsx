@@ -43,26 +43,26 @@ const Touchable = styled.TouchableOpacity`
   bottom: ${utils.isAndroid() ? 0 : 44};
 `;
 
-export default ({transition, tabs, gotoCategory, y}) => {
+export default ({transition, tabs, gotoCategory, y, ready}) => {
   const opacity = transition;
   const updateBackColor = (anchor = 20, nextAnchor = 5000, color) => {
     return interpolateColor(y, {
       inputRange: [
         Number(anchor) + 325,
         Number(anchor) + 375,
-        Number(nextAnchor) + 375,
-        Number(nextAnchor) + 425,
+        Number(anchor > nextAnchor ? anchor : nextAnchor) + 375,
+        Number(anchor > nextAnchor ? anchor : nextAnchor) + 425,
       ],
       outputRange: ['white', color, color, 'white'],
     });
   };
-  const updateFrontColor = (anchor = 20, nextAnchor = 30, color) => {
+  const updateFrontColor = (anchor = 20, nextAnchor = 5000, color) => {
     return interpolateColor(y, {
       inputRange: [
         Number(anchor) + 325,
         Number(anchor) + 375,
-        Number(nextAnchor) + 375,
-        Number(nextAnchor) + 425,
+        Number(anchor > nextAnchor ? anchor : nextAnchor) + 375,
+        Number(anchor > nextAnchor ? anchor : nextAnchor) + 425,
       ],
       outputRange: [color, 'white', 'white', color],
     });
@@ -104,15 +104,17 @@ export default ({transition, tabs, gotoCategory, y}) => {
   const TabsContainer = ({tabs, gotoCategory}) => {
     return (
       <Row>
-        {tabs?.map((tab, index) => (
-          <Tab
-            key={index}
-            index={index}
-            color={index === 0 ? '#ea1901' : '#aace36'}
-            gotoCategory={gotoCategory}
-            {...tab}
-          />
-        ))}
+        {console.log(tabs[1].anchor, tabs[2].anchor, tabs[3].anchor)}
+        {tabs[1].anchor <= tabs[2].anchor <= tabs[3].anchor &&
+          tabs?.map((tab, index) => (
+            <Tab
+              key={index}
+              index={index}
+              color={index === 0 ? '#ea1901' : '#aace36'}
+              gotoCategory={gotoCategory}
+              {...tab}
+            />
+          ))}
       </Row>
     );
   };

@@ -168,6 +168,7 @@ export default ({
   SHELFLIFE_DATA,
   gotoCategory,
   onMeasurement,
+  ready,
 }) => {
   if (SHELFLIFE_DATA?.length > 0 && data?.length > 0) {
     return (
@@ -346,6 +347,7 @@ export default ({
             y={y}
             tabs={tabs}
             gotoCategory={gotoCategory}
+            ready={ready}
           />
         )}
       </BackGround>
