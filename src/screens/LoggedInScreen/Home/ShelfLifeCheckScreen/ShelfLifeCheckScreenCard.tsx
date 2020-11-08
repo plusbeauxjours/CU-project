@@ -117,13 +117,15 @@ const GreyText = styled.Text`
   color: #aaa;
 `;
 
-export default ({item, confirmModal, cancelModal}) => {
+export default ({name, item, confirmModal, cancelModal}) => {
   const navigation = useNavigation();
   if (item.checkType === '0') {
     return (
       <Row style={{marginTop: 10, marginBottom: 10}}>
         <Touchable
-          onPress={() => confirmModal(item.shelfLife_SEQ, item.shelfLifeDate)}>
+          onPress={() =>
+            confirmModal(name, item.shelfLife_SEQ, item.shelfLifeDate)
+          }>
           {item.images?.length > 0 ? (
             <FastImage
               style={{width: 60, height: 60, borderRadius: 10}}
@@ -148,6 +150,7 @@ export default ({item, confirmModal, cancelModal}) => {
         <WhiteItem
           onPress={() =>
             navigation.navigate('ShelfLifeUpdateScreen', {
+              name,
               shelfLife_SEQ: item.shelfLife_SEQ,
               shelfLifeName: item.shelfLifeName,
               shelfLifeDate: item.shelfLifeDate,
@@ -179,8 +182,7 @@ export default ({item, confirmModal, cancelModal}) => {
   } else {
     return (
       <Row style={{marginTop: 10, marginBottom: 10}}>
-        <Touchable
-          onPress={() => cancelModal(item.shelfLife_SEQ, item.shelfLifeDate)}>
+        <Touchable onPress={() => cancelModal(name, item.shelfLife_SEQ)}>
           {item.images?.length > 0 ? (
             <FastImage
               style={{width: 60, height: 60, borderRadius: 10}}

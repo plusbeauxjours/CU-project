@@ -37,6 +37,7 @@ const LineTextContainer = styled.View`
 const LineText = styled.Text`
   font-size: 16px;
   font-weight: bold;
+  color: white;
 `;
 
 const Touchable = styled.TouchableOpacity`
@@ -56,7 +57,11 @@ export default ({transition, tabs, gotoCategory, y, ready}) => {
       outputRange: ['white', color, color, 'white'],
     });
   };
-  const updateFrontColor = (anchor = 20, nextAnchor = 5000, color) => {
+  const updateFrontColor = (
+    anchor = 20,
+    nextAnchor = 5000,
+    color = 'white',
+  ) => {
     return interpolateColor(y, {
       inputRange: [
         Number(anchor) + 325,
@@ -104,7 +109,6 @@ export default ({transition, tabs, gotoCategory, y, ready}) => {
   const TabsContainer = ({tabs, gotoCategory}) => {
     return (
       <Row>
-        {console.log(tabs[1].anchor, tabs[2].anchor, tabs[3].anchor)}
         {tabs[1].anchor <= tabs[2].anchor <= tabs[3].anchor &&
           tabs?.map((tab, index) => (
             <Tab

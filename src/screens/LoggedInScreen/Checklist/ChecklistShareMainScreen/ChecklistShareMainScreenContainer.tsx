@@ -219,7 +219,7 @@ export default ({route: {params}}) => {
     console.log('===================', '업무일지', '===================');
     firebase.analytics().setCurrentScreen('업무일지');
   }, []);
-  console.log(CHECKLIST_SHARE_DATA2);
+
   return (
     <ChecklistShareMainScreenPresenter
       refreshing={refreshing}

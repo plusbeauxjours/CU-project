@@ -123,7 +123,7 @@ const Column = styled.View`
 const LineTextContainer = styled.View<IColor>`
   align-self: flex-end;
   background-color: white;
-  border-color: ${(props) => props.color};
+  border-color: ${(props) => props.color ?? 'white'};
   border-width: 1px;
   border-radius: 15px;
   padding: 5px 15px;
@@ -137,7 +137,7 @@ const LineTextContainer = styled.View<IColor>`
 const LineText = styled.Text<IColor>`
   font-size: 16px;
   font-weight: bold;
-  color: ${(props) => props.color};
+  color: ${(props) => props.color ?? 'white'};
 `;
 
 const MainDonutText = styled(LineText)<IColor>`
@@ -312,7 +312,7 @@ export default ({
             )}
           />
           <Container>
-            {SHELFLIFE_DATA.map(({name, color, items: listItems}, index) => (
+            {SHELFLIFE_DATA.map(({name, color, items}, index) => (
               <View
                 key={index}
                 onLayout={({
@@ -321,7 +321,7 @@ export default ({
                   },
                 }) => index !== 0 && onMeasurement(index, {name, anchor})}>
                 <VerticalLine />
-                {listItems.length !== 0 && (
+                {items?.length !== 0 && (
                   <LineTextContainer
                     as={Animated.View}
                     style={{opacity: opacity(tabs[index].anchor)}}
@@ -329,9 +329,10 @@ export default ({
                     <LineText color={color}>{name}</LineText>
                   </LineTextContainer>
                 )}
-                {listItems.map((item, index) => (
+                {items?.map((item, index) => (
                   <View key={index}>
                     <ShelfLifeCheckScreenCard
+                      name={name}
                       item={item}
                       confirmModal={confirmModal}
                       cancelModal={cancelModal}

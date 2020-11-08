@@ -289,7 +289,7 @@ export default ({
                     multiline={true}
                     style={{
                       marginLeft: -10,
-                      marginTop: -10,
+                      marginTop: 0,
                       borderWidth: 0,
                       width: 180,
                       paddingTop: 10,

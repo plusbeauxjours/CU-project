@@ -7,7 +7,7 @@ import {setSplashVisible} from '~/redux/splashSlice';
 const shelflifetSlice = createSlice({
   name: 'shelflife',
   initialState: {
-    SHELFLIFE_DATA: {},
+    SHELFLIFE_DATA: [],
   },
   reducers: {
     setSHELFLIFE_DATA(state, action) {
@@ -17,16 +17,13 @@ const shelflifetSlice = createSlice({
         SHELFLIFE_DATA,
       };
     },
-    udpateSHELFLIFE(state, action) {
+    checkSHELFLIFE(state, action) {
       const {
-        payload: {shelfLife_SEQ, shelfLifeDate, checkEmpName, checkTime},
+        payload: {name, shelfLife_SEQ, checkEmpName, checkTime},
       } = action;
-      const item = resultdata[shelfLifeDate].find(
+      const item = state.SHELFLIFE_DATA.find((i) => i.name === name).items.find(
         (i) => i.shelfLife_SEQ === shelfLife_SEQ,
       );
-      // const item = state.SHELFLIFE_DATA[shelfLifeDate].find(
-      //   (i) => i.shelfLife_SEQ === shelfLife_SEQ,
-      // );
       if (item) {
         item.checkType = '1';
         item.checkTime = checkTime;
@@ -35,14 +32,11 @@ const shelflifetSlice = createSlice({
     },
     cancelSHELFLIFE(state, action) {
       const {
-        payload: {shelfLife_SEQ, shelfLifeDate},
+        payload: {name, shelfLife_SEQ},
       } = action;
-      const item = resultdata[shelfLifeDate].find(
+      const item = state.SHELFLIFE_DATA.find((i) => i.name === name).items.find(
         (i) => i.shelfLife_SEQ === shelfLife_SEQ,
       );
-      // const item = state.SHELFLIFE_DATA[shelfLifeDate].find(
-      //   (i) => i.shelfLife_SEQ === shelfLife_SEQ,
-      // );
       if (item) {
         item.checkType = '0';
       }
@@ -50,53 +44,52 @@ const shelflifetSlice = createSlice({
     updateSHELFLIFE_DATA(state, action) {
       const {
         payload: {
+          name,
           shelfLife_SEQ,
           shelfLifeName,
-          prevShelfLifeDate,
           shelfLifeDate,
           shelfLifeMemo,
         },
       } = action;
-      console.log(
-        shelfLife_SEQ,
-        shelfLifeName,
-        prevShelfLifeDate,
-        shelfLifeDate,
-        shelfLifeMemo,
+      const item = state.SHELFLIFE_DATA.find((i) => i.name === name).items.find(
+        (i) => i.shelfLife_SEQ === shelfLife_SEQ,
       );
-      // 데이터 구조 살피고 다시 구성한다.
-      // const item = state.SHELFLIFE_DATA[prevShelfLifeDate].find(
-      //   (i) => i.shelfLife_SEQ === shelfLife_SEQ,
-      // );
-      // if (item) {
-      //   item.shelfLifeName = shelfLifeName;
-      //   item.shelfLifeDate = shelfLifeDate;
-      //   item.shelfLifeMemo = shelfLifeMemo;
-      // }
+      if (item) {
+        item.shelfLifeName = shelfLifeName;
+        item.shelfLifeDate = shelfLifeDate;
+        item.shelfLifeMemo = shelfLifeMemo;
+      }
     },
     removeSHELFLIFE_DATA(state, action) {
       const {
-        payload: {shelfLife_SEQ, shelfLifeDate},
+        payload: {name, shelfLife_SEQ},
       } = action;
-      console.log(shelfLife_SEQ, shelfLifeDate);
-      // 데이터 구조 살피고 다시 구성한다.
-      // const item = state.SHELFLIFE_DATA[shelfLifeDate].filter(
-      //   (i) => i.shelfLife_SEQ !== shelfLife_SEQ,
-      // );
-      // return {
-      //   ...state,
-      //   SHELFLIFE_DATA: {
-      //     ...state.SHELFLIFE_DATA,
-      //     [shelfLifeDate]: item,
-      //   },
-      // };
+      const items = state.SHELFLIFE_DATA.find(
+        (i) => i.name === name,
+      ).items.filter((i) => i.shelfLife_SEQ !== shelfLife_SEQ);
+      return {
+        ...state,
+        SHELFLIFE_DATA: state.SHELFLIFE_DATA.map((item) => {
+          if (item.name === name) {
+            console.log('item.length', item.items.length);
+            console.log('items.length', items.length);
+            console.log('item', item);
+            console.log('items', [...items]);
+            return {
+              ...item,
+              items: [...items],
+            };
+          }
+          return item;
+        }),
+      };
     },
   },
 });
 
 export const {
   setSHELFLIFE_DATA,
-  udpateSHELFLIFE,
+  checkSHELFLIFE,
   cancelSHELFLIFE,
   updateSHELFLIFE_DATA,
   removeSHELFLIFE_DATA,

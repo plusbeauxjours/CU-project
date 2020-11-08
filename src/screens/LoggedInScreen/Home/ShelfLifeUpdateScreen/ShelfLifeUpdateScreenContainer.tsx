@@ -60,9 +60,9 @@ export default ({route: {params}}) => {
   const deleteShelfLife = async () => {
     try {
       navigation.goBack();
-      dispatch(removeSHELFLIFE_DATA({shelfLife_SEQ, shelfLifeDate}));
+      dispatch(removeSHELFLIFE_DATA({name: params?.name, shelfLife_SEQ}));
       alertModal('', '상품을 삭제하였습니다.');
-      await api.deleteShelfLifeData({shelfLife_SEQ});
+      // await api.deleteShelfLifeData({shelfLife_SEQ});
     } catch (e) {
       console.log(e);
     }
@@ -77,22 +77,22 @@ export default ({route: {params}}) => {
       alertModal('', '수정이 완료되었습니다.');
       dispatch(
         updateSHELFLIFE_DATA({
+          name: params?.name,
           shelfLife_SEQ,
           shelfLifeName,
-          prevShelfLifeDate: params?.shelfLifeDate,
           shelfLifeDate,
           shelfLifeMemo,
         }),
       );
-      const {data} = await api.updateShelfLifeData({
-        shelfLife_SEQ,
-        shelfLifeNAME: shelfLifeName,
-        shelfLifeDATE: shelfLifeDate,
-        shelfLifeMEMO: shelfLifeMemo,
-      });
-      if (data.result == '0') {
-        alertModal('', '연결에 실패하였습니다.');
-      }
+      // const {data} = await api.updateShelfLifeData({
+      //   shelfLife_SEQ,
+      //   shelfLifeNAME: shelfLifeName,
+      //   shelfLifeDATE: shelfLifeDate,
+      //   shelfLifeMEMO: shelfLifeMemo,
+      // });
+      // if (data.result == '0') {
+      //   alertModal('', '연결에 실패하였습니다.');
+      // }
     } catch (e) {
       console.log(e);
     }

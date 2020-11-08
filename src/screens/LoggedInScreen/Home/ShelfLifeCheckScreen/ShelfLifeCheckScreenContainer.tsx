@@ -9,8 +9,9 @@ import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import {resultdata} from '~/assets/dummy';
 import {
   getSHELFLIFE_DATA,
-  udpateSHELFLIFE,
+  checkSHELFLIFE,
   cancelSHELFLIFE,
+  setSHELFLIFE_DATA,
 } from '~/redux/shelflifeSlice';
 
 export default () => {
@@ -51,31 +52,30 @@ export default () => {
 
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [data, setData] = useState<any>([]);
-  const [listData, setListData] = useState<any>(defaultData);
   const [tabs, setTabs] = useState<any>(defaultTabs);
   const [ready, setReady] = useState<boolean>(false);
 
-  const confirmModal = (shelfLife_SEQ, shelfLifeDate) => {
+  const confirmModal = (name, shelfLife_SEQ) => {
     const params = {
       alertType: 'confirm',
       title: '',
       content: '상품의 유통기한 만료로 폐기 또는 처리 완료 체크합니다',
       cancelButtonText: '취소',
       okButtonText: '확인',
-      okCallback: () => updateShelfLife(shelfLife_SEQ, shelfLifeDate),
+      okCallback: () => updateShelfLife(name, shelfLife_SEQ),
     };
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
   };
 
-  const cancelModal = (shelfLife_SEQ, shelfLifeDate) => {
+  const cancelModal = (name, shelfLife_SEQ) => {
     const params = {
       alertType: 'confirm',
       title: '',
       content: '상품 처리완료를 취소합니다',
       cancelButtonText: '취소',
       okButtonText: '확인',
-      okCallback: () => cancelShelfLife(shelfLife_SEQ, shelfLifeDate),
+      okCallback: () => cancelShelfLife(name, shelfLife_SEQ),
     };
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
@@ -102,10 +102,10 @@ export default () => {
     }
   };
 
-  const cancelShelfLife = async (shelfLife_SEQ, shelfLifeDate) => {
+  const cancelShelfLife = async (name, shelfLife_SEQ) => {
     try {
       alertModal('상품의 처리완료를 취소하였습니다.');
-      dispatch(cancelSHELFLIFE({shelfLife_SEQ, shelfLifeDate}));
+      dispatch(cancelSHELFLIFE({name, shelfLife_SEQ}));
       // const {data} = await api.cancelShelfLifeData({shelfLife_SEQ});
       // if (data.resultmsg !== '1') {
       //   alertModal('연결에 실패하였습니다.');
@@ -115,13 +115,13 @@ export default () => {
     }
   };
 
-  const updateShelfLife = async (shelfLife_SEQ, shelfLifeDate) => {
+  const updateShelfLife = async (name, shelfLife_SEQ) => {
     try {
       alertModal('상품의 폐기 또는 처리 완료 하였습니다.');
       dispatch(
-        udpateSHELFLIFE({
+        checkSHELFLIFE({
+          name,
           shelfLife_SEQ,
-          shelfLifeDate,
           checkEmpName: STORE === '1' ? '점주' : MEMBER_NAME,
           checkTime: moment().format('YYYY-MM-DD HH:mm:ss'),
         }),
@@ -141,7 +141,7 @@ export default () => {
 
   useEffect(() => {
     fetchData();
-    dispatch(getSHELFLIFE_DATA(YEAR, MONTH, DAY));
+    // dispatch(getSHELFLIFE_DATA(YEAR, MONTH, DAY));
   }, []);
 
   const fetchData = () => {
@@ -167,7 +167,7 @@ export default () => {
         }
         day.add(1, 'days');
       }
-      setListData(defaultData);
+      dispatch(setSHELFLIFE_DATA(defaultData));
 
       const dayCount = defaultData[0].items.length;
       const weekCount =
@@ -181,6 +181,7 @@ export default () => {
         defaultData[1].items.length +
         defaultData[2].items.length +
         defaultData[3].items.length;
+
       const dayDone = defaultData[0].items.filter((i) => i.checkType === '1')
         .length;
       const weekDone = defaultData[1].items.filter((i) => i.checkType === '1')
@@ -189,6 +190,7 @@ export default () => {
         .length;
       const monthDone = defaultData[3].items.filter((i) => i.checkType === '1')
         .length;
+
       setData([
         {
           titleNumber: '1',
@@ -243,6 +245,7 @@ export default () => {
       console.log(e);
     }
   };
+
   const gotoCategory = (index) => {
     if (scrollRef.current) {
       setTimeout(() => {
@@ -256,7 +259,6 @@ export default () => {
 
   const onMeasurement = (index, tab) => {
     setTimeout(() => {
-      console.log('onMeasurement', index, tab);
       tabs[index] = tab;
       setTabs([...tabs]);
     }, 5000);
@@ -278,7 +280,7 @@ export default () => {
       onScroll={onScroll}
       opacity={opacity}
       y={y}
-      SHELFLIFE_DATA={listData}
+      SHELFLIFE_DATA={SHELFLIFE_DATA}
       gotoCategory={gotoCategory}
       onMeasurement={onMeasurement}
       ready={ready}
