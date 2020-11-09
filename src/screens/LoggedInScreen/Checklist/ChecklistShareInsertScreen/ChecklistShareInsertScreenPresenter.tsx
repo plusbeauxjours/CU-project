@@ -12,12 +12,14 @@ import {
 import styled from 'styled-components/native';
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import InputLine from '~/components/InputLine';
+import {CloseCircleIcon} from '~/constants/Icons';
 import {
   CameraIcon,
   FlashIcon,
   NoFlashIcon,
   PictureIcon,
 } from '~/constants/Icons';
+import utils from '~/constants/utils';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -37,7 +39,7 @@ const Container = styled.View`
 const Section = styled.View`
   width: 100%;
   border-radius: 20px;
-  margin-top: 20px;
+  margin-bottom: 20px;
   padding: 20px;
   background-color: white;
 `;
@@ -109,17 +111,6 @@ const IconBox = styled.View`
   align-items: center;
 `;
 
-const LoadingBox = styled.View`
-  width: 100px;
-  height: 100px;
-  margin-right: 10px;
-  border-radius: 10px;
-  border-width: 0.7px;
-  border-color: #ccc;
-  justify-content: center;
-  align-items: center;
-`;
-
 const CameraFlashButton = styled.TouchableOpacity`
   top: 50px;
   right: 30px;
@@ -176,6 +167,21 @@ const HalfBottonText = styled.Text`
 const CameraLastPictureContainer = styled.View`
   flex: 1;
   align-items: center;
+`;
+
+const CloseIconContainer = styled.View`
+  width: 26px;
+  height: 26px;
+  border-radius: 13px;
+  background-color: #aaa;
+  border-width: 2px;
+  border-color: white;
+  z-index: 30;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  top: -10;
+  right: -10;
 `;
 
 export default ({
@@ -287,13 +293,18 @@ export default ({
                   data={cameraPictureList}
                   showsHorizontalScrollIndicator={false}
                   renderItem={({item, index}) => (
-                    <Touchable key={index} onPress={() => onPressImageFn(item)}>
+                    <Touchable
+                      key={index}
+                      onPress={() => onPressImageFn(item)}
+                      style={{marginTop: 10, marginRight: 10}}>
+                      <CloseIconContainer>
+                        <CloseCircleIcon />
+                      </CloseIconContainer>
                       <FastImage
                         style={{
                           width: 100,
                           height: 100,
                           borderRadius: 10,
-                          marginRight: 10,
                         }}
                         source={{
                           uri: item.uri,

@@ -14,6 +14,8 @@ import {isIphoneX} from 'react-native-iphone-x-helper';
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import AddShelfLifeScreenCard from './AddShelfLifeScreenCard';
 import RoundBtn from '~/components/Btn/RoundBtn';
+import utils from '~/constants/utils';
+import {CloseCircleOutlineIcon} from '../../../../constants/Icons';
 import {
   HelpCircleIcon,
   CloseCircleIcon,
@@ -124,6 +126,7 @@ const WhiteItem = styled.View`
 
 const DateText = styled.Text`
   color: #333;
+  right: ${utils.isAndroid() ? 0 : 25};
 `;
 
 const BorderBox = styled.View`
@@ -203,6 +206,21 @@ const CloseIconContainer = styled.TouchableOpacity`
   top: ${(props) => (isIphoneX() ? 35 : 10)};
 `;
 
+const IconContainer = styled.View`
+  width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background-color: #aaa;
+  border-width: 2px;
+  border-color: white;
+  z-index: 30;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  top: -10;
+  right: -10;
+`;
+
 export default ({
   addFn,
   explainModal,
@@ -239,7 +257,11 @@ export default ({
           <Section>
             <TextContainer>
               <Touchable
-                style={{flexDirection: 'row', alignItems: 'flex-start'}}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'flex-start',
+                  marginBottom: 10,
+                }}
                 onPress={() => {
                   explainModal(
                     '',
@@ -255,6 +277,9 @@ export default ({
                 <Touchable
                   onPress={() => setCameraPictureLast(null)}
                   disabled={!cameraPictureLast}>
+                  <IconContainer>
+                    <CloseCircleIcon size={12} />
+                  </IconContainer>
                   <FastImage
                     style={{width: 60, height: 60, borderRadius: 10}}
                     source={{
@@ -339,7 +364,7 @@ export default ({
                     multiline={true}
                     style={{
                       marginLeft: -10,
-                      marginTop: -10,
+                      marginTop: utils.isAndroid() ? -10 : 0,
                       borderWidth: 0,
                       width: 180,
                       paddingTop: 10,
@@ -499,7 +524,7 @@ export default ({
               setSelectedIndex(0);
               setIsImageViewVisible(false);
             }}>
-            <CloseCircleIcon size={33} color={'white'} />
+            <CloseCircleOutlineIcon size={33} color={'white'} />
           </CloseIconContainer>
           <FastImage
             style={{width: '100%', height: '100%'}}

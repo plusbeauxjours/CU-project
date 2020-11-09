@@ -19,7 +19,7 @@ import {
   ForwardIcon,
   DeleteIcon,
   SettingIcon,
-  CloseCircleIcon,
+  CloseCircleOutlineIcon,
 } from '~/constants/Icons';
 
 const BackGround = styled.SafeAreaView`
@@ -217,6 +217,7 @@ export default ({
         <ScrollView
           keyboardShouldPersistTaps={'handled'}
           keyboardDismissMode="on-drag"
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{alignItems: 'center'}}>
           <Container>
             <Section>
@@ -395,7 +396,7 @@ export default ({
           height: '100%',
         }}>
         <CloseIconContainer onPress={() => setIsImageViewVisible(false)}>
-          <CloseCircleIcon size={33} color={'white'} />
+          <CloseCircleOutlineIcon size={33} color={'white'} />
         </CloseIconContainer>
         <ImageViewer
           index={imageIndex}

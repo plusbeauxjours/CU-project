@@ -481,6 +481,7 @@ export default ({
                   ME={MEMBER_SEQ}
                   type={'CU소식'}
                   confirmModal={() => {}}
+                  gotoChecklistShareItem={gotoChecklistShareItem}
                 />
               ))}
             </ScrollView>

@@ -9,7 +9,7 @@ import {useDispatch} from 'react-redux';
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import Ripple from 'react-native-material-ripple';
 
-import {CloseCircleIcon, HelpCircleIcon} from '~/constants/Icons';
+import {CloseCircleOutlineIcon, HelpCircleIcon} from '~/constants/Icons';
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 
 const BackGround = styled.View`
@@ -204,7 +204,7 @@ export default ({route: {params}}) => {
               </Text>
             )}
             <Touchable onPress={() => onPress()}>
-              <CloseCircleIcon size={33} />
+              <CloseCircleOutlineIcon size={33} />
             </Touchable>
           </ModalHeader>
           {isWebviewSpinnerVisible ? (

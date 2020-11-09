@@ -107,7 +107,7 @@ export const HelpCircleIcon: React.FC<IProps> = ({size, color}) => (
   <Ionicons
     name={'help-circle'}
     size={size ?? 22}
-    color={color ?? '#bbb'}
+    color={color ?? '#aaa'}
     style={{marginLeft: 5}}
   />
 );
@@ -147,7 +147,15 @@ export const DownIcon: React.FC<IProps> = ({size, color}) => (
 );
 
 export const CloseCircleIcon: React.FC<IProps> = ({size, color}) => (
-  <Ionicons name={'close-circle'} size={size ?? 22} color={color ?? '#aaa'} />
+  <Ionicons name={'close'} size={size ?? 20} color={color ?? 'white'} />
+);
+
+export const CloseCircleOutlineIcon: React.FC<IProps> = ({size, color}) => (
+  <Ionicons
+    name={'close-circle-outline'}
+    size={size ?? 22}
+    color={color ?? '#aaa'}
+  />
 );
 
 export const EllipseIcon: React.FC<IProps> = ({size, color}) => (

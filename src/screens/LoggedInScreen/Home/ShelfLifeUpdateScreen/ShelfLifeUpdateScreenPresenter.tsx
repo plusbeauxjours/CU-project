@@ -13,6 +13,7 @@ import moment from 'moment';
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import {PictureIcon, CameraIcon, BarCodeIcon} from '~/constants/Icons';
 import {CloseCircleIcon} from '../../../../constants/Icons';
+import utils from '~/constants/utils';
 
 interface ITextInput {
   isBefore: boolean;
@@ -85,6 +86,7 @@ const WhiteItem = styled.View`
 
 const DateText = styled.Text`
   color: #333;
+  right: ${utils.isAndroid() ? 0 : 25};
 `;
 
 const BorderBox = styled.View`
@@ -162,14 +164,16 @@ const DeleteButton = styled.TouchableOpacity`
 `;
 
 const IconContainer = styled.View`
-  width: 22px;
-  height: 22px;
-  background-color: white;
-  border-radius: 11px;
-  justify-content: center;
-  align-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background-color: #aaa;
+  border-width: 2px;
+  border-color: white;
   z-index: 30;
   position: absolute;
+  justify-content: center;
+  align-items: center;
   top: -10;
   right: -10;
 `;
@@ -207,7 +211,7 @@ export default ({
                   onPress={() => setCameraPictureLast(null)}
                   disabled={!cameraPictureLast}>
                   <IconContainer>
-                    <CloseCircleIcon size={24} color={'#ccc'} />
+                    <CloseCircleIcon size={12} />
                   </IconContainer>
                   <FastImage
                     style={{width: 60, height: 60, borderRadius: 10}}
@@ -289,7 +293,7 @@ export default ({
                     multiline={true}
                     style={{
                       marginLeft: -10,
-                      marginTop: 0,
+                      marginTop: utils.isAndroid() ? -10 : 0,
                       borderWidth: 0,
                       width: 180,
                       paddingTop: 10,
