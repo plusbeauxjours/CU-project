@@ -13,6 +13,7 @@ import {
 } from '~/redux/checklistshareSlice';
 import ChecklistShareMainScreenPresenter from './ChecklistShareMainScreenPresenter';
 import api from '~/constants/LoggedInApi';
+import {setSplashVisible} from '~/redux/splashSlice';
 
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
@@ -214,6 +215,7 @@ export default ({route: {params}}) => {
 
   useEffect(() => {
     Init(index);
+    dispatch(setSplashVisible(false));
     console.log('===================', '업무일지', '===================');
     firebase.analytics().setCurrentScreen('업무일지');
   }, []);

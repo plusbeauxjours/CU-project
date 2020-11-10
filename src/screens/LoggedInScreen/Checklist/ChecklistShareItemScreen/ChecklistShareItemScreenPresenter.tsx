@@ -75,13 +75,21 @@ const TextInput = styled.TextInput`
   padding: 10px 0;
 `;
 
-const ForwardIconContainer = styled.TouchableOpacity`
+const ForwardIconContainer = styled.View`
   align-items: center;
   justify-content: center;
   width: 20px;
   height: 20px;
   border-radius: 20px;
   background-color: #642a8c;
+`;
+
+const ForwardIconTouchable = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
+  right: -20px;
+  width: 60px;
+  height: 50px;
 `;
 
 const MemoText = styled.Text`
@@ -329,9 +337,7 @@ export default ({
                       <SwipeRow
                         key={index}
                         rightOpenValue={-100}
-                        disableLeftSwipe={
-                          item.MEMBER_SEQ !== ME && STORE == '0'
-                        }
+                        disableLeftSwipe={item.MEMBER_SEQ != ME && STORE == '0'}
                         disableRightSwipe={true}>
                         <BackBtn>
                           <RowTouchable
@@ -416,6 +422,7 @@ export default ({
                     CONTENTS,
                     NOTI_TITLE,
                     isFavorite,
+                    CREATE_TIME,
                   })
                 }
                 isRegisted={true}
@@ -442,10 +449,12 @@ export default ({
                 }}
                 multiline={true}
               />
-              <ForwardIconContainer
+              <ForwardIconTouchable
                 onPress={() => (isEditMode ? editFn() : registFn())}>
-                <ForwardIcon color={'white'} />
-              </ForwardIconContainer>
+                <ForwardIconContainer>
+                  <ForwardIcon color={'white'} />
+                </ForwardIconContainer>
+              </ForwardIconTouchable>
             </CommentTextInputContainer>
           </KeyboardAvoidingView>
         )}

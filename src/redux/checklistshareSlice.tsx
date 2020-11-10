@@ -79,6 +79,7 @@ const checklistshareSlice = createSlice({
     },
     addCHECKLIST_SHARE_COMMENTS(state, action) {
       const {payload: CHECKLIST_SHARE_COMMENTS} = action;
+      console.log(CHECKLIST_SHARE_COMMENTS);
       state.CHECKLIST_SHARE_COMMENTS.unshift(CHECKLIST_SHARE_COMMENTS);
     },
     editCHECKLIST_SHARE_COMMENTS(state, action) {
@@ -162,6 +163,8 @@ const checklistshareSlice = createSlice({
           favoriteItem.CONTENTS = content;
           if (image) {
             favoriteItem.IMG_LIST = image;
+          } else {
+            favoriteItem.IMG_LIST = null;
           }
         } else {
           const basicItem = state.CHECKLIST_SHARE_DATA1.basic.find(
@@ -171,6 +174,8 @@ const checklistshareSlice = createSlice({
           basicItem.CONTENTS = content;
           if (image) {
             basicItem.IMG_LIST = image;
+          } else {
+            basicItem.IMG_LIST = null;
           }
         }
       } else {
@@ -182,6 +187,8 @@ const checklistshareSlice = createSlice({
           favoriteItem.CONTENTS = content;
           if (image) {
             favoriteItem.IMG_LIST = image;
+          } else {
+            favoriteItem.IMG_LIST = null;
           }
         } else {
           const basicItem = state.CHECKLIST_SHARE_DATA2.basic.find(
@@ -191,6 +198,8 @@ const checklistshareSlice = createSlice({
           basicItem.CONTENTS = content;
           if (image) {
             basicItem.IMG_LIST = image;
+          } else {
+            basicItem.IMG_LIST = null;
           }
         }
       }

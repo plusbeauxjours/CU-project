@@ -156,6 +156,7 @@ export default () => {
       setIsImageViewVisible={setIsImageViewVisible}
       selectedIndex={selectedIndex}
       setSelectedIndex={setSelectedIndex}
+      alertModal={alertModal}
     />
   );
 };

@@ -91,10 +91,10 @@ export default ({route: {params}}) => {
     }
     try {
       setCommentInputBox(false);
-      updatedToastFn();
       setComment('');
       setSelectedCOM_SEQ('');
       dispatch(editCHECKLIST_SHARE_COMMENTS({selectedCOM_SEQ, comment}));
+      updatedToastFn();
       const {data} = await api.editNoticeComment(selectedCOM_SEQ, comment);
       if (data.resultmsg !== '1') {
         alertModal('', '연결에 실패하였습니다.');
@@ -106,11 +106,11 @@ export default ({route: {params}}) => {
 
   const deleteFn = async (selectedCOM_SEQ) => {
     try {
-      removedToastFn();
       clearTimeout();
       setTimeout(() => {
         dispatch(deleteCHECKLIST_SHARE_COMMENTS(selectedCOM_SEQ));
       }, 50);
+      removedToastFn();
       const {data} = await api.delNoticeComment(selectedCOM_SEQ);
       if (data.resultmsg !== '1') {
         alertModal('', '연결에 실패하였습니다.');
@@ -125,9 +125,11 @@ export default ({route: {params}}) => {
       return alertModal('', '댓글을 입력해주세요.');
     }
     try {
+      setCommentInputBox(false);
+      setComment('');
       dispatch(
         addCHECKLIST_SHARE_COMMENTS({
-          COM_SEQ: 293000,
+          COM_SEQ: Math.ceil(Math.random() * 10000000),
           CONTENTS: comment,
           CREATE_TIME: moment().format('YYYY-MM-DD'),
           EMP_NAME: MEMBER_NAME,
@@ -136,16 +138,19 @@ export default ({route: {params}}) => {
           NOTICE_SEQ: NOTICE_SEQ.toString(),
         }),
       );
-      setCommentInputBox(false);
-      setComment('');
-      const {data} = await api.setNoticeComment(NOTICE_SEQ, ME, comment, STORE);
+      addedToastFn();
+      const {data} = await api.setNoticeComment(
+        NOTICE_SEQ,
+        MEMBER_NAME,
+        comment,
+        STORE,
+      );
       if (data.resultmsg !== '1') {
         alertModal('', '연결에 실패하였습니다.');
       }
     } catch (e) {
       console.log(e);
     } finally {
-      addedToastFn();
     }
   };
 
@@ -220,7 +225,7 @@ export default ({route: {params}}) => {
     );
     firebase.analytics().setCurrentScreen(`${params?.TITLE} 상세`);
   }, []);
-
+  console.log(item);
   return (
     <ChecklistShareItemScreenPresenter
       NOTI_TITLE={item?.TITLE}

@@ -23,7 +23,6 @@ export default ({route: {params}}) => {
   );
   const {STORE_SEQ} = useSelector((state: any) => state.storeReducer);
 
-  const [cameraPictureFlash, setCameraPictureFlash] = useState<boolean>(false);
   const [cameraPictureList, setCameraPictureList] = useState<any>([]);
   const [cameraPictureLast, setCameraPictureLast] = useState<any>(null);
   const [isCameraModalVisible, setIsCameraModalVisible] = useState<boolean>(
@@ -186,8 +185,6 @@ export default ({route: {params}}) => {
       registerFn={registerFn}
       onPressImageFn={onPressImageFn}
       launchImageLibraryFn={launchImageLibraryFn}
-      cameraPictureFlash={cameraPictureFlash}
-      setCameraPictureFlash={setCameraPictureFlash}
       takePictureFn={takePictureFn}
       cameraPictureLast={cameraPictureLast}
       setCameraPictureLast={setCameraPictureLast}

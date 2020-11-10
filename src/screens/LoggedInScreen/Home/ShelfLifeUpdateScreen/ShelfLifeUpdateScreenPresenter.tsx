@@ -292,12 +292,14 @@ export default ({
                     value={shelfLifeMemo}
                     multiline={true}
                     style={{
+                      textAlignVertical: 'top',
                       marginLeft: -10,
-                      marginTop: utils.isAndroid() ? -10 : 0,
+                      marginTop: 0,
                       borderWidth: 0,
-                      width: 180,
+                      width: '100%',
                       paddingTop: 10,
-                      paddingBottom: 0,
+                      paddingBottom: 10,
+                      minHeight: 80,
                     }}
                   />
                 </TextContainer>

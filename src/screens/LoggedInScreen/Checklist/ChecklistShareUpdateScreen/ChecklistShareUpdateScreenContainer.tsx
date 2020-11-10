@@ -23,7 +23,6 @@ export default ({route: {params}}) => {
   const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
 
   const [cameraPictureList, setCameraPictureList] = useState<any>([]);
-  const [cameraPictureFlash, setCameraPictureFlash] = useState<boolean>(false);
   const [cameraPictureLast, setCameraPictureLast] = useState<any>(null);
   const [isCameraModalVisible, setIsCameraModalVisible] = useState<boolean>(
     false,
@@ -188,6 +187,7 @@ export default ({route: {params}}) => {
               NOTICE_SEQ: params?.NOTICE_SEQ,
               CLOSE_FLAG: sign == 'close' ? '1' : '0',
               isFavorite: params?.isFavorite,
+              IMG_LIST: '',
             }),
           );
           const {data} = await api.updateNotice({
@@ -237,13 +237,12 @@ export default ({route: {params}}) => {
       confirmModal={confirmModal}
       onPressImageFn={onPressImageFn}
       launchImageLibraryFn={launchImageLibraryFn}
-      cameraPictureFlash={cameraPictureFlash}
-      setCameraPictureFlash={setCameraPictureFlash}
       takePictureFn={takePictureFn}
       cameraPictureLast={cameraPictureLast}
       setCameraPictureLast={setCameraPictureLast}
       cameraPictureList={cameraPictureList}
       setCameraPictureList={setCameraPictureList}
+      CREATE_TIME={params?.CREATE_TIME}
     />
   );
 };

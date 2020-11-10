@@ -24,10 +24,6 @@ import {
   BarCodeIcon,
 } from '~/constants/Icons';
 
-interface ITextInput {
-  isBefore: boolean;
-}
-
 const BackGround = styled.SafeAreaView`
   flex: 1;
   background-color: #f6f6f6;
@@ -87,12 +83,10 @@ const GreyText = styled.Text`
   color: #aaa;
 `;
 
-const TextInput = styled.TextInput<ITextInput>`
-  border-color: ${(props) => (props.isBefore ? '#ddd' : '#642a8c')};
+const TextInput = styled.TextInput`
   justify-content: center;
   align-items: center;
   padding: 10px;
-  border-width: 1px;
   width: ${wp('50%')}px;
   min-height: 40px;
 `;
@@ -245,6 +239,7 @@ export default ({
   setIsImageViewVisible,
   selectedIndex,
   setSelectedIndex,
+  alertModal,
 }) => {
   const cameraRef = useRef(null);
   return (
@@ -307,7 +302,10 @@ export default ({
                       <GreyText style={{fontSize: 10}}>보관함</GreyText>
                     </BorderBox>
                   </Touchable>
-                  <Touchable onPress={() => console.log('바코드')}>
+                  <Touchable
+                    onPress={() =>
+                      alertModal('', '바코드 서비스 준비중입니다.')
+                    }>
                     <BorderBox>
                       <BarCodeIcon size={20} color={'#ccc'} />
                       <GreyText style={{fontSize: 10}}>바코드</GreyText>
@@ -319,7 +317,6 @@ export default ({
               <WhiteItem style={{justifyContent: 'flex-start'}}>
                 <Name>
                   <TextInput
-                    isBefore={shelfLifeName == ''}
                     placeholder="상품명"
                     selectionColor="#6428AC"
                     placeholderTextColor="#CCC"
@@ -355,7 +352,6 @@ export default ({
                 <Line />
                 <TextContainer>
                   <TextInput
-                    isBefore={shelfLifeMemo == ''}
                     placeholder="메모 입력"
                     selectionColor="#6428AC"
                     placeholderTextColor="#CCC"
@@ -363,12 +359,14 @@ export default ({
                     value={shelfLifeMemo}
                     multiline={true}
                     style={{
+                      textAlignVertical: 'top',
                       marginLeft: -10,
-                      marginTop: utils.isAndroid() ? -10 : 0,
+                      marginTop: 0,
                       borderWidth: 0,
-                      width: 180,
+                      width: '100%',
                       paddingTop: 10,
-                      paddingBottom: 0,
+                      paddingBottom: 10,
+                      minHeight: 80,
                     }}
                   />
                 </TextContainer>

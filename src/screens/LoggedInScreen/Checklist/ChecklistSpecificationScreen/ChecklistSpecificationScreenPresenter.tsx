@@ -11,13 +11,7 @@ import moment from 'moment';
 import {RNCamera} from 'react-native-camera';
 
 import SubmitBtn from '~/components/Btn/SubmitBtn';
-import {
-  CheckBoxIcon,
-  CameraIcon,
-  PictureIcon,
-  FlashIcon,
-  NoFlashIcon,
-} from '~/constants/Icons';
+import {CheckBoxIcon, CameraIcon, PictureIcon} from '~/constants/Icons';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -131,18 +125,6 @@ const IconBox = styled.View`
   align-items: center;
 `;
 
-const CameraFlashButton = styled.TouchableOpacity`
-  top: 50px;
-  right: 30px;
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
-  justify-content: center;
-  align-items: center;
-  background-color: grey;
-  position: absolute;
-`;
-
 const CameraPictureCloseButtonText = styled.Text`
   font-size: 16px;
   color: #ffffff;
@@ -211,8 +193,6 @@ export default ({
   onPressImageFn,
   launchImageLibraryFn,
   registerFn,
-  cameraPictureFlash,
-  setCameraPictureFlash,
   takePictureFn,
   cameraPictureLast,
   setCameraPictureLast,
@@ -492,11 +472,7 @@ export default ({
               justifyContent: 'flex-end',
             }}
             type={RNCamera.Constants.Type.back}
-            flashMode={
-              cameraPictureFlash
-                ? RNCamera.Constants.FlashMode.on
-                : RNCamera.Constants.FlashMode.off
-            }
+            flashMode={RNCamera.Constants.FlashMode.off}
             androidCameraPermissionOptions={{
               title: '카메라 권한 설정',
               message:
@@ -504,10 +480,6 @@ export default ({
               buttonPositive: 'Ok',
               buttonNegative: 'Cancel',
             }}>
-            <CameraFlashButton
-              onPress={() => setCameraPictureFlash(!cameraPictureFlash)}>
-              {cameraPictureFlash ? <FlashIcon /> : <NoFlashIcon />}
-            </CameraFlashButton>
             <CameraPictureButton onPress={() => takePictureFn(cameraRef)}>
               <CameraIcon size={40} />
             </CameraPictureButton>
