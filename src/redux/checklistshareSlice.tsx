@@ -77,6 +77,10 @@ const checklistshareSlice = createSlice({
         CHECKLIST_SHARE_COMMENTS,
       };
     },
+    addCHECKLIST_SHARE_COMMENTS(state, action) {
+      const {payload: CHECKLIST_SHARE_COMMENTS} = action;
+      state.CHECKLIST_SHARE_COMMENTS.unshift(CHECKLIST_SHARE_COMMENTS);
+    },
     editCHECKLIST_SHARE_COMMENTS(state, action) {
       const {
         payload: {selectedCOM_SEQ, comment},
@@ -204,6 +208,7 @@ export const {
   increaseNEW_CNT2,
   increaseNEW_CNT3,
   setCHECKLIST_SHARE_COMMENTS,
+  addCHECKLIST_SHARE_COMMENTS,
   editCHECKLIST_SHARE_COMMENTS,
   deleteCHECKLIST_SHARE_COMMENTS,
   updateCHECKLIST_SHARE_DATA,
@@ -225,7 +230,6 @@ export const getCHECKLIST_SHARE_DATA1 = (date) => async (
   }
   try {
     const {data} = await api.getNotice(STORE_SEQ, date, '1');
-    console.log('=======================1', data);
     if (data.resultmsg === '1') {
       for (let a = 0; a < data.basic.length; a++) {
         if (data.basic[a].NoticeCheck_SEQ == null) {
@@ -261,7 +265,6 @@ export const getCHECKLIST_SHARE_DATA2 = (date) => async (
   }
   try {
     const {data} = await api.getNotice(STORE_SEQ, date, '0');
-    console.log('=======================2', data);
     if (data.resultmsg === '1') {
       for (let a = 0; a < data.basic.length; a++) {
         if (data.basic[a].NoticeCheck_SEQ == null) {

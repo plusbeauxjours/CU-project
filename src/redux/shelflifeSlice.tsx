@@ -71,10 +71,6 @@ const shelflifetSlice = createSlice({
         ...state,
         SHELFLIFE_DATA: state.SHELFLIFE_DATA.map((item) => {
           if (item.name === name) {
-            console.log('item.length', item.items.length);
-            console.log('items.length', items.length);
-            console.log('item', item);
-            console.log('items', [...items]);
             return {
               ...item,
               items: [...items],

@@ -11,10 +11,11 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {isIphoneX} from 'react-native-iphone-x-helper';
+import {SwipeRow, SwipeListView} from 'react-native-swipe-list-view';
+import {KeyboardAvoidingView, ActivityIndicator} from 'react-native';
 
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import utils from '~/constants/utils';
-import {KeyboardAvoidingView, ActivityIndicator} from 'react-native';
 import {
   ForwardIcon,
   DeleteIcon,
@@ -38,12 +39,6 @@ const Container = styled.View`
 `;
 
 const Row = styled.View`
-  flex-direction: row;
-  align-items: center;
-`;
-
-const RowTouchable = styled.TouchableOpacity`
-  margin-right: 10px;
   flex-direction: row;
   align-items: center;
 `;
@@ -111,24 +106,20 @@ const MemoBox = styled.TouchableOpacity`
   align-items: center;
 `;
 
-const Comment = styled.View`
-  margin: 20px 0;
+const CommentBox = styled.View`
+  padding: 10px 0;
   border-bottom-width: 0.7px;
   border-color: #ddd;
-`;
-
-const CommentBox = styled.View`
-  padding: 5px 0;
-  border-top-width: 0.7px;
-  border-color: #ddd;
-  min-height: 100px;
+  min-height: 70px;
   justify-content: center;
+  background-color: white;
 `;
 
 const Column = styled.View`
   margin-left: 10px;
   flex-direction: column;
   justify-content: center;
+  min-height: 50px;
 `;
 
 const Footer = styled.View`
@@ -149,6 +140,59 @@ const CloseIconContainer = styled.TouchableOpacity`
   height: 30px;
   right: 20px;
   top: ${(props) => (isIphoneX() ? 35 : 10)};
+`;
+
+const RowTouchable = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  width: 50;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+const BackBtn = styled.View`
+  background-color: white;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-bottom-width: 0.7px;
+  border-color: #ddd;
+  height: 100%;
+`;
+
+const Line = styled.View`
+  margin: 10px 0;
+  height: 0.7px;
+  background-color: #ccc;
+`;
+
+const ModalPopupArea = styled.View`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100px;
+  align-items: center;
+`;
+
+const ModalPopupText = styled.Text`
+  color: white;
+`;
+
+const ModalPopup = styled.View`
+  padding: 15px;
+  border-radius: 10px;
+  elevation: 6;
+  shadow-color: grey;
+  shadow-offset: 3px 3px;
+  shadow-opacity: 0.5;
+  shadow-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.7);
 `;
 
 export default ({
@@ -181,6 +225,9 @@ export default ({
   imageIndex,
   setImageIndex,
   STORE,
+  isAddedToastVisible,
+  isUpdatedToastVisible,
+  isRemovedToastVisible,
 }) => {
   const navigation = useNavigation();
 
@@ -221,17 +268,23 @@ export default ({
           contentContainerStyle={{alignItems: 'center'}}>
           <Container>
             <Section>
-              <Bold style={{fontSize: 18}}>{NOTI_TITLE}</Bold>
-              <Row style={{justifyContent: 'center'}}>
-                <Bold style={{color: '#C8C8C8'}}>
-                  {moment(CREATE_TIME).format('YYYY.MM.DD HH:mm:ss')}
-                </Bold>
-                {TITLE !== 'CU소식' && (
+              <Row style={{justifyContent: 'space-between'}}>
+                <Column style={{marginLeft: 0}}>
+                  <Bold style={{fontSize: 18}}>{NOTI_TITLE}</Bold>
+                  {TITLE !== 'CU소식' && (
+                    <Bold style={{color: '#C8C8C8'}}>{EMP_NAME}</Bold>
+                  )}
+                </Column>
+                <Column style={{alignItems: 'flex-end'}}>
                   <Bold style={{color: '#C8C8C8'}}>
-                    &nbsp;-&nbsp;{EMP_NAME}
+                    {moment(CREATE_TIME).format('YYYY.MM.DD')}
                   </Bold>
-                )}
+                  <Bold style={{color: '#C8C8C8'}}>
+                    {moment(CREATE_TIME).format('HH:mm:ss')}
+                  </Bold>
+                </Column>
               </Row>
+              <Line />
               <Text>{CONTENTS}</Text>
               {imgarr?.length > 0 && (
                 <FlatList
@@ -261,81 +314,94 @@ export default ({
                     <MemoText>댓글을 입력하세요...</MemoText>
                   </MemoBox>
                 </MemoContainer>
-                <Comment>
-                  {loading ? (
-                    <CommentBox>
-                      <ActivityIndicator color={'grey'} size={'small'} />
-                    </CommentBox>
-                  ) : (
-                    !loading &&
-                    CHECKLIST_SHARE_COMMENTS?.map((data, index) => (
-                      <CommentBox key={index}>
-                        <Row>
-                          <FastImage
-                            style={{width: 60, height: 60, borderRadius: 30}}
-                            source={{
-                              uri: 'http://cuapi.shop-sol.com/uploads/3.png',
-                              headers: {Authorization: 'someAuthToken'},
-                              priority: FastImage.priority.low,
-                            }}
-                            resizeMode={FastImage.resizeMode.cover}
-                          />
-                          <Column>
-                            <Row>
+                {loading ? (
+                  <CommentBox>
+                    <ActivityIndicator color={'grey'} size={'small'} />
+                  </CommentBox>
+                ) : (
+                  <SwipeListView
+                    useFlatList={true}
+                    closeOnRowOpen={true}
+                    closeOnRowBeginSwipe={true}
+                    data={CHECKLIST_SHARE_COMMENTS}
+                    previewOpenValue={100}
+                    renderItem={({item, index}, rowMap) => (
+                      <SwipeRow
+                        key={index}
+                        rightOpenValue={-100}
+                        disableLeftSwipe={
+                          item.MEMBER_SEQ !== ME && STORE == '0'
+                        }
+                        disableRightSwipe={true}>
+                        <BackBtn>
+                          <RowTouchable
+                            style={{backgroundColor: 'white'}}
+                            onPress={() => {
+                              rowMap[index].closeRow();
+                              setIsEditMode(true);
+                              setCommentInputBox(true);
+                              setComment(item.CONTENTS);
+                              setSelectedCOM_SEQ(item.COM_SEQ);
+                            }}>
+                            <SettingIcon color={'#aaa'} size={22} />
+                          </RowTouchable>
+                          <RowTouchable
+                            style={{backgroundColor: '#D93F12'}}
+                            onPress={async () => {
+                              await rowMap[index].closeRow();
+                              await deleteFn(item.COM_SEQ);
+                            }}>
+                            <DeleteIcon color={'white'} />
+                          </RowTouchable>
+                        </BackBtn>
+                        <CommentBox key={index}>
+                          <Row style={{alignItems: 'flex-start'}}>
+                            <FastImage
+                              style={{width: 50, height: 50, borderRadius: 25}}
+                              source={{
+                                uri: 'http:cuapi.shop-sol.com/uploads/3.png',
+                                headers: {Authorization: 'someAuthToken'},
+                                priority: FastImage.priority.low,
+                              }}
+                              resizeMode={FastImage.resizeMode.cover}
+                            />
+                            <Column>
                               <Text
+                                ellipsizeMode={'tail'}
+                                numberOfLines={100}
                                 style={{
-                                  color: '#aaa',
-                                  fontSize: 13,
-                                  marginRight: 15,
+                                  width: wp('100%') - 140,
+                                  flexWrap: 'wrap',
+                                  marginBottom: 5,
                                 }}>
-                                {data.EMP_NAME} [{data.IS_MANAGER}]
-                              </Text>
-                            </Row>
-                            <Text
-                              ellipsizeMode={'tail'}
-                              numberOfLines={100}
-                              style={{flexWrap: 'wrap', marginTop: 5}}>
-                              {data.CONTENTS}
-                            </Text>
-                            <Row
-                              style={{
-                                width: wp('100%') - 140,
-                                justifyContent: 'space-between',
-                              }}>
-                              <Text style={{color: '#C8C8C8', marginLeft: 5}}>
-                                {moment(data.CREATE_TIME).format('YYYY.MM.DD')}
-                              </Text>
-                              {(data.MEMBER_SEQ == ME || STORE == '1') && (
-                                <Row
+                                <Text
                                   style={{
-                                    width: 120,
-                                    marginRight: 10,
-                                    justifyContent: 'space-between',
+                                    fontWeight: 'bold',
+                                    color: '#aaa',
                                   }}>
-                                  <RowTouchable
-                                    onPress={() => {
-                                      setIsEditMode(true);
-                                      setCommentInputBox(true);
-                                      setComment(data.CONTENTS);
-                                      setSelectedCOM_SEQ(data.COM_SEQ);
-                                    }}>
-                                    <SettingIcon color={'#AACE36'} size={20} />
-                                    <Text style={{color: '#AACE36'}}>수정</Text>
-                                  </RowTouchable>
-                                  <RowTouchable
-                                    onPress={() => deleteFn(data.COM_SEQ)}>
-                                    <DeleteIcon />
-                                    <Text style={{color: '#B91C1B'}}>삭제</Text>
-                                  </RowTouchable>
-                                </Row>
-                              )}
-                            </Row>
-                          </Column>
-                        </Row>
-                      </CommentBox>
-                    ))
-                  )}
-                </Comment>
+                                  {item.EMP_NAME} [{item.IS_MANAGER}
+                                  ]&nbsp;&nbsp;
+                                </Text>
+                                {item.CONTENTS}
+                              </Text>
+                              <Row
+                                style={{
+                                  justifyContent: 'flex-start',
+                                }}>
+                                <Text style={{color: '#aaa'}}>
+                                  {moment(item.CREATE_TIME).format(
+                                    'YYYY.MM.DD',
+                                  )}
+                                </Text>
+                              </Row>
+                            </Column>
+                          </Row>
+                        </CommentBox>
+                      </SwipeRow>
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                  />
+                )}
               </Section>
             )}
             {ME == MEMBER_SEQ && (
@@ -357,6 +423,7 @@ export default ({
             )}
           </Container>
         </ScrollView>
+
         {commentInputBox && (
           <KeyboardAvoidingView
             behavior={utils.isAndroid ? 'height' : 'padding'}
@@ -376,15 +443,30 @@ export default ({
                 multiline={true}
               />
               <ForwardIconContainer
-                onPress={() => {
-                  isEditMode ? editFn() : registFn();
-                }}>
+                onPress={() => (isEditMode ? editFn() : registFn())}>
                 <ForwardIcon color={'white'} />
               </ForwardIconContainer>
             </CommentTextInputContainer>
           </KeyboardAvoidingView>
         )}
       </BackGround>
+      {(isAddedToastVisible ||
+        isUpdatedToastVisible ||
+        isRemovedToastVisible) && (
+        <ModalPopupArea>
+          <ModalPopup>
+            {isAddedToastVisible && (
+              <ModalPopupText>댓글을 추가하였습니다</ModalPopupText>
+            )}
+            {isUpdatedToastVisible && (
+              <ModalPopupText>댓글을 수정하였습니다</ModalPopupText>
+            )}
+            {isRemovedToastVisible && (
+              <ModalPopupText>댓글을 삭제하였습니다</ModalPopupText>
+            )}
+          </ModalPopup>
+        </ModalPopupArea>
+      )}
       <Modal
         onRequestClose={() => setIsImageViewVisible(false)}
         onBackdropPress={() => setIsImageViewVisible(false)}

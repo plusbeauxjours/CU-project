@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 import {
   widthPercentageToDP as wp,
