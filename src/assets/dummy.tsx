@@ -223,7 +223,7 @@ export const resultdata = {
       shelfLifeName: 'Dfas10317',
       shelfLifeDate: '2020-11-12',
       shelfLifeMemo: 'Asdfas10317',
-      checkType: '0',
+      checkType: '1',
     },
     {
       checkTime: null,
@@ -232,7 +232,7 @@ export const resultdata = {
       shelfLifeName: 'Zxcv10318',
       shelfLifeDate: '2020-11-12',
       shelfLifeMemo: 'Zxcvzxcv10318',
-      checkType: '0',
+      checkType: '1',
     },
     {
       checkTime: null,
@@ -241,7 +241,7 @@ export const resultdata = {
       shelfLifeName: 'Asdf10319',
       shelfLifeDate: '2020-11-12',
       shelfLifeMemo: 'Dads10319',
-      checkType: '0',
+      checkType: '1',
     },
     {
       checkTime: null,
@@ -250,7 +250,7 @@ export const resultdata = {
       shelfLifeName: 'Dfas10320',
       shelfLifeDate: '2020-11-12',
       shelfLifeMemo: 'Asdfas10320',
-      checkType: '0',
+      checkType: '1',
     },
     {
       checkTime: null,
@@ -291,7 +291,7 @@ export const resultdata = {
       shelfLifeName: 'Zxcv10324',
       shelfLifeDate: '2020-11-16',
       shelfLifeMemo: 'Zxcvzxcv10324',
-      checkType: '0',
+      checkType: '1',
     },
     {
       checkTime: null,
@@ -300,7 +300,7 @@ export const resultdata = {
       shelfLifeName: 'Asdf10325',
       shelfLifeDate: '2020-11-16',
       shelfLifeMemo: 'Dads10325',
-      checkType: '0',
+      checkType: '1',
     },
     {
       checkTime: null,
@@ -309,7 +309,7 @@ export const resultdata = {
       shelfLifeName: 'Dfas103026',
       shelfLifeDate: '2020-11-16',
       shelfLifeMemo: 'Asdfas103026',
-      checkType: '0',
+      checkType: '1',
     },
   ],
   '2020-11-17': [],
@@ -352,7 +352,7 @@ export const resultdata = {
       shelfLifeName: 'Zxcv10330',
       shelfLifeDate: '2020-11-21',
       shelfLifeMemo: 'Zxcvzxcv10330',
-      checkType: '0',
+      checkType: '1',
     },
     {
       checkTime: null,
@@ -361,7 +361,7 @@ export const resultdata = {
       shelfLifeName: 'Asdf10331',
       shelfLifeDate: '2020-11-21',
       shelfLifeMemo: 'Dads10331',
-      checkType: '0',
+      checkType: '1',
     },
     {
       checkTime: null,
@@ -370,7 +370,7 @@ export const resultdata = {
       shelfLifeName: 'Dfas10332',
       shelfLifeDate: '2020-11-21',
       shelfLifeMemo: 'Asdfas10332',
-      checkType: '0',
+      checkType: '1',
     },
     {
       checkTime: null,
@@ -379,7 +379,7 @@ export const resultdata = {
       shelfLifeName: 'Zxcv10333',
       shelfLifeDate: '2020-11-21',
       shelfLifeMemo: 'Zxcvzxcv10333',
-      checkType: '0',
+      checkType: '1',
     },
     {
       checkTime: null,
@@ -388,7 +388,7 @@ export const resultdata = {
       shelfLifeName: 'Asdf10334',
       shelfLifeDate: '2020-11-21',
       shelfLifeMemo: 'Dads10334',
-      checkType: '0',
+      checkType: '1',
     },
     {
       checkTime: null,
@@ -397,7 +397,7 @@ export const resultdata = {
       shelfLifeName: 'Dfas10335',
       shelfLifeDate: '2020-11-21',
       shelfLifeMemo: 'Asdfas10335',
-      checkType: '0',
+      checkType: '1',
     },
   ],
   '2020-11-22': [],
@@ -472,7 +472,7 @@ export const resultdata = {
       shelfLifeName: 'Zxcv10301',
       shelfLifeDate: '2020-12-01',
       shelfLifeMemo: 'Zxcvzxcv10301',
-      checkType: '0',
+      checkType: '1',
     },
     {
       checkTime: null,
@@ -481,7 +481,7 @@ export const resultdata = {
       shelfLifeName: 'Asdf10302',
       shelfLifeDate: '2020-12-01',
       shelfLifeMemo: 'Dads10302',
-      checkType: '0',
+      checkType: '1',
     },
     {
       checkTime: null,
@@ -490,7 +490,7 @@ export const resultdata = {
       shelfLifeName: 'Dfas10303',
       shelfLifeDate: '2020-12-01',
       shelfLifeMemo: 'Asdfas10303',
-      checkType: '0',
+      checkType: '1',
     },
   ],
   '2020-12-02': [
@@ -510,7 +510,7 @@ export const resultdata = {
       shelfLifeName: 'Dfas10304',
       shelfLifeDate: '2020-12-02',
       shelfLifeMemo: 'Asdfas110304',
-      checkType: '0',
+      checkType: '1',
     },
     {
       checkTime: null,
@@ -519,7 +519,7 @@ export const resultdata = {
       shelfLifeName: 'Dfas10304',
       shelfLifeDate: '2020-12-02',
       shelfLifeMemo: 'Asdfas110304',
-      checkType: '0',
+      checkType: '1',
     },
   ],
   '2020-12-03': [

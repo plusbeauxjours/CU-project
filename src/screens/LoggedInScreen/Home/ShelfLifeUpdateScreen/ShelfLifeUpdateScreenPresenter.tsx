@@ -195,6 +195,7 @@ export default ({
   setIsDateModalVisible,
   isDateModalVisible,
   submit,
+  alertModal,
 }) => {
   const cameraRef = useRef(null);
   return (
@@ -237,7 +238,10 @@ export default ({
                       <GreyText style={{fontSize: 10}}>보관함</GreyText>
                     </BorderBox>
                   </Touchable>
-                  <Touchable onPress={() => console.log('바코드')}>
+                  <Touchable
+                    onPress={() =>
+                      alertModal('', '바코드 서비스 준비중입니다.')
+                    }>
                     <BorderBox>
                       <BarCodeIcon size={20} color={'#ccc'} />
                       <GreyText style={{fontSize: 10}}>바코드</GreyText>

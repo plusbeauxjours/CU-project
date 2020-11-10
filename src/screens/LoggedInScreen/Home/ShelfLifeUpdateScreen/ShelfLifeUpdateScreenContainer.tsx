@@ -137,6 +137,7 @@ export default ({route: {params}}) => {
       isDateModalVisible={isDateModalVisible}
       setIsDateModalVisible={setIsDateModalVisible}
       submit={submit}
+      alertModal={alertModal}
     />
   );
 };
