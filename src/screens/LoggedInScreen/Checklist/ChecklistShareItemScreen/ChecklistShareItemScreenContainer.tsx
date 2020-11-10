@@ -37,6 +37,7 @@ export default ({route: {params}}) => {
   const [item, setItem] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(true);
   const [imageIndex, setImageIndex] = useState<number>(0);
+  const [isClosed, setIsClosed] = useState<boolen>(false);
   const [isAddedToastVisible, setIsAddedToastVisible] = useState<boolean>(
     false,
   );
@@ -215,6 +216,10 @@ export default ({route: {params}}) => {
     }
   };
 
+  const openRow = (rowRef) => {
+    rowRef.manuallySwipeRow(-100);
+  };
+
   useEffect(() => {
     fetchData();
     fetchImage(item);
@@ -225,7 +230,7 @@ export default ({route: {params}}) => {
     );
     firebase.analytics().setCurrentScreen(`${params?.TITLE} 상세`);
   }, []);
-  console.log(item);
+
   return (
     <ChecklistShareItemScreenPresenter
       NOTI_TITLE={item?.TITLE}
@@ -260,6 +265,9 @@ export default ({route: {params}}) => {
       isAddedToastVisible={isAddedToastVisible}
       isUpdatedToastVisible={isUpdatedToastVisible}
       isRemovedToastVisible={isRemovedToastVisible}
+      isClosed={isClosed}
+      setIsClosed={setIsClosed}
+      openRow={openRow}
     />
   );
 };

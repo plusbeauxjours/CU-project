@@ -79,7 +79,6 @@ const checklistshareSlice = createSlice({
     },
     addCHECKLIST_SHARE_COMMENTS(state, action) {
       const {payload: CHECKLIST_SHARE_COMMENTS} = action;
-      console.log(CHECKLIST_SHARE_COMMENTS);
       state.CHECKLIST_SHARE_COMMENTS.unshift(CHECKLIST_SHARE_COMMENTS);
     },
     editCHECKLIST_SHARE_COMMENTS(state, action) {

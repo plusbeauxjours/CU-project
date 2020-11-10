@@ -18,6 +18,7 @@ import {
   QrCodeIcon,
 } from '~/constants/Icons';
 import utils from '~/constants/utils';
+import Ripple from 'react-native-material-ripple';
 
 interface IImage {
   isCheckListItems?: boolean;
@@ -61,7 +62,7 @@ const MyPage = styled.View`
   justify-content: flex-end;
 `;
 
-const MenuCnt = styled.TouchableOpacity<IIsTrue>`
+const MenuCnt = styled(Ripple)<IIsTrue>`
   width: ${(wp('100%') - 20) / 3}px;
   height: ${wp('40%')}px;
   justify-content: center;
@@ -334,9 +335,14 @@ export default ({
   const navigation = useNavigation();
   const MenuCntContainer = ({selection, paging, count = 0}) => (
     <MenuCnt
+      rippleColor={'#fff'}
+      rippleDuration={300}
+      rippleSize={200}
+      rippleContainerBorderRadius={0}
+      rippleOpacity={0.9}
       style={{zIndex: 4}}
       isTrue={selection == '체크리스트'}
-      activeOpacity={0.6}
+      activeOpacity={0.3}
       onPress={() => {
         selection == 'QR보기'
           ? setShowPictureModal(true)

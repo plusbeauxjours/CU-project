@@ -16,6 +16,8 @@ import {KeyboardAvoidingView, ActivityIndicator} from 'react-native';
 
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import utils from '~/constants/utils';
+import LottieView from 'lottie-react-native';
+import Ripple from 'react-native-material-ripple';
 import {
   ForwardIcon,
   DeleteIcon,
@@ -114,7 +116,7 @@ const MemoBox = styled.TouchableOpacity`
   align-items: center;
 `;
 
-const CommentBox = styled.View`
+const CommentBox = styled(Ripple)`
   padding: 10px 0;
   border-bottom-width: 0.7px;
   border-color: #ddd;
@@ -130,13 +132,23 @@ const Column = styled.View`
   min-height: 50px;
 `;
 
+const CommentIconContainer = styled.View`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  overflow: hidden;
+`;
 const Footer = styled.View`
   width: ${wp('100%')}px;
 `;
 
 const FooterText = styled.Text`
   text-align: center;
-  color: white;
+  color: #fcc0c0;
   font-size: 18px;
   margin-bottom: 20px;
 `;
@@ -236,6 +248,9 @@ export default ({
   isAddedToastVisible,
   isUpdatedToastVisible,
   isRemovedToastVisible,
+  isClosed,
+  setIsClosed,
+  openRow,
 }) => {
   const navigation = useNavigation();
 
@@ -333,6 +348,8 @@ export default ({
                     closeOnRowBeginSwipe={true}
                     data={CHECKLIST_SHARE_COMMENTS}
                     previewOpenValue={100}
+                    onRowDidOpen={() => setIsClosed(false)}
+                    onRowDidClose={() => setIsClosed(true)}
                     renderItem={({item, index}, rowMap) => (
                       <SwipeRow
                         key={index}
@@ -353,14 +370,23 @@ export default ({
                           </RowTouchable>
                           <RowTouchable
                             style={{backgroundColor: '#D93F12'}}
-                            onPress={async () => {
-                              await rowMap[index].closeRow();
-                              await deleteFn(item.COM_SEQ);
+                            onPress={() => {
+                              rowMap[index].closeRow();
+                              deleteFn(item.COM_SEQ);
                             }}>
                             <DeleteIcon color={'white'} />
                           </RowTouchable>
                         </BackBtn>
-                        <CommentBox key={index}>
+                        <CommentBox
+                          key={index}
+                          onPress={() => {
+                            openRow(rowMap[index]);
+                          }}
+                          rippleColor={'#666'}
+                          rippleDuration={1500}
+                          rippleSize={1700}
+                          rippleContainerBorderRadius={0}
+                          rippleOpacity={0.1}>
                           <Row style={{alignItems: 'flex-start'}}>
                             <FastImage
                               style={{width: 50, height: 50, borderRadius: 25}}
@@ -401,6 +427,20 @@ export default ({
                                 </Text>
                               </Row>
                             </Column>
+                            {item.MEMBER_SEQ == ME && STORE == '1' && isClosed && (
+                              <CommentIconContainer>
+                                <LottieView
+                                  speed={0.5}
+                                  style={{
+                                    width: 30,
+                                    height: 120,
+                                  }}
+                                  source={require('../../../../assets/animations/menuArrow.json')}
+                                  loop
+                                  autoPlay
+                                />
+                              </CommentIconContainer>
+                            )}
                           </Row>
                         </CommentBox>
                       </SwipeRow>

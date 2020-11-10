@@ -149,13 +149,15 @@ export default ({name, item, confirmModal, cancelModal}) => {
         </Touchable>
         <WhiteItem
           onPress={() =>
-            navigation.navigate('ShelfLifeUpdateScreen', {
-              name,
-              shelfLife_SEQ: item.shelfLife_SEQ,
-              shelfLifeName: item.shelfLifeName,
-              shelfLifeDate: item.shelfLifeDate,
-              shelfLifeMemo: item.shelfLifeMemo,
-            })
+            setTimeout(() => {
+              navigation.navigate('ShelfLifeUpdateScreen', {
+                name,
+                shelfLife_SEQ: item.shelfLife_SEQ,
+                shelfLifeName: item.shelfLifeName,
+                shelfLifeDate: item.shelfLifeDate,
+                shelfLifeMemo: item.shelfLifeMemo,
+              });
+            }, 100)
           }
           rippleColor={'#666'}
           rippleDuration={600}
