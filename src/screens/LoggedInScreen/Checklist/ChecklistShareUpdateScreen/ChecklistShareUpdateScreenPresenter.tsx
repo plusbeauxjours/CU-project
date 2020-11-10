@@ -11,6 +11,7 @@ import Modal from 'react-native-modal';
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import {CameraIcon, PictureIcon, CloseCircleIcon} from '~/constants/Icons';
 import moment from 'moment';
+import Animated from 'react-native-reanimated';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;
@@ -200,8 +201,9 @@ export default ({
   cameraPictureLast,
   setCameraPictureLast,
   cameraPictureList,
-  setCameraPictureList,
   CREATE_TIME,
+  selectPicture,
+  scrollRef,
 }) => {
   const cameraRef = useRef(null);
   return (
@@ -259,7 +261,11 @@ export default ({
                   />
                 </TextContainer>
               </WhiteItem>
-              <ScrollView
+              <Animated.ScrollView
+                ref={scrollRef}
+                onContentSizeChange={() => {
+                  scrollRef.current?.getNode()?.scrollToEnd({animated: true});
+                }}
                 showsHorizontalScrollIndicator={false}
                 horizontal={true}>
                 <EndRow>
@@ -311,7 +317,7 @@ export default ({
                     </PictureBorderBox>
                   )}
                 </EndRow>
-              </ScrollView>
+              </Animated.ScrollView>
             </Section>
 
             <SubmitBtn
@@ -375,14 +381,7 @@ export default ({
                 </HalfBotton>
                 <HalfBotton
                   style={{backgroundColor: '#642A8C'}}
-                  onPress={() => {
-                    setCameraPictureList([
-                      ...cameraPictureList,
-                      {uri: cameraPictureLast},
-                    ]);
-                    setIsCameraModalVisible(false);
-                    setCameraPictureLast(null);
-                  }}>
+                  onPress={() => selectPicture()}>
                   <HalfBottonText style={{color: '#fff'}}>선택</HalfBottonText>
                 </HalfBotton>
               </Row>

@@ -140,12 +140,15 @@ export default () => {
   };
 
   useEffect(() => {
+    // dispatch(setSHELFLIFE_DATA([]));
+
     fetchData();
-    // dispatch(getSHELFLIFE_DATA(YEAR, MONTH, DAY));
   }, []);
 
-  const fetchData = () => {
+  const fetchData = async () => {
     try {
+      // const data = await dispatch(getSHELFLIFE_DATA(YEAR, MONTH, DAY));
+      // console.log('*******', data);
       const day = moment();
       const dayDuration = moment().add(2, 'days');
       const weekDuration = moment().add(7, 'days').add(1, 'days');
@@ -268,6 +271,7 @@ export default () => {
   };
 
   const onScroll = onScrollEvent({y});
+
   return (
     <ShelfLifeCheckScreenPresenter
       onRefresh={onRefresh}

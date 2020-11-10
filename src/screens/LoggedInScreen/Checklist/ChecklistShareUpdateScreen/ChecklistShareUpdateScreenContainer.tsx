@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, createRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -19,6 +19,7 @@ import api from '~/constants/LoggedInApi';
 export default ({route: {params}}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const scrollRef = createRef(0);
 
   const {MEMBER_SEQ} = useSelector((state: any) => state.userReducer);
 
@@ -73,6 +74,7 @@ export default ({route: {params}}) => {
       cropperChooseText: '선택',
       cropperCancelText: '취소',
     }).then((images: any) => {
+      scrollRef.current?.getNode()?.scrollToEnd({animated: true});
       images.map((i) => {
         setCameraPictureList((cameraPictureList) => [
           ...cameraPictureList,
@@ -86,6 +88,13 @@ export default ({route: {params}}) => {
     const options = {quality: 0.8, base64: true, width: 720, height: 720};
     const data = await cameraRef.current.takePictureAsync(options);
     setCameraPictureLast(data.uri);
+  };
+
+  const selectPicture = () => {
+    scrollRef.current?.getNode()?.scrollToEnd({animated: true});
+    setCameraPictureList([...cameraPictureList, {uri: cameraPictureLast}]);
+    setIsCameraModalVisible(false);
+    setCameraPictureLast(null);
   };
 
   const registerFn = async (sign) => {
@@ -241,8 +250,9 @@ export default ({route: {params}}) => {
       cameraPictureLast={cameraPictureLast}
       setCameraPictureLast={setCameraPictureLast}
       cameraPictureList={cameraPictureList}
-      setCameraPictureList={setCameraPictureList}
       CREATE_TIME={params?.CREATE_TIME}
+      selectPicture={selectPicture}
+      scrollRef={scrollRef}
     />
   );
 };

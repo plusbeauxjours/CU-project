@@ -101,13 +101,13 @@ export const getSHELFLIFE_DATA = (
   } = getState();
   try {
     dispatch(setSplashVisible(true));
-    const {data: SHELFLIFE_DATA} = await api.getShelfLifeData({
+    const {data} = await api.getShelfLifeData({
       STORE_SEQ,
       YEAR,
       MONTH,
       DAY,
     });
-    dispatch(setSHELFLIFE_DATA(SHELFLIFE_DATA.resultdata));
+    return data.resultdata;
   } catch (e) {
     console.log(e);
   } finally {

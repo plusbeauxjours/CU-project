@@ -343,7 +343,7 @@ export default ({
             ))}
           </Container>
         </Animated.ScrollView>
-        {tabs[3].anchor !== 20 && (
+        {tabs[3]?.anchor !== 20 && (
           <ShelfLifeCheckScreenHeader
             y={y}
             tabs={tabs}
