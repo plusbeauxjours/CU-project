@@ -136,7 +136,7 @@ const CommentIconContainer = styled.View`
   position: absolute;
   top: 0;
   bottom: 0;
-  right: 0;
+  right: 10;
   justify-content: center;
   align-items: center;
   width: 30px;
@@ -248,8 +248,6 @@ export default ({
   isAddedToastVisible,
   isUpdatedToastVisible,
   isRemovedToastVisible,
-  isClosed,
-  setIsClosed,
   openRow,
 }) => {
   const navigation = useNavigation();
@@ -348,8 +346,6 @@ export default ({
                     closeOnRowBeginSwipe={true}
                     data={CHECKLIST_SHARE_COMMENTS}
                     previewOpenValue={100}
-                    onRowDidOpen={() => setIsClosed(false)}
-                    onRowDidClose={() => setIsClosed(true)}
                     renderItem={({item, index}, rowMap) => (
                       <SwipeRow
                         key={index}
@@ -402,7 +398,7 @@ export default ({
                                 ellipsizeMode={'tail'}
                                 numberOfLines={100}
                                 style={{
-                                  width: wp('100%') - 140,
+                                  width: wp('100%') - 180,
                                   flexWrap: 'wrap',
                                   marginBottom: 5,
                                 }}>
@@ -427,10 +423,10 @@ export default ({
                                 </Text>
                               </Row>
                             </Column>
-                            {item.MEMBER_SEQ == ME && STORE == '1' && isClosed && (
+                            {item.MEMBER_SEQ == ME && STORE == '1' && (
                               <CommentIconContainer>
                                 <LottieView
-                                  speed={0.5}
+                                  speed={0.25}
                                   style={{
                                     width: 30,
                                     height: 120,

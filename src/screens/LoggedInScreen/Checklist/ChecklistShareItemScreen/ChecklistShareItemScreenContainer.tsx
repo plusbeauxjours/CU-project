@@ -37,7 +37,6 @@ export default ({route: {params}}) => {
   const [item, setItem] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(true);
   const [imageIndex, setImageIndex] = useState<number>(0);
-  const [isClosed, setIsClosed] = useState<boolen>(false);
   const [isAddedToastVisible, setIsAddedToastVisible] = useState<boolean>(
     false,
   );
@@ -143,7 +142,7 @@ export default ({route: {params}}) => {
       const {data} = await api.setNoticeComment(
         NOTICE_SEQ,
         MEMBER_NAME,
-        comment,
+        comment.replace(/\n/gi, '%0A'),
         STORE,
       );
       if (data.resultmsg !== '1') {
@@ -151,7 +150,6 @@ export default ({route: {params}}) => {
       }
     } catch (e) {
       console.log(e);
-    } finally {
     }
   };
 
@@ -265,8 +263,6 @@ export default ({route: {params}}) => {
       isAddedToastVisible={isAddedToastVisible}
       isUpdatedToastVisible={isUpdatedToastVisible}
       isRemovedToastVisible={isRemovedToastVisible}
-      isClosed={isClosed}
-      setIsClosed={setIsClosed}
       openRow={openRow}
     />
   );
