@@ -106,7 +106,7 @@ export const getSTORE_HEALTH_EMP_LIST = () => async (dispatch, getState) => {
     storeReducer: {STORE_SEQ},
   } = getState();
   const {
-    userReducer: {STORE, MEMBER_SEQ},
+    userReducer: {STORE},
   } = getState();
   const {
     healthReducer: {HEALTH_EMP_LIST},
@@ -115,9 +115,10 @@ export const getSTORE_HEALTH_EMP_LIST = () => async (dispatch, getState) => {
     if (!HEALTH_EMP_LIST) {
       dispatch(setSplashVisible(true));
     }
-    const {data} = await api.storeHealthEmpList(STORE_SEQ, STORE, MEMBER_SEQ);
-    if (data.message === 'SUCCESS') {
-      dispatch(setHEALTH_EMP_LIST(data.result));
+    const {data} = await api.storeHealthEmpList(STORE_SEQ, STORE);
+    console.log(data);
+    if (data.resultmsg === '1') {
+      dispatch(setHEALTH_EMP_LIST(data.resultdata));
     }
   } catch (e) {
     console.log(e);
