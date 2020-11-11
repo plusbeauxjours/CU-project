@@ -2,13 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import SelectStoreScreenPresenter from './SelectStoreScreenPresenter';
 import {useNavigation} from '@react-navigation/native';
-import {BackHandler, Linking, NativeModules} from 'react-native';
+import {NativeModules} from 'react-native';
 
 import {setAlertInfo, setAlertVisible} from '~/redux/alertSlice';
 import {getSTORELIST_DATA} from '~/redux/userSlice';
 import {selectSTORE} from '~/redux/storeSlice';
 import utils from '~/constants/utils';
-import api from '~/constants/LoggedInApi';
 import {setSplashVisible} from '~/redux/splashSlice';
 
 export default () => {
@@ -17,7 +16,7 @@ export default () => {
   const SharedStorage = NativeModules.SharedStorage;
 
   const {STORE_NAME} = useSelector((state: any) => state.storeReducer);
-  const {STORE, STORELIST_DATA, DEVICE_PLATFORM} = useSelector(
+  const {STORE, STORELIST_DATA} = useSelector(
     (state: any) => state.userReducer,
   );
   const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -42,41 +41,6 @@ export default () => {
     };
     dispatch(setAlertInfo(params));
     dispatch(setAlertVisible(true));
-  };
-
-  const exitandroid = () => {
-    dispatch(setAlertVisible(false));
-    if (utils.isAndroid()) {
-      BackHandler.exitApp();
-      Linking.openURL(
-        'https://play.google.com/store/apps/details?id=com.wesop.cuhr',
-      );
-    } else {
-      Linking.openURL(
-        'https://apps.apple.com/kr/app/%ED%87%B4%EA%B7%BC%ED%95%B4%EC%94%A8%EC%9C%A0-%EC%9A%B0%EB%A6%AC%EB%A7%A4%EC%9E%A5-%ED%95%84%EC%88%98%ED%92%88/id1503486454',
-      );
-    }
-  };
-
-  // 버전체크
-  const checkVersion = async () => {
-    try {
-      const {data} = await api.checkApp({
-        VERSION: utils.appVersion,
-        PLATFORM: DEVICE_PLATFORM,
-      });
-      if (data.RESULT_CODE == '1') {
-        alertModal(
-          '[ 업데이트 알림 ]',
-          '새로운 버전이 출시되었습니다. 업데이트를 진행해주세요.\n\n* 이동 후 업데이트 버튼이 없는 경우에는 앱스토어 종료 후 다시 실행해 주세요.',
-          () => {
-            exitandroid();
-          },
-        );
-      }
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   // GOTO 홈스크린
@@ -119,7 +83,6 @@ export default () => {
       }
     }
 
-    checkVersion();
     dispatch(getSTORELIST_DATA());
     dispatch(setSplashVisible(false));
   }, []);

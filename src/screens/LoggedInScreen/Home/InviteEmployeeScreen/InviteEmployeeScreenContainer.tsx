@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import * as Hangul from 'hangul-js';
@@ -261,6 +261,10 @@ export default () => {
       setIsToastVisible(false);
     }, 1000);
   };
+
+  useEffect(() => {
+    dispatch(getRESPONSE_EMPLOYEE());
+  }, []);
 
   return (
     <InviteEmployeeScreenPresenter
