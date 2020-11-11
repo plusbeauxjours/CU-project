@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -22,7 +22,7 @@ const BackGround = styled.SafeAreaView`
 
 const Section = styled.View`
   width: 100%;
-  margin-top: 20px;
+  margin: 20px 0;
   border-radius: 20px;
   padding: 20px;
   background-color: white;

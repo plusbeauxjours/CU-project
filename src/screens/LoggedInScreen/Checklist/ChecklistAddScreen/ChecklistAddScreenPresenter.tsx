@@ -18,7 +18,7 @@ import DatePickerModal from 'react-native-modal-datetime-picker';
 import utils from '~/constants/utils';
 
 interface IsSelected {
-  isSelected: boolean;
+  isSelected?: boolean;
 }
 
 interface IsError {

@@ -47,9 +47,9 @@ const Row = styled.View`
 
 const Section = styled.View`
   width: 100%;
-  margin-bottom: 20px;
-  border-radius: 20px;
   padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 20px;
   background-color: white;
 `;
 

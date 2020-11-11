@@ -14,8 +14,8 @@ export default ({route: {params}}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const {mobileNo = null} = params;
-
+  // const {mobileNo = null} = params;
+  const mobileNo = '01090900303';
   const [name, setName] = useState<string>('');
   const [positionTypeCheck, setPositionTypeCheck] = useState<
     [boolean, boolean]
