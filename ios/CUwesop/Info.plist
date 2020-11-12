@@ -41,10 +41,10 @@
 	<string>Some ad content may access calendar</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Your own description of the purpose</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Your own description of the purpose</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Some ad content may access Microphone</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>$(PRODUCT_NAME) Need permission to access to your Photo library</string>
 	<key>NSPhotoLibraryUsageDescription</key>
