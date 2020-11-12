@@ -9,10 +9,10 @@ import {
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 import {RNCamera} from 'react-native-camera';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 
 import SubmitBtn from '~/components/Btn/SubmitBtn';
 import {CheckBoxIcon, CameraIcon, PictureIcon} from '~/constants/Icons';
-import {isIphoneX} from 'react-native-iphone-x-helper';
 
 const BackGround = styled.SafeAreaView`
   flex: 1;

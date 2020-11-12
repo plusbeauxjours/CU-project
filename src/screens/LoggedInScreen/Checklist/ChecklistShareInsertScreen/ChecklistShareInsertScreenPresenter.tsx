@@ -200,8 +200,8 @@ export default ({
   cameraPictureLast,
   setCameraPictureLast,
   cameraPictureList,
-  selectPicture,
   scrollRef,
+  setCameraPictureList,
 }) => {
   const cameraRef = useRef(null);
   return (
@@ -282,7 +282,8 @@ export default ({
                 horizontal={true}>
                 <EndRow>
                   <Column>
-                    <Touchable onPress={() => setIsCameraModalVisible(true)}>
+                    {/* <Touchable onPress={() => setIsCameraModalVisible(true)}> */}
+                    <Touchable onPress={() => console.log('photo')}>
                       <BorderBox>
                         <CameraIcon size={25} color={'#ccc'} />
                         <GreyText style={{fontSize: 10}}>사진촬영</GreyText>
@@ -367,7 +368,14 @@ export default ({
                     </HalfBotton>
                     <HalfBotton
                       style={{backgroundColor: '#642A8C'}}
-                      onPress={() => selectPicture()}>
+                      onPress={() => {
+                        setCameraPictureList([
+                          ...cameraPictureList,
+                          {uri: cameraPictureLast},
+                        ]);
+                        setIsCameraModalVisible(false);
+                        setCameraPictureLast(null);
+                      }}>
                       <HalfBottonText style={{color: '#fff'}}>
                         선택
                       </HalfBottonText>

@@ -76,6 +76,7 @@ export default ({route: {params}}) => {
   const takePictureFn = async (cameraRef) => {
     const options = {quality: 0.8, base64: true, width: 720, height: 720};
     const data = await cameraRef.current.takePictureAsync(options);
+    console.log('data.uri', data.uri);
     setCameraPictureLast(data.uri);
   };
 
@@ -161,12 +162,6 @@ export default ({route: {params}}) => {
     }
   };
 
-  const selectPicture = () => {
-    setCameraPictureList([...cameraPictureList, {uri: cameraPictureLast}]);
-    setIsCameraModalVisible(false);
-    setCameraPictureLast(null);
-  };
-
   useEffect(() => {
     console.log(
       '===================',
@@ -196,8 +191,8 @@ export default ({route: {params}}) => {
       cameraPictureLast={cameraPictureLast}
       setCameraPictureLast={setCameraPictureLast}
       cameraPictureList={cameraPictureList}
-      selectPicture={selectPicture}
       scrollRef={scrollRef}
+      setCameraPictureList={setCameraPictureList}
     />
   );
 };
