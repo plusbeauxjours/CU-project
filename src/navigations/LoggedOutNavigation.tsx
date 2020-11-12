@@ -44,15 +44,6 @@ export default () => {
           headerLeftContainerStyle: {marginLeft: 10},
         }}>
         <LoggedOutNavigation.Screen
-          name="SignupScreen"
-          component={SignupScreen}
-          options={{
-            headerTitle: '회원가입',
-            title: '회원가입',
-            headerTintColor: '#fff',
-          }}
-        />
-        <LoggedOutNavigation.Screen
           name="StartScreen"
           component={StartScreen}
           options={{
@@ -78,7 +69,7 @@ export default () => {
             headerTintColor: '#fff',
           }}
         />
-        {/* <LoggedOutNavigation.Screen
+        <LoggedOutNavigation.Screen
           name="SignupScreen"
           component={SignupScreen}
           options={{
@@ -86,7 +77,7 @@ export default () => {
             title: '회원가입',
             headerTintColor: '#fff',
           }}
-        /> */}
+        />
         <LoggedOutNavigation.Screen
           name="FindPasswordScreen"
           component={FindPasswordScreen}
