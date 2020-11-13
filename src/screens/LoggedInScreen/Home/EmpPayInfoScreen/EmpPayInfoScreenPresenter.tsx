@@ -194,7 +194,7 @@ const FooterBtn = styled.TouchableOpacity`
 `;
 
 export default ({
-  NAME,
+  MEMBER_NAME,
   maindata,
   PAY_TYPE,
   backpay,
@@ -202,7 +202,7 @@ export default ({
   nextpay,
   STORE,
   STOREPAY_SHOW,
-  ISMANAGER,
+  IS_MANAGER,
   boxButton,
   setBoxButton,
   boxButton2,
@@ -253,8 +253,8 @@ export default ({
   const TopAreaContainer = () => (
     <TopArea>
       <Profile>
-        <NameText>{NAME}</NameText>
-        <GreyText>[{ISMANAGER}]</GreyText>
+        <NameText>{MEMBER_NAME,}</NameText>
+        <GreyText>{IS_MANAGER === '1' ? '[매니저]' : '[스태프]'}</GreyText>
         <GreyText>님의 급여정보</GreyText>
       </Profile>
       <DateBox>

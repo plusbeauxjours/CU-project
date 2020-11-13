@@ -456,6 +456,7 @@ export default ({
                     </Touchable>
                   </Row>
                   <DatePickerModal
+                    isDarkModeEnabled={false}
                     headerTextIOS={'시작일을 선택하세요.'}
                     cancelTextIOS={'취소'}
                     confirmTextIOS={'확인'}
@@ -494,6 +495,7 @@ export default ({
                     </Touchable>
                   </Row>
                   <DatePickerModal
+                    isDarkModeEnabled={false}
                     headerTextIOS={'퇴사일을 선택하세요.'}
                     cancelTextIOS={'취소'}
                     confirmTextIOS={'확인'}
@@ -804,6 +806,7 @@ export default ({
                                 <Text>{probationPeriod}</Text>
                               </ProbationTouchable>
                               <DatePickerModal
+                                isDarkModeEnabled={false}
                                 headerTextIOS={'종료일을 선택하세요.'}
                                 cancelTextIOS={'취소'}
                                 confirmTextIOS={'확인'}
